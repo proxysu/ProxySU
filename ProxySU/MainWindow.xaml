@@ -1,0 +1,67 @@
+﻿<Window x:Class="ProxySU.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProxySU"
+        mc:Ignorable="d"
+        Title="ProxySU" Height="450" Width="600">
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="80"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock Text="主机名" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5" Grid.Column="0" Grid.Row="0"></TextBlock>
+            <TextBlock Text="端口" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5" Grid.Column="2" Grid.Row="0"></TextBlock>
+            <TextBox x:Name="TextBoxHost" Text="192.168.200.114" Margin="5" Grid.Column="1" Grid.Row="0"></TextBox>
+            <TextBox x:Name="TextBoxPort" CommandManager.PreviewExecuted="TextBoxPort_PreviewExecuted" Text="22" Margin="5" Grid.Column="3" Grid.Row="0" PreviewTextInput="TextBoxPort_PreviewTextInput"/>
+            <TextBlock Text="用户名：" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5" Grid.Column="0" Grid.Row="1"></TextBlock>
+            <TextBlock Text="密码：" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5" Grid.Column="2" Grid.Row="1"></TextBlock>
+            <TextBox x:Name="TextBoxUserName" Text="root" Margin="5" Grid.Column="1" Grid.Row="1"></TextBox>
+            <PasswordBox x:Name="PasswordBoxHostPassword" Password="Tianlong71605"  Margin="5" Grid.Column="3" Grid.Row="1"></PasswordBox>
+            <RadioButton x:Name="RadioButtonPasswordLogin" GroupName="CertIsYesNo" Content="密码登录" Grid.Column="0" Grid.Row="2" Checked="RadioButtonPasswordLogin_Checked"></RadioButton>
+            <RadioButton x:Name="RadioButtonCertLogin" GroupName="CertIsYesNo" Content="密钥登录" Grid.Column="1" Grid.Row="2" Checked="RadioButtonCertLogin_Checked"></RadioButton>
+            <Button x:Name="ButtonOpenFileDialog" Content="浏览..." Margin="8" Grid.Column="2" Grid.Row="2" Click="ButtonOpenFileDialog_Click"></Button>
+            <TextBox x:Name="TextBoxCertFilePath" Text="" Margin="10" Grid.Column="3" Grid.Row="2"></TextBox>
+            <!--代理设置-->
+            <RadioButton x:Name="RadioButtonNoProxy" GroupName="ProxyIsYesNo"  Content="NoProxy" Grid.Column="0" Grid.Row="3" Height="30" VerticalAlignment="Top" Checked="RadioButtonNoProxy_Checked" Unchecked="RadioButtonNoProxy_Unchecked"/>
+            <RadioButton x:Name="RadioButtonHttp" GroupName="ProxyIsYesNo" Content="Http" Grid.Column="1" Grid.Row="3"/>
+            <RadioButton x:Name="RadioButtonSocks4" GroupName="ProxyIsYesNo" Content="Socks4" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2" Height="30" Margin="0.333,0,226.333,0" VerticalAlignment="Bottom"/>
+            <RadioButton x:Name="RadioButtonSocks5" GroupName="ProxyIsYesNo" Content="Socks5" Grid.Column="3" Grid.Row="3"/>
+            <TextBlock x:Name="TextBlockProxyHost" IsEnabled="False" Text="代理地址" HorizontalAlignment="Left" Margin="5,10,0,5" Grid.Column="0" Grid.Row="4"/>
+            <TextBlock x:Name="TextBlockProxyPort" IsEnabled="False" Text="端口" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5" Grid.Column="2" Grid.Row="4"></TextBlock>
+            <TextBox x:Name="TextBoxProxyHost" IsEnabled="False" Text="127.0.0.1" Margin="5" Grid.Column="1" Grid.Row="4"></TextBox>
+            <TextBox x:Name="TextBoxProxyPort" IsEnabled="False" CommandManager.PreviewExecuted="TextBoxPort_PreviewExecuted" Text="3080" Margin="5" Grid.Column="3" Grid.Row="4" PreviewTextInput="TextBoxPort_PreviewTextInput"/>
+            <!--代理用户名密码设置-->
+            <RadioButton x:Name="RadioButtonProxyNoLogin" Content="不需登录" GroupName="proxyYesNOLogin" Grid.Column="0" Grid.Row="5" Checked="RadioButtonProxyNoLogin_Checked"></RadioButton>
+            <RadioButton x:Name="RadiobuttonProxyYesLogin" Content="需要登录" GroupName="proxyYesNOLogin" Grid.Column="1" Grid.Row="5" Checked="RadiobuttonProxyYesLogin_Checked"></RadioButton>
+            <TextBlock x:Name="TextBlockProxyUser" IsEnabled="False" Text="用户名：" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5" Grid.Column="0" Grid.Row="6"></TextBlock>
+            <TextBlock x:Name="TextBlockProxyPassword" IsEnabled="False" Text="密码：" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5" Grid.Column="2" Grid.Row="6"></TextBlock>
+            <TextBox x:Name="TextBoxProxyUserName" IsEnabled="False" Text="" Margin="5" Grid.Column="1" Grid.Row="6"></TextBox>
+            <PasswordBox x:Name="PasswordBoxProxyPassword" IsEnabled="False" Password=""  Margin="5" Grid.Column="3" Grid.Row="6"></PasswordBox>
+
+            <TextBlock x:Name="TextBlockSetUpProcessing" Text="等待安装布署" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="3"></TextBlock>
+            <ProgressBar x:Name="ProgressBarSetUpProcessing" Minimum="0" Maximum="100" Value="0" IsIndeterminate="False" Margin="7" Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="4"></ProgressBar>
+            <!--<TextBlock Text="代理类型:" Grid.Column="2" Grid.Row="3"></TextBlock>
+            <ComboBox x:Name="proxyType"  Grid.Column="3" Grid.Row="3" Margin="5"></ComboBox>-->
+
+            <Button x:Name="Button_Login" Content="布署安装" Grid.ColumnSpan="2" Margin="20" Grid.Column="0" Grid.Row="9" Click="Button_Login_Click"></Button>
+            <Button x:Name="Button_canel" Content="取消" Grid.ColumnSpan="2" Margin="20" Grid.Column="2" Grid.Row="9" Click="Button_canel_Click"></Button>
+        </Grid>
+    </Grid>
+</Window>
