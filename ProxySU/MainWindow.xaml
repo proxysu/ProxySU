@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProxySU"
         mc:Ignorable="d"
-        Title="ProxySU" Height="450" Width="600">
+        Title="ProxySU" Height="550" Width="600">
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -22,9 +22,9 @@
                 <RowDefinition Height="30"></RowDefinition>
                 <RowDefinition Height="30"></RowDefinition>
                 <RowDefinition Height="30"></RowDefinition>
-                <RowDefinition Height="30"></RowDefinition>
-                <RowDefinition Height="30"></RowDefinition>
-                <RowDefinition></RowDefinition>
+                <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition ></RowDefinition>
+                <RowDefinition Height="60"></RowDefinition>
             </Grid.RowDefinitions>
             <TextBlock Text="主机名" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5" Grid.Column="0" Grid.Row="0"></TextBlock>
             <TextBlock Text="端口" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5" Grid.Column="2" Grid.Row="0"></TextBlock>
@@ -55,13 +55,14 @@
             <TextBox x:Name="TextBoxProxyUserName" IsEnabled="False" Text="" Margin="5" Grid.Column="1" Grid.Row="6"></TextBox>
             <PasswordBox x:Name="PasswordBoxProxyPassword" IsEnabled="False" Password=""  Margin="5" Grid.Column="3" Grid.Row="6"></PasswordBox>
 
-            <TextBlock x:Name="TextBlockSetUpProcessing" Text="等待安装布署" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="3"></TextBlock>
-            <ProgressBar x:Name="ProgressBarSetUpProcessing" Minimum="0" Maximum="100" Value="0" IsIndeterminate="False" Margin="7" Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="4"></ProgressBar>
+            <StatusBar x:Name="StatusBarStatusMonitoring" Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="4"></StatusBar>
+            <!--<TextBlock x:Name="TextBlockSetUpProcessing" Text="等待安装布署" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="3"></TextBlock>
+            <ProgressBar x:Name="ProgressBarSetUpProcessing" Minimum="0" Maximum="100" Value="0" IsIndeterminate="False" Margin="7" Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="4"></ProgressBar>-->
             <!--<TextBlock Text="代理类型:" Grid.Column="2" Grid.Row="3"></TextBlock>
             <ComboBox x:Name="proxyType"  Grid.Column="3" Grid.Row="3" Margin="5"></ComboBox>-->
 
-            <Button x:Name="Button_Login" Content="布署安装" Grid.ColumnSpan="2" Margin="20" Grid.Column="0" Grid.Row="9" Click="Button_Login_Click"></Button>
-            <Button x:Name="Button_canel" Content="取消" Grid.ColumnSpan="2" Margin="20" Grid.Column="2" Grid.Row="9" Click="Button_canel_Click"></Button>
+            <Button x:Name="Button_Login" Content="布署安装" Grid.ColumnSpan="2" Margin="10" Grid.Column="0" Grid.Row="9" Click="Button_Login_Click"></Button>
+            <Button x:Name="Button_canel" Content="取消" Grid.ColumnSpan="2" Margin="10" Grid.Column="2" Grid.Row="9" Click="Button_canel_Click"></Button>
         </Grid>
     </Grid>
 </Window>

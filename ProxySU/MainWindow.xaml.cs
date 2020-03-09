@@ -96,8 +96,8 @@ namespace ProxySU
             string sshProxyUser = TextBoxProxyUserName.Text.ToString();
             string sshProxyPassword = PasswordBoxProxyPassword.Password.ToString();
 
-            TextBlockSetUpProcessing.Text = "登录中";
-            ProgressBarSetUpProcessing.IsIndeterminate = true;
+            //TextBlockSetUpProcessing.Text = "登录中";
+            //ProgressBarSetUpProcessing.IsIndeterminate = true;
 
            
             try
@@ -161,18 +161,18 @@ namespace ProxySU
                     #endregion
                  
                     client.Connect();
-                    if (client.IsConnected == true)
-                    {
-                        TextBlockSetUpProcessing.Text = "主机已登录";
-                        ProgressBarSetUpProcessing.IsIndeterminate = false;
-                        ProgressBarSetUpProcessing.Value = 100;
-                    }
-                    else
-                    {
-                        TextBlockSetUpProcessing.Text = "主机登录失败";
-                        ProgressBarSetUpProcessing.IsIndeterminate = false;
-                        ProgressBarSetUpProcessing.Value = 0;
-                    }
+                    //if (client.IsConnected == true)
+                    //{
+                    //    TextBlockSetUpProcessing.Text = "主机已登录";
+                    //    ProgressBarSetUpProcessing.IsIndeterminate = false;
+                    //    ProgressBarSetUpProcessing.Value = 100;
+                    //}
+                    //else
+                    //{
+                    //    TextBlockSetUpProcessing.Text = "主机登录失败";
+                    //    ProgressBarSetUpProcessing.IsIndeterminate = false;
+                    //    ProgressBarSetUpProcessing.Value = 0;
+                    //}
                     client.RunCommand("echo 1111 >> test.json");
                     MessageBox.Show(client.ConnectionInfo.ServerVersion.ToString());
                     //MessageBox.Show(client);
@@ -209,9 +209,9 @@ namespace ProxySU
                 {
                     MessageBox.Show("未知错误");
                 }
-                TextBlockSetUpProcessing.Text = "主机登录失败";
-                ProgressBarSetUpProcessing.IsIndeterminate = false;
-                ProgressBarSetUpProcessing.Value = 0;
+                //TextBlockSetUpProcessing.Text = "主机登录失败";
+                //ProgressBarSetUpProcessing.IsIndeterminate = false;
+                //ProgressBarSetUpProcessing.Value = 0;
             }
         }
 
