@@ -13,6 +13,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Renci.SshNet;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ProxySU
 {
@@ -315,5 +317,22 @@ namespace ProxySU
             PasswordBoxProxyPassword.IsEnabled = true;
         }
         #endregion
+        private void Begin(TextBlock textBlock)
+        {
+            //int i = 100000000;
+            //while (i > 0)
+            //{
+            //    i--;
+            //}
+            //Random random = new Random();
+            //String Num = random.Next(0, 100).ToString();
+            Action<TextBlock, String> updateAction = new Action<TextBlock, string>(UpdateTextBlockSetUpProcessing);
+            TextBlockSetUpProcessing.Dispatcher.BeginInvoke(updateAction, textBlock, Num);
+        }
+        //更新UI代码
+        private void UpdateTextBlockSetUpProcessing(TextBlock textBlock, string text)
+        {
+            textBlock.Text = text;
+        }
     }
 }
