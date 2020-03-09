@@ -118,9 +118,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="ProxySU2.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="ProxySU.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
