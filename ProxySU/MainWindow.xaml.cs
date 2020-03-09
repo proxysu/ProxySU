@@ -96,12 +96,16 @@ namespace ProxySU
             string sshProxyUser = TextBoxProxyUserName.Text.ToString();
             string sshProxyPassword = PasswordBoxProxyPassword.Password.ToString();
 
-            //判断相关值是否为空
+            TextBlockSetUpProcessing.Text = "登录中";
+            ProgressBarSetUpProcessing.IsIndeterminate = true;
 
+           
+            try
+            {
 
-            //var connectionInfo = new PasswordConnectionInfo(sshHostName, sshPort, sshUser, sshPassword);
+                //var connectionInfo = new PasswordConnectionInfo(sshHostName, sshPort, sshUser, sshPassword);
 
-           var connectionInfo = new ConnectionInfo(
+                var connectionInfo = new ConnectionInfo(
                                         sshHostName,
                                         sshPort,
                                         sshUser,
@@ -114,59 +118,100 @@ namespace ProxySU
                                         //new PrivateKeyAuthenticationMethod(sshUser, new PrivateKeyFile(sshPrivateKey))
                                         );
 
-            if (RadioButtonCertLogin.IsChecked == true)
-            {
-                connectionInfo = new ConnectionInfo(
-                                        sshHostName,
-                                        sshPort,
-                                        sshUser,
-                                        proxyTypes,
-                                        sshProxyHost,
-                                        sshProxyPort,
-                                        sshProxyUser,
-                                        sshProxyPassword,
-                                        //new PasswordAuthenticationMethod(sshUser, sshPassword)
-                                        new PrivateKeyAuthenticationMethod(sshUser, new PrivateKeyFile(sshPrivateKey))
-                                        );
-
-            }
-
-            using (var client = new SshClient(connectionInfo))
-            #region
-            //using (var client = new SshClient(sshHostName, sshPort, sshUser, sshPassword))
-            {
-                //    client.HostKeyReceived += (sender, e) =>
-                //    {
-                //        if (expectedFingerPrint.Length == e.FingerPrint.Length)
-                //        {
-                //            for (var i = 0; i < expectedFingerPrint.Length; i++)
-                //            {
-                //                if (expectedFingerPrint[i] != e.FingerPrint[i])
-                //                {
-                //                    e.CanTrust = false;
-                //                    break;
-                //                }
-                //            }
-                //        }
-                //        else
-                //        {
-                //            e.CanTrust = false;
-                //        }
-                //    };
-                #endregion
-                try
+                if (RadioButtonCertLogin.IsChecked == true)
                 {
+                    connectionInfo = new ConnectionInfo(
+                                            sshHostName,
+                                            sshPort,
+                                            sshUser,
+                                            proxyTypes,
+                                            sshProxyHost,
+                                            sshProxyPort,
+                                            sshProxyUser,
+                                            sshProxyPassword,
+                                            //new PasswordAuthenticationMethod(sshUser, sshPassword)
+                                            new PrivateKeyAuthenticationMethod(sshUser, new PrivateKeyFile(sshPrivateKey))
+                                            );
+
+                }
+
+                //using (var client = new SshClient(sshHostName, sshPort, sshUser, sshPassword))
+                using (var client = new SshClient(connectionInfo))
+
+                {
+                    #region
+                    //    client.HostKeyReceived += (sender, e) =>
+                    //    {
+                    //        if (expectedFingerPrint.Length == e.FingerPrint.Length)
+                    //        {
+                    //            for (var i = 0; i < expectedFingerPrint.Length; i++)
+                    //            {
+                    //                if (expectedFingerPrint[i] != e.FingerPrint[i])
+                    //                {
+                    //                    e.CanTrust = false;
+                    //                    break;
+                    //                }
+                    //            }
+                    //        }
+                    //        else
+                    //        {
+                    //            e.CanTrust = false;
+                    //        }
+                    //    };
+                    #endregion
+                 
                     client.Connect();
+                    if (client.IsConnected == true)
+                    {
+                        TextBlockSetUpProcessing.Text = "主机已登录";
+                        ProgressBarSetUpProcessing.IsIndeterminate = false;
+                        ProgressBarSetUpProcessing.Value = 100;
+                    }
+                    else
+                    {
+                        TextBlockSetUpProcessing.Text = "主机登录失败";
+                        ProgressBarSetUpProcessing.IsIndeterminate = false;
+                        ProgressBarSetUpProcessing.Value = 0;
+                    }
                     client.RunCommand("echo 1111 >> test.json");
                     MessageBox.Show(client.ConnectionInfo.ServerVersion.ToString());
                     //MessageBox.Show(client);
                     client.Disconnect();
+
+
                 }
-                catch (Exception ex1  )
+            }
+            catch (Exception ex1)
+            {
+                //MessageBox.Show(ex1.Message);
+                if (ex1.Message.Contains("连接尝试失败") == true)
                 {
-                    MessageBox.Show(ex1.Message);
+                    MessageBox.Show($"{ex1.Message}\n请检查主机地址及端口是否正确，如果通过代理，请检查代理是否正常工作");
                 }
-                            
+               
+                else if (ex1.Message.Contains("denied (password)") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n密码错误或用户名错误");
+                }
+                else if (ex1.Message.Contains("Invalid private key file") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n所选密钥文件错误或者格式不对");
+                }
+                else if (ex1.Message.Contains("denied (publickey)") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n使用密钥登录，密钥文件错误或用户名错误");
+                }
+                else if (ex1.Message.Contains("目标计算机积极拒绝") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n主机地址错误，如果使用了代理，也可能是连接代理的端口错误");
+                }
+                else
+                {
+                    MessageBox.Show("未知错误");
+                }
+                TextBlockSetUpProcessing.Text = "主机登录失败";
+                ProgressBarSetUpProcessing.IsIndeterminate = false;
+                ProgressBarSetUpProcessing.Value = 0;
             }
         }
 
