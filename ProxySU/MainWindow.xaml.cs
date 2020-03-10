@@ -328,7 +328,7 @@ namespace ProxySU
             //Random random = new Random();
             //String Num = random.Next(0, 100).ToString();
             Action<TextBlock, String> updateAction = new Action<TextBlock, string>(UpdateTextBlockSetUpProcessing);
-            //TextBlockSetUpProcessing.Dispatcher.BeginInvoke(updateAction, textBlockName, Num);
+            TextBlockSetUpProcessing.Dispatcher.BeginInvoke(updateAction, textBlockName, Num);
         }
         //更新UI显示内容
         private void UpdateTextBlockSetUpProcessing(TextBlock textBlockName, string text)
