@@ -33,6 +33,7 @@ namespace ProxySU
         //System.Diagnostics.Process exitProgram = System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id);
         private void Button_Login_Click(object sender, RoutedEventArgs e)
         {
+            //主机指纹，暂未启用
             //byte[] expectedFingerPrint = new byte[] {
             //                                0x66, 0x31, 0xaf, 0x00, 0x54, 0xb9, 0x87, 0x31,
             //                                0xff, 0x58, 0x1c, 0x31, 0xb1, 0xa2, 0x4c, 0x6b
@@ -141,7 +142,7 @@ namespace ProxySU
                 using (var client = new SshClient(connectionInfo))
 
                 {
-                    #region
+                    #region ssh登录验证主机指纹代码块，暂未启用
                     //    client.HostKeyReceived += (sender, e) =>
                     //    {
                     //        if (expectedFingerPrint.Length == e.FingerPrint.Length)
@@ -183,7 +184,7 @@ namespace ProxySU
 
                 }
             }
-            catch (Exception ex1)
+            catch (Exception ex1)//例外处理   
             {
                 //MessageBox.Show(ex1.Message);
                 if (ex1.Message.Contains("连接尝试失败") == true)
@@ -248,7 +249,7 @@ namespace ProxySU
                 TextBoxCertFilePath.Text = openFileDialog.FileName;
             }
         }
-        #region 
+        #region 界面控件的有效无效控制代码块
         private void RadioButtonNoProxy_Checked(object sender, RoutedEventArgs e)
         {
             TextBlockProxyHost.IsEnabled = false;
@@ -317,7 +318,7 @@ namespace ProxySU
             PasswordBoxProxyPassword.IsEnabled = true;
         }
         #endregion
-        private void Begin(TextBlock textBlock)
+        private void Begin(TextBlock textBlockName)
         {
             //int i = 100000000;
             //while (i > 0)
@@ -327,12 +328,12 @@ namespace ProxySU
             //Random random = new Random();
             //String Num = random.Next(0, 100).ToString();
             Action<TextBlock, String> updateAction = new Action<TextBlock, string>(UpdateTextBlockSetUpProcessing);
-            TextBlockSetUpProcessing.Dispatcher.BeginInvoke(updateAction, textBlock, Num);
+            TextBlockSetUpProcessing.Dispatcher.BeginInvoke(updateAction, textBlockName, Num);
         }
-        //更新UI代码
-        private void UpdateTextBlockSetUpProcessing(TextBlock textBlock, string text)
+        //更新UI显示内容
+        private void UpdateTextBlockSetUpProcessing(TextBlock textBlockName, string text)
         {
-            textBlock.Text = text;
+            textBlockName.Text = text;
         }
     }
 }
