@@ -33,11 +33,7 @@ namespace ProxySU
         //System.Diagnostics.Process exitProgram = System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id);
         private void Button_Login_Click(object sender, RoutedEventArgs e)
         {
-            //主机指纹，暂未启用
-            //byte[] expectedFingerPrint = new byte[] {
-            //                                0x66, 0x31, 0xaf, 0x00, 0x54, 0xb9, 0x87, 0x31,
-            //                                0xff, 0x58, 0x1c, 0x31, 0xb1, 0xa2, 0x4c, 0x6b
-            //                            };
+  
             if (string.IsNullOrEmpty(TextBoxHost.Text) == true || string.IsNullOrEmpty(TextBoxPort.Text) == true || string.IsNullOrEmpty(TextBoxUserName.Text) == true)
             {
                 MessageBox.Show("主机地址、主机端口、用户名为必填项，不能为空");
@@ -137,52 +133,12 @@ namespace ProxySU
                                             );
 
                 }
+                Task.Factory.StartNew(StartTaskSetUp);
+                //Thread thread = new Thread(StartSetUpRemoteHost(connectionInfo, TextBlockSetUpProcessing));
+                //Task task = new Task(StartSetUpRemoteHost(connectionInfo, TextBlockSetUpProcessing));
 
-                //using (var client = new SshClient(sshHostName, sshPort, sshUser, sshPassword))
-                using (var client = new SshClient(connectionInfo))
-
-                {
-                    #region ssh登录验证主机指纹代码块，暂未启用
-                    //    client.HostKeyReceived += (sender, e) =>
-                    //    {
-                    //        if (expectedFingerPrint.Length == e.FingerPrint.Length)
-                    //        {
-                    //            for (var i = 0; i < expectedFingerPrint.Length; i++)
-                    //            {
-                    //                if (expectedFingerPrint[i] != e.FingerPrint[i])
-                    //                {
-                    //                    e.CanTrust = false;
-                    //                    break;
-                    //                }
-                    //            }
-                    //        }
-                    //        else
-                    //        {
-                    //            e.CanTrust = false;
-                    //        }
-                    //    };
-                    #endregion
-                 
-                    client.Connect();
-                    //if (client.IsConnected == true)
-                    //{
-                    //    TextBlockSetUpProcessing.Text = "主机已登录";
-                    //    ProgressBarSetUpProcessing.IsIndeterminate = false;
-                    //    ProgressBarSetUpProcessing.Value = 100;
-                    //}
-                    //else
-                    //{
-                    //    TextBlockSetUpProcessing.Text = "主机登录失败";
-                    //    ProgressBarSetUpProcessing.IsIndeterminate = false;
-                    //    ProgressBarSetUpProcessing.Value = 0;
-                    //}
-                    client.RunCommand("echo 1111 >> test.json");
-                    MessageBox.Show(client.ConnectionInfo.ServerVersion.ToString());
-                    //MessageBox.Show(client);
-                    client.Disconnect();
-
-
-                }
+                //thread.Start();
+                //StartSetUpRemoteHost(connectionInfo, TextBlockSetUpProcessing);
             }
             catch (Exception ex1)//例外处理   
             {
@@ -318,22 +274,98 @@ namespace ProxySU
             PasswordBoxProxyPassword.IsEnabled = true;
         }
         #endregion
-        private void Begin(TextBlock textBlockName)
+
+        private void StartTaskSetUp()
         {
-            //int i = 100000000;
-            //while (i > 0)
-            //{
-            //    i--;
-            //}
-            //Random random = new Random();
-            //String Num = random.Next(0, 100).ToString();
-            Action<TextBlock, String> updateAction = new Action<TextBlock, string>(UpdateTextBlockSetUpProcessing);
-            TextBlockSetUpProcessing.Dispatcher.BeginInvoke(updateAction, textBlockName, Num);
+            Task task = new Task(() => StartSetUpRemoteHost(ConnectionInfo connectionInfo, TextBlock textBlockName), this.first);
+            //Task task2 = new Task((tb) => Begin(this.second), this.first);
+            //Task task3 = new Task((tb) => Begin(this.Three), this.first);
+            task.Start();
+            task.Wait();
+            //task2.Start();
+            //task2.Wait();
+            //task3.Start();
         }
-        //更新UI显示内容
-        private void UpdateTextBlockSetUpProcessing(TextBlock textBlockName, string text)
+
+        //登录远程主机布署程序
+        private void StartSetUpRemoteHost(ConnectionInfo connectionInfo,TextBlock textBlockName)
         {
-            textBlockName.Text = text;
+            string currentStatus = "正在登录远程主机......";
+            Action<TextBlock, String> updateAction = new Action<TextBlock, string>(UpdateTextBlockSetUpProcessing);
+            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, currentStatus);
+
+            #region 主机指纹，暂未启用
+            //byte[] expectedFingerPrint = new byte[] {
+            //                                0x66, 0x31, 0xaf, 0x00, 0x54, 0xb9, 0x87, 0x31,
+            //                                0xff, 0x58, 0x1c, 0x31, 0xb1, 0xa2, 0x4c, 0x6b
+            //                            };
+            #endregion
+            //using (var client = new SshClient(sshHostName, sshPort, sshUser, sshPassword))
+            using (var client = new SshClient(connectionInfo))
+
+            {
+                #region ssh登录验证主机指纹代码块，暂未启用
+                //    client.HostKeyReceived += (sender, e) =>
+                //    {
+                //        if (expectedFingerPrint.Length == e.FingerPrint.Length)
+                //        {
+                //            for (var i = 0; i < expectedFingerPrint.Length; i++)
+                //            {
+                //                if (expectedFingerPrint[i] != e.FingerPrint[i])
+                //                {
+                //                    e.CanTrust = false;
+                //                    break;
+                //                }
+                //            }
+                //        }
+                //        else
+                //        {
+                //            e.CanTrust = false;
+                //        }
+                //    };
+                #endregion
+               
+                client.Connect();
+                if (client.IsConnected == true)
+                {
+                    currentStatus = "主机已登录";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, currentStatus);
+                    //ProgressBarSetUpProcessing.IsIndeterminate = false;
+                    //ProgressBarSetUpProcessing.Value = 100;
+                }
+                else
+                {
+                    currentStatus = "主机登录失败";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, currentStatus);
+                    //ProgressBarSetUpProcessing.IsIndeterminate = false;
+                    //ProgressBarSetUpProcessing.Value = 0;
+                }
+                client.RunCommand("echo 1111 >> test.json");
+                MessageBox.Show(client.ConnectionInfo.ServerVersion.ToString());
+                //MessageBox.Show(client);
+                client.Disconnect();
+               
+                
+
+            }
+        }
+        //private void Begin(TextBlock textBlockName)
+        //{
+        //    int i = 100000000;
+        //    while (i > 0)
+        //    {
+        //        i--;
+        //    }
+        //    Random random = new Random();
+        //    String Num = random.Next(0, 100).ToString();
+        //    Action<TextBlock, String> updateAction = new Action<TextBlock, string>(UpdateTextBlockSetUpProcessing);
+        //    TextBlockSetUpProcessing.Dispatcher.BeginInvoke(updateAction, textBlockName, Num);
+        //}
+        //更新UI显示内容
+        private void UpdateTextBlockSetUpProcessing(TextBlock textBlockName, string currentStatus)
+        {
+            textBlockName.Text = currentStatus;
+
         }
     }
 }
