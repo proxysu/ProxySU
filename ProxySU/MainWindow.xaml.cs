@@ -217,69 +217,111 @@ namespace ProxySU
         private void RadioButtonNoProxy_Checked(object sender, RoutedEventArgs e)
         {
             TextBlockProxyHost.IsEnabled = false;
+            TextBlockProxyHost.Visibility = Visibility.Collapsed;
             TextBoxProxyHost.IsEnabled = false;
+            TextBoxProxyHost.Visibility = Visibility.Collapsed;
             TextBlockProxyPort.IsEnabled = false;
+            TextBlockProxyPort.Visibility = Visibility.Collapsed;
             TextBoxProxyPort.IsEnabled = false;
+            TextBoxProxyPort.Visibility = Visibility.Collapsed;
             RadioButtonProxyNoLogin.IsEnabled = false;
+            RadioButtonProxyNoLogin.Visibility = Visibility.Collapsed;
             RadiobuttonProxyYesLogin.IsEnabled = false;
+            RadiobuttonProxyYesLogin.Visibility = Visibility.Collapsed;
             TextBlockProxyUser.IsEnabled = false;
+            TextBlockProxyUser.Visibility = Visibility.Collapsed;
             TextBoxProxyUserName.IsEnabled = false;
+            TextBoxProxyUserName.Visibility = Visibility.Collapsed;
             TextBlockProxyPassword.IsEnabled = false;
+            TextBlockProxyPassword.Visibility = Visibility.Collapsed;
             PasswordBoxProxyPassword.IsEnabled = false;
+            PasswordBoxProxyPassword.Visibility = Visibility.Collapsed;
         }
 
         private void RadioButtonNoProxy_Unchecked(object sender, RoutedEventArgs e)
         {
             TextBlockProxyHost.IsEnabled = true;
+            TextBlockProxyHost.Visibility = Visibility.Visible;
             TextBoxProxyHost.IsEnabled = true;
+            TextBoxProxyHost.Visibility = Visibility.Visible;
             TextBlockProxyPort.IsEnabled = true;
+            TextBlockProxyPort.Visibility = Visibility.Visible;
             TextBoxProxyPort.IsEnabled = true;
+            TextBoxProxyPort.Visibility = Visibility.Visible;
             RadioButtonProxyNoLogin.IsEnabled = true;
+            RadioButtonProxyNoLogin.Visibility = Visibility.Visible;
             RadiobuttonProxyYesLogin.IsEnabled = true;
+            RadiobuttonProxyYesLogin.Visibility = Visibility.Visible;
             if (RadioButtonProxyNoLogin.IsChecked == true)
             {
                 TextBlockProxyUser.IsEnabled = false;
+                TextBlockProxyUser.Visibility = Visibility.Collapsed;
                 TextBlockProxyPassword.IsEnabled = false;
+                TextBlockProxyPassword.Visibility = Visibility.Collapsed;
                 TextBoxProxyUserName.IsEnabled = false;
+                TextBoxProxyUserName.Visibility = Visibility.Collapsed;
                 PasswordBoxProxyPassword.IsEnabled = false;
+                PasswordBoxProxyPassword.Visibility = Visibility.Collapsed;
             }
             else
             {
                 TextBlockProxyUser.IsEnabled = true;
+                TextBlockProxyUser.Visibility = Visibility.Visible;
                 TextBoxProxyUserName.IsEnabled = true;
+                TextBoxProxyUserName.Visibility = Visibility.Visible;
                 TextBlockProxyPassword.IsEnabled = true;
+                TextBlockProxyPassword.Visibility = Visibility.Visible;
                 PasswordBoxProxyPassword.IsEnabled = true;
+                PasswordBoxProxyPassword.Visibility = Visibility.Visible;
             }
         }
 
         private void RadioButtonPasswordLogin_Checked(object sender, RoutedEventArgs e)
         {
             ButtonOpenFileDialog.IsEnabled = false;
+            ButtonOpenFileDialog.Visibility = Visibility.Collapsed;
             TextBoxCertFilePath.IsEnabled = false;
+            TextBoxCertFilePath.Visibility = Visibility.Collapsed;
+            TextBlockPassword.Text = "密码：";
+            //TextBlockPassword.Visibility = Visibility.Visible;
             PasswordBoxHostPassword.IsEnabled = true;
+            PasswordBoxHostPassword.Visibility = Visibility.Visible;
         }
 
         private void RadioButtonCertLogin_Checked(object sender, RoutedEventArgs e)
         {
+            TextBlockPassword.Text = "密钥：";
+            //TextBlockPassword.Visibility = Visibility.Collapsed;
             PasswordBoxHostPassword.IsEnabled = false;
+            PasswordBoxHostPassword.Visibility = Visibility.Collapsed;
             ButtonOpenFileDialog.IsEnabled = true;
+            ButtonOpenFileDialog.Visibility = Visibility.Visible;
             TextBoxCertFilePath.IsEnabled = true;
+            TextBoxCertFilePath.Visibility = Visibility.Visible;
         }
 
         private void RadioButtonProxyNoLogin_Checked(object sender, RoutedEventArgs e)
         {
             TextBlockProxyUser.IsEnabled = false;
+            TextBlockProxyUser.Visibility = Visibility.Collapsed;
             TextBlockProxyPassword.IsEnabled = false;
+            TextBlockProxyPassword.Visibility = Visibility.Collapsed;
             TextBoxProxyUserName.IsEnabled = false;
+            TextBoxProxyUserName.Visibility = Visibility.Collapsed;
             PasswordBoxProxyPassword.IsEnabled = false;
+            PasswordBoxProxyPassword.Visibility = Visibility.Collapsed;
         }
 
         private void RadiobuttonProxyYesLogin_Checked(object sender, RoutedEventArgs e)
         {
             TextBlockProxyUser.IsEnabled = true;
+            TextBlockProxyUser.Visibility = Visibility.Visible;
             TextBlockProxyPassword.IsEnabled = true;
+            TextBlockProxyPassword.Visibility = Visibility.Visible;
             TextBoxProxyUserName.IsEnabled = true;
+            TextBoxProxyUserName.Visibility = Visibility.Visible;
             PasswordBoxProxyPassword.IsEnabled = true;
+            PasswordBoxProxyPassword.Visibility = Visibility.Visible;
         }
         #endregion
 
