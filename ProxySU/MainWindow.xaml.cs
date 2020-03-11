@@ -32,8 +32,10 @@ namespace ProxySU
         }
         //System.Diagnostics.Process exitProgram = System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id);
         private void Button_Login_Click(object sender, RoutedEventArgs e)
+
         {
-  
+            //ProgressBarSetUpProcessing.IsIndeterminate = true;
+            #region 检测输入的内空是否有错，并读取内容
             if (string.IsNullOrEmpty(TextBoxHost.Text) == true || string.IsNullOrEmpty(TextBoxPort.Text) == true || string.IsNullOrEmpty(TextBoxUserName.Text) == true)
             {
                 MessageBox.Show("主机地址、主机端口、用户名为必填项，不能为空");
@@ -97,10 +99,10 @@ namespace ProxySU
 
             //TextBlockSetUpProcessing.Text = "登录中";
             //ProgressBarSetUpProcessing.IsIndeterminate = true;
+            #endregion
 
-           
-            try
-            {
+           // try
+            //{
 
                 //var connectionInfo = new PasswordConnectionInfo(sshHostName, sshPort, sshUser, sshPassword);
 
@@ -133,47 +135,51 @@ namespace ProxySU
                                             );
 
                 }
-                Task.Factory.StartNew(StartTaskSetUp);
-                //Thread thread = new Thread(StartSetUpRemoteHost(connectionInfo, TextBlockSetUpProcessing));
-                //Task task = new Task(StartSetUpRemoteHost(connectionInfo, TextBlockSetUpProcessing));
 
-                //thread.Start();
-                //StartSetUpRemoteHost(connectionInfo, TextBlockSetUpProcessing);
-            }
-            catch (Exception ex1)//例外处理   
-            {
-                //MessageBox.Show(ex1.Message);
-                if (ex1.Message.Contains("连接尝试失败") == true)
-                {
-                    MessageBox.Show($"{ex1.Message}\n请检查主机地址及端口是否正确，如果通过代理，请检查代理是否正常工作");
-                }
+                //using (var client = new SshClient(sshHostName, sshPort, sshUser, sshPassword))
+                //Action<ConnectionInfo, TextBlock> startSetUpAction = new Action<ConnectionInfo, TextBlock>(StartSetUpRemoteHost);
+                Task task = new Task(() => StartSetUpRemoteHost(connectionInfo, TextBlockSetUpProcessing, ProgressBarSetUpProcessing));
+                task.Start();
+
+
+          
+            //catch (Exception ex1)//例外处理   
+            #region 例外处理,未使用
+            //{
+            //    //MessageBox.Show(ex1.Message);
+            //    if (ex1.Message.Contains("连接尝试失败") == true)
+            //    {
+            //        MessageBox.Show($"{ex1.Message}\n请检查主机地址及端口是否正确，如果通过代理，请检查代理是否正常工作");
+            //    }
                
-                else if (ex1.Message.Contains("denied (password)") == true)
-                {
-                    MessageBox.Show($"{ex1.Message}\n密码错误或用户名错误");
-                }
-                else if (ex1.Message.Contains("Invalid private key file") == true)
-                {
-                    MessageBox.Show($"{ex1.Message}\n所选密钥文件错误或者格式不对");
-                }
-                else if (ex1.Message.Contains("denied (publickey)") == true)
-                {
-                    MessageBox.Show($"{ex1.Message}\n使用密钥登录，密钥文件错误或用户名错误");
-                }
-                else if (ex1.Message.Contains("目标计算机积极拒绝") == true)
-                {
-                    MessageBox.Show($"{ex1.Message}\n主机地址错误，如果使用了代理，也可能是连接代理的端口错误");
-                }
-                else
-                {
-                    MessageBox.Show("未知错误");
-                }
-                //TextBlockSetUpProcessing.Text = "主机登录失败";
-                //ProgressBarSetUpProcessing.IsIndeterminate = false;
-                //ProgressBarSetUpProcessing.Value = 0;
-            }
+            //    else if (ex1.Message.Contains("denied (password)") == true)
+            //    {
+            //        MessageBox.Show($"{ex1.Message}\n密码错误或用户名错误");
+            //    }
+            //    else if (ex1.Message.Contains("Invalid private key file") == true)
+            //    {
+            //        MessageBox.Show($"{ex1.Message}\n所选密钥文件错误或者格式不对");
+            //    }
+            //    else if (ex1.Message.Contains("denied (publickey)") == true)
+            //    {
+            //        MessageBox.Show($"{ex1.Message}\n使用密钥登录，密钥文件错误或用户名错误");
+            //    }
+            //    else if (ex1.Message.Contains("目标计算机积极拒绝") == true)
+            //    {
+            //        MessageBox.Show($"{ex1.Message}\n主机地址错误，如果使用了代理，也可能是连接代理的端口错误");
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show("未知错误");
+            //    }
+            //    //TextBlockSetUpProcessing.Text = "主机登录失败";
+            //    //ProgressBarSetUpProcessing.IsIndeterminate = false;
+            //    //ProgressBarSetUpProcessing.Value = 0;
+            //}
+            #endregion
         }
 
+        #region 端口数字防错代码，密钥选择代码
         private void Button_canel_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
@@ -205,6 +211,8 @@ namespace ProxySU
                 TextBoxCertFilePath.Text = openFileDialog.FileName;
             }
         }
+        #endregion
+
         #region 界面控件的有效无效控制代码块
         private void RadioButtonNoProxy_Checked(object sender, RoutedEventArgs e)
         {
@@ -275,96 +283,114 @@ namespace ProxySU
         }
         #endregion
 
-        private void StartTaskSetUp()
-        {
-            Task task = new Task(() => StartSetUpRemoteHost(ConnectionInfo connectionInfo, TextBlock textBlockName), this.first);
-            //Task task2 = new Task((tb) => Begin(this.second), this.first);
-            //Task task3 = new Task((tb) => Begin(this.Three), this.first);
-            task.Start();
-            task.Wait();
-            //task2.Start();
-            //task2.Wait();
-            //task3.Start();
-        }
-
         //登录远程主机布署程序
-        private void StartSetUpRemoteHost(ConnectionInfo connectionInfo,TextBlock textBlockName)
+        private void StartSetUpRemoteHost(ConnectionInfo connectionInfo,TextBlock textBlockName, ProgressBar progressBar)
         {
             string currentStatus = "正在登录远程主机......";
-            Action<TextBlock, String> updateAction = new Action<TextBlock, string>(UpdateTextBlockSetUpProcessing);
-            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, currentStatus);
+            Action<TextBlock, ProgressBar, string> updateAction = new Action<TextBlock, ProgressBar, string>(UpdateTextBlock);
+            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
 
-            #region 主机指纹，暂未启用
-            //byte[] expectedFingerPrint = new byte[] {
-            //                                0x66, 0x31, 0xaf, 0x00, 0x54, 0xb9, 0x87, 0x31,
-            //                                0xff, 0x58, 0x1c, 0x31, 0xb1, 0xa2, 0x4c, 0x6b
-            //                            };
-            #endregion
-            //using (var client = new SshClient(sshHostName, sshPort, sshUser, sshPassword))
-            using (var client = new SshClient(connectionInfo))
-
+            try
             {
-                #region ssh登录验证主机指纹代码块，暂未启用
-                //    client.HostKeyReceived += (sender, e) =>
-                //    {
-                //        if (expectedFingerPrint.Length == e.FingerPrint.Length)
-                //        {
-                //            for (var i = 0; i < expectedFingerPrint.Length; i++)
-                //            {
-                //                if (expectedFingerPrint[i] != e.FingerPrint[i])
-                //                {
-                //                    e.CanTrust = false;
-                //                    break;
-                //                }
-                //            }
-                //        }
-                //        else
-                //        {
-                //            e.CanTrust = false;
-                //        }
-                //    };
+                #region 主机指纹，暂未启用
+                //byte[] expectedFingerPrint = new byte[] {
+                //                                0x66, 0x31, 0xaf, 0x00, 0x54, 0xb9, 0x87, 0x31,
+                //                                0xff, 0x58, 0x1c, 0x31, 0xb1, 0xa2, 0x4c, 0x6b
+                //                            };
                 #endregion
-               
-                client.Connect();
-                if (client.IsConnected == true)
+                using (var client = new SshClient(connectionInfo))
+
                 {
-                    currentStatus = "主机已登录";
-                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, currentStatus);
-                    //ProgressBarSetUpProcessing.IsIndeterminate = false;
-                    //ProgressBarSetUpProcessing.Value = 100;
+                    #region ssh登录验证主机指纹代码块，暂未启用
+                    //    client.HostKeyReceived += (sender, e) =>
+                    //    {
+                    //        if (expectedFingerPrint.Length == e.FingerPrint.Length)
+                    //        {
+                    //            for (var i = 0; i < expectedFingerPrint.Length; i++)
+                    //            {
+                    //                if (expectedFingerPrint[i] != e.FingerPrint[i])
+                    //                {
+                    //                    e.CanTrust = false;
+                    //                    break;
+                    //                }
+                    //            }
+                    //        }
+                    //        else
+                    //        {
+                    //            e.CanTrust = false;
+                    //        }
+                    //    };
+                    #endregion
+
+                    client.Connect();
+                    if (client.IsConnected == true)
+                    {
+                        currentStatus = "主机已登录";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    }
+ 
+                    client.RunCommand("echo 1111 >> test.json");
+                    MessageBox.Show(client.ConnectionInfo.ServerVersion.ToString());
+                    //MessageBox.Show(client);
+                    client.Disconnect();
+
+                }
+            }
+            catch (Exception ex1)//例外处理   
+            #region 例外处理
+            {
+                //MessageBox.Show(ex1.Message);
+                if (ex1.Message.Contains("连接尝试失败") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n请检查主机地址及端口是否正确，如果通过代理，请检查代理是否正常工作");
+                }
+
+                else if (ex1.Message.Contains("denied (password)") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n密码错误或用户名错误");
+                }
+                else if (ex1.Message.Contains("Invalid private key file") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n所选密钥文件错误或者格式不对");
+                }
+                else if (ex1.Message.Contains("denied (publickey)") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n使用密钥登录，密钥文件错误或用户名错误");
+                }
+                else if (ex1.Message.Contains("目标计算机积极拒绝") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n主机地址错误，如果使用了代理，也可能是连接代理的端口错误");
                 }
                 else
                 {
-                    currentStatus = "主机登录失败";
-                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, currentStatus);
-                    //ProgressBarSetUpProcessing.IsIndeterminate = false;
-                    //ProgressBarSetUpProcessing.Value = 0;
+                    MessageBox.Show("未知错误");
                 }
-                client.RunCommand("echo 1111 >> test.json");
-                MessageBox.Show(client.ConnectionInfo.ServerVersion.ToString());
-                //MessageBox.Show(client);
-                client.Disconnect();
-               
-                
+                currentStatus = "主机登录失败";
+                textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
 
             }
+            #endregion
+
         }
-        //private void Begin(TextBlock textBlockName)
-        //{
-        //    int i = 100000000;
-        //    while (i > 0)
-        //    {
-        //        i--;
-        //    }
-        //    Random random = new Random();
-        //    String Num = random.Next(0, 100).ToString();
-        //    Action<TextBlock, String> updateAction = new Action<TextBlock, string>(UpdateTextBlockSetUpProcessing);
-        //    TextBlockSetUpProcessing.Dispatcher.BeginInvoke(updateAction, textBlockName, Num);
-        //}
+       
         //更新UI显示内容
-        private void UpdateTextBlockSetUpProcessing(TextBlock textBlockName, string currentStatus)
+        private void UpdateTextBlock(TextBlock textBlockName, ProgressBar progressBar, string currentStatus)
         {
             textBlockName.Text = currentStatus;
+            if (currentStatus.Contains("正在登录远程主机") == true)
+            {
+                progressBar.IsIndeterminate = true;
+            }
+            else if (currentStatus.Contains("主机已登录") == true)
+            {
+                progressBar.IsIndeterminate = false;
+                progressBar.Value = 100;
+            }
+            else if (currentStatus.Contains("主机登录失败") == true)
+            {
+                progressBar.IsIndeterminate = false;
+                progressBar.Value = 0;
+            }
 
         }
     }
