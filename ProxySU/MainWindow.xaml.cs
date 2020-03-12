@@ -391,6 +391,7 @@ namespace ProxySU
                             sftpClient.Connect();
                             MessageBox.Show("sftp信息1" + sftpClient.ConnectionInfo.ServerVersion.ToString());
                             sftpClient.UploadFile(File.OpenRead("config\\config.json"),"/root/config.json", true);
+                            sftpClient.DownloadFile("/root/id_rsa.pub", File.Create("config\\server_config.json"));
                             MessageBox.Show("sftp信息"+sftpClient.ConnectionInfo.ServerVersion.ToString());
                         }
 
