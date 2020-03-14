@@ -376,11 +376,29 @@ namespace ProxySU
                     currentStatus = "检测系统是否符合安装要求......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(2000);
-                    currentStatus = "符合安装要求,布署中......";
-                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                    Thread.Sleep(2000);
-                  
-                    //运行命令
+
+                    var result = client.RunCommand("uname -r");
+                    //var result = client.RunCommand("cat /root/test.ver");
+                    string[] linuxKernelVerStr= result.Result.Split('-');
+                    //MessageBox.Show(result.Result);
+                    //MessageBox.Show(linuxKernelVerStr[0]);
+                    bool detectResult = DetectKernelVersion(linuxKernelVerStr[0]);
+                    if (detectResult == true)
+                    {
+                        currentStatus = "符合安装要求,布署中......";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(2000);
+                    }
+                    else
+                    {
+                        MessageBox.Show($"当前系统内核版本为{linuxKernelVerStr[0]}，V2ray要求内核为2.6.23及以上。请升级内核再安装！");
+                        currentStatus = "系统内核版本不符合要求，安装失败！！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(2000);
+                        
+                    }
+
+                     //运行命令
                     //client.RunCommand("apt update");
                     //client.RunCommand("apt install curl -y");
                     //client.RunCommand("bash <(curl -L -s https://install.direct/go.sh)");
@@ -401,14 +419,13 @@ namespace ProxySU
                     //    MessageBox.Show("sftp"+ex2.ToString());
                     //    MessageBox.Show("sftp出现未知错误");
                     //}
-                    var result = client.RunCommand("uname -r");
-                    MessageBox.Show(result.Result);
-                   // client.RunCommand("echo 1111 >> test.json");
-                    
-                    currentStatus = "安装成功";
-                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+
+                    // client.RunCommand("echo 1111 >> test.json");
+
+                    //currentStatus = "安装成功";
+                    //textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     //Thread.Sleep(2000);
-                    MessageBox.Show("安装成功");
+                    //MessageBox.Show("安装成功");
                     MessageBox.Show("ssh信息"+client.ConnectionInfo.ServerVersion.ToString());
 
                     //MessageBox.Show(client);
@@ -481,7 +498,7 @@ namespace ProxySU
                 progressBar.IsIndeterminate = false;
                 progressBar.Value = 100;
             }
-            else if (currentStatus.Contains("主机登录失败") == true)
+            else if (currentStatus.Contains("失败") == true)
             {
                 progressBar.IsIndeterminate = false;
                 progressBar.Value = 0;
@@ -489,5 +506,57 @@ namespace ProxySU
 
 
         }
+        //检测系统内核是否符合安装要求
+        private static bool DetectKernelVersion(string kernelVer)
+        {
+            string[] linuxKernelCompared = kernelVer.Split('.');
+            if (int.Parse(linuxKernelCompared[0]) > 2)
+            {
+                //MessageBox.Show($"当前系统内核版本为{result.Result}，符合安装要求！");
+                return true;
+            }
+            else if (int.Parse(linuxKernelCompared[0]) < 2)
+            {
+                //MessageBox.Show($"当前系统内核版本为{result.Result}，V2ray要求内核为2.6.23及以上。请升级内核再安装！");
+                return false;
+            }
+            else if (int.Parse(linuxKernelCompared[0]) == 2)
+            {
+                if (int.Parse(linuxKernelCompared[1]) > 6)
+                {
+                    //MessageBox.Show($"当前系统内核版本为{result.Result}，符合安装要求！");
+                    return true;
+                }
+                else if (int.Parse(linuxKernelCompared[1]) < 6)
+                {
+                    //MessageBox.Show($"当前系统内核版本为{result.Result}，V2ray要求内核为2.6.23及以上。请升级内核再安装！");
+                    return false;
+                }
+                else if (int.Parse(linuxKernelCompared[1]) == 6)
+                {
+                    if (int.Parse(linuxKernelCompared[2]) < 23)
+                    {
+                        //MessageBox.Show($"当前系统内核版本为{result.Result}，V2ray要求内核为2.6.23及以上。请升级内核再安装！");
+                        return false;
+                    }
+                    else
+                    {
+                        //MessageBox.Show($"当前系统内核版本为{result.Result}，符合安装要求！");
+                        return true;
+                    }
+
+                }
+            }
+            return false;
+
+        }
+        //检测发行版本号是否为centos7/8 debian 8/9/10 ubuntu 16.04及以上
+        private static bool DetectReleaseVersion(string releasever)
+        {
+
+            return true;
+        }
+
     }
+    
 }
