@@ -383,22 +383,29 @@ namespace ProxySU
                     //MessageBox.Show(result.Result);
                     //MessageBox.Show(linuxKernelVerStr[0]);
                     bool detectResult = DetectKernelVersion(linuxKernelVerStr[0]);
-                    if (detectResult == true)
-                    {
-                        currentStatus = "符合安装要求,布署中......";
-                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                        Thread.Sleep(2000);
-                    }
-                    else
+                    if (detectResult == false)
                     {
                         MessageBox.Show($"当前系统内核版本为{linuxKernelVerStr[0]}，V2ray要求内核为2.6.23及以上。请升级内核再安装！");
                         currentStatus = "系统内核版本不符合要求，安装失败！！";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                        Thread.Sleep(2000);
-                        
+                        Thread.Sleep(2000);               
                     }
+                    //detectResult = DetectReleaseVersion(string releaseVer);
+                    //检测系统是否支持yum 或 apt-get或zypper，且支持Systemd，
+                    if (((string.IsNullOrEmpty(client.RunCommand("command -v apt-get").Result) == false) || string.IsNullOrEmpty(client.RunCommand("command -v yum").Result) == false || string.IsNullOrEmpty(client.RunCommand("command -v zypper").Result) == false) && string.IsNullOrEmpty(client.RunCommand("command -v systemctl").Result) == true)
+                    {
+                        MessageBox.Show($"系统缺乏必要的安装组件如:apt-get||yum||zypper||Syetemd，推荐使用：CentOS 7/8,Debian 8/9/10,Ubuntu 16.04及以上版本");
+                        currentStatus = "系统环境不满足要求，安装失败！！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(2000);
+                        return;
+                    }
+                     
+                    currentStatus = "符合安装要求,布署中......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(2000);
 
-                     //运行命令
+                    //运行命令
                     //client.RunCommand("apt update");
                     //client.RunCommand("apt install curl -y");
                     //client.RunCommand("bash <(curl -L -s https://install.direct/go.sh)");
@@ -550,12 +557,8 @@ namespace ProxySU
             return false;
 
         }
-        //检测发行版本号是否为centos7/8 debian 8/9/10 ubuntu 16.04及以上
-        private static bool DetectReleaseVersion(string releasever)
-        {
-
-            return true;
-        }
+        
+       
 
     }
     
