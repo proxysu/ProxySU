@@ -368,7 +368,7 @@ namespace ProxySU
                     client.Connect();
                     if (client.IsConnected == true)
                     {
-                        currentStatus = "主机已登录";
+                        currentStatus = "主机登录成功";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(2000);
                     }
@@ -376,7 +376,7 @@ namespace ProxySU
                     currentStatus = "检测系统是否符合安装要求......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(2000);
-                    currentStatus = "检测完毕，符合安装要求,布署中......";
+                    currentStatus = "符合安装要求,布署中......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(2000);
                   
@@ -384,24 +384,27 @@ namespace ProxySU
                     //client.RunCommand("apt update");
                     //client.RunCommand("apt install curl -y");
                     //client.RunCommand("bash <(curl -L -s https://install.direct/go.sh)");
-                    try
-                    {
-                        using (var sftpClient = new SftpClient(connectionInfo))
-                        {
-                            sftpClient.Connect();
-                            MessageBox.Show("sftp信息1" + sftpClient.ConnectionInfo.ServerVersion.ToString());
-                            sftpClient.UploadFile(File.OpenRead("config\\config.json"),"/root/config.json", true);
-                            sftpClient.DownloadFile("/root/id_rsa.pub", File.Create("config\\server_config.json"));
-                            MessageBox.Show("sftp信息"+sftpClient.ConnectionInfo.ServerVersion.ToString());
-                        }
+                    //try
+                    //{
+                    //    using (var sftpClient = new SftpClient(connectionInfo))
+                    //    {
+                    //        sftpClient.Connect();
+                    //        MessageBox.Show("sftp信息1" + sftpClient.ConnectionInfo.ServerVersion.ToString());
+                    //        sftpClient.UploadFile(File.OpenRead("config\\config.json"),"/root/config.json", true);
+                    //        sftpClient.DownloadFile("/root/id_rsa.pub", File.Create("config\\server_config.json"));
+                    //        MessageBox.Show("sftp信息"+sftpClient.ConnectionInfo.ServerVersion.ToString());
+                    //    }
 
-                    }
-                    catch(Exception ex2)
-                    {
-                        MessageBox.Show("sftp"+ex2.ToString());
-                        MessageBox.Show("sftp出现未知错误");
-                    }
-                    client.RunCommand("echo 1111 >> test.json");
+                    //}
+                    //catch(Exception ex2)
+                    //{
+                    //    MessageBox.Show("sftp"+ex2.ToString());
+                    //    MessageBox.Show("sftp出现未知错误");
+                    //}
+                    var result = client.RunCommand("uname -r");
+                    MessageBox.Show(result.Result);
+                   // client.RunCommand("echo 1111 >> test.json");
+                    
                     currentStatus = "安装成功";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     //Thread.Sleep(2000);
@@ -458,7 +461,7 @@ namespace ProxySU
             {
                 progressBar.IsIndeterminate = true;
             }
-            else if (currentStatus.Contains("主机已登录") == true)
+            else if (currentStatus.Contains("主机登录成功") == true)
             {
                 progressBar.IsIndeterminate = true;
                 //progressBar.Value = 100;
