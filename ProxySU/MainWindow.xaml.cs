@@ -391,49 +391,84 @@ namespace ProxySU
                         Thread.Sleep(2000);               
                     }
                     //detectResult = DetectReleaseVersion(string releaseVer);
-                    //检测系统是否支持yum 或 apt-get或zypper，且支持Systemd，
-                    if (((string.IsNullOrEmpty(client.RunCommand("command -v apt-get").Result) == false) || string.IsNullOrEmpty(client.RunCommand("command -v yum").Result) == false || string.IsNullOrEmpty(client.RunCommand("command -v zypper").Result) == false) && string.IsNullOrEmpty(client.RunCommand("command -v systemctl").Result) == true)
+                    //检测系统是否支持yum 或 apt-get或zypper，且支持Systemd
+                    //如果不存在组件，则命令结果为空，string.IsNullOrEmpty值为真，
+                    bool getApt = string.IsNullOrEmpty(client.RunCommand("command -v apt-get").Result);
+                    bool getYum = string.IsNullOrEmpty(client.RunCommand("command -v yum").Result);
+                    bool getZypper = string.IsNullOrEmpty(client.RunCommand("command -v zypper").Result);
+                    //bool getPMT= string.IsNullOrEmpty(client.RunCommand("command -v apt-get").Result) && string.IsNullOrEmpty(client.RunCommand("command -v yum").Result) && string.IsNullOrEmpty(client.RunCommand("command -v zypper").Result);
+                    bool getSystemd = string.IsNullOrEmpty(client.RunCommand("command -v systemctl").Result);
+                    //没有安装apt-get，也没有安装yum，也没有安装zypper,或者没有安装systemd的，不满足安装条件
+                    //也就是apt-get ，yum, zypper必须安装其中之一，且必须安装Systemd的系统才能安装。
+                    if ((getApt && getYum && getZypper) || getSystemd)
                     {
-                        MessageBox.Show($"系统缺乏必要的安装组件如:apt-get||yum||zypper||Syetemd，推荐使用：CentOS 7/8,Debian 8/9/10,Ubuntu 16.04及以上版本");
+                        MessageBox.Show($"系统缺乏必要的安装组件如:apt-get||yum||zypper||Syetemd，主机系统推荐使用：CentOS 7/8,Debian 8/9/10,Ubuntu 16.04及以上版本");
                         currentStatus = "系统环境不满足要求，安装失败！！";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(2000);
                         return;
                     }
-                     
-                    currentStatus = "符合安装要求,布署中......";
+                    else
+                    {
+                        currentStatus = "符合安装要求,布署中......";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(2000);
+                    }
+                    //在相应系统内安装curl(如果没有安装curl)
+                    if (string.IsNullOrEmpty(client.RunCommand("command -v curl").Result) == true)
+                    {
+                        //为假则表示系统有相应的组件。
+                        if (getApt == false)
+                        {
+                            client.RunCommand("apt-get -qq update");
+                            client.RunCommand("apt-get -y -qq install curl");
+                        }
+                        if (getYum == false)
+                        {
+                            client.RunCommand("yum -q makecache");
+                            client.RunCommand("yum -y -q install curl");
+                        }
+                        if (getZypper == false)
+                        {
+                            client.RunCommand("zypper ref");
+                            client.RunCommand("zypper -y install curl");
+                        }
+                    }
+
+
+                    //下载调用官方安装脚本安装
+               
+                    client.RunCommand("curl -o /tmp/go.sh https://install.direct/go.sh");
+                    client.RunCommand("bash /tmp/go.sh");
+                    client.RunCommand("move /etc/v2ray/config.json /etc/v2ray/config.json.1");
+                    //上传配置文件
+                    string v2rayConfig = "";
+                    try
+                    {
+                        using (var sftpClient = new SftpClient(connectionInfo))
+                        {
+                            sftpClient.Connect();
+                            //MessageBox.Show("sftp信息1" + sftpClient.ConnectionInfo.ServerVersion.ToString());
+                            sftpClient.UploadFile(File.OpenRead(v2rayConfig), "/etc/v2ray/config.json", true);
+                            //sftpClient.DownloadFile("/root/id_rsa.pub", File.Create("config\\server_config.json"));
+                            MessageBox.Show("sftp信息" + sftpClient.ConnectionInfo.ServerVersion.ToString());
+                            sftpClient.Disconnect();
+                        }
+
+                    }
+                    catch (Exception ex2)
+                    {
+                        MessageBox.Show("sftp" + ex2.ToString());
+                        MessageBox.Show("sftp出现未知错误");
+                    }
+
+                    client.RunCommand("echo 1111 >> test.json");
+
+                    currentStatus = "安装成功";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(2000);
-
-                    //运行命令
-                    //client.RunCommand("apt update");
-                    //client.RunCommand("apt install curl -y");
-                    //client.RunCommand("bash <(curl -L -s https://install.direct/go.sh)");
-                    //try
-                    //{
-                    //    using (var sftpClient = new SftpClient(connectionInfo))
-                    //    {
-                    //        sftpClient.Connect();
-                    //        MessageBox.Show("sftp信息1" + sftpClient.ConnectionInfo.ServerVersion.ToString());
-                    //        sftpClient.UploadFile(File.OpenRead("config\\config.json"),"/root/config.json", true);
-                    //        sftpClient.DownloadFile("/root/id_rsa.pub", File.Create("config\\server_config.json"));
-                    //        MessageBox.Show("sftp信息"+sftpClient.ConnectionInfo.ServerVersion.ToString());
-                    //    }
-
-                    //}
-                    //catch(Exception ex2)
-                    //{
-                    //    MessageBox.Show("sftp"+ex2.ToString());
-                    //    MessageBox.Show("sftp出现未知错误");
-                    //}
-
-                    // client.RunCommand("echo 1111 >> test.json");
-
-                    //currentStatus = "安装成功";
-                    //textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                    //Thread.Sleep(2000);
-                    //MessageBox.Show("安装成功");
-                    MessageBox.Show("ssh信息"+client.ConnectionInfo.ServerVersion.ToString());
+                    MessageBox.Show("安装成功");
+                    //MessageBox.Show("ssh信息"+client.ConnectionInfo.ServerVersion.ToString());
 
                     //MessageBox.Show(client);
                     client.Disconnect();
