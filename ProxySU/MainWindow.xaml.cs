@@ -30,6 +30,8 @@ namespace ProxySU
             RadioButtonPasswordLogin.IsChecked = true;
             RadioButtonNoProxy.IsChecked = true;
             RadioButtonProxyNoLogin.IsChecked = true;
+            //GuideConfiguration.IsChecked = true;
+            RadioButtonTemplateConfiguration.IsChecked = true;
         }
         //System.Diagnostics.Process exitProgram = System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id);
         private void Button_Login_Click(object sender, RoutedEventArgs e)
@@ -102,12 +104,25 @@ namespace ProxySU
             //ProgressBarSetUpProcessing.IsIndeterminate = true;
             #endregion
 
-           // try
-            //{
 
-                //var connectionInfo = new PasswordConnectionInfo(sshHostName, sshPort, sshUser, sshPassword);
+            //var connectionInfo = new PasswordConnectionInfo(sshHostName, sshPort, sshUser, sshPassword);
 
-                var connectionInfo = new ConnectionInfo(
+            var connectionInfo = new ConnectionInfo(
+                                    sshHostName,
+                                    sshPort,
+                                    sshUser,
+                                    proxyTypes,
+                                    sshProxyHost,
+                                    sshProxyPort,
+                                    sshProxyUser,
+                                    sshProxyPassword,
+                                    new PasswordAuthenticationMethod(sshUser, sshPassword)
+                                    //new PrivateKeyAuthenticationMethod(sshUser, new PrivateKeyFile(sshPrivateKey))
+                                    );
+
+            if (RadioButtonCertLogin.IsChecked == true)
+            {
+                connectionInfo = new ConnectionInfo(
                                         sshHostName,
                                         sshPort,
                                         sshUser,
@@ -116,31 +131,17 @@ namespace ProxySU
                                         sshProxyPort,
                                         sshProxyUser,
                                         sshProxyPassword,
-                                        new PasswordAuthenticationMethod(sshUser, sshPassword)
-                                        //new PrivateKeyAuthenticationMethod(sshUser, new PrivateKeyFile(sshPrivateKey))
+                                        //new PasswordAuthenticationMethod(sshUser, sshPassword)
+                                        new PrivateKeyAuthenticationMethod(sshUser, new PrivateKeyFile(sshPrivateKey))
                                         );
 
-                if (RadioButtonCertLogin.IsChecked == true)
-                {
-                    connectionInfo = new ConnectionInfo(
-                                            sshHostName,
-                                            sshPort,
-                                            sshUser,
-                                            proxyTypes,
-                                            sshProxyHost,
-                                            sshProxyPort,
-                                            sshProxyUser,
-                                            sshProxyPassword,
-                                            //new PasswordAuthenticationMethod(sshUser, sshPassword)
-                                            new PrivateKeyAuthenticationMethod(sshUser, new PrivateKeyFile(sshPrivateKey))
-                                            );
+            }
 
-                }
-
-                //using (var client = new SshClient(sshHostName, sshPort, sshUser, sshPassword))
-                //Action<ConnectionInfo, TextBlock> startSetUpAction = new Action<ConnectionInfo, TextBlock>(StartSetUpRemoteHost);
-                Task task = new Task(() => StartSetUpRemoteHost(connectionInfo, TextBlockSetUpProcessing, ProgressBarSetUpProcessing));
-                task.Start();
+            //using (var client = new SshClient(sshHostName, sshPort, sshUser, sshPassword))
+            //Action<ConnectionInfo, TextBlock> startSetUpAction = new Action<ConnectionInfo, TextBlock>(StartSetUpRemoteHost);
+            string appConfig = TextBoxJsonPath.Text.ToString().Replace("\\","\\\\");
+            Task task = new Task(() => StartSetUpRemoteHost(connectionInfo, TextBlockSetUpProcessing, ProgressBarSetUpProcessing, appConfig));
+            task.Start();
 
 
           
@@ -327,7 +328,7 @@ namespace ProxySU
         #endregion
 
         //登录远程主机布署程序
-        private void StartSetUpRemoteHost(ConnectionInfo connectionInfo,TextBlock textBlockName, ProgressBar progressBar)
+        private void StartSetUpRemoteHost(ConnectionInfo connectionInfo,TextBlock textBlockName, ProgressBar progressBar, string appConfig)
         {
             string currentStatus = "正在登录远程主机......";
             Action<TextBlock, ProgressBar, string> updateAction = new Action<TextBlock, ProgressBar, string>(UpdateTextBlock);
@@ -440,39 +441,26 @@ namespace ProxySU
                
                     client.RunCommand("curl -o /tmp/go.sh https://install.direct/go.sh");
                     client.RunCommand("bash /tmp/go.sh");
-                    client.RunCommand("move /etc/v2ray/config.json /etc/v2ray/config.json.1");
+                    client.RunCommand("mv /etc/v2ray/config.json /etc/v2ray/config.json.1");
+
+                    //client.RunCommand("echo 1111 >> test.json");
                     //上传配置文件
-                    string v2rayConfig = "";
-                    try
-                    {
-                        using (var sftpClient = new SftpClient(connectionInfo))
-                        {
-                            sftpClient.Connect();
-                            //MessageBox.Show("sftp信息1" + sftpClient.ConnectionInfo.ServerVersion.ToString());
-                            sftpClient.UploadFile(File.OpenRead(v2rayConfig), "/etc/v2ray/config.json", true);
-                            //sftpClient.DownloadFile("/root/id_rsa.pub", File.Create("config\\server_config.json"));
-                            MessageBox.Show("sftp信息" + sftpClient.ConnectionInfo.ServerVersion.ToString());
-                            sftpClient.Disconnect();
-                        }
+                    //string uploadConfig = "config\\http_server.json";
+                    currentStatus = "程序安装完毕，配置文件上传中......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(2000);
+                    UploadConfig(connectionInfo, appConfig);
 
-                    }
-                    catch (Exception ex2)
-                    {
-                        MessageBox.Show("sftp" + ex2.ToString());
-                        MessageBox.Show("sftp出现未知错误");
-                    }
-
-                    client.RunCommand("echo 1111 >> test.json");
 
                     currentStatus = "安装成功";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(2000);
-                    MessageBox.Show("安装成功");
+                    //MessageBox.Show("安装成功");
                     //MessageBox.Show("ssh信息"+client.ConnectionInfo.ServerVersion.ToString());
 
                     //MessageBox.Show(client);
                     client.Disconnect();
-
+                    return;
                 }
             }
             catch (Exception ex1)//例外处理   
@@ -511,7 +499,55 @@ namespace ProxySU
             #endregion
 
         }
-       
+        //上传配置文件
+        private void UploadConfig(ConnectionInfo connectionInfo,string uploadConfig)
+        {
+                       
+            //v2rayConfig = "config\\http_server.json";
+            try
+            {
+                using (var sftpClient = new SftpClient(connectionInfo))
+                {
+                    sftpClient.Connect();
+                    //MessageBox.Show("sftp信息1" + sftpClient.ConnectionInfo.ServerVersion.ToString());
+                    sftpClient.UploadFile(File.OpenRead(uploadConfig), "/etc/v2ray/config.json", true);
+                    //sftpClient.DownloadFile("/root/id_rsa.pub", File.Create("config\\server_config.json"));
+                    MessageBox.Show("sftp信息" + sftpClient.ConnectionInfo.ServerVersion.ToString());
+                    sftpClient.Disconnect();
+                }
+
+            }
+            catch (Exception ex2)
+            {
+                MessageBox.Show("sftp" + ex2.ToString());
+                MessageBox.Show("sftp出现未知错误");
+            }
+        }
+        //下载配置文件
+        private void DownloadConfig(ConnectionInfo connectionInfo, string downloadConfig)
+        {
+
+            //v2rayConfig = "config\\http_server.json";
+            try
+            {
+                using (var sftpClient = new SftpClient(connectionInfo))
+                {
+                    sftpClient.Connect();
+                    //MessageBox.Show("sftp信息1" + sftpClient.ConnectionInfo.ServerVersion.ToString());
+                    //sftpClient.UploadFile(File.OpenRead(v2rayConfig), "/etc/v2ray/config.json", true);
+                    sftpClient.DownloadFile("/etc/v2ray/config.json", File.Create(downloadConfig));
+                    MessageBox.Show("sftp信息" + sftpClient.ConnectionInfo.ServerVersion.ToString());
+                    sftpClient.Disconnect();
+                }
+
+            }
+            catch (Exception ex2)
+            {
+                MessageBox.Show("sftp" + ex2.ToString());
+                MessageBox.Show("sftp出现未知错误");
+            }
+        }
+
         //更新UI显示内容
         private void UpdateTextBlock(TextBlock textBlockName, ProgressBar progressBar, string currentStatus)
         {
@@ -592,9 +628,33 @@ namespace ProxySU
             return false;
 
         }
-        
-       
 
+        private void ButtonSetConfiguration_Click(object sender, RoutedEventArgs e)
+        {
+            if (RadioButtonGuideConfiguration.IsChecked == true)
+            {
+                MessageBox.Show("还未完善，敬请期待！");
+            }
+            else if (RadioButtonTemplateConfiguration.IsChecked == true)
+            {
+                var openFileDialog = new Microsoft.Win32.OpenFileDialog()
+                {
+                    Filter = "Cert Files (*.json)|*.json"
+                };
+                var result = openFileDialog.ShowDialog();
+                if (result == true)
+                {
+                    TextBoxJsonPath.Text = openFileDialog.FileName;
+                }
+            }
+            else
+            {
+                MessageBox.Show("还未完善，敬请期待！");
+            }
+            MessageBox.Show(TextBoxJsonPath.Text.ToString());
+            string appConfig = TextBoxJsonPath.Text.ToString().Replace("\\", "\\\\");
+            MessageBox.Show(appConfig);
+        }
     }
     
 }
