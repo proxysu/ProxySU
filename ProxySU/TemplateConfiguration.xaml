@@ -1,0 +1,70 @@
+﻿<Window x:Name="TemplateConfiguration" x:Class="ProxySU.WindowTemplateConfiguration"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProxySU"
+        mc:Ignorable="d"
+        Title="TemplateConfiguration" Height="650" Width="650">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+           
+        <GroupBox Header="模板库" Grid.Row="0" Grid.RowSpan="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <RadioButton x:Name="RadioButtonTCP" Content="TCP" Grid.Column="0" Grid.Row="0"></RadioButton>
+                <TextBlock Text="TCP说明" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2"></TextBlock>
+                <RadioButton x:Name="RadioButtonTCPhttp" Content="TCP+Http伪装" Grid.Column="0" Grid.Row="1"></RadioButton>
+                <TextBlock Text="TCP+Http伪装说明" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2"></TextBlock>
+                <RadioButton x:Name="RadioButtonMkcpNoCamouflage" Content="mKCP(无伪装)" Grid.Column="0" Grid.Row="2"></RadioButton>
+                <TextBlock Text="mkcp协议,不进行伪装，发送的数据是没有特征的数据包。" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2"></TextBlock>
+                <RadioButton x:Name="RadioButton2mKCP2SRTP" Content="mKCP+SRTP" Grid.Column="0" Grid.Row="3"></RadioButton>
+                <TextBlock Text="mkcp协议,伪装成 SRTP 数据包，会被识别为视频通话数据（如 FaceTime）" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2"></TextBlock>
+                <RadioButton x:Name="RadioButton2mKCPuTP" Content="mKCP+uTP" Grid.Column="0" Grid.Row="4"></RadioButton>
+                <TextBlock Text="伪装成 uTP 数据包，会被识别为 BT 下载数据" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2"></TextBlock>
+                <RadioButton x:Name="RadioButton2mKCP2WechatVideo" Content="mKCP+WechatVideo" Grid.Column="0" Grid.Row="5"></RadioButton>
+                <TextBlock Text="伪装成微信视频通话的数据包" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2"></TextBlock>
+                <RadioButton x:Name="RadioButton2mKCP2DTLS" Content="mKCP+DTLS 1.2" Grid.Column="0" Grid.Row="6"></RadioButton>
+                <TextBlock Text="伪装成 DTLS 1.2 数据包" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="2"></TextBlock>
+                <RadioButton x:Name="RadioButton2mKCP2WireGuard" Content="mKCP+WireGuard" Grid.Column="0" Grid.Row="7"></RadioButton>
+                <TextBlock Text="伪装成 WireGuard 数据包。(并不是真正的 WireGuard 协议)" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="2"></TextBlock>
+                <RadioButton x:Name="RadioButtonHTTP2" Content="HTTP/2" Grid.Column="0" Grid.Row="8"></RadioButton>
+                <TextBlock Text="基于 HTTP/2 的传输方式。它完整按照 HTTP/2 标准实现" Grid.Column="1" Grid.Row="8" Grid.ColumnSpan="2"></TextBlock>
+                <RadioButton x:Name="RadioButtonTLS" Content="TLS" Grid.Column="0" Grid.Row="9"></RadioButton>
+                <TextBlock Text="使用TLS加密数据流" Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2"></TextBlock>
+                <RadioButton x:Name="RadioButtonWebSocketTLS2Web" Content="WebSocket+TLS+Web" Grid.Column="0" Grid.Row="10"></RadioButton>
+                <TextBlock Text="目前是稳定性最好的，使用Caddy做网站前置，https数据流，不易被识别出流量特征" Grid.Column="1" Grid.Row="10" Grid.ColumnSpan="2"></TextBlock>
+                <Button x:Name="ButtondDecide" Content="确定" Grid.Column="3" Grid.Row="11" Margin="4" Click="ButtondDecide_Click"></Button>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="自定义模板" Grid.Row="2">
+            <Grid>
+                
+            </Grid>
+        </GroupBox>
+      
+    </Grid>
+</Window>

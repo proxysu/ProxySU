@@ -31,7 +31,7 @@ namespace ProxySU
             RadioButtonNoProxy.IsChecked = true;
             RadioButtonProxyNoLogin.IsChecked = true;
             //GuideConfiguration.IsChecked = true;
-            RadioButtonTemplateConfiguration.IsChecked = true;
+            //RadioButtonTemplateConfiguration.IsChecked = true;
         }
         //System.Diagnostics.Process exitProgram = System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id);
         private void Button_Login_Click(object sender, RoutedEventArgs e)
@@ -139,46 +139,10 @@ namespace ProxySU
 
             //using (var client = new SshClient(sshHostName, sshPort, sshUser, sshPassword))
             //Action<ConnectionInfo, TextBlock> startSetUpAction = new Action<ConnectionInfo, TextBlock>(StartSetUpRemoteHost);
-            string appConfig = TextBoxJsonPath.Text.ToString().Replace("\\","\\\\");
+            //string appConfig = TextBoxJsonPath.Text.ToString().Replace("\\","\\\\");
+            string appConfig = ("");
             Task task = new Task(() => StartSetUpRemoteHost(connectionInfo, TextBlockSetUpProcessing, ProgressBarSetUpProcessing, appConfig));
             task.Start();
-
-
-          
-            //catch (Exception ex1)//例外处理   
-            #region 例外处理,未使用
-            //{
-            //    //MessageBox.Show(ex1.Message);
-            //    if (ex1.Message.Contains("连接尝试失败") == true)
-            //    {
-            //        MessageBox.Show($"{ex1.Message}\n请检查主机地址及端口是否正确，如果通过代理，请检查代理是否正常工作");
-            //    }
-               
-            //    else if (ex1.Message.Contains("denied (password)") == true)
-            //    {
-            //        MessageBox.Show($"{ex1.Message}\n密码错误或用户名错误");
-            //    }
-            //    else if (ex1.Message.Contains("Invalid private key file") == true)
-            //    {
-            //        MessageBox.Show($"{ex1.Message}\n所选密钥文件错误或者格式不对");
-            //    }
-            //    else if (ex1.Message.Contains("denied (publickey)") == true)
-            //    {
-            //        MessageBox.Show($"{ex1.Message}\n使用密钥登录，密钥文件错误或用户名错误");
-            //    }
-            //    else if (ex1.Message.Contains("目标计算机积极拒绝") == true)
-            //    {
-            //        MessageBox.Show($"{ex1.Message}\n主机地址错误，如果使用了代理，也可能是连接代理的端口错误");
-            //    }
-            //    else
-            //    {
-            //        MessageBox.Show("未知错误");
-            //    }
-            //    //TextBlockSetUpProcessing.Text = "主机登录失败";
-            //    //ProgressBarSetUpProcessing.IsIndeterminate = false;
-            //    //ProgressBarSetUpProcessing.Value = 0;
-            //}
-            #endregion
         }
 
         #region 端口数字防错代码，密钥选择代码
@@ -381,8 +345,7 @@ namespace ProxySU
                     var result = client.RunCommand("uname -r");
                     //var result = client.RunCommand("cat /root/test.ver");
                     string[] linuxKernelVerStr= result.Result.Split('-');
-                    //MessageBox.Show(result.Result);
-                    //MessageBox.Show(linuxKernelVerStr[0]);
+
                     bool detectResult = DetectKernelVersion(linuxKernelVerStr[0]);
                     if (detectResult == false)
                     {
@@ -391,14 +354,14 @@ namespace ProxySU
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(2000);               
                     }
-                    //detectResult = DetectReleaseVersion(string releaseVer);
+
                     //检测系统是否支持yum 或 apt-get或zypper，且支持Systemd
                     //如果不存在组件，则命令结果为空，string.IsNullOrEmpty值为真，
                     bool getApt = string.IsNullOrEmpty(client.RunCommand("command -v apt-get").Result);
                     bool getYum = string.IsNullOrEmpty(client.RunCommand("command -v yum").Result);
                     bool getZypper = string.IsNullOrEmpty(client.RunCommand("command -v zypper").Result);
-                    //bool getPMT= string.IsNullOrEmpty(client.RunCommand("command -v apt-get").Result) && string.IsNullOrEmpty(client.RunCommand("command -v yum").Result) && string.IsNullOrEmpty(client.RunCommand("command -v zypper").Result);
                     bool getSystemd = string.IsNullOrEmpty(client.RunCommand("command -v systemctl").Result);
+
                     //没有安装apt-get，也没有安装yum，也没有安装zypper,或者没有安装systemd的，不满足安装条件
                     //也就是apt-get ，yum, zypper必须安装其中之一，且必须安装Systemd的系统才能安装。
                     if ((getApt && getYum && getZypper) || getSystemd)
@@ -437,15 +400,14 @@ namespace ProxySU
                     }
 
 
-                    //下载调用官方安装脚本安装
+                    //下载官方安装脚本安装
                
                     client.RunCommand("curl -o /tmp/go.sh https://install.direct/go.sh");
                     client.RunCommand("bash /tmp/go.sh");
                     client.RunCommand("mv /etc/v2ray/config.json /etc/v2ray/config.json.1");
 
-                    //client.RunCommand("echo 1111 >> test.json");
                     //上传配置文件
-                    //string uploadConfig = "config\\http_server.json";
+
                     currentStatus = "程序安装完毕，配置文件上传中......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(2000);
@@ -455,10 +417,7 @@ namespace ProxySU
                     currentStatus = "安装成功";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(2000);
-                    //MessageBox.Show("安装成功");
-                    //MessageBox.Show("ssh信息"+client.ConnectionInfo.ServerVersion.ToString());
 
-                    //MessageBox.Show(client);
                     client.Disconnect();
                     return;
                 }
@@ -502,8 +461,6 @@ namespace ProxySU
         //上传配置文件
         private void UploadConfig(ConnectionInfo connectionInfo,string uploadConfig)
         {
-                       
-            //v2rayConfig = "config\\http_server.json";
             try
             {
                 using (var sftpClient = new SftpClient(connectionInfo))
@@ -511,8 +468,7 @@ namespace ProxySU
                     sftpClient.Connect();
                     //MessageBox.Show("sftp信息1" + sftpClient.ConnectionInfo.ServerVersion.ToString());
                     sftpClient.UploadFile(File.OpenRead(uploadConfig), "/etc/v2ray/config.json", true);
-                    //sftpClient.DownloadFile("/root/id_rsa.pub", File.Create("config\\server_config.json"));
-                    MessageBox.Show("sftp信息" + sftpClient.ConnectionInfo.ServerVersion.ToString());
+                    //MessageBox.Show("sftp信息" + sftpClient.ConnectionInfo.ServerVersion.ToString());
                     sftpClient.Disconnect();
                 }
 
@@ -526,17 +482,15 @@ namespace ProxySU
         //下载配置文件
         private void DownloadConfig(ConnectionInfo connectionInfo, string downloadConfig)
         {
-
-            //v2rayConfig = "config\\http_server.json";
             try
             {
                 using (var sftpClient = new SftpClient(connectionInfo))
                 {
                     sftpClient.Connect();
                     //MessageBox.Show("sftp信息1" + sftpClient.ConnectionInfo.ServerVersion.ToString());
-                    //sftpClient.UploadFile(File.OpenRead(v2rayConfig), "/etc/v2ray/config.json", true);
+
                     sftpClient.DownloadFile("/etc/v2ray/config.json", File.Create(downloadConfig));
-                    MessageBox.Show("sftp信息" + sftpClient.ConnectionInfo.ServerVersion.ToString());
+                    //MessageBox.Show("sftp信息" + sftpClient.ConnectionInfo.ServerVersion.ToString());
                     sftpClient.Disconnect();
                 }
 
@@ -629,32 +583,41 @@ namespace ProxySU
 
         }
 
-        private void ButtonSetConfiguration_Click(object sender, RoutedEventArgs e)
+        private void ButtonTemplateConfiguration_Click(object sender, RoutedEventArgs e)
         {
-            if (RadioButtonGuideConfiguration.IsChecked == true)
-            {
-                MessageBox.Show("还未完善，敬请期待！");
-            }
-            else if (RadioButtonTemplateConfiguration.IsChecked == true)
-            {
-                var openFileDialog = new Microsoft.Win32.OpenFileDialog()
-                {
-                    Filter = "Cert Files (*.json)|*.json"
-                };
-                var result = openFileDialog.ShowDialog();
-                if (result == true)
-                {
-                    TextBoxJsonPath.Text = openFileDialog.FileName;
-                }
-            }
-            else
-            {
-                MessageBox.Show("还未完善，敬请期待！");
-            }
-            MessageBox.Show(TextBoxJsonPath.Text.ToString());
-            string appConfig = TextBoxJsonPath.Text.ToString().Replace("\\", "\\\\");
-            MessageBox.Show(appConfig);
+            WindowTemplateConfiguration windowTemplateConfiguration = new WindowTemplateConfiguration();
+
+            //windowTemplateConfiguration.Source = new Uri("Page1.xaml", UriKind.Relative);
+
+            windowTemplateConfiguration.ShowDialog();
         }
+
+        //private void ButtonSetConfiguration_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (RadioButtonGuideConfiguration.IsChecked == true)
+        //    {
+        //        MessageBox.Show("还未完善，敬请期待！");
+        //    }
+        //    else if (RadioButtonTemplateConfiguration.IsChecked == true)
+        //    {
+        //        var openFileDialog = new Microsoft.Win32.OpenFileDialog()
+        //        {
+        //            Filter = "Cert Files (*.json)|*.json"
+        //        };
+        //        var result = openFileDialog.ShowDialog();
+        //        if (result == true)
+        //        {
+        //            TextBoxJsonPath.Text = openFileDialog.FileName;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show("还未完善，敬请期待！");
+        //    }
+        //    //MessageBox.Show(TextBoxJsonPath.Text.ToString());
+        //    //string appConfig = TextBoxJsonPath.Text.ToString().Replace("\\", "\\\\");
+        //    //MessageBox.Show(appConfig);
+        //}
     }
     
 }
