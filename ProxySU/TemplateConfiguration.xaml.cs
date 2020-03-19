@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 namespace ProxySU
 {
     /// <summary>
-    /// Window1.xaml 的交互逻辑
+    /// WindowTemplateConfiguration.xaml 的交互逻辑
     /// </summary>
     public partial class WindowTemplateConfiguration : Window
     {
@@ -29,56 +29,79 @@ namespace ProxySU
 
             if (RadioButtonTCP.IsChecked == true)
             {
+                //传递模板类型
+                MainWindow.ReceiveConfigurationParameters[0] = "TCP";
 
             }
             else if (RadioButtonWebSocketTLS2Web.IsChecked == true)
             {
-
+                //传递模板类型
+                MainWindow.ReceiveConfigurationParameters[0] = "WebSocketTLS2Web";
+           
             }
             else if (RadioButtonTCPhttp.IsChecked == true)
             {
-
+                //传递模板类型
+                MainWindow.ReceiveConfigurationParameters[0] = "TCPhttp";
             }
             else if (RadioButtonMkcpNoCamouflage.IsChecked == true)
             {
-
+                //传递模板类型
+                MainWindow.ReceiveConfigurationParameters[0] = "MkcpNoCamouflage";
             }
             else if (RadioButton2mKCP2SRTP.IsChecked == true)
             {
-
+                //传递模板类型
+                MainWindow.ReceiveConfigurationParameters[0] = "mKCP2SRTP";
             }
             else if (RadioButton2mKCPuTP.IsChecked == true)
             {
-
+                //传递模板类型
+                MainWindow.ReceiveConfigurationParameters[0] = "mKCPuTP";
             }
             else if (RadioButton2mKCP2WechatVideo.IsChecked == true)
             {
-
+                //传递模板类型
+                MainWindow.ReceiveConfigurationParameters[0] = "mKCP2WechatVideo";
             }
             else if (RadioButton2mKCP2DTLS.IsChecked == true)
             {
-
+                //传递模板类型
+                MainWindow.ReceiveConfigurationParameters[0] = "mKCP2DTLS";
             }
             else if (RadioButton2mKCP2WireGuard.IsChecked == true)
             {
-
+                //传递模板类型
+                MainWindow.ReceiveConfigurationParameters[0] = "mKCP2WireGuard";
             }
             else if (RadioButtonHTTP2.IsChecked == true)
             {
-
+                //传递模板类型
+                MainWindow.ReceiveConfigurationParameters[0] = "HTTP2";
             }
             else if (RadioButtonTLS.IsChecked == true)
             {
-
+                //传递模板类型
+                MainWindow.ReceiveConfigurationParameters[0] = "TLS";
             }
             else
             {
-
+                //传递模板类型
+                MainWindow.ReceiveConfigurationParameters[0] = "TCP";
             }
+            //传递服务端口
+            MainWindow.ReceiveConfigurationParameters[1] = TextBoxServerListenPort.Text.ToString();
+            //传递uuid
+            MainWindow.ReceiveConfigurationParameters[2] = TextBoxNewUUID.Text.ToString();
+            //传递路径
+            MainWindow.ReceiveConfigurationParameters[3] = TextBoxPath.Text.ToString();
+            //传递域名
+            MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomain.Text.ToString();
+            this.Close();
         }
 
         private void ButtondCancel_Click(object sender, RoutedEventArgs e) => Close();
-
+        #region 其他设置中的界面控制
         private void RadioButtonTCP_Checked(object sender, RoutedEventArgs e)
         {
             TextBlockServerListenPort.Visibility = Visibility.Visible;
@@ -92,6 +115,9 @@ namespace ProxySU
             ButtonDomain.Visibility = Visibility.Collapsed;
             Guid uuid = Guid.NewGuid();
             TextBoxNewUUID.Text = uuid.ToString();
+            Random random = new Random();
+            int randomServerPort = random.Next(10000, 50000);
+            TextBoxServerListenPort.Text = randomServerPort.ToString();
         }
 
         private void RadioButtonHTTP2_Checked(object sender, RoutedEventArgs e)
@@ -102,6 +128,7 @@ namespace ProxySU
             ButtonServerListenPort.Visibility = Visibility.Visible;
             TextBlockPath.Visibility = Visibility.Visible;
             TextBoxPath.Visibility = Visibility.Visible;
+            TextBoxPath.Text = "/ray";
             ButtonPath.Visibility = Visibility.Visible;
             TextBlockDomain.Visibility = Visibility.Visible;
             TextBoxDomain.Visibility = Visibility.Visible;
@@ -109,11 +136,45 @@ namespace ProxySU
             Guid uuid = Guid.NewGuid();
             TextBoxNewUUID.Text = uuid.ToString();
         }
-
+        private void RadioButtonTCPhttp_Checked(object sender, RoutedEventArgs e)
+        {
+            TextBlockServerListenPort.Visibility = Visibility.Visible;
+            TextBoxServerListenPort.Visibility = Visibility.Visible;
+            ButtonServerListenPort.Visibility = Visibility.Visible;
+            TextBoxServerListenPort.Text = "80";
+            TextBlockPath.Visibility = Visibility.Collapsed;
+            TextBoxPath.Visibility = Visibility.Collapsed;
+            ButtonPath.Visibility = Visibility.Collapsed;
+            TextBlockDomain.Visibility = Visibility.Collapsed;
+            TextBoxDomain.Visibility = Visibility.Collapsed;
+            ButtonDomain.Visibility = Visibility.Collapsed;
+            Guid uuid = Guid.NewGuid();
+            TextBoxNewUUID.Text = uuid.ToString();
+        }
+        #endregion
+        //产生随机的uuid
         private void ButtonNewUUID_Click(object sender, RoutedEventArgs e)
         {
             Guid uuid = Guid.NewGuid();
             TextBoxNewUUID.Text = uuid.ToString();
+        }
+        //产生随机服务端口
+        private void ButtonServerListenPort_Click(object sender, RoutedEventArgs e)
+        {
+            Random random = new Random();
+            int randomServerPort = random.Next(10000, 50000);
+            TextBoxServerListenPort.Text = randomServerPort.ToString();
+        }
+        //产生随机的Path
+        private void ButtonPath_Click(object sender, RoutedEventArgs e)
+        {
+            Random random = new Random();
+            int randomSerialNum = random.Next(0, 4);
+            Guid uuid = Guid.NewGuid();
+            string[] pathArray = uuid.ToString().Split('-');
+            string path = pathArray[randomSerialNum];
+            TextBoxPath.Text = $"/{path}";
+            //MessageBox.Show(path);
         }
     }
 }

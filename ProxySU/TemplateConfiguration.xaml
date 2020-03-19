@@ -37,7 +37,7 @@
                 </Grid.RowDefinitions>
                 <RadioButton x:Name="RadioButtonTCP" Content="TCP" Grid.Column="0" Grid.Row="0" Checked="RadioButtonTCP_Checked"></RadioButton>
                 <TextBlock Text="TCP说明" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2"></TextBlock>
-                <RadioButton x:Name="RadioButtonTCPhttp" Content="TCP+Http伪装" Grid.Column="0" Grid.Row="1" Checked="RadioButtonTCP_Checked"></RadioButton>
+                <RadioButton x:Name="RadioButtonTCPhttp" Content="TCP+Http伪装" Grid.Column="0" Grid.Row="1" Checked="RadioButtonTCPhttp_Checked" ></RadioButton>
                 <TextBlock Text="TCP+Http伪装说明" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2"></TextBlock>
                 <RadioButton x:Name="RadioButtonMkcpNoCamouflage" Content="mKCP(无伪装)" Grid.Column="0" Grid.Row="2" Checked="RadioButtonTCP_Checked"></RadioButton>
                 <TextBlock Text="mkcp协议,不进行伪装，发送的数据是没有特征的数据包。" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2"></TextBlock>
@@ -79,7 +79,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock x:Name="TextBlockServerListenPort" Text="服务端口：" Grid.Column="0" Grid.Row="0"></TextBlock>
                 <TextBox x:Name="TextBoxServerListenPort" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Margin="5"></TextBox>
-                <Button x:Name="ButtonServerListenPort" Content="随机选择" Grid.Column="3" Grid.Row="0" Margin="5"></Button>
+                <Button x:Name="ButtonServerListenPort" Content="随机选择" Grid.Column="3" Grid.Row="0" Margin="5" Click="ButtonServerListenPort_Click"></Button>
                 <TextBlock x:Name="TextBlockNewUUID" Text="新建UUID：" Grid.Column="0" Grid.Row="1"></TextBlock>
                 <TextBox x:Name="TextBoxNewUUID" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="5"></TextBox>
                 <Button x:Name="ButtonNewUUID" Content="更新" Grid.Column="3" Grid.Row="1" Margin="5" Click="ButtonNewUUID_Click"></Button>
@@ -88,7 +88,7 @@
                 <Button x:Name="ButtonExistingUUID" Content="粘贴到框中" Grid.Column="3" Grid.Row="2" Margin="5"></Button>
                 <TextBlock x:Name="TextBlockPath" Text="路径：" Grid.Column="0" Grid.Row="3"></TextBlock>
                 <TextBox x:Name="TextBoxPath" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Margin="5"></TextBox>
-                <Button x:Name="ButtonPath" Content="随机" Grid.Column="3" Grid.Row="3" Margin="5"></Button>
+                <Button x:Name="ButtonPath" Content="随机" Grid.Column="3" Grid.Row="3" Margin="5" Click="ButtonPath_Click"></Button>
                 <TextBlock x:Name="TextBlockDomain" Text="域名：" Grid.Column="0" Grid.Row="4"></TextBlock>
                 <TextBox x:Name="TextBoxDomain" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" Margin="5"></TextBox>
                 <Button x:Name="ButtonDomain" Content="检测" Grid.Column="3" Grid.Row="4" Margin="5"></Button>

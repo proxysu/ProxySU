@@ -98,7 +98,11 @@
                         <Button x:Name="ButtonSetConfiguration" Margin="6" Content="配置" Grid.Column="2" Grid.Row="2" Click="ButtonSetConfiguration_Click"></Button>-->
                     </Grid>
                 </TabItem>
-                <TabItem Header="BBR设置" Width="150" Height="30"></TabItem>
+                <TabItem Header="BBR设置" Width="150" Height="30">
+                    <Grid>
+                        <Button Content="测试接收到的模参数" Margin="50" Click="Button_Click"></Button>
+                    </Grid>
+                </TabItem>
             </TabControl>
             
 

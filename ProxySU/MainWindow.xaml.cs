@@ -24,14 +24,14 @@ namespace ProxySU
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static string[] ReceiveConfigurationParameters { get; set; }
         public MainWindow()
         {
             InitializeComponent();
             RadioButtonPasswordLogin.IsChecked = true;
             RadioButtonNoProxy.IsChecked = true;
             RadioButtonProxyNoLogin.IsChecked = true;
-            //GuideConfiguration.IsChecked = true;
-            //RadioButtonTemplateConfiguration.IsChecked = true;
+            ReceiveConfigurationParameters = new string[5];
         }
         //System.Diagnostics.Process exitProgram = System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id);
         private void Button_Login_Click(object sender, RoutedEventArgs e)
@@ -590,6 +590,14 @@ namespace ProxySU
             //windowTemplateConfiguration.Source = new Uri("Page1.xaml", UriKind.Relative);
 
             windowTemplateConfiguration.ShowDialog();
+        }
+        //测试接收到的模板参数
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (string num in ReceiveConfigurationParameters)
+            {
+                MessageBox.Show(num);
+            }
         }
 
         //private void ButtonSetConfiguration_Click(object sender, RoutedEventArgs e)
