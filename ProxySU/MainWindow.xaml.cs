@@ -455,10 +455,18 @@ namespace ProxySU
 
                     //下载官方安装脚本安装
 
-                    //client.RunCommand("curl -o /tmp/go.sh https://install.direct/go.sh");
-                    //client.RunCommand("bash /tmp/go.sh");
-                    //client.RunCommand("mv /etc/v2ray/config.json /etc/v2ray/config.json.1");
-                    client.RunCommand("mkdir /etc/v2ray");
+                    client.RunCommand("curl -o /tmp/go.sh https://install.direct/go.sh");
+                    string installResult= client.RunCommand("bash /tmp/go.sh").ToString();
+                    client.RunCommand("mv /etc/v2ray/config.json /etc/v2ray/config.json.1");
+                    if (!installResult.Contains("installed"))
+                    {
+                        MessageBox.Show("安装V2ray失败(官方脚本go.sh运行出错！)");
+                        client.Disconnect();
+                        currentStatus = "安装V2ray失败(官方脚本go.sh运行出错！)";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        return;
+                    }
+                    //client.RunCommand("mkdir /etc/v2ray");
                     //上传配置文件
 
                     currentStatus = "程序安装完毕，配置文件上传中......";
