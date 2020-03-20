@@ -388,12 +388,12 @@ namespace ProxySU
                     {
                         currentStatus = "主机登录成功";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                        Thread.Sleep(2000);
+                        Thread.Sleep(1000);
                     }
                     //检测远程主机系统环境是否符合要求
                     currentStatus = "检测系统是否符合安装要求......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                    Thread.Sleep(2000);
+                    Thread.Sleep(1000);
 
                     var result = client.RunCommand("uname -r");
                     //var result = client.RunCommand("cat /root/test.ver");
@@ -405,7 +405,7 @@ namespace ProxySU
                         MessageBox.Show($"当前系统内核版本为{linuxKernelVerStr[0]}，V2ray要求内核为2.6.23及以上。请升级内核再安装！");
                         currentStatus = "系统内核版本不符合要求，安装失败！！";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                        Thread.Sleep(2000);               
+                        Thread.Sleep(1000);               
                     }
 
                     //检测系统是否支持yum 或 apt-get或zypper，且支持Systemd
@@ -422,14 +422,14 @@ namespace ProxySU
                         MessageBox.Show($"系统缺乏必要的安装组件如:apt-get||yum||zypper||Syetemd，主机系统推荐使用：CentOS 7/8,Debian 8/9/10,Ubuntu 16.04及以上版本");
                         currentStatus = "系统环境不满足要求，安装失败！！";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                        Thread.Sleep(2000);
+                        Thread.Sleep(1000);
                         return;
                     }
                     else
                     {
                         currentStatus = "符合安装要求,布署中......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                        Thread.Sleep(2000);
+                        //Thread.Sleep(2000);
                     }
                     //在相应系统内安装curl(如果没有安装curl)
                     if (string.IsNullOrEmpty(client.RunCommand("command -v curl").Result) == true)
@@ -454,18 +454,22 @@ namespace ProxySU
 
 
                     //下载官方安装脚本安装
-
+                    //string installResult =client.RunCommand("echo 999999").Result.ToString();
                     client.RunCommand("curl -o /tmp/go.sh https://install.direct/go.sh");
-                    string installResult= client.RunCommand("bash /tmp/go.sh").ToString();
-                    client.RunCommand("mv /etc/v2ray/config.json /etc/v2ray/config.json.1");
-                    if (!installResult.Contains("installed"))
+                    client.RunCommand("bash /tmp/go.sh");
+                    string installResult = client.RunCommand("find / -name v2ray").Result.ToString();
+                    //string installResult = client.RunCommand("bash /tmp/go.sh").Result;
+                    //installResult = installResult.Substring(0, installResult.Length - 1);
+                    MessageBox.Show(installResult);
+                    if (!installResult.Contains("/usr/bin/v2ray"))
                     {
-                        MessageBox.Show("安装V2ray失败(官方脚本go.sh运行出错！)");
+                        MessageBox.Show("安装V2ray失败(官方脚本go.sh运行出错！");
                         client.Disconnect();
-                        currentStatus = "安装V2ray失败(官方脚本go.sh运行出错！)";
+                        currentStatus = "安装V2ray失败(官方脚本go.sh运行出错！";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         return;
                     }
+                    client.RunCommand("mv /etc/v2ray/config.json /etc/v2ray/config.json.1");
                     //client.RunCommand("mkdir /etc/v2ray");
                     //上传配置文件
 
