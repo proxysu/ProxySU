@@ -30,12 +30,12 @@
             </Grid.RowDefinitions>
             <TextBlock Text="主机名" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5" Grid.Column="0" Grid.Row="0"></TextBlock>
             <TextBlock Text="端口" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5" Grid.Column="2" Grid.Row="0"></TextBlock>
-            <TextBox x:Name="TextBoxHost" Text="" Margin="5" Grid.Column="1" Grid.Row="0"></TextBox>
+            <TextBox x:Name="TextBoxHost" Text="192.168.200.200" Margin="5" Grid.Column="1" Grid.Row="0"></TextBox>
             <TextBox x:Name="TextBoxPort" CommandManager.PreviewExecuted="TextBoxPort_PreviewExecuted" Text="22" Margin="5" Grid.Column="3" Grid.Row="0" PreviewTextInput="TextBoxPort_PreviewTextInput"/>
             <TextBlock Text="用户名：" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5" Grid.Column="0" Grid.Row="1"></TextBlock>
             <TextBlock x:Name="TextBlockPassword" Text="密码：" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5" Grid.Column="2" Grid.Row="1"></TextBlock>
             <TextBox x:Name="TextBoxUserName" Text="root" Margin="5" Grid.Column="1" Grid.Row="1"></TextBox>
-            <PasswordBox x:Name="PasswordBoxHostPassword" Password=""  Margin="5" Grid.Column="3" Grid.Row="1"></PasswordBox>
+            <PasswordBox x:Name="PasswordBoxHostPassword" Password="Tianlong71605"  Margin="5" Grid.Column="3" Grid.Row="1"></PasswordBox>
             <RadioButton x:Name="RadioButtonPasswordLogin" GroupName="CertIsYesNo" Content="密码登录" Grid.Column="0" Grid.Row="2" Checked="RadioButtonPasswordLogin_Checked"></RadioButton>
             <RadioButton x:Name="RadioButtonCertLogin" GroupName="CertIsYesNo" Content="密钥登录" Grid.Column="1" Grid.Row="2" Checked="RadioButtonCertLogin_Checked"></RadioButton>
             <Button x:Name="ButtonOpenFileDialog" Content="浏览..." Margin="8" Grid.Column="2" Grid.Row="2" Click="ButtonOpenFileDialog_Click"></Button>
@@ -52,9 +52,10 @@
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <RadioButton x:Name="RadioButtonNoProxy" GroupName="ProxyIsYesNo"  Content="无代理" Grid.Column="0" Grid.Row="0"  Checked="RadioButtonNoProxy_Checked" Unchecked="RadioButtonNoProxy_Unchecked"/>
-                <RadioButton x:Name="RadioButtonHttp" GroupName="ProxyIsYesNo" Content="Http" Grid.Column="1" Grid.Row="0"/>
-                <RadioButton x:Name="RadioButtonSocks4" GroupName="ProxyIsYesNo" Content="Socks4" Grid.Column="2" Grid.Row="0" />
-                <RadioButton x:Name="RadioButtonSocks5" GroupName="ProxyIsYesNo" Content="Socks5" Grid.Column="3" Grid.Row="0"/>
+                <RadioButton x:Name="RadioButtonHttp" GroupName="ProxyIsYesNo" Content="Http代理" Grid.Column="1" Grid.Row="0"/>
+               
+                <RadioButton x:Name="RadioButtonSocks5" GroupName="ProxyIsYesNo" Content="Socks5代理" Grid.Column="2" Grid.Row="0"/>
+                <RadioButton x:Name="RadioButtonSocks4" GroupName="ProxyIsYesNo" Content="Socks4代理" Grid.Column="3" Grid.Row="0" />
             </Grid>
             
             <TextBlock x:Name="TextBlockProxyHost" IsEnabled="False" Text="代理地址" HorizontalAlignment="Left" Margin="5,10,0,5" Grid.Column="0" Grid.Row="4"/>

@@ -47,32 +47,38 @@ namespace ProxySU
             else if (RadioButtonMkcpNoCamouflage.IsChecked == true)
             {
                 //传递模板类型
-                MainWindow.ReceiveConfigurationParameters[0] = "MkcpNoCamouflage";
+                MainWindow.ReceiveConfigurationParameters[0] = "MkcpNone";
+                MainWindow.ReceiveConfigurationParameters[5] = "none";
             }
             else if (RadioButton2mKCP2SRTP.IsChecked == true)
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCP2SRTP";
+                MainWindow.ReceiveConfigurationParameters[5] = "srtp";
             }
             else if (RadioButton2mKCPuTP.IsChecked == true)
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCPuTP";
+                MainWindow.ReceiveConfigurationParameters[5] = "utp";
             }
             else if (RadioButton2mKCP2WechatVideo.IsChecked == true)
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCP2WechatVideo";
+                MainWindow.ReceiveConfigurationParameters[5] = "wechat-video";
             }
             else if (RadioButton2mKCP2DTLS.IsChecked == true)
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCP2DTLS";
+                MainWindow.ReceiveConfigurationParameters[5] = "dtls";
             }
             else if (RadioButton2mKCP2WireGuard.IsChecked == true)
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCP2WireGuard";
+                MainWindow.ReceiveConfigurationParameters[5] = "wireguard";
             }
             else if (RadioButtonHTTP2.IsChecked == true)
             {

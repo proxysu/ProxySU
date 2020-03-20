@@ -25,14 +25,23 @@ namespace ProxySU
     public partial class MainWindow : Window
     {
         public static string[] ReceiveConfigurationParameters { get; set; }
+        //ReceiveConfigurationParameters[0]----模板类型
+        //ReceiveConfigurationParameters[1]----服务端口
+        //ReceiveConfigurationParameters[2]----uuid
+        //ReceiveConfigurationParameters[3]----path
+        //ReceiveConfigurationParameters[4]----domain
+        //ReceiveConfigurationParameters[5]----mKCP伪装类型
         public MainWindow()
         {
             InitializeComponent();
             RadioButtonPasswordLogin.IsChecked = true;
             RadioButtonNoProxy.IsChecked = true;
             RadioButtonProxyNoLogin.IsChecked = true;
-            ReceiveConfigurationParameters = new string[5];
+            RadioButtonSocks4.Visibility = Visibility.Collapsed;
+            ReceiveConfigurationParameters = new string[6];
+                       
         }
+        //开始布署安装
         //System.Diagnostics.Process exitProgram = System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id);
         private void Button_Login_Click(object sender, RoutedEventArgs e)
 
@@ -140,7 +149,51 @@ namespace ProxySU
             //using (var client = new SshClient(sshHostName, sshPort, sshUser, sshPassword))
             //Action<ConnectionInfo, TextBlock> startSetUpAction = new Action<ConnectionInfo, TextBlock>(StartSetUpRemoteHost);
             //string appConfig = TextBoxJsonPath.Text.ToString().Replace("\\","\\\\");
-            string appConfig = ("");
+            //读取模板配置
+            //sed -i 's/PermitRootLogin no/PermitRootLogin yes/' /etc/v2ray/config.json
+            string appConfig="";
+            if (String.IsNullOrEmpty(ReceiveConfigurationParameters[0]) == true)
+            {
+                MessageBox.Show("请先选择配置模板！");
+                return;
+            }
+            else if (String.Equals(ReceiveConfigurationParameters[0], "TCP"))
+            {
+                //File.Copy("TemplateConfg\\tcp_server_config.json", "ConfigUpload\\tcp_server_config.json", true);
+
+                appConfig = "TemplateConfg\\tcp_server_config.json";
+            }
+            else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web"))
+            {
+                //File.Copy("TemplateConfg\\tcp_server_config.json", "ConfigUpload\\tcp_server_config.json", true);
+
+                appConfig = "TemplateConfg\\WebSocketTLSWeb_server_config.json";
+            }
+            else if (String.Equals(ReceiveConfigurationParameters[0], "TCPhttp"))
+            {
+                //File.Copy("TemplateConfg\\tcp_server_config.json", "ConfigUpload\\tcp_server_config.json", true);
+
+                appConfig = "TemplateConfg\\tcp_http_server_config.json";
+            }
+            else if (String.Equals(ReceiveConfigurationParameters[0], "MkcpNone")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2SRTP")||String.Equals(ReceiveConfigurationParameters[0], "mKCPuTP")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WechatVideo")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2DTLS")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WireGuard"))
+            {
+                //File.Copy("TemplateConfg\\tcp_server_config.json", "ConfigUpload\\tcp_server_config.json", true);
+
+                appConfig = "TemplateConfg\\mkcp_server_config.json";
+            }
+           
+            else if (String.Equals(ReceiveConfigurationParameters[0], "HTTP2"))
+            {
+                //File.Copy("TemplateConfg\\tcp_server_config.json", "ConfigUpload\\tcp_server_config.json", true);
+
+                appConfig = "TemplateConfg\\HTTP2_server_config.json";
+            }
+            else if (String.Equals(ReceiveConfigurationParameters[0], "TLS"))
+            {
+                //File.Copy("TemplateConfg\\tcp_server_config.json", "ConfigUpload\\tcp_server_config.json", true);
+
+                appConfig = "TemplateConfg\\TLS_server_config.json";
+            }
             Task task = new Task(() => StartSetUpRemoteHost(connectionInfo, TextBlockSetUpProcessing, ProgressBarSetUpProcessing, appConfig));
             task.Start();
         }
@@ -401,18 +454,22 @@ namespace ProxySU
 
 
                     //下载官方安装脚本安装
-               
-                    client.RunCommand("curl -o /tmp/go.sh https://install.direct/go.sh");
-                    client.RunCommand("bash /tmp/go.sh");
-                    client.RunCommand("mv /etc/v2ray/config.json /etc/v2ray/config.json.1");
 
+                    //client.RunCommand("curl -o /tmp/go.sh https://install.direct/go.sh");
+                    //client.RunCommand("bash /tmp/go.sh");
+                    //client.RunCommand("mv /etc/v2ray/config.json /etc/v2ray/config.json.1");
+                    client.RunCommand("mkdir /etc/v2ray");
                     //上传配置文件
 
                     currentStatus = "程序安装完毕，配置文件上传中......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(2000);
                     UploadConfig(connectionInfo, appConfig);
-
+                    client.RunCommand("sed -i 's/##port##/" + ReceiveConfigurationParameters[1] + "/' /etc/v2ray/config.json");
+                    client.RunCommand("sed -i 's/##uuid##/"+ ReceiveConfigurationParameters[2] + "/' /etc/v2ray/config.json");
+                    client.RunCommand("sed -i 's/##path##/" + ReceiveConfigurationParameters[3] + "/' /etc/v2ray/config.json");
+                    //client.RunCommand("sed -i 's/##domain##/" + ReceiveConfigurationParameters[4] + "/' /etc/v2ray/config.json");
+                    client.RunCommand("sed -i 's/##mkcpHeaderType##/" + ReceiveConfigurationParameters[5] + "/' /etc/v2ray/config.json");
 
                     currentStatus = "安装成功";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -467,6 +524,7 @@ namespace ProxySU
                 {
                     sftpClient.Connect();
                     //MessageBox.Show("sftp信息1" + sftpClient.ConnectionInfo.ServerVersion.ToString());
+                    //sftpClient.UploadFile(File.OpenRead("TemplateConfg\tcp_server_config.json"), "/etc/v2ray/config.json", true);
                     sftpClient.UploadFile(File.OpenRead(uploadConfig), "/etc/v2ray/config.json", true);
                     //MessageBox.Show("sftp信息" + sftpClient.ConnectionInfo.ServerVersion.ToString());
                     sftpClient.Disconnect();
@@ -600,32 +658,6 @@ namespace ProxySU
             }
         }
 
-        //private void ButtonSetConfiguration_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (RadioButtonGuideConfiguration.IsChecked == true)
-        //    {
-        //        MessageBox.Show("还未完善，敬请期待！");
-        //    }
-        //    else if (RadioButtonTemplateConfiguration.IsChecked == true)
-        //    {
-        //        var openFileDialog = new Microsoft.Win32.OpenFileDialog()
-        //        {
-        //            Filter = "Cert Files (*.json)|*.json"
-        //        };
-        //        var result = openFileDialog.ShowDialog();
-        //        if (result == true)
-        //        {
-        //            TextBoxJsonPath.Text = openFileDialog.FileName;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("还未完善，敬请期待！");
-        //    }
-        //    //MessageBox.Show(TextBoxJsonPath.Text.ToString());
-        //    //string appConfig = TextBoxJsonPath.Text.ToString().Replace("\\", "\\\\");
-        //    //MessageBox.Show(appConfig);
-        //}
     }
     
 }

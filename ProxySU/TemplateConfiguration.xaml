@@ -33,7 +33,6 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <RadioButton x:Name="RadioButtonTCP" Content="TCP" Grid.Column="0" Grid.Row="0" Checked="RadioButtonTCP_Checked"></RadioButton>
                 <TextBlock Text="TCP说明" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2"></TextBlock>

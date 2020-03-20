@@ -1,0 +1,9 @@
+##domain## {
+  root /var/www
+  tls ##email##
+  proxy / ##sites##
+  proxy ##path## localhost:10000 {
+    websocket
+    header_upstream -Origin
+  }
+}
