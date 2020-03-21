@@ -151,7 +151,15 @@ namespace ProxySU
             //string appConfig = TextBoxJsonPath.Text.ToString().Replace("\\","\\\\");
             //读取模板配置
             //sed -i 's/PermitRootLogin no/PermitRootLogin yes/' /etc/v2ray/config.json
-            string appConfig="";
+            string appConfig="";  //服务端配置文件
+            string clientConfig = "";   //生成的客户端配置文件
+            string upLoadPath = "/etc/v2ray/config.json"; //服务端文件位置
+            //生成客户端配置时，连接的服务主机的IP或者域名
+            if (String.IsNullOrEmpty(ReceiveConfigurationParameters[4])==true)
+            {
+                ReceiveConfigurationParameters[4] = TextBoxHost.Text.ToString();
+            }
+
             if (String.IsNullOrEmpty(ReceiveConfigurationParameters[0]) == true)
             {
                 MessageBox.Show("请先选择配置模板！");
@@ -162,24 +170,28 @@ namespace ProxySU
                 //File.Copy("TemplateConfg\\tcp_server_config.json", "ConfigUpload\\tcp_server_config.json", true);
 
                 appConfig = "TemplateConfg\\tcp_server_config.json";
+                clientConfig = "TemplateConfg\\tcp_client_config.json";
             }
             else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web"))
             {
                 //File.Copy("TemplateConfg\\tcp_server_config.json", "ConfigUpload\\tcp_server_config.json", true);
 
                 appConfig = "TemplateConfg\\WebSocketTLSWeb_server_config.json";
+                clientConfig = "TemplateConfg\\WebSocketTLSWeb_client_config.json";
             }
             else if (String.Equals(ReceiveConfigurationParameters[0], "TCPhttp"))
             {
                 //File.Copy("TemplateConfg\\tcp_server_config.json", "ConfigUpload\\tcp_server_config.json", true);
 
                 appConfig = "TemplateConfg\\tcp_http_server_config.json";
+                clientConfig = "TemplateConfg\\tcp_http_client_config.json";
             }
             else if (String.Equals(ReceiveConfigurationParameters[0], "MkcpNone")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2SRTP")||String.Equals(ReceiveConfigurationParameters[0], "mKCPuTP")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WechatVideo")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2DTLS")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WireGuard"))
             {
                 //File.Copy("TemplateConfg\\tcp_server_config.json", "ConfigUpload\\tcp_server_config.json", true);
 
                 appConfig = "TemplateConfg\\mkcp_server_config.json";
+                clientConfig = "TemplateConfg\\mkcp_client_config.json";
             }
            
             else if (String.Equals(ReceiveConfigurationParameters[0], "HTTP2"))
@@ -187,14 +199,16 @@ namespace ProxySU
                 //File.Copy("TemplateConfg\\tcp_server_config.json", "ConfigUpload\\tcp_server_config.json", true);
 
                 appConfig = "TemplateConfg\\HTTP2_server_config.json";
+                clientConfig = "TemplateConfg\\tcp_client_config.json";
             }
             else if (String.Equals(ReceiveConfigurationParameters[0], "TLS"))
             {
                 //File.Copy("TemplateConfg\\tcp_server_config.json", "ConfigUpload\\tcp_server_config.json", true);
 
                 appConfig = "TemplateConfg\\TLS_server_config.json";
+                clientConfig = "TemplateConfg\\tcp_client_config.json";
             }
-            Task task = new Task(() => StartSetUpRemoteHost(connectionInfo, TextBlockSetUpProcessing, ProgressBarSetUpProcessing, appConfig));
+            Task task = new Task(() => StartSetUpRemoteHost(connectionInfo, TextBlockSetUpProcessing, ProgressBarSetUpProcessing, appConfig, clientConfig, upLoadPath));
             task.Start();
         }
 
@@ -345,7 +359,7 @@ namespace ProxySU
         #endregion
 
         //登录远程主机布署程序
-        private void StartSetUpRemoteHost(ConnectionInfo connectionInfo,TextBlock textBlockName, ProgressBar progressBar, string appConfig)
+        private void StartSetUpRemoteHost(ConnectionInfo connectionInfo,TextBlock textBlockName, ProgressBar progressBar, string appConfig,string clientConfig,string upLoadPath)
         {
             string currentStatus = "正在登录远程主机......";
             Action<TextBlock, ProgressBar, string> updateAction = new Action<TextBlock, ProgressBar, string>(UpdateTextBlock);
@@ -460,7 +474,7 @@ namespace ProxySU
                     string installResult = client.RunCommand("find / -name v2ray").Result.ToString();
                     //string installResult = client.RunCommand("bash /tmp/go.sh").Result;
                     //installResult = installResult.Substring(0, installResult.Length - 1);
-                    MessageBox.Show(installResult);
+                    //MessageBox.Show(installResult);
                     if (!installResult.Contains("/usr/bin/v2ray"))
                     {
                         MessageBox.Show("安装V2ray失败(官方脚本go.sh运行出错！");
@@ -475,19 +489,33 @@ namespace ProxySU
 
                     currentStatus = "程序安装完毕，配置文件上传中......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                    Thread.Sleep(2000);
-                    UploadConfig(connectionInfo, appConfig);
-                    client.RunCommand("sed -i 's/##port##/" + ReceiveConfigurationParameters[1] + "/' /etc/v2ray/config.json");
-                    client.RunCommand("sed -i 's/##uuid##/"+ ReceiveConfigurationParameters[2] + "/' /etc/v2ray/config.json");
-                    client.RunCommand("sed -i 's/##path##/" + ReceiveConfigurationParameters[3] + "/' /etc/v2ray/config.json");
-                    //client.RunCommand("sed -i 's/##domain##/" + ReceiveConfigurationParameters[4] + "/' /etc/v2ray/config.json");
-                    client.RunCommand("sed -i 's/##mkcpHeaderType##/" + ReceiveConfigurationParameters[5] + "/' /etc/v2ray/config.json");
+                    Thread.Sleep(1000);
+                    UploadConfig(connectionInfo, appConfig, upLoadPath);
+                    client.RunCommand("sed -i 's/##port##/" + ReceiveConfigurationParameters[1] + "/' " + upLoadPath);
+                    client.RunCommand("sed -i 's/##uuid##/" + ReceiveConfigurationParameters[2] + "/' " + upLoadPath);
+                    client.RunCommand("sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath);
+                    //client.RunCommand("sed -i 's/##domain##/" + ReceiveConfigurationParameters[4] + "/' " + upLoadPath);
+                    client.RunCommand("sed -i 's/##mkcpHeaderType##/" + ReceiveConfigurationParameters[5] + "/' " + upLoadPath);
+
+                    //生成客户端配置
+                    currentStatus = "生成客户端配置......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+                    upLoadPath = "/tmp/config.json";
+                    UploadConfig(connectionInfo, clientConfig, upLoadPath);
+                    
+                    client.RunCommand("sed -i 's/##port##/" + ReceiveConfigurationParameters[1] + "/' "+ upLoadPath);
+                    client.RunCommand("sed -i 's/##uuid##/" + ReceiveConfigurationParameters[2] + "/' " + upLoadPath);
+                    client.RunCommand("sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath);
+                    client.RunCommand("sed -i 's/##domain##/" + ReceiveConfigurationParameters[4] + "/' " + upLoadPath);
+                    client.RunCommand("sed -i 's/##mkcpHeaderType##/" + ReceiveConfigurationParameters[5] + "/' " + upLoadPath);
+                    DownloadConfig(connectionInfo, "config\\config.json", upLoadPath);
+                    client.Disconnect();
+                    MessageBox.Show("客户端配置文件已保存在config文件夹中");
 
                     currentStatus = "安装成功";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                    Thread.Sleep(2000);
-
-                    client.Disconnect();
+                    Thread.Sleep(1000);
                     return;
                 }
             }
@@ -528,7 +556,7 @@ namespace ProxySU
 
         }
         //上传配置文件
-        private void UploadConfig(ConnectionInfo connectionInfo,string uploadConfig)
+        private void UploadConfig(ConnectionInfo connectionInfo,string uploadConfig,string upLoadPath)
         {
             try
             {
@@ -537,7 +565,7 @@ namespace ProxySU
                     sftpClient.Connect();
                     //MessageBox.Show("sftp信息1" + sftpClient.ConnectionInfo.ServerVersion.ToString());
                     //sftpClient.UploadFile(File.OpenRead("TemplateConfg\tcp_server_config.json"), "/etc/v2ray/config.json", true);
-                    sftpClient.UploadFile(File.OpenRead(uploadConfig), "/etc/v2ray/config.json", true);
+                    sftpClient.UploadFile(File.OpenRead(uploadConfig), upLoadPath, true);
                     //MessageBox.Show("sftp信息" + sftpClient.ConnectionInfo.ServerVersion.ToString());
                     sftpClient.Disconnect();
                 }
@@ -550,7 +578,7 @@ namespace ProxySU
             }
         }
         //下载配置文件
-        private void DownloadConfig(ConnectionInfo connectionInfo, string downloadConfig)
+        private void DownloadConfig(ConnectionInfo connectionInfo, string downloadConfig,string downloadPath)
         {
             try
             {
@@ -559,7 +587,7 @@ namespace ProxySU
                     sftpClient.Connect();
                     //MessageBox.Show("sftp信息1" + sftpClient.ConnectionInfo.ServerVersion.ToString());
 
-                    sftpClient.DownloadFile("/etc/v2ray/config.json", File.Create(downloadConfig));
+                    sftpClient.DownloadFile(downloadPath, File.Open(downloadConfig,FileMode.Create));
                     //MessageBox.Show("sftp信息" + sftpClient.ConnectionInfo.ServerVersion.ToString());
                     sftpClient.Disconnect();
                 }
