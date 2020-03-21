@@ -511,11 +511,15 @@ namespace ProxySU
                     client.RunCommand("sed -i 's/##mkcpHeaderType##/" + ReceiveConfigurationParameters[5] + "/' " + upLoadPath);
                     DownloadConfig(connectionInfo, "config\\config.json", upLoadPath);
                     client.Disconnect();
-                    MessageBox.Show("客户端配置文件已保存在config文件夹中");
 
                     currentStatus = "安装成功";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
+
+                    //MessageBox.Show("客户端配置文件已保存在config文件夹中");
+                    ResultClientInformation resultClientInformation = new ResultClientInformation();
+                    resultClientInformation.ShowDialog();
+                    
                     return;
                 }
             }
@@ -681,6 +685,7 @@ namespace ProxySU
 
         }
 
+        //打开模板设置窗口
         private void ButtonTemplateConfiguration_Click(object sender, RoutedEventArgs e)
         {
             WindowTemplateConfiguration windowTemplateConfiguration = new WindowTemplateConfiguration();
@@ -698,6 +703,11 @@ namespace ProxySU
             }
         }
 
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            ResultClientInformation resultClientInformation = new ResultClientInformation();
+            resultClientInformation.ShowDialog();
+        }
     }
     
 }

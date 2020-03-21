@@ -101,7 +101,16 @@
                 </TabItem>
                 <TabItem Header="BBR设置" Width="150" Height="30">
                     <Grid>
-                        <Button Content="测试接收到的模参数" Margin="50" Click="Button_Click"></Button>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Button Content="测试接收到的模参数" Grid.Column="0" Grid.Row="0" Margin="10" Click="Button_Click"></Button>
+                        <Button Content="测试结果窗口" Grid.Column="0" Grid.Row="1" Margin="10" Click="Button_Click_1"></Button>
                     </Grid>
                 </TabItem>
             </TabControl>
