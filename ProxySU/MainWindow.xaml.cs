@@ -39,7 +39,9 @@ namespace ProxySU
             RadioButtonProxyNoLogin.IsChecked = true;
             RadioButtonSocks4.Visibility = Visibility.Collapsed;
             ReceiveConfigurationParameters = new string[6];
-                       
+            //ReceiveConfigurationParameters[4] = "domaintext";
+
+
         }
         //开始布署安装
         //System.Diagnostics.Process exitProgram = System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id);
@@ -208,8 +210,13 @@ namespace ProxySU
                 appConfig = "TemplateConfg\\TLS_server_config.json";
                 clientConfig = "TemplateConfg\\tcp_client_config.json";
             }
-            Task task = new Task(() => StartSetUpRemoteHost(connectionInfo, TextBlockSetUpProcessing, ProgressBarSetUpProcessing, appConfig, clientConfig, upLoadPath));
-            task.Start();
+            //Thread thread
+            Thread thread = new Thread(() => StartSetUpRemoteHost(connectionInfo, TextBlockSetUpProcessing, ProgressBarSetUpProcessing, appConfig, clientConfig, upLoadPath));
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+            // Task task = new Task(() => StartSetUpRemoteHost(connectionInfo, TextBlockSetUpProcessing, ProgressBarSetUpProcessing, appConfig, clientConfig, upLoadPath));
+            //task.Start();
+            
         }
 
         #region 端口数字防错代码，密钥选择代码
@@ -516,10 +523,11 @@ namespace ProxySU
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
 
-                    //MessageBox.Show("客户端配置文件已保存在config文件夹中");
+                    //显示服务端连接参数
+                    //MessageBox.Show("用于V2ray官方客户端的配置文件已保存在config文件夹中");
                     ResultClientInformation resultClientInformation = new ResultClientInformation();
                     resultClientInformation.ShowDialog();
-                    
+
                     return;
                 }
             }

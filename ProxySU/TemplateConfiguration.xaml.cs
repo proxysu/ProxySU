@@ -43,6 +43,7 @@ namespace ProxySU
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "TCPhttp";
+                MainWindow.ReceiveConfigurationParameters[5] = "http";
             }
             else if (RadioButtonMkcpNoCamouflage.IsChecked == true)
             {
