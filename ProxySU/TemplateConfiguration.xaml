@@ -49,13 +49,14 @@
                 <RadioButton x:Name="RadioButton2mKCP2DTLS" Content="mKCP+DTLS 1.2" Grid.Column="0" Grid.Row="6" Checked="RadioButtonTCP_Checked"></RadioButton>
                 <TextBlock Text="伪装成 DTLS 1.2 数据包" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="2"></TextBlock>
                 <RadioButton x:Name="RadioButton2mKCP2WireGuard" Content="mKCP+WireGuard" Grid.Column="0" Grid.Row="7" Checked="RadioButtonTCP_Checked"></RadioButton>
-                <TextBlock Text="伪装成 WireGuard 数据包。(并不是真正的 WireGuard 协议)" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="2"></TextBlock>
-                <RadioButton x:Name="RadioButtonHTTP2" Content="HTTP/2" Grid.Column="0" Grid.Row="8" Checked="RadioButtonHTTP2_Checked"></RadioButton>
-                <TextBlock Text="基于 HTTP/2 的传输方式。它完整按照 HTTP/2 标准实现" Grid.Column="1" Grid.Row="8" Grid.ColumnSpan="2"></TextBlock>
-                <RadioButton x:Name="RadioButtonTLS" Content="TLS" Grid.Column="0" Grid.Row="9" Checked="RadioButtonHTTP2_Checked"></RadioButton>
-                <TextBlock Text="使用TLS加密数据流" Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2"></TextBlock>
-                <RadioButton x:Name="RadioButtonWebSocketTLS2Web" Content="WebSocket+TLS+Web" Grid.Column="0" Grid.Row="10" Checked="RadioButtonHTTP2_Checked"></RadioButton>
-                <TextBlock Text="目前是稳定性最好的，使用Caddy做网站前置，https数据流，不易被识别出流量特征" Grid.Column="1" Grid.Row="10" Grid.ColumnSpan="2"></TextBlock>
+                <TextBlock Text="伪装成 WireGuard 数据包。(并不是真正的 WireGuard 协议)" TextWrapping="Wrap" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="2"></TextBlock>
+                <RadioButton x:Name="RadioButtonWebSocketTLS2Web" Content="WebSocket+TLS+Web" Grid.Column="0" Grid.Row="8" Checked="RadioButtonHTTP2_Checked"></RadioButton>
+                <TextBlock Text="目前是稳定性最好的，使用Caddy做网站前置，https数据流，不易被识别出流量特征" TextWrapping="Wrap" Grid.Column="1" Grid.Row="8" Grid.ColumnSpan="2"></TextBlock>
+                <RadioButton x:Name="RadioButtonHTTP2" Content="HTTP/2" Visibility="Collapsed" Grid.Column="0" Grid.Row="10" Checked="RadioButtonHTTP2_Checked"></RadioButton>
+                <TextBlock Text="基于 HTTP/2 的传输方式。它完整按照 HTTP/2 标准实现" Visibility="Collapsed" Grid.Column="1" Grid.Row="10" Grid.ColumnSpan="2"></TextBlock>
+                <RadioButton x:Name="RadioButtonTLS" Visibility="Collapsed" Content="TLS" Grid.Column="0" Grid.Row="9" Checked="RadioButtonHTTP2_Checked"></RadioButton>
+                <TextBlock Text="使用TLS加密数据流" Visibility="Collapsed" Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2"></TextBlock>
+               
                
             </Grid>
         </GroupBox>
@@ -79,18 +80,19 @@
                 <TextBlock x:Name="TextBlockServerListenPort" Text="服务端口：" Grid.Column="0" Grid.Row="0"></TextBlock>
                 <TextBox x:Name="TextBoxServerListenPort" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Margin="5"></TextBox>
                 <Button x:Name="ButtonServerListenPort" Content="随机选择" Grid.Column="3" Grid.Row="0" Margin="5" Click="ButtonServerListenPort_Click"></Button>
-                <TextBlock x:Name="TextBlockNewUUID" Text="新建UUID：" Grid.Column="0" Grid.Row="1"></TextBlock>
+                <TextBlock x:Name="TextBlockNewUUID" Text="UUID：" Grid.Column="0" Grid.Row="1"></TextBlock>
                 <TextBox x:Name="TextBoxNewUUID" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="5"></TextBox>
                 <Button x:Name="ButtonNewUUID" Content="更新" Grid.Column="3" Grid.Row="1" Margin="5" Click="ButtonNewUUID_Click"></Button>
-                <TextBlock x:Name="TextBlockExistingUUID" Text="使用现有UUID：" Grid.Column="0" Grid.Row="2"></TextBlock>
-                <TextBox x:Name="TextBoxExistingUUID" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Margin="5"></TextBox>
-                <Button x:Name="ButtonExistingUUID" Content="粘贴到框中" Grid.Column="3" Grid.Row="2" Margin="5"></Button>
+                <TextBlock Text="使用已有的UUID，直接粘贴到框中" TextWrapping="Wrap" Grid.Column="4" Grid.Row="1"></TextBlock>
+                <TextBlock x:Name="TextBlockExistingUUID" Text="使用现有UUID：" Visibility="Collapsed" Grid.Column="0" Grid.Row="2"></TextBlock>
+                <TextBox x:Name="TextBoxExistingUUID" Visibility="Collapsed" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Margin="5"></TextBox>
+                <Button x:Name="ButtonExistingUUID" Visibility="Collapsed" Content="粘贴到框中" Grid.Column="3" Grid.Row="2" Margin="5"></Button>
                 <TextBlock x:Name="TextBlockPath" Text="路径：" Grid.Column="0" Grid.Row="3"></TextBlock>
                 <TextBox x:Name="TextBoxPath" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Margin="5"></TextBox>
                 <Button x:Name="ButtonPath" Content="随机" Grid.Column="3" Grid.Row="3" Margin="5" Click="ButtonPath_Click"></Button>
                 <TextBlock x:Name="TextBlockDomain" Text="域名：" Grid.Column="0" Grid.Row="4"></TextBlock>
                 <TextBox x:Name="TextBoxDomain" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" Margin="5"></TextBox>
-                <Button x:Name="ButtonDomain" Content="检测" Grid.Column="3" Grid.Row="4" Margin="5"></Button>
+                <Button x:Name="ButtonDomain" Content="检测" Visibility="Collapsed" Grid.Column="3" Grid.Row="4" Margin="5" Click="ButtonDomain_Click"></Button>
 
                 <Button x:Name="ButtondDecide" Content="确定" Grid.Column="1" Grid.Row="5" Margin="4" Click="ButtondDecide_Click"></Button>
                 <Button x:Name="ButtondCancel" Content="取消" Grid.Column="2" Grid.Row="5" Margin="4" Click="ButtondCancel_Click" ></Button>

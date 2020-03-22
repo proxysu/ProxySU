@@ -183,5 +183,10 @@ namespace ProxySU
             TextBoxPath.Text = $"/{path}";
             //MessageBox.Show(path);
         }
+
+        private void ButtonDomain_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

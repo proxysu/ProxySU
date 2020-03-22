@@ -39,12 +39,10 @@ namespace ProxySU
             RadioButtonProxyNoLogin.IsChecked = true;
             RadioButtonSocks4.Visibility = Visibility.Collapsed;
             ReceiveConfigurationParameters = new string[6];
-            //ReceiveConfigurationParameters[4] = "domaintext";
-
 
         }
         //开始布署安装
-        //System.Diagnostics.Process exitProgram = System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id);
+
         private void Button_Login_Click(object sender, RoutedEventArgs e)
 
         {
@@ -62,14 +60,12 @@ namespace ProxySU
             if (RadioButtonPasswordLogin.IsChecked == true && string.IsNullOrEmpty(PasswordBoxHostPassword.Password) == true)
             {
                 MessageBox.Show("登录密码为必填项，不能为空");
-                //exitProgram.Kill();
                 return;
             }
             string sshPassword = PasswordBoxHostPassword.Password.ToString();
             if (RadioButtonCertLogin.IsChecked == true && string.IsNullOrEmpty(TextBoxCertFilePath.Text) == true)
             {
                 MessageBox.Show("密钥文件为必填项，不能为空");
-                //exitProgram.Kill();
                 return;
             }
             string sshPrivateKey = TextBoxCertFilePath.Text.ToString();
@@ -97,7 +93,6 @@ namespace ProxySU
             if (RadioButtonNoProxy.IsChecked==false&&(string.IsNullOrEmpty(TextBoxProxyHost.Text)==true||string.IsNullOrEmpty(TextBoxProxyPort.Text)==true))
             {
                 MessageBox.Show("如果选择了代理，则代理地址与端口不能为空");
-                //exitProgram.Kill();
                 return;
             }
             string sshProxyHost = TextBoxProxyHost.Text.ToString();
@@ -105,14 +100,11 @@ namespace ProxySU
             if (RadiobuttonProxyYesLogin.IsChecked == true && (string.IsNullOrEmpty(TextBoxProxyUserName.Text) == true || string.IsNullOrEmpty(PasswordBoxProxyPassword.Password) == true))
             {
                 MessageBox.Show("如果代理需要登录，则代理登录的用户名与密码不能为空");
-                //exitProgram.Kill();
                 return;
             }
             string sshProxyUser = TextBoxProxyUserName.Text.ToString();
             string sshProxyPassword = PasswordBoxProxyPassword.Password.ToString();
 
-            //TextBlockSetUpProcessing.Text = "登录中";
-            //ProgressBarSetUpProcessing.IsIndeterminate = true;
             #endregion
 
 
@@ -161,7 +153,7 @@ namespace ProxySU
             {
                 ReceiveConfigurationParameters[4] = TextBoxHost.Text.ToString();
             }
-
+            //选择模板
             if (String.IsNullOrEmpty(ReceiveConfigurationParameters[0]) == true)
             {
                 MessageBox.Show("请先选择配置模板！");
@@ -475,13 +467,11 @@ namespace ProxySU
 
 
                     //下载官方安装脚本安装
-                    //string installResult =client.RunCommand("echo 999999").Result.ToString();
+
                     client.RunCommand("curl -o /tmp/go.sh https://install.direct/go.sh");
                     client.RunCommand("bash /tmp/go.sh");
                     string installResult = client.RunCommand("find / -name v2ray").Result.ToString();
-                    //string installResult = client.RunCommand("bash /tmp/go.sh").Result;
-                    //installResult = installResult.Substring(0, installResult.Length - 1);
-                    //MessageBox.Show(installResult);
+
                     if (!installResult.Contains("/usr/bin/v2ray"))
                     {
                         MessageBox.Show("安装V2ray失败(官方脚本go.sh运行出错！");
@@ -491,10 +481,9 @@ namespace ProxySU
                         return;
                     }
                     client.RunCommand("mv /etc/v2ray/config.json /etc/v2ray/config.json.1");
-                    //client.RunCommand("mkdir /etc/v2ray");
-                    //上传配置文件
 
-                    currentStatus = "程序安装完毕，配置文件上传中......";
+                    //上传配置文件
+                    currentStatus = "V2ray程序安装完毕，配置文件上传中......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
                     UploadConfig(connectionInfo, appConfig, upLoadPath);
@@ -510,13 +499,69 @@ namespace ProxySU
                     Thread.Sleep(1000);
                     upLoadPath = "/tmp/config.json";
                     UploadConfig(connectionInfo, clientConfig, upLoadPath);
-                    
-                    client.RunCommand("sed -i 's/##port##/" + ReceiveConfigurationParameters[1] + "/' "+ upLoadPath);
+
+                    client.RunCommand("sed -i 's/##port##/" + ReceiveConfigurationParameters[1] + "/' " + upLoadPath);
                     client.RunCommand("sed -i 's/##uuid##/" + ReceiveConfigurationParameters[2] + "/' " + upLoadPath);
                     client.RunCommand("sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath);
                     client.RunCommand("sed -i 's/##domain##/" + ReceiveConfigurationParameters[4] + "/' " + upLoadPath);
                     client.RunCommand("sed -i 's/##mkcpHeaderType##/" + ReceiveConfigurationParameters[5] + "/' " + upLoadPath);
                     DownloadConfig(connectionInfo, "config\\config.json", upLoadPath);
+
+                    //如果是WebSocket + TLS + Web模式，需要安装Caddy
+                    if (appConfig.Contains("WebSocketTLSWeb")==true)
+                    {
+                        currentStatus = "使用WebSocket + TLS + Web模式，正在安装Caddy......";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                        
+                        client.RunCommand("curl https://getcaddy.com -o getcaddy");
+                        client.RunCommand("bash getcaddy personal hook.service");
+                        client.RunCommand("mkdir -p /etc/caddy");
+                        client.RunCommand("mkdir -p /var/www");
+
+                        //检测domain是否正确的解析到当前的VPS
+                        currentStatus = "正在检测域名是否解析到当前VPS的IP上......";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+
+                        string nativeIp = client.RunCommand("curl -4 ip.sb").Result.ToString();
+                        string testDomain = client.RunCommand("ping " + ReceiveConfigurationParameters[4] + " -c 1 | grep -oE -m1 \"([0 - 9]{ 1,3}\\.){ 3}[0-9]{1,3}\"").Result.ToString();
+                        if (String.Equals(nativeIp, testDomain) == false)
+                        {
+                            currentStatus = "域名未能正确解析到当前VPS的IP上!";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            Thread.Sleep(1000);
+                            MessageBox.Show("域名未能正确解析到当前VPS的IP上，请检查！若解析设置正确，请等待生效后再重试安装");
+                            return;
+                        }
+                        else
+                        {
+                            currentStatus = "解析正确！上传Caddy配置文件......";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            Thread.Sleep(1000);
+                        }
+                        //currentStatus = "上传Caddy配置文件......";
+                        //textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        //Thread.Sleep(1000);
+                        appConfig = "TemplateConfg\\WebSocketTLSWeb_server_config.caddyfile";
+                        upLoadPath = "/etc/caddy/Caddyfile";
+                        UploadConfig(connectionInfo, appConfig, upLoadPath);
+                        //string[] splitDomain = ReceiveConfigurationParameters[4].Split('.');
+
+                        string emailAddress = ReceiveConfigurationParameters[4];
+                        emailAddress = client.RunCommand("${"+ emailAddress+"/./@}").Result.ToString();
+
+                        //client.RunCommand("sed -i 's/##port##/" + ReceiveConfigurationParameters[1] + "/' " + upLoadPath);
+                        //client.RunCommand("sed -i 's/##uuid##/" + ReceiveConfigurationParameters[2] + "/' " + upLoadPath);
+                        client.RunCommand("sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath);
+                        client.RunCommand("sed -i 's/##domain##/" + ReceiveConfigurationParameters[4] + "/' " + upLoadPath);
+                        client.RunCommand("sed -i 's/##email##/${" + emailAddress + ":=\"off\"}/' " + upLoadPath);
+                        //client.RunCommand("sed -i 's/##mkcpHeaderType##/" + ReceiveConfigurationParameters[5] + "/' " + upLoadPath);
+                        client.RunCommand("caddy -service install -agree -email "+ emailAddress + " -conf /etc/caddy/Caddyfile");
+                        client.RunCommand("caddy -service start");
+                    }
+
+                    
                     client.Disconnect();
 
                     currentStatus = "安装成功";
@@ -697,9 +742,6 @@ namespace ProxySU
         private void ButtonTemplateConfiguration_Click(object sender, RoutedEventArgs e)
         {
             WindowTemplateConfiguration windowTemplateConfiguration = new WindowTemplateConfiguration();
-
-            //windowTemplateConfiguration.Source = new Uri("Page1.xaml", UriKind.Relative);
-
             windowTemplateConfiguration.ShowDialog();
         }
         //测试接收到的模板参数
