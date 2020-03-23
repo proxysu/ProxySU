@@ -35,9 +35,14 @@ namespace ProxySU
             }
             else if (RadioButtonWebSocketTLS2Web.IsChecked == true)
             {
+                if (string.IsNullOrEmpty(TextBoxDomain.Text.ToString()) == true)
+                {
+                    MessageBox.Show("域名不能为空！");
+                    return;
+                }
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "WebSocketTLS2Web";
-           
+               
             }
             else if (RadioButtonTCPhttp.IsChecked == true)
             {

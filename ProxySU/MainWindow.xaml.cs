@@ -438,12 +438,38 @@ namespace ProxySU
                         Thread.Sleep(1000);
                         return;
                     }
-                    else
+                    //如果使用如果是WebSocket + TLS + Web模式，需要检测域名解析是否正确
+                    if (appConfig.Contains("WebSocketTLSWeb") == true)
                     {
-                        currentStatus = "符合安装要求,布署中......";
+                        currentStatus = "使用WebSocket + TLS + Web模式，正在检测域名是否解析到当前VPS的IP上......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                        //Thread.Sleep(2000);
+                        Thread.Sleep(1000);
+
+                        string nativeIp = client.RunCommand("curl -4 ip.sb").Result.ToString();
+                        string testDomainCmd = "ping " + ReceiveConfigurationParameters[4] + " -c 1 | grep -oE -m1 \"([0-9]{1,3}\\.){3}[0-9]{1,3}\"";
+                        string resultCmd = client.RunCommand(testDomainCmd).Result.ToString();
+                        //MessageBox.Show("nativeIp"+nativeIp);
+                        //MessageBox.Show("resultCmd"+ resultCmd);
+                        if (String.Equals(nativeIp, resultCmd) == true)
+                        {
+                            currentStatus = "解析正确！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            Thread.Sleep(1000);
+                        }
+                        else
+                        {
+                            currentStatus = "域名未能正确解析到当前VPS的IP上!";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            Thread.Sleep(1000);
+                            MessageBox.Show("域名未能正确解析到当前VPS的IP上，请检查！若解析设置正确，请等待生效后再重试安装。如果域名使用了CDN，请先关闭！");
+                            return;
+                        }
                     }
+
+                    currentStatus = "符合安装要求,布署中......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+                    
                     //在相应系统内安装curl(如果没有安装curl)
                     if (string.IsNullOrEmpty(client.RunCommand("command -v curl").Result) == true)
                     {
@@ -492,7 +518,64 @@ namespace ProxySU
                     client.RunCommand("sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath);
                     //client.RunCommand("sed -i 's/##domain##/" + ReceiveConfigurationParameters[4] + "/' " + upLoadPath);
                     client.RunCommand("sed -i 's/##mkcpHeaderType##/" + ReceiveConfigurationParameters[5] + "/' " + upLoadPath);
+                    client.RunCommand("systemctl restart v2ray");
 
+                   //如果是WebSocket + TLS + Web模式，需要安装Caddy
+                    if (appConfig.Contains("WebSocketTLSWeb")==true)
+                    {
+                        currentStatus = "使用WebSocket + TLS + Web模式，正在安装Caddy......";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                        
+                        client.RunCommand("curl https://getcaddy.com -o getcaddy");
+                        client.RunCommand("bash getcaddy personal hook.service");
+                        client.RunCommand("mkdir -p /etc/caddy");
+                        client.RunCommand("mkdir -p /var/www");
+
+                        
+                        //currentStatus = "上传Caddy配置文件......";
+                        //textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        //Thread.Sleep(1000);
+                        appConfig = "TemplateConfg\\WebSocketTLSWeb_server_config.caddyfile";
+                        upLoadPath = "/etc/caddy/Caddyfile";
+                        UploadConfig(connectionInfo, appConfig, upLoadPath);
+                        //string[] splitDomain = ReceiveConfigurationParameters[4].Split('.');
+
+                        //设置Caddyfile文件中的tls 邮箱
+                        string emailAddress = ReceiveConfigurationParameters[4];
+                        string sshCmd = $"email={emailAddress};email=${{email/./@}};sed -i \"s/off/${{email:=\"off\"}}/\" /etc/caddy/Caddyfile";
+                        client.RunCommand(sshCmd);
+                        client.RunCommand("sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath);
+                        client.RunCommand("sed -i 's/##domain##/" + ReceiveConfigurationParameters[4] + "/' " + upLoadPath);
+                        Thread.Sleep(2000);
+
+                        //生成安装服务命令中的邮箱
+                        string sshCmdEmail = $"email={emailAddress};email=${{email/./@}};echo $email";
+                        string email= client.RunCommand(sshCmdEmail).Result.ToString();
+                        //MessageBox.Show(email);
+                       
+                       //安装Caddy服务
+                        sshCmd = "caddy -service install -agree -conf /etc/caddy/Caddyfile -email " + email;
+                        //MessageBox.Show(sshCmd);
+                        client.RunCommand(sshCmd);
+                        //打开防火墙端口
+                        string openFireWallPort = ReceiveConfigurationParameters[1];
+                        if (String.Equals(openFireWallPort, "443"))
+                        {
+                            client.RunCommand("firewall-cmd --zone=public --add-port=80/tcp --permanent");
+                            client.RunCommand("firewall-cmd --zone=public --add-port=443/tcp --permanent");
+                            client.RunCommand("firewall-cmd --reload");
+                        }
+                        else
+                        {
+                            client.RunCommand($"firewall-cmd --zone=public --add-port={openFireWallPort}/tcp --permanent");
+                            client.RunCommand($"firewall-cmd --zone=public --add-port={openFireWallPort}/udp --permanent");
+                            client.RunCommand("firewall-cmd --reload");
+                        }
+                        
+                        //启动Caddy服务
+                        client.RunCommand("caddy -service start");
+                    }
                     //生成客户端配置
                     currentStatus = "生成客户端配置......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -507,61 +590,6 @@ namespace ProxySU
                     client.RunCommand("sed -i 's/##mkcpHeaderType##/" + ReceiveConfigurationParameters[5] + "/' " + upLoadPath);
                     DownloadConfig(connectionInfo, "config\\config.json", upLoadPath);
 
-                    //如果是WebSocket + TLS + Web模式，需要安装Caddy
-                    if (appConfig.Contains("WebSocketTLSWeb")==true)
-                    {
-                        currentStatus = "使用WebSocket + TLS + Web模式，正在安装Caddy......";
-                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                        Thread.Sleep(1000);
-                        
-                        client.RunCommand("curl https://getcaddy.com -o getcaddy");
-                        client.RunCommand("bash getcaddy personal hook.service");
-                        client.RunCommand("mkdir -p /etc/caddy");
-                        client.RunCommand("mkdir -p /var/www");
-
-                        //检测domain是否正确的解析到当前的VPS
-                        currentStatus = "正在检测域名是否解析到当前VPS的IP上......";
-                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                        Thread.Sleep(1000);
-
-                        string nativeIp = client.RunCommand("curl -4 ip.sb").Result.ToString();
-                        string testDomain = client.RunCommand("ping " + ReceiveConfigurationParameters[4] + " -c 1 | grep -oE -m1 \"([0 - 9]{ 1,3}\\.){ 3}[0-9]{1,3}\"").Result.ToString();
-                        if (String.Equals(nativeIp, testDomain) == false)
-                        {
-                            currentStatus = "域名未能正确解析到当前VPS的IP上!";
-                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                            Thread.Sleep(1000);
-                            MessageBox.Show("域名未能正确解析到当前VPS的IP上，请检查！若解析设置正确，请等待生效后再重试安装");
-                            return;
-                        }
-                        else
-                        {
-                            currentStatus = "解析正确！上传Caddy配置文件......";
-                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                            Thread.Sleep(1000);
-                        }
-                        //currentStatus = "上传Caddy配置文件......";
-                        //textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                        //Thread.Sleep(1000);
-                        appConfig = "TemplateConfg\\WebSocketTLSWeb_server_config.caddyfile";
-                        upLoadPath = "/etc/caddy/Caddyfile";
-                        UploadConfig(connectionInfo, appConfig, upLoadPath);
-                        //string[] splitDomain = ReceiveConfigurationParameters[4].Split('.');
-
-                        string emailAddress = ReceiveConfigurationParameters[4];
-                        emailAddress = client.RunCommand("${"+ emailAddress+"/./@}").Result.ToString();
-
-                        //client.RunCommand("sed -i 's/##port##/" + ReceiveConfigurationParameters[1] + "/' " + upLoadPath);
-                        //client.RunCommand("sed -i 's/##uuid##/" + ReceiveConfigurationParameters[2] + "/' " + upLoadPath);
-                        client.RunCommand("sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath);
-                        client.RunCommand("sed -i 's/##domain##/" + ReceiveConfigurationParameters[4] + "/' " + upLoadPath);
-                        client.RunCommand("sed -i 's/##email##/${" + emailAddress + ":=\"off\"}/' " + upLoadPath);
-                        //client.RunCommand("sed -i 's/##mkcpHeaderType##/" + ReceiveConfigurationParameters[5] + "/' " + upLoadPath);
-                        client.RunCommand("caddy -service install -agree -email "+ emailAddress + " -conf /etc/caddy/Caddyfile");
-                        client.RunCommand("caddy -service start");
-                    }
-
-                    
                     client.Disconnect();
 
                     currentStatus = "安装成功";
@@ -757,6 +785,40 @@ namespace ProxySU
         {
             ResultClientInformation resultClientInformation = new ResultClientInformation();
             resultClientInformation.ShowDialog();
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            string sshHostName = TextBoxHost.Text.ToString();
+            int sshPort = int.Parse(TextBoxPort.Text);
+            string sshUser = TextBoxUserName.Text.ToString();
+            string sshPassword = PasswordBoxHostPassword.Password.ToString();
+            ReceiveConfigurationParameters[4] = "";
+            //string emailAddress = ReceiveConfigurationParameters[4];
+            //string sshCmd;
+            //sshCmd = "ping "+ ReceiveConfigurationParameters[4] + " -c 1 | grep -oE -m1 \"([0-9]{1,3}\\.){3}[0-9]{1,3}\"";
+          
+            //string resultCmd;
+            //string upLoadPath = "/etc/caddy/Caddyfile";
+            var connectionInfo = new PasswordConnectionInfo(sshHostName, sshPort, sshUser, sshPassword);
+            using (var client = new SshClient(connectionInfo))
+            {
+                //client.Connect();
+
+                
+                //client.Disconnect();
+                return;
+            }
+        }
+
+        private void ButtonGuideConfiguration_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("尚未完善，敬请期待");
+        }
+
+        private void ButtonAdvancedConfiguration_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("尚未完善，敬请期待");
         }
     }
     

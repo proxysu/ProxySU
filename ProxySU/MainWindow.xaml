@@ -86,12 +86,12 @@
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Button x:Name="ButtonGuideConfiguration" Visibility="Collapsed" Content="启用向导" Grid.Column="0" Grid.Row="0"></Button>
-                        <TextBlock Text="通过向导生成配置文件" Visibility="Collapsed" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center"></TextBlock>
+                        <Button x:Name="ButtonGuideConfiguration" Visibility="Visible"  Content="启用向导" Grid.Column="0" Grid.Row="0" Click="ButtonGuideConfiguration_Click"></Button>
+                        <TextBlock Text="通过向导生成配置文件" Visibility="Visible" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center"></TextBlock>
                         <Button x:Name="ButtonTemplateConfiguration" Content="打开模板库" Grid.Column="1" Grid.Row="0" Click="ButtonTemplateConfiguration_Click"></Button>
                         <TextBlock Text="模板库" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center"></TextBlock>
-                        <Button x:Name="ButtonAdvancedConfiguration" Visibility="Collapsed" Content="配置编辑器" Grid.Column="2" Grid.Row="0"></Button>
-                        <TextBlock Text="配置文件高级生成器&#x0a;（有经验用户可以使用）" Visibility="Collapsed" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center"></TextBlock>
+                        <Button x:Name="ButtonAdvancedConfiguration" Visibility="Visible" Content="配置编辑器" Grid.Column="2" Grid.Row="0" Click="ButtonAdvancedConfiguration_Click"></Button>
+                        <TextBlock Text="配置文件高级生成器&#x0a;（有经验用户可以使用）" Visibility="Visible" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center"></TextBlock>
                         <!--<RadioButton x:Name="RadioButtonGuideConfiguration" Content="向导生成配置" Grid.Column="0" Grid.Row="0"></RadioButton>
                         <RadioButton x:Name="RadioButtonTemplateConfiguration" Content="模板配置" Grid.Column="0" Grid.Row="1"></RadioButton>
                         <RadioButton x:Name="RadioButtonAdvancedConfiguration" Content="高级配置" Grid.Column="0" Grid.Row="2"></RadioButton>
@@ -99,7 +99,7 @@
                         <Button x:Name="ButtonSetConfiguration" Margin="6" Content="配置" Grid.Column="2" Grid.Row="2" Click="ButtonSetConfiguration_Click"></Button>-->
                     </Grid>
                 </TabItem>
-                <TabItem Header="BBR设置" Visibility="Collapsed" Width="150" Height="30">
+                <TabItem Header="测试面板" Visibility="Visible" Width="150" Height="30">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
@@ -111,6 +111,7 @@
                         </Grid.RowDefinitions>
                         <Button Content="测试接收到的模参数" Grid.Column="0" Grid.Row="0" Margin="10" Click="Button_Click"></Button>
                         <Button Content="测试结果窗口" Grid.Column="0" Grid.Row="1" Margin="10" Click="Button_Click_1"></Button>
+                        <Button Content="测试ssh命令" Grid.Column="1" Grid.Row="0" Click="Button_Click_2"></Button>
                     </Grid>
                 </TabItem>
             </TabControl>
