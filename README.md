@@ -16,7 +16,7 @@ Debian 8/9/10
 Ubuntu 16.04及以上
 ## License
 
-[GPL V3)](https://raw.githubusercontent.com/proxysu/windows/master/LICENSE)
+[(GPL-V3)](https://raw.githubusercontent.com/proxysu/windows/master/LICENSE)
 
 ##exe运行文件下载
 
