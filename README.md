@@ -19,7 +19,7 @@ Ubuntu 16.04及以上
 
 1>v2ray官方程序配置文件(客户端配置)
 
-2>v2rayN客户端导入二维码和网址
+2>v2rayN(windows)客户端导入二维码和网址
 
 3>Shadowrocket(ios)导入二维码和网址
 
