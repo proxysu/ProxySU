@@ -23,6 +23,10 @@ Ubuntu 16.04及以上
 
 3>Shadowrocket(ios)导入二维码和网址
 
+4>v2rayNG(Android)导入二维码和网址
+
+（程序中只实现在生成v2rayN的，但是Shadowrocket和v2rayNG都可以导入。所以就偷了个懒，还是问了Shadowrocket的作者才知道这一点的，哈！）
+
 ## License
 
 [(GPL-V3)](https://raw.githubusercontent.com/proxysu/windows/master/LICENSE)
