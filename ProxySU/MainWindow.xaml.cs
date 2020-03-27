@@ -11,11 +11,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Renci.SshNet;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.IO;
+using Renci.SshNet;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
@@ -777,6 +777,16 @@ namespace ProxySU
             WindowTemplateConfiguration windowTemplateConfiguration = new WindowTemplateConfiguration();
             windowTemplateConfiguration.ShowDialog();
         }
+        private void ButtonGuideConfiguration_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("尚未完善，敬请期待");
+        }
+
+        private void ButtonAdvancedConfiguration_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("尚未完善，敬请期待");
+        }
+
         //测试接收到的模板参数
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -815,15 +825,50 @@ namespace ProxySU
                 return;
             }
         }
-
-        private void ButtonGuideConfiguration_Click(object sender, RoutedEventArgs e)
+               //测试生成v2rayN导入格式json
+//               {
+//  "v": "2",
+//  "ps": "",
+//  "add": "",
+//  "port": "",
+//  "id": "",
+//  "aid": "16",
+//  "net": "tcp",
+//  "type": "none",
+//  "host": "",
+//  "path": "",
+//  "tls": ""
+//}
+    private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("尚未完善，敬请期待");
-        }
+            string v2rayNjsonFile = @"{
+  ""v"": """",
+  ""ps"": """",
+  ""add"": """",
+  ""port"": """",
+  ""id"": """",
+  ""aid"": """",
+  ""net"": """",
+  ""type"": """",
+  ""host"": """",
+  ""path"": """",
+  ""tls"": """"
+}";
+            //MessageBox.Show(v2rayNjsonFile);
+            JObject v2rayNjsonObject = JObject.Parse(v2rayNjsonFile);
+            v2rayNjsonObject["v"] = "2";
+            v2rayNjsonObject["add"] = "";
+            v2rayNjsonObject["port"] = "";
+            v2rayNjsonObject["id"] = "";
+            v2rayNjsonObject["aid"] = "16";
+            v2rayNjsonObject["net"] = "";
+            v2rayNjsonObject["type"] = "";
+            v2rayNjsonObject["host"] = "";
+            v2rayNjsonObject["path"] = "";
+            v2rayNjsonObject["tls"] = "";
+            v2rayNjsonObject["ps"] = v2rayNjsonObject["add"];
+            //MessageBox.Show(v2rayNjsonObject["v"].ToString());
 
-        private void ButtonAdvancedConfiguration_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("尚未完善，敬请期待");
         }
     }
     

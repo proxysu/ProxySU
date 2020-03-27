@@ -24,6 +24,8 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <TextBlock Text="地址(address)" Grid.Column="0" Grid.Row="0" Margin="8"></TextBlock>
                 <TextBox x:Name="TextBoxHostAddress" IsReadOnly="True" Grid.Column="1" Grid.Row="0" Margin="8"></TextBox>
@@ -34,21 +36,26 @@
                 <TextBlock Text="用户ID(uuid)" Grid.Column="0" Grid.Row="2" Margin="8"></TextBlock>
                 <TextBox x:Name="TextBoxUUID" IsReadOnly="True" Grid.Column="1" Grid.Row="2" Margin="8"></TextBox>
                 <TextBlock Text="说明" Grid.Column="2" Grid.Row="2"></TextBlock>
-                <TextBlock Text="加密方式" Grid.Column="0" Grid.Row="3" Margin="8"></TextBlock>
-                <TextBox x:Name="TextBoxEncryption" IsReadOnly="True" Grid.Column="1" Grid.Row="3" Margin="8"></TextBox>
-                <TextBlock Text="说明" Grid.Column="2" Grid.Row="3"></TextBlock>
-                <TextBlock Text="传输协议" Grid.Column="0" Grid.Row="4" Margin="8"></TextBlock>
-                <TextBox x:Name="TextBoxTransmission" IsReadOnly="True" Grid.Column="1" Grid.Row="4" Margin="8"></TextBox>
-                <TextBlock Text="说明" Grid.Column="2" Grid.Row="4"></TextBlock>
-                <TextBlock Text="伪装类型" Grid.Column="0" Grid.Row="5" Margin="8"></TextBlock>
-                <TextBox x:Name="TextBoxCamouflageType" IsReadOnly="True" Grid.Column="1" Grid.Row="5" Margin="8"></TextBox>
+                <TextBlock Text="额外ID" Grid.Column="0" Grid.Row="3" Margin="8"></TextBlock>
+                <TextBox x:Name="TextBoxUUIDextra" IsReadOnly="False" Grid.Column="1" Grid.Row="3" Margin="8"></TextBox>
+                <TextBlock Text="默认16，可以填不超过64的值，客户端没有此选项可不填" TextWrapping="Wrap" Grid.Column="2" Grid.Row="3"></TextBlock>
+                <TextBlock Text="加密方式" Grid.Column="0" Grid.Row="4" Margin="8"></TextBlock>
+                <TextBox x:Name="TextBoxEncryption" IsReadOnly="True" Grid.Column="1" Grid.Row="4" Margin="8"></TextBox>
+                <TextBlock Text="默认auto" Grid.Column="2" Grid.Row="4"></TextBlock>
+                <TextBlock Text="传输协议" Grid.Column="0" Grid.Row="5" Margin="8"></TextBlock>
+                <TextBox x:Name="TextBoxTransmission" IsReadOnly="True" Grid.Column="1" Grid.Row="5" Margin="8"></TextBox>
                 <TextBlock Text="说明" Grid.Column="2" Grid.Row="5"></TextBlock>
-                <TextBlock Text="路径(Path)" Grid.Column="0" Grid.Row="6" Margin="8"></TextBlock>
-                <TextBox x:Name="TextBoxPath" IsReadOnly="True" Grid.Column="1" Grid.Row="6" Margin="8"></TextBox>
+                <TextBlock Text="伪装类型" Grid.Column="0" Grid.Row="6" Margin="8"></TextBlock>
+                <TextBox x:Name="TextBoxCamouflageType" IsReadOnly="True" Grid.Column="1" Grid.Row="6" Margin="8"></TextBox>
                 <TextBlock Text="说明" Grid.Column="2" Grid.Row="6"></TextBlock>
-
-                <TextBlock Text="以上参数可以手动输入客户端，用于V2ray官方客户端的配置文件已经存放入config目录下，点击确定可打开" Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" TextWrapping="Wrap"></TextBlock>
-                <Button Content="确定" Grid.Column="2" Grid.Row="7" Grid.RowSpan="2" Margin="20" Click="Button_Click"></Button>
+                <TextBlock x:Name="TextBlockPath" Text="路径(Path)" Grid.Column="0" Grid.Row="7" Margin="8"></TextBlock>
+                <TextBox x:Name="TextBoxPath" IsReadOnly="True" Grid.Column="1" Grid.Row="7" Margin="8"></TextBox>
+                <TextBlock x:Name="TextBlockPathExplain" Text="说明" Grid.Column="2" Grid.Row="7"></TextBlock>
+                <TextBlock x:Name="TextBlocTLSonOrNo" Text="是否使用TLS" Grid.Column="0" Grid.Row="8" Margin="8"></TextBlock>
+                <TextBox x:Name="TextBoxTLS" IsReadOnly="True" Grid.Column="1" Grid.Row="8" Margin="8"></TextBox>
+                <TextBlock x:Name="TextBlocTLSonOrNoExplain" Text="说明" Grid.Column="2" Grid.Row="8"></TextBlock>
+                <TextBlock Text="以上参数可以手动输入客户端，用于V2ray官方客户端的配置文件已经存放入config目录下，点击确定可打开" Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="2" TextWrapping="Wrap"></TextBlock>
+                <Button Content="确定" Grid.Column="2" Grid.Row="9" Grid.RowSpan="2" Margin="20" Click="Button_Click"></Button>
                
             </Grid>
         </GroupBox>
