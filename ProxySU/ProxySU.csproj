@@ -52,11 +52,18 @@
     <ApplicationIcon>ProxySU.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\json.net\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="QRCoder">
+      <HintPath>..\qrcoder\net40\QRCoder.dll</HintPath>
+    </Reference>
     <Reference Include="Renci.SshNet">
       <HintPath>..\ssh.net\net40\Renci.SshNet.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -135,4 +142,9 @@
     <Resource Include="ProxySU.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>del "$(TargetDir)*.xml"
+del "$(TargetDir)*.pdb"
+"D:\Program Files\7-Zip\7z.exe" a $(TargetDir)Release.zip $(TargetDir)</PostBuildEvent>
+  </PropertyGroup>
 </Project>
