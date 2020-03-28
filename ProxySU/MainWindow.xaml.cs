@@ -585,15 +585,46 @@ namespace ProxySU
                     currentStatus = "生成客户端配置......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
-                    upLoadPath = "/tmp/config.json";
-                    UploadConfig(connectionInfo, clientConfig, upLoadPath);
+                    if (!Directory.Exists("config"))//如果不存在就创建file文件夹　　             　　              
+                    {
+                        Directory.CreateDirectory("config");//创建该文件夹　　   
+                    }
+                    //string clientConfig = "TemplateConfg\\tcp_client_config.json";
+                    using (StreamReader reader = File.OpenText(clientConfig))
+                    {
+                        JObject clientJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
+                        // do stuff
+                        //MessageBox.Show(clientJson.ToString());
+                        clientJson["outbounds"][0]["settings"]["vnext"][0]["address"] = ReceiveConfigurationParameters[4];
+                        clientJson["outbounds"][0]["settings"]["vnext"][0]["port"] = ReceiveConfigurationParameters[1];
+                        clientJson["outbounds"][0]["settings"]["vnext"][0]["users"][0]["id"] = ReceiveConfigurationParameters[2];
+                        if (clientJson.Property("path") != null)
+                        {
+                            //成员path存在
+                            clientJson["outbounds"][0]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[3];
 
-                    client.RunCommand("sed -i 's/##port##/" + ReceiveConfigurationParameters[1] + "/' " + upLoadPath);
-                    client.RunCommand("sed -i 's/##uuid##/" + ReceiveConfigurationParameters[2] + "/' " + upLoadPath);
-                    client.RunCommand("sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath);
-                    client.RunCommand("sed -i 's/##domain##/" + ReceiveConfigurationParameters[4] + "/' " + upLoadPath);
-                    client.RunCommand("sed -i 's/##mkcpHeaderType##/" + ReceiveConfigurationParameters[5] + "/' " + upLoadPath);
-                    DownloadConfig(connectionInfo, "config\\config.json", upLoadPath);
+                        }
+                        if (clientJson.Property("type") != null)
+                        {
+                            //成员type存在
+                            clientJson["outbounds"][0]["streamSettings"]["kcpSettings"]["header"]["type"] = ReceiveConfigurationParameters[5];
+
+                        }
+
+                        using (StreamWriter sw = new StreamWriter(@"config\config.json"))
+                        {
+                            sw.Write(clientJson.ToString());
+                        }
+                    }
+                    //upLoadPath = "/tmp/config.json";
+                    //UploadConfig(connectionInfo, clientConfig, upLoadPath);
+
+                    //client.RunCommand("sed -i 's/##port##/" + ReceiveConfigurationParameters[1] + "/' " + upLoadPath);
+                    //client.RunCommand("sed -i 's/##uuid##/" + ReceiveConfigurationParameters[2] + "/' " + upLoadPath);
+                    //client.RunCommand("sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath);
+                    //client.RunCommand("sed -i 's/##domain##/" + ReceiveConfigurationParameters[4] + "/' " + upLoadPath);
+                    //client.RunCommand("sed -i 's/##mkcpHeaderType##/" + ReceiveConfigurationParameters[5] + "/' " + upLoadPath);
+                    //DownloadConfig(connectionInfo, "config.json", upLoadPath);
 
                     client.Disconnect();
 
@@ -869,6 +900,41 @@ namespace ProxySU
             v2rayNjsonObject["ps"] = v2rayNjsonObject["add"];
             //MessageBox.Show(v2rayNjsonObject["v"].ToString());
 
+        }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            if (!Directory.Exists("config"))//如果不存在就创建file文件夹　　             　　              
+            {
+                Directory.CreateDirectory("config");//创建该文件夹　　   
+            }
+            string clientConfig= "TemplateConfg\\tcp_client_config.json";
+            using (StreamReader reader = File.OpenText(clientConfig))
+            {
+                JObject clientJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
+                // do stuff
+                MessageBox.Show(clientJson.ToString());
+                clientJson["outbounds"][0]["settings"]["vnext"][0]["address"] = ReceiveConfigurationParameters[4];
+                clientJson["outbounds"][0]["settings"]["vnext"][0]["port"] = ReceiveConfigurationParameters[1];
+                clientJson["outbounds"][0]["settings"]["vnext"][0]["users"][0]["id"] = ReceiveConfigurationParameters[2];
+                if (clientJson.Property("path") != null)
+                {
+                    //成员path存在
+                    clientJson["outbounds"][0]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[3];
+
+                }
+                if (clientJson.Property("type") != null)
+                {
+                    //成员type存在
+                    clientJson["outbounds"][0]["streamSettings"]["kcpSettings"]["header"]["type"] = ReceiveConfigurationParameters[5];
+
+                }
+               
+                using (StreamWriter sw = new StreamWriter(@"config\config.json"))
+                {
+                    sw.Write(clientJson.ToString());
+                }
+            }
         }
     }
     

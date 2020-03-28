@@ -115,6 +115,7 @@
                         <Button Content="测试结果窗口" Grid.Column="0" Grid.Row="1" Margin="10" Click="Button_Click_1"></Button>
                         <Button Content="测试ssh命令" Grid.Column="1" Grid.Row="0" Margin="10" Click="Button_Click_2"></Button>
                         <Button Content="测试生成v2rayN导入格式" Grid.Column="2" Grid.Row="0" Margin="10" Click="Button_Click_3"></Button>
+                        <Button Content="测试生成config.json文件" Grid.Column="1" Grid.Row="1" Margin="10" Click="Button_Click_4"></Button>
                     </Grid>
                 </TabItem>
             </TabControl>
