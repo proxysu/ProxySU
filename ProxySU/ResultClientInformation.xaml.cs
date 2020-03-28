@@ -182,6 +182,12 @@ namespace ProxySU
             //MessageBox.Show(v2rayNjsonObject["v"].ToString());
 
             saveFileFolder = v2rayNjsonObject["ps"].ToString();
+            int num = 1;
+            while(Directory.Exists(@"config\" + saveFileFolder))
+            {
+                saveFileFolder = saveFileFolder + "_copy_" + num.ToString();
+                num++;
+            }
             CheckDir(@"config\" + saveFileFolder);
             //MessageBox.Show(v2rayNjsonObject.ToString());
             string vmessUrl = "vmess://" + ToBase64Encode(v2rayNjsonObject.ToString());
@@ -249,11 +255,11 @@ namespace ProxySU
             //ImageShareQRcode.Source = @"config\v2rayN.bmp";
         }
         //判断目录是否存在，不存在则创建
-        public static bool CheckDir(string folder)
+        private static bool CheckDir(string folder)
         {
             try
             {
-                if (!Directory.Exists(folder))//如果不存在就创建file文件夹　　             　　              
+                if (!Directory.Exists(folder))//如果不存在就创建file文件夹
                     Directory.CreateDirectory(folder);//创建该文件夹　　            
                 return true;
             }
@@ -265,7 +271,7 @@ namespace ProxySU
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string openFolderPath = @"config";
+            string openFolderPath = @"config\" + saveFileFolder;
             System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
             this.Close();
         }

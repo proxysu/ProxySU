@@ -525,7 +525,22 @@ namespace ProxySU
                     client.RunCommand("sed -i 's/##mkcpHeaderType##/" + ReceiveConfigurationParameters[5] + "/' " + upLoadPath);
                     client.RunCommand("systemctl restart v2ray");
 
-                   //如果是WebSocket + TLS + Web模式，需要安装Caddy
+                    //打开防火墙端口
+                    string openFireWallPort = ReceiveConfigurationParameters[1];
+                    if (String.Equals(openFireWallPort, "443"))
+                    {
+                        client.RunCommand("firewall-cmd --zone=public --add-port=80/tcp --permanent");
+                        client.RunCommand("firewall-cmd --zone=public --add-port=443/tcp --permanent");
+                        client.RunCommand("firewall-cmd --reload");
+                    }
+                    else
+                    {
+                        client.RunCommand($"firewall-cmd --zone=public --add-port={openFireWallPort}/tcp --permanent");
+                        client.RunCommand($"firewall-cmd --zone=public --add-port={openFireWallPort}/udp --permanent");
+                        client.RunCommand("firewall-cmd --reload");
+                    }
+
+                    //如果是WebSocket + TLS + Web模式，需要安装Caddy
                     if (appConfig.Contains("WebSocketTLSWeb")==true)
                     {
                         currentStatus = "使用WebSocket + TLS + Web模式，正在安装Caddy......";
@@ -563,20 +578,7 @@ namespace ProxySU
                         sshCmd = "caddy -service install -agree -conf /etc/caddy/Caddyfile -email " + email;
                         //MessageBox.Show(sshCmd);
                         client.RunCommand(sshCmd);
-                        //打开防火墙端口
-                        string openFireWallPort = ReceiveConfigurationParameters[1];
-                        if (String.Equals(openFireWallPort, "443"))
-                        {
-                            client.RunCommand("firewall-cmd --zone=public --add-port=80/tcp --permanent");
-                            client.RunCommand("firewall-cmd --zone=public --add-port=443/tcp --permanent");
-                            client.RunCommand("firewall-cmd --reload");
-                        }
-                        else
-                        {
-                            client.RunCommand($"firewall-cmd --zone=public --add-port={openFireWallPort}/tcp --permanent");
-                            client.RunCommand($"firewall-cmd --zone=public --add-port={openFireWallPort}/udp --permanent");
-                            client.RunCommand("firewall-cmd --reload");
-                        }
+                       
                         
                         //启动Caddy服务
                         client.RunCommand("caddy -service start");
