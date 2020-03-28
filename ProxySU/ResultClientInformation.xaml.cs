@@ -181,11 +181,12 @@ namespace ProxySU
             v2rayNjsonObject["ps"] = v2rayNjsonObject["add"];  //设置备注
             //MessageBox.Show(v2rayNjsonObject["v"].ToString());
 
-            saveFileFolder = v2rayNjsonObject["ps"].ToString();
+            string saveFileFolderFirst = v2rayNjsonObject["ps"].ToString();
             int num = 1;
-            while(Directory.Exists(@"config\" + saveFileFolder))
+            saveFileFolder = saveFileFolderFirst;
+            while (Directory.Exists(@"config\" + saveFileFolder))
             {
-                saveFileFolder = saveFileFolder + "_copy_" + num.ToString();
+                saveFileFolder = saveFileFolderFirst + "_copy_" + num.ToString();
                 num++;
             }
             CheckDir(@"config\" + saveFileFolder);
