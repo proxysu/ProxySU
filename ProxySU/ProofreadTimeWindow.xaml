@@ -1,0 +1,24 @@
+﻿<Window x:Class="ProxySU.ProofreadTimeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProxySU"
+        mc:Ignorable="d"
+        Title="ProofreadTimeWindow" Height="450" Width="600">
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Button x:Name="ButtonTestTime" Content="检测时间误差是否在合理" Grid.Column="0" Grid.Row="0" Margin="5" Click="ButtonTestTime_Click"/>
+        </Grid>
+    </Grid>
+</Window>

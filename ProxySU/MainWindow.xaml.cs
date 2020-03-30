@@ -36,6 +36,7 @@ namespace ProxySU
         //ReceiveConfigurationParameters[3]----path
         //ReceiveConfigurationParameters[4]----domain
         //ReceiveConfigurationParameters[5]----mKCP伪装类型
+        //public static ConnectionInfo ConnectionInfo;
         public MainWindow()
         {
             InitializeComponent();
@@ -46,18 +47,17 @@ namespace ProxySU
             ReceiveConfigurationParameters = new string[6];
 
         }
-        //开始布署安装
-
-        private void Button_Login_Click(object sender, RoutedEventArgs e)
-
+        //远程主机连接信息
+        private ConnectionInfo GenerateConnectionInfo()
         {
+            ConnectionInfo connectionInfo;
             //ProgressBarSetUpProcessing.IsIndeterminate = true;
             #region 检测输入的内空是否有错，并读取内容
             if (string.IsNullOrEmpty(TextBoxHost.Text) == true || string.IsNullOrEmpty(TextBoxPort.Text) == true || string.IsNullOrEmpty(TextBoxUserName.Text) == true)
             {
                 MessageBox.Show("主机地址、主机端口、用户名为必填项，不能为空");
                 //exitProgram.Kill();
-                return;
+                return connectionInfo = null;
             }
             string sshHostName = TextBoxHost.Text.ToString();
             int sshPort = int.Parse(TextBoxPort.Text);
@@ -65,27 +65,27 @@ namespace ProxySU
             if (RadioButtonPasswordLogin.IsChecked == true && string.IsNullOrEmpty(PasswordBoxHostPassword.Password) == true)
             {
                 MessageBox.Show("登录密码为必填项，不能为空");
-                return;
+                return connectionInfo = null;
             }
             string sshPassword = PasswordBoxHostPassword.Password.ToString();
             if (RadioButtonCertLogin.IsChecked == true && string.IsNullOrEmpty(TextBoxCertFilePath.Text) == true)
             {
                 MessageBox.Show("密钥文件为必填项，不能为空");
-                return;
+                return connectionInfo = null;
             }
             string sshPrivateKey = TextBoxCertFilePath.Text.ToString();
             ProxyTypes proxyTypes = new ProxyTypes();//默认为None
             //MessageBox.Show(proxyTypes.ToString());
             //proxyTypes = ProxyTypes.Socks5;
-            if (RadioButtonHttp.IsChecked==true)
+            if (RadioButtonHttp.IsChecked == true)
             {
                 proxyTypes = ProxyTypes.Http;
             }
-            else if (RadioButtonSocks4.IsChecked==true)
+            else if (RadioButtonSocks4.IsChecked == true)
             {
                 proxyTypes = ProxyTypes.Socks4;
             }
-            else if (RadioButtonSocks5.IsChecked==true)
+            else if (RadioButtonSocks5.IsChecked == true)
             {
                 proxyTypes = ProxyTypes.Socks5;
             }
@@ -95,17 +95,17 @@ namespace ProxySU
             }
 
             //MessageBox.Show(proxyTypes.ToString());
-            if (RadioButtonNoProxy.IsChecked==false&&(string.IsNullOrEmpty(TextBoxProxyHost.Text)==true||string.IsNullOrEmpty(TextBoxProxyPort.Text)==true))
+            if (RadioButtonNoProxy.IsChecked == false && (string.IsNullOrEmpty(TextBoxProxyHost.Text) == true || string.IsNullOrEmpty(TextBoxProxyPort.Text) == true))
             {
                 MessageBox.Show("如果选择了代理，则代理地址与端口不能为空");
-                return;
+                return connectionInfo = null;
             }
             string sshProxyHost = TextBoxProxyHost.Text.ToString();
             int sshProxyPort = int.Parse(TextBoxProxyPort.Text.ToString());
             if (RadiobuttonProxyYesLogin.IsChecked == true && (string.IsNullOrEmpty(TextBoxProxyUserName.Text) == true || string.IsNullOrEmpty(PasswordBoxProxyPassword.Password) == true))
             {
                 MessageBox.Show("如果代理需要登录，则代理登录的用户名与密码不能为空");
-                return;
+                return connectionInfo = null;
             }
             string sshProxyUser = TextBoxProxyUserName.Text.ToString();
             string sshProxyPassword = PasswordBoxProxyPassword.Password.ToString();
@@ -115,7 +115,7 @@ namespace ProxySU
 
             //var connectionInfo = new PasswordConnectionInfo(sshHostName, sshPort, sshUser, sshPassword);
 
-            var connectionInfo = new ConnectionInfo(
+            connectionInfo = new ConnectionInfo(
                                     sshHostName,
                                     sshPort,
                                     sshUser,
@@ -144,7 +144,19 @@ namespace ProxySU
                                         );
 
             }
+            return connectionInfo;
+        }
+        //开始布署安装
 
+        private void Button_Login_Click(object sender, RoutedEventArgs e)
+
+        {
+            ConnectionInfo connectionInfo = GenerateConnectionInfo();
+            if(connectionInfo==null)
+            {
+                MessageBox.Show("远程主机连接信息有误，请检查");
+                return;
+            }
             //using (var client = new SshClient(sshHostName, sshPort, sshUser, sshPassword))
             //Action<ConnectionInfo, TextBlock> startSetUpAction = new Action<ConnectionInfo, TextBlock>(StartSetUpRemoteHost);
             //string appConfig = TextBoxJsonPath.Text.ToString().Replace("\\","\\\\");
@@ -443,6 +455,28 @@ namespace ProxySU
                         Thread.Sleep(1000);
                         return;
                     }
+
+                    //校对时间
+                    currentStatus = "校对时间......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+                    //获取远程主机的时间戳
+                    long timeStampVPS = Convert.ToInt64(client.RunCommand("date +%s").Result.ToString());
+                    //MessageBox.Show(timesStampVPS.ToString());
+                    //获取本地时间戳
+                    TimeSpan ts = DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+                    long timeStampLocal = Convert.ToInt64(ts.TotalSeconds);
+                    if (Math.Abs(timeStampLocal - timeStampVPS) >= 90)
+                    {
+
+                        MessageBox.Show("本地时间与远程主机时间相差超过限制(90秒)，请先用\"系统工具-->时间校对\"校对时间后再设置");
+                        currentStatus = "时间较对失败......";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                        return;
+                    }
+                    //MessageBox.Show(timesStamp2.ToString());
+
                     //如果使用如果是WebSocket + TLS + Web模式，需要检测域名解析是否正确
                     if (appConfig.Contains("WebSocketTLSWeb") == true)
                     {
@@ -583,6 +617,9 @@ namespace ProxySU
                         //启动Caddy服务
                         client.RunCommand("caddy -service start");
                     }
+
+                    
+
                     //生成客户端配置
                     currentStatus = "生成客户端配置......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -851,10 +888,13 @@ namespace ProxySU
             var connectionInfo = new PasswordConnectionInfo(sshHostName, sshPort, sshUser, sshPassword);
             using (var client = new SshClient(connectionInfo))
             {
-                //client.Connect();
-
-                
-                //client.Disconnect();
+                client.Connect();
+                //MessageBox.Show(client.RunCommand("date +%s").Result.ToString());
+                long timesStamp1 = Convert.ToInt64(client.RunCommand("date +%s").Result.ToString());
+                MessageBox.Show(timesStamp1.ToString());
+                long timesStamp2 = timesStamp1 - 300;
+                MessageBox.Show(timesStamp2.ToString());
+                client.Disconnect();
                 return;
             }
         }
@@ -937,6 +977,31 @@ namespace ProxySU
                     sw.Write(clientJson.ToString());
                 }
             }
+        }
+
+        private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            TimeSpan ts = DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            long  timeStamp = Convert.ToInt64(ts.TotalSeconds);
+            MessageBox.Show(timeStamp.ToString());
+
+            //DateTime dateNow = DateTime.Now;
+            //MessageBox.Show(TimeZoneInfo.ConvertTimeToUtc(dateNow).ToString());
+            //Console.WriteLine("The date and time are {0} UTC.",
+            //                   TimeZoneInfo.ConvertTimeToUtc(dateNow));
+        }
+
+        private void ButtonProofreadTime_Click(object sender, RoutedEventArgs e)
+        {
+            ConnectionInfo connectionInfo = GenerateConnectionInfo();
+            if (connectionInfo == null)
+            {
+                MessageBox.Show("远程主机连接信息有误，请检查");
+                return;
+            }
+            ProofreadTimeWindow proofreadTimeWindow = new ProofreadTimeWindow();
+            ProofreadTimeWindow.ProfreadTimeReceiveConnectionInfo = connectionInfo;
+            proofreadTimeWindow.ShowDialog();
         }
     }
     
