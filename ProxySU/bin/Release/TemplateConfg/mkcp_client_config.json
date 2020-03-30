@@ -1,0 +1,60 @@
+{
+	"inbounds": [
+		{
+			"protocol": "http",
+			"port": 1081
+		},
+		{
+			"port": 1080,
+			"protocol": "socks",
+			"sniffing": {
+				"enabled": true,
+				"destOverride": [
+					"http",
+					"tls"
+				]
+			},
+			"settings": {
+				"auth": "noauth"
+			}
+		}
+	],
+	"outbounds": [
+		{
+			"protocol": "vmess",
+			"settings": {
+				"vnext": [
+					{
+						"address": "",
+						"port": null,
+						"users": [
+							{
+								"id": "",
+								"alterId": 16,
+								"security": "auto"
+							}
+						]
+					}
+				]
+			},
+			"streamSettings": {
+				"network": "kcp",
+				"kcpSettings": {
+					"mtu": 1350,
+					"tti": 50,
+					"uplinkCapacity": 5,
+					"downlinkCapacity": 100,
+					"congestion": true,
+					"readBufferSize": 2,
+					"writeBufferSize": 2,
+					"header": {
+						"type": ""
+					}
+				}
+			},
+			"mux": {
+				"enabled": true
+			}
+		}
+	]
+}
