@@ -861,9 +861,12 @@ namespace ProxySU
                 MessageBox.Show("远程主机连接信息有误，请检查");
                 return;
             }
+
             ProofreadTimeWindow proofreadTimeWindow = new ProofreadTimeWindow();
             ProofreadTimeWindow.ProfreadTimeReceiveConnectionInfo = connectionInfo;
+
             proofreadTimeWindow.ShowDialog();
+
         }
         private void ButtonGuideConfiguration_Click(object sender, RoutedEventArgs e)
         {
@@ -1003,13 +1006,21 @@ namespace ProxySU
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
             //获取本地时间戳
-            TimeSpan ts = DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1, 0, 0, 0, 0);
-            long timeStampLocal = Convert.ToInt64(ts.TotalSeconds);
-            MessageBox.Show("本地时间戳"+timeStampLocal.ToString());
+            //TimeSpan ts = DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            //long timeStampLocal = Convert.ToInt64(ts.TotalSeconds);
+            //MessageBox.Show("本地时间戳"+timeStampLocal.ToString());
             //获取网络时间戳
-            TimeSpan utcTS = NetTime.GetUTCTime() - new DateTime(1970, 1, 1, 0, 0, 0, 0);
-            long timeStampVPS = Convert.ToInt64(utcTS.TotalSeconds);
-            MessageBox.Show("网络时间戳"+timeStampVPS.ToString());
+            //Thread.Sleep(1000);
+            try
+            {
+                TimeSpan utcTS = NetTime.GetUTCTime() - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+                long timeStampVPS = Convert.ToInt64(utcTS.TotalSeconds);
+                MessageBox.Show("网络时间戳" + timeStampVPS.ToString());
+            }
+            catch(Exception ex1)
+            {
+                MessageBox.Show(ex1.ToString());
+            }
             //string netDatetime = NetTime.GetUTCTime().AddHours(8).ToString();
             //MessageBox.Show(netDatetime);
 

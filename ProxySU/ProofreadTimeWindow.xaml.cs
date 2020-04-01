@@ -75,16 +75,13 @@ namespace ProxySU
 
         private void ButtonProofreading_Click(object sender, RoutedEventArgs e)
         {
-            using (var client = new SshClient(ProfreadTimeReceiveConnectionInfo))
+            if (RadioButtonUpDateLocalTime.IsChecked == true)
             {
-                client.Connect();
-                //设置vps为UTC时区
-                client.RunCommand("rm -f /etc/localtime");
-                client.RunCommand("ln -s /usr/share/zoneinfo/UTC /etc/localtime");
-                if (RadioButtonUpDateLocalTime.IsChecked==true)
+                //将本机电脑与网络时间同步
+                DateTime netUTCtime = NetTime.GetUTCTime();
+                if (!DateTime.Equals(netUTCtime, new DateTime(1970, 1, 1, 0, 0, 0, 0)))
                 {
-                    //将本机电脑与网络时间同步
-                    DateTime localTime = NetTime.GetUTCTime().ToLocalTime();
+                    DateTime localTime = netUTCtime.ToLocalTime();
                     bool setD = UpdateTime.SetDate(localTime);
                     if (setD == true)
                     {
@@ -94,9 +91,17 @@ namespace ProxySU
                     {
                         MessageBox.Show("更新失败，请重试。");
                     }
-                   
                 }
-                else if (RadioButtonLocalTime.IsChecked == true)
+                return;
+            }
+            using (var client = new SshClient(ProfreadTimeReceiveConnectionInfo))
+            {
+                client.Connect();
+                //设置vps为UTC时区
+                client.RunCommand("rm -f /etc/localtime");
+                client.RunCommand("ln -s /usr/share/zoneinfo/UTC /etc/localtime");
+               
+                if (RadioButtonLocalTime.IsChecked == true)
                 {
                     //以本地时间为准，校正远程主机时间
                     //获取本地时间戳
@@ -108,7 +113,8 @@ namespace ProxySU
                     //string sshCmd = $"date --set=\"$(date \"+%Y-%m-%d %H:%M:%S\" -d @1489739011)\"";
                     //MessageBox.Show(sshCmd);
                     client.RunCommand(sshCmd);
-                    MessageBox.Show("校时完毕");
+                    MessageBox.Show("同步本地时间校时完毕");
+
 
                 }
                 else
@@ -116,14 +122,24 @@ namespace ProxySU
                     //以网络时间为准，校正远程主机时间
                     TimeSpan utcTS = NetTime.GetUTCTime() - new DateTime(1970, 1, 1, 0, 0, 0, 0);
                     long timeStampVPS = Convert.ToInt64(utcTS.TotalSeconds);
-                    //MessageBox.Show(timeStampVPS.ToString());
-                    string sshCmd = $"date --set=\"$(date \"+%Y-%m-%d %H:%M:%S\" -d @{timeStampVPS.ToString()})\"";
-                    //MessageBox.Show(sshCmd);
-                    client.RunCommand(sshCmd);
-                    MessageBox.Show("校时完毕");
+                    if (timeStampVPS!=0)
+                    {
+                        //MessageBox.Show(timeStampVPS.ToString());
+                        string sshCmd = $"date --set=\"$(date \"+%Y-%m-%d %H:%M:%S\" -d @{timeStampVPS.ToString()})\"";
+                        //MessageBox.Show(sshCmd);
+                        client.RunCommand(sshCmd);
+                        MessageBox.Show("同步网络时间校时完毕");
+                    }
+                    //else
+                    //{
+                    //    MessageBox.Show(timeStampVPS.ToString());
+                    //    MessageBox.Show("同步网络时间失败");
+                    //}
+                
                 }
                 client.Disconnect();
             }
+
         }
 
         private void ButtonTEST_Click(object sender, RoutedEventArgs e)
@@ -151,6 +167,10 @@ namespace ProxySU
         /// <returns>返回网络时间</returns>  
         public static DateTime GetUTCTime()
         {
+            DateTime time;
+            ////Thread.Sleep(5000);
+            try
+            {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://www.tsa.cn");
                 request.Method = "HEAD";
                 request.AllowAutoRedirect = false;
@@ -158,10 +178,22 @@ namespace ProxySU
                 string cc = reponse.GetResponseHeader("date");
                 reponse.Close();
 
-                DateTime time;
                 bool s = GMTStrParse(cc, out time);
                 return time;
-          
+            }
+            catch (Exception ex1)
+            {
+                if (ex1.ToString().Contains("403"))
+                {
+                    MessageBox.Show("校时操作太频繁，请稍等片刻再操作！");
+                }
+                else
+                {
+                    MessageBox.Show(ex1.Message);
+                }
+                return time = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            }
+
             //return time.AddHours(8); //GMT要加8个小时才是北京时间
         }
         public static bool GMTStrParse(string gmtStr, out DateTime gmtTime)  //抓取的date是GMT格式的字符串，这里转成datetime
