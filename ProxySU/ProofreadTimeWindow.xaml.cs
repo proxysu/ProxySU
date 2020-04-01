@@ -20,6 +20,12 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using System.Drawing;
 using QRCoder;
+using System.Net;
+using System.Net.Sockets;
+using System.Net.NetworkInformation;
+using System.Runtime.InteropServices;
+using System.Runtime;
+using System.Globalization;
 
 namespace ProxySU
 {
@@ -30,7 +36,8 @@ namespace ProxySU
     {
         public static ConnectionInfo ProfreadTimeReceiveConnectionInfo { get; set; }
         //ProfreadTimeReceiveParameters
-        public ProofreadTimeWindow()
+
+         public ProofreadTimeWindow()
         {
             InitializeComponent();
             
@@ -41,16 +48,19 @@ namespace ProxySU
             using (var client = new SshClient(ProfreadTimeReceiveConnectionInfo))
             {
                 client.Connect();
+                client.RunCommand("rm -f /etc/localtime");
+                client.RunCommand("ln -s /usr/share/zoneinfo/UTC /etc/localtime");
+                //获取远程主机的时间戳
                 long timeStampVPS = Convert.ToInt64(client.RunCommand("date +%s").Result.ToString());
                 //MessageBox.Show(timesStampVPS.ToString());
                 //获取本地时间戳
-                TimeSpan ts = DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+                TimeSpan ts = DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1, 0, 0, 0, 0);
                 long timeStampLocal = Convert.ToInt64(ts.TotalSeconds);
                 client.Disconnect();
                 if (Math.Abs(timeStampLocal - timeStampVPS) >= 90)
                 {
 
-                    MessageBox.Show("本地时间与远程主机时间相差超过限制(90秒)，请先用\"系统工具-->时间校对\"校对时间后再设置");
+                    MessageBox.Show("本地时间与远程主机时间相差超过限制(90秒)，V2ray无法建立连接");
                     //currentStatus = "时间较对失败......";
                     //textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     //Thread.Sleep(1000);
@@ -58,14 +68,153 @@ namespace ProxySU
                 }
                 else
                 {
-                    MessageBox.Show("误差为："+Math.Abs(timeStampLocal - timeStampVPS).ToString());
+                    MessageBox.Show("误差为：" + Math.Abs(timeStampLocal - timeStampVPS).ToString()+" 可以连接");
                 }
             }
         }
 
+        private void ButtonProofreading_Click(object sender, RoutedEventArgs e)
+        {
+            using (var client = new SshClient(ProfreadTimeReceiveConnectionInfo))
+            {
+                client.Connect();
+                //设置vps为UTC时区
+                client.RunCommand("rm -f /etc/localtime");
+                client.RunCommand("ln -s /usr/share/zoneinfo/UTC /etc/localtime");
+                if (RadioButtonUpDateLocalTime.IsChecked==true)
+                {
+                    //将本机电脑与网络时间同步
+                    DateTime localTime = NetTime.GetUTCTime().ToLocalTime();
+                    bool setD = UpdateTime.SetDate(localTime);
+                    if (setD == true)
+                    {
+                        MessageBox.Show("本机时间已经更新为网络时间(国家授时中心获取)");
+                    }
+                    else
+                    {
+                        MessageBox.Show("更新失败，请重试。");
+                    }
+                   
+                }
+                else if (RadioButtonLocalTime.IsChecked == true)
+                {
+                    //以本地时间为准，校正远程主机时间
+                    //获取本地时间戳
+                    TimeSpan ts = DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+                    long timeStampLocal = Convert.ToInt64(ts.TotalSeconds);
+                    //string stampTime = timeStampLocal.ToString();
+                    string sshCmd = $"date --set=\"$(date \"+%Y-%m-%d %H:%M:%S\" -d @{timeStampLocal.ToString()})\"";
+                    //MessageBox.Show(sshCmd);
+                    //string sshCmd = $"date --set=\"$(date \"+%Y-%m-%d %H:%M:%S\" -d @1489739011)\"";
+                    //MessageBox.Show(sshCmd);
+                    client.RunCommand(sshCmd);
+                    MessageBox.Show("校时完毕");
 
-        //MainWindow.ConnectionInfo
-        //using (var client = new SshClient(MainWindow.ConnectionInfo))
+                }
+                else
+                {
+                    //以网络时间为准，校正远程主机时间
+                    TimeSpan utcTS = NetTime.GetUTCTime() - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+                    long timeStampVPS = Convert.ToInt64(utcTS.TotalSeconds);
+                    //MessageBox.Show(timeStampVPS.ToString());
+                    string sshCmd = $"date --set=\"$(date \"+%Y-%m-%d %H:%M:%S\" -d @{timeStampVPS.ToString()})\"";
+                    //MessageBox.Show(sshCmd);
+                    client.RunCommand(sshCmd);
+                    MessageBox.Show("校时完毕");
+                }
+                client.Disconnect();
+            }
+        }
+
+        private void ButtonTEST_Click(object sender, RoutedEventArgs e)
+        {
+            //NetTime netTime = new NetTime();
+            string netDatetime = NetTime.GetUTCTime().ToString();
+            MessageBox.Show(netDatetime);
+            //NetTime netTime = new NetTime();
+            //UpdateTime updateTime = new UpdateTime();
+            //DateTime netDateTime = netTime.GetBeijingTime();
+            //MessageBox.Show(netDateTime.ToString());
+        }
 
     }
+
+    /// <summary>  
+    /// 网络时间  代码从网上复制，原网址：https://www.codeleading.com/article/23791981303/
+    /// </summary>  
+    public class NetTime
+    {
+        /// <summary>  
+        /// 从国家授时中心获取标准GMT时间，读取https://www.tsa.cn  
+        /// GMT时间与UTC时间没有差别，可以UTC=GMT
+        /// </summary>  
+        /// <returns>返回网络时间</returns>  
+        public static DateTime GetUTCTime()
+        {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://www.tsa.cn");
+                request.Method = "HEAD";
+                request.AllowAutoRedirect = false;
+                HttpWebResponse reponse = (HttpWebResponse)request.GetResponse();
+                string cc = reponse.GetResponseHeader("date");
+                reponse.Close();
+
+                DateTime time;
+                bool s = GMTStrParse(cc, out time);
+                return time;
+          
+            //return time.AddHours(8); //GMT要加8个小时才是北京时间
+        }
+        public static bool GMTStrParse(string gmtStr, out DateTime gmtTime)  //抓取的date是GMT格式的字符串，这里转成datetime
+        {
+            CultureInfo enUS = new CultureInfo("en-US");
+            bool s = DateTime.TryParseExact(gmtStr, "r", enUS, DateTimeStyles.None, out gmtTime);
+            return s;
+        }
+
+    }
+
+    /// <summary>
+    /// 更新系统时间，代码从网上复制，原网址：https://www.open-open.com/code/view/1430552965599
+    /// </summary>
+    public class UpdateTime
+    {
+        //设置系统时间的API函数
+        [DllImport("kernel32.dll")]
+        private static extern bool SetLocalTime(ref SYSTEMTIME time);
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct SYSTEMTIME
+        {
+            public short year;
+            public short month;
+            public short dayOfWeek;
+            public short day;
+            public short hour;
+            public short minute;
+            public short second;
+            public short milliseconds;
+        }
+
+        /// <summary>
+        /// 设置系统时间
+        /// </summary>
+        /// <param name="dt">需要设置的时间</param>
+        /// <returns>返回系统时间设置状态，true为成功，false为失败</returns>
+        public static bool SetDate(DateTime dt)
+        {
+            SYSTEMTIME st;
+
+            st.year = (short)dt.Year;
+            st.month = (short)dt.Month;
+            st.dayOfWeek = (short)dt.DayOfWeek;
+            st.day = (short)dt.Day;
+            st.hour = (short)dt.Hour;
+            st.minute = (short)dt.Minute;
+            st.second = (short)dt.Second;
+            st.milliseconds = (short)dt.Millisecond;
+            bool rt = SetLocalTime(ref st);
+            return rt;
+        }
+    }
+
 }

@@ -21,6 +21,11 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using System.Drawing;
 using QRCoder;
+using System.Net;
+using System.Net.Sockets;
+using System.Runtime.InteropServices;
+using System.Runtime;
+using System.Globalization;
 
 namespace ProxySU
 {
@@ -847,6 +852,19 @@ namespace ProxySU
             WindowTemplateConfiguration windowTemplateConfiguration = new WindowTemplateConfiguration();
             windowTemplateConfiguration.ShowDialog();
         }
+        //打开系统工具中的校对时间窗口
+        private void ButtonProofreadTime_Click(object sender, RoutedEventArgs e)
+        {
+            ConnectionInfo connectionInfo = GenerateConnectionInfo();
+            if (connectionInfo == null)
+            {
+                MessageBox.Show("远程主机连接信息有误，请检查");
+                return;
+            }
+            ProofreadTimeWindow proofreadTimeWindow = new ProofreadTimeWindow();
+            ProofreadTimeWindow.ProfreadTimeReceiveConnectionInfo = connectionInfo;
+            proofreadTimeWindow.ShowDialog();
+        }
         private void ButtonGuideConfiguration_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("尚未完善，敬请期待");
@@ -868,8 +886,11 @@ namespace ProxySU
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            ResultClientInformation resultClientInformation = new ResultClientInformation();
-            resultClientInformation.ShowDialog();
+            //ResultClientInformation resultClientInformation = new ResultClientInformation();
+            //resultClientInformation.ShowDialog();
+            string stampTime = "1489739011";
+            string sshCmd = $"date --set=\"$(date \"+%Y-%m-%d %H:%M:%S\" -d @{stampTime})\"";
+            MessageBox.Show(sshCmd);
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
@@ -981,9 +1002,51 @@ namespace ProxySU
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
-            TimeSpan ts = DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, 0);
-            long  timeStamp = Convert.ToInt64(ts.TotalSeconds);
-            MessageBox.Show(timeStamp.ToString());
+            //获取本地时间戳
+            TimeSpan ts = DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            long timeStampLocal = Convert.ToInt64(ts.TotalSeconds);
+            MessageBox.Show("本地时间戳"+timeStampLocal.ToString());
+            //获取网络时间戳
+            TimeSpan utcTS = NetTime.GetUTCTime() - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            long timeStampVPS = Convert.ToInt64(utcTS.TotalSeconds);
+            MessageBox.Show("网络时间戳"+timeStampVPS.ToString());
+            //string netDatetime = NetTime.GetUTCTime().AddHours(8).ToString();
+            //MessageBox.Show(netDatetime);
+
+            //TimeZoneInfo localZone = TimeZoneInfo.Local;
+            ////MessageBox.Show($"Local Time Zone ID: {localZone.Id}");
+            //MessageBox.Show($"Display Name is: {localZone.DisplayName}.");
+            //MessageBox.Show($"Standard name is: {localZone.StandardName}.");
+            //MessageBox.Show($"   Daylight saving name is: {localZone.DaylightName}.");
+            //HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://www.tsa.cn");
+            //request.Method = "HEAD";
+            //request.AllowAutoRedirect = false;
+            //HttpWebResponse reponse = (HttpWebResponse)request.GetResponse();
+            //string cc = reponse.GetResponseHeader("date");
+            //reponse.Close();
+            //MessageBox.Show(cc);
+            //DateTime time;
+            //bool s = GMTStrParse(cc, out time);
+            //return time.AddHours(8); //GMT要加8个小时才是北京时间
+            //WebRequest wrt = null;
+            //WebResponse wrp = null;
+            //wrt = WebRequest.Create("https://www.tsa.cn/");
+            //wrp = wrt.GetResponse();
+            //string html = string.Empty;
+            //using (Stream stream = wrp.GetResponseStream())
+            //{
+            //    using (StreamReader sr = new StreamReader(stream, Encoding.UTF8))
+            //    {
+            //        html = sr.ReadToEnd();
+            //        using (StreamWriter sw = new StreamWriter(@"html.txt"))
+            //        {
+            //            sw.Write(html.ToString());
+            //        }
+            //    }
+            //}
+            //TimeSpan ts = DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            //long  timeStamp = Convert.ToInt64(ts.TotalSeconds);
+            //MessageBox.Show(timeStamp.ToString());
 
             //DateTime dateNow = DateTime.Now;
             //MessageBox.Show(TimeZoneInfo.ConvertTimeToUtc(dateNow).ToString());
@@ -991,18 +1054,7 @@ namespace ProxySU
             //                   TimeZoneInfo.ConvertTimeToUtc(dateNow));
         }
 
-        private void ButtonProofreadTime_Click(object sender, RoutedEventArgs e)
-        {
-            ConnectionInfo connectionInfo = GenerateConnectionInfo();
-            if (connectionInfo == null)
-            {
-                MessageBox.Show("远程主机连接信息有误，请检查");
-                return;
-            }
-            ProofreadTimeWindow proofreadTimeWindow = new ProofreadTimeWindow();
-            ProofreadTimeWindow.ProfreadTimeReceiveConnectionInfo = connectionInfo;
-            proofreadTimeWindow.ShowDialog();
-        }
+ 
     }
     
 }
