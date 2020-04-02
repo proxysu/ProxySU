@@ -1,12 +1,12 @@
 {
   "inbounds": [
     {
-       "port": ##port##,
+       "port": null,
        "protocol": "vmess",
        "settings": {
            "clients": [
               {
-                 "id": "##uuid##",
+                 "id": null,
                  "alterId": 64
               }
           ]
@@ -18,7 +18,7 @@
               "downlinkCapacity": 100,
               "congestion": true,
               "header": {
-                  "type": "##mkcpHeaderType##"
+                  "type": null
               }
           }
       }

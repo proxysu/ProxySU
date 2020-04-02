@@ -164,10 +164,10 @@ namespace ProxySU
             }
             //using (var client = new SshClient(sshHostName, sshPort, sshUser, sshPassword))
             //Action<ConnectionInfo, TextBlock> startSetUpAction = new Action<ConnectionInfo, TextBlock>(StartSetUpRemoteHost);
-            //string appConfig = TextBoxJsonPath.Text.ToString().Replace("\\","\\\\");
+            //string serverConfig = TextBoxJsonPath.Text.ToString().Replace("\\","\\\\");
             //读取模板配置
             //sed -i 's/PermitRootLogin no/PermitRootLogin yes/' /etc/v2ray/config.json
-            string appConfig="";  //服务端配置文件
+            string serverConfig="";  //服务端配置文件
             string clientConfig = "";   //生成的客户端配置文件
             string upLoadPath = "/etc/v2ray/config.json"; //服务端文件位置
             //生成客户端配置时，连接的服务主机的IP或者域名
@@ -185,28 +185,28 @@ namespace ProxySU
             {
                 //File.Copy("TemplateConfg\\tcp_server_config.json", "ConfigUpload\\tcp_server_config.json", true);
 
-                appConfig = "TemplateConfg\\tcp_server_config.json";
+                serverConfig = "TemplateConfg\\tcp_server_config.json";
                 clientConfig = "TemplateConfg\\tcp_client_config.json";
             }
             else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web"))
             {
                 //File.Copy("TemplateConfg\\tcp_server_config.json", "ConfigUpload\\tcp_server_config.json", true);
 
-                appConfig = "TemplateConfg\\WebSocketTLSWeb_server_config.json";
+                serverConfig = "TemplateConfg\\WebSocketTLSWeb_server_config.json";
                 clientConfig = "TemplateConfg\\WebSocketTLSWeb_client_config.json";
             }
             else if (String.Equals(ReceiveConfigurationParameters[0], "TCPhttp"))
             {
                 //File.Copy("TemplateConfg\\tcp_server_config.json", "ConfigUpload\\tcp_server_config.json", true);
 
-                appConfig = "TemplateConfg\\tcp_http_server_config.json";
+                serverConfig = "TemplateConfg\\tcp_http_server_config.json";
                 clientConfig = "TemplateConfg\\tcp_http_client_config.json";
             }
             else if (String.Equals(ReceiveConfigurationParameters[0], "MkcpNone")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2SRTP")||String.Equals(ReceiveConfigurationParameters[0], "mKCPuTP")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WechatVideo")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2DTLS")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WireGuard"))
             {
                 //File.Copy("TemplateConfg\\tcp_server_config.json", "ConfigUpload\\tcp_server_config.json", true);
 
-                appConfig = "TemplateConfg\\mkcp_server_config.json";
+                serverConfig = "TemplateConfg\\mkcp_server_config.json";
                 clientConfig = "TemplateConfg\\mkcp_client_config.json";
             }
            
@@ -214,21 +214,21 @@ namespace ProxySU
             {
                 //File.Copy("TemplateConfg\\tcp_server_config.json", "ConfigUpload\\tcp_server_config.json", true);
 
-                appConfig = "TemplateConfg\\HTTP2_server_config.json";
+                serverConfig = "TemplateConfg\\HTTP2_server_config.json";
                 clientConfig = "TemplateConfg\\tcp_client_config.json";
             }
             else if (String.Equals(ReceiveConfigurationParameters[0], "TLS"))
             {
                 //File.Copy("TemplateConfg\\tcp_server_config.json", "ConfigUpload\\tcp_server_config.json", true);
 
-                appConfig = "TemplateConfg\\TLS_server_config.json";
+                serverConfig = "TemplateConfg\\TLS_server_config.json";
                 clientConfig = "TemplateConfg\\tcp_client_config.json";
             }
             //Thread thread
-            Thread thread = new Thread(() => StartSetUpRemoteHost(connectionInfo, TextBlockSetUpProcessing, ProgressBarSetUpProcessing, appConfig, clientConfig, upLoadPath));
+            Thread thread = new Thread(() => StartSetUpRemoteHost(connectionInfo, TextBlockSetUpProcessing, ProgressBarSetUpProcessing, serverConfig, clientConfig, upLoadPath));
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
-            // Task task = new Task(() => StartSetUpRemoteHost(connectionInfo, TextBlockSetUpProcessing, ProgressBarSetUpProcessing, appConfig, clientConfig, upLoadPath));
+            // Task task = new Task(() => StartSetUpRemoteHost(connectionInfo, TextBlockSetUpProcessing, ProgressBarSetUpProcessing, serverConfig, clientConfig, upLoadPath));
             //task.Start();
             
         }
@@ -380,7 +380,7 @@ namespace ProxySU
         #endregion
 
         //登录远程主机布署程序
-        private void StartSetUpRemoteHost(ConnectionInfo connectionInfo,TextBlock textBlockName, ProgressBar progressBar, string appConfig,string clientConfig,string upLoadPath)
+        private void StartSetUpRemoteHost(ConnectionInfo connectionInfo,TextBlock textBlockName, ProgressBar progressBar, string serverConfig,string clientConfig,string upLoadPath)
         {
             string currentStatus = "正在登录远程主机......";
             Action<TextBlock, ProgressBar, string> updateAction = new Action<TextBlock, ProgressBar, string>(UpdateTextBlock);
@@ -483,7 +483,7 @@ namespace ProxySU
                     //MessageBox.Show(timesStamp2.ToString());
 
                     //如果使用如果是WebSocket + TLS + Web模式，需要检测域名解析是否正确
-                    if (appConfig.Contains("WebSocketTLSWeb") == true)
+                    if (serverConfig.Contains("WebSocketTLSWeb") == true)
                     {
                         currentStatus = "使用WebSocket + TLS + Web模式，正在检测域名是否解析到当前VPS的IP上......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -556,13 +556,46 @@ namespace ProxySU
                     currentStatus = "V2ray程序安装完毕，配置文件上传中......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
-                    UploadConfig(connectionInfo, appConfig, upLoadPath);
-                    client.RunCommand("sed -i 's/##port##/" + ReceiveConfigurationParameters[1] + "/' " + upLoadPath);
-                    client.RunCommand("sed -i 's/##uuid##/" + ReceiveConfigurationParameters[2] + "/' " + upLoadPath);
-                    client.RunCommand("sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath);
-                    //client.RunCommand("sed -i 's/##domain##/" + ReceiveConfigurationParameters[4] + "/' " + upLoadPath);
-                    client.RunCommand("sed -i 's/##mkcpHeaderType##/" + ReceiveConfigurationParameters[5] + "/' " + upLoadPath);
+                    //生成服务端配置
+                    if (!Directory.Exists("config"))//如果不存在就创建file文件夹　　             　　              
+                    {
+                        Directory.CreateDirectory("config");//创建该文件夹　　   
+                    }
+                    //string clientConfig = "TemplateConfg\\tcp_client_config.json";
+                    using (StreamReader reader = File.OpenText(serverConfig))
+                    {
+                        JObject serverJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
+                        // do stuff
+                        //MessageBox.Show(clientJson.ToString());
+                        //clientJson["inbounds"][0]["settings"]["vnext"][0]["address"] = ReceiveConfigurationParameters[4];
+                        serverJson["inbounds"][0]["port"] = ReceiveConfigurationParameters[1];
+                        serverJson["inbounds"][0]["settings"]["clients"][0]["id"] = ReceiveConfigurationParameters[2];
+                        if (serverJson.Property("path") != null)
+                        {
+                            //成员path存在
+                            serverJson["inbounds"][0]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[3];
+
+                        }
+                        if (serverJson.Property("type") != null)
+                        {
+                            //成员type存在
+                            serverJson["inbounds"][0]["streamSettings"]["kcpSettings"]["header"]["type"] = ReceiveConfigurationParameters[5];
+
+                        }
+
+                        using (StreamWriter sw = new StreamWriter(@"config\config.json"))
+                        {
+                            sw.Write(serverJson.ToString());
+                        }
+                    }
+                    UploadConfig(connectionInfo, @"config\config.json",upLoadPath);
+                    //client.RunCommand("sed -i 's/##port##/" + ReceiveConfigurationParameters[1] + "/' " + upLoadPath);
+                    //client.RunCommand("sed -i 's/##uuid##/" + ReceiveConfigurationParameters[2] + "/' " + upLoadPath);
+                    //client.RunCommand("sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath);
+                    ////client.RunCommand("sed -i 's/##domain##/" + ReceiveConfigurationParameters[4] + "/' " + upLoadPath);
+                    //client.RunCommand("sed -i 's/##mkcpHeaderType##/" + ReceiveConfigurationParameters[5] + "/' " + upLoadPath);
                     client.RunCommand("systemctl restart v2ray");
+                    File.Delete(@"config\config.json");
 
                     //打开防火墙端口
                     string openFireWallPort = ReceiveConfigurationParameters[1];
@@ -580,7 +613,7 @@ namespace ProxySU
                     }
 
                     //如果是WebSocket + TLS + Web模式，需要安装Caddy
-                    if (appConfig.Contains("WebSocketTLSWeb")==true)
+                    if (serverConfig.Contains("WebSocketTLSWeb")==true)
                     {
                         currentStatus = "使用WebSocket + TLS + Web模式，正在安装Caddy......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -595,9 +628,9 @@ namespace ProxySU
                         //currentStatus = "上传Caddy配置文件......";
                         //textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         //Thread.Sleep(1000);
-                        appConfig = "TemplateConfg\\WebSocketTLSWeb_server_config.caddyfile";
+                        serverConfig = "TemplateConfg\\WebSocketTLSWeb_server_config.caddyfile";
                         upLoadPath = "/etc/caddy/Caddyfile";
-                        UploadConfig(connectionInfo, appConfig, upLoadPath);
+                        UploadConfig(connectionInfo, serverConfig, upLoadPath);
                         //string[] splitDomain = ReceiveConfigurationParameters[4].Split('.');
 
                         //设置Caddyfile文件中的tls 邮箱
@@ -1124,7 +1157,7 @@ namespace ProxySU
                 }
                 else
                 {
-                    WebBrowserResourcesAndTools.Source = new Uri("https://"+TextBoxWebBrowserProxyUrl.Text);
+                    WebBrowserResourcesAndTools.Source = new Uri("http://"+TextBoxWebBrowserProxyUrl.Text);
                 }
                 
             }

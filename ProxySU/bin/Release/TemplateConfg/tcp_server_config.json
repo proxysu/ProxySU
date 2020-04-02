@@ -2,19 +2,17 @@
   "inbounds": [
    
      {
-        "port": ##port##,
+        "port": null,
         "protocol": "vmess",
         "settings": {
             "clients": [
                {
-                  "id": "##uuid##",
+                  "id": null,
                   "alterId": 64
                }
             ]
          }
      }
-  }
-
   ],
   "outbounds": [
      {
