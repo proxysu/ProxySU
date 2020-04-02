@@ -878,6 +878,7 @@ namespace ProxySU
             MessageBox.Show("尚未完善，敬请期待");
         }
 
+        #region 测试面板上的代码设置
         //测试接收到的模板参数
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -1002,6 +1003,14 @@ namespace ProxySU
                 }
             }
         }
+        private void Button_Click_6(object sender, RoutedEventArgs e)
+        {
+            string testfirst = "0123456789";
+            int startnum = 3, lenth = 4;
+            string resultstr = testfirst.Substring(startnum, lenth);
+            MessageBox.Show(resultstr);
+
+        }
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
@@ -1065,7 +1074,67 @@ namespace ProxySU
             //                   TimeZoneInfo.ConvertTimeToUtc(dateNow));
         }
 
- 
+        #endregion
+
+        private void ButtonWebBrowserBack_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                WebBrowserResourcesAndTools.GoBack();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void ButtonWebBrowserForward_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                WebBrowserResourcesAndTools.GoForward();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void ButtonWebBrowserHomePage_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                WebBrowserResourcesAndTools.Source=new Uri("https://github.com/proxysu/windows/wiki/ResourcesAndTools");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void ButtonWebBrowserProxyGo_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string urlStartchar = TextBoxWebBrowserProxyUrl.Text.Substring(0, 4);
+                MessageBox.Show(urlStartchar);
+                if (String.Equals(urlStartchar,"http")==true)
+                {
+                    WebBrowserResourcesAndTools.Source = new Uri(TextBoxWebBrowserProxyUrl.Text);
+                }
+                else
+                {
+                    WebBrowserResourcesAndTools.Source = new Uri("https://"+TextBoxWebBrowserProxyUrl.Text);
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+       
     }
     
 }

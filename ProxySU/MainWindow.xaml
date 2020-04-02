@@ -136,6 +136,7 @@
                                 <Button Content="测试生成v2rayN导入格式" Grid.Column="3" Grid.Row="0" Margin="10.334,10,10,10" Click="Button_Click_3"></Button>
                                 <Button Content="测试生成config.json文件" Grid.Column="2" Grid.Row="1" Margin="9.667,10,9.666,9.667" Click="Button_Click_4"></Button>
                                 <Button Content="测试时间" Grid.Column="4" Grid.Row="0" Margin="10,10,10.333,10" Click="Button_Click_5"></Button>
+                                <Button Content="测试字符串操作" Grid.Column="3" Grid.Row="1" Margin="10" Click="Button_Click_6"></Button>
                             </Grid>
                         </TabItem>
                     </TabControl>
@@ -147,7 +148,39 @@
             </TabItem>
             <TabItem Header="资源工具" Width="150" Height="30">
                 <Grid>
-
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Button x:Name="ButtonWebBrowserHomePage" Content="主页" Grid.Column="0" Grid.Row="0" Margin="5" Click="ButtonWebBrowserHomePage_Click"></Button>
+                    <Button x:Name="ButtonWebBrowserForward" Content="前进" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonWebBrowserForward_Click"></Button>
+                    <Button x:Name="ButtonWebBrowserBack" Content="后退" Grid.Column="2" Grid.Row="0" Margin="5" Click="ButtonWebBrowserBack_Click"/>
+                    <TextBox x:Name="TextBoxWebBrowserProxyUrl" Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="5" Margin="5"></TextBox>
+                    <Button x:Name="ButtonWebBrowserProxyGo" Content="Go" Grid.Column="8" Grid.Row="0" Margin="5" Click="ButtonWebBrowserProxyGo_Click"></Button>
+                    <WebBrowser x:Name="WebBrowserResourcesAndTools" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="9" Grid.RowSpan="13" Source="https://github.com/proxysu/windows/wiki/ResourcesAndTools" />
                 </Grid>
             </TabItem>
         </TabControl>

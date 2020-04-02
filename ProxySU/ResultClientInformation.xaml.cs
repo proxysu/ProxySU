@@ -264,7 +264,7 @@ namespace ProxySU
                     Directory.CreateDirectory(folder);//创建该文件夹　　            
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
