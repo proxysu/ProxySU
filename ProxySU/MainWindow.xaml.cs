@@ -50,6 +50,7 @@ namespace ProxySU
             RadioButtonProxyNoLogin.IsChecked = true;
             RadioButtonSocks4.Visibility = Visibility.Collapsed;
             ReceiveConfigurationParameters = new string[6];
+            
 
         }
         //远程主机连接信息
@@ -557,10 +558,10 @@ namespace ProxySU
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
                     //生成服务端配置
-                    if (!Directory.Exists("config"))//如果不存在就创建file文件夹　　             　　              
-                    {
-                        Directory.CreateDirectory("config");//创建该文件夹　　   
-                    }
+                    //if (!Directory.Exists("config"))//如果不存在就创建file文件夹　　             　　              
+                    //{
+                    //    Directory.CreateDirectory("config");//创建该文件夹　　   
+                    //}
                     //string clientConfig = "TemplateConfg\\tcp_client_config.json";
                     using (StreamReader reader = File.OpenText(serverConfig))
                     {
@@ -583,19 +584,19 @@ namespace ProxySU
 
                         }
 
-                        using (StreamWriter sw = new StreamWriter(@"config\config.json"))
+                        using (StreamWriter sw = new StreamWriter(@"config.json"))
                         {
                             sw.Write(serverJson.ToString());
                         }
                     }
-                    UploadConfig(connectionInfo, @"config\config.json",upLoadPath);
+                    UploadConfig(connectionInfo, @"config.json",upLoadPath);
                     //client.RunCommand("sed -i 's/##port##/" + ReceiveConfigurationParameters[1] + "/' " + upLoadPath);
                     //client.RunCommand("sed -i 's/##uuid##/" + ReceiveConfigurationParameters[2] + "/' " + upLoadPath);
                     //client.RunCommand("sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath);
                     ////client.RunCommand("sed -i 's/##domain##/" + ReceiveConfigurationParameters[4] + "/' " + upLoadPath);
                     //client.RunCommand("sed -i 's/##mkcpHeaderType##/" + ReceiveConfigurationParameters[5] + "/' " + upLoadPath);
                     client.RunCommand("systemctl restart v2ray");
-                    File.Delete(@"config\config.json");
+                    File.Delete(@"config.json");
 
                     //打开防火墙端口
                     string openFireWallPort = ReceiveConfigurationParameters[1];
@@ -1145,27 +1146,27 @@ namespace ProxySU
             }
         }
 
-        private void ButtonWebBrowserProxyGo_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                string urlStartchar = TextBoxWebBrowserProxyUrl.Text.Substring(0, 4);
-                MessageBox.Show(urlStartchar);
-                if (String.Equals(urlStartchar,"http")==true)
-                {
-                    WebBrowserResourcesAndTools.Source = new Uri(TextBoxWebBrowserProxyUrl.Text);
-                }
-                else
-                {
-                    WebBrowserResourcesAndTools.Source = new Uri("http://"+TextBoxWebBrowserProxyUrl.Text);
-                }
+        //private void ButtonWebBrowserProxyGo_Click(object sender, RoutedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        string urlStartchar = TextBoxWebBrowserProxyUrl.Text.Substring(0, 4);
+        //        //MessageBox.Show(urlStartchar);
+        //        if (String.Equals(urlStartchar,"http")==true)
+        //        {
+        //            WebBrowserResourcesAndTools.Source = new Uri(TextBoxWebBrowserProxyUrl.Text);
+        //        }
+        //        else
+        //        {
+        //            WebBrowserResourcesAndTools.Source = new Uri("http://" + TextBoxWebBrowserProxyUrl.Text);//如果没有前置代理，此处应为："http://" + TextBoxWebBrowserProxyUrl.Text
+        //        }
                 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
+       // }
 
        
     }
