@@ -470,7 +470,7 @@ namespace ProxySU
                     long timeStampVPS = Convert.ToInt64(client.RunCommand("date +%s").Result.ToString());
                     //MessageBox.Show(timesStampVPS.ToString());
                     //获取本地时间戳
-                    TimeSpan ts = DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+                    TimeSpan ts = DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1, 0, 0, 0, 0);
                     long timeStampLocal = Convert.ToInt64(ts.TotalSeconds);
                     if (Math.Abs(timeStampLocal - timeStampVPS) >= 90)
                     {
@@ -569,7 +569,11 @@ namespace ProxySU
                         // do stuff
                         //MessageBox.Show(clientJson.ToString());
                         //clientJson["inbounds"][0]["settings"]["vnext"][0]["address"] = ReceiveConfigurationParameters[4];
-                        serverJson["inbounds"][0]["port"] = ReceiveConfigurationParameters[1];
+                        if (serverConfig.Contains("WebSocketTLSWeb") == false)
+                        {
+                            serverJson["inbounds"][0]["port"] = ReceiveConfigurationParameters[1];
+                        }
+                        
                         serverJson["inbounds"][0]["settings"]["clients"][0]["id"] = ReceiveConfigurationParameters[2];
                         if (serverJson.Property("path") != null)
                         {
@@ -746,6 +750,7 @@ namespace ProxySU
                 else
                 {
                     MessageBox.Show("未知错误");
+                    MessageBox.Show(ex1.Message);
                 }
                 currentStatus = "主机登录失败";
                 textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -764,7 +769,9 @@ namespace ProxySU
                     sftpClient.Connect();
                     //MessageBox.Show("sftp信息1" + sftpClient.ConnectionInfo.ServerVersion.ToString());
                     //sftpClient.UploadFile(File.OpenRead("TemplateConfg\tcp_server_config.json"), "/etc/v2ray/config.json", true);
-                    sftpClient.UploadFile(File.OpenRead(uploadConfig), upLoadPath, true);
+                    FileStream openUploadConfigFile = File.OpenRead(uploadConfig);
+                    sftpClient.UploadFile(openUploadConfigFile, upLoadPath, true);
+                    openUploadConfigFile.Close();
                     //MessageBox.Show("sftp信息" + sftpClient.ConnectionInfo.ServerVersion.ToString());
                     sftpClient.Disconnect();
                 }
@@ -785,8 +792,9 @@ namespace ProxySU
                 {
                     sftpClient.Connect();
                     //MessageBox.Show("sftp信息1" + sftpClient.ConnectionInfo.ServerVersion.ToString());
-
-                    sftpClient.DownloadFile(downloadPath, File.Open(downloadConfig,FileMode.Create));
+                    FileStream createDownloadConfig = File.Open(downloadConfig, FileMode.Create);
+                    sftpClient.DownloadFile(downloadPath, createDownloadConfig);
+                    createDownloadConfig.Close();
                     //MessageBox.Show("sftp信息" + sftpClient.ConnectionInfo.ServerVersion.ToString());
                     sftpClient.Disconnect();
                 }

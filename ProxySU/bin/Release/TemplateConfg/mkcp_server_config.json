@@ -6,7 +6,7 @@
        "settings": {
            "clients": [
               {
-                 "id": null,
+                 "id": "",
                  "alterId": 64
               }
           ]
@@ -18,7 +18,7 @@
               "downlinkCapacity": 100,
               "congestion": true,
               "header": {
-                  "type": null
+                  "type": ""
               }
           }
       }
