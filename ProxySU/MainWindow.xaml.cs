@@ -446,10 +446,11 @@ namespace ProxySU
 
                     //检测系统是否支持yum 或 apt-get或zypper，且支持Systemd
                     //如果不存在组件，则命令结果为空，string.IsNullOrEmpty值为真，
-                    bool getApt = string.IsNullOrEmpty(client.RunCommand("command -v apt-get").Result);
-                    bool getYum = string.IsNullOrEmpty(client.RunCommand("command -v yum").Result);
-                    bool getZypper = string.IsNullOrEmpty(client.RunCommand("command -v zypper").Result);
-                    bool getSystemd = string.IsNullOrEmpty(client.RunCommand("command -v systemctl").Result);
+                    bool getApt = String.IsNullOrEmpty(client.RunCommand("command -v apt-get").Result);
+                    bool getYum = String.IsNullOrEmpty(client.RunCommand("command -v yum").Result);
+                    bool getZypper = String.IsNullOrEmpty(client.RunCommand("command -v zypper").Result);
+                    bool getSystemd = String.IsNullOrEmpty(client.RunCommand("command -v systemctl").Result);
+                    bool getGetenforce = String.IsNullOrEmpty(client.RunCommand("command -v getenforce").Result);
 
                     //没有安装apt-get，也没有安装yum，也没有安装zypper,或者没有安装systemd的，不满足安装条件
                     //也就是apt-get ，yum, zypper必须安装其中之一，且必须安装Systemd的系统才能安装。
@@ -460,6 +461,22 @@ namespace ProxySU
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
                         return;
+                    }
+                    //判断是否启用了SELinux,如果启用了，并且工作在Enforcing模式下，则改为Permissive模式
+                    if (getGetenforce == false)
+                    {
+                        string testSELinux = client.RunCommand("getenforce").Result;
+                        MessageBox.Show(testSELinux);
+                        if (testSELinux.Contains("Enforcing")==true)
+                        {
+                            MessageBox.Show("Enforcing");
+                            client.RunCommand("setenforce  0");//不重启改为Permissive模式
+                            client.RunCommand("sed -i 's/SELINUX=enforcing/SELINUX=permissive/' /etc/selinux/config");//重启也工作在Permissive模式下
+                        }
+                        else
+                        {
+                            MessageBox.Show("非Enforcing");
+                        }
                     }
 
                     //校对时间
@@ -944,6 +961,32 @@ namespace ProxySU
             }
         }
 
+        //private void Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    ConnectionInfo testconnect = GenerateConnectionInfo();
+        //    using (var client = new SshClient(testconnect))
+        //    {
+        //        client.Connect();
+        //        bool getGetenforce = String.IsNullOrEmpty(client.RunCommand("command -v getenforce").Result);
+
+        //        if (getGetenforce == false)
+        //        {
+        //            string testSELinux = client.RunCommand("getenforce").Result;
+        //            MessageBox.Show(testSELinux);
+        //            if (testSELinux.Contains("Enforcing") == true)
+        //            {
+        //                MessageBox.Show("Enforcing");
+        //                client.RunCommand("setenforce  0");//不重启改为Permissive模式
+        //                client.RunCommand("sed -i 's/SELINUX=enforcing/SELINUX=permissive/' /etc/selinux/config");//重启也工作在Permissive模式下
+        //            }
+        //            else
+        //            {
+        //                MessageBox.Show("非Enforcing");
+        //            }
+        //        }
+        //        client.Disconnect();
+        //    }
+        //}
         //private void ButtonWebBrowserProxyGo_Click(object sender, RoutedEventArgs e)
         //{
         //    try
@@ -958,15 +1001,15 @@ namespace ProxySU
         //        {
         //            WebBrowserResourcesAndTools.Source = new Uri("http://" + TextBoxWebBrowserProxyUrl.Text);//如果没有前置代理，此处应为："http://" + TextBoxWebBrowserProxyUrl.Text
         //        }
-                
+
         //    }
         //    catch (Exception ex)
         //    {
         //        MessageBox.Show(ex.Message);
         //    }
-       // }
+        // }
 
-       
+
     }
     
 }

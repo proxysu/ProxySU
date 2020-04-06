@@ -156,7 +156,7 @@
                                     <RowDefinition></RowDefinition>
                                     <RowDefinition></RowDefinition>
                                 </Grid.RowDefinitions>
-                               
+                                <!--<Button Content="更改SELinux模式" Grid.Column="0" Grid.Row="0" Margin="10" Click="Button_Click"></Button>-->
                             </Grid>
                         </TabItem>
                     </TabControl>
