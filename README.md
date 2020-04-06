@@ -15,6 +15,8 @@ Debian 8/9/10
 
 Ubuntu 16.04及以上
 
+(注意：如果系统启用了SELinux且工作在Enforcing模式下时，需要将Enforcing更改为Permissive模式，否则使用WebSocket+TLS+Web时，Caddy的无法开机启动，这种情形一般出现在Centos7/8中。)
+
 目前已支持生成用于
 
 1>v2ray官方程序配置文件(客户端配置)
