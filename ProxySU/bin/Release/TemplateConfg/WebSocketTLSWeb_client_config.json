@@ -25,11 +25,11 @@
 			"settings": {
 				"vnext": [
 					{
-						"address":"",
+						"address":null,
 						"port":null,
 						"users":[
 							{
-								"id":"",
+								"id":null,
 								"alterId":16,
 								"security":"auto"
 							}
@@ -41,7 +41,7 @@
 				"network":"ws",
 				"security":"tls",
 				"wsSettings":{
-					"path":""
+					"path":null
 				}
 			},
 			"mux": {

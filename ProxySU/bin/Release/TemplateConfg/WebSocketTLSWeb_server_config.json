@@ -7,7 +7,7 @@
 			"settings": {
 				"clients": [
 					{
-						"id": "",
+						"id": null,
 						"alterId": 64
 					}
 				]
@@ -15,7 +15,7 @@
 			"streamSettings": {
 				"network": "ws",
 				"wsSettings": {
-					"path": ""
+					"path": null
 				}
 			}
 		}

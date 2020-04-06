@@ -25,11 +25,11 @@
 			"settings": {
 				"vnext": [
 					{
-						"address": "",
+						"address": null,
 						"port": null,
 						"users": [
 							{
-								"id": "",
+								"id": null,
 								"alterId": 16,
 								"security": "auto"
 							}
@@ -48,7 +48,7 @@
 					"readBufferSize": 2,
 					"writeBufferSize": 2,
 					"header": {
-						"type": ""
+						"type": null
 					}
 				}
 			},

@@ -558,36 +558,28 @@ namespace ProxySU
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
                     //生成服务端配置
-                    //if (!Directory.Exists("config"))//如果不存在就创建file文件夹　　             　　              
-                    //{
-                    //    Directory.CreateDirectory("config");//创建该文件夹　　   
-                    //}
-                    //string clientConfig = "TemplateConfg\\tcp_client_config.json";
+                    
                     using (StreamReader reader = File.OpenText(serverConfig))
                     {
                         JObject serverJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
-                        // do stuff
-                        //MessageBox.Show(clientJson.ToString());
-                        //clientJson["inbounds"][0]["settings"]["vnext"][0]["address"] = ReceiveConfigurationParameters[4];
+                      
                         if (serverConfig.Contains("WebSocketTLSWeb") == false)
                         {
                             serverJson["inbounds"][0]["port"] = ReceiveConfigurationParameters[1];
                         }
                         
                         serverJson["inbounds"][0]["settings"]["clients"][0]["id"] = ReceiveConfigurationParameters[2];
-                        if (serverJson.Property("path") != null)
+                       
+                        if (serverConfig.Contains("WebSocketTLSWeb") == true)
                         {
-                            //成员path存在
                             serverJson["inbounds"][0]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[3];
-
                         }
-                        if (serverJson.Property("type") != null)
+                       
+                        if (serverConfig.Contains("mkcp") == true)
                         {
-                            //成员type存在
                             serverJson["inbounds"][0]["streamSettings"]["kcpSettings"]["header"]["type"] = ReceiveConfigurationParameters[5];
-
                         }
-
+           
                         using (StreamWriter sw = new StreamWriter(@"config.json"))
                         {
                             sw.Write(serverJson.ToString());
@@ -675,23 +667,19 @@ namespace ProxySU
                     using (StreamReader reader = File.OpenText(clientConfig))
                     {
                         JObject clientJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
-                        // do stuff
-                        //MessageBox.Show(clientJson.ToString());
+
                         clientJson["outbounds"][0]["settings"]["vnext"][0]["address"] = ReceiveConfigurationParameters[4];
                         clientJson["outbounds"][0]["settings"]["vnext"][0]["port"] = ReceiveConfigurationParameters[1];
                         clientJson["outbounds"][0]["settings"]["vnext"][0]["users"][0]["id"] = ReceiveConfigurationParameters[2];
-                        if (clientJson.Property("path") != null)
+                        if (clientConfig.Contains("WebSocketTLSWeb")==true)
                         {
-                            //成员path存在
                             clientJson["outbounds"][0]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[3];
-
                         }
-                        if (clientJson.Property("type") != null)
+                        if (clientConfig.Contains("mkcp")==true)
                         {
-                            //成员type存在
                             clientJson["outbounds"][0]["streamSettings"]["kcpSettings"]["header"]["type"] = ReceiveConfigurationParameters[5];
-
                         }
+        
 
                         using (StreamWriter sw = new StreamWriter(@"config\config.json"))
                         {
@@ -919,204 +907,6 @@ namespace ProxySU
         {
             MessageBox.Show("尚未完善，敬请期待");
         }
-
-        #region 测试面板上的代码设置
-        //测试接收到的模板参数
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            foreach (string num in ReceiveConfigurationParameters)
-            {
-                MessageBox.Show(num);
-            }
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            //ResultClientInformation resultClientInformation = new ResultClientInformation();
-            //resultClientInformation.ShowDialog();
-            string stampTime = "1489739011";
-            string sshCmd = $"date --set=\"$(date \"+%Y-%m-%d %H:%M:%S\" -d @{stampTime})\"";
-            MessageBox.Show(sshCmd);
-        }
-
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            string sshHostName = TextBoxHost.Text.ToString();
-            int sshPort = int.Parse(TextBoxPort.Text);
-            string sshUser = TextBoxUserName.Text.ToString();
-            string sshPassword = PasswordBoxHostPassword.Password.ToString();
-            ReceiveConfigurationParameters[4] = "";
-            //string emailAddress = ReceiveConfigurationParameters[4];
-            //string sshCmd;
-            //sshCmd = "ping "+ ReceiveConfigurationParameters[4] + " -c 1 | grep -oE -m1 \"([0-9]{1,3}\\.){3}[0-9]{1,3}\"";
-          
-            //string resultCmd;
-            //string upLoadPath = "/etc/caddy/Caddyfile";
-            var connectionInfo = new PasswordConnectionInfo(sshHostName, sshPort, sshUser, sshPassword);
-            using (var client = new SshClient(connectionInfo))
-            {
-                client.Connect();
-                //MessageBox.Show(client.RunCommand("date +%s").Result.ToString());
-                long timesStamp1 = Convert.ToInt64(client.RunCommand("date +%s").Result.ToString());
-                MessageBox.Show(timesStamp1.ToString());
-                long timesStamp2 = timesStamp1 - 300;
-                MessageBox.Show(timesStamp2.ToString());
-                client.Disconnect();
-                return;
-            }
-        }
-               //测试生成v2rayN导入格式json
-//               {
-//  "v": "2",
-//  "ps": "",
-//  "add": "",
-//  "port": "",
-//  "id": "",
-//  "aid": "16",
-//  "net": "tcp",
-//  "type": "none",
-//  "host": "",
-//  "path": "",
-//  "tls": ""
-//}
-    private void Button_Click_3(object sender, RoutedEventArgs e)
-        {
-            string v2rayNjsonFile = @"{
-  ""v"": """",
-  ""ps"": """",
-  ""add"": """",
-  ""port"": """",
-  ""id"": """",
-  ""aid"": """",
-  ""net"": """",
-  ""type"": """",
-  ""host"": """",
-  ""path"": """",
-  ""tls"": """"
-}";
-            //MessageBox.Show(v2rayNjsonFile);
-            JObject v2rayNjsonObject = JObject.Parse(v2rayNjsonFile);
-            v2rayNjsonObject["v"] = "2";
-            v2rayNjsonObject["add"] = "";
-            v2rayNjsonObject["port"] = "";
-            v2rayNjsonObject["id"] = "";
-            v2rayNjsonObject["aid"] = "16";
-            v2rayNjsonObject["net"] = "";
-            v2rayNjsonObject["type"] = "";
-            v2rayNjsonObject["host"] = "";
-            v2rayNjsonObject["path"] = "";
-            v2rayNjsonObject["tls"] = "";
-            v2rayNjsonObject["ps"] = v2rayNjsonObject["add"];
-            //MessageBox.Show(v2rayNjsonObject["v"].ToString());
-
-        }
-
-        private void Button_Click_4(object sender, RoutedEventArgs e)
-        {
-            if (!Directory.Exists("config"))//如果不存在就创建file文件夹　　             　　              
-            {
-                Directory.CreateDirectory("config");//创建该文件夹　　   
-            }
-            string clientConfig= "TemplateConfg\\tcp_client_config.json";
-            using (StreamReader reader = File.OpenText(clientConfig))
-            {
-                JObject clientJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
-                // do stuff
-                MessageBox.Show(clientJson.ToString());
-                clientJson["outbounds"][0]["settings"]["vnext"][0]["address"] = ReceiveConfigurationParameters[4];
-                clientJson["outbounds"][0]["settings"]["vnext"][0]["port"] = ReceiveConfigurationParameters[1];
-                clientJson["outbounds"][0]["settings"]["vnext"][0]["users"][0]["id"] = ReceiveConfigurationParameters[2];
-                if (clientJson.Property("path") != null)
-                {
-                    //成员path存在
-                    clientJson["outbounds"][0]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[3];
-
-                }
-                if (clientJson.Property("type") != null)
-                {
-                    //成员type存在
-                    clientJson["outbounds"][0]["streamSettings"]["kcpSettings"]["header"]["type"] = ReceiveConfigurationParameters[5];
-
-                }
-               
-                using (StreamWriter sw = new StreamWriter(@"config\config.json"))
-                {
-                    sw.Write(clientJson.ToString());
-                }
-            }
-        }
-        private void Button_Click_6(object sender, RoutedEventArgs e)
-        {
-            string testfirst = "0123456789";
-            int startnum = 3, lenth = 4;
-            string resultstr = testfirst.Substring(startnum, lenth);
-            MessageBox.Show(resultstr);
-
-        }
-
-        private void Button_Click_5(object sender, RoutedEventArgs e)
-        {
-            //获取本地时间戳
-            //TimeSpan ts = DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1, 0, 0, 0, 0);
-            //long timeStampLocal = Convert.ToInt64(ts.TotalSeconds);
-            //MessageBox.Show("本地时间戳"+timeStampLocal.ToString());
-            //获取网络时间戳
-            //Thread.Sleep(1000);
-            try
-            {
-                TimeSpan utcTS = NetTime.GetUTCTime() - new DateTime(1970, 1, 1, 0, 0, 0, 0);
-                long timeStampVPS = Convert.ToInt64(utcTS.TotalSeconds);
-                MessageBox.Show("网络时间戳" + timeStampVPS.ToString());
-            }
-            catch(Exception ex1)
-            {
-                MessageBox.Show(ex1.ToString());
-            }
-            //string netDatetime = NetTime.GetUTCTime().AddHours(8).ToString();
-            //MessageBox.Show(netDatetime);
-
-            //TimeZoneInfo localZone = TimeZoneInfo.Local;
-            ////MessageBox.Show($"Local Time Zone ID: {localZone.Id}");
-            //MessageBox.Show($"Display Name is: {localZone.DisplayName}.");
-            //MessageBox.Show($"Standard name is: {localZone.StandardName}.");
-            //MessageBox.Show($"   Daylight saving name is: {localZone.DaylightName}.");
-            //HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://www.tsa.cn");
-            //request.Method = "HEAD";
-            //request.AllowAutoRedirect = false;
-            //HttpWebResponse reponse = (HttpWebResponse)request.GetResponse();
-            //string cc = reponse.GetResponseHeader("date");
-            //reponse.Close();
-            //MessageBox.Show(cc);
-            //DateTime time;
-            //bool s = GMTStrParse(cc, out time);
-            //return time.AddHours(8); //GMT要加8个小时才是北京时间
-            //WebRequest wrt = null;
-            //WebResponse wrp = null;
-            //wrt = WebRequest.Create("https://www.tsa.cn/");
-            //wrp = wrt.GetResponse();
-            //string html = string.Empty;
-            //using (Stream stream = wrp.GetResponseStream())
-            //{
-            //    using (StreamReader sr = new StreamReader(stream, Encoding.UTF8))
-            //    {
-            //        html = sr.ReadToEnd();
-            //        using (StreamWriter sw = new StreamWriter(@"html.txt"))
-            //        {
-            //            sw.Write(html.ToString());
-            //        }
-            //    }
-            //}
-            //TimeSpan ts = DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, 0);
-            //long  timeStamp = Convert.ToInt64(ts.TotalSeconds);
-            //MessageBox.Show(timeStamp.ToString());
-
-            //DateTime dateNow = DateTime.Now;
-            //MessageBox.Show(TimeZoneInfo.ConvertTimeToUtc(dateNow).ToString());
-            //Console.WriteLine("The date and time are {0} UTC.",
-            //                   TimeZoneInfo.ConvertTimeToUtc(dateNow));
-        }
-
-        #endregion
 
         private void ButtonWebBrowserBack_Click(object sender, RoutedEventArgs e)
         {
