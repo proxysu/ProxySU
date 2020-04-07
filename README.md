@@ -1,5 +1,5 @@
 # windows
-V2ray install tools for windows v
+V2ray install tools for windows
 
 学习C#用来练手的小工具。
 
