@@ -212,12 +212,12 @@ namespace ProxySU
                 clientConfig = "TemplateConfg\\mkcp_client_config.json";
             }
            
-            else if (String.Equals(ReceiveConfigurationParameters[0], "HTTP2"))
+            else if (String.Equals(ReceiveConfigurationParameters[0], "Http2"))
             {
                 //File.Copy("TemplateConfg\\tcp_server_config.json", "ConfigUpload\\tcp_server_config.json", true);
 
-                serverConfig = "TemplateConfg\\HTTP2_server_config.json";
-                clientConfig = "TemplateConfg\\tcp_client_config.json";
+                serverConfig = "TemplateConfg\\http2_server_config.json";
+                clientConfig = "TemplateConfg\\http2_client_config.json";
             }
             else if (String.Equals(ReceiveConfigurationParameters[0], "QuicNone") || String.Equals(ReceiveConfigurationParameters[0], "QuicSRTP") || String.Equals(ReceiveConfigurationParameters[0], "Quic2uTP") || String.Equals(ReceiveConfigurationParameters[0], "QuicWechatVideo") || String.Equals(ReceiveConfigurationParameters[0], "QuicDTLS") || String.Equals(ReceiveConfigurationParameters[0], "QuicWireGuard"))
             {
@@ -503,9 +503,9 @@ namespace ProxySU
                     //MessageBox.Show(timesStamp2.ToString());
 
                     //如果使用如果是WebSocket + TLS + Web模式，需要检测域名解析是否正确
-                    if (serverConfig.Contains("WebSocketTLSWeb") == true)
+                    if (serverConfig.Contains("WebSocketTLSWeb") == true || serverConfig.Contains("Http2") == true)
                     {
-                        currentStatus = "使用WebSocket + TLS + Web模式，正在检测域名是否解析到当前VPS的IP上......";
+                        currentStatus = "正在检测域名是否解析到当前VPS的IP上......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
 
@@ -593,7 +593,12 @@ namespace ProxySU
                         {
                             serverJson["inbounds"][0]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[3];
                         }
-                       //mkcp模式下，设置伪装类型
+                        //如果是Http2模式下，设置路径
+                        if (serverConfig.Contains("http2") == true)
+                        {
+                            serverJson["inbounds"][0]["streamSettings"]["httpSettings"]["path"] = ReceiveConfigurationParameters[3];
+                        }
+                        //mkcp模式下，设置伪装类型
                         if (serverConfig.Contains("mkcp") == true)
                         {
                             serverJson["inbounds"][0]["streamSettings"]["kcpSettings"]["header"]["type"] = ReceiveConfigurationParameters[5];
@@ -616,7 +621,7 @@ namespace ProxySU
                     //client.RunCommand("sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath);
                     ////client.RunCommand("sed -i 's/##domain##/" + ReceiveConfigurationParameters[4] + "/' " + upLoadPath);
                     //client.RunCommand("sed -i 's/##mkcpHeaderType##/" + ReceiveConfigurationParameters[5] + "/' " + upLoadPath);
-                    client.RunCommand("systemctl restart v2ray");
+                    //client.RunCommand("systemctl restart v2ray");
                     File.Delete(@"config.json");
 
                     //打开防火墙端口
@@ -696,7 +701,54 @@ namespace ProxySU
                         client.RunCommand("caddy -service start");
                     }
 
-                    
+                    if (serverConfig.Contains("http2") == true)
+                    {
+                        currentStatus = "使用Http2模式，正在安装acme.sh......";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+
+                        if (getApt == false)
+                        {
+                            //client.RunCommand("apt-get -qq update");
+                            client.RunCommand("apt-get -y -qq install socat");
+                        }
+                        if (getYum == false)
+                        {
+                            //client.RunCommand("yum -q makecache");
+                            client.RunCommand("yum -y -q install socat");
+                        }
+                        if (getZypper == false)
+                        {
+                           // client.RunCommand("zypper ref");
+                            client.RunCommand("zypper -y install socat");
+                        }
+                        client.RunCommand("curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh");
+                        client.RunCommand("cd ~/.acme.sh/");
+                        client.RunCommand("alias acme.sh=~/.acme.sh/acme.sh");
+
+                        currentStatus = "申请域名证书......";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+
+                        client.RunCommand("mkdir -p /etc/v2ray/ssl");
+                        client.RunCommand($"/root/.acme.sh/acme.sh  --issue  --standalone  -d {ReceiveConfigurationParameters[4]}");
+
+                        currentStatus = "安装证书到V2ray......";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                        client.RunCommand($"/root/.acme.sh/acme.sh  --installcert  -d {ReceiveConfigurationParameters[4]}  --certpath /etc/v2ray/ssl/v2ray-h2-ssl.pem --keypath /etc/v2ray/ssl/v2ray-h2-ssl.key  --capath  /etc/v2ray/ssl/v2ray-h2-ssl.pem  --reloadcmd  \"systemctl restart v2ray\"");
+                    }
+
+                    currentStatus = "正在启动V2ray......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+                    //启动V2ray服务
+                    client.RunCommand("systemctl restart v2ray");
+
+                    currentStatus = "V2ray启动成功！";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
 
                     //生成客户端配置
                     currentStatus = "生成客户端配置......";
@@ -717,6 +769,10 @@ namespace ProxySU
                         if (clientConfig.Contains("WebSocketTLSWeb")==true)
                         {
                             clientJson["outbounds"][0]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[3];
+                        }
+                        if (clientConfig.Contains("http2") == true)
+                        {
+                            clientJson["outbounds"][0]["streamSettings"]["httpSettings"]["path"] = ReceiveConfigurationParameters[3];
                         }
                         if (clientConfig.Contains("mkcp")==true)
                         {

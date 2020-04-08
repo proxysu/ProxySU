@@ -1,0 +1,37 @@
+{
+	"inbounds": [
+		{
+			"port": null,
+			"protocol": "vmess",
+			"settings": {
+				"clients": [
+					{
+						"id": null,
+						"alterId": 64
+					}
+				]
+			},
+			"streamSettings": {
+				"network": "h2",
+				"security": "tls",
+				"tlsSettings": {
+					"certificates": [
+						{
+							"certificateFile": "/etc/v2ray/ssl/v2ray-h2-ssl.pem",
+							"keyFile": "/etc/v2ray/ssl/v2ray-h2-ssl.key"
+						}
+					]
+				},
+				"httpSettings": {
+					"path": null
+				}
+			}
+		}
+	],
+	"outbounds": [
+		{
+			"protocol": "freedom",
+			"settings": {}
+		}
+	]
+}

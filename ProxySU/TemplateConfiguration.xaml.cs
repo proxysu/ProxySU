@@ -57,7 +57,7 @@ namespace ProxySU
             else if (RadioButtonHTTP2.IsChecked == true)
             {
                 //传递模板类型
-                MainWindow.ReceiveConfigurationParameters[0] = "HTTP2";
+                MainWindow.ReceiveConfigurationParameters[0] = "Http2";
                 //传递路径
                 MainWindow.ReceiveConfigurationParameters[3] = TextBoxPath.Text.ToString();
                 //传递域名

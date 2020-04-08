@@ -166,7 +166,7 @@ namespace ProxySU
                 HidePathAndTLS();
                 ShowQuicKey();
             }
-            else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "HTTP2"))
+            else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "Http2"))
             {
                 TextBoxTransmission.Text = "h2";
                 TextBoxCamouflageType.Text = "none";
