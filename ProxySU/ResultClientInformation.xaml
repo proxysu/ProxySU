@@ -61,9 +61,12 @@
                 <TextBlock x:Name="TextBlockPath" Text="路径(Path)" Grid.Column="0" Grid.Row="8" Margin="8"></TextBlock>
                 <TextBox x:Name="TextBoxPath" IsReadOnly="True" Grid.Column="1" Grid.Row="8" Margin="8"></TextBox>
                 <TextBlock x:Name="TextBlockPathExplain" Text="说明" Grid.Column="2" Grid.Row="8"></TextBlock>
+                <TextBlock x:Name="TextBlockQuicKey" Text="QUIC密钥" Grid.Column="0" Grid.Row="9" Margin="8"></TextBlock>
+                <TextBox x:Name="TextBoxQuicKey" IsReadOnly="True" Grid.Column="1" Grid.Row="9" Margin="8"></TextBox>
+                <TextBlock x:Name="TextBlockQuicKeyExplain" Text="说明" Grid.Column="2" Grid.Row="9"></TextBlock>
 
-                <TextBlock Text="以上参数可以手动输入客户端，用于V2ray官方客户端的配置文件已经存放入config目录下，点击确定可打开" Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="2" TextWrapping="Wrap"></TextBlock>
-                <Button Content="确定" Grid.Column="2" Grid.Row="9" Grid.RowSpan="2" Margin="20" Click="Button_Click"></Button>
+                <TextBlock Text="以上参数可以手动输入客户端，用于V2ray官方客户端的配置文件已经存放入config目录下，点击确定可打开" Grid.Column="0" Grid.Row="10" Grid.ColumnSpan="2" TextWrapping="Wrap"></TextBlock>
+                <Button x:Name="ButtonOpenSaveDir" Content="确定" Grid.Column="2" Grid.Row="10" Grid.RowSpan="1" Margin="5" Click="ButtonOpenSaveDir_Click"></Button>
                 <Grid Grid.Column="0" Grid.Row="11" Grid.ColumnSpan="2" Grid.RowSpan="7">
                     <Grid>
                         <Grid.ColumnDefinitions>

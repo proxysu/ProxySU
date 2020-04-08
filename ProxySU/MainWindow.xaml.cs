@@ -40,7 +40,8 @@ namespace ProxySU
         //ReceiveConfigurationParameters[2]----uuid
         //ReceiveConfigurationParameters[3]----path
         //ReceiveConfigurationParameters[4]----domain
-        //ReceiveConfigurationParameters[5]----mKCP伪装类型
+        //ReceiveConfigurationParameters[5]----伪装类型
+        //ReceiveConfigurationParameters[6]----QUIC密钥
         //public static ConnectionInfo ConnectionInfo;
         public MainWindow()
         {
@@ -49,7 +50,7 @@ namespace ProxySU
             RadioButtonNoProxy.IsChecked = true;
             RadioButtonProxyNoLogin.IsChecked = true;
             RadioButtonSocks4.Visibility = Visibility.Collapsed;
-            ReceiveConfigurationParameters = new string[6];
+            ReceiveConfigurationParameters = new string[7];
             
 
         }
@@ -218,13 +219,14 @@ namespace ProxySU
                 serverConfig = "TemplateConfg\\HTTP2_server_config.json";
                 clientConfig = "TemplateConfg\\tcp_client_config.json";
             }
-            else if (String.Equals(ReceiveConfigurationParameters[0], "TLS"))
+            else if (String.Equals(ReceiveConfigurationParameters[0], "QuicNone") || String.Equals(ReceiveConfigurationParameters[0], "QuicSRTP") || String.Equals(ReceiveConfigurationParameters[0], "Quic2uTP") || String.Equals(ReceiveConfigurationParameters[0], "QuicWechatVideo") || String.Equals(ReceiveConfigurationParameters[0], "QuicDTLS") || String.Equals(ReceiveConfigurationParameters[0], "QuicWireGuard"))
             {
                 //File.Copy("TemplateConfg\\tcp_server_config.json", "ConfigUpload\\tcp_server_config.json", true);
 
-                serverConfig = "TemplateConfg\\TLS_server_config.json";
-                clientConfig = "TemplateConfg\\tcp_client_config.json";
+                serverConfig = "TemplateConfg\\quic_server_config.json";
+                clientConfig = "TemplateConfg\\quic_client_config.json";
             }
+
             //Thread thread
             Thread thread = new Thread(() => StartSetUpRemoteHost(connectionInfo, TextBlockSetUpProcessing, ProgressBarSetUpProcessing, serverConfig, clientConfig, upLoadPath));
             thread.SetApartmentState(ApartmentState.STA);
@@ -579,24 +581,30 @@ namespace ProxySU
                     using (StreamReader reader = File.OpenText(serverConfig))
                     {
                         JObject serverJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
-                      
+                        //设置uuid
+                        serverJson["inbounds"][0]["settings"]["clients"][0]["id"] = ReceiveConfigurationParameters[2];
+                        //除WebSocketTLSWeb模式外设置监听端口
                         if (serverConfig.Contains("WebSocketTLSWeb") == false)
                         {
                             serverJson["inbounds"][0]["port"] = ReceiveConfigurationParameters[1];
                         }
-                        
-                        serverJson["inbounds"][0]["settings"]["clients"][0]["id"] = ReceiveConfigurationParameters[2];
-                       
+                        //如果是WebSocketTLSWeb模式，则设置路径
                         if (serverConfig.Contains("WebSocketTLSWeb") == true)
                         {
                             serverJson["inbounds"][0]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[3];
                         }
-                       
+                       //mkcp模式下，设置伪装类型
                         if (serverConfig.Contains("mkcp") == true)
                         {
                             serverJson["inbounds"][0]["streamSettings"]["kcpSettings"]["header"]["type"] = ReceiveConfigurationParameters[5];
                         }
-           
+                        //quic模式下设置伪装类型及密钥
+                        if (serverConfig.Contains("quic") == true)
+                        {
+                            serverJson["inbounds"][0]["streamSettings"]["quicSettings"]["header"]["type"] = ReceiveConfigurationParameters[5];
+                            serverJson["inbounds"][0]["streamSettings"]["quicSettings"]["key"] = ReceiveConfigurationParameters[6];
+                        }
+
                         using (StreamWriter sw = new StreamWriter(@"config.json"))
                         {
                             sw.Write(serverJson.ToString());
@@ -613,17 +621,35 @@ namespace ProxySU
 
                     //打开防火墙端口
                     string openFireWallPort = ReceiveConfigurationParameters[1];
-                    if (String.Equals(openFireWallPort, "443"))
+                    if (String.IsNullOrEmpty(client.RunCommand("command -v firewall-cmd").Result) == false)
                     {
-                        client.RunCommand("firewall-cmd --zone=public --add-port=80/tcp --permanent");
-                        client.RunCommand("firewall-cmd --zone=public --add-port=443/tcp --permanent");
-                        client.RunCommand("firewall-cmd --reload");
+                        if (String.Equals(openFireWallPort, "443"))
+                        {
+                            client.RunCommand("firewall-cmd --zone=public --add-port=80/tcp --permanent");
+                            client.RunCommand("firewall-cmd --zone=public --add-port=443/tcp --permanent");
+                            client.RunCommand("firewall-cmd --reload");
+                        }
+                        else
+                        {
+                            client.RunCommand($"firewall-cmd --zone=public --add-port={openFireWallPort}/tcp --permanent");
+                            client.RunCommand($"firewall-cmd --zone=public --add-port={openFireWallPort}/udp --permanent");
+                            client.RunCommand("firewall-cmd --reload");
+                        }
                     }
-                    else
+                    if (String.IsNullOrEmpty(client.RunCommand("command -v ufw").Result) == false)
                     {
-                        client.RunCommand($"firewall-cmd --zone=public --add-port={openFireWallPort}/tcp --permanent");
-                        client.RunCommand($"firewall-cmd --zone=public --add-port={openFireWallPort}/udp --permanent");
-                        client.RunCommand("firewall-cmd --reload");
+                        if (String.Equals(openFireWallPort, "443"))
+                        {
+                            client.RunCommand("ufw allow 80");
+                            client.RunCommand("ufw allow 443");
+                            client.RunCommand("ufw reset");
+                        }
+                        else
+                        {
+                            client.RunCommand($"ufw allow {openFireWallPort}/tcp");
+                            client.RunCommand($"ufw allow {openFireWallPort}/udp");
+                            client.RunCommand("ufw reset");
+                        }
                     }
 
                     //如果是WebSocket + TLS + Web模式，需要安装Caddy
@@ -696,7 +722,12 @@ namespace ProxySU
                         {
                             clientJson["outbounds"][0]["streamSettings"]["kcpSettings"]["header"]["type"] = ReceiveConfigurationParameters[5];
                         }
-        
+                        if (clientConfig.Contains("quic") == true)
+                        {
+                            clientJson["outbounds"][0]["streamSettings"]["quicSettings"]["header"]["type"] = ReceiveConfigurationParameters[5];
+                            clientJson["outbounds"][0]["streamSettings"]["quicSettings"]["key"] = ReceiveConfigurationParameters[6];
+                        }
+
 
                         using (StreamWriter sw = new StreamWriter(@"config\config.json"))
                         {
@@ -959,6 +990,12 @@ namespace ProxySU
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void TestresultClientInform_Click(object sender, RoutedEventArgs e)
+        {
+            ResultClientInformation resultClientInformation = new ResultClientInformation();
+            resultClientInformation.ShowDialog();
         }
 
         //private void Button_Click(object sender, RoutedEventArgs e)
