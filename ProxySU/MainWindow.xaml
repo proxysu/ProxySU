@@ -147,7 +147,8 @@
                                     <RowDefinition></RowDefinition>
                                     <RowDefinition></RowDefinition>
                                 </Grid.RowDefinitions>
-                                <Button x:Name="ButtonProofreadTime" Content="校对时间" Grid.Column="0" Grid.Row="0" Margin="2" Click="ButtonProofreadTime_Click"/>
+                                <Button x:Name="ButtonProofreadTime" Content="校对时间" Grid.Column="0" Grid.Row="0" Margin="5" Click="ButtonProofreadTime_Click"/>
+                                <Button x:Name="ButtonClearOccupiedPorts" Content="释放80/443端口" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonClearOccupiedPorts_Click"></Button>
                             </Grid>
                         </TabItem>
                         <TabItem Header="测试面板" Visibility="Visible" Width="150" Height="30">
@@ -168,6 +169,7 @@
                                 </Grid.RowDefinitions>
                                 <!--<Button Content="更改SELinux模式" Grid.Column="0" Grid.Row="0" Margin="10" Click="Button_Click"></Button>-->
                                 <Button x:Name="testresultClientInform" Content="测试结果窗口" Grid.Column="0" Grid.Row="1" Margin="5" Click="TestresultClientInform_Click"></Button>
+                                <Button x:Name="testPortOccupy" Content="测试端口占用" Grid.Column="0" Grid.Row="2" Margin="5" Click="TestPortOccupy_Click"></Button>
                             </Grid>
                         </TabItem>
                     </TabControl>

@@ -109,7 +109,7 @@ namespace ProxySU
             }
             string sshProxyHost = TextBoxProxyHost.Text.ToString();
             int sshProxyPort = int.Parse(TextBoxProxyPort.Text.ToString());
-            if (RadiobuttonProxyYesLogin.IsChecked == true && (string.IsNullOrEmpty(TextBoxProxyUserName.Text) == true || string.IsNullOrEmpty(PasswordBoxProxyPassword.Password) == true))
+            if (RadioButtonNoProxy.IsChecked==false && RadiobuttonProxyYesLogin.IsChecked == true && (string.IsNullOrEmpty(TextBoxProxyUserName.Text) == true || string.IsNullOrEmpty(PasswordBoxProxyPassword.Password) == true))
             {
                 MessageBox.Show("如果代理需要登录，则代理登录的用户名与密码不能为空");
                 return connectionInfo = null;
@@ -503,7 +503,7 @@ namespace ProxySU
                     //MessageBox.Show(timesStamp2.ToString());
 
                     //如果使用如果是WebSocket + TLS + Web模式，需要检测域名解析是否正确
-                    if (serverConfig.Contains("WebSocketTLSWeb") == true || serverConfig.Contains("Http2") == true)
+                    if (serverConfig.Contains("WebSocketTLSWeb") == true || serverConfig.Contains("http2") == true)
                     {
                         currentStatus = "正在检测域名是否解析到当前VPS的IP上......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -526,6 +526,39 @@ namespace ProxySU
                             textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                             Thread.Sleep(1000);
                             MessageBox.Show("域名未能正确解析到当前VPS的IP上，请检查！若解析设置正确，请等待生效后再重试安装。如果域名使用了CDN，请先关闭！");
+                            return;
+                        }
+                        //检测是否安装lsof
+                        if (string.IsNullOrEmpty(client.RunCommand("command -v lsof").Result) == true)
+                        {
+                            //为假则表示系统有相应的组件。
+                            if (getApt == false)
+                            {
+                                client.RunCommand("apt-get -qq update");
+                                client.RunCommand("apt-get -y -qq install lsof");
+                            }
+                            if (getYum == false)
+                            {
+                                client.RunCommand("yum -q makecache");
+                                client.RunCommand("yum -y -q install lsof");
+                            }
+                            if (getZypper == false)
+                            {
+                                client.RunCommand("zypper ref");
+                                client.RunCommand("zypper -y install lsof");
+                            }
+                        }
+                        currentStatus = "正在检测端口占用情况......";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                        //MessageBox.Show(@"lsof -n -P -i :80 | grep LISTEN");
+                        //MessageBox.Show(client.RunCommand(@"lsof -n -P -i :80 | grep LISTEN").Result);
+                        if (String.IsNullOrEmpty(client.RunCommand(@"lsof -n -P -i :80 | grep LISTEN").Result)==false || String.IsNullOrEmpty(client.RunCommand(@"lsof -n -P -i :443 | grep LISTEN").Result)==false)
+                        {
+                            MessageBox.Show("80/443端口之一，或全部被占用，请先用系统工具中的“释放80/443端口”工具，释放出，再重新安装");
+                            currentStatus = "端口被占用，安装失败......";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            Thread.Sleep(1000);
                             return;
                         }
                     }
@@ -841,7 +874,7 @@ namespace ProxySU
                 }
                 else
                 {
-                    MessageBox.Show("未知错误");
+                    MessageBox.Show("发生错误");
                     MessageBox.Show(ex1.Message);
                 }
                 currentStatus = "主机登录失败";
@@ -1002,6 +1035,11 @@ namespace ProxySU
             proofreadTimeWindow.ShowDialog();
 
         }
+        //释放80/443端口
+        private void ButtonClearOccupiedPorts_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
         private void ButtonGuideConfiguration_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("尚未完善，敬请期待");
@@ -1053,6 +1091,28 @@ namespace ProxySU
             ResultClientInformation resultClientInformation = new ResultClientInformation();
             resultClientInformation.ShowDialog();
         }
+
+        private void TestPortOccupy_Click(object sender, RoutedEventArgs e)
+        {
+            ConnectionInfo testconnect = GenerateConnectionInfo();
+            using (var client = new SshClient(testconnect))
+            {
+                client.Connect();
+                MessageBox.Show(@"lsof -n -P -i :443 | grep LISTEN");
+                string cmdResult = client.RunCommand(@"lsof -n -P -i :443 | grep LISTEN").Result;
+                client.Disconnect();
+                MessageBox.Show(cmdResult);
+                string[] cmdResultArry = cmdResult.Split(' ');
+                //foreach(string arry in cmdResultArry)
+                //{
+                //    MessageBox.Show(arry);
+                //}
+                MessageBox.Show(cmdResultArry[0]);//程序名字
+                MessageBox.Show(cmdResultArry[3]);//程序PID
+            }
+        }
+
+    
 
         //private void Button_Click(object sender, RoutedEventArgs e)
         //{
