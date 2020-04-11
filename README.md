@@ -1,4 +1,4 @@
-# windows
+# ProxySU
 V2ray install tools for windows
 
 学习C#用来练手的小工具。编译环境Visual Studio 2017  使用WPF界面
