@@ -468,17 +468,17 @@ namespace ProxySU
                     if (getGetenforce == false)
                     {
                         string testSELinux = client.RunCommand("getenforce").Result;
-                        MessageBox.Show(testSELinux);
+                        //MessageBox.Show(testSELinux);
                         if (testSELinux.Contains("Enforcing")==true)
                         {
-                            MessageBox.Show("Enforcing");
+                            //MessageBox.Show("Enforcing");
                             client.RunCommand("setenforce  0");//不重启改为Permissive模式
                             client.RunCommand("sed -i 's/SELINUX=enforcing/SELINUX=permissive/' /etc/selinux/config");//重启也工作在Permissive模式下
                         }
-                        else
-                        {
-                            MessageBox.Show("非Enforcing");
-                        }
+                        //else
+                        //{
+                        //    MessageBox.Show("非Enforcing");
+                        //}
                     }
 
                     //校对时间
@@ -1038,7 +1038,38 @@ namespace ProxySU
         //释放80/443端口
         private void ButtonClearOccupiedPorts_Click(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult dialogResult = MessageBox.Show("将强制停止占用80/443端口的程序?", "Stop application", MessageBoxButton.YesNo);
+            if (dialogResult== MessageBoxResult.No)
+            {
+                return;
+            }
+            ConnectionInfo testconnect = GenerateConnectionInfo();
+            try
+            {
+                using (var client = new SshClient(testconnect))
+                {
+                    client.Connect();
+                    string cmdTestPort = @"lsof -n -P -i :443 | grep LISTEN";
+                    //MessageBox.Show(cmdTestPort);
+                    string cmdResult = client.RunCommand(cmdTestPort).Result;
 
+                    //MessageBox.Show(cmdResult);
+                    string[] cmdResultArry = cmdResult.Split(' ');
+                    //foreach(string arry in cmdResultArry)
+                    //{
+                    //    MessageBox.Show(arry);
+                    //}
+                    //MessageBox.Show(cmdResultArry[0]);//程序名字
+                    //MessageBox.Show(cmdResultArry[3]);//程序PID
+                    client.RunCommand($"kill -9 {cmdResultArry[3]}");
+
+                    client.Disconnect();
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
         private void ButtonGuideConfiguration_Click(object sender, RoutedEventArgs e)
         {
@@ -1094,12 +1125,18 @@ namespace ProxySU
 
         private void TestPortOccupy_Click(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult dialogResult = MessageBox.Show("将强制停止占用80/443端口的程序?", "Stop application", MessageBoxButton.YesNo);
+            if (dialogResult == MessageBoxResult.No)
+            {
+                return;
+            }
             ConnectionInfo testconnect = GenerateConnectionInfo();
             using (var client = new SshClient(testconnect))
             {
                 client.Connect();
-                MessageBox.Show(@"lsof -n -P -i :443 | grep LISTEN");
-                string cmdResult = client.RunCommand(@"lsof -n -P -i :443 | grep LISTEN").Result;
+                string cmdTestPort = @"lsof -n -P -i :443 | grep LISTEN";
+                MessageBox.Show(cmdTestPort);
+                string cmdResult = client.RunCommand(cmdTestPort).Result;
                 client.Disconnect();
                 MessageBox.Show(cmdResult);
                 string[] cmdResultArry = cmdResult.Split(' ');
