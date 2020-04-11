@@ -52,6 +52,18 @@ namespace ProxySU
                 MainWindow.ReceiveConfigurationParameters[3] = TextBoxPath.Text.ToString();
                 //传递域名
                 MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomain.Text.ToString();
+                //传递伪装网站
+                MainWindow.ReceiveConfigurationParameters[7] = TextBoxMaskSites.Text.ToString();
+                string testDomain = TextBoxMaskSites.Text.Substring(0, 7);
+                if (String.Equals(testDomain, "https:/") || String.Equals(testDomain, "http://"))
+                {
+                    //MessageBox.Show(testDomain);
+                    MainWindow.ReceiveConfigurationParameters[7] = TextBoxMaskSites.Text.Replace("/", "\\/");
+                }
+                else
+                {
+                    MainWindow.ReceiveConfigurationParameters[7] = "http:\\/\\/" + TextBoxMaskSites.Text;
+                }
 
             }
             else if (RadioButtonHTTP2.IsChecked == true)
@@ -162,24 +174,54 @@ namespace ProxySU
             //TextBlockServerListenPort.Visibility = Visibility.Visible;
             //TextBoxServerListenPort.Visibility = Visibility.Visible;
             //ButtonServerListenPort.Visibility = Visibility.Visible;
-
+            //隐藏QUIC密钥
             TextBlockQuicUUID.Visibility = Visibility.Collapsed;
             TextBoxQuicUUID.Visibility = Visibility.Collapsed;
             ButtonQuicUUID.Visibility = Visibility.Collapsed;
-
+            //隐藏Path
             TextBlockPath.Visibility = Visibility.Collapsed;
             TextBoxPath.Visibility = Visibility.Collapsed;
             ButtonPath.Visibility = Visibility.Collapsed;
-
+            //隐藏域名
             TextBlockDomain.Visibility = Visibility.Collapsed;
             TextBoxDomain.Visibility = Visibility.Collapsed;
             ButtonDomain.Visibility = Visibility.Collapsed;
+            //隐藏伪装网站
+            TextBlockMaskSites.Visibility = Visibility.Collapsed;
+            TextBoxMaskSites.Visibility = Visibility.Collapsed;
+
 
             Guid uuid = Guid.NewGuid();
             TextBoxNewUUID.Text = uuid.ToString();
             Random random = new Random();
             int randomServerPort = random.Next(10000, 50000);
             TextBoxServerListenPort.Text = randomServerPort.ToString();
+        }
+        private void RadioButtonWebSocketTLS2Web_Checked(object sender, RoutedEventArgs e)
+        {
+            //TextBlockServerListenPort.Visibility = Visibility.Visible;
+            //TextBoxServerListenPort.Visibility = Visibility.Visible;
+            //ButtonServerListenPort.Visibility = Visibility.Visible;
+            TextBoxServerListenPort.Text = "443";
+            //显示Path
+            TextBlockPath.Visibility = Visibility.Visible;
+            TextBoxPath.Visibility = Visibility.Visible;
+            TextBoxPath.Text = "/ray";
+            ButtonPath.Visibility = Visibility.Visible;
+            //显示域名
+            TextBlockDomain.Visibility = Visibility.Visible;
+            TextBoxDomain.Visibility = Visibility.Visible;
+            ButtonDomain.Visibility = Visibility.Visible;
+            //隐藏QUIC密钥
+            TextBlockQuicUUID.Visibility = Visibility.Collapsed;
+            TextBoxQuicUUID.Visibility = Visibility.Collapsed;
+            ButtonQuicUUID.Visibility = Visibility.Collapsed;
+            //显示伪装网站
+            TextBlockMaskSites.Visibility = Visibility.Visible;
+            TextBoxMaskSites.Visibility = Visibility.Visible;
+
+            Guid uuid = Guid.NewGuid();
+            TextBoxNewUUID.Text = uuid.ToString();
         }
 
         private void RadioButtonHTTP2_Checked(object sender, RoutedEventArgs e)
@@ -188,19 +230,22 @@ namespace ProxySU
             //TextBoxServerListenPort.Visibility = Visibility.Visible;
             //ButtonServerListenPort.Visibility = Visibility.Visible;
             TextBoxServerListenPort.Text = "443";
-
+            //显示Path
             TextBlockPath.Visibility = Visibility.Visible;
             TextBoxPath.Visibility = Visibility.Visible;
             TextBoxPath.Text = "/ray";
             ButtonPath.Visibility = Visibility.Visible;
-
+            //显示域名
             TextBlockDomain.Visibility = Visibility.Visible;
             TextBoxDomain.Visibility = Visibility.Visible;
             ButtonDomain.Visibility = Visibility.Visible;
-
+            //隐藏QUIC密钥
             TextBlockQuicUUID.Visibility = Visibility.Collapsed;
             TextBoxQuicUUID.Visibility = Visibility.Collapsed;
             ButtonQuicUUID.Visibility = Visibility.Collapsed;
+            //隐藏伪装网站
+            TextBlockMaskSites.Visibility = Visibility.Collapsed;
+            TextBoxMaskSites.Visibility = Visibility.Collapsed;
 
             Guid uuid = Guid.NewGuid();
             TextBoxNewUUID.Text = uuid.ToString();
@@ -211,35 +256,43 @@ namespace ProxySU
             //TextBoxServerListenPort.Visibility = Visibility.Visible;
             //ButtonServerListenPort.Visibility = Visibility.Visible;
             TextBoxServerListenPort.Text = "80";
-
+            //隐藏Path
             TextBlockPath.Visibility = Visibility.Collapsed;
             TextBoxPath.Visibility = Visibility.Collapsed;
             ButtonPath.Visibility = Visibility.Collapsed;
 
+            //隐藏域名
             TextBlockDomain.Visibility = Visibility.Collapsed;
             TextBoxDomain.Visibility = Visibility.Collapsed;
             ButtonDomain.Visibility = Visibility.Collapsed;
-
+            //隐藏QUIC密钥
             TextBlockQuicUUID.Visibility = Visibility.Collapsed;
             TextBoxQuicUUID.Visibility = Visibility.Collapsed;
             ButtonQuicUUID.Visibility = Visibility.Collapsed;
+            //隐藏伪装网站
+            TextBlockMaskSites.Visibility = Visibility.Collapsed;
+            TextBoxMaskSites.Visibility = Visibility.Collapsed;
 
             Guid uuid = Guid.NewGuid();
             TextBoxNewUUID.Text = uuid.ToString();
         }
         private void RadioButtonQuicNone_Checked(object sender, RoutedEventArgs e)
         {
+            //显示QUIC密钥
             TextBlockQuicUUID.Visibility = Visibility.Visible;
             TextBoxQuicUUID.Visibility = Visibility.Visible;
             ButtonQuicUUID.Visibility = Visibility.Visible;
-
+            //隐藏Path
             TextBlockPath.Visibility = Visibility.Collapsed;
             TextBoxPath.Visibility = Visibility.Collapsed;
             ButtonPath.Visibility = Visibility.Collapsed;
-
+            //隐藏域名
             TextBlockDomain.Visibility = Visibility.Collapsed;
             TextBoxDomain.Visibility = Visibility.Collapsed;
             ButtonDomain.Visibility = Visibility.Collapsed;
+            //隐藏伪装网站
+            TextBlockMaskSites.Visibility = Visibility.Collapsed;
+            TextBoxMaskSites.Visibility = Visibility.Collapsed;
 
             Guid uuid = Guid.NewGuid();
             TextBoxNewUUID.Text = uuid.ToString();

@@ -6,13 +6,37 @@
         xmlns:local="clr-namespace:ProxySU"
         mc:Ignorable="d"
         Title="TemplateConfiguration" Height="600" Width="850">
+    <Window.Resources>
+        <Style BasedOn="{StaticResource {x:Type TextBox}}"
+           TargetType="TextBox"
+           x:Key="TitleText">
+            <Style.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="Text" Value=""/>
+                        <Condition Property="TextBox.IsFocused" Value="false"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <Border BorderThickness="1" BorderBrush="Gray" Margin="0">
+                                    <TextBlock x:Name="MainTextBlock"  Text="{TemplateBinding TextBox.Tag}" Width="{TemplateBinding TextBox.ActualWidth}" Foreground="Gray" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-           
+
         <GroupBox Header="模板库" Grid.Row="0" Grid.RowSpan="2">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -48,11 +72,11 @@
                 <TextBlock Text="数据加密传输，会被识别为未知的tcp流量" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3"></TextBlock>
                 <RadioButton x:Name="RadioButtonTCPhttp" Content="TCP+Http伪装" Grid.Column="0" Grid.Row="1" Checked="RadioButtonTCPhttp_Checked" ></RadioButton>
                 <TextBlock Text="数据加密传输，并做http伪装，会被识别为http流量，但并不是真正的http访问" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"></TextBlock>
-                <RadioButton x:Name="RadioButtonWebSocketTLS2Web" Content="WebSocket+TLS+Web" Grid.Column="0" Grid.Row="2" Checked="RadioButtonHTTP2_Checked"></RadioButton>
+                <RadioButton x:Name="RadioButtonWebSocketTLS2Web" Content="WebSocket+TLS+Web" Grid.Column="0" Grid.Row="2" Checked="RadioButtonWebSocketTLS2Web_Checked"></RadioButton>
                 <TextBlock Text="稳定性强，使用Caddy做前置，会被识别为访问网站的https流量，抗封锁识别最强" TextWrapping="Wrap" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"></TextBlock>
                 <RadioButton x:Name="RadioButtonHTTP2" Content="HTTP/2"  Grid.Column="0" Grid.Row="3" Checked="RadioButtonHTTP2_Checked"></RadioButton>
                 <TextBlock Text="基于 HTTP/2 的传输方式。它完整按照 HTTP/2 标准实现"  Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3"></TextBlock>
-                
+
                 <RadioButton x:Name="RadioButtonMkcpNoCamouflage" Content="mKCP(无伪装)" Grid.Column="0" Grid.Row="5" Checked="RadioButtonTCP_Checked"></RadioButton>
                 <TextBlock Text="数据加密传输，以增加流量消耗来加速，减少延迟，udp协议,无伪装，会被识别为udp流量" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3"></TextBlock>
                 <RadioButton x:Name="RadioButton2mKCP2SRTP" Content="mKCP+SRTP" Grid.Column="0" Grid.Row="6" Checked="RadioButtonTCP_Checked"></RadioButton>
@@ -78,17 +102,20 @@
                 <TextBlock Text="同QUIC(无伪装)，增加伪装成 DTLS 1.2 数据包" Grid.Column="1" Grid.Row="16" Grid.ColumnSpan="3"></TextBlock>
                 <RadioButton x:Name="RadioButtonQuicWireGuard" Content="QUIC+WireGuard" Grid.Column="0" Grid.Row="17" Checked="RadioButtonQuicNone_Checked"></RadioButton>
                 <TextBlock Text="同QUIC(无伪装)，增加伪装成 WireGuard 数据包。(并不是真正的 WireGuard 协议)" TextWrapping="Wrap" Grid.Column="1" Grid.Row="17" Grid.ColumnSpan="3"></TextBlock>
-                <TextBlock Text="提醒：Shadowrocket目前暂不支持QUIC的传输模式。" Grid.Column="0" Grid.Row="18" Grid.ColumnSpan="5"></TextBlock>
+                <TextBlock Text="提醒：Shadowrocket目前暂不支持QUIC的传输模式。" Foreground="Red" Grid.Column="0" Grid.Row="18" Grid.ColumnSpan="5"></TextBlock>
             </Grid>
         </GroupBox>
         <GroupBox Header="其他设置" Grid.Row="2">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition ></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
@@ -97,28 +124,32 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                <TextBlock x:Name="TextBlockServerListenPort" Text="服务端口：" Grid.Column="0" Grid.Row="0"></TextBlock>
-                <TextBox x:Name="TextBoxServerListenPort" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Margin="5"></TextBox>
-                <Button x:Name="ButtonServerListenPort" Content="随机选择" Grid.Column="3" Grid.Row="0" Margin="5" Click="ButtonServerListenPort_Click"></Button>
-                <TextBlock x:Name="TextBlockNewUUID" Text="UUID：" Grid.Column="0" Grid.Row="1"></TextBlock>
-                <TextBox x:Name="TextBoxNewUUID" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="5"></TextBox>
-                <Button x:Name="ButtonNewUUID" Content="更新" Grid.Column="3" Grid.Row="1" Margin="5" Click="ButtonNewUUID_Click"></Button>
-                <TextBlock Text="使用已有UUID，直接粘贴到框中" TextWrapping="Wrap" Grid.Column="4" Grid.Row="1"></TextBlock>
-                <TextBlock x:Name="TextBlockQuicUUID" Text="QUIC密钥"  Grid.Column="0" Grid.Row="2"></TextBlock>
-                <TextBox x:Name="TextBoxQuicUUID"  Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Margin="5"></TextBox>
-                <Button x:Name="ButtonQuicUUID"  Content="更新" Grid.Column="3" Grid.Row="2" Margin="5" Click="ButtonQuicUUID_Click"></Button>
-                <TextBlock x:Name="TextBlockPath" Text="路径：" Grid.Column="0" Grid.Row="3"></TextBlock>
-                <TextBox x:Name="TextBoxPath" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Margin="5"></TextBox>
-                <Button x:Name="ButtonPath" Content="随机" Grid.Column="3" Grid.Row="3" Margin="5" Click="ButtonPath_Click"></Button>
-                <TextBlock x:Name="TextBlockDomain" Text="域名：" Grid.Column="0" Grid.Row="4"></TextBlock>
-                <TextBox x:Name="TextBoxDomain" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" Margin="5"></TextBox>
-                <Button x:Name="ButtonDomain" Content="检测" Visibility="Collapsed" Grid.Column="3" Grid.Row="4" Margin="5" Click="ButtonDomain_Click"></Button>
+                <TextBlock x:Name="TextBlockServerListenPort" Text="服务端口：" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"></TextBlock>
+                <TextBox x:Name="TextBoxServerListenPort" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Margin="3"></TextBox>
+                <Button x:Name="ButtonServerListenPort" Content="随机选择" Grid.Column="4" Grid.Row="0" Margin="2" Click="ButtonServerListenPort_Click"></Button>
+                <TextBlock x:Name="TextBlockNewUUID" Text="UUID：" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"></TextBlock>
+                <TextBox x:Name="TextBoxNewUUID" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Margin="3"></TextBox>
+                <Button x:Name="ButtonNewUUID" Content="更新" Grid.Column="4" Grid.Row="1" Margin="2" Click="ButtonNewUUID_Click"></Button>
+                <TextBlock Text="使用已有UUID，直接粘贴到框中" TextWrapping="Wrap" Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="2" Margin="0"></TextBlock>
+                <TextBlock x:Name="TextBlockQuicUUID" Text="QUIC密钥"  Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"></TextBlock>
+                <TextBox x:Name="TextBoxQuicUUID"  Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Margin="3"></TextBox>
+                <Button x:Name="ButtonQuicUUID"  Content="更新" Grid.Column="4" Grid.Row="2" Margin="2" Click="ButtonQuicUUID_Click"></Button>
+                <TextBlock x:Name="TextBlockPath" Text="路径：" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2"></TextBlock>
+                <TextBox x:Name="TextBoxPath" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" Margin="3"></TextBox>
+                <Button x:Name="ButtonPath" Content="随机" Grid.Column="4" Grid.Row="3" Margin="2" Click="ButtonPath_Click"></Button>
+                <TextBlock x:Name="TextBlockDomain" Text="域名：" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2"></TextBlock>
+                <TextBox x:Name="TextBoxDomain" Style="{StaticResource TitleText}" Tag="不可为空" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" Margin="3"></TextBox>
+                <Button x:Name="ButtonDomain" Content="检测" Visibility="Collapsed" Grid.Column="4" Grid.Row="4" Margin="5.333,5" Click="ButtonDomain_Click"></Button>
+                <TextBlock x:Name="TextBlockMaskSites" Text="伪装网站：" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2"></TextBlock>
+                <TextBox x:Name="TextBoxMaskSites" Style="{StaticResource TitleText}" Tag="设置此项可增加代理的隐蔽(可为空)" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3" Margin="3"></TextBox>
 
-                <Button x:Name="ButtondDecide" Content="确定" Grid.Column="1" Grid.Row="5" Margin="4" Click="ButtondDecide_Click"></Button>
-                <Button x:Name="ButtondCancel" Content="取消" Grid.Column="2" Grid.Row="5" Margin="4" Click="ButtondCancel_Click" ></Button>
+
+                <Button x:Name="ButtondDecide" Content="确定" Grid.Column="1" Grid.Row="6" Margin="2" Click="ButtondDecide_Click"></Button>
+                <Button x:Name="ButtondCancel" Content="取消" Grid.Column="3" Grid.Row="6" Margin="2" Click="ButtondCancel_Click"></Button>
             </Grid>
         </GroupBox>
-      
+
     </Grid>
 </Window>

@@ -42,6 +42,7 @@ namespace ProxySU
         //ReceiveConfigurationParameters[4]----domain
         //ReceiveConfigurationParameters[5]----伪装类型
         //ReceiveConfigurationParameters[6]----QUIC密钥
+        //ReceiveConfigurationParameters[7]----伪装网站
         //public static ConnectionInfo ConnectionInfo;
         public MainWindow()
         {
@@ -50,7 +51,7 @@ namespace ProxySU
             RadioButtonNoProxy.IsChecked = true;
             RadioButtonProxyNoLogin.IsChecked = true;
             RadioButtonSocks4.Visibility = Visibility.Collapsed;
-            ReceiveConfigurationParameters = new string[7];
+            ReceiveConfigurationParameters = new string[8];
             
 
         }
@@ -726,29 +727,37 @@ namespace ProxySU
                         client.RunCommand("mkdir -p /var/www");
 
                         
-                        //currentStatus = "上传Caddy配置文件......";
-                        //textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                        //Thread.Sleep(1000);
+                        currentStatus = "上传Caddy配置文件......";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
                         serverConfig = "TemplateConfg\\WebSocketTLSWeb_server_config.caddyfile";
                         upLoadPath = "/etc/caddy/Caddyfile";
                         UploadConfig(connectionInfo, serverConfig, upLoadPath);
-                        //string[] splitDomain = ReceiveConfigurationParameters[4].Split('.');
 
                         //设置Caddyfile文件中的tls 邮箱
-                        string emailAddress = ReceiveConfigurationParameters[4];
-                        string sshCmd = $"email={emailAddress};email=${{email/./@}};sed -i \"s/off/${{email:=\"off\"}}/\" /etc/caddy/Caddyfile";
+                        string sshCmdEmail = $"email={ReceiveConfigurationParameters[4]};email=${{email/./@}};echo $email";//结尾有回车符
+                        string email = client.RunCommand(sshCmdEmail).Result.Replace("\n", "");//删除结尾的回车符
+                        string sshCmd = $"sed -i 's/off/{email}/' {upLoadPath}";//设置Caddyfile中的邮箱
                         client.RunCommand(sshCmd);
-                        client.RunCommand("sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath);
-                        client.RunCommand("sed -i 's/##domain##/" + ReceiveConfigurationParameters[4] + "/' " + upLoadPath);
+                        //设置Path
+                        sshCmd = $"sed -i 's/##path##/\\{ReceiveConfigurationParameters[3]}/' {upLoadPath}";
+                        //MessageBox.Show(sshCmd);
+                        client.RunCommand(sshCmd);
+                        //设置域名
+                        sshCmd = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/' {upLoadPath}";
+                        //MessageBox.Show(sshCmd);
+                        client.RunCommand(sshCmd);
+                        //设置伪装网站
+                        if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7])==false)
+                        {
+                            sshCmd = $"sed -i 's/##sites##/proxy \\/ {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
+                            //MessageBox.Show(sshCmd);
+                            client.RunCommand(sshCmd);
+                        }
                         Thread.Sleep(2000);
-
-                        //生成安装服务命令中的邮箱
-                        string sshCmdEmail = $"email={emailAddress};email=${{email/./@}};echo $email";
-                        string email= client.RunCommand(sshCmdEmail).Result.ToString();
-                        //MessageBox.Show(email);
                        
                        //安装Caddy服务
-                        sshCmd = "caddy -service install -agree -conf /etc/caddy/Caddyfile -email " + email;
+                        sshCmd = $"caddy -service install -agree -conf /etc/caddy/Caddyfile -email {email}";
                         //MessageBox.Show(sshCmd);
                         client.RunCommand(sshCmd);
                        
@@ -1196,19 +1205,59 @@ namespace ProxySU
             using (var client = new SshClient(testconnect))
             {
                 client.Connect();
-                string cmdTestPort = @"find / -name v2ray";
-                MessageBox.Show(cmdTestPort);
-                string cmdResult = client.RunCommand(cmdTestPort).Result;
+                //string cmdTestPort = @"find / -name v2ray";
+                //MessageBox.Show(cmdTestPort);
+                //string cmdResult = client.RunCommand(cmdTestPort).Result;
+                //设置Caddyfile文件中的tls 邮箱
+                string upLoadPath = "/etc/caddy/Caddyfile.test";
+                string emailAddress = ReceiveConfigurationParameters[4];
+                string sshCmdEmail = $"email={emailAddress};email=${{email/./@}};echo $email";//结尾有回车符
+                string email = client.RunCommand(sshCmdEmail).Result.Replace("\n","");
+                MessageBox.Show(email);
+                string sshCmd = $"sed -i 's/off/{email}/' {upLoadPath}";
+
+                MessageBox.Show(sshCmd);
+                client.RunCommand(sshCmd);
+                sshCmd = $"sed -i 's/##path##/\\{ReceiveConfigurationParameters[3]}/' {upLoadPath}";
+                MessageBox.Show(sshCmd);
+                client.RunCommand(sshCmd);
+                //sshCmd = "sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath;
+                //MessageBox.Show(sshCmd);
+                //client.RunCommand("sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath);
+                sshCmd = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/' {upLoadPath}";
+                MessageBox.Show(sshCmd);
+                client.RunCommand(sshCmd);
+                //client.RunCommand("sed -i 's/##domain##/" + ReceiveConfigurationParameters[4] + "/' " + upLoadPath);
+                if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7]) == false)
+                {
+                    sshCmd = $"sed -i 's/##sites##/proxy \\/ {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
+                    //client.RunCommand("sed -i 's/##sites##/proxy \\/ " + ReceiveConfigurationParameters[7] + "/' " + upLoadPath);
+                    MessageBox.Show(sshCmd);
+                    client.RunCommand(sshCmd);
+                }
+                Thread.Sleep(2000);
+
+                //生成安装服务命令中的邮箱
+                //string sshCmdEmail = $"email={emailAddress};email=${{email/./@}};echo $email";
+                //string email = client.RunCommand(sshCmdEmail).Result.ToString();
+               
+                //MessageBox.Show(email);
+
+                //安装Caddy服务
+                //sshCmd = "caddy -service install -agree -conf /etc/caddy/Caddyfile -email " + email;
+                sshCmd = $"caddy -service install -agree -conf /etc/caddy/Caddyfile -email {email}";
+
+
                 client.Disconnect();
-                MessageBox.Show(cmdResult);
-                if (cmdResult.Contains("/usr/bin/v2ray")==true)
-                {
-                    MessageBox.Show("已安装");
-                }
-                else
-                {
-                    MessageBox.Show("未安装");
-                }
+                //MessageBox.Show(cmdResult);
+                //if (cmdResult.Contains("/usr/bin/v2ray")==true)
+                //{
+                //    MessageBox.Show("已安装");
+                //}
+                //else
+                //{
+                //    MessageBox.Show("未安装");
+                //}
                 //string[] cmdResultArry = cmdResult.Split('\n');
                 //foreach(string arry in cmdResultArry)
                 //{
@@ -1217,6 +1266,36 @@ namespace ProxySU
                 //MessageBox.Show(cmdResultArry[0]);//程序名字
                 //MessageBox.Show(cmdResultArry[3]);//程序PID
             }
+        }
+
+        private void TestsshCmd_Click(object sender, RoutedEventArgs e)
+        {
+            ReceiveConfigurationParameters[3] = "https://tes.te.tt";
+            ReceiveConfigurationParameters[7] = "http://77.77.77";
+            string upLoadPath = "/etc/caddy/Caddyfile";
+            string sshCmd = $"sed -i 's/##path##/\\{ReceiveConfigurationParameters[3]}/' {upLoadPath}";
+            //MessageBox.Show(sshCmd);
+            //sshCmd = "sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath;
+            //MessageBox.Show(sshCmd);
+            //sshCmd = $"sed -i 's/##path##/\\{ReceiveConfigurationParameters[3]}/' {upLoadPath}";
+            //MessageBox.Show(sshCmd);
+            //sshCmd = "sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath;
+            //MessageBox.Show(sshCmd);
+            //client.RunCommand("sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath);
+            sshCmd = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/' {upLoadPath}";
+            MessageBox.Show(sshCmd);
+            string testDomain = ReceiveConfigurationParameters[7].Substring(0,7);
+            if (String.Equals(testDomain,"https:/")||String.Equals(testDomain,"http://"))
+            {
+                MessageBox.Show(testDomain);
+                ReceiveConfigurationParameters[7]=ReceiveConfigurationParameters[7].Replace("/","\\/");
+            }
+            else
+            {
+                ReceiveConfigurationParameters[7] = "http:\\/\\/" + ReceiveConfigurationParameters[7];
+            }
+            sshCmd = $"sed -i 's/##sites##/proxy \\/ {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
+            MessageBox.Show(sshCmd);
         }
 
 
