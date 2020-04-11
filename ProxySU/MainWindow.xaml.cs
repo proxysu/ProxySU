@@ -428,6 +428,29 @@ namespace ProxySU
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
                     }
+                    //检测是否安装有V2ray
+                    currentStatus = "检测系统是否已经安装V2ray......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    //client.RunCommand("find / -name v2ray");
+                    string cmdTestV2rayInstalled = @"find / -name v2ray";
+                    //MessageBox.Show(cmdTestV2rayInstalled);
+                    string resultCmdTestV2rayInstalled = client.RunCommand(cmdTestV2rayInstalled).Result;
+                    //client.Disconnect();
+                    //MessageBox.Show(resultCmdTestV2rayInstalled);
+                    if (resultCmdTestV2rayInstalled.Contains("/usr/bin/v2ray") == true)
+                    {
+                        MessageBoxResult messageBoxResult = MessageBox.Show("远程主机已安装V2ray,是否强制重新安装？", "", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        if (messageBoxResult==MessageBoxResult.No)
+                        {
+                            currentStatus = "安装取消，退出";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            Thread.Sleep(1000);
+                            return;
+                        }
+                    }
+
                     //检测远程主机系统环境是否符合要求
                     currentStatus = "检测系统是否符合安装要求......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -936,34 +959,40 @@ namespace ProxySU
         private void UpdateTextBlock(TextBlock textBlockName, ProgressBar progressBar, string currentStatus)
         {
             textBlockName.Text = currentStatus;
-            if (currentStatus.Contains("正在登录远程主机") == true)
-            {
-                progressBar.IsIndeterminate = true;
-            }
-            else if (currentStatus.Contains("主机登录成功") == true)
-            {
-                progressBar.IsIndeterminate = true;
-                //progressBar.Value = 100;
-            }
-            else if (currentStatus.Contains("检测系统是否符合安装要求") == true)
-            {
-                progressBar.IsIndeterminate = true;
-                //progressBar.Value = 100;
-            }
-            else if (currentStatus.Contains("布署中") == true)
-            {
-                progressBar.IsIndeterminate = true;
-                //progressBar.Value = 100;
-            }
-            else if (currentStatus.Contains("安装成功") == true)
+            //if (currentStatus.Contains("正在登录远程主机") == true)
+            //{
+            //    progressBar.IsIndeterminate = true;
+            //}
+            //else if (currentStatus.Contains("主机登录成功") == true)
+            //{
+            //    progressBar.IsIndeterminate = true;
+            //    //progressBar.Value = 100;
+            //}
+            //else if (currentStatus.Contains("检测系统是否符合安装要求") == true)
+            //{
+            //    progressBar.IsIndeterminate = true;
+            //    //progressBar.Value = 100;
+            //}
+            //else if (currentStatus.Contains("布署中") == true)
+            //{
+            //    progressBar.IsIndeterminate = true;
+            //    //progressBar.Value = 100;
+            //}
+            //else 
+            if (currentStatus.Contains("安装成功") == true)
             {
                 progressBar.IsIndeterminate = false;
                 progressBar.Value = 100;
             }
-            else if (currentStatus.Contains("失败") == true)
+            else if(currentStatus.Contains("失败") == true|| currentStatus.Contains("取消") == true)
             {
                 progressBar.IsIndeterminate = false;
                 progressBar.Value = 0;
+            }
+            else
+            {
+                progressBar.IsIndeterminate = true;
+                //progressBar.Value = 0;
             }
 
 
@@ -1049,19 +1078,31 @@ namespace ProxySU
                 using (var client = new SshClient(testconnect))
                 {
                     client.Connect();
-                    string cmdTestPort = @"lsof -n -P -i :443 | grep LISTEN";
+                    string cmdTestPort;
+                    string cmdResult;
+                    cmdTestPort = @"lsof -n -P -i :443 | grep LISTEN";
+                    cmdResult = client.RunCommand(cmdTestPort).Result;
                     //MessageBox.Show(cmdTestPort);
-                    string cmdResult = client.RunCommand(cmdTestPort).Result;
-
-                    //MessageBox.Show(cmdResult);
-                    string[] cmdResultArry = cmdResult.Split(' ');
-                    //foreach(string arry in cmdResultArry)
-                    //{
-                    //    MessageBox.Show(arry);
-                    //}
-                    //MessageBox.Show(cmdResultArry[0]);//程序名字
-                    //MessageBox.Show(cmdResultArry[3]);//程序PID
-                    client.RunCommand($"kill -9 {cmdResultArry[3]}");
+                    if (String.IsNullOrEmpty(cmdTestPort)==false)
+                    {
+                        //MessageBox.Show(cmdResult);
+                        string[] cmdResultArry443 = cmdResult.Split(' ');
+                        //foreach(string arry in cmdResultArry)
+                        //{
+                        //    MessageBox.Show(arry);
+                        //}
+                        //MessageBox.Show(cmdResultArry[0]);//程序名字
+                        //MessageBox.Show(cmdResultArry[3]);//程序PID
+                        client.RunCommand($"kill -9 {cmdResultArry443[3]}");
+                    }
+ 
+                    cmdTestPort = @"lsof -n -P -i :80 | grep LISTEN";
+                    cmdResult = client.RunCommand(cmdTestPort).Result;
+                    if (String.IsNullOrEmpty(cmdTestPort) == false)
+                    {
+                        string[] cmdResultArry80 = cmdResult.Split(' ');
+                        client.RunCommand($"kill -9 {cmdResultArry80[3]}");
+                    }
 
                     client.Disconnect();
                 }
@@ -1149,7 +1190,36 @@ namespace ProxySU
             }
         }
 
-    
+        private void TestInstalledV2ray_Click(object sender, RoutedEventArgs e)
+        {
+            ConnectionInfo testconnect = GenerateConnectionInfo();
+            using (var client = new SshClient(testconnect))
+            {
+                client.Connect();
+                string cmdTestPort = @"find / -name v2ray";
+                MessageBox.Show(cmdTestPort);
+                string cmdResult = client.RunCommand(cmdTestPort).Result;
+                client.Disconnect();
+                MessageBox.Show(cmdResult);
+                if (cmdResult.Contains("/usr/bin/v2ray")==true)
+                {
+                    MessageBox.Show("已安装");
+                }
+                else
+                {
+                    MessageBox.Show("未安装");
+                }
+                //string[] cmdResultArry = cmdResult.Split('\n');
+                //foreach(string arry in cmdResultArry)
+                //{
+                //    MessageBox.Show(arry);
+                //}
+                //MessageBox.Show(cmdResultArry[0]);//程序名字
+                //MessageBox.Show(cmdResultArry[3]);//程序PID
+            }
+        }
+
+
 
         //private void Button_Click(object sender, RoutedEventArgs e)
         //{
