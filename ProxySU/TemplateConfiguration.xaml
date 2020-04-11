@@ -141,7 +141,7 @@
                 <Button x:Name="ButtonPath" Content="随机" Grid.Column="4" Grid.Row="3" Margin="2" Click="ButtonPath_Click"></Button>
                 <TextBlock x:Name="TextBlockDomain" Text="域名：" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2"></TextBlock>
                 <TextBox x:Name="TextBoxDomain" Style="{StaticResource TitleText}" Tag="不可为空" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" Margin="3"></TextBox>
-                <Button x:Name="ButtonDomain" Content="检测" Visibility="Collapsed" Grid.Column="4" Grid.Row="4" Margin="5.333,5" Click="ButtonDomain_Click"></Button>
+                <Button x:Name="ButtonDomain" Content="检测" Visibility="Collapsed" Grid.Column="4" Grid.Row="4" Margin="2" Click="ButtonDomain_Click"></Button>
                 <TextBlock x:Name="TextBlockMaskSites" Text="伪装网站：" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2"></TextBlock>
                 <TextBox x:Name="TextBoxMaskSites" Style="{StaticResource TitleText}" Tag="设置此项可增加代理的隐蔽(可为空)" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3" Margin="3"></TextBox>
 

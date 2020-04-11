@@ -211,7 +211,7 @@ namespace ProxySU
             //显示域名
             TextBlockDomain.Visibility = Visibility.Visible;
             TextBoxDomain.Visibility = Visibility.Visible;
-            ButtonDomain.Visibility = Visibility.Visible;
+            //ButtonDomain.Visibility = Visibility.Visible;
             //隐藏QUIC密钥
             TextBlockQuicUUID.Visibility = Visibility.Collapsed;
             TextBoxQuicUUID.Visibility = Visibility.Collapsed;
@@ -238,7 +238,7 @@ namespace ProxySU
             //显示域名
             TextBlockDomain.Visibility = Visibility.Visible;
             TextBoxDomain.Visibility = Visibility.Visible;
-            ButtonDomain.Visibility = Visibility.Visible;
+            //ButtonDomain.Visibility = Visibility.Visible;
             //隐藏QUIC密钥
             TextBlockQuicUUID.Visibility = Visibility.Collapsed;
             TextBoxQuicUUID.Visibility = Visibility.Collapsed;
