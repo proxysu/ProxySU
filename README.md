@@ -26,7 +26,7 @@ Ubuntu 16.04及以上
 
 ## 程序工作流程：  
 1.使用[SSH.NET](https://github.com/sshnet/SSH.NET)登录远程主机  
-2.调用V2ray官方安装脚本("bash <(curl -L -s https://install.direct/go.sh)")，安装V2ray。  
+2.调用V2ray官方安装脚本(`bash <(curl -L -s https://install.direct/go.sh)`)，安装V2ray。  
 3.根据选择读取相应配置模板，调用[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)生成相应配置文件，并上传到服务器。  
 4.如果使用WebSocket+TLS+Web模式，则调用Caddy官方安装脚本("curl https://getcaddy.com -o getcaddy")  
 与("bash getcaddy personal hook.service")，安装Caddy。  
