@@ -37,4 +37,7 @@ Ubuntu 16.04及以上
 Microsoft [.NET Framework 4.0](https://dotnet.microsoft.com/download/dotnet-framework/thank-you/net40-offline-installer) or higher
 
 ## 使用的C# 库  
-[SSH.NET https://github.com/sshnet/SSH.NET](https://github.com/sshnet/SSH.NET)
+[SSH.NET https://github.com/sshnet/SSH.NET](https://github.com/sshnet/SSH.NET)  
+[Newtonsoft.Json https://github.com/JamesNK/Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)  
+[QRcoder https://github.com/codebude/QRCoder](https://github.com/codebude/QRCoder)
+
