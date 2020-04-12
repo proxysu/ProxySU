@@ -40,7 +40,7 @@ V2ray install tools for windows
 
 [(GPL-V3)](https://raw.githubusercontent.com/proxysu/windows/master/LICENSE)
 
-## exe运行文件下载(随代码更新，可能有bug)
+## 运行文件下载(随代码更新，可能有bug)
 
 [下载](https://github.com/proxysu/windows/raw/master/ProxySU/bin/Release/Release.zip)
 
