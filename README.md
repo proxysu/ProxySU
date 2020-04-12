@@ -35,3 +35,6 @@ Ubuntu 16.04及以上
 ## Windows系统需要安装net4.0及以上
 
 Microsoft [.NET Framework 4.0](https://dotnet.microsoft.com/download/dotnet-framework/thank-you/net40-offline-installer) or higher
+
+## 使用的C# 库  
+[SSH.NET https://github.com/sshnet/SSH.NET](https://github.com/sshnet/SSH.NET)
