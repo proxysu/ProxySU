@@ -34,4 +34,4 @@ Ubuntu 16.04及以上
 
 ## Requirements
 
-Microsoft [.NET Framework 4.0](https://www.microsoft.com/en-us/download/details.aspx?id=17851) or higher
+Microsoft [.NET Framework 4.0](https://dotnet.microsoft.com/download/dotnet-framework/thank-you/net40-offline-installer) or higher
