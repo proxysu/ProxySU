@@ -3,7 +3,13 @@ V2ray install tools for windows
 
 学习C#用来练手的小工具。代码写的很菜，大佬勿喷。编译环境Visual Studio 2017  使用WPF界面
 
-可一键安装的模式有：tcp、tcp+http伪装、http2(需要域名)、WebSocket+TLS+Web(需要域名)、mKCP及各种伪装、QUIC及各种伪装。
+可一键安装的模式有：
+* tcp
+* tcp+http伪装
+* http2(需要域名)
+* WebSocket+TLS+Web(需要域名)
+* mKCP及各种伪装
+* QUIC及各种伪装。
 
 支持的VPS系统为：  
 * CentOS 7/8   
