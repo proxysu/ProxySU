@@ -32,6 +32,6 @@ Ubuntu 16.04及以上
 
 [下载](https://github.com/proxysu/windows/raw/master/ProxySU/bin/Release/Release.zip)
 
-## Requirements
+## Windows系统需要安装net4.0及以上
 
 Microsoft [.NET Framework 4.0](https://dotnet.microsoft.com/download/dotnet-framework/thank-you/net40-offline-installer) or higher
