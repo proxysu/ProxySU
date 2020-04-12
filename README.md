@@ -31,3 +31,7 @@ Ubuntu 16.04及以上
 ##exe运行文件下载(随代码更新，可能有bug)
 
 [下载](https://github.com/proxysu/windows/raw/master/ProxySU/bin/Release/Release.zip)
+
+## Requirements
+
+Microsoft [.NET Framework 4.0](https://www.microsoft.com/en-us/download/details.aspx?id=17851) or higher
