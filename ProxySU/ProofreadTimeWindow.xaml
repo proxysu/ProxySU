@@ -30,7 +30,7 @@
 
             <Button x:Name="ButtonTestTime" Content="检测时间误差" Grid.Column="0" Grid.Row="3" Margin="30" Click="ButtonTestTime_Click"/>
             <Button x:Name="ButtonProofreading" Content="校对时间" Grid.Column="2" Grid.Row="3" Margin="30" Click="ButtonProofreading_Click"></Button>
-            <Button x:Name="ButtonTEST" Content="测试命令" Grid.Column="1" Grid.Row="3" Margin="30" Click="ButtonTEST_Click"></Button>
+            <!--<Button x:Name="ButtonTEST" Content="测试命令" Grid.Column="1" Grid.Row="3" Margin="30" Click="ButtonTEST_Click"></Button>-->
         </Grid>
     </Grid>
 </Window>

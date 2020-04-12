@@ -142,16 +142,16 @@ namespace ProxySU
 
         }
 
-        private void ButtonTEST_Click(object sender, RoutedEventArgs e)
-        {
-            //NetTime netTime = new NetTime();
-            string netDatetime = NetTime.GetUTCTime().ToString();
-            MessageBox.Show(netDatetime);
-            //NetTime netTime = new NetTime();
-            //UpdateTime updateTime = new UpdateTime();
-            //DateTime netDateTime = netTime.GetBeijingTime();
-            //MessageBox.Show(netDateTime.ToString());
-        }
+        //private void ButtonTEST_Click(object sender, RoutedEventArgs e)
+        //{
+        //    //NetTime netTime = new NetTime();
+        //    string netDatetime = NetTime.GetUTCTime().ToString();
+        //    MessageBox.Show(netDatetime);
+        //    //NetTime netTime = new NetTime();
+        //    //UpdateTime updateTime = new UpdateTime();
+        //    //DateTime netDateTime = netTime.GetBeijingTime();
+        //    //MessageBox.Show(netDateTime.ToString());
+        //}
 
     }
 
