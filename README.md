@@ -14,10 +14,10 @@ V2ray install tools for windows
 
 目前已支持生成用于
 
-*v2ray官方程序配置文件(客户端配置)  
-*v2rayN (windows)客户端导入二维码和网址  
-*Shadowrocket (ios)导入二维码和网址  
-*v2rayNG (Android)导入二维码和网址  
+* v2ray官方程序配置文件(客户端配置)  
+* v2rayN (windows)客户端导入二维码和网址  
+* Shadowrocket (ios)导入二维码和网址  
+* v2rayNG (Android)导入二维码和网址  
 
 （程序中只实现在生成v2rayN的，但是Shadowrocket和v2rayNG都可以导入。所以就偷了个懒，哈！）
 
