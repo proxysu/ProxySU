@@ -673,12 +673,7 @@ namespace ProxySU
                         }
                     }
                     UploadConfig(connectionInfo, @"config.json",upLoadPath);
-                    //client.RunCommand("sed -i 's/##port##/" + ReceiveConfigurationParameters[1] + "/' " + upLoadPath);
-                    //client.RunCommand("sed -i 's/##uuid##/" + ReceiveConfigurationParameters[2] + "/' " + upLoadPath);
-                    //client.RunCommand("sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath);
-                    ////client.RunCommand("sed -i 's/##domain##/" + ReceiveConfigurationParameters[4] + "/' " + upLoadPath);
-                    //client.RunCommand("sed -i 's/##mkcpHeaderType##/" + ReceiveConfigurationParameters[5] + "/' " + upLoadPath);
-                    //client.RunCommand("systemctl restart v2ray");
+
                     File.Delete(@"config.json");
 
                     //打开防火墙端口
@@ -855,15 +850,6 @@ namespace ProxySU
                             sw.Write(clientJson.ToString());
                         }
                     }
-                    //upLoadPath = "/tmp/config.json";
-                    //UploadConfig(connectionInfo, clientConfig, upLoadPath);
-
-                    //client.RunCommand("sed -i 's/##port##/" + ReceiveConfigurationParameters[1] + "/' " + upLoadPath);
-                    //client.RunCommand("sed -i 's/##uuid##/" + ReceiveConfigurationParameters[2] + "/' " + upLoadPath);
-                    //client.RunCommand("sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath);
-                    //client.RunCommand("sed -i 's/##domain##/" + ReceiveConfigurationParameters[4] + "/' " + upLoadPath);
-                    //client.RunCommand("sed -i 's/##mkcpHeaderType##/" + ReceiveConfigurationParameters[5] + "/' " + upLoadPath);
-                    //DownloadConfig(connectionInfo, "config.json", upLoadPath);
 
                     client.Disconnect();
 
@@ -1096,12 +1082,7 @@ namespace ProxySU
                     {
                         //MessageBox.Show(cmdResult);
                         string[] cmdResultArry443 = cmdResult.Split(' ');
-                        //foreach(string arry in cmdResultArry)
-                        //{
-                        //    MessageBox.Show(arry);
-                        //}
-                        //MessageBox.Show(cmdResultArry[0]);//程序名字
-                        //MessageBox.Show(cmdResultArry[3]);//程序PID
+
                         client.RunCommand($"kill -9 {cmdResultArry443[3]}");
                     }
  
@@ -1167,136 +1148,136 @@ namespace ProxySU
             }
         }
 
-        private void TestresultClientInform_Click(object sender, RoutedEventArgs e)
-        {
-            ResultClientInformation resultClientInformation = new ResultClientInformation();
-            resultClientInformation.ShowDialog();
-        }
+        //private void TestresultClientInform_Click(object sender, RoutedEventArgs e)
+        //{
+        //    ResultClientInformation resultClientInformation = new ResultClientInformation();
+        //    resultClientInformation.ShowDialog();
+        //}
 
-        private void TestPortOccupy_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBoxResult dialogResult = MessageBox.Show("将强制停止占用80/443端口的程序?", "Stop application", MessageBoxButton.YesNo);
-            if (dialogResult == MessageBoxResult.No)
-            {
-                return;
-            }
-            ConnectionInfo testconnect = GenerateConnectionInfo();
-            using (var client = new SshClient(testconnect))
-            {
-                client.Connect();
-                string cmdTestPort = @"lsof -n -P -i :443 | grep LISTEN";
-                MessageBox.Show(cmdTestPort);
-                string cmdResult = client.RunCommand(cmdTestPort).Result;
-                client.Disconnect();
-                MessageBox.Show(cmdResult);
-                string[] cmdResultArry = cmdResult.Split(' ');
-                //foreach(string arry in cmdResultArry)
-                //{
-                //    MessageBox.Show(arry);
-                //}
-                MessageBox.Show(cmdResultArry[0]);//程序名字
-                MessageBox.Show(cmdResultArry[3]);//程序PID
-            }
-        }
+        //private void TestPortOccupy_Click(object sender, RoutedEventArgs e)
+        //{
+        //    MessageBoxResult dialogResult = MessageBox.Show("将强制停止占用80/443端口的程序?", "Stop application", MessageBoxButton.YesNo);
+        //    if (dialogResult == MessageBoxResult.No)
+        //    {
+        //        return;
+        //    }
+        //    ConnectionInfo testconnect = GenerateConnectionInfo();
+        //    using (var client = new SshClient(testconnect))
+        //    {
+        //        client.Connect();
+        //        string cmdTestPort = @"lsof -n -P -i :443 | grep LISTEN";
+        //        MessageBox.Show(cmdTestPort);
+        //        string cmdResult = client.RunCommand(cmdTestPort).Result;
+        //        client.Disconnect();
+        //        MessageBox.Show(cmdResult);
+        //        string[] cmdResultArry = cmdResult.Split(' ');
+        //        //foreach(string arry in cmdResultArry)
+        //        //{
+        //        //    MessageBox.Show(arry);
+        //        //}
+        //        MessageBox.Show(cmdResultArry[0]);//程序名字
+        //        MessageBox.Show(cmdResultArry[3]);//程序PID
+        //    }
+        //}
 
-        private void TestInstalledV2ray_Click(object sender, RoutedEventArgs e)
-        {
-            ConnectionInfo testconnect = GenerateConnectionInfo();
-            using (var client = new SshClient(testconnect))
-            {
-                client.Connect();
-                //string cmdTestPort = @"find / -name v2ray";
-                //MessageBox.Show(cmdTestPort);
-                //string cmdResult = client.RunCommand(cmdTestPort).Result;
-                //设置Caddyfile文件中的tls 邮箱
-                string upLoadPath = "/etc/caddy/Caddyfile.test";
-                string emailAddress = ReceiveConfigurationParameters[4];
-                string sshCmdEmail = $"email={emailAddress};email=${{email/./@}};echo $email";//结尾有回车符
-                string email = client.RunCommand(sshCmdEmail).Result.Replace("\n","");
-                MessageBox.Show(email);
-                string sshCmd = $"sed -i 's/off/{email}/' {upLoadPath}";
+        //private void TestInstalledV2ray_Click(object sender, RoutedEventArgs e)
+        //{
+        //    ConnectionInfo testconnect = GenerateConnectionInfo();
+        //    using (var client = new SshClient(testconnect))
+        //    {
+        //        client.Connect();
+        //        //string cmdTestPort = @"find / -name v2ray";
+        //        //MessageBox.Show(cmdTestPort);
+        //        //string cmdResult = client.RunCommand(cmdTestPort).Result;
+        //        //设置Caddyfile文件中的tls 邮箱
+        //        string upLoadPath = "/etc/caddy/Caddyfile.test";
+        //        string emailAddress = ReceiveConfigurationParameters[4];
+        //        string sshCmdEmail = $"email={emailAddress};email=${{email/./@}};echo $email";//结尾有回车符
+        //        string email = client.RunCommand(sshCmdEmail).Result.Replace("\n","");
+        //        MessageBox.Show(email);
+        //        string sshCmd = $"sed -i 's/off/{email}/' {upLoadPath}";
 
-                MessageBox.Show(sshCmd);
-                client.RunCommand(sshCmd);
-                sshCmd = $"sed -i 's/##path##/\\{ReceiveConfigurationParameters[3]}/' {upLoadPath}";
-                MessageBox.Show(sshCmd);
-                client.RunCommand(sshCmd);
-                //sshCmd = "sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath;
-                //MessageBox.Show(sshCmd);
-                //client.RunCommand("sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath);
-                sshCmd = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/' {upLoadPath}";
-                MessageBox.Show(sshCmd);
-                client.RunCommand(sshCmd);
-                //client.RunCommand("sed -i 's/##domain##/" + ReceiveConfigurationParameters[4] + "/' " + upLoadPath);
-                if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7]) == false)
-                {
-                    sshCmd = $"sed -i 's/##sites##/proxy \\/ {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
-                    //client.RunCommand("sed -i 's/##sites##/proxy \\/ " + ReceiveConfigurationParameters[7] + "/' " + upLoadPath);
-                    MessageBox.Show(sshCmd);
-                    client.RunCommand(sshCmd);
-                }
-                Thread.Sleep(2000);
+        //        MessageBox.Show(sshCmd);
+        //        client.RunCommand(sshCmd);
+        //        sshCmd = $"sed -i 's/##path##/\\{ReceiveConfigurationParameters[3]}/' {upLoadPath}";
+        //        MessageBox.Show(sshCmd);
+        //        client.RunCommand(sshCmd);
+        //        //sshCmd = "sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath;
+        //        //MessageBox.Show(sshCmd);
+        //        //client.RunCommand("sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath);
+        //        sshCmd = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/' {upLoadPath}";
+        //        MessageBox.Show(sshCmd);
+        //        client.RunCommand(sshCmd);
+        //        //client.RunCommand("sed -i 's/##domain##/" + ReceiveConfigurationParameters[4] + "/' " + upLoadPath);
+        //        if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7]) == false)
+        //        {
+        //            sshCmd = $"sed -i 's/##sites##/proxy \\/ {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
+        //            //client.RunCommand("sed -i 's/##sites##/proxy \\/ " + ReceiveConfigurationParameters[7] + "/' " + upLoadPath);
+        //            MessageBox.Show(sshCmd);
+        //            client.RunCommand(sshCmd);
+        //        }
+        //        Thread.Sleep(2000);
 
-                //生成安装服务命令中的邮箱
-                //string sshCmdEmail = $"email={emailAddress};email=${{email/./@}};echo $email";
-                //string email = client.RunCommand(sshCmdEmail).Result.ToString();
+        //        //生成安装服务命令中的邮箱
+        //        //string sshCmdEmail = $"email={emailAddress};email=${{email/./@}};echo $email";
+        //        //string email = client.RunCommand(sshCmdEmail).Result.ToString();
                
-                //MessageBox.Show(email);
+        //        //MessageBox.Show(email);
 
-                //安装Caddy服务
-                //sshCmd = "caddy -service install -agree -conf /etc/caddy/Caddyfile -email " + email;
-                sshCmd = $"caddy -service install -agree -conf /etc/caddy/Caddyfile -email {email}";
+        //        //安装Caddy服务
+        //        //sshCmd = "caddy -service install -agree -conf /etc/caddy/Caddyfile -email " + email;
+        //        sshCmd = $"caddy -service install -agree -conf /etc/caddy/Caddyfile -email {email}";
 
 
-                client.Disconnect();
-                //MessageBox.Show(cmdResult);
-                //if (cmdResult.Contains("/usr/bin/v2ray")==true)
-                //{
-                //    MessageBox.Show("已安装");
-                //}
-                //else
-                //{
-                //    MessageBox.Show("未安装");
-                //}
-                //string[] cmdResultArry = cmdResult.Split('\n');
-                //foreach(string arry in cmdResultArry)
-                //{
-                //    MessageBox.Show(arry);
-                //}
-                //MessageBox.Show(cmdResultArry[0]);//程序名字
-                //MessageBox.Show(cmdResultArry[3]);//程序PID
-            }
-        }
+        //        client.Disconnect();
+        //        //MessageBox.Show(cmdResult);
+        //        //if (cmdResult.Contains("/usr/bin/v2ray")==true)
+        //        //{
+        //        //    MessageBox.Show("已安装");
+        //        //}
+        //        //else
+        //        //{
+        //        //    MessageBox.Show("未安装");
+        //        //}
+        //        //string[] cmdResultArry = cmdResult.Split('\n');
+        //        //foreach(string arry in cmdResultArry)
+        //        //{
+        //        //    MessageBox.Show(arry);
+        //        //}
+        //        //MessageBox.Show(cmdResultArry[0]);//程序名字
+        //        //MessageBox.Show(cmdResultArry[3]);//程序PID
+        //    }
+        //}
 
-        private void TestsshCmd_Click(object sender, RoutedEventArgs e)
-        {
-            ReceiveConfigurationParameters[3] = "https://tes.te.tt";
-            ReceiveConfigurationParameters[7] = "http://77.77.77";
-            string upLoadPath = "/etc/caddy/Caddyfile";
-            string sshCmd = $"sed -i 's/##path##/\\{ReceiveConfigurationParameters[3]}/' {upLoadPath}";
-            //MessageBox.Show(sshCmd);
-            //sshCmd = "sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath;
-            //MessageBox.Show(sshCmd);
-            //sshCmd = $"sed -i 's/##path##/\\{ReceiveConfigurationParameters[3]}/' {upLoadPath}";
-            //MessageBox.Show(sshCmd);
-            //sshCmd = "sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath;
-            //MessageBox.Show(sshCmd);
-            //client.RunCommand("sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath);
-            sshCmd = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/' {upLoadPath}";
-            MessageBox.Show(sshCmd);
-            string testDomain = ReceiveConfigurationParameters[7].Substring(0,7);
-            if (String.Equals(testDomain,"https:/")||String.Equals(testDomain,"http://"))
-            {
-                MessageBox.Show(testDomain);
-                ReceiveConfigurationParameters[7]=ReceiveConfigurationParameters[7].Replace("/","\\/");
-            }
-            else
-            {
-                ReceiveConfigurationParameters[7] = "http:\\/\\/" + ReceiveConfigurationParameters[7];
-            }
-            sshCmd = $"sed -i 's/##sites##/proxy \\/ {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
-            MessageBox.Show(sshCmd);
-        }
+        //private void TestsshCmd_Click(object sender, RoutedEventArgs e)
+        //{
+        //    ReceiveConfigurationParameters[3] = "https://tes.te.tt";
+        //    ReceiveConfigurationParameters[7] = "http://77.77.77";
+        //    string upLoadPath = "/etc/caddy/Caddyfile";
+        //    string sshCmd = $"sed -i 's/##path##/\\{ReceiveConfigurationParameters[3]}/' {upLoadPath}";
+        //    //MessageBox.Show(sshCmd);
+        //    //sshCmd = "sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath;
+        //    //MessageBox.Show(sshCmd);
+        //    //sshCmd = $"sed -i 's/##path##/\\{ReceiveConfigurationParameters[3]}/' {upLoadPath}";
+        //    //MessageBox.Show(sshCmd);
+        //    //sshCmd = "sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath;
+        //    //MessageBox.Show(sshCmd);
+        //    //client.RunCommand("sed -i 's/##path##/\\" + ReceiveConfigurationParameters[3] + "/' " + upLoadPath);
+        //    sshCmd = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/' {upLoadPath}";
+        //    MessageBox.Show(sshCmd);
+        //    string testDomain = ReceiveConfigurationParameters[7].Substring(0,7);
+        //    if (String.Equals(testDomain,"https:/")||String.Equals(testDomain,"http://"))
+        //    {
+        //        MessageBox.Show(testDomain);
+        //        ReceiveConfigurationParameters[7]=ReceiveConfigurationParameters[7].Replace("/","\\/");
+        //    }
+        //    else
+        //    {
+        //        ReceiveConfigurationParameters[7] = "http:\\/\\/" + ReceiveConfigurationParameters[7];
+        //    }
+        //    sshCmd = $"sed -i 's/##sites##/proxy \\/ {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
+        //    MessageBox.Show(sshCmd);
+        //}
 
 
 

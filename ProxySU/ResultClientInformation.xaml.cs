@@ -319,6 +319,18 @@ namespace ProxySU
                 sw.WriteLine("-----------------------------------------");
                 sw.WriteLine("url.txt");
                 sw.WriteLine("此文件为v2rayN、v2rayNG(Android)、Shadowrocket(ios)复制粘贴导入节点的vmess网址");
+                sw.WriteLine("-----------------------------------------\n");
+                sw.WriteLine("服务器通用连接配置参数");
+                sw.WriteLine($"地址(address)：{TextBoxHostAddress.Text}");
+                sw.WriteLine($"端口(Port)：{TextBoxPort.Text}");
+                sw.WriteLine($"用户ID(uuid)：{TextBoxUUID.Text}");
+                sw.WriteLine($"额外ID：{TextBoxUUIDextra.Text}");
+                sw.WriteLine($"加密方式：{TextBoxEncryption.Text}");
+                sw.WriteLine($"传输协议：{TextBoxTransmission.Text}");
+                sw.WriteLine($"伪装类型：{TextBoxCamouflageType.Text}");
+                sw.WriteLine($"是否使用TLS：{TextBoxTLS.Text}");
+                sw.WriteLine($"路径(Path)：{TextBoxPath.Text}");
+                sw.WriteLine($"QUIC密钥：{TextBoxQuicKey.Text}");
             }
 
 
