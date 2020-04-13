@@ -154,8 +154,8 @@ namespace ProxySU
             }
             return connectionInfo;
         }
-        //开始布署安装
 
+        //开始布署安装
         private void Button_Login_Click(object sender, RoutedEventArgs e)
 
         {
@@ -186,44 +186,44 @@ namespace ProxySU
             }
             else if (String.Equals(ReceiveConfigurationParameters[0], "TCP"))
             {
-                //File.Copy("TemplateConfg\\tcp_server_config.json", "ConfigUpload\\tcp_server_config.json", true);
-
                 serverConfig = "TemplateConfg\\tcp_server_config.json";
                 clientConfig = "TemplateConfg\\tcp_client_config.json";
             }
             else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web"))
             {
-                //File.Copy("TemplateConfg\\tcp_server_config.json", "ConfigUpload\\tcp_server_config.json", true);
-
                 serverConfig = "TemplateConfg\\WebSocketTLSWeb_server_config.json";
                 clientConfig = "TemplateConfg\\WebSocketTLSWeb_client_config.json";
             }
+            else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS"))
+            {
+                serverConfig = "TemplateConfg\\WebSocketTLS_server_config.json";
+                clientConfig = "TemplateConfg\\WebSocketTLS_client_config.json";
+            }
+            else if (String.Equals(ReceiveConfigurationParameters[0], "tcpTLS"))
+            {
+                serverConfig = "TemplateConfg\\tcpTLS_server_config.json";
+                clientConfig = "TemplateConfg\\tcpTLS_client_config.json";
+            }
             else if (String.Equals(ReceiveConfigurationParameters[0], "TCPhttp"))
             {
-                //File.Copy("TemplateConfg\\tcp_server_config.json", "ConfigUpload\\tcp_server_config.json", true);
-
                 serverConfig = "TemplateConfg\\tcp_http_server_config.json";
                 clientConfig = "TemplateConfg\\tcp_http_client_config.json";
             }
-            else if (String.Equals(ReceiveConfigurationParameters[0], "MkcpNone")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2SRTP")||String.Equals(ReceiveConfigurationParameters[0], "mKCPuTP")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WechatVideo")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2DTLS")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WireGuard"))
+            //else if (String.Equals(ReceiveConfigurationParameters[0], "MkcpNone")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2SRTP")||String.Equals(ReceiveConfigurationParameters[0], "mKCPuTP")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WechatVideo")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2DTLS")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WireGuard"))
+            else if (ReceiveConfigurationParameters[0].Contains("mKCP"))
             {
-                //File.Copy("TemplateConfg\\tcp_server_config.json", "ConfigUpload\\tcp_server_config.json", true);
-
                 serverConfig = "TemplateConfg\\mkcp_server_config.json";
                 clientConfig = "TemplateConfg\\mkcp_client_config.json";
             }
            
             else if (String.Equals(ReceiveConfigurationParameters[0], "Http2"))
             {
-                //File.Copy("TemplateConfg\\tcp_server_config.json", "ConfigUpload\\tcp_server_config.json", true);
-
                 serverConfig = "TemplateConfg\\http2_server_config.json";
                 clientConfig = "TemplateConfg\\http2_client_config.json";
             }
-            else if (String.Equals(ReceiveConfigurationParameters[0], "QuicNone") || String.Equals(ReceiveConfigurationParameters[0], "QuicSRTP") || String.Equals(ReceiveConfigurationParameters[0], "Quic2uTP") || String.Equals(ReceiveConfigurationParameters[0], "QuicWechatVideo") || String.Equals(ReceiveConfigurationParameters[0], "QuicDTLS") || String.Equals(ReceiveConfigurationParameters[0], "QuicWireGuard"))
+            // else if (String.Equals(ReceiveConfigurationParameters[0], "QuicNone") || String.Equals(ReceiveConfigurationParameters[0], "QuicSRTP") || String.Equals(ReceiveConfigurationParameters[0], "Quic2uTP") || String.Equals(ReceiveConfigurationParameters[0], "QuicWechatVideo") || String.Equals(ReceiveConfigurationParameters[0], "QuicDTLS") || String.Equals(ReceiveConfigurationParameters[0], "QuicWireGuard"))
+            else if (ReceiveConfigurationParameters[0].Contains("Quic"))
             {
-                //File.Copy("TemplateConfg\\tcp_server_config.json", "ConfigUpload\\tcp_server_config.json", true);
-
                 serverConfig = "TemplateConfg\\quic_server_config.json";
                 clientConfig = "TemplateConfg\\quic_client_config.json";
             }
@@ -633,8 +633,8 @@ namespace ProxySU
                     currentStatus = "V2ray程序安装完毕，配置文件上传中......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
+
                     //生成服务端配置
-                    
                     using (StreamReader reader = File.OpenText(serverConfig))
                     {
                         JObject serverJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
@@ -646,7 +646,7 @@ namespace ProxySU
                             serverJson["inbounds"][0]["port"] = ReceiveConfigurationParameters[1];
                         }
                         //如果是WebSocketTLSWeb模式，则设置路径
-                        if (serverConfig.Contains("WebSocketTLSWeb") == true)
+                        if (serverConfig.Contains("WebSocket") == true)
                         {
                             serverJson["inbounds"][0]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[3];
                         }
@@ -761,9 +761,9 @@ namespace ProxySU
                         client.RunCommand("caddy -service start");
                     }
 
-                    if (serverConfig.Contains("http2") == true)
+                    if (serverConfig.Contains("http2") == true|| serverConfig.Contains("WebSocketTLS")==true|| serverConfig.Contains("tcpTLS") == true)
                     {
-                        currentStatus = "使用Http2模式，正在安装acme.sh......";
+                        currentStatus = "使用Http2/WebSocket +TLS/tcp+TLS模式，正在安装acme.sh......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
 
@@ -796,7 +796,7 @@ namespace ProxySU
                         currentStatus = "安装证书到V2ray......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
-                        client.RunCommand($"/root/.acme.sh/acme.sh  --installcert  -d {ReceiveConfigurationParameters[4]}  --certpath /etc/v2ray/ssl/v2ray-h2-ssl.pem --keypath /etc/v2ray/ssl/v2ray-h2-ssl.key  --capath  /etc/v2ray/ssl/v2ray-h2-ssl.pem  --reloadcmd  \"systemctl restart v2ray\"");
+                        client.RunCommand($"/root/.acme.sh/acme.sh  --installcert  -d {ReceiveConfigurationParameters[4]}  --certpath /etc/v2ray/ssl/v2ray_ssl.crt --keypath /etc/v2ray/ssl/v2ray_ssl.key  --capath  /etc/v2ray/ssl/v2ray_ssl.crt  --reloadcmd  \"systemctl restart v2ray\"");
                     }
 
                     currentStatus = "正在启动V2ray......";
@@ -826,7 +826,7 @@ namespace ProxySU
                         clientJson["outbounds"][0]["settings"]["vnext"][0]["address"] = ReceiveConfigurationParameters[4];
                         clientJson["outbounds"][0]["settings"]["vnext"][0]["port"] = ReceiveConfigurationParameters[1];
                         clientJson["outbounds"][0]["settings"]["vnext"][0]["users"][0]["id"] = ReceiveConfigurationParameters[2];
-                        if (clientConfig.Contains("WebSocketTLSWeb")==true)
+                        if (clientConfig.Contains("WebSocket")==true)
                         {
                             clientJson["outbounds"][0]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[3];
                         }

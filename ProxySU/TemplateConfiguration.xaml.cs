@@ -68,6 +68,11 @@ namespace ProxySU
             }
             else if (RadioButtonHTTP2.IsChecked == true)
             {
+                if (string.IsNullOrEmpty(TextBoxDomain.Text.ToString()) == true)
+                {
+                    MessageBox.Show("域名不能为空！");
+                    return;
+                }
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "Http2";
                 //传递路径
@@ -75,10 +80,11 @@ namespace ProxySU
                 //传递域名
                 MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomain.Text.ToString();
             }
+
             else if (RadioButtonMkcpNoCamouflage.IsChecked == true)
             {
                 //传递模板类型
-                MainWindow.ReceiveConfigurationParameters[0] = "MkcpNone";
+                MainWindow.ReceiveConfigurationParameters[0] = "mKCPNone";
                 MainWindow.ReceiveConfigurationParameters[5] = "none";
             }
             else if (RadioButton2mKCP2SRTP.IsChecked == true)
