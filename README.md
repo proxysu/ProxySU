@@ -5,13 +5,13 @@ V2ray install tools for windows
 
 可一键安装的模式有：
 * tcp  （可以无域名，无伪装网站）
-* tcp+http伪装  (可以无域名，无伪装网站)
+* tcp+http伪装  （可以无域名，无伪装网站）
 * tcp+TLS （需要域名，无伪装网站）
-* http2  (需要域名，无伪装网站)
-* WebSocket +TLS  (需要域名，无伪装网站)
-* WebSocket+TLS+Web  (需要域名，有伪装网站)
-* mKCP及各种伪装  (可以无域名，无伪装网站)
-* QUIC及各种伪装。  (可以无域名，无伪装网站)
+* http2  （需要域名，无伪装网站）
+* WebSocket +TLS  （需要域名，无伪装网站）
+* WebSocket+TLS+Web  （需要域名，有伪装网站）
+* mKCP及各种伪装  （可以无域名，无伪装网站）
+* QUIC及各种伪装。  （可以无域名，无伪装网站）
 
 支持的VPS系统为：  
 * CentOS 7/8   
