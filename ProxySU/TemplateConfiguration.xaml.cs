@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+//using System.Windows.Forms;
 
 namespace ProxySU
 {
@@ -23,23 +24,77 @@ namespace ProxySU
             InitializeComponent();
             RadioButtonTCP.IsChecked = true;
         }
-      
+        //取消不在当前活动选项卡中的其他所有选项卡中的所有RadioBuuton的选中状态
+        //代码参考网址：https://blog.csdn.net/weixin_42583999/article/details/103468857
+        //调用：UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
+        private void UncheckLayouts(TabItem activePage)
+        {
+            foreach (TabItem tabPage in TabControlTemplate.Items)
+            {
+                if (tabPage == activePage) continue;
+                Grid grid = (Grid)tabPage.Content;
+                foreach (UIElement element in grid.Children)
+                {
+                    if (element is RadioButton)
+                    {
+                        RadioButton radiobutton = (element as RadioButton);
+                        radiobutton.IsChecked = false;
+                    }
+
+                }
+            }
+        }
+
         private void ButtondDecide_Click(object sender, RoutedEventArgs e)
         {
-
+            //UncheckLayouts(TabControlTemplate);
+            //TCP模式被选中
             if (RadioButtonTCP.IsChecked == true)
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "TCP";
 
             }
+            //TCP+http伪装模式被选中
             else if (RadioButtonTCPhttp.IsChecked == true)
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "TCPhttp";
                 MainWindow.ReceiveConfigurationParameters[5] = "http";
             }
-            else if (RadioButtonWebSocketTLS2Web.IsChecked == true)
+            //TCP+TLS模式被选中
+            else if (RadioButtonTCP2TLS.IsChecked == true)
+            {
+                if (string.IsNullOrEmpty(TextBoxDomain.Text.ToString()) == true)
+                {
+                    MessageBox.Show("域名不能为空！");
+                    return;
+                }
+                //传递模板类型
+                MainWindow.ReceiveConfigurationParameters[0] = "tcpTLS";
+
+                //传递域名
+                MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomain.Text.ToString();
+               
+            }
+            //WebSocket+TLS模式被选中
+            else if (RadioButtonWebSocketTLS.IsChecked == true)
+            {
+                if (string.IsNullOrEmpty(TextBoxDomain.Text.ToString()) == true)
+                {
+                    MessageBox.Show("域名不能为空！");
+                    return;
+                }
+                //传递模板类型
+                MainWindow.ReceiveConfigurationParameters[0] = "WebSocketTLS";
+                //传递路径
+                MainWindow.ReceiveConfigurationParameters[3] = TextBoxPath.Text.ToString();
+                //传递域名
+                MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomain.Text.ToString();
+
+            }
+            //WebSocket+TLS+Web模式被选中
+            else if (RadioButtonWebSocketTLS2Web.IsChecked == true|| RadioButtonWebSocketTLS2WebHot.IsChecked==true)
             {
                 if (string.IsNullOrEmpty(TextBoxDomain.Text.ToString()) == true)
                 {
@@ -54,6 +109,7 @@ namespace ProxySU
                 MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomain.Text.ToString();
                 //传递伪装网站
                 MainWindow.ReceiveConfigurationParameters[7] = TextBoxMaskSites.Text.ToString();
+                //处理伪装网站域名中的前缀
                 string testDomain = TextBoxMaskSites.Text.Substring(0, 7);
                 if (String.Equals(testDomain, "https:/") || String.Equals(testDomain, "http://"))
                 {
@@ -66,6 +122,7 @@ namespace ProxySU
                 }
 
             }
+            //http2模式被选中
             else if (RadioButtonHTTP2.IsChecked == true)
             {
                 if (string.IsNullOrEmpty(TextBoxDomain.Text.ToString()) == true)
@@ -79,44 +136,51 @@ namespace ProxySU
                 MainWindow.ReceiveConfigurationParameters[3] = TextBoxPath.Text.ToString();
                 //传递域名
                 MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomain.Text.ToString();
+               
             }
-
+            //mKCP无伪装模式被选中
             else if (RadioButtonMkcpNoCamouflage.IsChecked == true)
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCPNone";
                 MainWindow.ReceiveConfigurationParameters[5] = "none";
             }
+            //mKCP+srtp伪装模式被选中
             else if (RadioButton2mKCP2SRTP.IsChecked == true)
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCP2SRTP";
                 MainWindow.ReceiveConfigurationParameters[5] = "srtp";
             }
+            //mKCP+utp伪装模式被选中
             else if (RadioButton2mKCPuTP.IsChecked == true)
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCPuTP";
                 MainWindow.ReceiveConfigurationParameters[5] = "utp";
             }
+            //mKCP+wechat-video伪装模式被选中
             else if (RadioButton2mKCP2WechatVideo.IsChecked == true)
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCP2WechatVideo";
                 MainWindow.ReceiveConfigurationParameters[5] = "wechat-video";
             }
+            //mKCP+dtls伪装模式被选中
             else if (RadioButton2mKCP2DTLS.IsChecked == true)
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCP2DTLS";
                 MainWindow.ReceiveConfigurationParameters[5] = "dtls";
             }
+            //mKCP+wireguard伪装模式被选中
             else if (RadioButton2mKCP2WireGuard.IsChecked == true)
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCP2WireGuard";
                 MainWindow.ReceiveConfigurationParameters[5] = "wireguard";
             }
+            //QUIC无伪装模式被选中
             else if (RadioButtonQuicNone.IsChecked == true)
             {
                 //传递模板类型
@@ -124,6 +188,7 @@ namespace ProxySU
                 MainWindow.ReceiveConfigurationParameters[5] = "none";
                 MainWindow.ReceiveConfigurationParameters[6] = TextBoxQuicUUID.Text;
             }
+            //QUIC+srtp伪装模式被选中
             else if (RadioButtonQuicSRTP.IsChecked == true)
             {
                 //传递模板类型
@@ -131,6 +196,7 @@ namespace ProxySU
                 MainWindow.ReceiveConfigurationParameters[5] = "srtp";
                 MainWindow.ReceiveConfigurationParameters[6] = TextBoxQuicUUID.Text;
             }
+            //QUIC+utp伪装模式被选中
             else if (RadioButtonQuic2uTP.IsChecked == true)
             {
                 //传递模板类型
@@ -138,6 +204,7 @@ namespace ProxySU
                 MainWindow.ReceiveConfigurationParameters[5] = "utp";
                 MainWindow.ReceiveConfigurationParameters[6] = TextBoxQuicUUID.Text;
             }
+            //QUIC+wechat-video伪装模式被选中
             else if (RadioButtonQuicWechatVideo.IsChecked == true)
             {
                 //传递模板类型
@@ -145,6 +212,7 @@ namespace ProxySU
                 MainWindow.ReceiveConfigurationParameters[5] = "wechat-video";
                 MainWindow.ReceiveConfigurationParameters[6] = TextBoxQuicUUID.Text;
             }
+            //QUIC+dtls伪装模式被选中
             else if (RadioButtonQuicDTLS.IsChecked == true)
             {
                 //传递模板类型
@@ -152,6 +220,7 @@ namespace ProxySU
                 MainWindow.ReceiveConfigurationParameters[5] = "dtls";
                 MainWindow.ReceiveConfigurationParameters[6] = TextBoxQuicUUID.Text;
             }
+            //QUIC+wireguard伪装模式被选中
             else if (RadioButtonQuicWireGuard.IsChecked == true)
             {
                 //传递模板类型
@@ -159,7 +228,7 @@ namespace ProxySU
                 MainWindow.ReceiveConfigurationParameters[5] = "wireguard";
                 MainWindow.ReceiveConfigurationParameters[6] = TextBoxQuicUUID.Text;
             }
-
+            //默认模式为 TCP
             else
             {
                 //传递模板类型
@@ -174,6 +243,7 @@ namespace ProxySU
         }
 
         private void ButtondCancel_Click(object sender, RoutedEventArgs e) => Close();
+
         #region 其他设置中的界面控制
         private void RadioButtonTCP_Checked(object sender, RoutedEventArgs e)
         {
@@ -202,6 +272,8 @@ namespace ProxySU
             Random random = new Random();
             int randomServerPort = random.Next(10000, 50000);
             TextBoxServerListenPort.Text = randomServerPort.ToString();
+            //清除其他选项卡中的选项
+            UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
         }
         private void RadioButtonWebSocketTLS2Web_Checked(object sender, RoutedEventArgs e)
         {
@@ -228,6 +300,8 @@ namespace ProxySU
 
             Guid uuid = Guid.NewGuid();
             TextBoxNewUUID.Text = uuid.ToString();
+            //清除其他选项卡中的选项
+            UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
         }
 
         private void RadioButtonHTTP2_Checked(object sender, RoutedEventArgs e)
@@ -255,6 +329,8 @@ namespace ProxySU
 
             Guid uuid = Guid.NewGuid();
             TextBoxNewUUID.Text = uuid.ToString();
+            //清除其他选项卡中的选项
+            UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
         }
         private void RadioButtonTCPhttp_Checked(object sender, RoutedEventArgs e)
         {
@@ -281,6 +357,8 @@ namespace ProxySU
 
             Guid uuid = Guid.NewGuid();
             TextBoxNewUUID.Text = uuid.ToString();
+            //清除其他选项卡中的选项
+            UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
         }
         private void RadioButtonQuicNone_Checked(object sender, RoutedEventArgs e)
         {
@@ -309,8 +387,61 @@ namespace ProxySU
             Random random = new Random();
             int randomServerPort = random.Next(10000, 50000);
             TextBoxServerListenPort.Text = randomServerPort.ToString();
+            //清除其他选项卡中的选项
+            UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
+        }
+        private void RadioButtonTCP2TLS_Checked(object sender, RoutedEventArgs e)
+        {
+            TextBoxServerListenPort.Text = "443";
+            //隐藏Path
+            TextBlockPath.Visibility = Visibility.Collapsed;
+            TextBoxPath.Visibility = Visibility.Collapsed;
+            //TextBoxPath.Text = "/ray";
+            ButtonPath.Visibility = Visibility.Collapsed;
+            //显示域名
+            TextBlockDomain.Visibility = Visibility.Visible;
+            TextBoxDomain.Visibility = Visibility.Visible;
+            //ButtonDomain.Visibility = Visibility.Visible;
+            //隐藏QUIC密钥
+            TextBlockQuicUUID.Visibility = Visibility.Collapsed;
+            TextBoxQuicUUID.Visibility = Visibility.Collapsed;
+            ButtonQuicUUID.Visibility = Visibility.Collapsed;
+            //隐藏伪装网站
+            TextBlockMaskSites.Visibility = Visibility.Collapsed;
+            TextBoxMaskSites.Visibility = Visibility.Collapsed;
+
+            Guid uuid = Guid.NewGuid();
+            TextBoxNewUUID.Text = uuid.ToString();
+            //清除其他选项卡中的选项
+            UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
+        }
+        private void RadioButtonTCP2TLSnoDomain_Checked(object sender, RoutedEventArgs e)
+        {
+            TextBoxServerListenPort.Text = "443";
+            //隐藏Path
+            TextBlockPath.Visibility = Visibility.Collapsed;
+            TextBoxPath.Visibility = Visibility.Collapsed;
+            //TextBoxPath.Text = "/ray";
+            ButtonPath.Visibility = Visibility.Collapsed;
+            //隐藏域名
+            TextBlockDomain.Visibility = Visibility.Collapsed;
+            TextBoxDomain.Visibility = Visibility.Collapsed;
+            //ButtonDomain.Visibility = Visibility.Visible;
+            //隐藏QUIC密钥
+            TextBlockQuicUUID.Visibility = Visibility.Collapsed;
+            TextBoxQuicUUID.Visibility = Visibility.Collapsed;
+            ButtonQuicUUID.Visibility = Visibility.Collapsed;
+            //隐藏伪装网站
+            TextBlockMaskSites.Visibility = Visibility.Collapsed;
+            TextBoxMaskSites.Visibility = Visibility.Collapsed;
+
+            Guid uuid = Guid.NewGuid();
+            TextBoxNewUUID.Text = uuid.ToString();
+            //清除其他选项卡中的选项
+            UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
         }
         #endregion
+
         //产生随机的uuid
         private void ButtonNewUUID_Click(object sender, RoutedEventArgs e)
         {
@@ -347,8 +478,10 @@ namespace ProxySU
 
         }
 
+        //private void ButtonTestChecked_Click(object sender, RoutedEventArgs e)
+        //{
+        //    UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
 
-
-   
+        //}
     }
 }

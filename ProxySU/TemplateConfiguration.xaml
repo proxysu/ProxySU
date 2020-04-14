@@ -35,12 +35,14 @@
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <GroupBox Header="模板库" Grid.Row="0" Grid.RowSpan="2">
+        <GroupBox Header="模板库" Grid.Row="0" Grid.RowSpan="3">
             <Grid>
-                <TabControl>
-                    <TabItem Header="热门方案" Width="110" Height="30">
+                <TabControl x:Name="TabControlTemplate">
+                    <TabItem x:Name="TabItemHot" Header="热门方案" Width="110" Height="30">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition></ColumnDefinition>
@@ -58,9 +60,12 @@
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                     </Grid>
+                            <RadioButton x:Name="RadioButtonWebSocketTLS2WebHot" Content="WebSocket+TLS+Web"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="1" Checked="RadioButtonWebSocketTLS2Web_Checked"></RadioButton>
+                            <TextBlock Text="稳定性强，使用Caddy做伪装网站，隐藏代理，会被识别为访问网站的https流量，抗封锁识别最强。(需要域名)" TextWrapping="Wrap" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"></TextBlock>
+
+                        </Grid>
                     </TabItem>
-                    <TabItem Header="TCP传输协议" Width="110" Height="30">
+                    <TabItem x:Name="TabItemTcp" Header="TCP传输协议" Width="110" Height="30">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition></ColumnDefinition>
@@ -78,21 +83,21 @@
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <RadioButton x:Name="RadioButtonTCP" Content="TCP" Grid.Column="0" Grid.Row="1" Checked="RadioButtonTCP_Checked"></RadioButton>
+                            <RadioButton x:Name="RadioButtonTCP" Content="TCP"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="1" Checked="RadioButtonTCP_Checked"></RadioButton>
                             <TextBlock Text="数据加密传输，会被识别为未知的tcp流量" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButtonTCPhttp" Content="TCP+Http伪装" Grid.Column="0" Grid.Row="2" Checked="RadioButtonTCPhttp_Checked" ></RadioButton>
+                            <RadioButton x:Name="RadioButtonTCPhttp" Content="TCP+Http伪装" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="2" Checked="RadioButtonTCPhttp_Checked" ></RadioButton>
                             <TextBlock Text="数据加密传输，并做http伪装，会被识别为http流量，但并不是真正的http访问" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButtonTCP2TLS" Content="TCP+TLS" Grid.Column="0" Grid.Row="3" Checked="RadioButtonTCPhttp_Checked" ></RadioButton>
+                            <RadioButton x:Name="RadioButtonTCP2TLS" Content="TCP+TLS"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="3" Checked="RadioButtonTCP2TLS_Checked" />
                             <TextBlock Text="数据加密传输，传输协议使用TLS，会被识别为TLS流量，不等同于https流量特征 (需要域名)" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButtonTCP2TLSnoDomain" Content="TCP+TLS((自签证书)" Grid.Column="0" Grid.Row="4" Checked="RadioButtonTCPhttp_Checked" ></RadioButton>
-                            <TextBlock Text="数据加密传输，传输协议使用TLS，会被识别为TLS流量，不等同于https流量特征 (不需要域名)" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3"></TextBlock>
+                            <RadioButton x:Name="RadioButtonTCP2TLSnoDomain" Content="TCP+TLS((自签证书)"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="4" Checked="RadioButtonTCP2TLSnoDomain_Checked" />
+                            <TextBlock Text="数据加密传输，传输协议使用TLS，会被识别为TLS流量，不等同于https流量特征 (无需域名)" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3"></TextBlock>
 
                         </Grid>
                     </TabItem>
                     <TabItem Header="WebSocket传输协议" Width="150" Height="30">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition Width="1.2*"></ColumnDefinition>
                                 <ColumnDefinition></ColumnDefinition>
                                 <ColumnDefinition></ColumnDefinition>
                                 <ColumnDefinition></ColumnDefinition>
@@ -107,8 +112,14 @@
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <RadioButton x:Name="RadioButtonWebSocketTLS2Web" Content="WebSocket+TLS+Web" Grid.Column="0" Grid.Row="3" Checked="RadioButtonWebSocketTLS2Web_Checked"></RadioButton>
-                            <TextBlock Text="稳定性强，使用Caddy做前置，会被识别为访问网站的https流量，抗封锁识别最强" TextWrapping="Wrap" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3"></TextBlock>
+                            <RadioButton x:Name="RadioButtonWebSocket" Content="WebSocket"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="1" Checked="RadioButtonWebSocketTLS2Web_Checked"></RadioButton>
+                            <TextBlock Text="数据加密传输，传输协议使用WebSocket，未启用TLS,将被识别为WebSocket流量。" TextWrapping="Wrap" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"></TextBlock>
+                            <RadioButton x:Name="RadioButtonWebSocketTLS" Content="WebSocket+TLS"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="2" Checked="RadioButtonHTTP2_Checked"/>
+                            <TextBlock Text="数据加密传输，传输协议使用WebSocket，启用TLS,将被识别为TLS流量。(需要域名)" TextWrapping="Wrap" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"></TextBlock>
+                            <RadioButton x:Name="RadioButtonWebSocketTLS2Web" Content="WebSocket+TLS+Web"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="3" Checked="RadioButtonWebSocketTLS2Web_Checked"></RadioButton>
+                            <TextBlock Text="稳定性强，使用Caddy做伪装网站，隐藏代理，会被识别为访问网站的https流量，抗封锁识别最强。(需要域名)" TextWrapping="Wrap" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3"></TextBlock>
+                            <RadioButton x:Name="RadioButtonWebSocketTLSnoDomain" Content="WebSocket+TLS(自签证书)"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="4" Checked="RadioButtonWebSocketTLS2Web_Checked"></RadioButton>
+                            <TextBlock Text="数据加密传输，传输协议使用WebSocket，启用TLS,将被识别为TLS流量。(无需域名)" TextWrapping="Wrap" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3"></TextBlock>
 
                         </Grid>
                     </TabItem>
@@ -130,11 +141,13 @@
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <RadioButton x:Name="RadioButtonHTTP2" Content="HTTP/2"  Grid.Column="0" Grid.Row="4" Checked="RadioButtonHTTP2_Checked"></RadioButton>
-                            <TextBlock Text="基于 HTTP/2 的传输方式。它完整按照 HTTP/2 标准实现"  Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3"></TextBlock>
-
+                            <RadioButton x:Name="RadioButtonHTTP2" Content="HTTP/2"  GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="1" Checked="RadioButtonHTTP2_Checked"></RadioButton>
+                            <TextBlock Text="基于 HTTP/2 的传输方式。它完整按照 HTTP/2 标准实现"  Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"></TextBlock>
+                            <RadioButton x:Name="RadioButtonHTTP2Web" Content="HTTP/2+TLS+Web"  GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="2" Checked="RadioButtonWebSocketTLS2Web_Checked"></RadioButton>
+                            <TextBlock Text="基于 HTTP/2 的传输方式。它完整按照 HTTP/2 标准实现，增加伪装网站"  Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"></TextBlock>
                         </Grid>
                     </TabItem>
+                   
                     <TabItem Header="mKCP传输协议" Width="110" Height="30">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -154,17 +167,17 @@
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <RadioButton x:Name="RadioButtonMkcpNoCamouflage" Content="mKCP(无伪装)" Grid.Column="0" Grid.Row="1" Checked="RadioButtonTCP_Checked"></RadioButton>
+                            <RadioButton x:Name="RadioButtonMkcpNoCamouflage" Content="mKCP(无伪装)" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="1" Checked="RadioButtonTCP_Checked"></RadioButton>
                             <TextBlock Text="数据加密传输，以增加流量消耗来加速，减少延迟，udp协议,无伪装，会被识别为udp流量" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButton2mKCP2SRTP" Content="mKCP+SRTP" Grid.Column="0" Grid.Row="2" Checked="RadioButtonTCP_Checked"></RadioButton>
+                            <RadioButton x:Name="RadioButton2mKCP2SRTP" Content="mKCP+SRTP" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="2" Checked="RadioButtonTCP_Checked"></RadioButton>
                             <TextBlock Text="同mKCP(无伪装)，增加伪装成 SRTP 数据包，会被识别为视频通话数据（如 FaceTime）" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButton2mKCPuTP" Content="mKCP+uTP" Grid.Column="0" Grid.Row="3" Checked="RadioButtonTCP_Checked"></RadioButton>
+                            <RadioButton x:Name="RadioButton2mKCPuTP" Content="mKCP+uTP" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="3" Checked="RadioButtonTCP_Checked"></RadioButton>
                             <TextBlock Text="同mKCP(无伪装)，增加伪装成 uTP 数据包，会被识别为 BT 下载数据" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButton2mKCP2WechatVideo" Content="mKCP+WechatVideo" Grid.Column="0" Grid.Row="4" Checked="RadioButtonTCP_Checked"></RadioButton>
+                            <RadioButton x:Name="RadioButton2mKCP2WechatVideo" Content="mKCP+WechatVideo" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="4" Checked="RadioButtonTCP_Checked"></RadioButton>
                             <TextBlock Text="同mKCP(无伪装)，增加伪装成微信视频通话的数据包" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButton2mKCP2DTLS" Content="mKCP+DTLS 1.2" Grid.Column="0" Grid.Row="5" Checked="RadioButtonTCP_Checked"></RadioButton>
+                            <RadioButton x:Name="RadioButton2mKCP2DTLS" Content="mKCP+DTLS 1.2" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="5" Checked="RadioButtonTCP_Checked"></RadioButton>
                             <TextBlock Text="同mKCP(无伪装)，增加伪装成 DTLS 1.2 数据包" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButton2mKCP2WireGuard" Content="mKCP+WireGuard" Grid.Column="0" Grid.Row="6" Checked="RadioButtonTCP_Checked"></RadioButton>
+                            <RadioButton x:Name="RadioButton2mKCP2WireGuard" Content="mKCP+WireGuard" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="6" Checked="RadioButtonTCP_Checked"></RadioButton>
                             <TextBlock Text="同mKCP(无伪装)，增加伪装成 WireGuard 数据包。(并不是真正的 WireGuard 协议)" TextWrapping="Wrap" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="3"></TextBlock>
 
                         </Grid>
@@ -189,17 +202,17 @@
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
                             <TextBlock Text="提醒：Shadowrocket目前暂不支持QUIC的传输模式。" Foreground="Red" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5"></TextBlock>
-                            <RadioButton x:Name="RadioButtonQuicNone"  Content="QUIC(无伪装)" Grid.Column="0" Grid.Row="1" Checked="RadioButtonQuicNone_Checked"></RadioButton>
+                            <RadioButton x:Name="RadioButtonQuicNone"  Content="QUIC(无伪装)"  GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="1" Checked="RadioButtonQuicNone_Checked"></RadioButton>
                             <TextBlock Text="数据加密传输，无伪装会被识别为udp流量，谷歌出品，优点:减少延迟、多路复用、连接迁移"  Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButtonQuicSRTP"  Content="QUIC+SRTP" Grid.Column="0" Grid.Row="2" Checked="RadioButtonQuicNone_Checked"></RadioButton>
+                            <RadioButton x:Name="RadioButtonQuicSRTP"  Content="QUIC+SRTP" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="2" Checked="RadioButtonQuicNone_Checked"></RadioButton>
                             <TextBlock Text="同QUIC(无伪装)，增加伪装成 SRTP 数据包，会被识别为视频通话数据（如 FaceTime）"  Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButtonQuic2uTP"  Content="QUIC+uTP" Grid.Column="0" Grid.Row="3" Checked="RadioButtonQuicNone_Checked"></RadioButton>
+                            <RadioButton x:Name="RadioButtonQuic2uTP"  Content="QUIC+uTP" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="3" Checked="RadioButtonQuicNone_Checked"></RadioButton>
                             <TextBlock Text="同QUIC(无伪装)，增加伪装成 uTP 数据包，会被识别为 BT 下载数据"  Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButtonQuicWechatVideo"  Content="QUIC+WechatVideo" Grid.Column="0" Grid.Row="4" Checked="RadioButtonQuicNone_Checked"></RadioButton>
+                            <RadioButton x:Name="RadioButtonQuicWechatVideo"  Content="QUIC+WechatVideo" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="4" Checked="RadioButtonQuicNone_Checked"></RadioButton>
                             <TextBlock Text="同QUIC(无伪装)，增加伪装成微信视频通话的数据包"  Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButtonQuicDTLS" Content="QUIC+DTLS 1.2" Grid.Column="0" Grid.Row="5" Checked="RadioButtonQuicNone_Checked"></RadioButton>
+                            <RadioButton x:Name="RadioButtonQuicDTLS" Content="QUIC+DTLS 1.2"  GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="5" Checked="RadioButtonQuicNone_Checked"></RadioButton>
                             <TextBlock Text="同QUIC(无伪装)，增加伪装成 DTLS 1.2 数据包" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButtonQuicWireGuard" Content="QUIC+WireGuard" Grid.Column="0" Grid.Row="6" Checked="RadioButtonQuicNone_Checked"></RadioButton>
+                            <RadioButton x:Name="RadioButtonQuicWireGuard" Content="QUIC+WireGuard" GroupName="TemplateGroup" Grid.Column="0" Grid.Row="6" Checked="RadioButtonQuicNone_Checked"></RadioButton>
                             <TextBlock Text="同QUIC(无伪装)，增加伪装成 WireGuard 数据包。(并不是真正的 WireGuard 协议)" TextWrapping="Wrap" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="3"></TextBlock>
 
                         </Grid>
@@ -207,7 +220,7 @@
                 </TabControl>
             </Grid>
         </GroupBox>
-        <GroupBox Header="其他设置" Grid.Row="2">
+        <GroupBox Header="其他设置" Grid.Row="3" Grid.RowSpan="2">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
@@ -248,8 +261,9 @@
                 <TextBox x:Name="TextBoxMaskSites" Style="{StaticResource TitleText}" Tag="设置此项可增加代理的隐蔽(可为空)" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3" Margin="3"></TextBox>
 
 
-                <Button x:Name="ButtondDecide" Content="确定" Grid.Column="1" Grid.Row="6" Margin="2" Click="ButtondDecide_Click"></Button>
-                <Button x:Name="ButtondCancel" Content="取消" Grid.Column="3" Grid.Row="6" Margin="2" Click="ButtondCancel_Click"></Button>
+                <Button x:Name="ButtondDecide" Content="确定" Grid.Column="1" Grid.Row="6" Margin="0" Click="ButtondDecide_Click"></Button>
+                <Button x:Name="ButtondCancel" Content="取消" Grid.Column="3" Grid.Row="6" Margin="0" Click="ButtondCancel_Click"></Button>
+                <!--<Button x:Name="ButtonTestChecked" Content="测试选中状态" Grid.Column="5" Grid.Row="6" Click="ButtonTestChecked_Click"></Button>-->
             </Grid>
         </GroupBox>
 
