@@ -6,6 +6,7 @@ V2ray install tools for windows
 可一键安装的模式有：
 * tcp
 * tcp+http伪装
+* tcp+TLS（需要域名，无伪装网站）
 * http2(需要域名)
 * WebSocket +TLS（需要域名，无伪装网站）
 * WebSocket+TLS+Web(需要域名)
