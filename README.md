@@ -33,7 +33,7 @@ V2ray install tools for windows
 3. 根据选择读取相应配置模板，调用[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)生成相应配置文件，并上传到服务器。  
 4. 如果使用WebSocket+TLS+Web模式，则调用Caddy官方安装脚本 `curl https://getcaddy.com -o getcaddy`   
 与 `bash getcaddy personal hook.service` ，安装Caddy。  
-5. 如果使用Http2模式，则调用(  `curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh` 安装acme.sh，使用acme.sh申请并安装证书到V2ray.  
+5. 如果使用Http2模式，则调用  `curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh` 安装acme.sh，使用acme.sh申请并安装证书到V2ray.  
 6. 安装成功后，使用[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)生成兼容于v2rayN的json文件，用C#内置的Base64库将json生成url链接，使用[QRcoder](https://github.com/codebude/QRCoder)生成二维码。
 
 * 注：V2ray安装及配置文件主要参考自：  
