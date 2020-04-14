@@ -7,6 +7,7 @@ V2ray install tools for windows
 * tcp
 * tcp+http伪装
 * http2(需要域名)
+* WebSocket +TLS（需要域名，无伪装网站）
 * WebSocket+TLS+Web(需要域名)
 * mKCP及各种伪装
 * QUIC及各种伪装。
