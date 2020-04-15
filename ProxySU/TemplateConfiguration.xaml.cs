@@ -77,6 +77,16 @@ namespace ProxySU
                 MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomain.Text.ToString();
                
             }
+            //tcp+TLS(自签证书)模式被选中
+            else if (RadioButtonTcpTLS2SelfSigned.IsChecked == true)
+            {
+               //传递模板类型
+                MainWindow.ReceiveConfigurationParameters[0] = "tcpTLSselfSigned";
+
+                //传递域名
+               // MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomain.Text.ToString();
+
+            }
             //WebSocket+TLS模式被选中
             else if (RadioButtonWebSocketTLS.IsChecked == true)
             {

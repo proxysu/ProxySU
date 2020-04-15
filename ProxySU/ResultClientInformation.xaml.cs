@@ -64,6 +64,14 @@ namespace ProxySU
                 HidePathAndTLS();
                 HideQuicKey();
             }
+            else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "tcpTLSselfSigned"))
+            {
+                TextBoxTransmission.Text = "tcp";
+                TextBoxCamouflageType.Text = "none";
+                TextBoxTLS.Text = "tls";
+                HidePathAndTLS();
+                HideQuicKey();
+            }
             else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "MkcpNone"))
             {
                 TextBoxTransmission.Text = "kcp";

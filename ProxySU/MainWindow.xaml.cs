@@ -189,25 +189,35 @@ namespace ProxySU
                 serverConfig = "TemplateConfg\\tcp_server_config.json";
                 clientConfig = "TemplateConfg\\tcp_client_config.json";
             }
+            else if (String.Equals(ReceiveConfigurationParameters[0], "TCPhttp"))
+            {
+                serverConfig = "TemplateConfg\\tcp_http_server_config.json";
+                clientConfig = "TemplateConfg\\tcp_http_client_config.json";
+            }
+            else if (String.Equals(ReceiveConfigurationParameters[0], "tcpTLS"))
+            {
+                serverConfig = "TemplateConfg\\tcp_TLS_server_config.json";
+                clientConfig = "TemplateConfg\\tcp_TLS_client_config.json";
+            }
+            else if (String.Equals(ReceiveConfigurationParameters[0], "tcpTLSselfSigned"))
+            {
+                serverConfig = "TemplateConfg\\tcpTLSselfSigned_server_config.json";
+                clientConfig = "TemplateConfg\\tcpTLSselfSigned_client_config.json";
+            }
+            else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS"))
+            {
+                serverConfig = "TemplateConfg\\WebSocket_TLS_server_config.json";
+                clientConfig = "TemplateConfg\\WebSocket_TLS_client_config.json";
+            }
             else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web"))
             {
                 serverConfig = "TemplateConfg\\WebSocketTLSWeb_server_config.json";
                 clientConfig = "TemplateConfg\\WebSocketTLSWeb_client_config.json";
             }
-            else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS"))
+            else if (String.Equals(ReceiveConfigurationParameters[0], "Http2"))
             {
-                serverConfig = "TemplateConfg\\WebSocketTLS_server_config.json";
-                clientConfig = "TemplateConfg\\WebSocketTLS_client_config.json";
-            }
-            else if (String.Equals(ReceiveConfigurationParameters[0], "tcpTLS"))
-            {
-                serverConfig = "TemplateConfg\\tcpTLS_server_config.json";
-                clientConfig = "TemplateConfg\\tcpTLS_client_config.json";
-            }
-            else if (String.Equals(ReceiveConfigurationParameters[0], "TCPhttp"))
-            {
-                serverConfig = "TemplateConfg\\tcp_http_server_config.json";
-                clientConfig = "TemplateConfg\\tcp_http_client_config.json";
+                serverConfig = "TemplateConfg\\http2_server_config.json";
+                clientConfig = "TemplateConfg\\http2_client_config.json";
             }
             //else if (String.Equals(ReceiveConfigurationParameters[0], "MkcpNone")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2SRTP")||String.Equals(ReceiveConfigurationParameters[0], "mKCPuTP")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WechatVideo")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2DTLS")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WireGuard"))
             else if (ReceiveConfigurationParameters[0].Contains("mKCP"))
@@ -215,12 +225,7 @@ namespace ProxySU
                 serverConfig = "TemplateConfg\\mkcp_server_config.json";
                 clientConfig = "TemplateConfg\\mkcp_client_config.json";
             }
-           
-            else if (String.Equals(ReceiveConfigurationParameters[0], "Http2"))
-            {
-                serverConfig = "TemplateConfg\\http2_server_config.json";
-                clientConfig = "TemplateConfg\\http2_client_config.json";
-            }
+
             // else if (String.Equals(ReceiveConfigurationParameters[0], "QuicNone") || String.Equals(ReceiveConfigurationParameters[0], "QuicSRTP") || String.Equals(ReceiveConfigurationParameters[0], "Quic2uTP") || String.Equals(ReceiveConfigurationParameters[0], "QuicWechatVideo") || String.Equals(ReceiveConfigurationParameters[0], "QuicDTLS") || String.Equals(ReceiveConfigurationParameters[0], "QuicWireGuard"))
             else if (ReceiveConfigurationParameters[0].Contains("Quic"))
             {
@@ -645,6 +650,13 @@ namespace ProxySU
                         {
                             serverJson["inbounds"][0]["port"] = ReceiveConfigurationParameters[1];
                         }
+                        //tcp+TLS自签证书模式下
+                        if (serverConfig.Contains("tcpTLSselfSigned") == true)
+                        {
+                            string selfSignedCa = client.RunCommand("/usr/bin/v2ray/v2ctl cert --ca").Result;
+                            JObject selfSignedCaJObject = JObject.Parse(selfSignedCa);
+                            serverJson["inbounds"][0]["streamSettings"]["tlsSettings"]["certificates"][0] = selfSignedCaJObject;
+                        }
                         //如果是WebSocketTLSWeb模式，则设置路径
                         if (serverConfig.Contains("WebSocket") == true)
                         {
@@ -758,10 +770,10 @@ namespace ProxySU
                        
                         
                         //启动Caddy服务
-                        client.RunCommand("caddy -service start");
+                        client.RunCommand("caddy -service restart");
                     }
 
-                    if (serverConfig.Contains("http2") == true|| serverConfig.Contains("WebSocketTLS")==true|| serverConfig.Contains("tcpTLS") == true)
+                    if (serverConfig.Contains("http2") == true|| serverConfig.Contains("WebSocket_TLS") ==true|| serverConfig.Contains("tcp_TLS") == true)
                     {
                         currentStatus = "使用Http2/WebSocket +TLS/tcp+TLS模式，正在安装acme.sh......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);

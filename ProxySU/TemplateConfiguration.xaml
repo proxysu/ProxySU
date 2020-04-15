@@ -89,8 +89,9 @@
                             <TextBlock Text="数据加密传输，并做http伪装，会被识别为http流量，但并不是真正的http访问" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"></TextBlock>
                             <RadioButton x:Name="RadioButtonTCP2TLS" Content="TCP+TLS"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="3" Checked="RadioButtonTCP2TLS_Checked" />
                             <TextBlock Text="数据加密传输，传输协议使用TLS，会被识别为TLS流量，不等同于https流量特征 (需要域名)" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButtonTCP2TLSnoDomain" Content="TCP+TLS((自签证书)"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="4" Checked="RadioButtonTCP2TLSnoDomain_Checked" />
+                            <RadioButton x:Name="RadioButtonTcpTLS2SelfSigned" Content="TCP+TLS((自签证书)"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="4" Checked="RadioButtonTCP2TLSnoDomain_Checked" />
                             <TextBlock Text="数据加密传输，传输协议使用TLS，会被识别为TLS流量，不等同于https流量特征 (无需域名)" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3"></TextBlock>
+                            <TextBlock Text="Shadowrocket (ios)需要手动打开“允许不安全”选项" TextWrapping="Wrap" Grid.Column="4" Grid.Row="4" ></TextBlock>
 
                         </Grid>
                     </TabItem>
