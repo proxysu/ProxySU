@@ -13,6 +13,7 @@ V2ray install tools for windows
 * WebSocket+TLS（自签证书） 
 * http2  
 * http2+TLS+Web
+* http2（自签证书）
 * mKCP及各种伪装 
 * QUIC及各种伪装。  
 
