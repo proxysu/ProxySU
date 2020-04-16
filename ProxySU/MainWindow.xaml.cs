@@ -209,6 +209,11 @@ namespace ProxySU
                 serverConfig = "TemplateConfg\\WebSocket_TLS_server_config.json";
                 clientConfig = "TemplateConfg\\WebSocket_TLS_client_config.json";
             }
+            else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLSselfSigned"))
+            {
+                serverConfig = "TemplateConfg\\WebSocket_TLS_selfSigned_server_config.json";
+                clientConfig = "TemplateConfg\\WebSocket_TLS_selfSigned_client_config.json";
+            }
             else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web"))
             {
                 serverConfig = "TemplateConfg\\WebSocketTLSWeb_server_config.json";
@@ -557,6 +562,9 @@ namespace ProxySU
                             MessageBox.Show("域名未能正确解析到当前VPS的IP上，请检查！若解析设置正确，请等待生效后再重试安装。如果域名使用了CDN，请先关闭！");
                             return;
                         }
+                        
+                    }
+                    if (serverConfig.Contains("TLS") == true || serverConfig.Contains("http2") == true) {
                         //检测是否安装lsof
                         if (string.IsNullOrEmpty(client.RunCommand("command -v lsof").Result) == true)
                         {
@@ -582,7 +590,7 @@ namespace ProxySU
                         Thread.Sleep(1000);
                         //MessageBox.Show(@"lsof -n -P -i :80 | grep LISTEN");
                         //MessageBox.Show(client.RunCommand(@"lsof -n -P -i :80 | grep LISTEN").Result);
-                        if (String.IsNullOrEmpty(client.RunCommand(@"lsof -n -P -i :80 | grep LISTEN").Result)==false || String.IsNullOrEmpty(client.RunCommand(@"lsof -n -P -i :443 | grep LISTEN").Result)==false)
+                        if (String.IsNullOrEmpty(client.RunCommand(@"lsof -n -P -i :80 | grep LISTEN").Result) == false || String.IsNullOrEmpty(client.RunCommand(@"lsof -n -P -i :443 | grep LISTEN").Result) == false)
                         {
                             MessageBox.Show("80/443端口之一，或全部被占用，请先用系统工具中的“释放80/443端口”工具，释放出，再重新安装");
                             currentStatus = "端口被占用，安装失败......";
@@ -591,7 +599,6 @@ namespace ProxySU
                             return;
                         }
                     }
-
                     currentStatus = "符合安装要求,布署中......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
@@ -621,7 +628,7 @@ namespace ProxySU
                     //下载官方安装脚本安装
 
                     client.RunCommand("curl -o /tmp/go.sh https://install.direct/go.sh");
-                    client.RunCommand("bash /tmp/go.sh");
+                    client.RunCommand("bash /tmp/go.sh -f");
                     string installResult = client.RunCommand("find / -name v2ray").Result.ToString();
 
                     if (!installResult.Contains("/usr/bin/v2ray"))
@@ -650,8 +657,8 @@ namespace ProxySU
                         {
                             serverJson["inbounds"][0]["port"] = ReceiveConfigurationParameters[1];
                         }
-                        //tcp+TLS自签证书模式下
-                        if (serverConfig.Contains("tcpTLSselfSigned") == true)
+                        //TLS自签证书模式下
+                        if (serverConfig.Contains("selfSigned") == true)
                         {
                             string selfSignedCa = client.RunCommand("/usr/bin/v2ray/v2ctl cert --ca").Result;
                             JObject selfSignedCaJObject = JObject.Parse(selfSignedCa);
@@ -1052,6 +1059,12 @@ namespace ProxySU
         //打开模板设置窗口
         private void ButtonTemplateConfiguration_Click(object sender, RoutedEventArgs e)
         {
+            //清空初始化模板参数
+            for (int i = 0; i != ReceiveConfigurationParameters.Length; i++)
+
+            {
+                ReceiveConfigurationParameters[i] = i.ToString();
+            }
             WindowTemplateConfiguration windowTemplateConfiguration = new WindowTemplateConfiguration();
             windowTemplateConfiguration.ShowDialog();
         }
@@ -1090,22 +1103,26 @@ namespace ProxySU
                     cmdTestPort = @"lsof -n -P -i :443 | grep LISTEN";
                     cmdResult = client.RunCommand(cmdTestPort).Result;
                     //MessageBox.Show(cmdTestPort);
-                    if (String.IsNullOrEmpty(cmdTestPort)==false)
+                    if (String.IsNullOrEmpty(cmdResult) ==false)
                     {
                         //MessageBox.Show(cmdResult);
                         string[] cmdResultArry443 = cmdResult.Split(' ');
-
+                        //MessageBox.Show(cmdResultArry443[3]);
+                        client.RunCommand($"systemctl stop {cmdResultArry443[0]}");
+                        client.RunCommand($"systemctl disable {cmdResultArry443[0]}");
                         client.RunCommand($"kill -9 {cmdResultArry443[3]}");
                     }
  
                     cmdTestPort = @"lsof -n -P -i :80 | grep LISTEN";
                     cmdResult = client.RunCommand(cmdTestPort).Result;
-                    if (String.IsNullOrEmpty(cmdTestPort) == false)
+                    if (String.IsNullOrEmpty(cmdResult) == false)
                     {
                         string[] cmdResultArry80 = cmdResult.Split(' ');
+                        client.RunCommand($"systemctl stop {cmdResultArry80[0]}");
+                        client.RunCommand($"systemctl disable {cmdResultArry80[0]}");
                         client.RunCommand($"kill -9 {cmdResultArry80[3]}");
                     }
-
+                    MessageBox.Show("执行完毕！");
                     client.Disconnect();
                 }
             }
@@ -1157,6 +1174,22 @@ namespace ProxySU
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            string[] testString = new string[6];
+            for (int i = 0; i != testString.Length; i++)
+
+            {
+
+                testString[i] = i.ToString();
+
+            }
+            foreach (string str in testString)
+            {
+                MessageBox.Show(str);
             }
         }
 
@@ -1233,7 +1266,7 @@ namespace ProxySU
         //        //生成安装服务命令中的邮箱
         //        //string sshCmdEmail = $"email={emailAddress};email=${{email/./@}};echo $email";
         //        //string email = client.RunCommand(sshCmdEmail).Result.ToString();
-               
+
         //        //MessageBox.Show(email);
 
         //        //安装Caddy服务

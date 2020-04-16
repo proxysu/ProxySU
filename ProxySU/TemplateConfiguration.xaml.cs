@@ -103,6 +103,17 @@ namespace ProxySU
                 MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomain.Text.ToString();
 
             }
+            //WebSocket+TLS(自签证书)模式被选中
+            else if (RadioButtonWebSocketTLSselfSigned.IsChecked == true)
+            {
+                //传递模板类型
+                MainWindow.ReceiveConfigurationParameters[0] = "WebSocketTLSselfSigned";
+                //传递路径
+                MainWindow.ReceiveConfigurationParameters[3] = TextBoxPath.Text.ToString();
+                //传递域名
+                //MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomain.Text.ToString();
+
+            }
             //WebSocket+TLS+Web模式被选中
             else if (RadioButtonWebSocketTLS2Web.IsChecked == true|| RadioButtonWebSocketTLS2WebHot.IsChecked==true)
             {
@@ -120,17 +131,19 @@ namespace ProxySU
                 //传递伪装网站
                 MainWindow.ReceiveConfigurationParameters[7] = TextBoxMaskSites.Text.ToString();
                 //处理伪装网站域名中的前缀
-                string testDomain = TextBoxMaskSites.Text.Substring(0, 7);
-                if (String.Equals(testDomain, "https:/") || String.Equals(testDomain, "http://"))
+                if (TextBoxMaskSites.Text.ToString().Length >= 7)
                 {
-                    //MessageBox.Show(testDomain);
-                    MainWindow.ReceiveConfigurationParameters[7] = TextBoxMaskSites.Text.Replace("/", "\\/");
+                    string testDomain = TextBoxMaskSites.Text.Substring(0, 7);
+                    if (String.Equals(testDomain, "https:/") || String.Equals(testDomain, "http://"))
+                    {
+                        //MessageBox.Show(testDomain);
+                        MainWindow.ReceiveConfigurationParameters[7] = TextBoxMaskSites.Text.Replace("/", "\\/");
+                    }
+                    else
+                    {
+                        MainWindow.ReceiveConfigurationParameters[7] = "http:\\/\\/" + TextBoxMaskSites.Text;
+                    }
                 }
-                else
-                {
-                    MainWindow.ReceiveConfigurationParameters[7] = "http:\\/\\/" + TextBoxMaskSites.Text;
-                }
-
             }
             //http2模式被选中
             else if (RadioButtonHTTP2.IsChecked == true)
@@ -307,6 +320,35 @@ namespace ProxySU
             //显示伪装网站
             TextBlockMaskSites.Visibility = Visibility.Visible;
             TextBoxMaskSites.Visibility = Visibility.Visible;
+
+            Guid uuid = Guid.NewGuid();
+            TextBoxNewUUID.Text = uuid.ToString();
+            //清除其他选项卡中的选项
+            UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
+        }
+        private void RadioButtonWebSocketTLSselfSigned_Checked(object sender, RoutedEventArgs e)
+        {
+            //TextBlockServerListenPort.Visibility = Visibility.Visible;
+            //TextBoxServerListenPort.Visibility = Visibility.Visible;
+            //ButtonServerListenPort.Visibility = Visibility.Visible;
+            TextBoxServerListenPort.Text = "443";
+            //显示Path
+            TextBlockPath.Visibility = Visibility.Visible;
+            TextBoxPath.Visibility = Visibility.Visible;
+            TextBoxPath.Text = "/ray";
+            ButtonPath.Visibility = Visibility.Visible;
+            //显示域名
+            TextBlockDomain.Visibility = Visibility.Collapsed;
+            TextBoxDomain.Visibility = Visibility.Collapsed;
+            //TextBoxDomain.Tag = "可为空";
+            //ButtonDomain.Visibility = Visibility.Visible;
+            //隐藏QUIC密钥
+            TextBlockQuicUUID.Visibility = Visibility.Collapsed;
+            TextBoxQuicUUID.Visibility = Visibility.Collapsed;
+            ButtonQuicUUID.Visibility = Visibility.Collapsed;
+            //隐藏伪装网站
+            TextBlockMaskSites.Visibility = Visibility.Collapsed;
+            TextBoxMaskSites.Visibility = Visibility.Collapsed;
 
             Guid uuid = Guid.NewGuid();
             TextBoxNewUUID.Text = uuid.ToString();
