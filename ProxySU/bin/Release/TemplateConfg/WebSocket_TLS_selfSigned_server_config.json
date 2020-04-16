@@ -12,17 +12,14 @@
 				]
 			},
 			"streamSettings": {
-				"network": "h2",
 				"security": "tls",
 				"tlsSettings": {
 					"certificates": [
-						{
-							"certificateFile": "/etc/v2ray/ssl/v2ray_ssl.crt",
-							"keyFile": "/etc/v2ray/ssl/v2ray_ssl.key"
-						}
+						{}
 					]
 				},
-				"httpSettings": {
+				"network": "ws",
+				"wsSettings": {
 					"path": null
 				}
 			}

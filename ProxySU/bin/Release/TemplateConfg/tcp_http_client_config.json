@@ -1,6 +1,6 @@
 {
 	"inbounds": [
-	    {
+		{
 			"protocol": "http",
 			"port": 1081
 		},

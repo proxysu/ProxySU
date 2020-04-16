@@ -39,9 +39,6 @@
 			},
 			"streamSettings": {
 				"network": "tcp"
-			},
-			"mux": {
-				"enabled": true
 			}
 		}
 	]

@@ -204,6 +204,11 @@ namespace ProxySU
                 serverConfig = "TemplateConfg\\tcpTLSselfSigned_server_config.json";
                 clientConfig = "TemplateConfg\\tcpTLSselfSigned_client_config.json";
             }
+            else if (String.Equals(ReceiveConfigurationParameters[0], "webSocket"))
+            {
+                serverConfig = "TemplateConfg\\webSocket_server_config.json";
+                clientConfig = "TemplateConfg\\webSocket_client_config.json";
+            }
             else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS"))
             {
                 serverConfig = "TemplateConfg\\WebSocket_TLS_server_config.json";
@@ -223,6 +228,11 @@ namespace ProxySU
             {
                 serverConfig = "TemplateConfg\\http2_server_config.json";
                 clientConfig = "TemplateConfg\\http2_client_config.json";
+            }
+            else if (String.Equals(ReceiveConfigurationParameters[0], "http2Web"))
+            {
+                serverConfig = "TemplateConfg\\http2Web_server_config.json";
+                clientConfig = "TemplateConfg\\http2Web_client_config.json";
             }
             //else if (String.Equals(ReceiveConfigurationParameters[0], "MkcpNone")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2SRTP")||String.Equals(ReceiveConfigurationParameters[0], "mKCPuTP")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WechatVideo")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2DTLS")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WireGuard"))
             else if (ReceiveConfigurationParameters[0].Contains("mKCP"))
@@ -653,7 +663,7 @@ namespace ProxySU
                         //设置uuid
                         serverJson["inbounds"][0]["settings"]["clients"][0]["id"] = ReceiveConfigurationParameters[2];
                         //除WebSocketTLSWeb模式外设置监听端口
-                        if (serverConfig.Contains("WebSocketTLSWeb") == false)
+                        if (serverConfig.Contains("WebSocketTLSWeb") == false && serverConfig.Contains("http2Web") == false)
                         {
                             serverJson["inbounds"][0]["port"] = ReceiveConfigurationParameters[1];
                         }
@@ -729,9 +739,9 @@ namespace ProxySU
                     }
 
                     //如果是WebSocket + TLS + Web模式，需要安装Caddy
-                    if (serverConfig.Contains("WebSocketTLSWeb")==true)
+                    if (serverConfig.Contains("WebSocketTLSWeb")==true || serverConfig.Contains("http2Web") == true)
                     {
-                        currentStatus = "使用WebSocket + TLS + Web模式，正在安装Caddy......";
+                        currentStatus = "使用WebSocket+TLS+Web/HTTP2+TLS+Web模式，正在安装Caddy......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
                         
@@ -744,7 +754,14 @@ namespace ProxySU
                         currentStatus = "上传Caddy配置文件......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
+                        if (serverConfig.Contains("WebSocketTLSWeb") == true)
+                        {
                         serverConfig = "TemplateConfg\\WebSocketTLSWeb_server_config.caddyfile";
+                        }
+                        if (serverConfig.Contains("http2Web") == true)
+                        {
+                            serverConfig = "TemplateConfg\\http2Web_server_config.caddyfile";
+                        }
                         upLoadPath = "/etc/caddy/Caddyfile";
                         UploadConfig(connectionInfo, serverConfig, upLoadPath);
 

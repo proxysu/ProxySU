@@ -1,7 +1,8 @@
 {
 	"inbounds": [
 		{
-			"port": null,
+			"port": 10000,
+			"listen": "127.0.0.1",
 			"protocol": "vmess",
 			"settings": {
 				"clients": [
@@ -14,16 +15,13 @@
 			"streamSettings": {
 				"network": "h2",
 				"security": "tls",
-				"tlsSettings": {
-					"certificates": [
-						{
-							"certificateFile": "/etc/v2ray/ssl/v2ray_ssl.crt",
-							"keyFile": "/etc/v2ray/ssl/v2ray_ssl.key"
-						}
-					]
-				},
 				"httpSettings": {
 					"path": null
+				},
+				"tlsSettings": {
+					"certificates": [
+						{}
+					]
 				}
 			}
 		}

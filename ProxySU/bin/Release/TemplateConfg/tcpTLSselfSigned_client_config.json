@@ -38,19 +38,11 @@
 				]
 			},
 			"streamSettings": {
-				"network": "kcp",
-				"kcpSettings": {
-					"mtu": 1350,
-					"tti": 50,
-					"uplinkCapacity": 5,
-					"downlinkCapacity": 100,
-					"congestion": true,
-					"readBufferSize": 2,
-					"writeBufferSize": 2,
-					"header": {
-						"type": null
-					}
-				}
+				"network": "tcp",
+				"security": "tls",
+				"tlsSettings": {
+					"allowInsecure": true
+				 }
 			}
 		}
 	]

@@ -1,0 +1,14 @@
+##domain## {
+    log stdout
+    errors stderr
+    root /var/www
+    tls off
+	##sites##
+    proxy ##path## https://localhost:10000 {
+        insecure_skip_verify
+        header_upstream Host {host}
+        header_upstream X-Real-IP {remote}
+        header_upstream X-Forwarded-For {remote}
+        header_upstream X-Forwarded-Port {server_port}
+        header_upstream X-Forwarded-Proto "https"
+}

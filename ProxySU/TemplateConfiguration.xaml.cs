@@ -87,6 +87,13 @@ namespace ProxySU
                // MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomain.Text.ToString();
 
             }
+            //webSocket模式被选中
+            if (RadioButtonWebSocket.IsChecked == true)
+            {
+                //传递模板类型
+                MainWindow.ReceiveConfigurationParameters[0] = "webSocket";
+
+            }
             //WebSocket+TLS模式被选中
             else if (RadioButtonWebSocketTLS.IsChecked == true)
             {
@@ -160,6 +167,37 @@ namespace ProxySU
                 //传递域名
                 MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomain.Text.ToString();
                
+            }
+            //http2+TLS+Web模式被选中
+            else if (RadioButtonHTTP2Web.IsChecked == true)
+            {
+                if (string.IsNullOrEmpty(TextBoxDomain.Text.ToString()) == true)
+                {
+                    MessageBox.Show("域名不能为空！");
+                    return;
+                }
+                //传递模板类型
+                MainWindow.ReceiveConfigurationParameters[0] = "http2Web";
+                //传递路径
+                MainWindow.ReceiveConfigurationParameters[3] = TextBoxPath.Text.ToString();
+                //传递域名
+                MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomain.Text.ToString();
+                //传递伪装网站
+                MainWindow.ReceiveConfigurationParameters[7] = TextBoxMaskSites.Text.ToString();
+                //处理伪装网站域名中的前缀
+                if (TextBoxMaskSites.Text.ToString().Length >= 7)
+                {
+                    string testDomain = TextBoxMaskSites.Text.Substring(0, 7);
+                    if (String.Equals(testDomain, "https:/") || String.Equals(testDomain, "http://"))
+                    {
+                        //MessageBox.Show(testDomain);
+                        MainWindow.ReceiveConfigurationParameters[7] = TextBoxMaskSites.Text.Replace("/", "\\/");
+                    }
+                    else
+                    {
+                        MainWindow.ReceiveConfigurationParameters[7] = "http:\\/\\/" + TextBoxMaskSites.Text;
+                    }
+                }
             }
             //mKCP无伪装模式被选中
             else if (RadioButtonMkcpNoCamouflage.IsChecked == true)

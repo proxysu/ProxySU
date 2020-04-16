@@ -12,7 +12,6 @@
 				]
 			},
 			"streamSettings": {
-				"network": "h2",
 				"security": "tls",
 				"tlsSettings": {
 					"certificates": [
@@ -22,7 +21,8 @@
 						}
 					]
 				},
-				"httpSettings": {
+				"network": "ws",
+				"wsSettings": {
 					"path": null
 				}
 			}
