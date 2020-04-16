@@ -110,17 +110,7 @@ namespace ProxySU
                 MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomain.Text.ToString();
 
             }
-            //WebSocket+TLS(自签证书)模式被选中
-            else if (RadioButtonWebSocketTLSselfSigned.IsChecked == true)
-            {
-                //传递模板类型
-                MainWindow.ReceiveConfigurationParameters[0] = "WebSocketTLSselfSigned";
-                //传递路径
-                MainWindow.ReceiveConfigurationParameters[3] = TextBoxPath.Text.ToString();
-                //传递域名
-                //MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomain.Text.ToString();
-
-            }
+            
             //WebSocket+TLS+Web模式被选中
             else if (RadioButtonWebSocketTLS2Web.IsChecked == true|| RadioButtonWebSocketTLS2WebHot.IsChecked==true)
             {
@@ -151,6 +141,17 @@ namespace ProxySU
                         MainWindow.ReceiveConfigurationParameters[7] = "http:\\/\\/" + TextBoxMaskSites.Text;
                     }
                 }
+            }
+            //WebSocket+TLS(自签证书)模式被选中
+            else if (RadioButtonWebSocketTLSselfSigned.IsChecked == true)
+            {
+                //传递模板类型
+                MainWindow.ReceiveConfigurationParameters[0] = "WebSocketTLSselfSigned";
+                //传递路径
+                MainWindow.ReceiveConfigurationParameters[3] = TextBoxPath.Text.ToString();
+                //传递域名
+                //MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomain.Text.ToString();
+
             }
             //http2模式被选中
             else if (RadioButtonHTTP2.IsChecked == true)
@@ -198,6 +199,17 @@ namespace ProxySU
                         MainWindow.ReceiveConfigurationParameters[7] = "http:\\/\\/" + TextBoxMaskSites.Text;
                     }
                 }
+            }
+            //WebSocket+TLS(自签证书)模式被选中
+            else if (RadioButtonWebSocketTLSselfSigned.IsChecked == true)
+            {
+                //传递模板类型
+                MainWindow.ReceiveConfigurationParameters[0] = "http2selfSigned";
+                //传递路径
+                MainWindow.ReceiveConfigurationParameters[3] = TextBoxPath.Text.ToString();
+                //传递域名
+                //MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomain.Text.ToString();
+
             }
             //mKCP无伪装模式被选中
             else if (RadioButtonMkcpNoCamouflage.IsChecked == true)

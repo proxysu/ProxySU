@@ -144,9 +144,13 @@
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
                             <RadioButton x:Name="RadioButtonHTTP2" Content="HTTP2"  GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="1" Checked="RadioButtonHTTP2_Checked"></RadioButton>
-                            <TextBlock Text="基于 HTTP/2 的传输方式。它完整按照 HTTP/2 标准实现"  Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"></TextBlock>
+                            <TextBlock Text="基于 HTTP/2 的传输方式。它完整按照 HTTP/2 标准实现，需要域名"  Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"></TextBlock>
                             <RadioButton x:Name="RadioButtonHTTP2Web" Content="HTTP2+TLS+Web"  GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="2" Checked="RadioButtonWebSocketTLS2Web_Checked"></RadioButton>
-                            <TextBlock Text="基于 HTTP/2 的传输方式。它完整按照 HTTP/2 标准实现，增加伪装网站"  Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"></TextBlock>
+                            <TextBlock Text="基于 HTTP/2 的传输方式。它完整按照 HTTP/2 标准实现，增加伪装网站，需要域名"  Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"></TextBlock>
+                            <RadioButton x:Name="RadioButtonHTTP2selfSigned" Content="HTTP2(自签证书)"  GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="3" Checked="RadioButtonWebSocketTLSselfSigned_Checked"></RadioButton>
+                            <TextBlock Text="基于 HTTP/2 的传输方式。它完整按照 HTTP/2 标准实现，可以不需要域名。"  Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3"></TextBlock>
+                            <TextBlock Text="Shadowrocket (ios)需要手动打开“允许不安全”选项" TextWrapping="Wrap" Grid.Column="4" Grid.Row="3" ></TextBlock>
+
                         </Grid>
                     </TabItem>
                    

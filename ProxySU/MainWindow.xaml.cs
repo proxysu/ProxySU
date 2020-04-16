@@ -234,6 +234,11 @@ namespace ProxySU
                 serverConfig = "TemplateConfg\\http2Web_server_config.json";
                 clientConfig = "TemplateConfg\\http2Web_client_config.json";
             }
+            else if (String.Equals(ReceiveConfigurationParameters[0], "http2selfSigned"))
+            {
+                serverConfig = "TemplateConfg\\http2selfSigned_server_config.json";
+                clientConfig = "TemplateConfg\\http2selfSigned_client_config.json";
+            }
             //else if (String.Equals(ReceiveConfigurationParameters[0], "MkcpNone")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2SRTP")||String.Equals(ReceiveConfigurationParameters[0], "mKCPuTP")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WechatVideo")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2DTLS")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WireGuard"))
             else if (ReceiveConfigurationParameters[0].Contains("mKCP"))
             {
