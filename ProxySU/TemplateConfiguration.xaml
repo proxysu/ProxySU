@@ -42,7 +42,7 @@
         <GroupBox Header="模板库" Grid.Row="0" Grid.RowSpan="3">
             <Grid>
                 <TabControl x:Name="TabControlTemplate">
-                    <TabItem x:Name="TabItemHot" Header="热门方案" Width="110" Height="30">
+                    <TabItem Header="热门方案" Width="110" Height="30">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition></ColumnDefinition>
@@ -65,7 +65,7 @@
 
                         </Grid>
                     </TabItem>
-                    <TabItem x:Name="TabItemTcp" Header="TCP传输协议" Width="110" Height="30">
+                    <TabItem Header="TCP传输协议" Width="110" Height="30">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition></ColumnDefinition>
@@ -119,7 +119,7 @@
                             <TextBlock Text="数据加密传输，传输协议使用WebSocket，启用TLS,将被识别为TLS流量。(需要域名)" TextWrapping="Wrap" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"></TextBlock>
                             <RadioButton x:Name="RadioButtonWebSocketTLS2Web" Content="WebSocket+TLS+Web"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="3" Checked="RadioButtonWebSocketTLS2Web_Checked"></RadioButton>
                             <TextBlock Text="稳定性强，使用Caddy做伪装网站，隐藏代理，会被识别为访问网站的https流量，抗封锁识别最强。(需要域名)" TextWrapping="Wrap" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButtonWebSocketTLSselfSigned" Content="WebSocket+TLS(自签证书)"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="4" Checked="RadioButtonWebSocketTLSselfSigned_Checked"></RadioButton>
+                            <RadioButton x:Name="RadioButtonWebSocketTLSselfSigned" Content="WebSocket+TLS(自签证书)"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="4" Checked="RadioButtonTCP2TLSnoDomain_Checked"></RadioButton>
                             <TextBlock Text="数据加密传输，传输协议使用WebSocket，启用TLS,将被识别为TLS流量。(无需域名)" TextWrapping="Wrap" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3"></TextBlock>
                             <TextBlock Text="Shadowrocket (ios)需要手动打开“允许不安全”选项" TextWrapping="Wrap" Grid.Column="4" Grid.Row="4" ></TextBlock>
 
@@ -173,7 +173,7 @@
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <RadioButton x:Name="RadioButtonMkcpNoCamouflage" Content="mKCP(无伪装)" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="1" Checked="RadioButtonTCP_Checked"></RadioButton>
+                            <RadioButton x:Name="RadioButtonMkcpNone" Content="mKCP(无伪装)" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="1" Checked="RadioButtonTCP_Checked"></RadioButton>
                             <TextBlock Text="数据加密传输，以增加流量消耗来加速，减少延迟，udp协议,无伪装，会被识别为udp流量" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"></TextBlock>
                             <RadioButton x:Name="RadioButton2mKCP2SRTP" Content="mKCP+SRTP" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="2" Checked="RadioButtonTCP_Checked"></RadioButton>
                             <TextBlock Text="同mKCP(无伪装)，增加伪装成 SRTP 数据包，会被识别为视频通话数据（如 FaceTime）" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"></TextBlock>

@@ -670,7 +670,7 @@ namespace ProxySU
                         //除WebSocketTLSWeb模式外设置监听端口
                         if (serverConfig.Contains("WebSocketTLSWeb") == false && serverConfig.Contains("http2Web") == false)
                         {
-                            serverJson["inbounds"][0]["port"] = ReceiveConfigurationParameters[1];
+                            serverJson["inbounds"][0]["port"] = int.Parse(ReceiveConfigurationParameters[1]);
                         }
                         //TLS自签证书模式下
                         if (serverConfig.Contains("selfSigned") == true)
@@ -865,7 +865,7 @@ namespace ProxySU
                         JObject clientJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
 
                         clientJson["outbounds"][0]["settings"]["vnext"][0]["address"] = ReceiveConfigurationParameters[4];
-                        clientJson["outbounds"][0]["settings"]["vnext"][0]["port"] = ReceiveConfigurationParameters[1];
+                        clientJson["outbounds"][0]["settings"]["vnext"][0]["port"] = int.Parse(ReceiveConfigurationParameters[1]);
                         clientJson["outbounds"][0]["settings"]["vnext"][0]["users"][0]["id"] = ReceiveConfigurationParameters[2];
                         if (clientConfig.Contains("WebSocket")==true)
                         {
@@ -1085,7 +1085,7 @@ namespace ProxySU
             for (int i = 0; i != ReceiveConfigurationParameters.Length; i++)
 
             {
-                ReceiveConfigurationParameters[i] = i.ToString();
+                ReceiveConfigurationParameters[i] = "";
             }
             WindowTemplateConfiguration windowTemplateConfiguration = new WindowTemplateConfiguration();
             windowTemplateConfiguration.ShowDialog();
@@ -1199,19 +1199,28 @@ namespace ProxySU
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        //private void Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    string[] testString = new string[6];
+        //    for (int i = 0; i != testString.Length; i++)
+
+        //    {
+
+        //        testString[i] = i.ToString();
+
+        //    }
+        //    foreach (string str in testString)
+        //    {
+        //        MessageBox.Show(str);
+        //    }
+        //}
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            string[] testString = new string[6];
-            for (int i = 0; i != testString.Length; i++)
+            for (int i = 0; i != ReceiveConfigurationParameters.Length; i++)
 
             {
-
-                testString[i] = i.ToString();
-
-            }
-            foreach (string str in testString)
-            {
-                MessageBox.Show(str);
+                MessageBox.Show(ReceiveConfigurationParameters[i]);
             }
         }
 

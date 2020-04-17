@@ -72,7 +72,34 @@ namespace ProxySU
                 HidePathAndTLS();
                 HideQuicKey();
             }
-            else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "MkcpNone"))
+            else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "webSocket"))
+            {
+                TextBoxTransmission.Text = "ws";
+                TextBoxCamouflageType.Text = "none";
+                //TextBoxPath.Text = "/";
+                TextBoxTLS.Text = "none";
+                HidePathAndTLS();
+                HideQuicKey();
+            }
+            else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "WebSocketTLS"))
+            {
+                TextBoxTransmission.Text = "ws";
+                TextBoxCamouflageType.Text = "none";
+                //TextBoxPath.Text = "/";
+                TextBoxTLS.Text = "tls";
+                HidePathAndTLS();
+                HideQuicKey();
+            }
+            else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "WebSocketTLSselfSigned"))
+            {
+                TextBoxTransmission.Text = "ws";
+                TextBoxCamouflageType.Text = "none";
+                //TextBoxPath.Text = "/";
+                TextBoxTLS.Text = "tls";
+                HidePathAndTLS();
+                HideQuicKey();
+            }
+            else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "mKCPNone"))
             {
                 TextBoxTransmission.Text = "kcp";
                 TextBoxCamouflageType.Text = "none";

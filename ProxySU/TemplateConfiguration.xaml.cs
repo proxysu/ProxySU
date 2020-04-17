@@ -22,7 +22,7 @@ namespace ProxySU
         public WindowTemplateConfiguration()
         {
             InitializeComponent();
-            RadioButtonTCP.IsChecked = true;
+            //RadioButtonTCP.IsChecked = true;
         }
         //取消不在当前活动选项卡中的其他所有选项卡中的所有RadioBuuton的选中状态
         //代码参考网址：https://blog.csdn.net/weixin_42583999/article/details/103468857
@@ -88,7 +88,7 @@ namespace ProxySU
 
             }
             //webSocket模式被选中
-            if (RadioButtonWebSocket.IsChecked == true)
+            else if (RadioButtonWebSocket.IsChecked == true)
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "webSocket";
@@ -212,7 +212,7 @@ namespace ProxySU
 
             }
             //mKCP无伪装模式被选中
-            else if (RadioButtonMkcpNoCamouflage.IsChecked == true)
+            else if (RadioButtonMkcpNone.IsChecked == true)
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCPNone";
@@ -413,10 +413,10 @@ namespace ProxySU
             //ButtonServerListenPort.Visibility = Visibility.Visible;
             TextBoxServerListenPort.Text = "443";
             //显示Path
-            TextBlockPath.Visibility = Visibility.Visible;
-            TextBoxPath.Visibility = Visibility.Visible;
-            TextBoxPath.Text = "/ray";
-            ButtonPath.Visibility = Visibility.Visible;
+            TextBlockPath.Visibility = Visibility.Collapsed;
+            TextBoxPath.Visibility = Visibility.Collapsed;
+            //TextBoxPath.Text = "/ray";
+            ButtonPath.Visibility = Visibility.Collapsed;
             //显示域名
             TextBlockDomain.Visibility = Visibility.Visible;
             TextBoxDomain.Visibility = Visibility.Visible;
