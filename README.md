@@ -31,7 +31,7 @@ V2ray install tools for windows。V2ray一键安装工具。
 * Shadowrocket (ios)导入二维码和网址  
 * v2rayNG (Android)导入二维码和网址  
 
-（程序中只实现在生成v2rayN的，但是Shadowrocket和v2rayNG都可以导入。所以就偷了个懒，哈！）
+（程序中只实现生成v2rayN的，但是Shadowrocket和v2rayNG都可以导入。所以就偷了个懒，哈！）
 
 ## 程序工作流程：  
 1. 使用[SSH.NET](https://github.com/sshnet/SSH.NET)登录远程主机  
