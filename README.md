@@ -1,5 +1,5 @@
 # ProxySU
-V2ray install tools for windows
+V2ray install tools for windows。V2ray一键安装工具。
 
 学习C#用来练手的小工具。代码写的很菜，大佬勿喷。编译环境Visual Studio 2017  使用WPF界面
 
@@ -62,6 +62,9 @@ Microsoft [.NET Framework 4.0](https://dotnet.microsoft.com/download/dotnet-fram
 [SSH.NET ------ https://github.com/sshnet/SSH.NET](https://github.com/sshnet/SSH.NET)  
 [Newtonsoft.Json ------ https://github.com/JamesNK/Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)  
 [QRcoder ------ https://github.com/codebude/QRCoder](https://github.com/codebude/QRCoder)
+
+## 程序安全  
+为了布署方便，程序使用root账户登录主机，但出于慎重，请不要在运行重要程序及用于生产的主机上使用。程序所有源码开源，所使用的库都是github开源项目，可以保障最大的使用安全，程序不夹带任何私货及后门，不是在本项目地址下载的，不做任何保障，请尽可能从本项目地址下载。
 
 ## v1.0.0发布小记  
   足足用了近两个月的业余时间，终于做成一个功能还算完善的版本。虽是一个简单的小工具，没想到对于我这个初学C#的人，还是有点小吃力，如果不是因为武汉肺炎疫情，被禁足在家，还真没时间。学习C#，为啥编写这样一个小工具软件来练手？现在一键安装脚本多的是，这样的工具还有必要吗？咋说呢？我也不知道有多少人会喜欢这个小工具，只是觉得自己用着方便，也想方便一下别人吧，喜欢用就用，不喜欢，也随意。  
