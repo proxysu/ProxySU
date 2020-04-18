@@ -43,7 +43,6 @@ V2ray install tools for windows。V2ray一键安装工具。
 6. 安装成功后，使用[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)生成兼容于v2rayN的json文件，用C#内置的Base64库将json生成url链接，使用[QRcoder](https://github.com/codebude/QRCoder)生成二维码。
 
 * 注：V2ray安装及配置文件主要参考自：  
-
 [白话文教程](https://toutyrater.github.io/)  
 [新白话文教程(社区版)](https://guide.v2fly.org/)
 
