@@ -22,7 +22,7 @@ V2ray install tools for windows。V2ray一键安装工具。
 * Debian 8/9/10 (推荐)  
 * Ubuntu 16.04及以上
 
-(注意：如果系统启用了SELinux且工作在Enforcing模式下时，需要将Enforcing更改为Permissive模式，否则使用WebSocket+TLS+Web时，Caddy的service无法开机启动，这种情形一般出现在Centos7/8中，本程序在安装过程中将自动处理。)
+(注意：如果系统启用了SELinux且工作在Enforcing模式下时，需要将Enforcing更改为Permissive模式，否则使用WebSocket+TLS+Web时，Caddy的service无法开机启动，这种情形一般出现在Centos7/8中，程序在安装过程中将自动处理。)
 
 目前已支持生成用于
 
