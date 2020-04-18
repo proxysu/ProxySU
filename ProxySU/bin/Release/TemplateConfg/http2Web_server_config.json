@@ -16,7 +16,10 @@
 				"network": "h2",
 				"security": "tls",
 				"httpSettings": {
-					"path": null
+					"path": null,
+					"host": [
+						""
+					]
 				},
 				"tlsSettings": {
 					"certificates": [

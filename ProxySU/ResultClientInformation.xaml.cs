@@ -41,6 +41,8 @@ namespace ProxySU
             TextBoxPath.Text = MainWindow.ReceiveConfigurationParameters[3];
             //主机地址
             TextBoxHostAddress.Text = MainWindow.ReceiveConfigurationParameters[4];
+            //TLS的Host
+            TextBoxHost.Text = "";
             //加密方式，一般都为auto
             TextBoxEncryption.Text = "auto";
             //伪装类型
@@ -52,16 +54,32 @@ namespace ProxySU
             {
                 TextBoxTransmission.Text = "ws";
                 TextBoxCamouflageType.Text = "none";
-                ShowPathAndTLS();
-                HideQuicKey();
                 TextBoxTLS.Text = "tls";
+                ShowPath();
+                HideQuicKey();
+            }
+            else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "TCP"))
+            {
+                TextBoxTransmission.Text = "tcp";
+                TextBoxCamouflageType.Text = "none";
+                TextBoxTLS.Text = "none";
+                HidePath();
+                HideQuicKey();
             }
             else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "TCPhttp"))
             {
                 TextBoxTransmission.Text = "tcp";
                 TextBoxCamouflageType.Text = "http";
                 TextBoxTLS.Text = "none";
-                HidePathAndTLS();
+                HidePath();
+                HideQuicKey();
+            }
+            else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "tcpTLS"))
+            {
+                TextBoxTransmission.Text = "tcp";
+                TextBoxCamouflageType.Text = "none";
+                TextBoxTLS.Text = "tls";
+                HidePath();
                 HideQuicKey();
             }
             else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "tcpTLSselfSigned"))
@@ -69,34 +87,56 @@ namespace ProxySU
                 TextBoxTransmission.Text = "tcp";
                 TextBoxCamouflageType.Text = "none";
                 TextBoxTLS.Text = "tls";
-                HidePathAndTLS();
+                HidePath();
                 HideQuicKey();
             }
             else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "webSocket"))
             {
                 TextBoxTransmission.Text = "ws";
                 TextBoxCamouflageType.Text = "none";
-                //TextBoxPath.Text = "/";
                 TextBoxTLS.Text = "none";
-                HidePathAndTLS();
+                HidePath();
                 HideQuicKey();
             }
             else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "WebSocketTLS"))
             {
                 TextBoxTransmission.Text = "ws";
                 TextBoxCamouflageType.Text = "none";
-                //TextBoxPath.Text = "/";
                 TextBoxTLS.Text = "tls";
-                HidePathAndTLS();
+                ShowPath();
                 HideQuicKey();
             }
             else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "WebSocketTLSselfSigned"))
             {
                 TextBoxTransmission.Text = "ws";
                 TextBoxCamouflageType.Text = "none";
-                //TextBoxPath.Text = "/";
                 TextBoxTLS.Text = "tls";
-                HidePathAndTLS();
+                ShowPath();
+                HideQuicKey();
+            }
+            else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "Http2"))
+            {
+                TextBoxTransmission.Text = "h2";
+                TextBoxCamouflageType.Text = "none";
+                TextBoxTLS.Text = "tls";
+                ShowPath();
+                HideQuicKey();
+            }
+            else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "http2Web"))
+            {
+                TextBoxTransmission.Text = "h2";
+                TextBoxCamouflageType.Text = "none";
+                TextBoxHost.Text = MainWindow.ReceiveConfigurationParameters[4];
+                TextBoxTLS.Text = "tls";
+                ShowPath();
+                HideQuicKey();
+            }
+            else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "http2selfSigned"))
+            {
+                TextBoxTransmission.Text = "h2";
+                TextBoxCamouflageType.Text = "none";
+                TextBoxTLS.Text = "tls";
+                ShowPath();
                 HideQuicKey();
             }
             else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "mKCPNone"))
@@ -104,7 +144,7 @@ namespace ProxySU
                 TextBoxTransmission.Text = "kcp";
                 TextBoxCamouflageType.Text = "none";
                 TextBoxTLS.Text = "none";
-                HidePathAndTLS();
+                HidePath();
                 HideQuicKey();
             }
             else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "mKCP2SRTP"))
@@ -112,7 +152,7 @@ namespace ProxySU
                 TextBoxTransmission.Text = "kcp";
                 TextBoxCamouflageType.Text = "srtp";
                 TextBoxTLS.Text = "none";
-                HidePathAndTLS();
+                HidePath();
                 HideQuicKey();
             }
             else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "mKCPuTP"))
@@ -120,7 +160,7 @@ namespace ProxySU
                 TextBoxTransmission.Text = "kcp";
                 TextBoxCamouflageType.Text = "utp";
                 TextBoxTLS.Text = "none";
-                HidePathAndTLS();
+                HidePath();
                 HideQuicKey();
             }
             else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "mKCP2WechatVideo"))
@@ -128,7 +168,7 @@ namespace ProxySU
                 TextBoxTransmission.Text = "kcp";
                 TextBoxCamouflageType.Text = "wechat-video";
                 TextBoxTLS.Text = "none";
-                HidePathAndTLS();
+                HidePath();
                 HideQuicKey();
             }
             else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "mKCP2DTLS"))
@@ -136,7 +176,7 @@ namespace ProxySU
                 TextBoxTransmission.Text = "kcp";
                 TextBoxCamouflageType.Text = "dtls";
                 TextBoxTLS.Text = "none";
-                HidePathAndTLS();
+                HidePath();
                 HideQuicKey();
             }
             else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "mKCP2WireGuard"))
@@ -144,7 +184,7 @@ namespace ProxySU
                 TextBoxTransmission.Text = "kcp";
                 TextBoxCamouflageType.Text = "wireguard";
                 TextBoxTLS.Text = "none";
-                HidePathAndTLS();
+                HidePath();
                 HideQuicKey();
             }
             else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "QuicNone"))
@@ -153,7 +193,7 @@ namespace ProxySU
                 TextBoxCamouflageType.Text = "none";
                 TextBoxQuicKey.Text = MainWindow.ReceiveConfigurationParameters[6];
                 TextBoxTLS.Text = "none";
-                HidePathAndTLS();
+                HidePath();
                 ShowQuicKey();
             }
             else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "QuicSRTP"))
@@ -162,7 +202,7 @@ namespace ProxySU
                 TextBoxCamouflageType.Text = "srtp";
                 TextBoxQuicKey.Text = MainWindow.ReceiveConfigurationParameters[6];
                 TextBoxTLS.Text = "none";
-                HidePathAndTLS();
+                HidePath();
                 ShowQuicKey();
             }
             else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "Quic2uTP"))
@@ -171,7 +211,7 @@ namespace ProxySU
                 TextBoxCamouflageType.Text = "utp";
                 TextBoxQuicKey.Text = MainWindow.ReceiveConfigurationParameters[6];
                 TextBoxTLS.Text = "none";
-                HidePathAndTLS();
+                HidePath();
                 ShowQuicKey();
             }
             else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "QuicWechatVideo"))
@@ -180,7 +220,7 @@ namespace ProxySU
                 TextBoxCamouflageType.Text = "wechat-video";
                 TextBoxQuicKey.Text = MainWindow.ReceiveConfigurationParameters[6];
                 TextBoxTLS.Text = "none";
-                HidePathAndTLS();
+                HidePath();
                 ShowQuicKey();
             }
             else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "QuicDTLS"))
@@ -189,7 +229,7 @@ namespace ProxySU
                 TextBoxCamouflageType.Text = "dtls";
                 TextBoxQuicKey.Text = MainWindow.ReceiveConfigurationParameters[6];
                 TextBoxTLS.Text = "none";
-                HidePathAndTLS();
+                HidePath();
                 ShowQuicKey();
             }
             else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "QuicWireGuard"))
@@ -198,76 +238,50 @@ namespace ProxySU
                 TextBoxCamouflageType.Text = "wireguard";
                 TextBoxQuicKey.Text = MainWindow.ReceiveConfigurationParameters[6];
                 TextBoxTLS.Text = "none";
-                HidePathAndTLS();
+                HidePath();
                 ShowQuicKey();
             }
-            else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "Http2"))
-            {
-                TextBoxTransmission.Text = "h2";
-                TextBoxCamouflageType.Text = "none";
-                ShowPathAndTLS();
-                HideQuicKey();
-                TextBoxTLS.Text = "tls";
-            }
-            //else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "TLS"))
-            //{
-            //    TextBoxTransmission.Text = "tcp";
-            //    TextBoxCamouflageType.Text = "none";
-            //    TextBoxTLS.Text = "tls";
-            //    HidePathAndTLS();
-            //    HideQuicKey();
-            //}
+
             else
             {
                 TextBoxTransmission.Text = "tcp";
                 TextBoxCamouflageType.Text = "none";
                 TextBoxTLS.Text = "none";
-                HidePathAndTLS();
+                HidePath();
                 HideQuicKey();
             }
             CheckDir("config");
-            //if (!Directory.Exists("config"))//如果不存在就创建file文件夹　　             　　              
-            //{
-            //    Directory.CreateDirectory("config");//创建该文件夹　　   
-            //}
+
             GenerateV2rayShareQRcodeAndBase64Url();
 
         }
-        private void HidePathAndTLS()
+        private void HidePath()
         {
             TextBlockPath.Visibility = Visibility.Collapsed;
             TextBoxPath.Visibility = Visibility.Collapsed;
             TextBlockPathExplain.Visibility = Visibility.Collapsed;
-            //TextBlocTLSonOrNo.Visibility = Visibility.Collapsed;
-            //TextBoxTLS.Visibility = Visibility.Collapsed;
-            //TextBlocTLSonOrNoExplain.Visibility = Visibility.Collapsed;
+
         }
-        private void ShowPathAndTLS()
+        private void ShowPath()
         {
             TextBlockPath.Visibility = Visibility.Visible;
             TextBoxPath.Visibility = Visibility.Visible;
             TextBlockPathExplain.Visibility = Visibility.Visible;
-            //TextBlocTLSonOrNo.Visibility = Visibility.Visible;
-            //TextBoxTLS.Visibility = Visibility.Visible;
-            //TextBlocTLSonOrNoExplain.Visibility = Visibility.Visible;
+
         }
         private void HideQuicKey()
         {
             TextBlockQuicKey.Visibility = Visibility.Collapsed;
             TextBoxQuicKey.Visibility = Visibility.Collapsed;
             TextBlockQuicKeyExplain.Visibility = Visibility.Collapsed;
-            //TextBlocTLSonOrNo.Visibility = Visibility.Collapsed;
-            //TextBoxTLS.Visibility = Visibility.Collapsed;
-            //TextBlocTLSonOrNoExplain.Visibility = Visibility.Collapsed;
+
         }
         private void ShowQuicKey()
         {
             TextBlockQuicKey.Visibility = Visibility.Visible;
             TextBoxQuicKey.Visibility = Visibility.Visible;
             TextBlockQuicKeyExplain.Visibility = Visibility.Visible;
-            //TextBlocTLSonOrNo.Visibility = Visibility.Visible;
-            //TextBoxTLS.Visibility = Visibility.Visible;
-            //TextBlocTLSonOrNoExplain.Visibility = Visibility.Visible;
+
         }
         //生成v2rayN客户端导入文件
         private void GenerateV2rayShareQRcodeAndBase64Url()
@@ -296,6 +310,7 @@ namespace ProxySU
             v2rayNjsonObject["aid"] = TextBoxUUIDextra.Text; //设置额外ID
             v2rayNjsonObject["net"] = TextBoxTransmission.Text; //设置传输模式
             v2rayNjsonObject["type"] = TextBoxCamouflageType.Text; //设置伪装类型
+            
             if (TextBoxTransmission.Text.Contains("quic")==true)
             {
                 v2rayNjsonObject["path"] = TextBoxQuicKey.Text;//设置quic密钥
@@ -304,9 +319,9 @@ namespace ProxySU
             else
             {
                 v2rayNjsonObject["path"] = TextBoxPath.Text; //设置路径
-                v2rayNjsonObject["host"] = "";
+                v2rayNjsonObject["host"] = TextBoxHost.Text;//设置TLS的Host
             }
-            
+
             v2rayNjsonObject["tls"] = TextBoxTLS.Text;  //设置是否启用TLS
             v2rayNjsonObject["ps"] = v2rayNjsonObject["add"];  //设置备注
             //MessageBox.Show(v2rayNjsonObject["v"].ToString());
@@ -364,6 +379,7 @@ namespace ProxySU
                 sw.WriteLine($"传输协议：{TextBoxTransmission.Text}");
                 sw.WriteLine($"伪装类型：{TextBoxCamouflageType.Text}");
                 sw.WriteLine($"是否使用TLS：{TextBoxTLS.Text}");
+                sw.WriteLine($"host：{TextBoxHostAddress.Text}");
                 sw.WriteLine($"路径(Path)：{TextBoxPath.Text}");
                 sw.WriteLine($"QUIC密钥：{TextBoxQuicKey.Text}");
             }

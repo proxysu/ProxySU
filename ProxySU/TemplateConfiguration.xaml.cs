@@ -200,8 +200,8 @@ namespace ProxySU
                     }
                 }
             }
-            //WebSocket+TLS(自签证书)模式被选中
-            else if (RadioButtonWebSocketTLSselfSigned.IsChecked == true)
+            //http2(自签证书)模式被选中
+            else if (RadioButtonHTTP2selfSigned.IsChecked == true)
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "http2selfSigned";
@@ -348,92 +348,6 @@ namespace ProxySU
             //清除其他选项卡中的选项
             UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
         }
-        private void RadioButtonWebSocketTLS2Web_Checked(object sender, RoutedEventArgs e)
-        {
-            //TextBlockServerListenPort.Visibility = Visibility.Visible;
-            //TextBoxServerListenPort.Visibility = Visibility.Visible;
-            //ButtonServerListenPort.Visibility = Visibility.Visible;
-            TextBoxServerListenPort.Text = "443";
-            //显示Path
-            TextBlockPath.Visibility = Visibility.Visible;
-            TextBoxPath.Visibility = Visibility.Visible;
-            TextBoxPath.Text = "/ray";
-            ButtonPath.Visibility = Visibility.Visible;
-            //显示域名
-            TextBlockDomain.Visibility = Visibility.Visible;
-            TextBoxDomain.Visibility = Visibility.Visible;
-            //ButtonDomain.Visibility = Visibility.Visible;
-            //隐藏QUIC密钥
-            TextBlockQuicUUID.Visibility = Visibility.Collapsed;
-            TextBoxQuicUUID.Visibility = Visibility.Collapsed;
-            ButtonQuicUUID.Visibility = Visibility.Collapsed;
-            //显示伪装网站
-            TextBlockMaskSites.Visibility = Visibility.Visible;
-            TextBoxMaskSites.Visibility = Visibility.Visible;
-
-            Guid uuid = Guid.NewGuid();
-            TextBoxNewUUID.Text = uuid.ToString();
-            //清除其他选项卡中的选项
-            UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
-        }
-        private void RadioButtonWebSocketTLSselfSigned_Checked(object sender, RoutedEventArgs e)
-        {
-            //TextBlockServerListenPort.Visibility = Visibility.Visible;
-            //TextBoxServerListenPort.Visibility = Visibility.Visible;
-            //ButtonServerListenPort.Visibility = Visibility.Visible;
-            TextBoxServerListenPort.Text = "443";
-            //显示Path
-            TextBlockPath.Visibility = Visibility.Visible;
-            TextBoxPath.Visibility = Visibility.Visible;
-            TextBoxPath.Text = "/ray";
-            ButtonPath.Visibility = Visibility.Visible;
-            //显示域名
-            TextBlockDomain.Visibility = Visibility.Collapsed;
-            TextBoxDomain.Visibility = Visibility.Collapsed;
-            //TextBoxDomain.Tag = "可为空";
-            //ButtonDomain.Visibility = Visibility.Visible;
-            //隐藏QUIC密钥
-            TextBlockQuicUUID.Visibility = Visibility.Collapsed;
-            TextBoxQuicUUID.Visibility = Visibility.Collapsed;
-            ButtonQuicUUID.Visibility = Visibility.Collapsed;
-            //隐藏伪装网站
-            TextBlockMaskSites.Visibility = Visibility.Collapsed;
-            TextBoxMaskSites.Visibility = Visibility.Collapsed;
-
-            Guid uuid = Guid.NewGuid();
-            TextBoxNewUUID.Text = uuid.ToString();
-            //清除其他选项卡中的选项
-            UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
-        }
-
-        private void RadioButtonHTTP2_Checked(object sender, RoutedEventArgs e)
-        {
-            //TextBlockServerListenPort.Visibility = Visibility.Visible;
-            //TextBoxServerListenPort.Visibility = Visibility.Visible;
-            //ButtonServerListenPort.Visibility = Visibility.Visible;
-            TextBoxServerListenPort.Text = "443";
-            //显示Path
-            TextBlockPath.Visibility = Visibility.Collapsed;
-            TextBoxPath.Visibility = Visibility.Collapsed;
-            //TextBoxPath.Text = "/ray";
-            ButtonPath.Visibility = Visibility.Collapsed;
-            //显示域名
-            TextBlockDomain.Visibility = Visibility.Visible;
-            TextBoxDomain.Visibility = Visibility.Visible;
-            //ButtonDomain.Visibility = Visibility.Visible;
-            //隐藏QUIC密钥
-            TextBlockQuicUUID.Visibility = Visibility.Collapsed;
-            TextBoxQuicUUID.Visibility = Visibility.Collapsed;
-            ButtonQuicUUID.Visibility = Visibility.Collapsed;
-            //隐藏伪装网站
-            TextBlockMaskSites.Visibility = Visibility.Collapsed;
-            TextBoxMaskSites.Visibility = Visibility.Collapsed;
-
-            Guid uuid = Guid.NewGuid();
-            TextBoxNewUUID.Text = uuid.ToString();
-            //清除其他选项卡中的选项
-            UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
-        }
         private void RadioButtonTCPhttp_Checked(object sender, RoutedEventArgs e)
         {
             //TextBlockServerListenPort.Visibility = Visibility.Visible;
@@ -459,36 +373,6 @@ namespace ProxySU
 
             Guid uuid = Guid.NewGuid();
             TextBoxNewUUID.Text = uuid.ToString();
-            //清除其他选项卡中的选项
-            UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
-        }
-        private void RadioButtonQuicNone_Checked(object sender, RoutedEventArgs e)
-        {
-            //显示QUIC密钥
-            TextBlockQuicUUID.Visibility = Visibility.Visible;
-            TextBoxQuicUUID.Visibility = Visibility.Visible;
-            ButtonQuicUUID.Visibility = Visibility.Visible;
-            //隐藏Path
-            TextBlockPath.Visibility = Visibility.Collapsed;
-            TextBoxPath.Visibility = Visibility.Collapsed;
-            ButtonPath.Visibility = Visibility.Collapsed;
-            //隐藏域名
-            TextBlockDomain.Visibility = Visibility.Collapsed;
-            TextBoxDomain.Visibility = Visibility.Collapsed;
-            ButtonDomain.Visibility = Visibility.Collapsed;
-            //隐藏伪装网站
-            TextBlockMaskSites.Visibility = Visibility.Collapsed;
-            TextBoxMaskSites.Visibility = Visibility.Collapsed;
-
-            Guid uuid = Guid.NewGuid();
-            TextBoxNewUUID.Text = uuid.ToString();
-
-            uuid = Guid.NewGuid();
-            TextBoxQuicUUID.Text = uuid.ToString();
-
-            Random random = new Random();
-            int randomServerPort = random.Next(10000, 50000);
-            TextBoxServerListenPort.Text = randomServerPort.ToString();
             //清除其他选项卡中的选项
             UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
         }
@@ -539,6 +423,121 @@ namespace ProxySU
 
             Guid uuid = Guid.NewGuid();
             TextBoxNewUUID.Text = uuid.ToString();
+            //清除其他选项卡中的选项
+            UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
+        }
+        private void RadioButtonWebSocketTLS2Web_Checked(object sender, RoutedEventArgs e)
+        {
+            //TextBlockServerListenPort.Visibility = Visibility.Visible;
+            //TextBoxServerListenPort.Visibility = Visibility.Visible;
+            //ButtonServerListenPort.Visibility = Visibility.Visible;
+            TextBoxServerListenPort.Text = "443";
+            //显示Path
+            TextBlockPath.Visibility = Visibility.Visible;
+            TextBoxPath.Visibility = Visibility.Visible;
+            TextBoxPath.Text = "/ray";
+            ButtonPath.Visibility = Visibility.Visible;
+            //显示域名
+            TextBlockDomain.Visibility = Visibility.Visible;
+            TextBoxDomain.Visibility = Visibility.Visible;
+            //ButtonDomain.Visibility = Visibility.Visible;
+            //隐藏QUIC密钥
+            TextBlockQuicUUID.Visibility = Visibility.Collapsed;
+            TextBoxQuicUUID.Visibility = Visibility.Collapsed;
+            ButtonQuicUUID.Visibility = Visibility.Collapsed;
+            //显示伪装网站
+            TextBlockMaskSites.Visibility = Visibility.Visible;
+            TextBoxMaskSites.Visibility = Visibility.Visible;
+
+            Guid uuid = Guid.NewGuid();
+            TextBoxNewUUID.Text = uuid.ToString();
+            //清除其他选项卡中的选项
+            UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
+        }
+        private void RadioButtonWebSocketTLSselfSigned_Checked(object sender, RoutedEventArgs e)
+        {
+            //TextBlockServerListenPort.Visibility = Visibility.Visible;
+            //TextBoxServerListenPort.Visibility = Visibility.Visible;
+            //ButtonServerListenPort.Visibility = Visibility.Visible;
+            TextBoxServerListenPort.Text = "443";
+            //显示Path
+            TextBlockPath.Visibility = Visibility.Visible;
+            TextBoxPath.Visibility = Visibility.Visible;
+            TextBoxPath.Text = "/ray";
+            ButtonPath.Visibility = Visibility.Visible;
+            //隐藏域名
+            TextBlockDomain.Visibility = Visibility.Collapsed;
+            TextBoxDomain.Visibility = Visibility.Collapsed;
+            //TextBoxDomain.Tag = "可为空";
+            //ButtonDomain.Visibility = Visibility.Visible;
+            //隐藏QUIC密钥
+            TextBlockQuicUUID.Visibility = Visibility.Collapsed;
+            TextBoxQuicUUID.Visibility = Visibility.Collapsed;
+            ButtonQuicUUID.Visibility = Visibility.Collapsed;
+            //隐藏伪装网站
+            TextBlockMaskSites.Visibility = Visibility.Collapsed;
+            TextBoxMaskSites.Visibility = Visibility.Collapsed;
+
+            Guid uuid = Guid.NewGuid();
+            TextBoxNewUUID.Text = uuid.ToString();
+            //清除其他选项卡中的选项
+            UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
+        }
+        private void RadioButtonHTTP2_Checked(object sender, RoutedEventArgs e)
+        {
+            //TextBlockServerListenPort.Visibility = Visibility.Visible;
+            //TextBoxServerListenPort.Visibility = Visibility.Visible;
+            //ButtonServerListenPort.Visibility = Visibility.Visible;
+            TextBoxServerListenPort.Text = "443";
+            //显示Path
+            TextBlockPath.Visibility = Visibility.Visible;
+            TextBoxPath.Visibility = Visibility.Visible;
+            TextBoxPath.Text = "/ray";
+            ButtonPath.Visibility = Visibility.Visible;
+            //显示域名
+            TextBlockDomain.Visibility = Visibility.Visible;
+            TextBoxDomain.Visibility = Visibility.Visible;
+            //ButtonDomain.Visibility = Visibility.Visible;
+            //隐藏QUIC密钥
+            TextBlockQuicUUID.Visibility = Visibility.Collapsed;
+            TextBoxQuicUUID.Visibility = Visibility.Collapsed;
+            ButtonQuicUUID.Visibility = Visibility.Collapsed;
+            //隐藏伪装网站
+            TextBlockMaskSites.Visibility = Visibility.Collapsed;
+            TextBoxMaskSites.Visibility = Visibility.Collapsed;
+
+            Guid uuid = Guid.NewGuid();
+            TextBoxNewUUID.Text = uuid.ToString();
+            //清除其他选项卡中的选项
+            UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
+        }
+         private void RadioButtonQuicNone_Checked(object sender, RoutedEventArgs e)
+        {
+            //显示QUIC密钥
+            TextBlockQuicUUID.Visibility = Visibility.Visible;
+            TextBoxQuicUUID.Visibility = Visibility.Visible;
+            ButtonQuicUUID.Visibility = Visibility.Visible;
+            //隐藏Path
+            TextBlockPath.Visibility = Visibility.Collapsed;
+            TextBoxPath.Visibility = Visibility.Collapsed;
+            ButtonPath.Visibility = Visibility.Collapsed;
+            //隐藏域名
+            TextBlockDomain.Visibility = Visibility.Collapsed;
+            TextBoxDomain.Visibility = Visibility.Collapsed;
+            ButtonDomain.Visibility = Visibility.Collapsed;
+            //隐藏伪装网站
+            TextBlockMaskSites.Visibility = Visibility.Collapsed;
+            TextBoxMaskSites.Visibility = Visibility.Collapsed;
+
+            Guid uuid = Guid.NewGuid();
+            TextBoxNewUUID.Text = uuid.ToString();
+
+            uuid = Guid.NewGuid();
+            TextBoxQuicUUID.Text = uuid.ToString();
+
+            Random random = new Random();
+            int randomServerPort = random.Next(10000, 50000);
+            TextBoxServerListenPort.Text = randomServerPort.ToString();
             //清除其他选项卡中的选项
             UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
         }

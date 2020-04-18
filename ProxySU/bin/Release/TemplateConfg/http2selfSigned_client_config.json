@@ -39,13 +39,13 @@
 			},
 			"streamSettings": {
 				"network": "h2",
-				"security": "tls",
 				"httpSettings": {
 					"path": null
 				},
+				"security": "tls",
 				"tlsSettings": {
 					"allowInsecure": true
-				 }
+				}
 			}
 		}
 	]

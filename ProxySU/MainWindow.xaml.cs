@@ -216,8 +216,8 @@ namespace ProxySU
             }
             else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLSselfSigned"))
             {
-                serverConfig = "TemplateConfg\\WebSocket_TLS_selfSigned_server_config.json";
-                clientConfig = "TemplateConfg\\WebSocket_TLS_selfSigned_client_config.json";
+                serverConfig = "TemplateConfg\\WebSocketTLS_selfSigned_server_config.json";
+                clientConfig = "TemplateConfg\\WebSocketTLS_selfSigned_client_config.json";
             }
             else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web"))
             {
@@ -231,13 +231,13 @@ namespace ProxySU
             }
             else if (String.Equals(ReceiveConfigurationParameters[0], "http2Web"))
             {
-                serverConfig = "TemplateConfg\\http2Web_server_config.json";
-                clientConfig = "TemplateConfg\\http2Web_client_config.json";
+                serverConfig = "TemplateConfg\\Http2Web_server_config.json";
+                clientConfig = "TemplateConfg\\Http2Web_client_config.json";
             }
             else if (String.Equals(ReceiveConfigurationParameters[0], "http2selfSigned"))
             {
-                serverConfig = "TemplateConfg\\http2selfSigned_server_config.json";
-                clientConfig = "TemplateConfg\\http2selfSigned_client_config.json";
+                serverConfig = "TemplateConfg\\Http2selfSigned_server_config.json";
+                clientConfig = "TemplateConfg\\Http2selfSigned_client_config.json";
             }
             //else if (String.Equals(ReceiveConfigurationParameters[0], "MkcpNone")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2SRTP")||String.Equals(ReceiveConfigurationParameters[0], "mKCPuTP")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WechatVideo")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2DTLS")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WireGuard"))
             else if (ReceiveConfigurationParameters[0].Contains("mKCP"))
@@ -571,7 +571,7 @@ namespace ProxySU
                         }
                         else
                         {
-                            currentStatus = "域名未能正确解析到当前VPS的IP上!";
+                            currentStatus = "域名未能正确解析到当前VPS的IP上!安装失败！";
                             textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                             Thread.Sleep(1000);
                             MessageBox.Show("域名未能正确解析到当前VPS的IP上，请检查！若解析设置正确，请等待生效后再重试安装。如果域名使用了CDN，请先关闭！");
@@ -579,7 +579,7 @@ namespace ProxySU
                         }
                         
                     }
-                    if (serverConfig.Contains("TLS") == true || serverConfig.Contains("http2") == true) {
+                    if (serverConfig.Contains("TLS") == true || serverConfig.Contains("http2") == true || serverConfig.Contains("Http2") == true) {
                         //检测是否安装lsof
                         if (string.IsNullOrEmpty(client.RunCommand("command -v lsof").Result) == true)
                         {
@@ -667,27 +667,33 @@ namespace ProxySU
                         JObject serverJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
                         //设置uuid
                         serverJson["inbounds"][0]["settings"]["clients"][0]["id"] = ReceiveConfigurationParameters[2];
-                        //除WebSocketTLSWeb模式外设置监听端口
-                        if (serverConfig.Contains("WebSocketTLSWeb") == false && serverConfig.Contains("http2Web") == false)
+                        //除WebSocketTLSWeb/http2Web模式外设置监听端口
+                        if (serverConfig.Contains("WebSocketTLSWeb") == false && serverConfig.Contains("Http2Web") == false)
                         {
                             serverJson["inbounds"][0]["port"] = int.Parse(ReceiveConfigurationParameters[1]);
                         }
-                        //TLS自签证书模式下
-                        if (serverConfig.Contains("selfSigned") == true)
+                        //TLS自签证书/http2Web模式下，使用v2ctl 生成自签证书
+                        if (serverConfig.Contains("selfSigned") == true|| serverConfig.Contains("Http2Web") == true)
                         {
                             string selfSignedCa = client.RunCommand("/usr/bin/v2ray/v2ctl cert --ca").Result;
                             JObject selfSignedCaJObject = JObject.Parse(selfSignedCa);
                             serverJson["inbounds"][0]["streamSettings"]["tlsSettings"]["certificates"][0] = selfSignedCaJObject;
                         }
-                        //如果是WebSocketTLSWeb模式，则设置路径
+                        //如果是WebSocketTLSWeb/WebSocketTLS/WebSocketTLS(自签证书)模式，则设置路径
                         if (serverConfig.Contains("WebSocket") == true)
                         {
                             serverJson["inbounds"][0]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[3];
                         }
                         //如果是Http2模式下，设置路径
-                        if (serverConfig.Contains("http2") == true)
+                        if (serverConfig.Contains("http2") == true|| serverConfig.Contains("Http2") == true)
                         {
                             serverJson["inbounds"][0]["streamSettings"]["httpSettings"]["path"] = ReceiveConfigurationParameters[3];
+                        }
+                        //如果是Http2Web模式下，设置host
+                        if (serverConfig.Contains("Http2Web") == true)
+                        {
+                            serverJson["inbounds"][0]["streamSettings"]["httpSettings"]["path"] = ReceiveConfigurationParameters[3];
+                            serverJson["inbounds"][0]["streamSettings"]["httpSettings"]["host"][0] = ReceiveConfigurationParameters[4];
                         }
                         //mkcp模式下，设置伪装类型
                         if (serverConfig.Contains("mkcp") == true)
@@ -744,7 +750,7 @@ namespace ProxySU
                     }
 
                     //如果是WebSocket + TLS + Web模式，需要安装Caddy
-                    if (serverConfig.Contains("WebSocketTLSWeb")==true || serverConfig.Contains("http2Web") == true)
+                    if (serverConfig.Contains("WebSocketTLSWeb")==true || serverConfig.Contains("Http2Web") == true)
                     {
                         currentStatus = "使用WebSocket+TLS+Web/HTTP2+TLS+Web模式，正在安装Caddy......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -763,9 +769,9 @@ namespace ProxySU
                         {
                         serverConfig = "TemplateConfg\\WebSocketTLSWeb_server_config.caddyfile";
                         }
-                        if (serverConfig.Contains("http2Web") == true)
+                        if (serverConfig.Contains("Http2Web") == true)
                         {
-                            serverConfig = "TemplateConfg\\http2Web_server_config.caddyfile";
+                            serverConfig = "TemplateConfg\\Http2Web_server_config.caddyfile";
                         }
                         upLoadPath = "/etc/caddy/Caddyfile";
                         UploadConfig(connectionInfo, serverConfig, upLoadPath);
@@ -804,7 +810,7 @@ namespace ProxySU
 
                     if (serverConfig.Contains("http2") == true|| serverConfig.Contains("WebSocket_TLS") ==true|| serverConfig.Contains("tcp_TLS") == true)
                     {
-                        currentStatus = "使用Http2/WebSocket +TLS/tcp+TLS模式，正在安装acme.sh......";
+                        currentStatus = "使用Http2/WebSocket+TLS/tcp+TLS模式，正在安装acme.sh......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
 
@@ -871,9 +877,13 @@ namespace ProxySU
                         {
                             clientJson["outbounds"][0]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[3];
                         }
-                        if (clientConfig.Contains("http2") == true)
+                        if (clientConfig.Contains("http2") == true|| clientConfig.Contains("Http2") == true)
                         {
                             clientJson["outbounds"][0]["streamSettings"]["httpSettings"]["path"] = ReceiveConfigurationParameters[3];
+                        }
+                        if (clientConfig.Contains("Http2Web") == true)
+                        {
+                            clientJson["outbounds"][0]["streamSettings"]["httpSettings"]["host"][0] = ReceiveConfigurationParameters[4];
                         }
                         if (clientConfig.Contains("mkcp")==true)
                         {

@@ -38,8 +38,8 @@
 				]
 			},
 			"streamSettings": {
-				"network": "ws",
 				"security": "tls",
+				"network": "ws",
 				"wsSettings": {
 					"path": null
 				}

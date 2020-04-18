@@ -40,13 +40,9 @@
 			"streamSettings": {
 				"network": "kcp",
 				"kcpSettings": {
-					"mtu": 1350,
-					"tti": 50,
-					"uplinkCapacity": 5,
+					"uplinkCapacity": 100,
 					"downlinkCapacity": 100,
 					"congestion": true,
-					"readBufferSize": 2,
-					"writeBufferSize": 2,
 					"header": {
 						"type": null
 					}
