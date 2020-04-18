@@ -8,6 +8,7 @@ V2ray install tools for windows。V2ray一键安装工具。
 * tcp+http伪装  
 * tcp+TLS 
 * tcp+TLS （自签证书）
+* WebSocket
 * WebSocket+TLS 
 * WebSocket+TLS+Web 
 * WebSocket+TLS（自签证书） 
