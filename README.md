@@ -50,8 +50,8 @@ mKCP和QUIC模式使用udp协议，可以有效减少网络延时，有加速的
 [新白话文教程(社区版)](https://guide.v2fly.org/)
 
 ## 程序运行界面  
-![程序预览图](/appPreview0.png "程序预览图")  
-![程序预览图](/appPreview1.png "程序预览图")  
+![程序预览图](appPreview0.png "程序预览图")  
+![程序预览图](appPreview1.png "程序预览图")  
 ![程序预览图](appPreview2.png "程序预览图")  
 ![程序预览图](appPreview3.png "程序预览图")  
 ![程序预览图](appPreview4.png "程序预览图")  
