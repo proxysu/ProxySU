@@ -18,6 +18,8 @@ V2ray install tools for windows。V2ray一键安装工具。
 * mKCP及各种伪装 
 * QUIC及各种伪装。  
 
+mKCP和QUIC模式使用udp协议，可以有效减少网络延时，有加速的作用，但在网络管控严厉时期，会导致IP被封，我遇到的一次，就是刚安装好，使用了3个小时后，IP被封。以上模式最推荐的是WebSocket+TLS+Web 和http2+TLS+Web 需要有一个域名。如果能加上CDN则稳定性更好。只是可能会影响速度。唉，鱼肉熊掌不可兼得也！
+
 支持的VPS系统为：  
 * CentOS 7/8   
 * Debian 8/9/10 (推荐)  
