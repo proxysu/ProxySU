@@ -221,6 +221,11 @@
                     <WebBrowser x:Name="WebBrowserResourcesAndTools" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="9" Grid.RowSpan="13" Source="https://github.com/proxysu/windows/wiki/ResourcesAndTools" />
                 </Grid>
             </TabItem>
+            <!--<TabItem Header="关于" Width="110" Height="30">
+                <Grid>
+                    
+                </Grid>
+            </TabItem>-->
         </TabControl>
     </Grid>
 </Window>

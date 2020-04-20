@@ -551,12 +551,33 @@ namespace ProxySU
                     }
                     //MessageBox.Show(timesStamp2.ToString());
 
-                    //如果使用如果是WebSocket + TLS + Web模式，需要检测域名解析是否正确
-                    if (serverConfig.Contains("WebSocketTLSWeb") == true || serverConfig.Contains("http2") == true)
+                    //如果使用如果是WebSocket + TLS + Web/http2/Http2Web/tcp_TLS/WebSocket_TLS模式，需要检测域名解析是否正确
+                    if (serverConfig.Contains("WebSocketTLSWeb") == true || serverConfig.Contains("http2") == true || serverConfig.Contains("Http2Web") == true || serverConfig.Contains("tcp_TLS") == true || serverConfig.Contains("WebSocket_TLS") == true)
                     {
                         currentStatus = "正在检测域名是否解析到当前VPS的IP上......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
+
+                        //在相应系统内安装curl(如果没有安装curl)
+                        if (string.IsNullOrEmpty(client.RunCommand("command -v curl").Result) == true)
+                        {
+                            //为假则表示系统有相应的组件。
+                            if (getApt == false)
+                            {
+                                client.RunCommand("apt-get -qq update");
+                                client.RunCommand("apt-get -y -qq install curl");
+                            }
+                            if (getYum == false)
+                            {
+                                client.RunCommand("yum -q makecache");
+                                client.RunCommand("yum -y -q install curl");
+                            }
+                            if (getZypper == false)
+                            {
+                                client.RunCommand("zypper ref");
+                                client.RunCommand("zypper -y install curl");
+                            }
+                        }
 
                         string nativeIp = client.RunCommand("curl -4 ip.sb").Result.ToString();
                         string testDomainCmd = "ping " + ReceiveConfigurationParameters[4] + " -c 1 | grep -oE -m1 \"([0-9]{1,3}\\.){3}[0-9]{1,3}\"";
