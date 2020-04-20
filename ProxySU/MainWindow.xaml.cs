@@ -798,8 +798,9 @@ namespace ProxySU
                         UploadConfig(connectionInfo, serverConfig, upLoadPath);
 
                         //设置Caddyfile文件中的tls 邮箱
-                        string sshCmdEmail = $"email={ReceiveConfigurationParameters[4]};email=${{email/./@}};echo $email";//结尾有回车符
-                        string email = client.RunCommand(sshCmdEmail).Result.Replace("\n", "");//删除结尾的回车符
+                        //string sshCmdEmail = $"email={ReceiveConfigurationParameters[4]};email=${{email/./@}};echo $email";//结尾有回车符
+                        //string email = client.RunCommand(sshCmdEmail).Result.Replace("\n", "");//删除结尾的回车符
+                        string email = $"admin@{ReceiveConfigurationParameters[4]}";
                         string sshCmd = $"sed -i 's/off/{email}/' {upLoadPath}";//设置Caddyfile中的邮箱
                         client.RunCommand(sshCmd);
                         //设置Path
