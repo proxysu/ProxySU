@@ -250,7 +250,7 @@ namespace ProxySU
                 HidePath();
                 HideQuicKey();
             }
-            CheckDir("config");
+            CheckDir("v2ray_config");
 
             GenerateV2rayShareQRcodeAndBase64Url();
 
@@ -329,29 +329,29 @@ namespace ProxySU
             string saveFileFolderFirst = v2rayNjsonObject["ps"].ToString();
             int num = 1;
             saveFileFolder = saveFileFolderFirst;
-            while (Directory.Exists(@"config\" + saveFileFolder))
+            while (Directory.Exists(@"v2ray_config\" + saveFileFolder))
             {
                 saveFileFolder = saveFileFolderFirst + "_copy_" + num.ToString();
                 num++;
             }
-            CheckDir(@"config\" + saveFileFolder);
+            CheckDir(@"v2ray_config\" + saveFileFolder);
             //MessageBox.Show(v2rayNjsonObject.ToString());
             string vmessUrl = "vmess://" + ToBase64Encode(v2rayNjsonObject.ToString());
             TextBoxvVmessUrl.Text = vmessUrl;
-            using (StreamWriter sw = new StreamWriter($"config\\{saveFileFolder}\\url.txt"))
+            using (StreamWriter sw = new StreamWriter($"v2ray_config\\{saveFileFolder}\\url.txt"))
             {
                   sw.WriteLine(vmessUrl);
 
             }
             CreateQRCode(vmessUrl);
 
-            if (File.Exists(@"config\config.json"))
+            if (File.Exists(@"v2ray_config\config.json"))
             {
-                File.Move(@"config\config.json", @"config\" + saveFileFolder + @"\config.json");
+                File.Move(@"v2ray_config\config.json", @"v2ray_config\" + saveFileFolder + @"\config.json");
                 //File.Delete(@"config\config.json");//删除该文件
             }
 
-            using (StreamWriter sw = new StreamWriter($"config\\{saveFileFolder}\\说明.txt"))
+            using (StreamWriter sw = new StreamWriter($"v2ray_config\\{saveFileFolder}\\说明.txt"))
             {
                 sw.WriteLine("config.json");
                 sw.WriteLine("此文件为v2ray官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080，http代理地址：127.0.0.1:1081");
@@ -410,7 +410,7 @@ namespace ProxySU
             BitmapSource imgsource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(myImagePtr, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
             ImageShareQRcode.Source = imgsource;
             //DeleteObject(myImagePtr);
-            qrCodeImage.Save($"config\\{saveFileFolder}\\QR.bmp");
+            qrCodeImage.Save($"v2ray_config\\{saveFileFolder}\\QR.bmp");
             //ImageShareQRcode.Source = @"config\v2rayN.bmp";
         }
         //判断目录是否存在，不存在则创建
@@ -430,7 +430,7 @@ namespace ProxySU
 
         private void ButtonOpenSaveDir_Click(object sender, RoutedEventArgs e)
         {
-            string openFolderPath = @"config\" + saveFileFolder;
+            string openFolderPath = @"v2ray_config\" + saveFileFolder;
             System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
             this.Close();
         }
