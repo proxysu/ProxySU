@@ -1323,7 +1323,7 @@ namespace ProxySU
                         Thread.Sleep(1000);
                     }
                     //检测是否安装有Trojan
-                    currentStatus = "检测系统是否已经安装V2ray......";
+                    currentStatus = "检测系统是否已经安装Trojan......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
 
@@ -1422,10 +1422,12 @@ namespace ProxySU
                         }
 
                         string nativeIp = client.RunCommand("curl -4 ip.sb").Result.ToString();
+                        //MessageBox.Show(nativeIp);
                         string testDomainCmd = "ping " + ReceiveConfigurationParameters[4] + " -c 1 | grep -oE -m1 \"([0-9]{1,3}\\.){3}[0-9]{1,3}\"";
+                        //MessageBox.Show(testDomainCmd);
                         string resultTestDomainCmd = client.RunCommand(testDomainCmd).Result.ToString();
-
-                        if (String.Equals(nativeIp, resultCmd) == true)
+                        //MessageBox.Show(resultTestDomainCmd);
+                        if (String.Equals(nativeIp, resultTestDomainCmd) == true)
                         {
                             currentStatus = "解析正确！";
                             textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -1505,7 +1507,8 @@ namespace ProxySU
 
                     //下载官方安装脚本安装
 
-                    client.RunCommand("bash -c \"$(curl - fsSL https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh)\"");
+                    client.RunCommand("curl -o /tmp/trojan-quickstart.sh https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh");
+                    client.RunCommand("yes | bash /tmp/trojan-quickstart.sh");
                     //client.RunCommand("bash /tmp/go.sh -f");
                     string installResult = client.RunCommand("find / -name trojan").Result.ToString();
 
@@ -1575,62 +1578,7 @@ namespace ProxySU
                         }
                     }
 
-                    //安装nginx
-                    if (serverConfig.Contains("trojan_server") == true)
-                    {
-                        currentStatus = "正在安装Caddy";
-                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                        Thread.Sleep(1000);
-
-                        client.RunCommand("curl https://getcaddy.com -o getcaddy");
-                        client.RunCommand("bash getcaddy personal hook.service");
-                        client.RunCommand("mkdir -p /etc/caddy");
-                        client.RunCommand("mkdir -p /var/www");
-
-
-                        currentStatus = "上传Caddy配置文件......";
-                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                        Thread.Sleep(1000);
-                        if (serverConfig.Contains("trojan_server") == true)
-                        {
-                            serverConfig = "TemplateConfg\\trojan_caddy_config.caddyfile";
-                        }
-                        
-                        upLoadPath = "/etc/caddy/Caddyfile";
-                        UploadConfig(connectionInfo, serverConfig, upLoadPath);
-
-                        //设置Caddyfile文件中的tls 邮箱
-                        //string sshCmdEmail = $"email={ReceiveConfigurationParameters[4]};email=${{email/./@}};echo $email";//结尾有回车符
-                        //string email = client.RunCommand(sshCmdEmail).Result.Replace("\n", "");//删除结尾的回车符
-                        string email = $"user@{ReceiveConfigurationParameters[4]}";
-                        string sshCmd;// = $"sed -i 's/off/{email}/' {upLoadPath}";//设置Caddyfile中的邮箱
-                        //client.RunCommand(sshCmd);
-                        //设置Path
-                        //sshCmd = $"sed -i 's/##path##/\\{ReceiveConfigurationParameters[3]}/' {upLoadPath}";
-                        //MessageBox.Show(sshCmd);
-                        //client.RunCommand(sshCmd);
-                        //设置域名
-                        sshCmd = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/' {upLoadPath}";
-                        //MessageBox.Show(sshCmd);
-                        client.RunCommand(sshCmd);
-                        //设置伪装网站
-                        if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7]) == false)
-                        {
-                            sshCmd = $"sed -i 's/##sites##/proxy \\/ {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
-                            //MessageBox.Show(sshCmd);
-                            client.RunCommand(sshCmd);
-                        }
-                        Thread.Sleep(2000);
-
-                        //安装Caddy服务
-                        sshCmd = $"caddy -service install -agree -conf /etc/caddy/Caddyfile -email {email}";
-                        //MessageBox.Show(sshCmd);
-                        client.RunCommand(sshCmd);
-
-
-                        //启动Caddy服务
-                        client.RunCommand("caddy -service restart");
-                    }
+                   
 
                     if (serverConfig.Contains("trojan_server") == true)
                     {
@@ -1664,7 +1612,7 @@ namespace ProxySU
                         //client.RunCommand("mkdir -p /etc/v2ray/ssl");
                         client.RunCommand($"/root/.acme.sh/acme.sh  --issue  --standalone  -d {ReceiveConfigurationParameters[4]}");
 
-                        currentStatus = "安装证书到V2ray......";
+                        currentStatus = "安装证书到Trojan......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
                         client.RunCommand($"/root/.acme.sh/acme.sh  --installcert  -d {ReceiveConfigurationParameters[4]}  --certpath /usr/local/etc/trojan/trojan_ssl.crt --keypath /usr/local/etc/trojan/trojan_ssl.key  --capath  /usr/local/etc/trojan/trojan_ssl.crt  --reloadcmd  \"systemctl restart trojan\"");
@@ -1680,6 +1628,58 @@ namespace ProxySU
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
 
+                    //安装Caddy
+                    if (serverConfig.Contains("trojan_server") == true)
+                    {
+                        currentStatus = "正在安装Caddy";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+
+                        client.RunCommand("curl https://getcaddy.com -o getcaddy");
+                        client.RunCommand("bash getcaddy personal hook.service");
+                        client.RunCommand("mkdir -p /etc/caddy");
+                        client.RunCommand("mkdir -p /var/www");
+
+
+                        currentStatus = "上传Caddy配置文件......";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+
+                        string caddyConfig = "";
+                        if (serverConfig.Contains("trojan_server") == true)
+                        {
+                            caddyConfig = "TemplateConfg\\trojan_caddy_config.caddyfile";
+                        }
+
+                        upLoadPath = "/etc/caddy/Caddyfile";
+                        UploadConfig(connectionInfo, caddyConfig, upLoadPath);
+
+                        //设置Caddyfile文件中的tls 邮箱
+
+                        string email = $"user@{ReceiveConfigurationParameters[4]}";
+                        string sshCmd;
+                        //设置域名
+                        sshCmd = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}:80/' {upLoadPath}";
+                        //MessageBox.Show(sshCmd);
+                        client.RunCommand(sshCmd);
+                        //设置伪装网站
+                        if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7]) == false)
+                        {
+                            sshCmd = $"sed -i 's/##sites##/proxy \\/ {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
+                            //MessageBox.Show(sshCmd);
+                            client.RunCommand(sshCmd);
+                        }
+                        Thread.Sleep(2000);
+
+                        //安装Caddy服务
+                        sshCmd = $"caddy -service install -agree -conf /etc/caddy/Caddyfile -email {email}";
+                        //MessageBox.Show(sshCmd);
+                        client.RunCommand(sshCmd);
+
+
+                        //启动Caddy服务
+                        client.RunCommand("caddy -service restart");
+                    }
 
                     //生成客户端配置
                     currentStatus = "生成客户端配置......";
@@ -1711,7 +1711,7 @@ namespace ProxySU
                     Thread.Sleep(1000);
 
                     //显示服务端连接参数
-                    //MessageBox.Show("用于V2ray官方客户端的配置文件已保存在config文件夹中");
+                    //MessageBox.Show("用于Trojan官方客户端的配置文件已保存在config文件夹中");
                     TrojanResultClientInfoWindow resultClientInformation = new TrojanResultClientInfoWindow();
                     resultClientInformation.ShowDialog();
 
@@ -1754,6 +1754,13 @@ namespace ProxySU
             }
             #endregion
 
+        }
+
+        private void ButtonTestTrojanClientInfoWin_Click(object sender, RoutedEventArgs e)
+        {
+            //TrojanResultClientInfoWindow resultClientInformation = new TrojanResultClientInfoWindow();
+            //resultClientInformation.ShowDialog();
+            MessageBox.Show(ReceiveConfigurationParameters[4]);
         }
     }
     

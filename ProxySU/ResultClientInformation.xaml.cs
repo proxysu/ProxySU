@@ -329,6 +329,7 @@ namespace ProxySU
             string saveFileFolderFirst = v2rayNjsonObject["ps"].ToString();
             int num = 1;
             saveFileFolder = saveFileFolderFirst;
+            CheckDir(@"v2ray_config");
             while (Directory.Exists(@"v2ray_config\" + saveFileFolder))
             {
                 saveFileFolder = saveFileFolderFirst + "_copy_" + num.ToString();

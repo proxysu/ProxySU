@@ -14,13 +14,43 @@
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
+                <RowDefinition Height="0.2*"></RowDefinition>
             </Grid.RowDefinitions>
             <GroupBox Header="服务器连接参数" Grid.Row="0">
-                
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="服务器地址" Grid.Column="0" Grid.Row="1"></TextBlock>
+                    <TextBox x:Name="TextBoxTrojanServerHost" Grid.Column="1" Grid.Row="1" Margin="4"></TextBox>
+                    <TextBlock Grid.Column="2" Grid.Row="1"></TextBlock>
+                    <TextBlock Text="端口" Grid.Column="0" Grid.Row="2"></TextBlock>
+                    <TextBox x:Name="TextBoxTrojanServerPort" Grid.Column="1" Grid.Row="2" Margin="4"></TextBox>
+                    <TextBlock Grid.Column="2" Grid.Row="2"></TextBlock>
+                    <TextBlock Text="密钥" Grid.Column="0" Grid.Row="3"></TextBlock>
+                    <TextBox x:Name="TextBoxTrojanServerPassword" Grid.Column="1" Grid.Row="3" Margin="4"></TextBox>
+                    <TextBlock Grid.Column="2" Grid.Row="3"></TextBlock>
+                </Grid>
             </GroupBox>
             <GroupBox Header="二维码/URL" Grid.Row="1">
                 
             </GroupBox>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="ButtonTrojanResultOpen" Content="确定" Grid.Column="1" Margin="4" Click="ButtonTrojanResultOpen_Click"></Button>
+            </Grid>
         </Grid>
     </Grid>
 </Window>

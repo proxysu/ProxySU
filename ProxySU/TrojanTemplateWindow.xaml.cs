@@ -53,11 +53,12 @@ namespace ProxySU
                         MainWindow.ReceiveConfigurationParameters[7] = "http:\\/\\/" + TextBoxMaskSites.Text;
                     }
                 }
+                //传递服务端口
+                MainWindow.ReceiveConfigurationParameters[1] = TextBoxServerListenPort.Text.ToString();
+                //传递密码(uuid)
+                MainWindow.ReceiveConfigurationParameters[2] = TextBoxNewUUID.Text.ToString();
             }
-            //传递服务端口
-            MainWindow.ReceiveConfigurationParameters[1] = TextBoxServerListenPort.Text.ToString();
-            //传递密码(uuid)
-            MainWindow.ReceiveConfigurationParameters[2] = TextBoxNewUUID.Text.ToString();
+           
 
             this.Close();
         }
