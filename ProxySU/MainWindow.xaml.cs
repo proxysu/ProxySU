@@ -628,11 +628,46 @@ namespace ProxySU
                         //MessageBox.Show(client.RunCommand(@"lsof -n -P -i :80 | grep LISTEN").Result);
                         if (String.IsNullOrEmpty(client.RunCommand(@"lsof -n -P -i :80 | grep LISTEN").Result) == false || String.IsNullOrEmpty(client.RunCommand(@"lsof -n -P -i :443 | grep LISTEN").Result) == false)
                         {
-                            MessageBox.Show("80/443端口之一，或全部被占用，请先用系统工具中的“释放80/443端口”工具，释放出，再重新安装");
-                            currentStatus = "端口被占用，安装失败......";
+                            //MessageBox.Show("80/443端口之一，或全部被占用，请先用系统工具中的“释放80/443端口”工具，释放出，再重新安装");
+                            MessageBoxResult dialogResult = MessageBox.Show("80/443端口之一，或全部被占用，将强制停止占用80/443端口的程序?", "Stop application", MessageBoxButton.YesNo);
+                            if (dialogResult == MessageBoxResult.No)
+                            {
+                                currentStatus = "端口被占用，安装失败......";
+                                textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                                Thread.Sleep(1000);
+                                return;
+                            }
+
+                            currentStatus = "正在释放80/443端口......";
                             textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                             Thread.Sleep(1000);
-                            return;
+
+                            string cmdTestPort = @"lsof -n -P -i :443 | grep LISTEN";
+                            string cmdResult = client.RunCommand(cmdTestPort).Result;
+                            //MessageBox.Show(cmdTestPort);
+                            if (String.IsNullOrEmpty(cmdResult) == false)
+                            {
+                                //MessageBox.Show(cmdResult);
+                                string[] cmdResultArry443 = cmdResult.Split(' ');
+                                //MessageBox.Show(cmdResultArry443[3]);
+                                client.RunCommand($"systemctl stop {cmdResultArry443[0]}");
+                                client.RunCommand($"systemctl disable {cmdResultArry443[0]}");
+                                client.RunCommand($"kill -9 {cmdResultArry443[3]}");
+                            }
+
+                            cmdTestPort = @"lsof -n -P -i :80 | grep LISTEN";
+                            cmdResult = client.RunCommand(cmdTestPort).Result;
+                            if (String.IsNullOrEmpty(cmdResult) == false)
+                            {
+                                string[] cmdResultArry80 = cmdResult.Split(' ');
+                                client.RunCommand($"systemctl stop {cmdResultArry80[0]}");
+                                client.RunCommand($"systemctl disable {cmdResultArry80[0]}");
+                                client.RunCommand($"kill -9 {cmdResultArry80[3]}");
+                            }
+                            currentStatus = "80/443端口释放完毕！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            Thread.Sleep(1000);
+
                         }
                     }
                     currentStatus = "符合安装要求,布署中......";
@@ -1148,6 +1183,7 @@ namespace ProxySU
             {
                 return;
             }
+           
             ConnectionInfo testconnect = GenerateConnectionInfo();
             try
             {
@@ -1178,7 +1214,7 @@ namespace ProxySU
                         client.RunCommand($"systemctl disable {cmdResultArry80[0]}");
                         client.RunCommand($"kill -9 {cmdResultArry80[3]}");
                     }
-                    MessageBox.Show("执行完毕！");
+                    MessageBox.Show("释放完毕！");
                     client.Disconnect();
                 }
             }
@@ -1472,11 +1508,45 @@ namespace ProxySU
                         //MessageBox.Show(client.RunCommand(@"lsof -n -P -i :80 | grep LISTEN").Result);
                         if (String.IsNullOrEmpty(client.RunCommand(@"lsof -n -P -i :80 | grep LISTEN").Result) == false || String.IsNullOrEmpty(client.RunCommand(@"lsof -n -P -i :443 | grep LISTEN").Result) == false)
                         {
-                            MessageBox.Show("80/443端口之一，或全部被占用，请先用系统工具中的“释放80/443端口”工具，释放出，再重新安装");
-                            currentStatus = "端口被占用，安装失败......";
+                            MessageBoxResult dialogResult = MessageBox.Show("80/443端口之一，或全部被占用，将强制停止占用80/443端口的程序?", "Stop application", MessageBoxButton.YesNo);
+                            if (dialogResult == MessageBoxResult.No)
+                            {
+                                currentStatus = "端口被占用，安装失败......";
+                                textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                                Thread.Sleep(1000);
+                                return;
+                            }
+
+                            currentStatus = "正在释放80/443端口......";
                             textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                             Thread.Sleep(1000);
-                            return;
+
+                            string cmdTestPort = @"lsof -n -P -i :443 | grep LISTEN";
+                            string cmdResult = client.RunCommand(cmdTestPort).Result;
+                            //MessageBox.Show(cmdTestPort);
+                            if (String.IsNullOrEmpty(cmdResult) == false)
+                            {
+                                //MessageBox.Show(cmdResult);
+                                string[] cmdResultArry443 = cmdResult.Split(' ');
+                                //MessageBox.Show(cmdResultArry443[3]);
+                                client.RunCommand($"systemctl stop {cmdResultArry443[0]}");
+                                client.RunCommand($"systemctl disable {cmdResultArry443[0]}");
+                                client.RunCommand($"kill -9 {cmdResultArry443[3]}");
+                            }
+
+                            cmdTestPort = @"lsof -n -P -i :80 | grep LISTEN";
+                            cmdResult = client.RunCommand(cmdTestPort).Result;
+                            if (String.IsNullOrEmpty(cmdResult) == false)
+                            {
+                                string[] cmdResultArry80 = cmdResult.Split(' ');
+                                client.RunCommand($"systemctl stop {cmdResultArry80[0]}");
+                                client.RunCommand($"systemctl disable {cmdResultArry80[0]}");
+                                client.RunCommand($"kill -9 {cmdResultArry80[3]}");
+                            }
+                            currentStatus = "80/443端口释放完毕！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            Thread.Sleep(1000);
+
                         }
                     }
                     currentStatus = "符合安装要求,布署中......";
@@ -1509,7 +1579,7 @@ namespace ProxySU
 
                     client.RunCommand("curl -o /tmp/trojan-quickstart.sh https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh");
                     client.RunCommand("yes | bash /tmp/trojan-quickstart.sh");
-                    //client.RunCommand("bash /tmp/go.sh -f");
+
                     string installResult = client.RunCommand("find / -name trojan").Result.ToString();
 
                     if (!installResult.Contains("/usr/local/bin/trojan"))

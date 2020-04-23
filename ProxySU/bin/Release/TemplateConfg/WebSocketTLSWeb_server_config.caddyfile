@@ -1,6 +1,6 @@
 ##domain## {
-   log stdout
-   errors stderr
+  log stdout
+  errors stderr
   root /var/www
   tls off
   ##sites##

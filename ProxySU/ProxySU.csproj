@@ -167,6 +167,6 @@
     <PostBuildEvent>del "$(TargetDir)*.xml"
 del "$(TargetDir)*.pdb"
 del "$(TargetDir)*.zip"
-"D:\Program Files\7-Zip\7z.exe" a $(TargetDir)Release.zip $(TargetDir) -xr!config</PostBuildEvent>
+"D:\Program Files\7-Zip\7z.exe" a $(TargetDir)Release.zip $(TargetDir) -xr!*config</PostBuildEvent>
   </PropertyGroup>
 </Project>

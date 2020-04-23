@@ -54,15 +54,16 @@ namespace ProxySU
                 num++;
             }
             CheckDir(@"trojan_config\" + saveFileFolder);
+            string trojanUrl = $"trojan://{TextBoxTrojanServerPassword.Text}@{TextBoxTrojanServerHost.Text}:{TextBoxTrojanServerPort.Text}#{TextBoxTrojanServerHost.Text}";
             //MessageBox.Show(v2rayNjsonObject.ToString());
-           // string vmessUrl = "vmess://" + ToBase64Encode(v2rayNjsonObject.ToString());
-            //TextBoxvVmessUrl.Text = vmessUrl;
-            //using (StreamWriter sw = new StreamWriter($"trojan_config\\{saveFileFolder}\\url.txt"))
-            //{
-            //    sw.WriteLine(vmessUrl);
+            //string trojanUrl = "trojan://" + ToBase64Encode(v2rayNjsonObject.ToString());
+            TextBoxTrojanUrl.Text = trojanUrl;
+            using (StreamWriter sw = new StreamWriter($"trojan_config\\{saveFileFolder}\\url.txt"))
+            {
+                sw.WriteLine(trojanUrl);
 
-            //}
-            //CreateQRCode(vmessUrl);
+            }
+            CreateQRCode(trojanUrl);
 
             //移动Trojan官方程序配置文件到相应目录
             if (File.Exists(@"trojan_config\config.json"))
@@ -78,46 +79,38 @@ namespace ProxySU
                 sw.WriteLine("Trojan官方网站：https://trojan-gfw.github.io/trojan/");
                 sw.WriteLine("Trojan官方程序下载地址：https://github.com/trojan-gfw/trojan/releases");
                 sw.WriteLine("下载相应版本，Windows选择Trojan-x.xx-win.zip,解压后提取trojan.exe。与config.json放在同一目录，运行trojan.exe即可。");
-                //sw.WriteLine("-----------------------------------------");
-                //sw.WriteLine("QR.bmp");
-                //sw.WriteLine("此文件为v2rayN、v2rayNG(Android)、Shadowrocket(ios)扫码导入节点");
-                //sw.WriteLine("v2rayN下载网址：https://github.com/2dust/v2rayN/releases");
-                //sw.WriteLine("v2rayNG(Android)下载网址：https://github.com/2dust/v2rayNG/releases");
-                //sw.WriteLine("v2rayNG(Android)在Google Play下载网址：https://play.google.com/store/apps/details?id=com.v2ray.ang");
-                //sw.WriteLine("Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。");
+                sw.WriteLine("-----------------------------------------\n");
+                sw.WriteLine("QR.bmp");
+                sw.WriteLine("此文件为Trojan-QT5 (windows)、Shadowrocket(ios)扫码导入节点");
+                sw.WriteLine("Trojan-QT5 (windows)下载网址：https://github.com/TheWanderingCoel/Trojan-Qt5/releases");
+                sw.WriteLine("Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。");
 
-                //sw.WriteLine("-----------------------------------------");
-                //sw.WriteLine("url.txt");
-                //sw.WriteLine("此文件为v2rayN、v2rayNG(Android)、Shadowrocket(ios)复制粘贴导入节点的vmess网址");
-                //sw.WriteLine("-----------------------------------------\n");
+                sw.WriteLine("-----------------------------------------\n");
+                sw.WriteLine("url.txt");
+                sw.WriteLine("此文件为Trojan-QT5 (windows)、Shadowrocket(ios)复制粘贴导入节点的网址");
+                sw.WriteLine("-----------------------------------------\n");
                 sw.WriteLine("服务器通用连接配置参数");
                 sw.WriteLine($"地址(address)：{TextBoxTrojanServerHost.Text}");
                 sw.WriteLine($"端口(Port)：{TextBoxTrojanServerPort.Text}");
                 sw.WriteLine($"密钥：{TextBoxTrojanServerPassword.Text}");
-                //sw.WriteLine($"额外ID：{TextBoxUUIDextra.Text}");
-                //sw.WriteLine($"加密方式：{TextBoxEncryption.Text}");
-                //sw.WriteLine($"传输协议：{TextBoxTransmission.Text}");
-                //sw.WriteLine($"伪装类型：{TextBoxCamouflageType.Text}");
-                //sw.WriteLine($"是否使用TLS：{TextBoxTLS.Text}");
-                //sw.WriteLine($"host：{TextBoxHostAddress.Text}");
-                //sw.WriteLine($"路径(Path)：{TextBoxPath.Text}");
-                //sw.WriteLine($"QUIC密钥：{TextBoxQuicKey.Text}");
+
             }
 
 
 
         }
         //生成base64
-        private string ToBase64Encode(string text)
-        {
-            if (String.IsNullOrEmpty(text))
-            {
-                return text;
-            }
+        //private string ToBase64Encode(string text)
+        //{
+        //    if (String.IsNullOrEmpty(text))
+        //    {
+        //        return text;
+        //    }
 
-            byte[] textBytes = Encoding.UTF8.GetBytes(text);
-            return Convert.ToBase64String(textBytes);
-        }
+        //    byte[] textBytes = Encoding.UTF8.GetBytes(text);
+        //    return Convert.ToBase64String(textBytes);
+        //}
+
         //生成QRcoder图片
         private void CreateQRCode(string varBase64)
         {
@@ -128,10 +121,10 @@ namespace ProxySU
             Bitmap qrCodeImage = qrCode.GetGraphic(20);
             IntPtr myImagePtr = qrCodeImage.GetHbitmap();
             BitmapSource imgsource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(myImagePtr, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-            //ImageShareQRcode.Source = imgsource;
+            ImageTrojanShareQRurl.Source = imgsource;
             //DeleteObject(myImagePtr);
             qrCodeImage.Save($"trojan_config\\{saveFileFolder}\\QR.bmp");
-            //ImageShareQRcode.Source = @"config\v2rayN.bmp";
+       
         }
         //判断目录是否存在，不存在则创建
         private static bool CheckDir(string folder)

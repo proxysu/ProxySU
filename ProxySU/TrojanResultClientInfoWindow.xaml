@@ -42,7 +42,20 @@
                 </Grid>
             </GroupBox>
             <GroupBox Header="二维码/URL" Grid.Row="1">
-                
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="0.4*"></ColumnDefinition>
+
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.2*"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="可用于ShadowRocket (ios) Trojan-QT5 (windows) 扫码和导入url" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" TextWrapping="Wrap"></TextBlock>
+                    <Image x:Name="ImageTrojanShareQRurl" Grid.Column="0" Grid.Row="1"></Image>
+                    <TextBox x:Name="TextBoxTrojanUrl" TextWrapping="Wrap" Grid.Column="1" Grid.Row="1"></TextBox>
+                </Grid>
             </GroupBox>
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
