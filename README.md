@@ -61,7 +61,7 @@ Trojan模式目前已支持生成用于
 
 * 注：Trojan安装及配置文件主要参考自：  
 [Trojan官方配置文档](https://trojan-gfw.github.io/trojan/config)  
-[Trojan官方安装说明](https://github.com/trojan-gfw/trojan/wiki/Binary-&-Package-Distributions)
+[Trojan官方安装说明](https://github.com/trojan-gfw/trojan/wiki/Binary-&-Package-Distributions)  
 [自建梯子教程-Trojan](https://trojan-tutor.github.io/2019/04/10/p41.html)
 
 ## License
