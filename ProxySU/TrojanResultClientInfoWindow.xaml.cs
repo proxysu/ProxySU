@@ -81,13 +81,14 @@ namespace ProxySU
                 sw.WriteLine("下载相应版本，Windows选择Trojan-x.xx-win.zip,解压后提取trojan.exe。与config.json放在同一目录，运行trojan.exe即可。");
                 sw.WriteLine("-----------------------------------------\n");
                 sw.WriteLine("QR.bmp");
-                sw.WriteLine("此文件为Trojan-QT5 (windows)、Shadowrocket(ios)扫码导入节点");
+                sw.WriteLine("此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)扫码导入节点");
                 sw.WriteLine("Trojan-QT5 (windows)下载网址：https://github.com/TheWanderingCoel/Trojan-Qt5/releases");
+                sw.WriteLine("igniter（Android）下载网址：https://github.com/trojan-gfw/igniter/releases");
                 sw.WriteLine("Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。");
 
                 sw.WriteLine("-----------------------------------------\n");
                 sw.WriteLine("url.txt");
-                sw.WriteLine("此文件为Trojan-QT5 (windows)、Shadowrocket(ios)复制粘贴导入节点的网址");
+                sw.WriteLine("此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)复制粘贴导入节点的网址");
                 sw.WriteLine("-----------------------------------------\n");
                 sw.WriteLine("服务器通用连接配置参数");
                 sw.WriteLine($"地址(address)：{TextBoxTrojanServerHost.Text}");
