@@ -122,7 +122,7 @@
                                 </Grid.RowDefinitions>
                                 <!--<Button x:Name="ButtonGuideConfiguration" Visibility="Visible"  Content="启用向导" Grid.Column="0" Grid.Row="0" Click="ButtonGuideConfiguration_Click"></Button>
                                 <TextBlock Text="通过向导生成配置文件" Visibility="Visible" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center"></TextBlock>-->
-                                <Button x:Name="ButtonTemplateConfiguration" Content="模板库" Grid.Column="1" Grid.Row="0" Click="ButtonTemplateConfiguration_Click"></Button>
+                                <Button x:Name="ButtonTemplateConfiguration" Content="模板库" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonTemplateConfiguration_Click"></Button>
                                 <TextBlock Text="模板库" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center"></TextBlock>
                                 <!--<Button x:Name="ButtonAdvancedConfiguration" Visibility="Visible" Content="配置编辑器" Grid.Column="2" Grid.Row="0" Click="ButtonAdvancedConfiguration_Click"></Button>
                                 <TextBlock Text="配置文件高级生成器&#x0a;（有经验用户可以使用）" Visibility="Visible" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center"></TextBlock>-->
@@ -150,7 +150,7 @@
                                    
                       
                                 </Grid.RowDefinitions>
-                                <Button x:Name="ButtonTrojanTemplate" Content="Trojan设置" Grid.Column="1" Grid.Row="0" Click="ButtonTrojanTemplate_Click"/>
+                                <Button x:Name="ButtonTrojanTemplate" Content="Trojan设置" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonTrojanTemplate_Click"/>
                                 <TextBlock Text="Trojan参数设置" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center"></TextBlock>
                                
                                 <Button x:Name="ButtonTrojanSetUp" Content="Trojan一键安装" Grid.ColumnSpan="1" Margin="10" Grid.Column="0" Grid.Row="2" Click="ButtonTrojanSetUp_Click"/>
@@ -174,7 +174,7 @@
                                 <Button x:Name="ButtonClearOccupiedPorts" Content="释放80/443端口" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonClearOccupiedPorts_Click"></Button>
                             </Grid>
                         </TabItem>
-                        <TabItem Header="测试面板" Visibility="Visible" Width="150" Height="30">
+                        <!--<TabItem Header="测试面板" Visibility="Visible" Width="150" Height="30">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition></ColumnDefinition>
@@ -190,7 +190,7 @@
                                 </Grid.RowDefinitions>
                                 <Button x:Name="ButtonTestTrojanClientInfoWin" Content="测试Trojan结果窗口" Click="ButtonTestTrojanClientInfoWin_Click"></Button>
                             </Grid>
-                        </TabItem>
+                        </TabItem>-->
                     </TabControl>
 
 
