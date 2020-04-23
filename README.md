@@ -1,9 +1,12 @@
 # ProxySU
-V2ray install tools for windows。V2ray一键安装工具。
+V2ray and Trojan install tools for windows。V2ray和Trojan一键安装工具。
 
-学习C#用来练手的小工具。代码写的很菜，大佬勿喷。编译环境Visual Studio 2017  使用WPF界面
+学习C#用来练手的小工具。代码写的很菜，大佬勿喷。编译环境Visual Studio 2017  使用WPF界面  
 
-可一键安装的模式有：
+Trojan 可一键安装的模式有：  
+* Trojan + TLS + Web
+
+V2ray可一键安装的模式有：
 * tcp 
 * tcp+http伪装  
 * tcp+TLS 
@@ -27,7 +30,7 @@ mKCP和QUIC模式使用udp协议，可以有效减少网络延时，有加速的
 
 (注意：如果系统启用了SELinux且工作在Enforcing模式下时，需要将Enforcing更改为Permissive模式，否则使用WebSocket+TLS+Web时，Caddy的service无法开机启动，这种情形一般出现在Centos7/8中，程序在安装过程中将自动处理。)
 
-目前已支持生成用于
+V2ray模式目前已支持生成用于
 
 * v2ray官方程序配置文件(客户端配置)  
 * v2rayN (windows)客户端导入二维码和网址  
@@ -36,11 +39,17 @@ mKCP和QUIC模式使用udp协议，可以有效减少网络延时，有加速的
 
 （程序中只实现生成v2rayN的，但是Shadowrocket和v2rayNG都可以导入。所以就偷了个懒，哈！）
 
+Trojan模式目前已支持生成用于  
+
+* Trojan官方程序配置文件（客户端配置）  
+* Shadowrocket (ios)导入二维码和网址  
+* Trojan-QT5 (windows)导入二维码和网址  
+
 ## 程序工作流程：  
 1. 使用[SSH.NET](https://github.com/sshnet/SSH.NET)登录远程主机  
-2. 调用V2ray官方安装脚本 `curl -o /tmp/go.sh https://install.direct/go.sh` `bash /tmp/go.sh -f` ，安装V2ray。  
+2. 选择V2ray，则调用V2ray官方安装脚本 `curl -o /tmp/go.sh https://install.direct/go.sh` `bash /tmp/go.sh -f` ，安装V2ray。选择Trojan，则调用Trojan官方安装脚本 `curl -o /tmp/trojan-quickstart.sh https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh` `yes | bash /tmp/trojan-quickstart.sh` 安装Trojan。
 3. 根据选择读取相应配置模板，调用[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)生成相应配置文件，并上传到服务器。  
-4. 如果使用WebSocket+TLS+Web/http2+TLS+Web模式，则调用Caddy官方安装脚本 `curl https://getcaddy.com -o getcaddy`   
+4. 如果使用WebSocket+TLS+Web/http2+TLS+Web/Trojan + TLS + Web模式，则调用Caddy官方安装脚本 `curl https://getcaddy.com -o getcaddy`   
 与 `bash getcaddy personal hook.service` ，安装Caddy。  
 5. 如果使用Http2/tcp+TLS/WebSocket+TLS模式，则调用  `curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh` 安装acme.sh，使用acme.sh申请并安装证书到V2ray.  
 6. 安装成功后，使用[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)生成兼容于v2rayN的json文件，用C#内置的Base64库将json生成url链接，使用[QRcoder](https://github.com/codebude/QRCoder)生成二维码。
@@ -48,6 +57,11 @@ mKCP和QUIC模式使用udp协议，可以有效减少网络延时，有加速的
 * 注：V2ray安装及配置文件主要参考自：  
 [白话文教程](https://toutyrater.github.io/)  
 [新白话文教程(社区版)](https://guide.v2fly.org/)
+
+* 注：Trojan安装及配置文件主要参考自：  
+[Trojan官方配置文档](https://trojan-gfw.github.io/trojan/config)  
+[Trojan官方安装说明](https://github.com/trojan-gfw/trojan/wiki/Binary-&-Package-Distributions)
+[自建梯子教程-Trojan](https://trojan-tutor.github.io/2019/04/10/p41.html)
 
 ## License
 
