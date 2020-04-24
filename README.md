@@ -70,9 +70,9 @@ Trojan模式目前已支持生成用于
 [(GPL-V3)](https://raw.githubusercontent.com/proxysu/windows/master/LICENSE)
 
 ## 运行文件下载
-* Bete版(随代码更新，新添加功能可能有bug或不完善)
+* Bete版(随代码更新，新添加功能可能有bug或不完善)  
 [下载](https://github.com/proxysu/windows/raw/master/ProxySU/bin/Release/Release.zip)
-* 正式版（正式发布的版本，新功能完善后发布）
+* 正式版（正式发布的版本，新功能完善后发布）  
 [下载](https://github.com/proxysu/windows/releases)
 
 ## Windows系统需要安装net4.0及以上
