@@ -33,18 +33,18 @@ mKCP和QUIC模式使用udp协议，可以有效减少网络延时，有加速的
 V2ray模式目前已支持生成用于
 
 * [v2ray官方程序](https://www.v2ray.com/chapter_00/install.html)配置文件(客户端配置)  
-* v2rayN (windows)客户端导入二维码和网址  
-* Shadowrocket (ios)导入二维码和网址  
-* v2rayNG (Android)导入二维码和网址  
+* [v2rayN (windows)](https://github.com/2dust/v2rayN/releases)客户端导入二维码和网址  
+* [Shadowrocket (ios)](https://apps.apple.com/us/app/shadowrocket/id932747118)导入二维码和网址  
+* [v2rayNG (Android)](https://github.com/2dust/v2rayNG/releases)导入二维码和网址  
 
-（程序中只实现生成v2rayN的，但是Shadowrocket和v2rayNG都可以导入。所以就偷了个懒，哈！）
+（程序中只实现生成v2rayN的，但是Shadowrocket和v2rayNG都可以导入。）
 
 Trojan模式目前已支持生成用于  
 
-* Trojan官方程序配置文件（客户端配置）  
-* Shadowrocket (ios)导入二维码和网址  
-* igniter（Android）导入二维码和网址 
-* Trojan-QT5 (windows)导入二维码和网址  
+* [Trojan官方程序](https://github.com/trojan-gfw/trojan)配置文件（客户端配置）  
+* [Trojan-QT5 (windows)](https://github.com/TheWanderingCoel/Trojan-Qt5/releases)导入二维码和网址  
+* [Shadowrocket (ios)](https://apps.apple.com/us/app/shadowrocket/id932747118)导入二维码和网址  
+* [igniter（Android）](https://github.com/trojan-gfw/igniter/releases)导入二维码和网址  
 
 ## 程序工作流程：  
 1. 使用[SSH.NET](https://github.com/sshnet/SSH.NET)登录远程主机  
@@ -69,9 +69,11 @@ Trojan模式目前已支持生成用于
 
 [(GPL-V3)](https://raw.githubusercontent.com/proxysu/windows/master/LICENSE)
 
-## 运行文件下载(随代码更新，可能有bug)
-
+## 运行文件下载
+* Bete版(随代码更新，新添加功能可能有bug或不完善)
 [下载](https://github.com/proxysu/windows/raw/master/ProxySU/bin/Release/Release.zip)
+* 正式版（正式发布的版本，新功能完善后发布）
+[下载](https://github.com/proxysu/windows/releases)
 
 ## Windows系统需要安装net4.0及以上
 
