@@ -80,9 +80,9 @@ Trojan模式目前已支持生成用于
 Microsoft [.NET Framework 4.0](https://dotnet.microsoft.com/download/dotnet-framework/thank-you/net40-offline-installer) or higher
 
 ## 使用的C# 库  
-[SSH.NET -------------- https://github.com/sshnet/SSH.NET](https://github.com/sshnet/SSH.NET)  
+[SSH.NET --------------- https://github.com/sshnet/SSH.NET](https://github.com/sshnet/SSH.NET)  
 [Newtonsoft.Json ------ https://github.com/JamesNK/Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)  
-[QRcoder -------------- https://github.com/codebude/QRCoder](https://github.com/codebude/QRCoder)
+[QRcoder --------------- https://github.com/codebude/QRCoder](https://github.com/codebude/QRCoder)
 
 ## 程序安全  
 为了布署方便，程序使用root账户登录主机，出于慎重，请不要在运行重要程序及用于生产的主机上使用。程序所有源码开源，所使用的库都是github开源项目，可以保障最大的使用安全，程序不夹带任何私货及后门，不是在本项目地址下载的，不做任何保障，请尽可能从本项目地址下载。
