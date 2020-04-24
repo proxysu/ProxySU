@@ -32,7 +32,7 @@ mKCP和QUIC模式使用udp协议，可以有效减少网络延时，有加速的
 
 V2ray模式目前已支持生成用于
 
-* v2ray官方程序配置文件(客户端配置)  
+* [v2ray官方程序](https://www.v2ray.com/chapter_00/install.html)配置文件(客户端配置)  
 * v2rayN (windows)客户端导入二维码和网址  
 * Shadowrocket (ios)导入二维码和网址  
 * v2rayNG (Android)导入二维码和网址  
