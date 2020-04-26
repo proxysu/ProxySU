@@ -47,12 +47,22 @@ namespace ProxySU
         public MainWindow()
         {
             InitializeComponent();
+            //初始化选定密码登录
             RadioButtonPasswordLogin.IsChecked = true;
+            //初始化选定无代理
             RadioButtonNoProxy.IsChecked = true;
+            //初始化代理无需登录
             RadioButtonProxyNoLogin.IsChecked = true;
+            //初始化隐藏Socks4代理，
             RadioButtonSocks4.Visibility = Visibility.Collapsed;
+            //初始化参数给
             ReceiveConfigurationParameters = new string[8];
+            //初始化NaiveProxy的密码
             
+            TextBoxNaivePassword.Text = RandomUUID();
+            //初始化产生用户名
+            TextBoxNaiveUser.Text = RandomUserName();
+
 
         }
         //远程主机连接信息
@@ -1826,12 +1836,51 @@ namespace ProxySU
 
         }
 
-        private void ButtonTestTrojanClientInfoWin_Click(object sender, RoutedEventArgs e)
+        //更新NaiveProxy的密码
+        private void ButtonNaivePassword_Click(object sender, RoutedEventArgs e)
         {
-            //TrojanResultClientInfoWindow resultClientInformation = new TrojanResultClientInfoWindow();
-            //resultClientInformation.ShowDialog();
-            MessageBox.Show(ReceiveConfigurationParameters[4]);
+            Guid uuid = Guid.NewGuid();
+            TextBoxNaivePassword.Text = uuid.ToString();
         }
+
+
+        //生成随机UUID
+        private string RandomUUID()
+        {
+            Guid uuid = Guid.NewGuid();
+            //TextBoxNaivePassword.Text = uuid.ToString();
+            return uuid.ToString();
+        }
+        //NaiveProxy产生随机用户名
+        private string RandomUserName()
+        {
+            Random random = new Random();
+            int randomSerialNum = random.Next(0, 4);
+            Guid uuid = Guid.NewGuid();
+            string[] pathArray = uuid.ToString().Split('-');
+            string path = pathArray[randomSerialNum];
+            return path;
+            // TextBoxPath.Text = $"/{path}";
+            //MessageBox.Show(path);
+        }
+        //NaiveProxy更改用户名，随机方式
+        private void ButtonNaiveUser_Click(object sender, RoutedEventArgs e)
+        {
+            TextBoxNaiveUser.Text = RandomUserName();
+        }
+         
+        //NaiveProxy一键安装开始
+        private void ButtonNavieSetUp_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        //private void ButtonTestTrojanClientInfoWin_Click(object sender, RoutedEventArgs e)
+        //{
+        //    //TrojanResultClientInfoWindow resultClientInformation = new TrojanResultClientInfoWindow();
+        //    //resultClientInformation.ShowDialog();
+        //    MessageBox.Show(ReceiveConfigurationParameters[4]);
+        //}
     }
-    
+
 }

@@ -30,7 +30,6 @@
                 </MultiTrigger>
             </Style.Triggers>
         </Style>
-        
     </Window.Resources>
     <Grid>
         <TabControl>
@@ -155,6 +154,54 @@
                                
                                 <Button x:Name="ButtonTrojanSetUp" Content="Trojan一键安装" Grid.ColumnSpan="1" Margin="10" Grid.Column="0" Grid.Row="2" Click="ButtonTrojanSetUp_Click"/>
                                 <Button x:Name="ButtonTrojanCancel" Content="取消" Grid.ColumnSpan="1" Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
+                            </Grid>
+                        </TabItem>
+                        <TabItem x:Name="TabItemNaiveProxy" Header="NaiveProxy" Width="100" Height="30">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+
+
+                                </Grid.RowDefinitions>
+                                <GroupBox Header="参数设置" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="2">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.4*"></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition Width="0.3*"></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Text="模式：NaiveProxy+TLS+Caddy" Grid.Column="1" Grid.Row="0"></TextBlock>
+                                        <TextBlock Text="服务器地址(域名)：" Grid.Column="0" Grid.Row="1"></TextBlock>
+                                        <TextBox x:Name="TextBoxNaiveHostDomain" Style="{StaticResource TitleText}" Tag="域名不可为空" Grid.Column="1" Grid.Row="1" Margin="3"></TextBox>
+                                        <TextBlock Text="端口：443" Grid.Column="2" Grid.Row="1"></TextBlock>
+                                        <TextBlock Text="用户名：" Grid.Column="0" Grid.Row="2"></TextBlock>
+                                        <TextBox x:Name="TextBoxNaiveUser" Grid.Column="1" Grid.Row="2" Margin="3"></TextBox>
+                                        <Button x:Name="ButtonNaiveUser" Content="随机" Grid.Column="2" Grid.Row="2" Margin="2" Click="ButtonNaiveUser_Click"></Button>
+                                        <TextBlock Text="密码：" Grid.Column="0" Grid.Row="3"></TextBlock>
+                                        <TextBox x:Name="TextBoxNaivePassword"  Grid.Column="1" Grid.Row="3" Margin="3"></TextBox>
+                                        <Button x:Name="ButtonNaivePassword" Content="更新" Grid.Column="2" Grid.Row="3" Margin="2" Click="ButtonNaivePassword_Click"></Button>
+                                    </Grid>
+                                </GroupBox>
+                                <!--<Button x:Name="ButtonNaiveTemplate" Content="Naive设置" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonTrojanTemplate_Click"/>
+                                <TextBlock Text="Naive参数设置" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center"></TextBlock>-->
+
+                                <Button x:Name="ButtonNavieSetUp" Content="NaiveProxy一键安装" Grid.ColumnSpan="1" Margin="10" Grid.Column="0" Grid.Row="2" Click="ButtonNavieSetUp_Click"/>
+                                <Button x:Name="ButtonNaiveCancel" Content="取消" Grid.ColumnSpan="1" Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
                             </Grid>
                         </TabItem>
                         <TabItem Header="系统工具" Width="100" Height="30">
