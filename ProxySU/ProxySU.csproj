@@ -81,6 +81,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="NaiveProxyResultInfoWindow.xaml.cs">
+      <DependentUpon>NaiveProxyResultInfoWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ProofreadTimeWindow.xaml.cs">
       <DependentUpon>ProofreadTimeWindow.xaml</DependentUpon>
     </Compile>
@@ -108,6 +111,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="NaiveProxyResultInfoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ProofreadTimeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
