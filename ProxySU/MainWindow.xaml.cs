@@ -1958,7 +1958,7 @@ namespace ProxySU
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
                     }
-                    //检测是否安装有Trojan
+                    //检测是否安装有NaiveProxy
                     currentStatus = "检测系统是否已经安装NaiveProxy......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
@@ -2005,23 +2005,6 @@ namespace ProxySU
                     bool getSystemd = String.IsNullOrEmpty(client.RunCommand("command -v systemctl").Result);
                     bool getGetenforce = String.IsNullOrEmpty(client.RunCommand("command -v getenforce").Result);
 
-                    //安装所需软件
-                    if (getApt == false)
-                    {
-                        client.RunCommand("apt-get -qq update");
-                        client.RunCommand("apt-get -y -qq install curl libnss3 xz-utils lsof");
-                    }
-                    if (getYum == false)
-                    {
-                        client.RunCommand("yum -q makecache");
-                        client.RunCommand("yum -y -q install curl libnss3 xz-utils lsof");
-                    }
-                    if (getZypper == false)
-                    {
-                        client.RunCommand("zypper ref");
-                        client.RunCommand("zypper -y install curl libnss3 xz-utils lsof");
-                    }
-
                     //没有安装apt-get，也没有安装yum，也没有安装zypper,或者没有安装systemd的，不满足安装条件
                     //也就是apt-get ，yum, zypper必须安装其中之一，且必须安装Systemd的系统才能安装。
                     if ((getApt && getYum && getZypper) || getSystemd)
@@ -2045,152 +2028,99 @@ namespace ProxySU
                         }
 
                     }
+                    //安装所需软件
+                    if (getApt == false)
+                    {
+                        client.RunCommand("apt-get -qq update");
+                        client.RunCommand("apt-get -y -qq install curl libnss3 xz-utils lsof");
+                    }
+                    if (getYum == false)
+                    {
+                        client.RunCommand("yum -q makecache");
+                        client.RunCommand("yum -y -q install curl nss xz lsof");
+                    }
+                    if (getZypper == false)
+                    {
+                        client.RunCommand("zypper ref");
+                        client.RunCommand("zypper -y install curl nss xz lsof");
+                    }
 
-                    //如果使用如果是WebSocket + TLS + Web/http2/Http2Web/tcp_TLS/WebSocket_TLS模式，需要检测域名解析是否正确
-                    //if (serverConfig.Contains("Naiveproxy") == true)
-                    //{
-                        currentStatus = "正在检测域名是否解析到当前VPS的IP上......";
-                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                        Thread.Sleep(1000);
-
-                        //在相应系统内安装curl(如果没有安装curl)
-                        //if (string.IsNullOrEmpty(client.RunCommand("command -v curl").Result) == true)
-                        //{
-                        //    //为假则表示系统有相应的组件。
-                        //    if (getApt == false)
-                        //    {
-                        //        client.RunCommand("apt-get -qq update");
-                        //        client.RunCommand("apt-get -y -qq install curl");
-                        //    }
-                        //    if (getYum == false)
-                        //    {
-                        //        client.RunCommand("yum -q makecache");
-                        //        client.RunCommand("yum -y -q install curl");
-                        //    }
-                        //    if (getZypper == false)
-                        //    {
-                        //        client.RunCommand("zypper ref");
-                        //        client.RunCommand("zypper -y install curl");
-                        //    }
-                        //}
-
-                        string nativeIp = client.RunCommand("curl -4 ip.sb").Result.ToString();
-                        //MessageBox.Show(nativeIp);
-                        string testDomainCmd = "ping " + ReceiveConfigurationParameters[4] + " -c 1 | grep -oE -m1 \"([0-9]{1,3}\\.){3}[0-9]{1,3}\"";
-                        //MessageBox.Show(testDomainCmd);
-                        string resultTestDomainCmd = client.RunCommand(testDomainCmd).Result.ToString();
-                        //MessageBox.Show(resultTestDomainCmd);
-                        if (String.Equals(nativeIp, resultTestDomainCmd) == true)
-                        {
-                            currentStatus = "解析正确！";
-                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                            Thread.Sleep(1000);
-                        }
-                        else
-                        {
-                            currentStatus = "域名未能正确解析到当前VPS的IP上!安装失败！";
-                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                            Thread.Sleep(1000);
-                            MessageBox.Show("域名未能正确解析到当前VPS的IP上，请检查！若解析设置正确，请等待生效后再重试安装。如果域名使用了CDN，请先关闭！");
-                            return;
-                        }
-
-                    //}
-                    //if (serverConfig.Contains("Naiveproxy") == true)
-                    //{
-                        //检测是否安装lsof
-                        //if (string.IsNullOrEmpty(client.RunCommand("command -v lsof").Result) == true)
-                        //{
-                        //    //为假则表示系统有相应的组件。
-                        //    if (getApt == false)
-                        //    {
-                        //        client.RunCommand("apt-get -qq update");
-                        //        client.RunCommand("apt-get -y -qq install lsof");
-                        //    }
-                        //    if (getYum == false)
-                        //    {
-                        //        client.RunCommand("yum -q makecache");
-                        //        client.RunCommand("yum -y -q install lsof");
-                        //    }
-                        //    if (getZypper == false)
-                        //    {
-                        //        client.RunCommand("zypper ref");
-                        //        client.RunCommand("zypper -y install lsof");
-                        //    }
-                        //}
-                        currentStatus = "正在检测端口占用情况......";
-                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                        Thread.Sleep(1000);
-                        //MessageBox.Show(@"lsof -n -P -i :80 | grep LISTEN");
-                        //MessageBox.Show(client.RunCommand(@"lsof -n -P -i :80 | grep LISTEN").Result);
-                        if (String.IsNullOrEmpty(client.RunCommand(@"lsof -n -P -i :80 | grep LISTEN").Result) == false || String.IsNullOrEmpty(client.RunCommand(@"lsof -n -P -i :443 | grep LISTEN").Result) == false)
-                        {
-                            MessageBoxResult dialogResult = MessageBox.Show("80/443端口之一，或全部被占用，将强制停止占用80/443端口的程序?", "Stop application", MessageBoxButton.YesNo);
-                            if (dialogResult == MessageBoxResult.No)
-                            {
-                                currentStatus = "端口被占用，安装失败......";
-                                textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                                Thread.Sleep(1000);
-                                return;
-                            }
-
-                            currentStatus = "正在释放80/443端口......";
-                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                            Thread.Sleep(1000);
-
-                            string cmdTestPort = @"lsof -n -P -i :443 | grep LISTEN";
-                            string cmdResult = client.RunCommand(cmdTestPort).Result;
-                            //MessageBox.Show(cmdTestPort);
-                            if (String.IsNullOrEmpty(cmdResult) == false)
-                            {
-                                //MessageBox.Show(cmdResult);
-                                string[] cmdResultArry443 = cmdResult.Split(' ');
-                                //MessageBox.Show(cmdResultArry443[3]);
-                                client.RunCommand($"systemctl stop {cmdResultArry443[0]}");
-                                client.RunCommand($"systemctl disable {cmdResultArry443[0]}");
-                                client.RunCommand($"kill -9 {cmdResultArry443[3]}");
-                            }
-
-                            cmdTestPort = @"lsof -n -P -i :80 | grep LISTEN";
-                            cmdResult = client.RunCommand(cmdTestPort).Result;
-                            if (String.IsNullOrEmpty(cmdResult) == false)
-                            {
-                                string[] cmdResultArry80 = cmdResult.Split(' ');
-                                client.RunCommand($"systemctl stop {cmdResultArry80[0]}");
-                                client.RunCommand($"systemctl disable {cmdResultArry80[0]}");
-                                client.RunCommand($"kill -9 {cmdResultArry80[3]}");
-                            }
-                            currentStatus = "80/443端口释放完毕！";
-                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                            Thread.Sleep(1000);
-
-                        }
-                    //}
-                    currentStatus = "符合安装要求,布署中......";
+                    currentStatus = "正在检测域名是否解析到当前VPS的IP上......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
 
-                    //在相应系统内安装curl(如果没有安装curl)
-                    //if (string.IsNullOrEmpty(client.RunCommand("command -v curl").Result) == true)
-                    //{
-                    //    //为假则表示系统有相应的组件。
-                    //    if (getApt == false)
-                    //    {
-                    //        client.RunCommand("apt-get -qq update");
-                    //        client.RunCommand("apt-get -y -qq install curl");
-                    //    }
-                    //    if (getYum == false)
-                    //    {
-                    //        client.RunCommand("yum -q makecache");
-                    //        client.RunCommand("yum -y -q install curl");
-                    //    }
-                    //    if (getZypper == false)
-                    //    {
-                    //        client.RunCommand("zypper ref");
-                    //        client.RunCommand("zypper -y install curl");
-                    //    }
-                    //}
 
+                    string nativeIp = client.RunCommand("curl -4 ip.sb").Result.ToString();
+                    //MessageBox.Show(nativeIp);
+                    string testDomainCmd = "ping " + ReceiveConfigurationParameters[4] + " -c 1 | grep -oE -m1 \"([0-9]{1,3}\\.){3}[0-9]{1,3}\"";
+                    //MessageBox.Show(testDomainCmd);
+                    string resultTestDomainCmd = client.RunCommand(testDomainCmd).Result.ToString();
+                    //MessageBox.Show(resultTestDomainCmd);
+                    if (String.Equals(nativeIp, resultTestDomainCmd) == true)
+                    {
+                        currentStatus = "解析正确！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                    }
+                    else
+                    {
+                        currentStatus = "域名未能正确解析到当前VPS的IP上!安装失败！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                        MessageBox.Show("域名未能正确解析到当前VPS的IP上，请检查！若解析设置正确，请等待生效后再重试安装。如果域名使用了CDN，请先关闭！");
+                        return;
+                    }
+
+                    currentStatus = "正在检测端口占用情况......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    if (String.IsNullOrEmpty(client.RunCommand(@"lsof -n -P -i :80 | grep LISTEN").Result) == false || String.IsNullOrEmpty(client.RunCommand(@"lsof -n -P -i :443 | grep LISTEN").Result) == false)
+                    {
+                        MessageBoxResult dialogResult = MessageBox.Show("80/443端口之一，或全部被占用，将强制停止占用80/443端口的程序?", "Stop application", MessageBoxButton.YesNo);
+                        if (dialogResult == MessageBoxResult.No)
+                        {
+                            currentStatus = "端口被占用，安装失败......";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            Thread.Sleep(1000);
+                            return;
+                        }
+
+                        currentStatus = "正在释放80/443端口......";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+
+                        string cmdTestPort = @"lsof -n -P -i :443 | grep LISTEN";
+                        string cmdResult = client.RunCommand(cmdTestPort).Result;
+                        //MessageBox.Show(cmdTestPort);
+                        if (String.IsNullOrEmpty(cmdResult) == false)
+                        {
+                            //MessageBox.Show(cmdResult);
+                            string[] cmdResultArry443 = cmdResult.Split(' ');
+                            //MessageBox.Show(cmdResultArry443[3]);
+                            client.RunCommand($"systemctl stop {cmdResultArry443[0]}");
+                            client.RunCommand($"systemctl disable {cmdResultArry443[0]}");
+                            client.RunCommand($"kill -9 {cmdResultArry443[3]}");
+                        }
+
+                        cmdTestPort = @"lsof -n -P -i :80 | grep LISTEN";
+                        cmdResult = client.RunCommand(cmdTestPort).Result;
+                        if (String.IsNullOrEmpty(cmdResult) == false)
+                        {
+                            string[] cmdResultArry80 = cmdResult.Split(' ');
+                            client.RunCommand($"systemctl stop {cmdResultArry80[0]}");
+                            client.RunCommand($"systemctl disable {cmdResultArry80[0]}");
+                            client.RunCommand($"kill -9 {cmdResultArry80[3]}");
+                        }
+                        currentStatus = "80/443端口释放完毕！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+
+                    }
+
+                    currentStatus = "符合安装要求,布署中......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
 
                     //下载安装脚本安装
 
@@ -2207,30 +2137,14 @@ namespace ProxySU
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         return;
                     }
-                    //client.RunCommand("mv /usr/local/etc/trojan/config.json /usr/local/etc/trojan/config.json.1");
+
 
                     //上传配置文件
                     currentStatus = "NaiveProxy程序安装完毕......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
 
-                    //生成服务端配置
-                    //using (StreamReader reader = File.OpenText(serverConfig))
-                    //{
-                    //    JObject serverJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
-                    //    //设置密码
-                    //    serverJson["password"][0] = ReceiveConfigurationParameters[2];
-                    //    //设置监听端口
-                    //    //serverJson["inbounds"][0]["port"] = int.Parse(ReceiveConfigurationParameters[1]);
 
-                    //    using (StreamWriter sw = new StreamWriter(@"config.json"))
-                    //    {
-                    //        sw.Write(serverJson.ToString());
-                    //    }
-                    //}
-                    //UploadConfig(connectionInfo, @"config.json", upLoadPath);
-
-                    //File.Delete(@"config.json");
 
                     //打开防火墙端口
                     string openFireWallPort = ReceiveConfigurationParameters[1];
@@ -2265,46 +2179,6 @@ namespace ProxySU
                         }
                     }
 
-
-
-                    //if (serverConfig.Contains("Naiveproxy") == true)
-                    //{
-                    //    currentStatus = "使用Trojan+TLS+Web模式，正在安装acme.sh......";
-                    //    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                    //    Thread.Sleep(1000);
-
-                    //    if (getApt == false)
-                    //    {
-                    //        //client.RunCommand("apt-get -qq update");
-                    //        client.RunCommand("apt-get -y -qq install socat");
-                    //    }
-                    //    if (getYum == false)
-                    //    {
-                    //        //client.RunCommand("yum -q makecache");
-                    //        client.RunCommand("yum -y -q install socat");
-                    //    }
-                    //    if (getZypper == false)
-                    //    {
-                    //        // client.RunCommand("zypper ref");
-                    //        client.RunCommand("zypper -y install socat");
-                    //    }
-                    //    client.RunCommand("curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh");
-                    //    client.RunCommand("cd ~/.acme.sh/");
-                    //    client.RunCommand("alias acme.sh=~/.acme.sh/acme.sh");
-
-                    //    currentStatus = "申请域名证书......";
-                    //    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                    //    Thread.Sleep(1000);
-
-                    //    //client.RunCommand("mkdir -p /etc/v2ray/ssl");
-                    //    client.RunCommand($"/root/.acme.sh/acme.sh  --issue  --standalone  -d {ReceiveConfigurationParameters[4]}");
-
-                    //    currentStatus = "安装证书到Trojan......";
-                    //    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                    //    Thread.Sleep(1000);
-                    //    client.RunCommand($"/root/.acme.sh/acme.sh  --installcert  -d {ReceiveConfigurationParameters[4]}  --certpath /usr/local/etc/trojan/trojan_ssl.crt --keypath /usr/local/etc/trojan/trojan_ssl.key  --capath  /usr/local/etc/trojan/trojan_ssl.crt  --reloadcmd  \"systemctl restart trojan\"");
-                    //}
-
                     currentStatus = "正在启动NaiveProxy......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
@@ -2315,60 +2189,50 @@ namespace ProxySU
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
 
-                    //安装Caddy
-                    //if (serverConfig.Contains("Naiveproxy") == true)
-                    //{
-                        currentStatus = "正在安装Caddy";
-                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                        Thread.Sleep(1000);
 
-                        client.RunCommand("curl https://getcaddy.com -o getcaddy");
-                        client.RunCommand("bash getcaddy personal hook.service http.forwardproxy");
-                        client.RunCommand("mkdir -p /etc/caddy");
-                        client.RunCommand("mkdir -p /var/www");
+                    currentStatus = "正在安装Caddy";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    client.RunCommand("curl https://getcaddy.com -o getcaddy");
+                    client.RunCommand("bash getcaddy personal hook.service http.forwardproxy");
+                    client.RunCommand("mkdir -p /etc/caddy");
+                    client.RunCommand("mkdir -p /var/www");
 
 
-                        currentStatus = "上传Caddy配置文件......";
-                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                        Thread.Sleep(1000);
+                    currentStatus = "上传Caddy配置文件......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
 
-                         
-                    //if (serverConfig.Contains("Naiveproxy") == true)
-                    //{
                     string caddyConfig = "TemplateConfg\\Naiveproxy_server_config.caddyfile";
-                        //}
+                    upLoadPath = "/etc/caddy/Caddyfile";
+                    UploadConfig(connectionInfo, caddyConfig, upLoadPath);
 
-                        upLoadPath = "/etc/caddy/Caddyfile";
-                        UploadConfig(connectionInfo, caddyConfig, upLoadPath);
+                    //设置Caddyfile文件中的tls 邮箱
 
-                        //设置Caddyfile文件中的tls 邮箱
-
-                        string email = $"user@{ReceiveConfigurationParameters[4]}";
-                        string sshCmd;
-                        //设置域名
-                        sshCmd = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/' {upLoadPath}";
+                    string email = $"user@{ReceiveConfigurationParameters[4]}";
+                    //设置域名
+                    string sshCmd = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/' {upLoadPath}";
+                    //MessageBox.Show(sshCmd);
+                    client.RunCommand(sshCmd);
+                    //设置用户名密码
+                    sshCmd = $"sed -i 's/##basicauth##/basicauth {ReceiveConfigurationParameters[3]} {ReceiveConfigurationParameters[2]}/' {upLoadPath}";
+                    //设置伪装网站
+                    if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7]) == false)
+                    {
+                        sshCmd = $"sed -i 's/##sites##/proxy \\/ {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
                         //MessageBox.Show(sshCmd);
                         client.RunCommand(sshCmd);
-                        //设置用户名密码
-                        sshCmd = $"sed -i 's/##basicauth##/basicauth {ReceiveConfigurationParameters[3]} {ReceiveConfigurationParameters[2]}/' {upLoadPath}";
-                        //设置伪装网站
-                        if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7]) == false)
-                        {
-                            sshCmd = $"sed -i 's/##sites##/proxy \\/ {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
-                            //MessageBox.Show(sshCmd);
-                            client.RunCommand(sshCmd);
-                        }
-                        Thread.Sleep(2000);
+                    }
+                    Thread.Sleep(2000);
 
-                        //安装Caddy服务
-                        sshCmd = $"caddy -service install -agree -conf /etc/caddy/Caddyfile -email {email}";
-                        //MessageBox.Show(sshCmd);
-                        client.RunCommand(sshCmd);
+                    //安装Caddy服务
+                    sshCmd = $"caddy -service install -agree -conf /etc/caddy/Caddyfile -email {email}";
+                    //MessageBox.Show(sshCmd);
+                    client.RunCommand(sshCmd);
 
-
-                        //启动Caddy服务
-                        client.RunCommand("caddy -service restart");
-                    //}
+                    //启动Caddy服务
+                    client.RunCommand("caddy -service restart");
 
                     //生成客户端配置
                     currentStatus = "生成客户端配置......";
@@ -2378,21 +2242,17 @@ namespace ProxySU
                     {
                         Directory.CreateDirectory("naive_config");//创建该文件夹　　   
                     }
-                    //string clientConfig = "TemplateConfg\\tcp_client_config.json";
+
                     using (StreamReader reader = File.OpenText(clientConfig))
                     {
                         JObject clientJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
 
                         clientJson["proxy"] = $"https://{ReceiveConfigurationParameters[3]}:{ReceiveConfigurationParameters[2]}@{ReceiveConfigurationParameters[4]}";
-                        //clientJson["remote_port"] = int.Parse(ReceiveConfigurationParameters[1]);
-                        //clientJson["password"][0] = ReceiveConfigurationParameters[2];
-
                         using (StreamWriter sw = new StreamWriter(@"naive_config\config.json"))
                         {
                             sw.Write(clientJson.ToString());
                         }
                     }
-
                     client.Disconnect();
 
                     currentStatus = "安装成功";
@@ -2403,7 +2263,6 @@ namespace ProxySU
                     //MessageBox.Show("用于Trojan官方客户端的配置文件已保存在config文件夹中");
                     NaiveProxyResultInfoWindow resultClientInformation = new NaiveProxyResultInfoWindow();
                     resultClientInformation.ShowDialog();
-
                     return;
                 }
             }
