@@ -55,9 +55,8 @@ V2ray and Trojan install tools for windows。V2ray和Trojan一键安装工具。
 
 ## 程序工作流程：  
 1. 使用[SSH.NET](https://github.com/sshnet/SSH.NET)登录远程主机  
-2.   
-* 选择V2ray，则调用V2ray官方安装脚本 `curl -o /tmp/go.sh https://install.direct/go.sh` `bash /tmp/go.sh -f` ，安装V2ray。  
-* 选择Trojan，则调用Trojan官方安装脚本 `curl -o /tmp/trojan-quickstart.sh https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh` `yes | bash /tmp/trojan-quickstart.sh` 安装Trojan。
+2. 选择V2ray，则调用V2ray官方安装脚本 `curl -o /tmp/go.sh https://install.direct/go.sh` `bash /tmp/go.sh -f` ，安装V2ray。  
+ 选择Trojan，则调用Trojan官方安装脚本 `curl -o /tmp/trojan-quickstart.sh https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh` `yes | bash /tmp/trojan-quickstart.sh` 安装Trojan。  
 3. 根据选择读取相应配置模板，调用[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)生成相应配置文件，并上传到服务器。  
 4. 如果使用WebSocket+TLS+Web/http2+TLS+Web/Trojan + TLS + Web模式，则调用Caddy官方安装脚本 `curl https://getcaddy.com -o getcaddy`   
 与 `bash getcaddy personal hook.service` ，安装Caddy。  
