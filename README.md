@@ -3,6 +3,9 @@ V2ray and Trojan install tools for windows。V2ray和Trojan一键安装工具。
 
 学习C#用来练手的小工具。代码写的很菜，大佬勿喷。编译环境Visual Studio 2017  使用WPF界面  
 
+NaiveProxy一键安装：  
+* NaiveProxy + TLS +Web
+
 Trojan 可一键安装的模式有：  
 * Trojan + TLS + Web
 
