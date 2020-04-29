@@ -4,7 +4,7 @@ V2ray and Trojan install tools for windows。V2ray和Trojan一键安装工具。
 学习C#用来练手的小工具。代码写的很菜，大佬勿喷。编译环境Visual Studio 2017  使用WPF界面  
 * 可一键安装V2ray、Trojan、NaiveProxy，后续还会再添加其他。
 
-### V2ray可一键安装的模式有：
+###### V2ray可一键安装的模式有：
 * tcp 
 * tcp+http伪装  
 * tcp+TLS 
@@ -20,10 +20,10 @@ V2ray and Trojan install tools for windows。V2ray和Trojan一键安装工具。
 * QUIC及各种伪装。  
 注：mKCP和QUIC模式使用udp协议，可以有效减少网络延时，有加速的作用，但在网络管控严厉时期，会导致IP被封，我遇到的一次，就是刚安装好，使用了3个小时后，IP被封。以上模式最推荐的是WebSocket+TLS+Web 和http2+TLS+Web 需要有一个域名。如果能加上CDN则稳定性更好。加上CDN后，是加速还是减速，与线路有关。
 
-### Trojan 可一键安装的模式有：  
+###### Trojan 可一键安装的模式有：  
 * Trojan + TLS + Web
 
-### NaiveProxy一键安装：  
+###### NaiveProxy一键安装：  
 * NaiveProxy + TLS +Web
 
 支持的VPS系统为：  
@@ -33,7 +33,7 @@ V2ray and Trojan install tools for windows。V2ray和Trojan一键安装工具。
 
 (注意：如果系统启用了SELinux且工作在Enforcing模式下时，需要将Enforcing更改为Permissive模式，否则使用WebSocket+TLS+Web时，Caddy的service无法开机启动，这种情形一般出现在Centos7/8中，程序在安装过程中将自动处理。)
 
-### V2ray模式目前已支持生成用于
+###### V2ray模式目前已支持生成用于
 
 * [v2ray官方程序](https://www.v2ray.com/chapter_00/install.html)配置文件(客户端配置)  
 * [v2rayN (windows)](https://github.com/2dust/v2rayN/releases)客户端导入二维码和网址  
@@ -42,14 +42,14 @@ V2ray and Trojan install tools for windows。V2ray和Trojan一键安装工具。
 
 （程序中只实现生成v2rayN的，但是Shadowrocket和v2rayNG都可以导入。）
 
-### Trojan模式目前已支持生成用于  
+###### Trojan模式目前已支持生成用于  
 
 * [Trojan官方程序](https://github.com/trojan-gfw/trojan)配置文件（客户端配置）  
 * [Trojan-QT5 (windows)](https://github.com/TheWanderingCoel/Trojan-Qt5/releases)导入二维码和网址  
 * [Shadowrocket (ios)](https://apps.apple.com/us/app/shadowrocket/id932747118)导入二维码和网址  
 * [igniter（Android）](https://github.com/trojan-gfw/igniter/releases)导入二维码和网址  
 
-### NaiveProxy只支持生成用于：
+###### NaiveProxy只支持生成用于：
 
 * [NaiveProxy官方客户端](https://github.com/klzgrad/naiveproxy)配置文件（客户端配置）
 
