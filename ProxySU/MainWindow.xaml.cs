@@ -2195,7 +2195,7 @@ namespace ProxySU
                     Thread.Sleep(1000);
 
                     client.RunCommand("curl https://getcaddy.com -o getcaddy");
-                    client.RunCommand("bash getcaddy personal hook.service http.forwardproxy");
+                    client.RunCommand("bash getcaddy personal hook.service,http.forwardproxy");
                     client.RunCommand("mkdir -p /etc/caddy");
                     client.RunCommand("mkdir -p /var/www");
 
@@ -2209,14 +2209,19 @@ namespace ProxySU
                     UploadConfig(connectionInfo, caddyConfig, upLoadPath);
 
                     //设置Caddyfile文件中的tls 邮箱
-
                     string email = $"user@{ReceiveConfigurationParameters[4]}";
+
                     //设置域名
                     string sshCmd = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/' {upLoadPath}";
+                    client.RunCommand(sshCmd);
                     //MessageBox.Show(sshCmd);
+
+                    //设置TLS邮箱
+                    sshCmd = $"sed -i 's/off/{email}/' {upLoadPath}";
                     client.RunCommand(sshCmd);
                     //设置用户名密码
                     sshCmd = $"sed -i 's/##basicauth##/basicauth {ReceiveConfigurationParameters[3]} {ReceiveConfigurationParameters[2]}/' {upLoadPath}";
+                    client.RunCommand(sshCmd);
                     //设置伪装网站
                     if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7]) == false)
                     {

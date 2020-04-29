@@ -31,6 +31,7 @@ namespace ProxySU
             TextBoxNaiveServerHost.Text = MainWindow.ReceiveConfigurationParameters[4];
             TextBoxNaiveUser.Text = MainWindow.ReceiveConfigurationParameters[3];
             TextBoxNaivePassword.Text= MainWindow.ReceiveConfigurationParameters[2];
+            GenerateV2rayShareQRcodeAndBase64Url();
         }
 
         private void GenerateV2rayShareQRcodeAndBase64Url()
@@ -57,7 +58,7 @@ namespace ProxySU
             //}
             //CreateQRCode(trojanUrl);
 
-            //移动Trojan官方程序配置文件到相应目录
+            //移动NaiveProxy官方程序配置文件到相应目录
             if (File.Exists(@"naive_config\config.json"))
             {
                 File.Move(@"naive_config\config.json", @"naive_config\" + saveFileFolder + @"\config.json");
@@ -69,7 +70,7 @@ namespace ProxySU
                 sw.WriteLine("config.json");
                 sw.WriteLine("此文件为NaiveProxy官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080");
                 sw.WriteLine("NaiveProxy官方网站：https://github.com/klzgrad/naiveproxy");
-                sw.WriteLine("Trojan官方程序下载地址：https://github.com/klzgrad/naiveproxy/releases");
+                sw.WriteLine("NaiveProxy官方程序下载地址：https://github.com/klzgrad/naiveproxy/releases");
                 sw.WriteLine("下载相应版本，Windows选择naiveproxy-x.xx-win.zip,解压后提取naive.exe。与config.json放在同一目录，运行naive.exe即可。");
                 sw.WriteLine("-----------------------------------------\n");
                 sw.WriteLine("其他平台的客户端，暂未发布");
