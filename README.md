@@ -65,14 +65,18 @@ V2ray, Trojan,NaiveProxy install tools for windows。V2ray，Trojan，NaiveProxy
 6. 安装成功后，使用[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)生成兼容于v2rayN的json文件，用C#内置的Base64库将json生成url链接，使用[QRcoder](https://github.com/codebude/QRCoder)生成二维码。
 
 * 注：V2ray安装及配置文件主要参考自：  
-[V2ray官网](https://www.v2ray.com)  
+[V2ray官网](https://www.v2ray.com "需加代理访问")  
 [白话文教程](https://toutyrater.github.io/)  
 [新白话文教程(社区版)](https://guide.v2fly.org/)
 
 * 注：Trojan安装及配置文件主要参考自：  
 [Trojan官方配置文档](https://trojan-gfw.github.io/trojan/config)  
 [Trojan官方安装说明](https://github.com/trojan-gfw/trojan/wiki/Binary-&-Package-Distributions)  
-[自建梯子教程-Trojan](https://trojan-tutor.github.io/2019/04/10/p41.html)
+[自建梯子教程-Trojan](https://trojan-tutor.github.io/2019/04/10/p41.html)  
+
+* 注：NaiveProxy安装及配置文件主要参考自：  
+[NaiveProxy官方说明](https://github.com/klzgrad/naiveproxy)  
+[美博园教程-自建最强科学上网4：NaiveProxy + Caddy](https://dafahao.com/naiveproxy-caddy.html "需加代理访问")
 
 ## License
 
