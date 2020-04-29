@@ -25,7 +25,7 @@ V2ray and Trojan install tools for windows。V2ray和Trojan一键安装工具。
 ##### NaiveProxy一键安装：  
 * NaiveProxy + TLS +Web
 
-支持的VPS系统为：  
+##### 支持的VPS系统为：  
 * CentOS 7/8   
 * Debian 8/9/10 (推荐)  
 * Ubuntu 16.04及以上
