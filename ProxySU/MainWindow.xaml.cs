@@ -422,7 +422,7 @@ namespace ProxySU
         private void StartSetUpV2ray(ConnectionInfo connectionInfo,TextBlock textBlockName, ProgressBar progressBar, string serverConfig,string clientConfig,string upLoadPath)
         {
             string currentStatus = "正在登录远程主机......";
-            Action<TextBlock, ProgressBar, string> updateAction = new Action<TextBlock, ProgressBar, string>(UpdateTextBlock);
+
             textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
 
             try
@@ -1071,7 +1071,8 @@ namespace ProxySU
         }
 
         //更新UI显示内容
-        private void UpdateTextBlock(TextBlock textBlockName, ProgressBar progressBar, string currentStatus)
+        Action<TextBlock, ProgressBar, string> updateAction = new Action<TextBlock, ProgressBar, string>(UpdateTextBlock);
+        private static void UpdateTextBlock(TextBlock textBlockName, ProgressBar progressBar, string currentStatus)
         {
             textBlockName.Text = currentStatus;
             //if (currentStatus.Contains("正在登录远程主机") == true)
@@ -1094,12 +1095,12 @@ namespace ProxySU
             //    //progressBar.Value = 100;
             //}
             //else 
-            if (currentStatus.Contains("安装成功") == true)
+            if (currentStatus.Contains("成功") == true)
             {
                 progressBar.IsIndeterminate = false;
                 progressBar.Value = 100;
             }
-            else if(currentStatus.Contains("失败") == true|| currentStatus.Contains("取消") == true)
+            else if(currentStatus.Contains("失败") == true || currentStatus.Contains("取消") == true || currentStatus.Contains("退出") == true)
             {
                 progressBar.IsIndeterminate = false;
                 progressBar.Value = 0;
@@ -1968,7 +1969,7 @@ namespace ProxySU
 
                     if (resultCmdTestTrojanInstalled.Contains("/usr/local/bin/naive") == true)
                     {
-                        MessageBoxResult messageBoxResult = MessageBox.Show("远程主机已安装Trojan,是否强制重新安装？", "", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        MessageBoxResult messageBoxResult = MessageBox.Show("远程主机已安装NaiveProxy,是否强制重新安装？", "", MessageBoxButton.YesNo, MessageBoxImage.Question);
                         if (messageBoxResult == MessageBoxResult.No)
                         {
                             currentStatus = "安装取消，退出";
@@ -2308,8 +2309,219 @@ namespace ProxySU
             #endregion
 
         }
-  
+        
+        //启用BBR
+        private void ButtonTestAndEnableBBR_Click(object sender, RoutedEventArgs e)
+        {
+            ConnectionInfo connectionInfo = GenerateConnectionInfo();
+            if (connectionInfo == null)
+            {
+                MessageBox.Show("远程主机连接信息有误，请检查");
+                return;
+            }
+            //string serverConfig = "";  //服务端配置文件
+            //string clientConfig = "";   //生成的客户端配置文件
+            //string upLoadPath = "/usr/local/etc/trojan/config.json"; //服务端文件位置
+            //if (String.IsNullOrEmpty(ReceiveConfigurationParameters[4]) == true)
+            //{
+            //    ReceiveConfigurationParameters[4] = TextBoxHost.Text.ToString();
+            //}
+            //if (String.IsNullOrEmpty(ReceiveConfigurationParameters[0]) == true)
+            //{
+            //    MessageBox.Show("请先选择配置模板！");
+            //    return;
+            //}
+            //else if (String.Equals(ReceiveConfigurationParameters[0], "TrojanTLS2Web"))
+            //{
+            //    serverConfig = "TemplateConfg\\trojan_server_config.json";
+            //    clientConfig = "TemplateConfg\\trojan_client_config.json";
+            //}
+            Thread thread = new Thread(() => StartTestAndEnableBBR(connectionInfo, TextBlockSetUpProcessing, ProgressBarSetUpProcessing));
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+        }
 
+        //启用BBR的主要进程
+        private void StartTestAndEnableBBR(ConnectionInfo connectionInfo, TextBlock textBlockName, ProgressBar progressBar)
+        {
+            string currentStatus = "正在登录远程主机......";
+            Action<TextBlock, ProgressBar, string> updateAction = new Action<TextBlock, ProgressBar, string>(UpdateTextBlock);
+            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+
+            try
+            {
+                #region 主机指纹，暂未启用
+                //byte[] expectedFingerPrint = new byte[] {
+                //                                0x66, 0x31, 0xaf, 0x00, 0x54, 0xb9, 0x87, 0x31,
+                //                                0xff, 0x58, 0x1c, 0x31, 0xb1, 0xa2, 0x4c, 0x6b
+                //                            };
+                #endregion
+                using (var client = new SshClient(connectionInfo))
+
+                {
+                    #region ssh登录验证主机指纹代码块，暂未启用
+                    //    client.HostKeyReceived += (sender, e) =>
+                    //    {
+                    //        if (expectedFingerPrint.Length == e.FingerPrint.Length)
+                    //        {
+                    //            for (var i = 0; i < expectedFingerPrint.Length; i++)
+                    //            {
+                    //                if (expectedFingerPrint[i] != e.FingerPrint[i])
+                    //                {
+                    //                    e.CanTrust = false;
+                    //                    break;
+                    //                }
+                    //            }
+                    //        }
+                    //        else
+                    //        {
+                    //            e.CanTrust = false;
+                    //        }
+                    //    };
+                    #endregion
+
+                    client.Connect();
+                    if (client.IsConnected == true)
+                    {
+                        currentStatus = "主机登录成功";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                    }
+                    //检测远程主机系统环境是否符合要求
+                    currentStatus = "检测系统内核版本是否符合要求......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    var result = client.RunCommand("uname -r");
+                    //var result = client.RunCommand("cat /root/test.ver");
+                    string[] linuxKernelVerStr = result.Result.Split('-');
+
+                    bool detectResult = DetectKernelVersionBBR(linuxKernelVerStr[0]);
+                    if (detectResult == false)
+                    {
+                        MessageBox.Show($"当前系统内核版本为{linuxKernelVerStr[0]}，启用BBR要求内核为4.9及以上。请升级内核再安装！或更换系统为CentOS8/Debian9/10/Ubuntu18.04及以上");
+                        currentStatus = "系统内核版本不符合要求，安装失败！！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                        client.Disconnect();
+                        return;
+                    }
+                    //检测是否安装有NaiveProxy
+                    currentStatus = "检测系统是否已经启用BBR......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    string resultCmdTestBBR = client.RunCommand(@"sysctl net.ipv4.tcp_congestion_control | grep bbr").Result;
+
+                    if (resultCmdTestBBR.Contains("bbr") == true)
+                    {
+                        MessageBoxResult messageBoxResult = MessageBox.Show("远程主机已启用BBR!");
+
+                        currentStatus = "远程主机已启用BBR！退出！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                        client.Disconnect();
+                        return;
+                    }
+                     
+                    currentStatus = "内核符合要求,启用中......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    //启用BBR
+
+                    client.RunCommand(@"echo ""net.core.default_qdisc = fq"" >> /etc/sysctl.conf");
+                    client.RunCommand(@"echo ""net.ipv4.tcp_congestion_control = bbr"" >> /etc/sysctl.conf");
+                    client.RunCommand(@"sysctl -p");
+
+                    resultCmdTestBBR = client.RunCommand(@"sysctl net.ipv4.tcp_congestion_control | grep bbr").Result;
+                    //resultCmdTestBBR = client.RunCommand(@"sysctl -n net.ipv4.tcp_congestion_control").Result;
+                    if (resultCmdTestBBR.Contains("bbr") == true)
+                    {
+                        MessageBoxResult messageBoxResult = MessageBox.Show("远程主机已成功启用BBR!");
+
+                        currentStatus = "远程主机已启用BBR！成功！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                     }
+                    else
+                    {
+                        MessageBoxResult messageBoxResult = MessageBox.Show("BBR启用失败!原因未知，请重试或更换系统为CentOS8/Debian9/10/Ubuntu18.04及以上");
+
+                        currentStatus = "BBR启用失败！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                     
+                    }
+
+                    client.Disconnect();
+                    return;
+                }
+            }
+            catch (Exception ex1)//例外处理   
+            #region 例外处理
+            {
+                //MessageBox.Show(ex1.Message);
+                if (ex1.Message.Contains("连接尝试失败") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n请检查主机地址及端口是否正确，如果通过代理，请检查代理是否正常工作");
+                }
+
+                else if (ex1.Message.Contains("denied (password)") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n密码错误或用户名错误");
+                }
+                else if (ex1.Message.Contains("Invalid private key file") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n所选密钥文件错误或者格式不对");
+                }
+                else if (ex1.Message.Contains("denied (publickey)") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n使用密钥登录，密钥文件错误或用户名错误");
+                }
+                else if (ex1.Message.Contains("目标计算机积极拒绝") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n主机地址错误，如果使用了代理，也可能是连接代理的端口错误");
+                }
+                else
+                {
+                    MessageBox.Show("发生错误");
+                    MessageBox.Show(ex1.Message);
+                }
+                currentStatus = "主机登录失败";
+                textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+
+            }
+            #endregion
+
+        }
+        //检测要启用BBR主要的内核版本
+        private static bool DetectKernelVersionBBR(string kernelVer)
+        {
+            string[] linuxKernelCompared = kernelVer.Split('.');
+            if (int.Parse(linuxKernelCompared[0]) > 4)
+            {
+                return true;
+            }
+            else if (int.Parse(linuxKernelCompared[0]) < 4)
+            {
+                return false;
+            }
+            else if (int.Parse(linuxKernelCompared[0]) == 4)
+            {
+                if (int.Parse(linuxKernelCompared[1]) >= 9)
+                {
+                    return true;
+                }
+                else if (int.Parse(linuxKernelCompared[1]) < 9)
+                {
+                   return false;
+                }
+               
+            }
+            return false;
+
+        }
         //private void ButtonTestTrojanClientInfoWin_Click(object sender, RoutedEventArgs e)
         //{
         //    //TrojanResultClientInfoWindow resultClientInformation = new TrojanResultClientInfoWindow();
