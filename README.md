@@ -1,5 +1,5 @@
 # ProxySU
-V2ray, Trojan,NaiveProxy install tools for windows。V2ray，Trojan，NaiveProxy一键安装工具。
+V2ray, Trojan,NaiveProxy,BBR install tools for windows。V2ray，Trojan，NaiveProxy一键安装工具。BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）
 
 编译环境Visual Studio 2017  使用WPF界面。可一键安装V2ray、Trojan、NaiveProxy，后续还会再添加其他。
 
