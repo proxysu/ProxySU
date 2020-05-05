@@ -62,8 +62,8 @@ V2ray, Trojan,NaiveProxy,BBR install tools for windows。V2ray，Trojan，NaiveP
 3. 根据选择读取相应配置模板，调用[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)生成相应配置文件，并上传到服务器。  
 4. 如果使用WebSocket + TLS + Web/http2 + TLS + Web/Trojan + TLS + Web/NaiveProxy + TLS + Web模式，则调用Caddy官方安装脚本 `curl https://getcaddy.com -o getcaddy`   
 与 `bash getcaddy personal hook.service` 、或`bash getcaddy personal hook.service,http.forwardproxy` 安装 Caddy。  
-5. 如果使用Http2/tcp+TLS/WebSocket+TLS模式，则调用  `curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh` 安装acme.sh，使用acme.sh申请并安装证书到V2ray.  
-6. 安装成功后，使用[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)生成兼容于v2rayN的json文件，用C#内置的Base64库将json生成url链接，使用[QRcoder](https://github.com/codebude/QRCoder)生成二维码。
+5. 如果使用Http2/tcp+TLS/WebSocket+TLS/Trojan+TLS+Web模式，则调用  `curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh` 安装acme.sh，使用acme.sh申请并安装证书到V2ray/Trojan.  
+6. 安装成功后，使用[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)生成兼容于相应客户端的json文件，用C#内置的Base64库将json生成url链接，使用[QRcoder](https://github.com/codebude/QRCoder)生成二维码。
 
 * 注：V2ray安装及配置文件主要参考自：  
 [V2ray官网](https://www.v2ray.com "需加代理访问")  
@@ -99,7 +99,7 @@ Microsoft [.NET Framework 4.0](https://dotnet.microsoft.com/download/dotnet-fram
 [QRcoder --------------- https://github.com/codebude/QRCoder](https://github.com/codebude/QRCoder)
 
 ## 程序安全  
-为了布署方便，程序使用root账户登录主机，出于慎重，请不要在运行重要程序及用于生产的主机上使用。程序所有源码开源，所使用的库都是github开源项目，可以保障最大的使用安全，程序不夹带任何私货及后门，不是在本项目地址下载的，不做任何保障，请尽可能从本项目地址下载。
+为了布署方便，程序使用root账户登录主机，出于慎重，请不要在运行重要程序及用于生产的主机上使用。程序所有源码开源，所使用的库都是github开源项目，可以保障最大的使用安全，程序不夹带任何私货、恶意代码及后门，也不会收集任何个人资料，不是在本项目地址下载的，不做任何保障，请尽可能从本项目地址下载。
 
 ## 程序使用问题反馈  
 * Telegram群组 https://t.me/proxysuissues  
