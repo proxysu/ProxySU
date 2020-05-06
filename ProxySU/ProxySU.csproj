@@ -174,9 +174,15 @@
     <PostBuildEvent>del "$(TargetDir)*.xml"
 del "$(TargetDir)*.pdb"
 del "$(TargetDir)*.zip"
-rmdir /s/q "$(TargetDir)\naive_config"
-rmdir /s/q "$(TargetDir)\trojan_config"
-rmdir /s/q "$(TargetDir)\v2ray_config"
-"D:\Program Files\7-Zip\7z.exe" a $(TargetDir)Release.zip $(TargetDir) -xr!*config</PostBuildEvent>
+rmdir /s/q "$(TargetDir)naive_config"
+rmdir /s/q "$(TargetDir)trojan_config"
+rmdir /s/q "$(TargetDir)v2ray_config"
+del /F /S /Q "$(TargetDir)TemplateConfg"
+mkdir "$(TargetDir)TemplateConfg"
+copy /Y "$(TargetDir)..\..\..\TemplateConfg\*.*" "$(TargetDir)TemplateConfg\"
+"$(TargetDir)..\..\..\7z\7z.exe" a $(TargetDir)Release.zip $(TargetDir) -xr!*config
+mkdir "$(TargetDir)..\lasteRelease"
+del "$(TargetDir)..\lasteRelease\*.*"
+copy /Y "$(TargetDir)Release.zip" "$(TargetDir)..\lasteRelease\Release.zip"</PostBuildEvent>
   </PropertyGroup>
 </Project>
