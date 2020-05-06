@@ -15,9 +15,9 @@
 [Dd]ebugPublic/
 # [Rr]elease/
 [Rr]eleases/
-naive_config/
-trojan_config/
-v2ray_config/
+[Rr]elease/naive_config/*.*
+[Rr]elease/trojan_config/*.*
+[Rr]elease/v2ray_config/
 x64/
 x86/
 build/
