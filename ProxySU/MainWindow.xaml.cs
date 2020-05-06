@@ -492,9 +492,9 @@ namespace ProxySU
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
 
-                    var result = client.RunCommand("uname -r");
-                    //var result = client.RunCommand("cat /root/test.ver");
-                    string[] linuxKernelVerStr= result.Result.Split('-');
+                    string result = client.RunCommand("uname -r").Result;
+
+                    string[] linuxKernelVerStr= result.Split('-');
 
                     bool detectResult = DetectKernelVersion(linuxKernelVerStr[0]);
                     if (detectResult == false)
@@ -923,6 +923,20 @@ namespace ProxySU
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
 
+                    //测试BBR条件，若满足提示是否启用
+                    result = client.RunCommand("uname -r").Result;
+                    //var result = client.RunCommand("cat /root/test.ver");
+                    linuxKernelVerStr = result.Split('-');
+
+                    detectResult = DetectKernelVersionBBR(linuxKernelVerStr[0]);
+                    string resultCmdTestBBR = client.RunCommand(@"sysctl net.ipv4.tcp_congestion_control | grep bbr").Result;
+                    //如果内核满足大于等于4.9，且还未启用BBR，则启用BBR
+                    if (detectResult == true && resultCmdTestBBR.Contains("bbr") == false)
+                    {
+                        client.RunCommand(@"bash - c 'echo ""net.core.default_qdisc = fq"" >> /etc/sysctl.conf'");
+                        client.RunCommand(@"bash - c 'echo ""net.ipv4.tcp_congestion_control = bbr"" >> /etc/sysctl.conf'");
+                        client.RunCommand(@"sysctl -p");
+                    }
 
                     //生成客户端配置
                     currentStatus = "生成客户端配置......";
@@ -1762,6 +1776,21 @@ namespace ProxySU
                         client.RunCommand("caddy -service restart");
                     }
 
+                    //测试BBR条件，若满足提示是否启用
+                    var result = client.RunCommand("uname -r");
+                    //var result = client.RunCommand("cat /root/test.ver");
+                    string[] linuxKernelVerStr = result.Result.Split('-');
+
+                    bool detectResult = DetectKernelVersionBBR(linuxKernelVerStr[0]);
+                    string resultCmdTestBBR = client.RunCommand(@"sysctl net.ipv4.tcp_congestion_control | grep bbr").Result;
+                    //如果内核满足大于等于4.9，且还未启用BBR，则启用BBR
+                    if (detectResult == true && resultCmdTestBBR.Contains("bbr") == false)
+                    {
+                        client.RunCommand(@"bash - c 'echo ""net.core.default_qdisc = fq"" >> /etc/sysctl.conf'");
+                        client.RunCommand(@"bash - c 'echo ""net.ipv4.tcp_congestion_control = bbr"" >> /etc/sysctl.conf'");
+                        client.RunCommand(@"sysctl -p");
+                    }
+
                     //生成客户端配置
                     currentStatus = "生成客户端配置......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -2240,8 +2269,63 @@ namespace ProxySU
                     //启动Caddy服务
                     client.RunCommand("caddy -service restart");
 
-                    //生成客户端配置
-                    currentStatus = "生成客户端配置......";
+                    //优化网络参数
+                    sshCmd= @"bash - c 'echo ""fs.file-max = 51200"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.core.rmem_max = 67108864"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.core.wmem_max = 67108864"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.core.rmem_default = 65536"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.core.wmem_default = 65536"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.core.netdev_max_backlog = 4096"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.core.somaxconn = 4096"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_syncookies = 1"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_tw_reuse = 1"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_tw_recycle = 0"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_fin_timeout = 30"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_keepalive_time = 1200"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.ipv4.ip_local_port_range = 10000 65000"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_max_syn_backlog = 4096"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_max_tw_buckets = 5000"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_rmem = 4096 87380 67108864"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_wmem = 4096 65536 67108864"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_mtu_probing = 1"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"sysctl -p";
+                    client.RunCommand(sshCmd);
+
+                    //测试BBR条件，若满足提示是否启用
+                    var result = client.RunCommand("uname -r");
+                    //var result = client.RunCommand("cat /root/test.ver");
+                    string[] linuxKernelVerStr = result.Result.Split('-');
+
+                    bool detectResult = DetectKernelVersionBBR(linuxKernelVerStr[0]);
+                    string resultCmdTestBBR = client.RunCommand(@"sysctl net.ipv4.tcp_congestion_control | grep bbr").Result;
+                    //如果内核满足大于等于4.9，且还未启用BBR，则启用BBR
+                    if (detectResult == true && resultCmdTestBBR.Contains("bbr") == false)
+                    {
+                        client.RunCommand(@"bash - c 'echo ""net.core.default_qdisc = fq"" >> /etc/sysctl.conf'");
+                        client.RunCommand(@"bash - c 'echo ""net.ipv4.tcp_congestion_control = bbr"" >> /etc/sysctl.conf'");
+                        client.RunCommand(@"sysctl -p");
+                    }
+
+                        //生成客户端配置
+                        currentStatus = "生成客户端配置......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
                     if (!Directory.Exists("naive_config"))//如果不存在就创建file文件夹　　             　　              
@@ -2319,23 +2403,7 @@ namespace ProxySU
                 MessageBox.Show("远程主机连接信息有误，请检查");
                 return;
             }
-            //string serverConfig = "";  //服务端配置文件
-            //string clientConfig = "";   //生成的客户端配置文件
-            //string upLoadPath = "/usr/local/etc/trojan/config.json"; //服务端文件位置
-            //if (String.IsNullOrEmpty(ReceiveConfigurationParameters[4]) == true)
-            //{
-            //    ReceiveConfigurationParameters[4] = TextBoxHost.Text.ToString();
-            //}
-            //if (String.IsNullOrEmpty(ReceiveConfigurationParameters[0]) == true)
-            //{
-            //    MessageBox.Show("请先选择配置模板！");
-            //    return;
-            //}
-            //else if (String.Equals(ReceiveConfigurationParameters[0], "TrojanTLS2Web"))
-            //{
-            //    serverConfig = "TemplateConfg\\trojan_server_config.json";
-            //    clientConfig = "TemplateConfg\\trojan_client_config.json";
-            //}
+ 
             Thread thread = new Thread(() => StartTestAndEnableBBR(connectionInfo, TextBlockSetUpProcessing, ProgressBarSetUpProcessing));
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
@@ -2430,8 +2498,8 @@ namespace ProxySU
 
                     //启用BBR
 
-                    client.RunCommand(@"echo ""net.core.default_qdisc = fq"" >> /etc/sysctl.conf");
-                    client.RunCommand(@"echo ""net.ipv4.tcp_congestion_control = bbr"" >> /etc/sysctl.conf");
+                    client.RunCommand(@"bash - c 'echo ""net.core.default_qdisc = fq"" >> /etc/sysctl.conf'");
+                    client.RunCommand(@"bash - c 'echo ""net.ipv4.tcp_congestion_control = bbr"" >> /etc/sysctl.conf'");
                     client.RunCommand(@"sysctl -p");
 
                     resultCmdTestBBR = client.RunCommand(@"sysctl net.ipv4.tcp_congestion_control | grep bbr").Result;

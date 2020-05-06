@@ -284,11 +284,43 @@
                     <WebBrowser x:Name="WebBrowserResourcesAndTools" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="9" Grid.RowSpan="13" Source="https://github.com/proxysu/windows/wiki/ResourcesAndTools" />
                 </Grid>
             </TabItem>
-            <!--<TabItem Header="关于" Width="110" Height="30">
+            <TabItem Header="关于" Width="110" Height="30">
                 <Grid>
-                    
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.3*"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.3*"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="程序版本：1.5.1" Grid.Column="0" Grid.Row="0"></TextBlock>
+                        
+                    </Grid>
+                   
                 </Grid>
-            </TabItem>-->
+            </TabItem>
+            
         </TabControl>
     </Grid>
 </Window>
