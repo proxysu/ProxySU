@@ -174,6 +174,9 @@
     <PostBuildEvent>del "$(TargetDir)*.xml"
 del "$(TargetDir)*.pdb"
 del "$(TargetDir)*.zip"
+rmdir /s/q "$(TargetDir)\naive_config"
+rmdir /s/q "$(TargetDir)\trojan_config"
+rmdir /s/q "$(TargetDir)\v2ray_config"
 "D:\Program Files\7-Zip\7z.exe" a $(TargetDir)Release.zip $(TargetDir) -xr!*config</PostBuildEvent>
   </PropertyGroup>
 </Project>

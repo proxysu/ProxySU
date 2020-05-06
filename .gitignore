@@ -13,11 +13,8 @@
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
-# [Rr]elease/
+[Rr]elease/
 [Rr]eleases/
-[Rr]elease/naive_config/*.*
-[Rr]elease/trojan_config/*.*
-[Rr]elease/v2ray_config/
 x64/
 x86/
 build/
