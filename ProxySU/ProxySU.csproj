@@ -181,8 +181,8 @@ del /F /S /Q "$(TargetDir)TemplateConfg"
 mkdir "$(TargetDir)TemplateConfg"
 copy /Y "$(TargetDir)..\..\..\TemplateConfg\*.*" "$(TargetDir)TemplateConfg\"
 "$(TargetDir)..\..\..\7z\7z.exe" a $(TargetDir)Release.zip $(TargetDir) -xr!*config
-mkdir "$(TargetDir)..\Bete"
-del "$(TargetDir)..\Bete\*.*"
-copy /Y "$(TargetDir)Release.zip" "$(TargetDir)..\Bete\Bete.zip"</PostBuildEvent>
+mkdir "$(TargetDir)..\Beta"
+del "$(TargetDir)..\Beta\*.*"
+copy /Y "$(TargetDir)Release.zip" "$(TargetDir)..\Beta\Beta.zip"</PostBuildEvent>
   </PropertyGroup>
 </Project>
