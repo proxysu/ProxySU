@@ -84,8 +84,8 @@ V2ray, Trojan,NaiveProxy,BBR install tools for windows。V2ray，Trojan，NaiveP
 [(GPL-V3)](https://raw.githubusercontent.com/proxysu/windows/master/LICENSE)
 
 ## 运行文件下载
-* Bete版(随代码更新，新添加功能可能有bug或不完善)  
-[下载](https://github.com/proxysu/windows/raw/master/ProxySU/bin/lasteRelease/Release.zip)
+* Beta版(随代码更新，新添加功能可能有bug或不完善)  
+[下载](https://github.com/proxysu/windows/raw/master/ProxySU/bin/Beta/Beta.zip)
 * 正式版（正式发布的版本，新功能完善后发布）  
 [下载](https://github.com/proxysu/windows/releases)
 
