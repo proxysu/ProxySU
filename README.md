@@ -59,7 +59,7 @@ V2ray, Trojan,NaiveProxy,BBR install tools for windows。V2ray，Trojan，NaiveP
   * 选择V2ray，则调用V2ray官方安装脚本 `curl -o /tmp/go.sh https://install.direct/go.sh` `bash /tmp/go.sh -f` ，安装V2ray。  
   * 选择Trojan，则调用Trojan官方安装脚本 `curl -o /tmp/trojan-quickstart.sh https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh` `yes | bash /tmp/trojan-quickstart.sh` 安装Trojan。  
   * 选择NaiveProxy，则调用本项目内的naive-quickstart.sh安装，`curl -o /tmp/naive-quickstart.sh https://raw.githubusercontent.com/proxysu/shellscript/master/naive-quickstart.sh` `yes | bash /tmp/naive-quickstart.sh` 安装NaiveProxy。
-3. 根据选择读取相应配置模板，调用[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)生成相应配置文件，并上传到服务器。  
+3. 根据选择读取相应配置模板，调用[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)生成相应配置文件，并上传到服务器。所有模板及配置文件 [在这里](https://github.com/proxysu/windows/tree/master/TemplateConfg)  
 4. 如果使用WebSocket + TLS + Web/http2 + TLS + Web/Trojan + TLS + Web/NaiveProxy + TLS + Web模式，则调用Caddy官方安装脚本 `curl https://getcaddy.com -o getcaddy`   
 与 `bash getcaddy personal hook.service` 、或`bash getcaddy personal hook.service,http.forwardproxy` 安装 Caddy。  
 5. 如果使用Http2/tcp+TLS/WebSocket+TLS/Trojan+TLS+Web模式，则调用  `curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh` 安装acme.sh，使用acme.sh申请并安装证书到V2ray/Trojan.  
