@@ -2177,7 +2177,7 @@ namespace ProxySU
 
 
                     //打开防火墙端口
-                    string openFireWallPort = ReceiveConfigurationParameters[1];
+                    string openFireWallPort = "443";//ReceiveConfigurationParameters[1];
                     if (String.IsNullOrEmpty(client.RunCommand("command -v firewall-cmd").Result) == false)
                     {
                         if (String.Equals(openFireWallPort, "443"))
