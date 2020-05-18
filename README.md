@@ -47,6 +47,7 @@ V2ray, Trojan,NaiveProxy,BBR install tools for windows。V2ray，Trojan，NaiveP
 * [Trojan-QT5 (windows)](https://github.com/TheWanderingCoel/Trojan-Qt5/releases)导入二维码和网址  
 * [Shadowrocket (ios)](https://apps.apple.com/us/app/shadowrocket/id932747118)导入二维码和网址  
 * [igniter（Android）](https://github.com/trojan-gfw/igniter/releases)导入二维码和网址  
+注：Trojan官方的Windows客户端，需要安装 [vc_redist.x64.exe](https://aka.ms/vs/16/release/vc_redist.x64.exe)。[官方说明](https://github.com/trojan-gfw/trojan/wiki/Binary-&-Package-Distributions#windows-vista)  
 
 ###### NaiveProxy只支持生成用于：
 
