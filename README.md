@@ -27,7 +27,7 @@ V2ray, Trojan,NaiveProxy,BBR install tools for windows。V2ray，Trojan，NaiveP
 
 ##### 支持的VPS系统为：  
 * CentOS 7/8   
-* Debian 8/9/10 (推荐)  
+* Debian 8/9/10 (推荐 9)  
 * Ubuntu 16.04及以上
 
 (注意：如果系统启用了SELinux且工作在Enforcing模式下时，需要将Enforcing更改为Permissive模式，否则使用WebSocket+TLS+Web时，Caddy的service无法开机启动，这种情形一般出现在Centos7/8中，程序在安装过程中将自动处理。)
