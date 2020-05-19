@@ -47,15 +47,15 @@ namespace ProxySU
                 num++;
             }
             CheckDir(@"naive_config\" + saveFileFolder);
-            //string trojanUrl = $"trojan://{TextBoxTrojanServerPassword.Text}@{TextBoxTrojanServerHost.Text}:{TextBoxTrojanServerPort.Text}#{TextBoxTrojanServerHost.Text}";
+            string naiveUrl = $"https://{TextBoxNaiveUser.Text}:{TextBoxNaivePassword.Text}@{TextBoxNaiveServerHost.Text}:443/?name={TextBoxNaiveServerHost.Text}&padding=true";
             //MessageBox.Show(v2rayNjsonObject.ToString());
             //string trojanUrl = "trojan://" + ToBase64Encode(v2rayNjsonObject.ToString());
-            //TextBoxTrojanUrl.Text = trojanUrl;
-            //using (StreamWriter sw = new StreamWriter($"trojan_config\\{saveFileFolder}\\url.txt"))
-            //{
-            //    sw.WriteLine(trojanUrl);
+            TextBoxNaiveGUIurl.Text = naiveUrl;
+            using (StreamWriter sw = new StreamWriter($"naive_config\\{saveFileFolder}\\url.txt"))
+            {
+                sw.WriteLine(naiveUrl);
 
-            //}
+            }
             //CreateQRCode(trojanUrl);
 
             //移动NaiveProxy官方程序配置文件到相应目录
@@ -73,7 +73,7 @@ namespace ProxySU
                 sw.WriteLine("NaiveProxy官方程序下载地址：https://github.com/klzgrad/naiveproxy/releases");
                 sw.WriteLine("下载相应版本，Windows选择naiveproxy-x.xx-win.zip,解压后提取naive.exe。与config.json放在同一目录，运行naive.exe即可。");
                 sw.WriteLine("-----------------------------------------\n");
-                sw.WriteLine("其他平台的客户端，暂未发布");
+                //sw.WriteLine("其他平台的客户端，暂未发布");
                 //sw.WriteLine("QR.bmp");
                 //sw.WriteLine("此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)扫码导入节点");
                 //sw.WriteLine("Trojan-QT5 (windows)下载网址：https://github.com/TheWanderingCoel/Trojan-Qt5/releases");
@@ -81,9 +81,11 @@ namespace ProxySU
                 //sw.WriteLine("Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。");
 
                 //sw.WriteLine("-----------------------------------------\n");
-                //sw.WriteLine("url.txt");
-                //sw.WriteLine("此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)复制粘贴导入节点的网址");
-                //sw.WriteLine("-----------------------------------------\n");
+                sw.WriteLine("url.txt");
+                sw.WriteLine("此文件为NaiveGUI(windows)复制粘贴导入节点的网址");
+                sw.WriteLine("NaiveGUI(windows)下载网址：https://github.com/ExcitedCodes/NaiveGUI/releases");
+
+                sw.WriteLine("-----------------------------------------\n");
                 sw.WriteLine("服务器通用连接配置参数");
                 sw.WriteLine($"地址(address)：{TextBoxNaiveServerHost.Text}");
                 sw.WriteLine($"用户名：{TextBoxNaiveUser.Text}");
