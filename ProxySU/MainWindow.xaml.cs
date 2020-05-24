@@ -2590,6 +2590,181 @@ namespace ProxySU
             return false;
 
         }
+        //检测升级远程主机端的V2Ray版本
+        private void ButtonUpdateV2ray_Click(object sender, RoutedEventArgs e)
+        {
+            ConnectionInfo connectionInfo = GenerateConnectionInfo();
+            if (connectionInfo == null)
+            {
+                MessageBox.Show("远程主机连接信息有误，请检查");
+                return;
+            }
+
+            Thread thread = new Thread(() => UpdateV2ray(connectionInfo, TextBlockSetUpProcessing, ProgressBarSetUpProcessing));
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+        }
+
+        private void UpdateV2ray(ConnectionInfo connectionInfo, TextBlock textBlockName, ProgressBar progressBar)
+        {
+            string currentStatus = "正在登录远程主机......";
+            Action<TextBlock, ProgressBar, string> updateAction = new Action<TextBlock, ProgressBar, string>(UpdateTextBlock);
+            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+
+            try
+            {
+                #region 主机指纹，暂未启用
+                //byte[] expectedFingerPrint = new byte[] {
+                //                                0x66, 0x31, 0xaf, 0x00, 0x54, 0xb9, 0x87, 0x31,
+                //                                0xff, 0x58, 0x1c, 0x31, 0xb1, 0xa2, 0x4c, 0x6b
+                //                            };
+                #endregion
+                using (var client = new SshClient(connectionInfo))
+
+                {
+                    #region ssh登录验证主机指纹代码块，暂未启用
+                    //    client.HostKeyReceived += (sender, e) =>
+                    //    {
+                    //        if (expectedFingerPrint.Length == e.FingerPrint.Length)
+                    //        {
+                    //            for (var i = 0; i < expectedFingerPrint.Length; i++)
+                    //            {
+                    //                if (expectedFingerPrint[i] != e.FingerPrint[i])
+                    //                {
+                    //                    e.CanTrust = false;
+                    //                    break;
+                    //                }
+                    //            }
+                    //        }
+                    //        else
+                    //        {
+                    //            e.CanTrust = false;
+                    //        }
+                    //    };
+                    #endregion
+
+                    client.Connect();
+                    if (client.IsConnected == true)
+                    {
+                        currentStatus = "主机登录成功";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                    }
+                    //检测远程主机V2ray版本
+                    currentStatus = "检测远程主机V2ray版本......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    string cmdTestV2rayInstalled = @"find / -name v2ray";
+                    //MessageBox.Show(cmdTestV2rayInstalled);
+                    string resultCmdTestV2rayInstalled = client.RunCommand(cmdTestV2rayInstalled).Result;
+                    //client.Disconnect();
+                    //MessageBox.Show(resultCmdTestV2rayInstalled);
+                    if (resultCmdTestV2rayInstalled.Contains("/usr/bin/v2ray") == false)
+                    {
+                        MessageBoxResult messageBoxResult = MessageBox.Show("远程主机未安装V2ray！");
+
+                        currentStatus = "未安装V2ray，退出";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                        return;
+
+                    }
+                    string sshcmd;
+                    sshcmd = @"/usr/bin/v2ray/v2ray -version | head -n 1 | cut -d "" "" -f2";
+                    //MessageBox.Show(sshcmd);
+                    string v2rayCurrentVersion = client.RunCommand(sshcmd).Result;//不含字母v
+                    //MessageBox.Show(v2rayCurrentVersion);
+
+                    sshcmd = @"curl -H ""Accept: application/json"" -H ""User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0"" -s ""https://api.github.com/repos/v2ray/v2ray-core/releases/latest"" --connect-timeout 10| grep 'tag_name' | cut -d\"" -f4";
+                    //MessageBox.Show(sshcmd);
+                    //client.RunCommand($"echo {sshcmd} >cmd.txt");
+                    string v2rayNewVersion = client.RunCommand(sshcmd).Result;//包含字母v
+                    //MessageBox.Show(v2rayNewVersion);
+                    if (v2rayNewVersion.Contains(v2rayCurrentVersion)==false)
+                    {
+                        MessageBoxResult messageBoxResult = MessageBox.Show($"远程主机当前版本为：v{v2rayCurrentVersion}\n最新版本为：{v2rayNewVersion}\n是否升级为最新版本？", "", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        if (messageBoxResult == MessageBoxResult.No)
+                        {
+                            currentStatus = "升级取消，退出";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            Thread.Sleep(1000);
+                            return;
+                        }
+                        else
+                        {
+                            currentStatus = "正在升级V2ray到最新版本......";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            Thread.Sleep(1000);
+                            client.RunCommand(@"bash <(curl -L -s https://install.direct/go.sh)");
+                            sshcmd = @"/usr/bin/v2ray/v2ray -version | head -n 1 | cut -d "" "" -f2";
+                            //MessageBox.Show(sshcmd);
+                            v2rayCurrentVersion = client.RunCommand(sshcmd).Result;//不含字母v
+                            if (v2rayNewVersion.Contains(v2rayCurrentVersion) == true)
+                            {
+                                MessageBox.Show($"升级成功！！\n当前版本为：v{v2rayCurrentVersion}\n最新版本为：{v2rayNewVersion}");
+                                currentStatus = "升级成功！当前已是最新版本！";
+                                textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                                Thread.Sleep(1000);
+                            }
+                            else
+                            {
+                                MessageBox.Show("升级失败，原因未知，请向开发者提问，以寻求支持！");
+                                currentStatus = "升级失败！";
+                                textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                                Thread.Sleep(1000);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show($"远程主机当前已是最新版本：{v2rayNewVersion}\n无需升级！");
+                        currentStatus = "已是最新版本，无需升级，退出";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                    }
+
+                    client.Disconnect();
+                    return;
+                }
+            }
+            catch (Exception ex1)//例外处理   
+            #region 例外处理
+            {
+                //MessageBox.Show(ex1.Message);
+                if (ex1.Message.Contains("连接尝试失败") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n请检查主机地址及端口是否正确，如果通过代理，请检查代理是否正常工作");
+                }
+
+                else if (ex1.Message.Contains("denied (password)") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n密码错误或用户名错误");
+                }
+                else if (ex1.Message.Contains("Invalid private key file") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n所选密钥文件错误或者格式不对");
+                }
+                else if (ex1.Message.Contains("denied (publickey)") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n使用密钥登录，密钥文件错误或用户名错误");
+                }
+                else if (ex1.Message.Contains("目标计算机积极拒绝") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n主机地址错误，如果使用了代理，也可能是连接代理的端口错误");
+                }
+                else
+                {
+                    MessageBox.Show("发生错误");
+                    MessageBox.Show(ex1.Message);
+                }
+                currentStatus = "主机登录失败";
+                textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+
+            }
+            #endregion
+
+        }
         //private void ButtonTestTrojanClientInfoWin_Click(object sender, RoutedEventArgs e)
         //{
         //    //TrojanResultClientInfoWindow resultClientInformation = new TrojanResultClientInfoWindow();
