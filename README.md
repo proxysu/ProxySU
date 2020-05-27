@@ -105,6 +105,7 @@ Microsoft [.NET Framework 4.0](https://dotnet.microsoft.com/download/dotnet-fram
 
 ## 程序使用问题反馈  
 * Telegram群组 https://t.me/proxysuissues  
+* Tiwtter  [ProxySU_True](https://twitter.com/proxysu_true)  
 * 在线提问  https://github.com/proxysu/windows/issues  
 * 邮箱反馈  proxysetuptools@gmail.com
 
