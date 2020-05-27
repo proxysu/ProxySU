@@ -810,13 +810,13 @@ namespace ProxySU
                         {
                             client.RunCommand("ufw allow 80");
                             client.RunCommand("ufw allow 443");
-                            client.RunCommand("ufw reset");
+                            client.RunCommand("yes | ufw reset");
                         }
                         else
                         {
                             client.RunCommand($"ufw allow {openFireWallPort}/tcp");
                             client.RunCommand($"ufw allow {openFireWallPort}/udp");
-                            client.RunCommand("ufw reset");
+                            client.RunCommand("yes | ufw reset");
                         }
                     }
 
@@ -1668,13 +1668,13 @@ namespace ProxySU
                         {
                             client.RunCommand("ufw allow 80");
                             client.RunCommand("ufw allow 443");
-                            client.RunCommand("ufw reset");
+                            client.RunCommand("yes | ufw reset");
                         }
                         else
                         {
                             client.RunCommand($"ufw allow {openFireWallPort}/tcp");
                             client.RunCommand($"ufw allow {openFireWallPort}/udp");
-                            client.RunCommand("ufw reset");
+                            client.RunCommand("yes | ufw reset");
                         }
                     }
 
@@ -2204,13 +2204,13 @@ namespace ProxySU
                         {
                             client.RunCommand("ufw allow 80");
                             client.RunCommand("ufw allow 443");
-                            client.RunCommand("ufw reset");
+                            client.RunCommand("yes | ufw reset");
                         }
                         else
                         {
                             client.RunCommand($"ufw allow {openFireWallPort}/tcp");
                             client.RunCommand($"ufw allow {openFireWallPort}/udp");
-                            client.RunCommand("ufw reset");
+                            client.RunCommand("yes | ufw reset");
                         }
                     }
 
@@ -3116,7 +3116,7 @@ namespace ProxySU
 
                         client.RunCommand("ufw allow 80");
                         client.RunCommand("ufw allow 443");
-                        client.RunCommand("ufw reset");
+                        client.RunCommand("yes | ufw reset");
                     }
 
                     currentStatus = "符合安装要求,V2ray安装中......";
