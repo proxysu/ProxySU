@@ -40,7 +40,7 @@ namespace ProxySU
 
         }
 
-        //生成v2rayN客户端导入文件
+        //生成Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)客户端导入文件
         private void GenerateV2rayShareQRcodeAndBase64Url()
         {
            

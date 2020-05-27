@@ -57,24 +57,31 @@ namespace ProxySU
             RadioButtonSocks4.Visibility = Visibility.Collapsed;
             //初始化参数给
             ReceiveConfigurationParameters = new string[8];
-            //初始化NaiveProxy的密码
-            
+
+            //初始化NaiveProxy的用户名和密码
             TextBoxNaivePassword.Text = RandomUUID();
-            //初始化产生用户名
             TextBoxNaiveUser.Text = RandomUserName();
 
+            //初始化三合一的所有内容
+            TextBoxV2rayUUID3in1.Text = RandomUUID();
+            TextBoxV2rayPath3in1.Text = "/ray";
 
+            TextBoxTrojanPassword3in1.Text= RandomUUID();
+
+            TextBoxNaiveUser3in1.Text = RandomUserName();
+            TextBoxNaivePassword3in1.Text= RandomUUID();
+            
         }
         //远程主机连接信息
         private ConnectionInfo GenerateConnectionInfo()
         {
             ConnectionInfo connectionInfo;
-            //ProgressBarSetUpProcessing.IsIndeterminate = true;
+
             #region 检测输入的内空是否有错，并读取内容
             if (string.IsNullOrEmpty(TextBoxHost.Text) == true || string.IsNullOrEmpty(TextBoxPort.Text) == true || string.IsNullOrEmpty(TextBoxUserName.Text) == true)
             {
                 MessageBox.Show("主机地址、主机端口、用户名为必填项，不能为空");
-                //exitProgram.Kill();
+
                 return connectionInfo = null;
             }
             string sshHostName = TextBoxHost.Text.ToString();
@@ -93,7 +100,7 @@ namespace ProxySU
             }
             string sshPrivateKey = TextBoxCertFilePath.Text.ToString();
             ProxyTypes proxyTypes = new ProxyTypes();//默认为None
-            //MessageBox.Show(proxyTypes.ToString());
+
             //proxyTypes = ProxyTypes.Socks5;
             if (RadioButtonHttp.IsChecked == true)
             {
@@ -175,9 +182,7 @@ namespace ProxySU
                 MessageBox.Show("远程主机连接信息有误，请检查");
                 return;
             }
-            //using (var client = new SshClient(sshHostName, sshPort, sshUser, sshPassword))
-            //Action<ConnectionInfo, TextBlock> startSetUpAction = new Action<ConnectionInfo, TextBlock>(StartSetUpRemoteHost);
-            //string serverConfig = TextBoxJsonPath.Text.ToString().Replace("\\","\\\\");
+
             //读取模板配置
 
             string serverConfig="";  //服务端配置文件
@@ -2604,7 +2609,7 @@ namespace ProxySU
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
         }
-
+        //升级主程序
         private void UpdateV2ray(ConnectionInfo connectionInfo, TextBlock textBlockName, ProgressBar progressBar)
         {
             string currentStatus = "正在登录远程主机......";
@@ -2765,6 +2770,917 @@ namespace ProxySU
             #endregion
 
         }
+        //生成三合一的v2ray路径
+        private void ButtonV2rayPath3in1_Click(object sender, RoutedEventArgs e)
+        {
+            string path = RandomUserName();
+            TextBoxV2rayPath3in1.Text = $"/{path}";
+        }
+        //生成三合一Trojan密码
+        private void ButtonTrojanPassword3in1_Click(object sender, RoutedEventArgs e)
+        {
+            TextBoxTrojanPassword3in1.Text = RandomUUID();
+        }
+        //生成三合一V2ray的UUID
+        private void ButtonV2rayUUID3in1_Click(object sender, RoutedEventArgs e)
+        {
+            TextBoxV2rayUUID3in1.Text = RandomUUID();
+        }
+        //生成三合一中Naive的用户名
+        private void ButtonNaiveUser3in1_Click(object sender, RoutedEventArgs e)
+        {
+            TextBoxNaiveUser3in1.Text = RandomUserName();
+        }
+        //生成三合一中Naive的密码
+        private void ButtonNaivePassword3in1_Click(object sender, RoutedEventArgs e)
+        {
+            TextBoxNaivePassword3in1.Text = RandomUUID();
+        }
+        //启用三合一安装运行
+        private void Button_Login3in1_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(TextBoxDomain3in1.Text) == true)
+            {
+                MessageBox.Show("域名不能为空！");
+                return;
+            }
+            //ReceiveConfigurationParameters[0]----模板类型
+            //ReceiveConfigurationParameters[1]----Trojan的密码
+            //ReceiveConfigurationParameters[2]----v2ray的uuid
+            //ReceiveConfigurationParameters[3]----v2ray的path
+            //ReceiveConfigurationParameters[4]----domain
+            //ReceiveConfigurationParameters[5]----Naive的用户名
+            //ReceiveConfigurationParameters[6]----Naive的密码
+            //ReceiveConfigurationParameters[7]----伪装网站
+            ConnectionInfo connectionInfo = GenerateConnectionInfo();
+            if (connectionInfo == null)
+            {
+                MessageBox.Show("远程主机连接信息有误，请检查");
+                return;
+            }
+            string serverConfig = "";  //服务端配置文件
+            string clientConfig = "";   //生成的客户端配置文件
+            string upLoadPath = ""; //服务端文件位置
+            //传递参数
+            ReceiveConfigurationParameters[4] = TextBoxDomain3in1.Text;//传递域名
+            ReceiveConfigurationParameters[7] = TextBoxSites3in1.Text;//传递伪装网站
+            ReceiveConfigurationParameters[2] = TextBoxV2rayUUID3in1.Text;//v2ray的uuid
+            ReceiveConfigurationParameters[3] = TextBoxV2rayPath3in1.Text;//v2ray的path
+            ReceiveConfigurationParameters[1] = TextBoxTrojanPassword3in1.Text;//Trojan的密码
+            ReceiveConfigurationParameters[5] = TextBoxNaiveUser3in1.Text;//Naive的用户名
+            ReceiveConfigurationParameters[6] = TextBoxNaivePassword3in1.Text;//Naive的密码
+            if (TextBoxSites3in1.Text.ToString().Length >= 7)
+            {
+                string testDomain = TextBoxSites3in1.Text.Substring(0, 7);
+                if (String.Equals(testDomain, "https:/") || String.Equals(testDomain, "http://"))
+                {
+                    //MessageBox.Show(testDomain);
+                    ReceiveConfigurationParameters[7] = TextBoxSites3in1.Text.Replace("/", "\\/");
+                }
+                else
+                {
+                    ReceiveConfigurationParameters[7] = "http:\\/\\/" + TextBoxSites3in1.Text;
+                }
+            }
+
+            //Thread thread
+            Thread thread = new Thread(() => StartSetUp3in1(connectionInfo, TextBlockSetUpProcessing, ProgressBarSetUpProcessing, serverConfig, clientConfig, upLoadPath));
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+        }
+        //登录远程主机布署三合一程序
+        private void StartSetUp3in1(ConnectionInfo connectionInfo, TextBlock textBlockName, ProgressBar progressBar, string serverConfig, string clientConfig, string upLoadPath)
+        {
+            string currentStatus = "正在登录远程主机......";
+
+            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+
+            try
+            {
+                #region 主机指纹，暂未启用
+                //byte[] expectedFingerPrint = new byte[] {
+                //                                0x66, 0x31, 0xaf, 0x00, 0x54, 0xb9, 0x87, 0x31,
+                //                                0xff, 0x58, 0x1c, 0x31, 0xb1, 0xa2, 0x4c, 0x6b
+                //                            };
+                #endregion
+                using (var client = new SshClient(connectionInfo))
+
+                {
+                    #region ssh登录验证主机指纹代码块，暂未启用
+                    //    client.HostKeyReceived += (sender, e) =>
+                    //    {
+                    //        if (expectedFingerPrint.Length == e.FingerPrint.Length)
+                    //        {
+                    //            for (var i = 0; i < expectedFingerPrint.Length; i++)
+                    //            {
+                    //                if (expectedFingerPrint[i] != e.FingerPrint[i])
+                    //                {
+                    //                    e.CanTrust = false;
+                    //                    break;
+                    //                }
+                    //            }
+                    //        }
+                    //        else
+                    //        {
+                    //            e.CanTrust = false;
+                    //        }
+                    //    };
+                    #endregion
+
+                    client.Connect();
+                    if (client.IsConnected == true)
+                    {
+                        currentStatus = "主机登录成功";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                    }
+                    //检测是否安装有V2ray
+                    currentStatus = "检测系统是否已经安装 V2ray or Trojan or NaiveProxy......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    string cmdTestV2rayInstalled = @"find / -name v2ray";
+                    string resultCmdTestV2rayInstalled = client.RunCommand(cmdTestV2rayInstalled).Result;
+                    string cmdTestTrojanInstalled = @"find / -name trojan";
+                    string resultCmdTestTrojanInstall = client.RunCommand(cmdTestTrojanInstalled).Result;
+                    string cmdTestNaiveInstalled = @"find / -name naive";
+                    string resultcmdTestNaiveInstalled = client.RunCommand(cmdTestNaiveInstalled).Result;
+                    if (resultCmdTestV2rayInstalled.Contains("/usr/bin/v2ray") == true || resultCmdTestTrojanInstall.Contains("/usr/local/bin/trojan") == true || resultcmdTestNaiveInstalled.Contains("/usr/local/bin/naive") == true)
+                    {
+                        MessageBoxResult messageBoxResult = MessageBox.Show("远程主机已安装V2ray or Trojan or NaiveProxy,是否强制重新安装？", "", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        if (messageBoxResult == MessageBoxResult.No)
+                        {
+                            currentStatus = "安装取消，退出";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            Thread.Sleep(1000);
+                            return;
+                        }
+                    }
+
+                    //检测远程主机系统环境是否符合要求
+                    currentStatus = "检测系统是否符合安装要求......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    string result = client.RunCommand("uname -r").Result;
+
+                    string[] linuxKernelVerStr = result.Split('-');
+
+                    bool detectResult = DetectKernelVersion(linuxKernelVerStr[0]);
+                    if (detectResult == false)
+                    {
+                        MessageBox.Show($"当前系统内核版本为{linuxKernelVerStr[0]}，V2ray要求内核为2.6.23及以上。请升级内核再安装！");
+                        currentStatus = "系统内核版本不符合要求，安装失败！！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                    }
+                    result = client.RunCommand("uname -m").Result;
+
+                    if (result.Contains("x86_64") == false)
+                    {
+                        MessageBox.Show($"请在x86_64系统中安装Trojan/NaivProxy");
+                        currentStatus = "系统不符合要求，安装失败！！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                    }
+                    //检测系统是否支持yum 或 apt-get或zypper，且支持Systemd
+                    //如果不存在组件，则命令结果为空，string.IsNullOrEmpty值为真，
+                    bool getApt = String.IsNullOrEmpty(client.RunCommand("command -v apt-get").Result);
+                    bool getYum = String.IsNullOrEmpty(client.RunCommand("command -v yum").Result);
+                    bool getZypper = String.IsNullOrEmpty(client.RunCommand("command -v zypper").Result);
+                    bool getSystemd = String.IsNullOrEmpty(client.RunCommand("command -v systemctl").Result);
+                    bool getGetenforce = String.IsNullOrEmpty(client.RunCommand("command -v getenforce").Result);
+
+                    //没有安装apt-get，也没有安装yum，也没有安装zypper,或者没有安装systemd的，不满足安装条件
+                    //也就是apt-get ，yum, zypper必须安装其中之一，且必须安装Systemd的系统才能安装。
+                    if ((getApt && getYum && getZypper) || getSystemd)
+                    {
+                        MessageBox.Show($"系统缺乏必要的安装组件如:apt-get||yum||zypper||Syetemd，主机系统推荐使用：CentOS 7/8,Debian 8/9/10,Ubuntu 16.04及以上版本");
+                        currentStatus = "系统环境不满足要求，安装失败！！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                        return;
+                    }
+                    //判断是否启用了SELinux,如果启用了，并且工作在Enforcing模式下，则改为Permissive模式
+                    if (getGetenforce == false)
+                    {
+                        string testSELinux = client.RunCommand("getenforce").Result;
+                        if (testSELinux.Contains("Enforcing") == true)
+                        {
+                            client.RunCommand("setenforce  0");//不重启改为Permissive模式
+                            client.RunCommand("sed -i 's/SELINUX=enforcing/SELINUX=permissive/' /etc/selinux/config");//重启也工作在Permissive模式下
+                        }
+
+                    }
+
+                    //校对时间
+                    currentStatus = "校对时间......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+                    //获取远程主机的时间戳
+                    long timeStampVPS = Convert.ToInt64(client.RunCommand("date +%s").Result.ToString());
+
+                    //获取本地时间戳
+                    TimeSpan ts = DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+                    long timeStampLocal = Convert.ToInt64(ts.TotalSeconds);
+                    if (Math.Abs(timeStampLocal - timeStampVPS) >= 90)
+                    {
+
+                        MessageBox.Show("本地时间与远程主机时间相差超过限制(90秒)，请先用\"系统工具-->时间校对\"校对时间后再设置");
+                        currentStatus = "时间较对失败......";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                        return;
+                    }
+
+                    currentStatus = "正在检测域名是否解析到当前VPS的IP上......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    //在相应系统内安装curl(如果没有安装curl)
+                    if (string.IsNullOrEmpty(client.RunCommand("command -v curl").Result) == true)
+                    {
+                        //为假则表示系统有相应的组件。
+                        if (getApt == false)
+                        {
+                            client.RunCommand("apt-get -qq update");
+                            client.RunCommand("apt-get -y -qq install curl");
+                        }
+                        if (getYum == false)
+                        {
+                            client.RunCommand("yum -q makecache");
+                            client.RunCommand("yum -y -q install curl");
+                        }
+                        if (getZypper == false)
+                        {
+                            client.RunCommand("zypper ref");
+                            client.RunCommand("zypper -y install curl");
+                        }
+                    }
+
+                    string vpsIp3in1 = client.RunCommand("curl -4 ip.sb").Result.ToString();
+                    string testDomainCmd = "ping " + ReceiveConfigurationParameters[4] + " -c 1 | grep -oE -m1 \"([0-9]{1,3}\\.){3}[0-9]{1,3}\"";
+                    string resulttestDomainCmd = client.RunCommand(testDomainCmd).Result.ToString();
+
+                    if (String.Equals(vpsIp3in1, resulttestDomainCmd) == true)
+                    {
+                        currentStatus = "解析正确！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                    }
+                    else
+                    {
+                        currentStatus = "域名未能正确解析到当前VPS的IP上!安装失败！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                        MessageBox.Show("域名未能正确解析到当前VPS的IP上，请检查！若解析设置正确，请等待生效后再重试安装。如果域名使用了CDN，请先关闭！");
+                        return;
+                    }
+
+                    //检测是否安装lsof
+                    if (string.IsNullOrEmpty(client.RunCommand("command -v lsof").Result) == true)
+                    {
+                        //为假则表示系统有相应的组件。
+                        if (getApt == false)
+                        {
+                            client.RunCommand("apt-get -qq update");
+                            client.RunCommand("apt-get -y -qq install lsof");
+                        }
+                        if (getYum == false)
+                        {
+                            client.RunCommand("yum -q makecache");
+                            client.RunCommand("yum -y -q install lsof");
+                        }
+                        if (getZypper == false)
+                        {
+                            client.RunCommand("zypper ref");
+                            client.RunCommand("zypper -y install lsof");
+                        }
+                    }
+                    currentStatus = "正在检测端口占用情况......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    if (String.IsNullOrEmpty(client.RunCommand(@"lsof -n -P -i :80 | grep LISTEN").Result) == false || String.IsNullOrEmpty(client.RunCommand(@"lsof -n -P -i :443 | grep LISTEN").Result) == false)
+                    {
+                        //MessageBox.Show("80/443端口之一，或全部被占用，请先用系统工具中的“释放80/443端口”工具，释放出，再重新安装");
+                        MessageBoxResult dialogResult = MessageBox.Show("80/443端口之一，或全部被占用，将强制停止占用80/443端口的程序?", "Stop application", MessageBoxButton.YesNo);
+                        if (dialogResult == MessageBoxResult.No)
+                        {
+                            currentStatus = "端口被占用，安装失败......";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            Thread.Sleep(1000);
+                            return;
+                        }
+
+                        currentStatus = "正在释放80/443端口......";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+
+                        string cmdTestPort = @"lsof -n -P -i :443 | grep LISTEN";
+                        string cmdResult = client.RunCommand(cmdTestPort).Result;
+                        if (String.IsNullOrEmpty(cmdResult) == false)
+                        {
+                            string[] cmdResultArry443 = cmdResult.Split(' ');
+                            client.RunCommand($"systemctl stop {cmdResultArry443[0]}");
+                            client.RunCommand($"systemctl disable {cmdResultArry443[0]}");
+                            client.RunCommand($"kill -9 {cmdResultArry443[3]}");
+                        }
+
+                        cmdTestPort = @"lsof -n -P -i :80 | grep LISTEN";
+                        cmdResult = client.RunCommand(cmdTestPort).Result;
+                        if (String.IsNullOrEmpty(cmdResult) == false)
+                        {
+                            string[] cmdResultArry80 = cmdResult.Split(' ');
+                            client.RunCommand($"systemctl stop {cmdResultArry80[0]}");
+                            client.RunCommand($"systemctl disable {cmdResultArry80[0]}");
+                            client.RunCommand($"kill -9 {cmdResultArry80[3]}");
+                        }
+                        currentStatus = "80/443端口释放完毕！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+
+                    }
+
+                    //打开防火墙端口
+
+                    if (String.IsNullOrEmpty(client.RunCommand("command -v firewall-cmd").Result) == false)
+                    {
+                        client.RunCommand("firewall-cmd --zone=public --add-port=80/tcp --permanent");
+                        client.RunCommand("firewall-cmd --zone=public --add-port=443/tcp --permanent");
+                        client.RunCommand("firewall-cmd --reload");
+
+                    }
+                    if (String.IsNullOrEmpty(client.RunCommand("command -v ufw").Result) == false)
+                    {
+
+                        client.RunCommand("ufw allow 80");
+                        client.RunCommand("ufw allow 443");
+                        client.RunCommand("ufw reset");
+                    }
+
+                    currentStatus = "符合安装要求,V2ray安装中......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    //下载官方安装脚本安装V2ray
+                    client.RunCommand("curl -o /tmp/go.sh https://install.direct/go.sh");
+                    client.RunCommand("bash /tmp/go.sh -f");
+                    string installResult = client.RunCommand("find / -name v2ray").Result.ToString();
+
+                    if (!installResult.Contains("/usr/bin/v2ray"))
+                    {
+                        MessageBox.Show("安装V2ray失败(官方脚本go.sh运行出错！");
+                        client.Disconnect();
+                        currentStatus = "安装V2ray失败(官方脚本go.sh运行出错！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        return;
+                    }
+                    client.RunCommand("mv /etc/v2ray/config.json /etc/v2ray/config.json.1");
+
+                    //上传配置文件
+                    currentStatus = "V2ray程序安装完毕，配置文件上传中......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    //生成服务端配置
+                    serverConfig = @"TemplateConfg\WebSocketTLSWeb_server_config.json";
+                    using (StreamReader reader = File.OpenText(serverConfig))
+                    {
+                        JObject serverJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
+                        //设置uuid
+                        serverJson["inbounds"][0]["settings"]["clients"][0]["id"] = ReceiveConfigurationParameters[2];
+                        //设置路径
+                        serverJson["inbounds"][0]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[3];
+
+                        using (StreamWriter sw = new StreamWriter(@"config.json"))
+                        {
+                            sw.Write(serverJson.ToString());
+                        }
+                    }
+                    upLoadPath = "/etc/v2ray/config.json";
+                    UploadConfig(connectionInfo, @"config.json", upLoadPath);
+                    File.Delete(@"config.json");
+
+                    client.RunCommand("systemctl restart v2ray");
+                    currentStatus = "启动V2ray，OK！";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    //安装Trojan
+                    currentStatus = "开始安装Trojan......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    //下载官方安装脚本安装
+
+                    client.RunCommand("curl -o /tmp/trojan-quickstart.sh https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh");
+                    client.RunCommand("yes | bash /tmp/trojan-quickstart.sh");
+
+                    installResult = client.RunCommand("find / -name trojan").Result.ToString();
+
+                    if (!installResult.Contains("/usr/local/bin/trojan"))
+                    {
+                        MessageBox.Show("安装Trojan失败(官方脚本运行出错！");
+                        client.Disconnect();
+                        currentStatus = "安装Trojan失败(官方脚本运行出错！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        return;
+                    }
+                    client.RunCommand("mv /usr/local/etc/trojan/config.json /usr/local/etc/trojan/config.json.1");
+
+                    //上传配置文件
+                    currentStatus = "Trojan程序安装完毕，配置文件上传中......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    //生成服务端配置
+                    serverConfig = @"TemplateConfg\trojan_server_config.json";
+                    using (StreamReader reader = File.OpenText(serverConfig))
+                    {
+                        JObject serverJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
+                        //设置密码
+                        serverJson["password"][0] = ReceiveConfigurationParameters[1];
+
+                        using (StreamWriter sw = new StreamWriter(@"config.json"))
+                        {
+                            sw.Write(serverJson.ToString());
+                        }
+                    }
+                    upLoadPath = "/usr/local/etc/trojan/config.json";
+                    UploadConfig(connectionInfo, @"config.json", upLoadPath);
+                    File.Delete(@"config.json");
+
+
+                    //安装NaiveProxy
+                    currentStatus = "开始安装NaiveProxy......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    //下载安装脚本安装
+
+                    client.RunCommand("curl -o /tmp/naive-quickstart.sh https://raw.githubusercontent.com/proxysu/shellscript/master/naive-quickstart.sh");
+                    client.RunCommand("yes | bash /tmp/naive-quickstart.sh");
+
+                    installResult = client.RunCommand("find / -name naive").Result.ToString();
+
+                    if (!installResult.Contains("/usr/local/bin/naive"))
+                    {
+                        MessageBox.Show("安装NaiveProxy失败(脚本运行出错！");
+                        client.Disconnect();
+                        currentStatus = "安装NaiveProxy失败(脚本运行出错！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        return;
+                    }
+
+                    currentStatus = "NaiveProxy程序安装完毕......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    client.RunCommand("systemctl restart naive");
+                    currentStatus = "启动Naive，OK！";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+
+                   
+
+                    currentStatus = "正在安装acme.sh......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    if (getApt == false)
+                    {
+                        //client.RunCommand("apt-get -qq update");
+                        client.RunCommand("apt-get -y -qq install socat");
+                    }
+                    if (getYum == false)
+                    {
+                        //client.RunCommand("yum -q makecache");
+                        client.RunCommand("yum -y -q install socat");
+                    }
+                    if (getZypper == false)
+                    {
+                        // client.RunCommand("zypper ref");
+                        client.RunCommand("zypper -y install socat");
+                    }
+                    client.RunCommand("curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh");
+                    client.RunCommand("cd ~/.acme.sh/");
+                    client.RunCommand("alias acme.sh=~/.acme.sh/acme.sh");
+
+                    currentStatus = "申请域名证书......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    //client.RunCommand("mkdir -p /etc/v2ray/ssl");
+                    client.RunCommand($"/root/.acme.sh/acme.sh  --issue  --standalone  -d {ReceiveConfigurationParameters[4]}");
+
+                    currentStatus = "正在安装证书......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+                    client.RunCommand($"/root/.acme.sh/acme.sh  --installcert  -d {ReceiveConfigurationParameters[4]}  --certpath /usr/local/etc/trojan/trojan_ssl.crt --keypath /usr/local/etc/trojan/trojan_ssl.key  --capath  /usr/local/etc/trojan/trojan_ssl.crt  --reloadcmd  \"systemctl restart trojan\"");
+
+                    currentStatus = "证书安装，OK！";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    client.RunCommand("systemctl restart trojan");
+                  
+                    currentStatus = "Trojan重启加载证书，OK！";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    currentStatus = "正在安装Caddy......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    client.RunCommand("curl https://getcaddy.com -o getcaddy");
+                    client.RunCommand("bash getcaddy personal http.forwardproxy,hook.service");
+                    client.RunCommand("mkdir -p /etc/caddy");
+                    client.RunCommand("mkdir -p /var/www");
+
+
+                    currentStatus = "上传Caddy配置文件......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    serverConfig = @"TemplateConfg\3in1_config.caddyfile";
+
+                    upLoadPath = "/etc/caddy/Caddyfile";
+                    UploadConfig(connectionInfo, serverConfig, upLoadPath);
+
+                    //设置邮箱
+                    string email = $"user@{ReceiveConfigurationParameters[4]}";
+                    //设置Path
+                    string sshCmd;
+                    sshCmd = $"sed -i 's/##path##/\\{ReceiveConfigurationParameters[3]}/' {upLoadPath}";
+                    client.RunCommand(sshCmd);
+                    //设置域名
+                    sshCmd = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}:80/' {upLoadPath}";
+                    client.RunCommand(sshCmd);
+                    sshCmd = $"sed -i 's/##basicauth##/basicauth {ReceiveConfigurationParameters[5]} {ReceiveConfigurationParameters[6]}/' {upLoadPath}";
+                    client.RunCommand(sshCmd);
+                    //设置伪装网站
+
+                    if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7]) == false)
+                    {
+                        sshCmd = $"sed -i 's/##sites##/proxy \\/ {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
+                        client.RunCommand(sshCmd);
+                    }
+                    Thread.Sleep(2000);
+
+                    //安装Caddy服务
+                    sshCmd = $"caddy -service install -agree -conf /etc/caddy/Caddyfile -email {email}";
+                    client.RunCommand(sshCmd);
+
+                    //启动Caddy服务
+                    client.RunCommand("caddy -service restart");
+                    currentStatus = "启动Caddy，OK！";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    currentStatus = "正在启用BBR......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+                    //测试BBR条件，若满足提示是否启用
+                    result = client.RunCommand("uname -r").Result;
+                    //var result = client.RunCommand("cat /root/test.ver");
+                    linuxKernelVerStr = result.Split('-');
+
+                    detectResult = DetectKernelVersionBBR(linuxKernelVerStr[0]);
+                    string resultCmdTestBBR = client.RunCommand(@"sysctl net.ipv4.tcp_congestion_control | grep bbr").Result;
+                    //如果内核满足大于等于4.9，且还未启用BBR，则启用BBR
+                    if (detectResult == true && resultCmdTestBBR.Contains("bbr") == false)
+                    {
+                        client.RunCommand(@"bash - c 'echo ""net.core.default_qdisc = fq"" >> /etc/sysctl.conf'");
+                        client.RunCommand(@"bash - c 'echo ""net.ipv4.tcp_congestion_control = bbr"" >> /etc/sysctl.conf'");
+                        client.RunCommand(@"sysctl -p");
+                    }
+                    resultCmdTestBBR = client.RunCommand(@"sysctl net.ipv4.tcp_congestion_control | grep bbr").Result;
+                    if (resultCmdTestBBR.Contains("bbr") == true)
+                    {
+                        currentStatus = "启用BBR,OK!";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                    }
+                    else
+                    {
+                        currentStatus = "启用BBR,未成功!";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                    }
+                    //生成客户端配置
+                    currentStatus = "生成客户端配置......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+                    //创建3in1文件夹
+                    if (!Directory.Exists("3in1_config"))//如果不存在就创建file文件夹　　             　　              
+                    {
+                        Directory.CreateDirectory("3in1_config");//创建该文件夹　　   
+                    }
+                    //生成v2ray官方客户端配置
+                    clientConfig = @"TemplateConfg\WebSocketTLSWeb_client_config.json";
+                    using (StreamReader reader = File.OpenText(clientConfig))
+                    {
+                        JObject clientJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
+
+                        clientJson["outbounds"][0]["settings"]["vnext"][0]["address"] = ReceiveConfigurationParameters[4];
+                        clientJson["outbounds"][0]["settings"]["vnext"][0]["port"] = int.Parse("443");
+                        clientJson["outbounds"][0]["settings"]["vnext"][0]["users"][0]["id"] = ReceiveConfigurationParameters[2];
+
+                        clientJson["outbounds"][0]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[3];
+                        if (!Directory.Exists(@"3in1_config\v2ray_config"))//如果不存在就创建file文件夹　　             　　              
+                        {
+                            Directory.CreateDirectory(@"3in1_config\v2ray_config");//创建该文件夹　　   
+                        }
+                        using (StreamWriter sw = new StreamWriter(@"3in1_config\v2ray_config\config.json"))
+                        {
+                            sw.Write(clientJson.ToString());
+                        }
+                    }
+                    //生成V2rayN的客户端
+                    string v2rayNjsonFile = @"
+{
+  ""v"": """",
+  ""ps"": """",
+  ""add"": """",
+  ""port"": """",
+  ""id"": """",
+  ""aid"": """",
+  ""net"": """",
+  ""type"": """",
+  ""host"": """",
+  ""path"": """",
+  ""tls"": """"
+}";
+                    JObject v2rayNjsonObject = JObject.Parse(v2rayNjsonFile);
+                    v2rayNjsonObject["v"] = "2";
+                    v2rayNjsonObject["add"] = ReceiveConfigurationParameters[4]; //设置域名
+                    v2rayNjsonObject["port"] = "443"; //设置端口
+                    v2rayNjsonObject["id"] = ReceiveConfigurationParameters[2]; //设置uuid
+                    v2rayNjsonObject["aid"] = "16"; //设置额外ID
+                    v2rayNjsonObject["net"] = "ws"; //设置传输模式
+                    v2rayNjsonObject["type"] = "none"; //设置伪装类型
+                    v2rayNjsonObject["path"] = ReceiveConfigurationParameters[3];//设置路径
+                    v2rayNjsonObject["host"] = "";//设置TLS的Host
+                    v2rayNjsonObject["tls"] = "tls";  //设置是否启用TLS
+                    v2rayNjsonObject["ps"] = v2rayNjsonObject["add"];  //设置备注
+
+                    //如果已存在以前保存目录，则新建后缀数字依次增加
+                    string saveFileFolderFirst = v2rayNjsonObject["ps"].ToString();
+                    int num = 1;
+                    string saveFileFolder = saveFileFolderFirst;
+                    while (Directory.Exists(@"3in1_config\v2ray_config\" + saveFileFolder))
+                    {
+                        saveFileFolder = saveFileFolderFirst + "_copy_" + num.ToString();
+                        num++;
+                    }
+                    Directory.CreateDirectory(@"3in1_config\v2ray_config\" + saveFileFolder);//创建该文件夹
+                   
+
+                    //生成url和二维码
+                    byte[] textBytes = Encoding.UTF8.GetBytes(v2rayNjsonObject.ToString());
+                    string vmessUrl = "vmess://" + Convert.ToBase64String(textBytes);
+
+                    using (StreamWriter sw = new StreamWriter($"3in1_config\\v2ray_config\\{saveFileFolder}\\url.txt"))
+                    {
+                        sw.WriteLine(vmessUrl);
+
+                    }
+                    //生成二维码
+                    QRCodeGenerator qrGenerator = new QRCodeGenerator();
+                    QRCodeData qrCodeData = qrGenerator.CreateQrCode(vmessUrl, QRCodeGenerator.ECCLevel.Q);
+                    QRCode qrCode = new QRCode(qrCodeData);
+                    Bitmap qrCodeImage = qrCode.GetGraphic(20);
+                    //IntPtr myImagePtr = qrCodeImage.GetHbitmap();
+                    //BitmapSource imgsource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(myImagePtr, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                    //ImageShareQRcode.Source = imgsource;
+                    ////DeleteObject(myImagePtr);
+                    qrCodeImage.Save($"3in1_config\\v2ray_config\\{saveFileFolder}\\QR.bmp");
+
+                    //生成说明文件
+                    using (StreamWriter sw = new StreamWriter($"3in1_config\\v2ray_config\\{saveFileFolder}\\说明.txt"))
+                    {
+                        sw.WriteLine("config.json");
+                        sw.WriteLine("此文件为v2ray官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080，http代理地址：127.0.0.1:1081");
+                        sw.WriteLine("v2ray官方网站：https://www.v2ray.com/");
+                        sw.WriteLine("v2ray官方程序下载地址：https://github.com/v2ray/v2ray-core/releases");
+                        sw.WriteLine("下载相应版本，Windows选择v2ray-windows-64.zip或者v2ray-windows-32.zip，解压后提取v2ctl.exe和v2ray.exe。与config.json放在同一目录，运行v2ray.exe即可。");
+                        sw.WriteLine("-----------------------------------------");
+                        sw.WriteLine("QR.bmp");
+                        sw.WriteLine("此文件为v2rayN、v2rayNG(Android)、Shadowrocket(ios)扫码导入节点");
+                        sw.WriteLine("v2rayN下载网址：https://github.com/2dust/v2rayN/releases");
+                        sw.WriteLine("v2rayNG(Android)下载网址：https://github.com/2dust/v2rayNG/releases");
+                        sw.WriteLine("v2rayNG(Android)在Google Play下载网址：https://play.google.com/store/apps/details?id=com.v2ray.ang");
+                        sw.WriteLine("Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。");
+
+                        sw.WriteLine("-----------------------------------------");
+                        sw.WriteLine("url.txt");
+                        sw.WriteLine("此文件为v2rayN、v2rayNG(Android)、Shadowrocket(ios)复制粘贴导入节点的vmess网址");
+                        sw.WriteLine("-----------------------------------------\n");
+                        sw.WriteLine("服务器通用连接配置参数");
+                        sw.WriteLine($"地址(address)：{ReceiveConfigurationParameters[4]}");
+                        sw.WriteLine($"端口(Port)：443");
+                        sw.WriteLine($"用户ID(uuid)：{ReceiveConfigurationParameters[2]}");
+                        sw.WriteLine($"额外ID：16");
+                        sw.WriteLine($"加密方式：auto");
+                        sw.WriteLine($"传输协议：ws");
+                        sw.WriteLine($"伪装类型：none");
+                        sw.WriteLine($"是否使用TLS：tls");
+                        sw.WriteLine($"host：");
+                        sw.WriteLine($"路径(Path)：{ReceiveConfigurationParameters[3]}");
+                        sw.WriteLine($"QUIC密钥：");
+                    }
+                    //移动V2ray官方配置config.json到与上述文件同一目录
+                    File.Move(@"3in1_config\v2ray_config\config.json", @"3in1_config\v2ray_config\" + saveFileFolder + @"\config.json");
+
+                    //生成Trojan客户端文件
+                    clientConfig = @"TemplateConfg\trojan_client_config.json";
+                    if (!Directory.Exists(@"3in1_config\trojan_config"))//如果不存在就创建file文件夹　　             　　              
+                    {
+                        Directory.CreateDirectory(@"3in1_config\trojan_config");//创建该文件夹　　   
+                    }
+                    using (StreamReader reader = File.OpenText(clientConfig))
+                    {
+                        JObject clientJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
+
+                        clientJson["remote_addr"] = ReceiveConfigurationParameters[4];
+                        //clientJson["remote_port"] = int.Parse(ReceiveConfigurationParameters[1]);
+                        clientJson["password"][0] = ReceiveConfigurationParameters[1];
+
+                        using (StreamWriter sw = new StreamWriter(@"3in1_config\trojan_config\config.json"))
+                        {
+                            sw.Write(clientJson.ToString());
+                        }
+                    }
+                    //生成二维码和url
+                    saveFileFolderFirst = ReceiveConfigurationParameters[4];
+                    num = 1;
+                    saveFileFolder = saveFileFolderFirst;
+                    while (Directory.Exists(@"3in1_config\trojan_config\" + saveFileFolder))
+                    {
+                        saveFileFolder = saveFileFolderFirst + "_copy_" + num.ToString();
+                        num++;
+                    }
+                    Directory.CreateDirectory(@"3in1_config\trojan_config\" + saveFileFolder);//创建该文件夹
+
+                    string trojanUrl = $"trojan://{ReceiveConfigurationParameters[1]}@{ReceiveConfigurationParameters[4]}:443#{ReceiveConfigurationParameters[4]}";
+                    using (StreamWriter sw = new StreamWriter($"3in1_config\\trojan_config\\{saveFileFolder}\\url.txt"))
+                    {
+                        sw.WriteLine(trojanUrl);
+
+                    }
+                    //生成二维码
+                    QRCodeGenerator qrGeneratorTrojan = new QRCodeGenerator();
+                    QRCodeData qrCodeDataTrojan = qrGeneratorTrojan.CreateQrCode(trojanUrl, QRCodeGenerator.ECCLevel.Q);
+                    QRCode qrCodeTrojan = new QRCode(qrCodeDataTrojan);
+                    Bitmap qrCodeImageTrojan = qrCodeTrojan.GetGraphic(20);
+                    qrCodeImageTrojan.Save($"3in1_config\\trojan_config\\{saveFileFolder}\\QR.bmp");
+
+                    //生成说明文件
+                    using (StreamWriter sw = new StreamWriter($"3in1_config\\trojan_config\\{saveFileFolder}\\说明.txt"))
+                    {
+                        sw.WriteLine("config.json");
+                        sw.WriteLine("此文件为Trojan官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080");
+                        sw.WriteLine("Trojan官方网站：https://trojan-gfw.github.io/trojan/");
+                        sw.WriteLine("Trojan官方程序下载地址：https://github.com/trojan-gfw/trojan/releases");
+                        sw.WriteLine("下载相应版本，Windows选择Trojan-x.xx-win.zip,解压后提取trojan.exe。与config.json放在同一目录，运行trojan.exe即可。");
+                        sw.WriteLine("-----------------------------------------\n");
+                        sw.WriteLine("QR.bmp");
+                        sw.WriteLine("此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)扫码导入节点");
+                        sw.WriteLine("Trojan-QT5 (windows)下载网址：https://github.com/TheWanderingCoel/Trojan-Qt5/releases");
+                        sw.WriteLine("igniter（Android）下载网址：https://github.com/trojan-gfw/igniter/releases");
+                        sw.WriteLine("Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。");
+
+                        sw.WriteLine("-----------------------------------------\n");
+                        sw.WriteLine("url.txt");
+                        sw.WriteLine("此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)复制粘贴导入节点的网址");
+                        sw.WriteLine("-----------------------------------------\n");
+                        sw.WriteLine("服务器通用连接配置参数");
+                        sw.WriteLine($"地址(address)：{ReceiveConfigurationParameters[4]}");
+                        sw.WriteLine($"端口(Port)：443");
+                        sw.WriteLine($"密钥：{ReceiveConfigurationParameters[1]}");
+
+                    }
+                    //移动Trojan官方配置config.json到与上述文件同一目录
+                    File.Move(@"3in1_config\trojan_config\config.json", @"3in1_config\trojan_config\" + saveFileFolder + @"\config.json");
+
+                    //生成NaiveProxy的客户端配置
+                    clientConfig = @"TemplateConfg\Naiveproxy_client_config.json";
+                    if (!Directory.Exists(@"3in1_config\naive_config"))//如果不存在就创建file文件夹　　             　　              
+                    {
+                        Directory.CreateDirectory(@"3in1_config\naive_config");//创建该文件夹　　   
+                    }
+                    using (StreamReader reader = File.OpenText(clientConfig))
+                    {
+                        JObject clientJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
+
+                        clientJson["proxy"] = $"https://{ReceiveConfigurationParameters[5]}:{ReceiveConfigurationParameters[6]}@{ReceiveConfigurationParameters[4]}";
+
+                        using (StreamWriter sw = new StreamWriter(@"3in1_config\naive_config\config.json"))
+                        {
+                            sw.Write(clientJson.ToString());
+                        }
+                    }
+                    //生成用于NaiveGUI的url
+                    saveFileFolderFirst = ReceiveConfigurationParameters[4];
+                    num = 1;
+                    saveFileFolder = saveFileFolderFirst;
+                    while (Directory.Exists(@"3in1_config\naive_config\" + saveFileFolder))
+                    {
+                        saveFileFolder = saveFileFolderFirst + "_copy_" + num.ToString();
+                        num++;
+                    }
+                    Directory.CreateDirectory(@"3in1_config\naive_config\" + saveFileFolder);//创建该文件夹
+
+                    string naiveUrl = $"https://{ReceiveConfigurationParameters[5]}:{ReceiveConfigurationParameters[6]}@{ReceiveConfigurationParameters[4]}:443/?name={ReceiveConfigurationParameters[4]}&padding=true";
+                    using (StreamWriter sw = new StreamWriter($"3in1_config\\naive_config\\{saveFileFolder}\\url.txt"))
+                    {
+                        sw.WriteLine(naiveUrl);
+                    }
+                    //生成说明文件
+                    using (StreamWriter sw = new StreamWriter($"3in1_config\\naive_config\\{saveFileFolder}\\说明.txt"))
+                    {
+                        sw.WriteLine("config.json");
+                        sw.WriteLine("此文件为NaiveProxy官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080");
+                        sw.WriteLine("NaiveProxy官方网站：https://github.com/klzgrad/naiveproxy");
+                        sw.WriteLine("NaiveProxy官方程序下载地址：https://github.com/klzgrad/naiveproxy/releases");
+                        sw.WriteLine("下载相应版本，Windows选择naiveproxy-x.xx-win.zip,解压后提取naive.exe。与config.json放在同一目录，运行naive.exe即可。");
+                        sw.WriteLine("-----------------------------------------\n");
+                        //sw.WriteLine("其他平台的客户端，暂未发布");
+                        //sw.WriteLine("QR.bmp");
+                        //sw.WriteLine("此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)扫码导入节点");
+                        //sw.WriteLine("Trojan-QT5 (windows)下载网址：https://github.com/TheWanderingCoel/Trojan-Qt5/releases");
+                        //sw.WriteLine("igniter（Android）下载网址：https://github.com/trojan-gfw/igniter/releases");
+                        //sw.WriteLine("Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。");
+
+                        //sw.WriteLine("-----------------------------------------\n");
+                        sw.WriteLine("url.txt");
+                        sw.WriteLine("此文件为NaiveGUI(windows)复制粘贴导入节点的网址");
+                        sw.WriteLine("NaiveGUI(windows)下载网址：https://github.com/ExcitedCodes/NaiveGUI/releases");
+
+                        sw.WriteLine("-----------------------------------------\n");
+                        sw.WriteLine("服务器通用连接配置参数");
+                        sw.WriteLine($"地址(address)：{ReceiveConfigurationParameters[4]}");
+                        sw.WriteLine($"用户名：{ReceiveConfigurationParameters[5]}");
+                        sw.WriteLine($"密钥：{ReceiveConfigurationParameters[6]}");
+                    }
+                    //移动Naive官方配置config.json到与上述文件同一目录
+                    File.Move(@"3in1_config\naive_config\config.json", @"3in1_config\naive_config\" + saveFileFolder + @"\config.json");
+
+                    client.Disconnect();
+                    
+                    currentStatus = "安装成功";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    //显示服务端连接参数
+                    MessageBox.Show("安装成功，所有相关配置参数与二维码，url都已保存在相应目录下，点击“确定”后打开");
+                    string openFolderPath = @"3in1_config\";
+                    System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
+
+                    return;
+                }
+            }
+            catch (Exception ex1)//例外处理   
+            #region 例外处理
+            {
+                //MessageBox.Show(ex1.Message);
+                if (ex1.Message.Contains("连接尝试失败") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n请检查主机地址及端口是否正确，如果通过代理，请检查代理是否正常工作");
+                }
+
+                else if (ex1.Message.Contains("denied (password)") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n密码错误或用户名错误");
+                }
+                else if (ex1.Message.Contains("Invalid private key file") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n所选密钥文件错误或者格式不对");
+                }
+                else if (ex1.Message.Contains("denied (publickey)") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n使用密钥登录，密钥文件错误或用户名错误");
+                }
+                else if (ex1.Message.Contains("目标计算机积极拒绝") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n主机地址错误，如果使用了代理，也可能是连接代理的端口错误");
+                }
+                else
+                {
+                    MessageBox.Show("发生错误");
+                    MessageBox.Show(ex1.Message);
+                }
+                currentStatus = "主机登录失败";
+                textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+
+            }
+            #endregion
+
+        }
+
+
         //private void ButtonTestTrojanClientInfoWin_Click(object sender, RoutedEventArgs e)
         //{
         //    //TrojanResultClientInfoWindow resultClientInformation = new TrojanResultClientInfoWindow();

@@ -205,6 +205,75 @@
                                 <Button x:Name="ButtonNaiveCancel" Content="取消" Grid.ColumnSpan="1" Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
                             </Grid>
                         </TabItem>
+                        <TabItem Header="三合一" Width="100" Height="30">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="2">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                                            <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                                            <ColumnDefinition ></ColumnDefinition>
+                                            <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                                            <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Text="安装V2ray,Trojan,NaiveProxy在一台VPS中，此处方案仅为实验性的，偏重娱乐性，相比单一代理，并不具优势，可依自己喜好来是否选用。" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="8" Margin="0"></TextBlock>
+                                        <TextBlock Text="*共用设置*" Grid.Column="0" Grid.Row="1" Margin="3"></TextBlock>
+                                        <TextBlock Text="地址(域名)：" Grid.Column="0" Grid.Row="2" Margin="3"></TextBlock>
+                                        <TextBox x:Name="TextBoxDomain3in1" Text="" Style="{StaticResource TitleText}" Tag="IP或域名(不可为空)"  Grid.Column="1" Grid.Row="2" Margin="3"></TextBox>
+                                        <TextBlock Text="端口：443" Grid.Column="2" Grid.Row="2" Margin="3"></TextBlock>
+                                        <!--<TextBox x:Name="TextBoxPort3in1" Text="443" IsReadOnly="True" Grid.Column="3" Grid.Row="2" Margin="3"></TextBox>-->
+                                        <TextBlock Text="伪装网站：" Grid.Column="3" Grid.Row="2" Margin="3"></TextBlock>
+                                        <TextBox x:Name="TextBoxSites3in1" Text="" Style="{StaticResource TitleText}" Tag="伪装网站域名(可为空)"  Grid.Column="4" Grid.Row="2" Margin="3"></TextBox>
+
+                                        <TextBlock Text="*V2ray设置*" Grid.Column="0" Grid.Row="3" Margin="3"></TextBlock>
+                                        <TextBlock Text="UUID：" Grid.Column="0" Grid.Row="4" Margin="3"></TextBlock>
+                                        <TextBox x:Name="TextBoxV2rayUUID3in1" Grid.Column="1" Grid.Row="4" Margin="3"></TextBox>
+                                        <Button x:Name="ButtonV2rayUUID3in1" Content="更新" Grid.Column="2" Grid.Row="4" Margin="3" Click="ButtonV2rayUUID3in1_Click"></Button>
+                                        <TextBlock Text="路径(Path)：" Grid.Column="0" Grid.Row="5" Margin="3"></TextBlock>
+                                        <TextBox x:Name="TextBoxV2rayPath3in1" Grid.Column="1" Grid.Row="5" Margin="3"></TextBox>
+                                        <Button x:Name="ButtonV2rayPath3in1" Content="随机" Grid.Column="2" Grid.Row="5" Margin="3" Click="ButtonV2rayPath3in1_Click"></Button>
+
+                                        <TextBlock Text="*Trojan设置*" Grid.Column="3" Grid.Row="3" Margin="3"></TextBlock>
+                                        <TextBlock Text="密码：" Grid.Column="3" Grid.Row="4" Margin="3"></TextBlock>
+                                        <TextBox x:Name="TextBoxTrojanPassword3in1" Grid.Column="4" Grid.Row="4" Margin="3"></TextBox>
+                                        <Button x:Name="ButtonTrojanPassword3in1" Content="更新" Grid.Column="5" Grid.Row="4" Margin="3" Click="ButtonTrojanPassword3in1_Click"></Button>
+
+                                        <TextBlock Text="*Naive设置*" Grid.Column="6" Grid.Row="3" Margin="3"></TextBlock>
+                                        <TextBlock Text="用户名：" Grid.Column="6" Grid.Row="4" Margin="3"></TextBlock>
+                                        <TextBox x:Name="TextBoxNaiveUser3in1" Grid.Column="7" Grid.Row="4" Margin="3"></TextBox>
+                                        <Button x:Name="ButtonNaiveUser3in1" Content="随机" Grid.Column="8" Grid.Row="4" Margin="3" Click="ButtonNaiveUser3in1_Click"></Button>
+                                        <TextBlock Text="密码：" Grid.Column="6" Grid.Row="5" Margin="3"></TextBlock>
+                                        <TextBox x:Name="TextBoxNaivePassword3in1" Grid.Column="7" Grid.Row="5" Margin="3"></TextBox>
+                                        <Button x:Name="ButtonNaivePassword3in1" Content="随机" Grid.Column="8" Grid.Row="5" Margin="3" Click="ButtonNaivePassword3in1_Click"></Button>
+                                    </Grid>
+                                </Grid>
+                                <Button x:Name="Button_Login3in1" Content="一键安装" Grid.ColumnSpan="1" Margin="10" Grid.Column="0" Grid.Row="2" Click="Button_Login3in1_Click"/>
+                                <Button x:Name="Button_canel3in1" Content="取消" Grid.ColumnSpan="1" Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
+                            </Grid>
+                        </TabItem>
                         <TabItem Header="系统工具" Width="100" Height="30">
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -223,6 +292,7 @@
                                 <Button x:Name="ButtonTestAndEnableBBR" Content="检测/启用BBR" Grid.Column="2" Grid.Row="0" Margin="5" Click="ButtonTestAndEnableBBR_Click"></Button>
                             </Grid>
                         </TabItem>
+                        
                         <!--<TabItem Header="测试面板" Visibility="Visible" Width="150" Height="30">
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -314,7 +384,7 @@
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-                        <TextBlock Text="程序版本：1.5.4" Grid.Column="0" Grid.Row="0"></TextBlock>
+                        <TextBlock Text="程序版本：1.6.0" Grid.Column="0" Grid.Row="0"></TextBlock>
                         
                     </Grid>
                    
