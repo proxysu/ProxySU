@@ -149,6 +149,7 @@
                                    
                       
                                 </Grid.RowDefinitions>
+                                <Button x:Name="ButtonUpdateTrojan" Content="检测/升级Trojan版本" Grid.Column="0" Grid.Row="0" Margin="5" Click="ButtonUpdateTrojan_Click"></Button>
                                 <Button x:Name="ButtonTrojanTemplate" Content="Trojan设置" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonTrojanTemplate_Click"/>
                                 <TextBlock Text="Trojan参数设置" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center"></TextBlock>
                                
@@ -221,13 +222,13 @@
                                 <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="2">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                                            <ColumnDefinition Width="0.55*"></ColumnDefinition>
                                             <ColumnDefinition></ColumnDefinition>
                                             <ColumnDefinition Width="0.5*"></ColumnDefinition>
-                                            <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                                            <ColumnDefinition Width="0.55*"></ColumnDefinition>
                                             <ColumnDefinition ></ColumnDefinition>
                                             <ColumnDefinition Width="0.5*"></ColumnDefinition>
-                                            <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                                            <ColumnDefinition Width="0.55*"></ColumnDefinition>
                                             <ColumnDefinition></ColumnDefinition>
                                             <ColumnDefinition Width="0.5*"></ColumnDefinition>
                                         </Grid.ColumnDefinitions>
@@ -384,7 +385,7 @@
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-                        <TextBlock Text="程序版本：1.6.1" Grid.Column="0" Grid.Row="0"></TextBlock>
+                        <TextBlock Text="程序版本：1.6.2" Grid.Column="0" Grid.Row="0"></TextBlock>
                         
                     </Grid>
                    
