@@ -427,7 +427,6 @@ namespace ProxySU
         private void StartSetUpV2ray(ConnectionInfo connectionInfo,TextBlock textBlockName, ProgressBar progressBar, string serverConfig,string clientConfig,string upLoadPath)
         {
             string currentStatus = "正在登录远程主机......";
-
             textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
 
             try
@@ -469,6 +468,14 @@ namespace ProxySU
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
                     }
+                    //检测是否运行在root权限下
+                    string testRootAuthority = client.RunCommand(@"id -u").Result;
+                    if (testRootAuthority.Equals("0")==false)
+                    {
+                        MessageBox.Show("请使用具有root权限的账户登录主机！！");
+                        client.Disconnect();
+                        return;
+                    }
                     //检测是否安装有V2ray
                     currentStatus = "检测系统是否已经安装V2ray......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -488,6 +495,7 @@ namespace ProxySU
                             currentStatus = "安装取消，退出";
                             textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                             Thread.Sleep(1000);
+                            client.Disconnect();
                             return;
                         }
                     }
@@ -526,6 +534,7 @@ namespace ProxySU
                         currentStatus = "系统环境不满足要求，安装失败！！";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
+                        client.Disconnect();
                         return;
                     }
                     //判断是否启用了SELinux,如果启用了，并且工作在Enforcing模式下，则改为Permissive模式
@@ -562,6 +571,7 @@ namespace ProxySU
                         currentStatus = "时间较对失败......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
+                        client.Disconnect();
                         return;
                     }
                     //MessageBox.Show(timesStamp2.ToString());
@@ -611,6 +621,7 @@ namespace ProxySU
                             textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                             Thread.Sleep(1000);
                             MessageBox.Show("域名未能正确解析到当前VPS的IP上，请检查！若解析设置正确，请等待生效后再重试安装。如果域名使用了CDN，请先关闭！");
+                            client.Disconnect();
                             return;
                         }
                         
@@ -650,6 +661,7 @@ namespace ProxySU
                                 currentStatus = "端口被占用，安装失败......";
                                 textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                                 Thread.Sleep(1000);
+                                client.Disconnect();
                                 return;
                             }
 
@@ -723,6 +735,7 @@ namespace ProxySU
                         client.Disconnect();
                         currentStatus = "安装V2ray失败(官方脚本go.sh运行出错！";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        client.Disconnect();
                         return;
                     }
                     client.RunCommand("mv /etc/v2ray/config.json /etc/v2ray/config.json.1");
@@ -1220,6 +1233,15 @@ namespace ProxySU
                 using (var client = new SshClient(testconnect))
                 {
                     client.Connect();
+
+                    //检测是否运行在root权限下
+                    string testRootAuthority = client.RunCommand(@"id -u").Result;
+                    if (testRootAuthority.Equals("0") == false)
+                    {
+                        MessageBox.Show("请使用具有root权限的账户登录主机！！");
+                        client.Disconnect();
+                        return;
+                    }
                     string cmdTestPort;
                     string cmdResult;
                     cmdTestPort = @"lsof -n -P -i :443 | grep LISTEN";
@@ -1388,6 +1410,15 @@ namespace ProxySU
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
                     }
+
+                    //检测是否运行在root权限下
+                    string testRootAuthority = client.RunCommand(@"id -u").Result;
+                    if (testRootAuthority.Equals("0") == false)
+                    {
+                        MessageBox.Show("请使用具有root权限的账户登录主机！！");
+                        client.Disconnect();
+                        return;
+                    }
                     //检测是否安装有Trojan
                     currentStatus = "检测系统是否已经安装Trojan......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -1404,6 +1435,7 @@ namespace ProxySU
                             currentStatus = "安装取消，退出";
                             textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                             Thread.Sleep(1000);
+                            client.Disconnect();
                             return;
                         }
                     }
@@ -1443,6 +1475,7 @@ namespace ProxySU
                         currentStatus = "系统环境不满足要求，安装失败！！";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
+                        client.Disconnect();
                         return;
                     }
                     //判断是否启用了SELinux,如果启用了，并且工作在Enforcing模式下，则改为Permissive模式
@@ -1505,6 +1538,7 @@ namespace ProxySU
                             textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                             Thread.Sleep(1000);
                             MessageBox.Show("域名未能正确解析到当前VPS的IP上，请检查！若解析设置正确，请等待生效后再重试安装。如果域名使用了CDN，请先关闭！");
+                            client.Disconnect();
                             return;
                         }
 
@@ -1544,6 +1578,7 @@ namespace ProxySU
                                 currentStatus = "端口被占用，安装失败......";
                                 textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                                 Thread.Sleep(1000);
+                                client.Disconnect();
                                 return;
                             }
 
@@ -1618,6 +1653,7 @@ namespace ProxySU
                         client.Disconnect();
                         currentStatus = "安装Trojan失败(官方脚本运行出错！";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        client.Disconnect();
                         return;
                     }
                     client.RunCommand("mv /usr/local/etc/trojan/config.json /usr/local/etc/trojan/config.json.1");
@@ -1993,6 +2029,14 @@ namespace ProxySU
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
                     }
+                    //检测是否运行在root权限下
+                    string testRootAuthority = client.RunCommand(@"id -u").Result;
+                    if (testRootAuthority.Equals("0") == false)
+                    {
+                        MessageBox.Show("请使用具有root权限的账户登录主机！！");
+                        client.Disconnect();
+                        return;
+                    }
                     //检测是否安装有NaiveProxy
                     currentStatus = "检测系统是否已经安装NaiveProxy......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -2009,6 +2053,7 @@ namespace ProxySU
                             currentStatus = "安装取消，退出";
                             textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                             Thread.Sleep(1000);
+                            client.Disconnect();
                             return;
                         }
                     }
@@ -2048,6 +2093,7 @@ namespace ProxySU
                         currentStatus = "系统环境不满足要求，安装失败！！";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
+                        client.Disconnect();
                         return;
                     }
                     //判断是否启用了SELinux,如果启用了，并且工作在Enforcing模式下，则改为Permissive模式
@@ -2103,6 +2149,7 @@ namespace ProxySU
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
                         MessageBox.Show("域名未能正确解析到当前VPS的IP上，请检查！若解析设置正确，请等待生效后再重试安装。如果域名使用了CDN，请先关闭！");
+                        client.Disconnect();
                         return;
                     }
 
@@ -2118,6 +2165,7 @@ namespace ProxySU
                             currentStatus = "端口被占用，安装失败......";
                             textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                             Thread.Sleep(1000);
+                            client.Disconnect();
                             return;
                         }
 
@@ -2170,6 +2218,7 @@ namespace ProxySU
                         client.Disconnect();
                         currentStatus = "安装NaiveProxy失败(脚本运行出错！";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        client.Disconnect();
                         return;
                     }
 
@@ -2274,8 +2323,12 @@ namespace ProxySU
                     //启动Caddy服务
                     client.RunCommand("caddy -service restart");
 
+                    currentStatus = "正在优化网络参数......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
                     //优化网络参数
-                    sshCmd= @"bash - c 'echo ""fs.file-max = 51200"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash - c 'echo ""fs.file-max = 51200"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
                     sshCmd = @"bash - c 'echo ""net.core.rmem_max = 67108864"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
@@ -2313,6 +2366,10 @@ namespace ProxySU
                     client.RunCommand(sshCmd);
                     sshCmd = @"sysctl -p";
                     client.RunCommand(sshCmd);
+
+                    currentStatus = "优化网络参数,OK!";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
 
                     //测试BBR条件，若满足提示是否启用
                     var result = client.RunCommand("uname -r");
@@ -2459,6 +2516,14 @@ namespace ProxySU
                         currentStatus = "主机登录成功";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
+                    }
+                    //检测是否运行在root权限下
+                    string testRootAuthority = client.RunCommand(@"id -u").Result;
+                    if (testRootAuthority.Equals("0") == false)
+                    {
+                        MessageBox.Show("请使用具有root权限的账户登录主机！！");
+                        client.Disconnect();
+                        return;
                     }
                     //检测远程主机系统环境是否符合要求
                     currentStatus = "检测系统内核版本是否符合要求......";
@@ -2655,6 +2720,14 @@ namespace ProxySU
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
                     }
+                    //检测是否运行在root权限下
+                    string testRootAuthority = client.RunCommand(@"id -u").Result;
+                    if (testRootAuthority.Equals("0") == false)
+                    {
+                        MessageBox.Show("请使用具有root权限的账户登录主机！！");
+                        client.Disconnect();
+                        return;
+                    }
                     //检测远程主机V2ray版本
                     currentStatus = "检测远程主机V2ray版本......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -2672,6 +2745,7 @@ namespace ProxySU
                         currentStatus = "未安装V2ray，退出";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
+                        client.Disconnect();
                         return;
 
                     }
@@ -2694,6 +2768,7 @@ namespace ProxySU
                             currentStatus = "升级取消，退出";
                             textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                             Thread.Sleep(1000);
+                            client.Disconnect();
                             return;
                         }
                         else
@@ -2830,6 +2905,14 @@ namespace ProxySU
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
                     }
+                    //检测是否运行在root权限下
+                    string testRootAuthority = client.RunCommand(@"id -u").Result;
+                    if (testRootAuthority.Equals("0") == false)
+                    {
+                        MessageBox.Show("请使用具有root权限的账户登录主机！！");
+                        client.Disconnect();
+                        return;
+                    }
                     //检测远程主机V2ray版本
                     currentStatus = "检测远程主机Trojan版本......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -2847,6 +2930,7 @@ namespace ProxySU
                         currentStatus = "未安装Trojan，退出";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
+                        client.Disconnect();
                         return;
 
                     }
@@ -2869,6 +2953,7 @@ namespace ProxySU
                             currentStatus = "升级取消，退出";
                             textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                             Thread.Sleep(1000);
+                            client.Disconnect();
                             return;
                         }
                         else
@@ -2956,8 +3041,6 @@ namespace ProxySU
             #endregion
 
         }
-
-
 
         //生成三合一的v2ray路径
         private void ButtonV2rayPath3in1_Click(object sender, RoutedEventArgs e)
@@ -3083,6 +3166,14 @@ namespace ProxySU
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
                     }
+                    //检测是否运行在root权限下
+                    string testRootAuthority = client.RunCommand(@"id -u").Result;
+                    if (testRootAuthority.Equals("0") == false)
+                    {
+                        MessageBox.Show("请使用具有root权限的账户登录主机！！");
+                        client.Disconnect();
+                        return;
+                    }
                     //检测是否安装有V2ray
                     currentStatus = "检测系统是否已经安装 V2ray or Trojan or NaiveProxy......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -3102,6 +3193,7 @@ namespace ProxySU
                             currentStatus = "安装取消，退出";
                             textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                             Thread.Sleep(1000);
+                            client.Disconnect();
                             return;
                         }
                     }
@@ -3148,6 +3240,7 @@ namespace ProxySU
                         currentStatus = "系统环境不满足要求，安装失败！！";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
+                        client.Disconnect();
                         return;
                     }
                     //判断是否启用了SELinux,如果启用了，并且工作在Enforcing模式下，则改为Permissive模式
@@ -3179,6 +3272,7 @@ namespace ProxySU
                         currentStatus = "时间较对失败......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
+                        client.Disconnect();
                         return;
                     }
 
@@ -3223,6 +3317,7 @@ namespace ProxySU
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
                         MessageBox.Show("域名未能正确解析到当前VPS的IP上，请检查！若解析设置正确，请等待生效后再重试安装。如果域名使用了CDN，请先关闭！");
+                        client.Disconnect();
                         return;
                     }
 
@@ -3259,6 +3354,7 @@ namespace ProxySU
                             currentStatus = "端口被占用，安装失败......";
                             textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                             Thread.Sleep(1000);
+                            client.Disconnect();
                             return;
                         }
 
@@ -3323,6 +3419,7 @@ namespace ProxySU
                         client.Disconnect();
                         currentStatus = "安装V2ray失败(官方脚本go.sh运行出错！";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        client.Disconnect();
                         return;
                     }
                     client.RunCommand("mv /etc/v2ray/config.json /etc/v2ray/config.json.1");
@@ -3374,6 +3471,7 @@ namespace ProxySU
                         client.Disconnect();
                         currentStatus = "安装Trojan失败(官方脚本运行出错！";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        client.Disconnect();
                         return;
                     }
                     client.RunCommand("mv /usr/local/etc/trojan/config.json /usr/local/etc/trojan/config.json.1");
@@ -3419,6 +3517,7 @@ namespace ProxySU
                         client.Disconnect();
                         currentStatus = "安装NaiveProxy失败(脚本运行出错！";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        client.Disconnect();
                         return;
                     }
 
@@ -3558,6 +3657,54 @@ namespace ProxySU
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
                     }
+
+                    currentStatus = "正在优化网络参数......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+                    //优化网络参数
+                    sshCmd = @"bash - c 'echo ""fs.file-max = 51200"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.core.rmem_max = 67108864"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.core.wmem_max = 67108864"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.core.rmem_default = 65536"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.core.wmem_default = 65536"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.core.netdev_max_backlog = 4096"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.core.somaxconn = 4096"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_syncookies = 1"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_tw_reuse = 1"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_tw_recycle = 0"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_fin_timeout = 30"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_keepalive_time = 1200"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.ipv4.ip_local_port_range = 10000 65000"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_max_syn_backlog = 4096"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_max_tw_buckets = 5000"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_rmem = 4096 87380 67108864"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_wmem = 4096 65536 67108864"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_mtu_probing = 1"" >> /etc/sysctl.conf'";
+                    client.RunCommand(sshCmd);
+                    sshCmd = @"sysctl -p";
+                    client.RunCommand(sshCmd);
+
+                    currentStatus = "优化网络参数,OK!";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
                     //生成客户端配置
                     currentStatus = "生成客户端配置......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -3819,7 +3966,7 @@ namespace ProxySU
 
                     client.Disconnect();
                     
-                    currentStatus = "安装成功";
+                    currentStatus = "生成客户端配置，OK！ 安装成功！";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
 
