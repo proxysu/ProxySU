@@ -385,7 +385,7 @@
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-                        <TextBlock Text="程序版本：1.6.2" Grid.Column="0" Grid.Row="0"></TextBlock>
+                        <TextBlock Text="程序版本：1.6.3" Grid.Column="0" Grid.Row="0"></TextBlock>
                         
                     </Grid>
                    

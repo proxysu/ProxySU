@@ -470,7 +470,7 @@ namespace ProxySU
                     }
                     //检测是否运行在root权限下
                     string testRootAuthority = client.RunCommand(@"id -u").Result;
-                    if (testRootAuthority.Equals("0")==false)
+                    if (testRootAuthority.Equals("0\n")==false)
                     {
                         MessageBox.Show("请使用具有root权限的账户登录主机！！");
                         client.Disconnect();
@@ -1236,7 +1236,7 @@ namespace ProxySU
 
                     //检测是否运行在root权限下
                     string testRootAuthority = client.RunCommand(@"id -u").Result;
-                    if (testRootAuthority.Equals("0") == false)
+                    if (testRootAuthority.Equals("0\n") == false)
                     {
                         MessageBox.Show("请使用具有root权限的账户登录主机！！");
                         client.Disconnect();
@@ -1413,7 +1413,7 @@ namespace ProxySU
 
                     //检测是否运行在root权限下
                     string testRootAuthority = client.RunCommand(@"id -u").Result;
-                    if (testRootAuthority.Equals("0") == false)
+                    if (testRootAuthority.Equals("0\n") == false)
                     {
                         MessageBox.Show("请使用具有root权限的账户登录主机！！");
                         client.Disconnect();
@@ -2031,7 +2031,7 @@ namespace ProxySU
                     }
                     //检测是否运行在root权限下
                     string testRootAuthority = client.RunCommand(@"id -u").Result;
-                    if (testRootAuthority.Equals("0") == false)
+                    if (testRootAuthority.Equals("0\n") == false)
                     {
                         MessageBox.Show("请使用具有root权限的账户登录主机！！");
                         client.Disconnect();
@@ -2519,7 +2519,7 @@ namespace ProxySU
                     }
                     //检测是否运行在root权限下
                     string testRootAuthority = client.RunCommand(@"id -u").Result;
-                    if (testRootAuthority.Equals("0") == false)
+                    if (testRootAuthority.Equals("0\n") == false)
                     {
                         MessageBox.Show("请使用具有root权限的账户登录主机！！");
                         client.Disconnect();
@@ -2722,7 +2722,7 @@ namespace ProxySU
                     }
                     //检测是否运行在root权限下
                     string testRootAuthority = client.RunCommand(@"id -u").Result;
-                    if (testRootAuthority.Equals("0") == false)
+                    if (testRootAuthority.Equals("0\n") == false)
                     {
                         MessageBox.Show("请使用具有root权限的账户登录主机！！");
                         client.Disconnect();
@@ -2907,7 +2907,7 @@ namespace ProxySU
                     }
                     //检测是否运行在root权限下
                     string testRootAuthority = client.RunCommand(@"id -u").Result;
-                    if (testRootAuthority.Equals("0") == false)
+                    if (testRootAuthority.Equals("0\n") == false)
                     {
                         MessageBox.Show("请使用具有root权限的账户登录主机！！");
                         client.Disconnect();
@@ -3168,7 +3168,7 @@ namespace ProxySU
                     }
                     //检测是否运行在root权限下
                     string testRootAuthority = client.RunCommand(@"id -u").Result;
-                    if (testRootAuthority.Equals("0") == false)
+                    if (testRootAuthority.Equals("0\n") == false)
                     {
                         MessageBox.Show("请使用具有root权限的账户登录主机！！");
                         client.Disconnect();
