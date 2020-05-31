@@ -1,3 +1,6 @@
+# 使用V2ray的任何TLS加密的，尽快升级到最新版本4.23.2及以上。原因如下：  
+[v2ray的TLS流量可被简单特征码匹配精准识别](https://github.com/v2ray/discussion/issues/704)  
+
 # ProxySU
 V2ray, Trojan,NaiveProxy,BBR install tools for windows。V2ray，Trojan，NaiveProxy一键安装工具。BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）
 
