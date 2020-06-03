@@ -172,7 +172,7 @@ namespace ProxySU
             return connectionInfo;
         }
 
-        //开始布署安装
+        //开始布署安装V2ray
         private void Button_Login_Click(object sender, RoutedEventArgs e)
 
         {
@@ -1907,6 +1907,591 @@ namespace ProxySU
 
         }
 
+        //打开设置TrojanGo的窗口
+        private void ButtonTrojanGoTemplate_Click(object sender, RoutedEventArgs e)
+        {
+            for (int i = 0; i != ReceiveConfigurationParameters.Length; i++)
+
+            {
+                ReceiveConfigurationParameters[i] = "";
+            }
+            TrojanTemplateWindow windowTrojanTemplateConfiguration = new TrojanTemplateWindow();
+            windowTrojanTemplateConfiguration.ShowDialog();
+        }
+        //Trojan一键安装
+        private void ButtonTrojanGoSetUp_Click(object sender, RoutedEventArgs e)
+        {
+            ConnectionInfo connectionInfo = GenerateConnectionInfo();
+            if (connectionInfo == null)
+            {
+                MessageBox.Show("远程主机连接信息有误，请检查");
+                return;
+            }
+            string serverConfig = "";  //服务端配置文件
+            string clientConfig = "";   //生成的客户端配置文件
+            string upLoadPath = "/usr/local/etc/trojan/config.json"; //服务端文件位置
+            if (String.IsNullOrEmpty(ReceiveConfigurationParameters[4]) == true)
+            {
+                ReceiveConfigurationParameters[4] = TextBoxHost.Text.ToString();
+            }
+            if (String.IsNullOrEmpty(ReceiveConfigurationParameters[0]) == true)
+            {
+                MessageBox.Show("请先选择配置模板！");
+                return;
+            }
+            else if (String.Equals(ReceiveConfigurationParameters[0], "TrojanTLS2Web"))
+            {
+                serverConfig = "TemplateConfg\\trojan_server_config.json";
+                clientConfig = "TemplateConfg\\trojan_client_config.json";
+            }
+            Thread thread = new Thread(() => StartSetUpTrojan(connectionInfo, TextBlockSetUpProcessing, ProgressBarSetUpProcessing, serverConfig, clientConfig, upLoadPath));
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+        }
+
+        //登录远程主机布署Trojan程序
+        private void StartSetUpTrojanGo(ConnectionInfo connectionInfo, TextBlock textBlockName, ProgressBar progressBar, string serverConfig, string clientConfig, string upLoadPath)
+        {
+            string currentStatus = "正在登录远程主机......";
+            Action<TextBlock, ProgressBar, string> updateAction = new Action<TextBlock, ProgressBar, string>(UpdateTextBlock);
+            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+
+            try
+            {
+                #region 主机指纹，暂未启用
+                //byte[] expectedFingerPrint = new byte[] {
+                //                                0x66, 0x31, 0xaf, 0x00, 0x54, 0xb9, 0x87, 0x31,
+                //                                0xff, 0x58, 0x1c, 0x31, 0xb1, 0xa2, 0x4c, 0x6b
+                //                            };
+                #endregion
+                using (var client = new SshClient(connectionInfo))
+
+                {
+                    #region ssh登录验证主机指纹代码块，暂未启用
+                    //    client.HostKeyReceived += (sender, e) =>
+                    //    {
+                    //        if (expectedFingerPrint.Length == e.FingerPrint.Length)
+                    //        {
+                    //            for (var i = 0; i < expectedFingerPrint.Length; i++)
+                    //            {
+                    //                if (expectedFingerPrint[i] != e.FingerPrint[i])
+                    //                {
+                    //                    e.CanTrust = false;
+                    //                    break;
+                    //                }
+                    //            }
+                    //        }
+                    //        else
+                    //        {
+                    //            e.CanTrust = false;
+                    //        }
+                    //    };
+                    #endregion
+
+                    client.Connect();
+                    if (client.IsConnected == true)
+                    {
+                        currentStatus = "主机登录成功";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                    }
+
+                    //检测是否运行在root权限下
+                    string testRootAuthority = client.RunCommand(@"id -u").Result;
+                    if (testRootAuthority.Equals("0\n") == false)
+                    {
+                        MessageBox.Show("请使用具有root权限的账户登录主机！！");
+                        client.Disconnect();
+                        return;
+                    }
+                    //检测是否安装有Trojan
+                    currentStatus = "检测系统是否已经安装Trojan......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    //string cmdTestTrojanInstalled = @"find / -name trojan";
+                    string resultCmdTestTrojanInstalled = client.RunCommand(@"find / -name trojan").Result;
+
+                    if (resultCmdTestTrojanInstalled.Contains("/usr/local/bin/trojan") == true)
+                    {
+                        MessageBoxResult messageBoxResult = MessageBox.Show("远程主机已安装Trojan,是否强制重新安装？", "", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        if (messageBoxResult == MessageBoxResult.No)
+                        {
+                            currentStatus = "安装取消，退出";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            Thread.Sleep(1000);
+                            client.Disconnect();
+                            return;
+                        }
+                    }
+
+                    //检测远程主机系统环境是否符合要求
+                    currentStatus = "检测系统是否符合安装要求......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    string resultCmd = client.RunCommand("uname -m").Result;
+                    //var result = client.RunCommand("cat /root/test.ver");
+                    //string[] linuxKernelVerStr = resultCmd.Split('-');
+
+                    //bool detectResult = DetectKernelVersion(linuxKernelVerStr[0]);
+
+                    if (resultCmd.Contains("x86_64") == false)
+                    {
+                        MessageBox.Show($"请在x86_64系统中安装Trojan");
+                        currentStatus = "系统不符合要求，安装失败！！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                    }
+
+                    //检测系统是否支持yum 或 apt-get或zypper，且支持Systemd
+                    //如果不存在组件，则命令结果为空，string.IsNullOrEmpty值为真，
+                    bool getApt = String.IsNullOrEmpty(client.RunCommand("command -v apt-get").Result);
+                    bool getYum = String.IsNullOrEmpty(client.RunCommand("command -v yum").Result);
+                    bool getZypper = String.IsNullOrEmpty(client.RunCommand("command -v zypper").Result);
+                    bool getSystemd = String.IsNullOrEmpty(client.RunCommand("command -v systemctl").Result);
+                    bool getGetenforce = String.IsNullOrEmpty(client.RunCommand("command -v getenforce").Result);
+
+                    //没有安装apt-get，也没有安装yum，也没有安装zypper,或者没有安装systemd的，不满足安装条件
+                    //也就是apt-get ，yum, zypper必须安装其中之一，且必须安装Systemd的系统才能安装。
+                    if ((getApt && getYum && getZypper) || getSystemd)
+                    {
+                        MessageBox.Show($"系统缺乏必要的安装组件如:apt-get||yum||zypper||Syetemd，主机系统推荐使用：CentOS 7/8,Debian 8/9/10,Ubuntu 16.04及以上版本");
+                        currentStatus = "系统环境不满足要求，安装失败！！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                        client.Disconnect();
+                        return;
+                    }
+                    //判断是否启用了SELinux,如果启用了，并且工作在Enforcing模式下，则改为Permissive模式
+                    if (getGetenforce == false)
+                    {
+                        string testSELinux = client.RunCommand("getenforce").Result;
+                        //MessageBox.Show(testSELinux);
+                        if (testSELinux.Contains("Enforcing") == true)
+                        {
+                            //MessageBox.Show("Enforcing");
+                            client.RunCommand("setenforce  0");//不重启改为Permissive模式
+                            client.RunCommand("sed -i 's/SELINUX=enforcing/SELINUX=permissive/' /etc/selinux/config");//重启也工作在Permissive模式下
+                        }
+
+                    }
+
+                    //如果使用如果是WebSocket + TLS + Web/http2/Http2Web/tcp_TLS/WebSocket_TLS模式，需要检测域名解析是否正确
+                    if (serverConfig.Contains("trojan_server") == true)
+                    {
+                        currentStatus = "正在检测域名是否解析到当前VPS的IP上......";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+
+                        //在相应系统内安装curl(如果没有安装curl)
+                        if (string.IsNullOrEmpty(client.RunCommand("command -v curl").Result) == true)
+                        {
+                            //为假则表示系统有相应的组件。
+                            if (getApt == false)
+                            {
+                                client.RunCommand("apt-get -qq update");
+                                client.RunCommand("apt-get -y -qq install curl");
+                            }
+                            if (getYum == false)
+                            {
+                                client.RunCommand("yum -q makecache");
+                                client.RunCommand("yum -y -q install curl");
+                            }
+                            if (getZypper == false)
+                            {
+                                client.RunCommand("zypper ref");
+                                client.RunCommand("zypper -y install curl");
+                            }
+                        }
+
+                        string nativeIp = client.RunCommand("curl -4 ip.sb").Result.ToString();
+                        //MessageBox.Show(nativeIp);
+                        string testDomainCmd = "ping " + ReceiveConfigurationParameters[4] + " -c 1 | grep -oE -m1 \"([0-9]{1,3}\\.){3}[0-9]{1,3}\"";
+                        //MessageBox.Show(testDomainCmd);
+                        string resultTestDomainCmd = client.RunCommand(testDomainCmd).Result.ToString();
+                        //MessageBox.Show(resultTestDomainCmd);
+                        if (String.Equals(nativeIp, resultTestDomainCmd) == true)
+                        {
+                            currentStatus = "解析正确！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            Thread.Sleep(1000);
+                        }
+                        else
+                        {
+                            currentStatus = "域名未能正确解析到当前VPS的IP上!安装失败！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            Thread.Sleep(1000);
+                            MessageBox.Show("域名未能正确解析到当前VPS的IP上，请检查！若解析设置正确，请等待生效后再重试安装。如果域名使用了CDN，请先关闭！");
+                            client.Disconnect();
+                            return;
+                        }
+
+                    }
+                    if (serverConfig.Contains("trojan_server") == true)
+                    {
+                        //检测是否安装lsof
+                        if (string.IsNullOrEmpty(client.RunCommand("command -v lsof").Result) == true)
+                        {
+                            //为假则表示系统有相应的组件。
+                            if (getApt == false)
+                            {
+                                client.RunCommand("apt-get -qq update");
+                                client.RunCommand("apt-get -y -qq install lsof");
+                            }
+                            if (getYum == false)
+                            {
+                                client.RunCommand("yum -q makecache");
+                                client.RunCommand("yum -y -q install lsof");
+                            }
+                            if (getZypper == false)
+                            {
+                                client.RunCommand("zypper ref");
+                                client.RunCommand("zypper -y install lsof");
+                            }
+                        }
+                        currentStatus = "正在检测端口占用情况......";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                        //MessageBox.Show(@"lsof -n -P -i :80 | grep LISTEN");
+                        //MessageBox.Show(client.RunCommand(@"lsof -n -P -i :80 | grep LISTEN").Result);
+                        if (String.IsNullOrEmpty(client.RunCommand(@"lsof -n -P -i :80 | grep LISTEN").Result) == false || String.IsNullOrEmpty(client.RunCommand(@"lsof -n -P -i :443 | grep LISTEN").Result) == false)
+                        {
+                            MessageBoxResult dialogResult = MessageBox.Show("80/443端口之一，或全部被占用，将强制停止占用80/443端口的程序?", "Stop application", MessageBoxButton.YesNo);
+                            if (dialogResult == MessageBoxResult.No)
+                            {
+                                currentStatus = "端口被占用，安装失败......";
+                                textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                                Thread.Sleep(1000);
+                                client.Disconnect();
+                                return;
+                            }
+
+                            currentStatus = "正在释放80/443端口......";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            Thread.Sleep(1000);
+
+                            string cmdTestPort = @"lsof -n -P -i :443 | grep LISTEN";
+                            string cmdResult = client.RunCommand(cmdTestPort).Result;
+                            //MessageBox.Show(cmdTestPort);
+                            if (String.IsNullOrEmpty(cmdResult) == false)
+                            {
+                                //MessageBox.Show(cmdResult);
+                                string[] cmdResultArry443 = cmdResult.Split(' ');
+                                //MessageBox.Show(cmdResultArry443[3]);
+                                client.RunCommand($"systemctl stop {cmdResultArry443[0]}");
+                                client.RunCommand($"systemctl disable {cmdResultArry443[0]}");
+                                client.RunCommand($"kill -9 {cmdResultArry443[3]}");
+                            }
+
+                            cmdTestPort = @"lsof -n -P -i :80 | grep LISTEN";
+                            cmdResult = client.RunCommand(cmdTestPort).Result;
+                            if (String.IsNullOrEmpty(cmdResult) == false)
+                            {
+                                string[] cmdResultArry80 = cmdResult.Split(' ');
+                                client.RunCommand($"systemctl stop {cmdResultArry80[0]}");
+                                client.RunCommand($"systemctl disable {cmdResultArry80[0]}");
+                                client.RunCommand($"kill -9 {cmdResultArry80[3]}");
+                            }
+                            currentStatus = "80/443端口释放完毕！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            Thread.Sleep(1000);
+
+                        }
+                    }
+                    currentStatus = "符合安装要求,布署中......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    //在相应系统内安装curl(如果没有安装curl)
+                    if (string.IsNullOrEmpty(client.RunCommand("command -v curl").Result) == true)
+                    {
+                        //为假则表示系统有相应的组件。
+                        if (getApt == false)
+                        {
+                            client.RunCommand("apt-get -qq update");
+                            client.RunCommand("apt-get -y -qq install curl");
+                        }
+                        if (getYum == false)
+                        {
+                            client.RunCommand("yum -q makecache");
+                            client.RunCommand("yum -y -q install curl");
+                        }
+                        if (getZypper == false)
+                        {
+                            client.RunCommand("zypper ref");
+                            client.RunCommand("zypper -y install curl");
+                        }
+                    }
+
+
+                    //下载官方安装脚本安装
+
+                    client.RunCommand("curl -o /tmp/trojan-quickstart.sh https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh");
+                    client.RunCommand("yes | bash /tmp/trojan-quickstart.sh");
+
+                    string installResult = client.RunCommand("find / -name trojan").Result.ToString();
+
+                    if (!installResult.Contains("/usr/local/bin/trojan"))
+                    {
+                        MessageBox.Show("安装Trojan失败(官方脚本运行出错！");
+                        client.Disconnect();
+                        currentStatus = "安装Trojan失败(官方脚本运行出错！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        client.Disconnect();
+                        return;
+                    }
+                    client.RunCommand("mv /usr/local/etc/trojan/config.json /usr/local/etc/trojan/config.json.1");
+
+                    //上传配置文件
+                    currentStatus = "Trojan程序安装完毕，配置文件上传中......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    //生成服务端配置
+                    using (StreamReader reader = File.OpenText(serverConfig))
+                    {
+                        JObject serverJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
+                        //设置密码
+                        serverJson["password"][0] = ReceiveConfigurationParameters[2];
+                        //设置监听端口
+                        //serverJson["inbounds"][0]["port"] = int.Parse(ReceiveConfigurationParameters[1]);
+
+                        using (StreamWriter sw = new StreamWriter(@"config.json"))
+                        {
+                            sw.Write(serverJson.ToString());
+                        }
+                    }
+                    UploadConfig(connectionInfo, @"config.json", upLoadPath);
+
+                    File.Delete(@"config.json");
+
+                    //打开防火墙端口
+                    string openFireWallPort = ReceiveConfigurationParameters[1];
+                    if (String.IsNullOrEmpty(client.RunCommand("command -v firewall-cmd").Result) == false)
+                    {
+                        if (String.Equals(openFireWallPort, "443"))
+                        {
+                            client.RunCommand("firewall-cmd --zone=public --add-port=80/tcp --permanent");
+                            client.RunCommand("firewall-cmd --zone=public --add-port=443/tcp --permanent");
+                            client.RunCommand("firewall-cmd --reload");
+                        }
+                        else
+                        {
+                            client.RunCommand($"firewall-cmd --zone=public --add-port={openFireWallPort}/tcp --permanent");
+                            client.RunCommand($"firewall-cmd --zone=public --add-port={openFireWallPort}/udp --permanent");
+                            client.RunCommand("firewall-cmd --reload");
+                        }
+                    }
+                    if (String.IsNullOrEmpty(client.RunCommand("command -v ufw").Result) == false)
+                    {
+                        if (String.Equals(openFireWallPort, "443"))
+                        {
+                            client.RunCommand("ufw allow 80");
+                            client.RunCommand("ufw allow 443");
+                            client.RunCommand("yes | ufw reset");
+                        }
+                        else
+                        {
+                            client.RunCommand($"ufw allow {openFireWallPort}/tcp");
+                            client.RunCommand($"ufw allow {openFireWallPort}/udp");
+                            client.RunCommand("yes | ufw reset");
+                        }
+                    }
+
+
+
+                    if (serverConfig.Contains("trojan_server") == true)
+                    {
+                        currentStatus = "使用Trojan+TLS+Web模式，正在安装acme.sh......";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+
+                        if (getApt == false)
+                        {
+                            //client.RunCommand("apt-get -qq update");
+                            client.RunCommand("apt-get -y -qq install socat");
+                        }
+                        if (getYum == false)
+                        {
+                            //client.RunCommand("yum -q makecache");
+                            client.RunCommand("yum -y -q install socat");
+                        }
+                        if (getZypper == false)
+                        {
+                            // client.RunCommand("zypper ref");
+                            client.RunCommand("zypper -y install socat");
+                        }
+                        client.RunCommand("curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh");
+                        client.RunCommand("cd ~/.acme.sh/");
+                        client.RunCommand("alias acme.sh=~/.acme.sh/acme.sh");
+
+                        currentStatus = "申请域名证书......";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+
+                        //client.RunCommand("mkdir -p /etc/v2ray/ssl");
+                        client.RunCommand($"/root/.acme.sh/acme.sh  --issue  --standalone  -d {ReceiveConfigurationParameters[4]}");
+
+                        currentStatus = "安装证书到Trojan......";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                        client.RunCommand($"/root/.acme.sh/acme.sh  --installcert  -d {ReceiveConfigurationParameters[4]}  --certpath /usr/local/etc/trojan/trojan_ssl.crt --keypath /usr/local/etc/trojan/trojan_ssl.key  --capath  /usr/local/etc/trojan/trojan_ssl.crt  --reloadcmd  \"systemctl restart trojan\"");
+                    }
+
+                    currentStatus = "正在启动Trojan......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+                    //启动V2ray服务
+                    client.RunCommand("systemctl restart trojan");
+
+                    currentStatus = "Trojan启动成功！";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    //安装Caddy
+                    if (serverConfig.Contains("trojan_server") == true)
+                    {
+                        currentStatus = "正在安装Caddy";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+
+                        client.RunCommand("curl https://getcaddy.com -o getcaddy");
+                        client.RunCommand("bash getcaddy personal hook.service");
+                        client.RunCommand("mkdir -p /etc/caddy");
+                        client.RunCommand("mkdir -p /var/www");
+
+
+                        currentStatus = "上传Caddy配置文件......";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+
+                        string caddyConfig = "";
+                        if (serverConfig.Contains("trojan_server") == true)
+                        {
+                            caddyConfig = "TemplateConfg\\trojan_caddy_config.caddyfile";
+                        }
+
+                        upLoadPath = "/etc/caddy/Caddyfile";
+                        UploadConfig(connectionInfo, caddyConfig, upLoadPath);
+
+                        //设置Caddyfile文件中的tls 邮箱
+
+                        string email = $"user@{ReceiveConfigurationParameters[4]}";
+                        string sshCmd;
+                        //设置域名
+                        sshCmd = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}:80/' {upLoadPath}";
+                        //MessageBox.Show(sshCmd);
+                        client.RunCommand(sshCmd);
+                        //设置伪装网站
+                        if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7]) == false)
+                        {
+                            sshCmd = $"sed -i 's/##sites##/proxy \\/ {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
+                            //MessageBox.Show(sshCmd);
+                            client.RunCommand(sshCmd);
+                        }
+                        Thread.Sleep(2000);
+
+                        //安装Caddy服务
+                        sshCmd = $"caddy -service install -agree -conf /etc/caddy/Caddyfile -email {email}";
+                        //MessageBox.Show(sshCmd);
+                        client.RunCommand(sshCmd);
+
+
+                        //启动Caddy服务
+                        client.RunCommand("caddy -service restart");
+                    }
+
+                    //测试BBR条件，若满足提示是否启用
+                    var result = client.RunCommand("uname -r");
+                    //var result = client.RunCommand("cat /root/test.ver");
+                    string[] linuxKernelVerStr = result.Result.Split('-');
+
+                    bool detectResult = DetectKernelVersionBBR(linuxKernelVerStr[0]);
+                    string resultCmdTestBBR = client.RunCommand(@"sysctl net.ipv4.tcp_congestion_control | grep bbr").Result;
+                    //如果内核满足大于等于4.9，且还未启用BBR，则启用BBR
+                    if (detectResult == true && resultCmdTestBBR.Contains("bbr") == false)
+                    {
+                        client.RunCommand(@"bash - c 'echo ""net.core.default_qdisc = fq"" >> /etc/sysctl.conf'");
+                        client.RunCommand(@"bash - c 'echo ""net.ipv4.tcp_congestion_control = bbr"" >> /etc/sysctl.conf'");
+                        client.RunCommand(@"sysctl -p");
+                    }
+
+                    //生成客户端配置
+                    currentStatus = "生成客户端配置......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+                    if (!Directory.Exists("trojan_config"))//如果不存在就创建file文件夹　　             　　              
+                    {
+                        Directory.CreateDirectory("trojan_config");//创建该文件夹　　   
+                    }
+                    //string clientConfig = "TemplateConfg\\tcp_client_config.json";
+                    using (StreamReader reader = File.OpenText(clientConfig))
+                    {
+                        JObject clientJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
+
+                        clientJson["remote_addr"] = ReceiveConfigurationParameters[4];
+                        clientJson["remote_port"] = int.Parse(ReceiveConfigurationParameters[1]);
+                        clientJson["password"][0] = ReceiveConfigurationParameters[2];
+
+                        using (StreamWriter sw = new StreamWriter(@"trojan_config\config.json"))
+                        {
+                            sw.Write(clientJson.ToString());
+                        }
+                    }
+
+                    client.Disconnect();
+
+                    currentStatus = "安装成功";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    //显示服务端连接参数
+                    //MessageBox.Show("用于Trojan官方客户端的配置文件已保存在config文件夹中");
+                    TrojanResultClientInfoWindow resultClientInformation = new TrojanResultClientInfoWindow();
+                    resultClientInformation.ShowDialog();
+
+                    return;
+                }
+            }
+            catch (Exception ex1)//例外处理   
+            #region 例外处理
+            {
+                //MessageBox.Show(ex1.Message);
+                if (ex1.Message.Contains("连接尝试失败") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n请检查主机地址及端口是否正确，如果通过代理，请检查代理是否正常工作");
+                }
+
+                else if (ex1.Message.Contains("denied (password)") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n密码错误或用户名错误");
+                }
+                else if (ex1.Message.Contains("Invalid private key file") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n所选密钥文件错误或者格式不对");
+                }
+                else if (ex1.Message.Contains("denied (publickey)") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n使用密钥登录，密钥文件错误或用户名错误");
+                }
+                else if (ex1.Message.Contains("目标计算机积极拒绝") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n主机地址错误，如果使用了代理，也可能是连接代理的端口错误");
+                }
+                else
+                {
+                    MessageBox.Show("发生错误");
+                    MessageBox.Show(ex1.Message);
+                }
+                currentStatus = "主机登录失败";
+                textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+
+            }
+            #endregion
+
+        }
+
         //更新NaiveProxy的密码
         private void ButtonNaivePassword_Click(object sender, RoutedEventArgs e)
         {
@@ -2568,8 +3153,8 @@ namespace ProxySU
 
                     //启用BBR
 
-                    client.RunCommand(@"bash - c 'echo ""net.core.default_qdisc = fq"" >> /etc/sysctl.conf'");
-                    client.RunCommand(@"bash - c 'echo ""net.ipv4.tcp_congestion_control = bbr"" >> /etc/sysctl.conf'");
+                    client.RunCommand(@"bash -c 'echo ""net.core.default_qdisc=fq"" >> /etc/sysctl.conf'");
+                    client.RunCommand(@"bash -c 'echo ""net.ipv4.tcp_congestion_control=bbr"" >> /etc/sysctl.conf'");
                     client.RunCommand(@"sysctl -p");
 
                     resultCmdTestBBR = client.RunCommand(@"sysctl net.ipv4.tcp_congestion_control | grep bbr").Result;
