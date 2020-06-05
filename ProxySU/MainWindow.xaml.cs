@@ -951,8 +951,8 @@ namespace ProxySU
                     //如果内核满足大于等于4.9，且还未启用BBR，则启用BBR
                     if (detectResult == true && resultCmdTestBBR.Contains("bbr") == false)
                     {
-                        client.RunCommand(@"bash - c 'echo ""net.core.default_qdisc = fq"" >> /etc/sysctl.conf'");
-                        client.RunCommand(@"bash - c 'echo ""net.ipv4.tcp_congestion_control = bbr"" >> /etc/sysctl.conf'");
+                        client.RunCommand(@"bash -c 'echo ""net.core.default_qdisc=fq"" >> /etc/sysctl.conf'");
+                        client.RunCommand(@"bash -c 'echo ""net.ipv4.tcp_congestion_control=bbr"" >> /etc/sysctl.conf'");
                         client.RunCommand(@"sysctl -p");
                     }
 
@@ -1363,7 +1363,6 @@ namespace ProxySU
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
         }
-
         //登录远程主机布署Trojan程序
         private void StartSetUpTrojan(ConnectionInfo connectionInfo, TextBlock textBlockName, ProgressBar progressBar, string serverConfig, string clientConfig, string upLoadPath)
         {
@@ -1827,8 +1826,8 @@ namespace ProxySU
                     //如果内核满足大于等于4.9，且还未启用BBR，则启用BBR
                     if (detectResult == true && resultCmdTestBBR.Contains("bbr") == false)
                     {
-                        client.RunCommand(@"bash - c 'echo ""net.core.default_qdisc = fq"" >> /etc/sysctl.conf'");
-                        client.RunCommand(@"bash - c 'echo ""net.ipv4.tcp_congestion_control = bbr"" >> /etc/sysctl.conf'");
+                        client.RunCommand(@"bash -c 'echo ""net.core.default_qdisc=fq"" >> /etc/sysctl.conf'");
+                        client.RunCommand(@"bash -c 'echo ""net.ipv4.tcp_congestion_control=bbr"" >> /etc/sysctl.conf'");
                         client.RunCommand(@"sysctl -p");
                     }
 
@@ -1907,7 +1906,8 @@ namespace ProxySU
 
         }
 
-        //打开设置TrojanGo的窗口
+
+        //打开设置TrojanGo参数窗口
         private void ButtonTrojanGoTemplate_Click(object sender, RoutedEventArgs e)
         {
             for (int i = 0; i != ReceiveConfigurationParameters.Length; i++)
@@ -1915,10 +1915,9 @@ namespace ProxySU
             {
                 ReceiveConfigurationParameters[i] = "";
             }
-            TrojanTemplateWindow windowTrojanTemplateConfiguration = new TrojanTemplateWindow();
-            windowTrojanTemplateConfiguration.ShowDialog();
+            TrojanGoTemplateWindow windowTrojanGoTemplateConfiguration = new TrojanGoTemplateWindow();
+            windowTrojanGoTemplateConfiguration.ShowDialog();
         }
-        //Trojan一键安装
         private void ButtonTrojanGoSetUp_Click(object sender, RoutedEventArgs e)
         {
             ConnectionInfo connectionInfo = GenerateConnectionInfo();
@@ -1927,29 +1926,48 @@ namespace ProxySU
                 MessageBox.Show("远程主机连接信息有误，请检查");
                 return;
             }
-            string serverConfig = "";  //服务端配置文件
-            string clientConfig = "";   //生成的客户端配置文件
-            string upLoadPath = "/usr/local/etc/trojan/config.json"; //服务端文件位置
-            if (String.IsNullOrEmpty(ReceiveConfigurationParameters[4]) == true)
-            {
-                ReceiveConfigurationParameters[4] = TextBoxHost.Text.ToString();
-            }
+            string serverConfig = "TemplateConfg\\trojan-go_all_config.json";  //服务端配置文件
+            string clientConfig = "TemplateConfg\\trojan-go_all_config.json";   //生成的客户端配置文件
+            string upLoadPath = "/etc/trojan-go/config.json"; //服务端文件位置
+
+            //if (String.IsNullOrEmpty(ReceiveConfigurationParameters[0]) == false)
+            //if(ReceiveConfigurationParameters[0].Contains("TrojanGo")==true)
+            //{
+            //    serverConfig = "TemplateConfg\\trojan-go_all_config.json";
+            //    clientConfig = "TemplateConfg\\trojan-go_all_config.json";
+            //}
+            //else if (String.Equals(ReceiveConfigurationParameters[0], "TrojanGoTLS2Web"))
+            //{
+            //    serverConfig = "TemplateConfg\\trojan-go_all_config.json";
+            //    clientConfig = "TemplateConfg\\trojan-go_all_config.json";
+            //}
+            //else if (String.Equals(ReceiveConfigurationParameters[0], "TrojanGoWebSocketTLS2Web"))
+            //{
+            //    serverConfig = "TemplateConfg\\trojan-go_all_config.json";
+            //    clientConfig = "TemplateConfg\\trojan-go_all_config.json";
+            //}
+            //else
             if (String.IsNullOrEmpty(ReceiveConfigurationParameters[0]) == true)
             {
-                MessageBox.Show("请先选择配置模板！");
+                MessageBox.Show("未选择配置模板或模板选择错误！");
                 return;
             }
-            else if (String.Equals(ReceiveConfigurationParameters[0], "TrojanTLS2Web"))
+            if (String.IsNullOrEmpty(ReceiveConfigurationParameters[4]) == true)
             {
-                serverConfig = "TemplateConfg\\trojan_server_config.json";
-                clientConfig = "TemplateConfg\\trojan_client_config.json";
+                MessageBox.Show("空域名，请检查相关参数设置！");
+                return;
+                //ReceiveConfigurationParameters[4] = TextBoxHost.Text.ToString();
             }
-            Thread thread = new Thread(() => StartSetUpTrojan(connectionInfo, TextBlockSetUpProcessing, ProgressBarSetUpProcessing, serverConfig, clientConfig, upLoadPath));
+            //else
+            //{
+            //    MessageBox.Show("空域名，请检查相关参数设置！");
+            //    return;
+            //}
+            Thread thread = new Thread(() => StartSetUpTrojanGo(connectionInfo, TextBlockSetUpProcessing, ProgressBarSetUpProcessing, serverConfig, clientConfig, upLoadPath));
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
         }
-
-        //登录远程主机布署Trojan程序
+        //登录远程主机布署Trojan-Go程序
         private void StartSetUpTrojanGo(ConnectionInfo connectionInfo, TextBlock textBlockName, ProgressBar progressBar, string serverConfig, string clientConfig, string upLoadPath)
         {
             string currentStatus = "正在登录远程主机......";
@@ -2004,15 +2022,15 @@ namespace ProxySU
                         client.Disconnect();
                         return;
                     }
-                    //检测是否安装有Trojan
-                    currentStatus = "检测系统是否已经安装Trojan......";
+                    //检测是否安装有Trojan-Go
+                    currentStatus = "检测系统是否已经安装Trojan-Go......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
 
                     //string cmdTestTrojanInstalled = @"find / -name trojan";
-                    string resultCmdTestTrojanInstalled = client.RunCommand(@"find / -name trojan").Result;
+                    string resultCmdTestTrojanInstalled = client.RunCommand(@"find / -name trojan-go").Result;
 
-                    if (resultCmdTestTrojanInstalled.Contains("/usr/local/bin/trojan") == true)
+                    if (resultCmdTestTrojanInstalled.Contains("/usr/bin/trojan-go/trojan-go") == true)
                     {
                         MessageBoxResult messageBoxResult = MessageBox.Show("远程主机已安装Trojan,是否强制重新安装？", "", MessageBoxButton.YesNo, MessageBoxImage.Question);
                         if (messageBoxResult == MessageBoxResult.No)
@@ -2030,19 +2048,19 @@ namespace ProxySU
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
 
-                    string resultCmd = client.RunCommand("uname -m").Result;
+                    //string resultCmd = client.RunCommand("uname -m").Result;
                     //var result = client.RunCommand("cat /root/test.ver");
                     //string[] linuxKernelVerStr = resultCmd.Split('-');
 
                     //bool detectResult = DetectKernelVersion(linuxKernelVerStr[0]);
 
-                    if (resultCmd.Contains("x86_64") == false)
-                    {
-                        MessageBox.Show($"请在x86_64系统中安装Trojan");
-                        currentStatus = "系统不符合要求，安装失败！！";
-                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                        Thread.Sleep(1000);
-                    }
+                    //if (resultCmd.Contains("x86_64") == false)
+                    //{
+                    //    MessageBox.Show($"请在x86_64系统中安装Trojan");
+                    //    currentStatus = "系统不符合要求，安装失败！！";
+                    //    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    //    Thread.Sleep(1000);
+                    //}
 
                     //检测系统是否支持yum 或 apt-get或zypper，且支持Systemd
                     //如果不存在组件，则命令结果为空，string.IsNullOrEmpty值为真，
@@ -2077,9 +2095,9 @@ namespace ProxySU
 
                     }
 
-                    //如果使用如果是WebSocket + TLS + Web/http2/Http2Web/tcp_TLS/WebSocket_TLS模式，需要检测域名解析是否正确
-                    if (serverConfig.Contains("trojan_server") == true)
-                    {
+                    //检测域名解析是否正确
+                    //if (serverConfig.Contains("trojan_server") == true)
+                    //{
                         currentStatus = "正在检测域名是否解析到当前VPS的IP上......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
@@ -2127,9 +2145,9 @@ namespace ProxySU
                             return;
                         }
 
-                    }
-                    if (serverConfig.Contains("trojan_server") == true)
-                    {
+                    //}
+                    //if (serverConfig.Contains("trojan_server") == true)
+                    //{
                         //检测是否安装lsof
                         if (string.IsNullOrEmpty(client.RunCommand("command -v lsof").Result) == true)
                         {
@@ -2198,7 +2216,7 @@ namespace ProxySU
                             Thread.Sleep(1000);
 
                         }
-                    }
+                    //}
                     currentStatus = "符合安装要求,布署中......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
@@ -2227,24 +2245,24 @@ namespace ProxySU
 
                     //下载官方安装脚本安装
 
-                    client.RunCommand("curl -o /tmp/trojan-quickstart.sh https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh");
-                    client.RunCommand("yes | bash /tmp/trojan-quickstart.sh");
+                    client.RunCommand("curl -o /tmp/trojan-go.sh https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh");
+                    client.RunCommand("bash /tmp/trojan-go.sh -f");
 
-                    string installResult = client.RunCommand("find / -name trojan").Result.ToString();
+                    string installResult = client.RunCommand("find / -name trojan-go").Result.ToString();
 
-                    if (!installResult.Contains("/usr/local/bin/trojan"))
+                    if (!installResult.Contains("/usr/bin/trojan-go/trojan-go"))
                     {
                         MessageBox.Show("安装Trojan失败(官方脚本运行出错！");
-                        client.Disconnect();
+                       
                         currentStatus = "安装Trojan失败(官方脚本运行出错！";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         client.Disconnect();
                         return;
                     }
-                    client.RunCommand("mv /usr/local/etc/trojan/config.json /usr/local/etc/trojan/config.json.1");
+                    client.RunCommand("mv /etc/trojan-go/config.json /etc/trojan-go/config.json.1");
 
                     //上传配置文件
-                    currentStatus = "Trojan程序安装完毕，配置文件上传中......";
+                    currentStatus = "Trojan-Go程序安装完毕，配置文件上传中......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
 
@@ -2252,16 +2270,25 @@ namespace ProxySU
                     using (StreamReader reader = File.OpenText(serverConfig))
                     {
                         JObject serverJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
+                        serverJson["run_type"] = "server";
+                        serverJson["local_addr"] = "0.0.0.0";
+                        serverJson["local_port"] = 443;
+                        serverJson["remote_addr"] = "127.0.0.1";
+                        serverJson["remote_port"] = 80;
                         //设置密码
                         serverJson["password"][0] = ReceiveConfigurationParameters[2];
-                        //设置监听端口
-                        //serverJson["inbounds"][0]["port"] = int.Parse(ReceiveConfigurationParameters[1]);
+                        //设置证书
+                        serverJson["ssl"]["cert"] = "/etc/trojan-go/trojan-go.crt";
+                        serverJson["ssl"]["key"] = "/etc/trojan-go/trojan-go.key";
+                        serverJson["ssl"]["cert"] = "/etc/trojan-go/trojan-go.crt";
+                        serverJson["ssl"]["sni"] = ReceiveConfigurationParameters[4];
 
                         using (StreamWriter sw = new StreamWriter(@"config.json"))
                         {
                             sw.Write(serverJson.ToString());
                         }
                     }
+                    upLoadPath = "/etc/trojan-go/config.json";
                     UploadConfig(connectionInfo, @"config.json", upLoadPath);
 
                     File.Delete(@"config.json");
@@ -2270,40 +2297,38 @@ namespace ProxySU
                     string openFireWallPort = ReceiveConfigurationParameters[1];
                     if (String.IsNullOrEmpty(client.RunCommand("command -v firewall-cmd").Result) == false)
                     {
-                        if (String.Equals(openFireWallPort, "443"))
-                        {
+                        //if (String.Equals(openFireWallPort, "443"))
+                        //{
                             client.RunCommand("firewall-cmd --zone=public --add-port=80/tcp --permanent");
                             client.RunCommand("firewall-cmd --zone=public --add-port=443/tcp --permanent");
                             client.RunCommand("firewall-cmd --reload");
-                        }
-                        else
-                        {
-                            client.RunCommand($"firewall-cmd --zone=public --add-port={openFireWallPort}/tcp --permanent");
-                            client.RunCommand($"firewall-cmd --zone=public --add-port={openFireWallPort}/udp --permanent");
-                            client.RunCommand("firewall-cmd --reload");
-                        }
+                        //}
+                        //else
+                        //{
+                        //    client.RunCommand($"firewall-cmd --zone=public --add-port={openFireWallPort}/tcp --permanent");
+                        //    client.RunCommand($"firewall-cmd --zone=public --add-port={openFireWallPort}/udp --permanent");
+                        //    client.RunCommand("firewall-cmd --reload");
+                        //}
                     }
                     if (String.IsNullOrEmpty(client.RunCommand("command -v ufw").Result) == false)
                     {
-                        if (String.Equals(openFireWallPort, "443"))
-                        {
+                        //if (String.Equals(openFireWallPort, "443"))
+                        //{
                             client.RunCommand("ufw allow 80");
                             client.RunCommand("ufw allow 443");
                             client.RunCommand("yes | ufw reset");
-                        }
-                        else
-                        {
-                            client.RunCommand($"ufw allow {openFireWallPort}/tcp");
-                            client.RunCommand($"ufw allow {openFireWallPort}/udp");
-                            client.RunCommand("yes | ufw reset");
-                        }
+                        //}
+                        //else
+                        //{
+                        //    client.RunCommand($"ufw allow {openFireWallPort}/tcp");
+                        //    client.RunCommand($"ufw allow {openFireWallPort}/udp");
+                        //    client.RunCommand("yes | ufw reset");
+                        //}
                     }
 
-
-
-                    if (serverConfig.Contains("trojan_server") == true)
-                    {
-                        currentStatus = "使用Trojan+TLS+Web模式，正在安装acme.sh......";
+                    //if (serverConfig.Contains("trojan_server") == true)
+                    //{
+                        currentStatus = "正在安装acme.sh......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
 
@@ -2333,25 +2358,17 @@ namespace ProxySU
                         //client.RunCommand("mkdir -p /etc/v2ray/ssl");
                         client.RunCommand($"/root/.acme.sh/acme.sh  --issue  --standalone  -d {ReceiveConfigurationParameters[4]}");
 
-                        currentStatus = "安装证书到Trojan......";
+                        currentStatus = "安装证书到Trojan-Go......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
-                        client.RunCommand($"/root/.acme.sh/acme.sh  --installcert  -d {ReceiveConfigurationParameters[4]}  --certpath /usr/local/etc/trojan/trojan_ssl.crt --keypath /usr/local/etc/trojan/trojan_ssl.key  --capath  /usr/local/etc/trojan/trojan_ssl.crt  --reloadcmd  \"systemctl restart trojan\"");
-                    }
+                        client.RunCommand($"/root/.acme.sh/acme.sh  --installcert  -d {ReceiveConfigurationParameters[4]}  --certpath /etc/trojan-go/trojan-go.crt --keypath /etc/trojan-go/trojan-go.key  --capath  /etc/trojan-go/trojan-go.crt  --reloadcmd  \"systemctl restart trojan-go\"");
+                    //}
 
-                    currentStatus = "正在启动Trojan......";
-                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                    Thread.Sleep(1000);
-                    //启动V2ray服务
-                    client.RunCommand("systemctl restart trojan");
-
-                    currentStatus = "Trojan启动成功！";
-                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                    Thread.Sleep(1000);
+              
 
                     //安装Caddy
-                    if (serverConfig.Contains("trojan_server") == true)
-                    {
+                    //if (serverConfig.Contains("trojan_server") == true)
+                    //{
                         currentStatus = "正在安装Caddy";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
@@ -2367,10 +2384,10 @@ namespace ProxySU
                         Thread.Sleep(1000);
 
                         string caddyConfig = "";
-                        if (serverConfig.Contains("trojan_server") == true)
-                        {
+                        //if (serverConfig.Contains("trojan_server") == true)
+                        //{
                             caddyConfig = "TemplateConfg\\trojan_caddy_config.caddyfile";
-                        }
+                        //}
 
                         upLoadPath = "/etc/caddy/Caddyfile";
                         UploadConfig(connectionInfo, caddyConfig, upLoadPath);
@@ -2396,11 +2413,28 @@ namespace ProxySU
                         sshCmd = $"caddy -service install -agree -conf /etc/caddy/Caddyfile -email {email}";
                         //MessageBox.Show(sshCmd);
                         client.RunCommand(sshCmd);
-
-
                         //启动Caddy服务
+                        currentStatus = "正在启动Caddy......";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                        //启动V2ray服务
                         client.RunCommand("caddy -service restart");
-                    }
+
+                        currentStatus = "Caddy启动成功！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+
+                    //}
+
+                    currentStatus = "正在启动Trojan-Go......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+                    //启动V2ray服务
+                    client.RunCommand("systemctl restart trojan-go");
+
+                    currentStatus = "Trojan启动成功！";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
 
                     //测试BBR条件，若满足提示是否启用
                     var result = client.RunCommand("uname -r");
@@ -2412,8 +2446,8 @@ namespace ProxySU
                     //如果内核满足大于等于4.9，且还未启用BBR，则启用BBR
                     if (detectResult == true && resultCmdTestBBR.Contains("bbr") == false)
                     {
-                        client.RunCommand(@"bash - c 'echo ""net.core.default_qdisc = fq"" >> /etc/sysctl.conf'");
-                        client.RunCommand(@"bash - c 'echo ""net.ipv4.tcp_congestion_control = bbr"" >> /etc/sysctl.conf'");
+                        client.RunCommand(@"bash -c 'echo ""net.core.default_qdisc=fq"" >> /etc/sysctl.conf'");
+                        client.RunCommand(@"bash -c 'echo ""net.ipv4.tcp_congestion_control=bbr"" >> /etc/sysctl.conf'");
                         client.RunCommand(@"sysctl -p");
                     }
 
@@ -2421,20 +2455,22 @@ namespace ProxySU
                     currentStatus = "生成客户端配置......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
-                    if (!Directory.Exists("trojan_config"))//如果不存在就创建file文件夹　　             　　              
+                    if (!Directory.Exists("trojan-go_config"))//如果不存在就创建file文件夹　　             　　              
                     {
-                        Directory.CreateDirectory("trojan_config");//创建该文件夹　　   
+                        Directory.CreateDirectory("trojan-go_config");//创建该文件夹　　   
                     }
-                    //string clientConfig = "TemplateConfg\\tcp_client_config.json";
+                    clientConfig = "TemplateConfg\\trojan-go_all_config.json";
                     using (StreamReader reader = File.OpenText(clientConfig))
                     {
                         JObject clientJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
-
+                        clientJson["run_type"] = "client";
+                        clientJson["local_addr"] = "127.0.0.1";
+                        clientJson["local_port"] = 1080;
                         clientJson["remote_addr"] = ReceiveConfigurationParameters[4];
-                        clientJson["remote_port"] = int.Parse(ReceiveConfigurationParameters[1]);
+                        clientJson["remote_port"] = 443;
                         clientJson["password"][0] = ReceiveConfigurationParameters[2];
 
-                        using (StreamWriter sw = new StreamWriter(@"trojan_config\config.json"))
+                        using (StreamWriter sw = new StreamWriter(@"trojan-go_config\config.json"))
                         {
                             sw.Write(clientJson.ToString());
                         }
@@ -2448,7 +2484,7 @@ namespace ProxySU
 
                     //显示服务端连接参数
                     //MessageBox.Show("用于Trojan官方客户端的配置文件已保存在config文件夹中");
-                    TrojanResultClientInfoWindow resultClientInformation = new TrojanResultClientInfoWindow();
+                    TrojanGoResultClientInfoWindow resultClientInformation = new TrojanGoResultClientInfoWindow();
                     resultClientInformation.ShowDialog();
 
                     return;
@@ -2913,41 +2949,41 @@ namespace ProxySU
                     Thread.Sleep(1000);
 
                     //优化网络参数
-                    sshCmd = @"bash - c 'echo ""fs.file-max = 51200"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""fs.file-max = 51200"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.core.rmem_max = 67108864"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.core.rmem_max = 67108864"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.core.wmem_max = 67108864"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.core.wmem_max = 67108864"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.core.rmem_default = 65536"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.core.rmem_default = 65536"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.core.wmem_default = 65536"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.core.wmem_default = 65536"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.core.netdev_max_backlog = 4096"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.core.netdev_max_backlog = 4096"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.core.somaxconn = 4096"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.core.somaxconn = 4096"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_syncookies = 1"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.ipv4.tcp_syncookies = 1"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_tw_reuse = 1"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.ipv4.tcp_tw_reuse = 1"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_tw_recycle = 0"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.ipv4.tcp_tw_recycle = 0"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_fin_timeout = 30"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.ipv4.tcp_fin_timeout = 30"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_keepalive_time = 1200"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.ipv4.tcp_keepalive_time = 1200"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.ipv4.ip_local_port_range = 10000 65000"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.ipv4.ip_local_port_range = 10000 65000"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_max_syn_backlog = 4096"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.ipv4.tcp_max_syn_backlog = 4096"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_max_tw_buckets = 5000"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.ipv4.tcp_max_tw_buckets = 5000"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_rmem = 4096 87380 67108864"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.ipv4.tcp_rmem = 4096 87380 67108864"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_wmem = 4096 65536 67108864"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.ipv4.tcp_wmem = 4096 65536 67108864"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_mtu_probing = 1"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.ipv4.tcp_mtu_probing = 1"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
                     sshCmd = @"sysctl -p";
                     client.RunCommand(sshCmd);
@@ -2966,8 +3002,8 @@ namespace ProxySU
                     //如果内核满足大于等于4.9，且还未启用BBR，则启用BBR
                     if (detectResult == true && resultCmdTestBBR.Contains("bbr") == false)
                     {
-                        client.RunCommand(@"bash - c 'echo ""net.core.default_qdisc = fq"" >> /etc/sysctl.conf'");
-                        client.RunCommand(@"bash - c 'echo ""net.ipv4.tcp_congestion_control = bbr"" >> /etc/sysctl.conf'");
+                        client.RunCommand(@"bash -c 'echo ""net.core.default_qdisc=fq"" >> /etc/sysctl.conf'");
+                        client.RunCommand(@"bash -c 'echo ""net.ipv4.tcp_congestion_control=bbr"" >> /etc/sysctl.conf'");
                         client.RunCommand(@"sysctl -p");
                     }
 
@@ -3563,6 +3599,202 @@ namespace ProxySU
                                 client.RunCommand(sshcmd);
                                 sshcmd = @"mv /usr/local/etc/trojan/config.json.bak /usr/local/etc/trojan/config.json";
                                 client.RunCommand(sshcmd);
+                                MessageBox.Show($"升级成功！！\n当前版本为：v{trojanCurrentVersion}\n最新版本为：{trojanNewVersion}");
+                                currentStatus = "升级成功！当前已是最新版本！";
+                                textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                                Thread.Sleep(1000);
+                            }
+                            else
+                            {
+                                MessageBox.Show("升级失败，原因未知，请向开发者提问，以寻求支持！");
+                                currentStatus = "升级失败！";
+                                textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                                Thread.Sleep(1000);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show($"远程主机当前已是最新版本：{trojanNewVersion}\n无需升级！");
+                        currentStatus = "已是最新版本，无需升级，退出";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                    }
+
+                    client.Disconnect();
+                    return;
+                }
+            }
+            catch (Exception ex1)//例外处理   
+            #region 例外处理
+            {
+                //MessageBox.Show(ex1.Message);
+                if (ex1.Message.Contains("连接尝试失败") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n请检查主机地址及端口是否正确，如果通过代理，请检查代理是否正常工作");
+                }
+
+                else if (ex1.Message.Contains("denied (password)") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n密码错误或用户名错误");
+                }
+                else if (ex1.Message.Contains("Invalid private key file") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n所选密钥文件错误或者格式不对");
+                }
+                else if (ex1.Message.Contains("denied (publickey)") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n使用密钥登录，密钥文件错误或用户名错误");
+                }
+                else if (ex1.Message.Contains("目标计算机积极拒绝") == true)
+                {
+                    MessageBox.Show($"{ex1.Message}\n主机地址错误，如果使用了代理，也可能是连接代理的端口错误");
+                }
+                else
+                {
+                    MessageBox.Show("发生错误");
+                    MessageBox.Show(ex1.Message);
+                }
+                currentStatus = "主机登录失败";
+                textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+
+            }
+            #endregion
+
+        }
+        //检测升级Trojan-Go版本
+        private void ButtonUpdateTrojanGo_Click(object sender, RoutedEventArgs e)
+        {
+            ConnectionInfo connectionInfo = GenerateConnectionInfo();
+            if (connectionInfo == null)
+            {
+                MessageBox.Show("远程主机连接信息有误，请检查");
+                return;
+            }
+
+            Thread thread = new Thread(() => UpdateTojanGo(connectionInfo, TextBlockSetUpProcessing, ProgressBarSetUpProcessing));
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+        }
+        //升级Trojan主程序
+        private void UpdateTojanGo(ConnectionInfo connectionInfo, TextBlock textBlockName, ProgressBar progressBar)
+        {
+            string currentStatus = "正在登录远程主机......";
+            Action<TextBlock, ProgressBar, string> updateAction = new Action<TextBlock, ProgressBar, string>(UpdateTextBlock);
+            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+
+            try
+            {
+                #region 主机指纹，暂未启用
+                //byte[] expectedFingerPrint = new byte[] {
+                //                                0x66, 0x31, 0xaf, 0x00, 0x54, 0xb9, 0x87, 0x31,
+                //                                0xff, 0x58, 0x1c, 0x31, 0xb1, 0xa2, 0x4c, 0x6b
+                //                            };
+                #endregion
+                using (var client = new SshClient(connectionInfo))
+
+                {
+                    #region ssh登录验证主机指纹代码块，暂未启用
+                    //    client.HostKeyReceived += (sender, e) =>
+                    //    {
+                    //        if (expectedFingerPrint.Length == e.FingerPrint.Length)
+                    //        {
+                    //            for (var i = 0; i < expectedFingerPrint.Length; i++)
+                    //            {
+                    //                if (expectedFingerPrint[i] != e.FingerPrint[i])
+                    //                {
+                    //                    e.CanTrust = false;
+                    //                    break;
+                    //                }
+                    //            }
+                    //        }
+                    //        else
+                    //        {
+                    //            e.CanTrust = false;
+                    //        }
+                    //    };
+                    #endregion
+
+                    client.Connect();
+                    if (client.IsConnected == true)
+                    {
+                        currentStatus = "主机登录成功";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                    }
+                    //检测是否运行在root权限下
+                    string testRootAuthority = client.RunCommand(@"id -u").Result;
+                    if (testRootAuthority.Equals("0\n") == false)
+                    {
+                        MessageBox.Show("请使用具有root权限的账户登录主机！！");
+                        client.Disconnect();
+                        return;
+                    }
+                    //检测远程主机V2ray版本
+                    currentStatus = "检测远程主机Trojan-Go版本......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    string cmdTestTrojanInstalled = @"find / -name trojan-go";
+                    //MessageBox.Show(cmdTestV2rayInstalled);
+                    string resultCmdTestTrojanInstalled = client.RunCommand(cmdTestTrojanInstalled).Result;
+                    //client.Disconnect();
+                    //MessageBox.Show(resultCmdTestV2rayInstalled);
+                    if (resultCmdTestTrojanInstalled.Contains("/usr/bin/trojan-go/trojan-go") == false)
+                    {
+                        MessageBoxResult messageBoxResult = MessageBox.Show("远程主机未安装Trojan-Go！");
+
+                        currentStatus = "未安装Trojan-Go，退出";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                        client.Disconnect();
+                        return;
+
+                    }
+                    string sshcmd;
+                    sshcmd = @"echo ""$(/usr/bin/trojan-go/trojan-go -version)"" | head -n 1 | cut -d "" "" -f2";
+                    //MessageBox.Show(sshcmd);
+                    string trojanCurrentVersion = client.RunCommand(sshcmd).Result;//含字母v
+                    //MessageBox.Show(v2rayCurrentVersion);
+
+                    sshcmd = @"curl -s https://api.github.com/repos/p4gefau1t/trojan-go/tags | grep 'name' | cut -d\"" -f4 | head -1";
+                    //MessageBox.Show(sshcmd);
+
+                    string trojanNewVersion = client.RunCommand(sshcmd).Result;//含字母v
+                    //MessageBox.Show(v2rayNewVersion);
+                    if (trojanNewVersion.Equals(trojanCurrentVersion) == false)
+                    {
+                        MessageBoxResult messageBoxResult = MessageBox.Show($"远程主机当前版本为：v{trojanCurrentVersion}\n最新版本为：{trojanNewVersion}\n是否升级为最新版本？", "", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        if (messageBoxResult == MessageBoxResult.No)
+                        {
+                            currentStatus = "升级取消，退出";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            Thread.Sleep(1000);
+                            client.Disconnect();
+                            return;
+                        }
+                        else
+                        {
+                            currentStatus = "正在升级Trojan-Go到最新版本......";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            Thread.Sleep(1000);
+
+                            //备份配置文件
+                            //sshcmd = @"mv /usr/local/etc/trojan/config.json /usr/local/etc/trojan/config.json.bak";
+                            //client.RunCommand(sshcmd);
+                            //升级Trojan-Go主程序
+                            client.RunCommand("curl -o /tmp/trojan-go.sh https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh");
+                            client.RunCommand("bash /tmp/trojan-go.sh -f");
+                            sshcmd = @"curl -s https://api.github.com/repos/p4gefau1t/trojan-go/tags | grep 'name' | cut -d\"" -f4 | head -1";
+                            //MessageBox.Show(sshcmd);
+                            trojanCurrentVersion = client.RunCommand(sshcmd).Result;//含字母v
+                            if (trojanNewVersion.Equals(trojanCurrentVersion) == true)
+                            {
+                                //恢复原来的配置文件备份
+                                //sshcmd = @"rm -f /usr/local/etc/trojan/config.json";
+                                //client.RunCommand(sshcmd);
+                                //sshcmd = @"mv /usr/local/etc/trojan/config.json.bak /usr/local/etc/trojan/config.json";
+                                //client.RunCommand(sshcmd);
                                 MessageBox.Show($"升级成功！！\n当前版本为：v{trojanCurrentVersion}\n最新版本为：{trojanNewVersion}");
                                 currentStatus = "升级成功！当前已是最新版本！";
                                 textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -4225,8 +4457,8 @@ namespace ProxySU
                     //如果内核满足大于等于4.9，且还未启用BBR，则启用BBR
                     if (detectResult == true && resultCmdTestBBR.Contains("bbr") == false)
                     {
-                        client.RunCommand(@"bash - c 'echo ""net.core.default_qdisc = fq"" >> /etc/sysctl.conf'");
-                        client.RunCommand(@"bash - c 'echo ""net.ipv4.tcp_congestion_control = bbr"" >> /etc/sysctl.conf'");
+                        client.RunCommand(@"bash -c 'echo ""net.core.default_qdisc=fq"" >> /etc/sysctl.conf'");
+                        client.RunCommand(@"bash -c 'echo ""net.ipv4.tcp_congestion_control=bbr"" >> /etc/sysctl.conf'");
                         client.RunCommand(@"sysctl -p");
                     }
                     resultCmdTestBBR = client.RunCommand(@"sysctl net.ipv4.tcp_congestion_control | grep bbr").Result;
@@ -4247,41 +4479,41 @@ namespace ProxySU
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
                     //优化网络参数
-                    sshCmd = @"bash - c 'echo ""fs.file-max = 51200"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""fs.file-max = 51200"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.core.rmem_max = 67108864"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.core.rmem_max = 67108864"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.core.wmem_max = 67108864"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.core.wmem_max = 67108864"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.core.rmem_default = 65536"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.core.rmem_default = 65536"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.core.wmem_default = 65536"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.core.wmem_default = 65536"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.core.netdev_max_backlog = 4096"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.core.netdev_max_backlog = 4096"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.core.somaxconn = 4096"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.core.somaxconn = 4096"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_syncookies = 1"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.ipv4.tcp_syncookies = 1"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_tw_reuse = 1"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.ipv4.tcp_tw_reuse = 1"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_tw_recycle = 0"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.ipv4.tcp_tw_recycle = 0"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_fin_timeout = 30"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.ipv4.tcp_fin_timeout = 30"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_keepalive_time = 1200"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.ipv4.tcp_keepalive_time = 1200"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.ipv4.ip_local_port_range = 10000 65000"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.ipv4.ip_local_port_range = 10000 65000"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_max_syn_backlog = 4096"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.ipv4.tcp_max_syn_backlog = 4096"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_max_tw_buckets = 5000"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.ipv4.tcp_max_tw_buckets = 5000"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_rmem = 4096 87380 67108864"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.ipv4.tcp_rmem = 4096 87380 67108864"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_wmem = 4096 65536 67108864"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.ipv4.tcp_wmem = 4096 65536 67108864"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
-                    sshCmd = @"bash - c 'echo ""net.ipv4.tcp_mtu_probing = 1"" >> /etc/sysctl.conf'";
+                    sshCmd = @"bash -c 'echo ""net.ipv4.tcp_mtu_probing = 1"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
                     sshCmd = @"sysctl -p";
                     client.RunCommand(sshCmd);

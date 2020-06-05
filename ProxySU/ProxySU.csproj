@@ -93,6 +93,12 @@
     <Compile Include="TemplateConfiguration.xaml.cs">
       <DependentUpon>TemplateConfiguration.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TrojanGoResultClientInfoWindow.xaml.cs">
+      <DependentUpon>TrojanGoResultClientInfoWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TrojanGoTemplateWindow.xaml.cs">
+      <DependentUpon>TrojanGoTemplateWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TrojanResultClientInfoWindow.xaml.cs">
       <DependentUpon>TrojanResultClientInfoWindow.xaml</DependentUpon>
     </Compile>
@@ -124,6 +130,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TemplateConfiguration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TrojanGoResultClientInfoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TrojanGoTemplateWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

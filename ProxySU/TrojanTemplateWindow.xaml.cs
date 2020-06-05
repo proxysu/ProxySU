@@ -54,7 +54,7 @@ namespace ProxySU
                     }
                 }
                 //传递服务端口
-                MainWindow.ReceiveConfigurationParameters[1] = TextBoxServerListenPort.Text.ToString();
+                MainWindow.ReceiveConfigurationParameters[1] = "443";
                 //传递密码(uuid)
                 MainWindow.ReceiveConfigurationParameters[2] = TextBoxNewUUID.Text.ToString();
             }
@@ -67,12 +67,12 @@ namespace ProxySU
             Guid uuid = Guid.NewGuid();
             TextBoxNewUUID.Text = uuid.ToString();
         }
-        private void ButtonServerListenPort_Click(object sender, RoutedEventArgs e)
-        {
-            Random random = new Random();
-            int randomServerPort = random.Next(10000, 50000);
-            TextBoxServerListenPort.Text = randomServerPort.ToString();
-        }
+        //private void ButtonServerListenPort_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Random random = new Random();
+        //    int randomServerPort = random.Next(10000, 50000);
+        //    TextBoxServerListenPort.Text = randomServerPort.ToString();
+        //}
         private void ButtondCancel_Click(object sender, RoutedEventArgs e) => Close();
 
         private void RadioButtonTrojanTLS2Web_Checked(object sender, RoutedEventArgs e)
@@ -81,7 +81,7 @@ namespace ProxySU
             TextBoxNewUUID.Text = uuid.ToString();
             //Random random = new Random();
             //int randomServerPort = random.Next(10000, 50000);
-            TextBoxServerListenPort.Text = "443";
+            //TextBoxServerListenPort.Text = "443";
         }
     }
 }

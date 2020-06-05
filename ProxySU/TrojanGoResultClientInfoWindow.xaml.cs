@@ -21,17 +21,17 @@ using QRCoder;
 namespace ProxySU
 {
     /// <summary>
-    /// TrojanResultClientInfoWindow.xaml 的交互逻辑
+    /// TrojanGoResultClientInfoWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class TrojanResultClientInfoWindow : Window
+    public partial class TrojanGoResultClientInfoWindow : Window
     {
         private string saveFileFolder = "";
-        public TrojanResultClientInfoWindow()
+        public TrojanGoResultClientInfoWindow()
         {
             InitializeComponent();
-            //TextBoxTrojanGoWSPath.Visibility = Visibility.Hidden;
-            //TextBlockTrojanGoWebSocketPath.Visibility = Visibility.Hidden;
-            //TextBlockTrojanGoCaption.Visibility = Visibility.Hidden;
+            TextBoxTrojanGoWSPath.Visibility = Visibility.Hidden;
+            TextBlockTrojanGoWebSocketPath.Visibility = Visibility.Hidden;
+            TextBlockTrojanGoCaption.Visibility = Visibility.Hidden;
             //主机地址
             TextBoxTrojanServerHost.Text = MainWindow.ReceiveConfigurationParameters[4];
             //主机端口
@@ -39,38 +39,35 @@ namespace ProxySU
             //密钥（uuid）
             TextBoxTrojanServerPassword.Text = MainWindow.ReceiveConfigurationParameters[2];
             //WebSocket路径
-            //if (MainWindow.ReceiveConfigurationParameters[0].Equals("TrojanGoWebSocketTLS2Web"))
-            //{
-            //    TextBoxTrojanGoWSPath.Text = MainWindow.ReceiveConfigurationParameters[3];
-            //    TextBoxTrojanGoWSPath.Visibility = Visibility.Visible;
-            //    TextBlockTrojanGoWebSocketPath.Visibility = Visibility.Visible;
-            //    TextBlockTrojanGoCaption.Visibility = Visibility.Visible;
+            if (MainWindow.ReceiveConfigurationParameters[0].Equals("TrojanGoWebSocketTLS2Web"))
+            {
+            TextBoxTrojanGoWSPath.Text = MainWindow.ReceiveConfigurationParameters[3];
+                TextBoxTrojanGoWSPath.Visibility = Visibility.Visible;
+                TextBlockTrojanGoWebSocketPath.Visibility = Visibility.Visible;
+                TextBlockTrojanGoCaption.Visibility = Visibility.Visible;
 
-            //}
-            
+            }
+
             GenerateV2rayShareQRcodeAndBase64Url();
-
         }
-
-        //生成Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)客户端导入文件
         private void GenerateV2rayShareQRcodeAndBase64Url()
         {
-           
+
             string saveFileFolderFirst = TextBoxTrojanServerHost.Text;
             int num = 1;
             saveFileFolder = saveFileFolderFirst;
-            CheckDir("trojan_config");
-            while (Directory.Exists(@"trojan_config\" + saveFileFolder))
+            CheckDir("trojan-go_config");
+            while (Directory.Exists(@"trojan-go_config\" + saveFileFolder))
             {
                 saveFileFolder = saveFileFolderFirst + "_copy_" + num.ToString();
                 num++;
             }
-            CheckDir(@"trojan_config\" + saveFileFolder);
-            string trojanUrl = $"trojan://{TextBoxTrojanServerPassword.Text}@{TextBoxTrojanServerHost.Text}:{TextBoxTrojanServerPort.Text}#{TextBoxTrojanServerHost.Text}";
+            CheckDir(@"trojan-go_config\" + saveFileFolder);
+            string trojanUrl = $"trojan://{TextBoxTrojanServerPassword.Text}@{TextBoxTrojanServerHost.Text}:{TextBoxTrojanServerPort.Text}?allowinsecure=0&tfo=0&sni=&mux=0&ws=0&group=#{TextBoxTrojanServerHost.Text}";
             //MessageBox.Show(v2rayNjsonObject.ToString());
             //string trojanUrl = "trojan://" + ToBase64Encode(v2rayNjsonObject.ToString());
             TextBoxTrojanUrl.Text = trojanUrl;
-            using (StreamWriter sw = new StreamWriter($"trojan_config\\{saveFileFolder}\\url.txt"))
+            using (StreamWriter sw = new StreamWriter($"trojan-go_config\\{saveFileFolder}\\url.txt"))
             {
                 sw.WriteLine(trojanUrl);
 
@@ -78,34 +75,35 @@ namespace ProxySU
             CreateQRCode(trojanUrl);
 
             //移动Trojan官方程序配置文件到相应目录
-            if (File.Exists(@"trojan_config\config.json"))
+            if (File.Exists(@"trojan-go_config\config.json"))
             {
-                File.Move(@"trojan_config\config.json", @"trojan_config\" + saveFileFolder + @"\config.json");
+                File.Move(@"trojan-go_config\config.json", @"trojan-go_config\" + saveFileFolder + @"\config.json");
                 //File.Delete(@"config\config.json");//删除该文件
             }
 
-            using (StreamWriter sw = new StreamWriter($"trojan_config\\{saveFileFolder}\\说明.txt"))
+            using (StreamWriter sw = new StreamWriter($"trojan-go_config\\{saveFileFolder}\\说明.txt"))
             {
                 sw.WriteLine("config.json");
-                sw.WriteLine("此文件为Trojan官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080");
-                sw.WriteLine("Trojan官方网站：https://trojan-gfw.github.io/trojan/");
-                sw.WriteLine("Trojan官方程序下载地址：https://github.com/trojan-gfw/trojan/releases");
+                sw.WriteLine("此文件为Trojan-go官方程序所使用的客户端配置文件，配置为全局模式，http与socks5地址：127.0.0.1:1080");
+                sw.WriteLine("Trojan-go官方网站：https://github.com/p4gefau1t/trojan-go");
+                sw.WriteLine("Trojan-go官方程序下载地址：https://github.com/p4gefau1t/trojan-go/releases");
                 sw.WriteLine("下载相应版本，Windows选择Trojan-x.xx-win.zip,解压后提取trojan.exe。与config.json放在同一目录，运行trojan.exe即可。");
                 sw.WriteLine("-----------------------------------------\n");
                 sw.WriteLine("QR.bmp");
-                sw.WriteLine("此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)扫码导入节点");
+                sw.WriteLine("此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)扫码导入节点（Trojan-Go的WebSocket模式暂不支持）");
                 sw.WriteLine("Trojan-QT5 (windows)下载网址：https://github.com/TheWanderingCoel/Trojan-Qt5/releases");
                 sw.WriteLine("igniter（Android）下载网址：https://github.com/trojan-gfw/igniter/releases");
                 sw.WriteLine("Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。");
 
                 sw.WriteLine("-----------------------------------------\n");
                 sw.WriteLine("url.txt");
-                sw.WriteLine("此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)复制粘贴导入节点的网址");
+                sw.WriteLine("此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)复制粘贴导入节点的网址（Trojan-Go的WebSocket模式暂不支持）");
                 sw.WriteLine("-----------------------------------------\n");
                 sw.WriteLine("服务器通用连接配置参数");
                 sw.WriteLine($"地址(address)：{TextBoxTrojanServerHost.Text}");
                 sw.WriteLine($"端口(Port)：{TextBoxTrojanServerPort.Text}");
                 sw.WriteLine($"密钥：{TextBoxTrojanServerPassword.Text}");
+                sw.WriteLine($"WebSocket路径：{TextBoxTrojanGoWSPath.Text}");
 
             }
 
@@ -136,8 +134,8 @@ namespace ProxySU
             BitmapSource imgsource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(myImagePtr, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
             ImageTrojanShareQRurl.Source = imgsource;
             //DeleteObject(myImagePtr);
-            qrCodeImage.Save($"trojan_config\\{saveFileFolder}\\QR.bmp");
-       
+            qrCodeImage.Save($"trojan-go_config\\{saveFileFolder}\\QR.bmp");
+
         }
         //判断目录是否存在，不存在则创建
         private static bool CheckDir(string folder)
@@ -155,7 +153,7 @@ namespace ProxySU
         }
         private void ButtonTrojanResultOpen_Click(object sender, RoutedEventArgs e)
         {
-            string openFolderPath = @"trojan_config\" + saveFileFolder;
+            string openFolderPath = @"trojan-go_config\" + saveFileFolder;
             System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
             this.Close();
         }

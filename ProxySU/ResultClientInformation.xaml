@@ -78,7 +78,7 @@
                             <ColumnDefinition Width="85"></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="二维码和vmess链接可用于&#x0a;&#x0a;v2rayN(windows)&#x0a;&#x0a;Shadowrocket(ios)&#x0a;&#x0a;v2rayNG(Android)&#x0a;&#x0a;导入v2ray节点" TextWrapping="Wrap" Grid.Column="0"></TextBlock>
+                        <TextBlock Text="二维码和vmess链接可用于&#x0a;&#x0a;v2rayN(windows)&#x0a;&#x0a;Trojan-QT5(windows)&#x0a;&#x0a;Shadowrocket(ios)&#x0a;&#x0a;v2rayNG(Android)&#x0a;&#x0a;导入v2ray节点" TextWrapping="Wrap" Grid.Column="0"></TextBlock>
                         <Image x:Name="ImageShareQRcode" Grid.Column="1"></Image>
                     </Grid>
                 </Grid>

@@ -1,11 +1,11 @@
-﻿<Window x:Class="ProxySU.TrojanTemplateWindow"
+﻿<Window x:Class="ProxySU.TrojanGoTemplateWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProxySU"
         mc:Ignorable="d"
-        Title="TrojanTemplateWindow" Height="400" Width="600">
+        Title="TrojanGoTemplateWindow" Height="450" Width="800">
     <Window.Resources>
         <Style BasedOn="{StaticResource {x:Type TextBox}}"
            TargetType="TextBox"
@@ -31,14 +31,14 @@
     </Window.Resources>
     <Grid>
         <Grid>
-                <Grid.ColumnDefinitions>
+            <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="0.7*"></RowDefinition>
-                    <RowDefinition></RowDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.7*"></RowDefinition>
+                <RowDefinition></RowDefinition>
 
-                </Grid.RowDefinitions>
+            </Grid.RowDefinitions>
             <GroupBox Header="模板库" Grid.Row="0">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -50,9 +50,13 @@
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
-                     </Grid.RowDefinitions>
-                    <RadioButton x:Name="RadioButtonTrojanTLS2Web" Content="Trojan+TLS+Web" Grid.Column="0" Grid.Row="1" Checked="RadioButtonTrojanTLS2Web_Checked"></RadioButton>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <RadioButton x:Name="RadioButtonTrojanGoTLS2Web" Content="Trojan-Go+TLS+Web" Grid.Column="0" Grid.Row="1" Checked="RadioButtonTrojanTLS2Web_Checked"></RadioButton>
                     <TextBlock Text="说明" Grid.Column="1" Grid.Row="1"></TextBlock>
+                    <RadioButton x:Name="RadioButtonTrojanGoWebSocketTLS2Web" Content="Trojan-Go+WebSocket+TLS+Web" Grid.Column="0" Grid.Row="2" Checked="RadioButtonTrojanGoWebSocketTLS2Web_Checked"></RadioButton>
+                    <TextBlock Text="支持CDN" Grid.Column="1" Grid.Row="2"></TextBlock>
                 </Grid>
             </GroupBox>
             <GroupBox Header="其他设置" Grid.Row="1">
@@ -70,21 +74,27 @@
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
+                        
                     </Grid.RowDefinitions>
-                    <TextBlock x:Name="TextBlockDomain" Text="域名：" Grid.Column="0" Grid.Row="0" ></TextBlock>
-                    <TextBox x:Name="TextBoxDomain" Style="{StaticResource TitleText}" Tag="不可为空" Grid.Column="1" Grid.Row="0" Margin="3"></TextBox>
+                    <TextBlock x:Name="TextBlockDomain" Text="域名：" Grid.Column="0" Grid.Row="0" Margin="5"></TextBlock>
+                    <TextBox x:Name="TextBoxDomain" Style="{StaticResource TitleText}" Tag="不可为空" Grid.Column="1" Grid.Row="0" Margin="5"></TextBox>
                     <TextBlock Text="端口：443" Grid.Column="2" Grid.Row="0" Margin="5"></TextBlock>
+                 
                     <!--<Button x:Name="ButtonDomain" Content="检测" Visibility="Collapsed" Grid.Column="2" Grid.Row="0" Margin="2" Click="ButtonDomain_Click"></Button>-->
                     <!--<TextBlock x:Name="TextBlockServerListenPort" Text="服务端口：" Grid.Column="0" Grid.Row="1"></TextBlock>
                     <TextBox x:Name="TextBoxServerListenPort" Grid.Column="1" Grid.Row="1" Margin="3"></TextBox>
                     <Button x:Name="ButtonServerListenPort" Content="随机选择" Grid.Column="2" Grid.Row="1" Margin="2" Click="ButtonServerListenPort_Click"></Button>-->
 
                     <TextBlock x:Name="TextBlockNewUUID" Text="密码：" Grid.Column="0" Grid.Row="1" ></TextBlock>
-                    <TextBox x:Name="TextBoxNewUUID" Grid.Column="1" Grid.Row="1" Margin="3"></TextBox>
+                    <TextBox x:Name="TextBoxNewUUID" Grid.Column="1" Grid.Row="1" Margin="5"></TextBox>
                     <Button x:Name="ButtonNewUUID" Content="更新" Grid.Column="2" Grid.Row="1" Margin="3" Click="ButtonNewUUID_Click"></Button>
                     <TextBlock Text="使用已有密码，直接粘贴到框中" TextWrapping="Wrap" Grid.Column="3" Grid.Row="1"></TextBlock>
+                    <TextBlock x:Name="TextBlockPath" Text="WebSocket路径：" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"></TextBlock>
+                    <TextBox x:Name="TextBoxPath" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="1" Margin="5"></TextBox>
+                    <Button x:Name="ButtonPath" Content="随机" Grid.Column="2" Grid.Row="2" Margin="2" Click="ButtonPath_Click"></Button>
+
                     <TextBlock x:Name="TextBlockMaskSites" Text="伪装网站：" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2"></TextBlock>
-                    <TextBox x:Name="TextBoxMaskSites" Style="{StaticResource TitleText}" Tag="设置此项可增加代理的隐蔽(可为空)" Grid.Column="1" Grid.Row="3" Margin="3"></TextBox>
+                    <TextBox x:Name="TextBoxMaskSites" Style="{StaticResource TitleText}" Tag="设置此项可增加代理的隐蔽(可为空)" Grid.Column="1" Grid.Row="3" Margin="5"></TextBox>
                     <Grid Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="4">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
@@ -100,6 +110,6 @@
                 </Grid>
             </GroupBox>
         </Grid>
-       
+
     </Grid>
 </Window>

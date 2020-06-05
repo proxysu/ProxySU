@@ -361,15 +361,16 @@ namespace ProxySU
                 sw.WriteLine("下载相应版本，Windows选择v2ray-windows-64.zip或者v2ray-windows-32.zip，解压后提取v2ctl.exe和v2ray.exe。与config.json放在同一目录，运行v2ray.exe即可。");
                 sw.WriteLine("-----------------------------------------");
                 sw.WriteLine("QR.bmp");
-                sw.WriteLine("此文件为v2rayN、v2rayNG(Android)、Shadowrocket(ios)扫码导入节点");
+                sw.WriteLine("此文件为v2rayN、Trojan-QT5、v2rayNG(Android)、Shadowrocket(ios)扫码导入节点");
                 sw.WriteLine("v2rayN下载网址：https://github.com/2dust/v2rayN/releases");
+                sw.WriteLine("Trojan-QT5：https://github.com/Trojan-Qt5/Trojan-Qt5");
                 sw.WriteLine("v2rayNG(Android)下载网址：https://github.com/2dust/v2rayNG/releases");
                 sw.WriteLine("v2rayNG(Android)在Google Play下载网址：https://play.google.com/store/apps/details?id=com.v2ray.ang");
                 sw.WriteLine("Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。");
 
                 sw.WriteLine("-----------------------------------------");
                 sw.WriteLine("url.txt");
-                sw.WriteLine("此文件为v2rayN、v2rayNG(Android)、Shadowrocket(ios)复制粘贴导入节点的vmess网址");
+                sw.WriteLine("此文件为v2rayN、Trojan-QT5、v2rayNG(Android)、Shadowrocket(ios)复制粘贴导入节点的vmess网址");
                 sw.WriteLine("-----------------------------------------\n");
                 sw.WriteLine("服务器通用连接配置参数");
                 sw.WriteLine($"地址(address)：{TextBoxHostAddress.Text}");

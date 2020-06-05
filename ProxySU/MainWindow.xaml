@@ -134,7 +134,7 @@
                                 <Button x:Name="Button_canel" Content="取消" Grid.ColumnSpan="1" Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
                             </Grid>
                         </TabItem>
-                        <TabItem Header="Trojan/Trojan-Go" Width="120" Height="30">
+                        <TabItem Header="Trojan" Width="100" Height="30">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition></ColumnDefinition>
@@ -152,7 +152,7 @@
                                 <Button x:Name="ButtonUpdateTrojan" Content="检测/升级Trojan版本" Grid.Column="0" Grid.Row="0" Margin="5" Click="ButtonUpdateTrojan_Click"></Button>
                                 <Button x:Name="ButtonTrojanTemplate" Content="Trojan参数设置" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonTrojanTemplate_Click"/>
                                 <!--<TextBlock Text="Trojan参数设置" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center"></TextBlock>-->
-                                <Button x:Name="ButtonTrojanGoTemplate" Content="Trojan-Go参数设置" Grid.Column="2" Grid.Row="0" Margin="5" Click="ButtonTrojanGoTemplate_Click"/>
+                                <!--<Button x:Name="ButtonTrojanGoTemplate" Content="Trojan-Go参数设置" Grid.Column="2" Grid.Row="0" Margin="5" Click="ButtonTrojanGoTemplate_Click"/>-->
 
 
                                 <Button x:Name="ButtonTrojanSetUp" Content="Trojan一键安装" Grid.ColumnSpan="1" Margin="10" Grid.Column="0" Grid.Row="2" Click="ButtonTrojanSetUp_Click"/>
@@ -277,6 +277,30 @@
                                 <Button x:Name="Button_canel3in1" Content="取消" Grid.ColumnSpan="1" Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
                             </Grid>
                         </TabItem>
+                        <TabItem Header="Trojan-Go" Width="100" Height="30">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+
+                                </Grid.RowDefinitions>
+                                <Button x:Name="ButtonUpdateTrojanGo" Content="检测/升级Trojan-Go版本" Grid.Column="0" Grid.Row="0" Margin="5" Click="ButtonUpdateTrojanGo_Click"></Button>
+                                <!--<Button x:Name="ButtonTrojanTemplate" Content="Trojan参数设置" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonTrojanTemplate_Click"/>-->
+                                <!--<TextBlock Text="Trojan参数设置" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center"></TextBlock>-->
+                                <Button x:Name="ButtonTrojanGoTemplate" Content="Trojan-Go参数设置" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonTrojanGoTemplate_Click"/>
+
+
+                                <Button x:Name="ButtonTrojanGoSetUp" Content="Trojan-Go一键安装" Grid.ColumnSpan="1" Margin="10" Grid.Column="0" Grid.Row="2" Click="ButtonTrojanGoSetUp_Click"/>
+                                <Button x:Name="ButtonTrojanGoCancel" Content="取消" Grid.ColumnSpan="1" Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
+                            </Grid>
+                        </TabItem>
                         <TabItem Header="系统工具" Width="100" Height="30">
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -387,7 +411,7 @@
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-                        <TextBlock Text="程序版本：1.6.4" Grid.Column="0" Grid.Row="0"></TextBlock>
+                        <TextBlock Text="程序版本：1.7.0" Grid.Column="0" Grid.Row="0"></TextBlock>
                         
                     </Grid>
                    
