@@ -2,9 +2,9 @@
 [v2ray的TLS流量可被简单特征码匹配精准识别](https://github.com/v2ray/discussion/issues/704)  
 
 # ProxySU
-V2ray, Trojan,NaiveProxy,BBR install tools for windows。V2ray，Trojan，NaiveProxy一键安装工具。BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）
+V2ray, Trojan, NaiveProxy, Trojan-Go, BBR install tools for windows。V2ray，Trojan，NaiveProxy, Trojan-Go 一键安装工具。BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）
 
-编译环境Visual Studio 2017  使用WPF界面。可一键安装V2ray、Trojan、NaiveProxy，后续还会再添加其他。
+编译环境Visual Studio 2017  使用WPF界面。可一键安装V2ray、Trojan、NaiveProxy，Trojan-Go 后续还会再添加其他。
 
 ##### V2ray可一键安装的模式有：
 * tcp 
