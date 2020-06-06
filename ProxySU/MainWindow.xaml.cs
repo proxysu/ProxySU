@@ -2280,8 +2280,13 @@ namespace ProxySU
                         //设置证书
                         serverJson["ssl"]["cert"] = "/etc/trojan-go/trojan-go.crt";
                         serverJson["ssl"]["key"] = "/etc/trojan-go/trojan-go.key";
-                        serverJson["ssl"]["cert"] = "/etc/trojan-go/trojan-go.crt";
                         serverJson["ssl"]["sni"] = ReceiveConfigurationParameters[4];
+
+                        if (ReceiveConfigurationParameters[0].Contains("WebSocket"))
+                        {
+                            serverJson["websocket"]["enabled"] = true;
+                            serverJson["websocket"]["path"] = ReceiveConfigurationParameters[3];
+                        }
 
                         using (StreamWriter sw = new StreamWriter(@"config.json"))
                         {
@@ -2469,6 +2474,12 @@ namespace ProxySU
                         clientJson["remote_addr"] = ReceiveConfigurationParameters[4];
                         clientJson["remote_port"] = 443;
                         clientJson["password"][0] = ReceiveConfigurationParameters[2];
+
+                        if (ReceiveConfigurationParameters[0].Contains("WebSocket"))
+                        {
+                            clientJson["websocket"]["enabled"] = true;
+                            clientJson["websocket"]["path"] = ReceiveConfigurationParameters[3];
+                        }
 
                         using (StreamWriter sw = new StreamWriter(@"trojan-go_config\config.json"))
                         {

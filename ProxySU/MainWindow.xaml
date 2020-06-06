@@ -296,7 +296,6 @@
                                 <!--<TextBlock Text="Trojan参数设置" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center"></TextBlock>-->
                                 <Button x:Name="ButtonTrojanGoTemplate" Content="Trojan-Go参数设置" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonTrojanGoTemplate_Click"/>
 
-
                                 <Button x:Name="ButtonTrojanGoSetUp" Content="Trojan-Go一键安装" Grid.ColumnSpan="1" Margin="10" Grid.Column="0" Grid.Row="2" Click="ButtonTrojanGoSetUp_Click"/>
                                 <Button x:Name="ButtonTrojanGoCancel" Content="取消" Grid.ColumnSpan="1" Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
                             </Grid>
@@ -411,7 +410,7 @@
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-                        <TextBlock Text="程序版本：1.7.0" Grid.Column="0" Grid.Row="0"></TextBlock>
+                        <TextBlock Text="程序版本：1.7.1" Grid.Column="0" Grid.Row="0"></TextBlock>
                         
                     </Grid>
                    
