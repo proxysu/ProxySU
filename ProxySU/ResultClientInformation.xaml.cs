@@ -143,49 +143,55 @@ namespace ProxySU
             {
                 TextBoxTransmission.Text = "kcp";
                 TextBoxCamouflageType.Text = "none";
+                TextBoxQuicKey.Text = MainWindow.ReceiveConfigurationParameters[6];
                 TextBoxTLS.Text = "none";
                 HidePath();
-                HideQuicKey();
+                ShowQuicKey();
             }
             else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "mKCP2SRTP"))
             {
                 TextBoxTransmission.Text = "kcp";
                 TextBoxCamouflageType.Text = "srtp";
+                TextBoxQuicKey.Text = MainWindow.ReceiveConfigurationParameters[6];
                 TextBoxTLS.Text = "none";
                 HidePath();
-                HideQuicKey();
+                ShowQuicKey();
             }
             else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "mKCPuTP"))
             {
                 TextBoxTransmission.Text = "kcp";
                 TextBoxCamouflageType.Text = "utp";
+                TextBoxQuicKey.Text = MainWindow.ReceiveConfigurationParameters[6];
                 TextBoxTLS.Text = "none";
                 HidePath();
-                HideQuicKey();
+                ShowQuicKey();
             }
             else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "mKCP2WechatVideo"))
             {
                 TextBoxTransmission.Text = "kcp";
                 TextBoxCamouflageType.Text = "wechat-video";
+                TextBoxQuicKey.Text = MainWindow.ReceiveConfigurationParameters[6];
                 TextBoxTLS.Text = "none";
                 HidePath();
-                HideQuicKey();
+                ShowQuicKey();
             }
             else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "mKCP2DTLS"))
             {
                 TextBoxTransmission.Text = "kcp";
                 TextBoxCamouflageType.Text = "dtls";
+                TextBoxQuicKey.Text = MainWindow.ReceiveConfigurationParameters[6];
                 TextBoxTLS.Text = "none";
                 HidePath();
-                HideQuicKey();
+                ShowQuicKey();
             }
             else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "mKCP2WireGuard"))
             {
                 TextBoxTransmission.Text = "kcp";
                 TextBoxCamouflageType.Text = "wireguard";
+                TextBoxQuicKey.Text = MainWindow.ReceiveConfigurationParameters[6];
                 TextBoxTLS.Text = "none";
                 HidePath();
-                HideQuicKey();
+                ShowQuicKey();
             }
             else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "QuicNone"))
             {
@@ -383,7 +389,7 @@ namespace ProxySU
                 sw.WriteLine($"是否使用TLS：{TextBoxTLS.Text}");
                 sw.WriteLine($"host：{TextBoxHostAddress.Text}");
                 sw.WriteLine($"路径(Path)：{TextBoxPath.Text}");
-                sw.WriteLine($"QUIC密钥：{TextBoxQuicKey.Text}");
+                sw.WriteLine($"mKCP/QUIC密钥：{TextBoxQuicKey.Text}");
             }
 
 

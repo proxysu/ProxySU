@@ -45,7 +45,8 @@
 					"congestion": true,
 					"header": {
 						"type": null
-					}
+					},
+					"seed": null
 				}
 			}
 		}

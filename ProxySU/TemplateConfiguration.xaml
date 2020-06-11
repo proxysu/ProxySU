@@ -173,17 +173,17 @@
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <RadioButton x:Name="RadioButtonMkcpNone" Content="mKCP(无伪装)" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="1" Checked="RadioButtonTCP_Checked"></RadioButton>
+                            <RadioButton x:Name="RadioButtonMkcpNone" Content="mKCP(无伪装)" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="1" Checked="RadioButtonQuicNone_Checked"></RadioButton>
                             <TextBlock Text="数据加密传输，以增加流量消耗来加速，减少延迟，udp协议,无伪装，会被识别为udp流量" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButton2mKCP2SRTP" Content="mKCP+SRTP" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="2" Checked="RadioButtonTCP_Checked"></RadioButton>
+                            <RadioButton x:Name="RadioButton2mKCP2SRTP" Content="mKCP+SRTP" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="2" Checked="RadioButtonQuicNone_Checked"></RadioButton>
                             <TextBlock Text="同mKCP(无伪装)，增加伪装成 SRTP 数据包，会被识别为视频通话数据（如 FaceTime）" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButton2mKCPuTP" Content="mKCP+uTP" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="3" Checked="RadioButtonTCP_Checked"></RadioButton>
+                            <RadioButton x:Name="RadioButton2mKCPuTP" Content="mKCP+uTP" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="3" Checked="RadioButtonQuicNone_Checked"></RadioButton>
                             <TextBlock Text="同mKCP(无伪装)，增加伪装成 uTP 数据包，会被识别为 BT 下载数据" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButton2mKCP2WechatVideo" Content="mKCP+WechatVideo" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="4" Checked="RadioButtonTCP_Checked"></RadioButton>
+                            <RadioButton x:Name="RadioButton2mKCP2WechatVideo" Content="mKCP+WechatVideo" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="4" Checked="RadioButtonQuicNone_Checked"></RadioButton>
                             <TextBlock Text="同mKCP(无伪装)，增加伪装成微信视频通话的数据包" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButton2mKCP2DTLS" Content="mKCP+DTLS 1.2" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="5" Checked="RadioButtonTCP_Checked"></RadioButton>
+                            <RadioButton x:Name="RadioButton2mKCP2DTLS" Content="mKCP+DTLS 1.2" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="5" Checked="RadioButtonQuicNone_Checked"></RadioButton>
                             <TextBlock Text="同mKCP(无伪装)，增加伪装成 DTLS 1.2 数据包" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButton2mKCP2WireGuard" Content="mKCP+WireGuard" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="6" Checked="RadioButtonTCP_Checked"></RadioButton>
+                            <RadioButton x:Name="RadioButton2mKCP2WireGuard" Content="mKCP+WireGuard" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="6" Checked="RadioButtonQuicNone_Checked"></RadioButton>
                             <TextBlock Text="同mKCP(无伪装)，增加伪装成 WireGuard 数据包。(并不是真正的 WireGuard 协议)" TextWrapping="Wrap" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="3"></TextBlock>
 
                         </Grid>
@@ -247,23 +247,25 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                <TextBlock x:Name="TextBlockServerListenPort" Text="服务端口：" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"></TextBlock>
+                <TextBlock x:Name="TextBlockServerListenPort" Text="服务端口：" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1"></TextBlock>
                 <TextBox x:Name="TextBoxServerListenPort" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Margin="3"></TextBox>
                 <Button x:Name="ButtonServerListenPort" Content="随机选择" Grid.Column="4" Grid.Row="0" Margin="2" Click="ButtonServerListenPort_Click"></Button>
-                <TextBlock x:Name="TextBlockNewUUID" Text="UUID：" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"></TextBlock>
+                <TextBlock x:Name="TextBlockNewUUID" Text="UUID：" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1"></TextBlock>
                 <TextBox x:Name="TextBoxNewUUID" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Margin="3"></TextBox>
                 <Button x:Name="ButtonNewUUID" Content="更新" Grid.Column="4" Grid.Row="1" Margin="2" Click="ButtonNewUUID_Click"></Button>
                 <TextBlock Text="使用已有UUID，直接粘贴到框中" TextWrapping="Wrap" Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="2" Margin="0"></TextBlock>
-                <TextBlock x:Name="TextBlockQuicUUID" Text="QUIC密钥"  Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"></TextBlock>
+                <TextBlock x:Name="TextBlockQuicUUID" Text="mKCP/QUIC密钥"  Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="1"></TextBlock>
                 <TextBox x:Name="TextBoxQuicUUID"  Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Margin="3"></TextBox>
                 <Button x:Name="ButtonQuicUUID"  Content="更新" Grid.Column="4" Grid.Row="2" Margin="2" Click="ButtonQuicUUID_Click"></Button>
-                <TextBlock x:Name="TextBlockPath" Text="路径：" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2"></TextBlock>
+                <TextBlock  Text="启用mKCP密钥，可增强抗识别，删除留空则禁用,要求版本4.24.2以上" TextWrapping="Wrap" Grid.Column="5" Grid.Row="2" Grid.ColumnSpan="2"></TextBlock>
+
+                <TextBlock x:Name="TextBlockPath" Text="路径：" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="1"></TextBlock>
                 <TextBox x:Name="TextBoxPath" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" Margin="3"></TextBox>
                 <Button x:Name="ButtonPath" Content="随机" Grid.Column="4" Grid.Row="3" Margin="2" Click="ButtonPath_Click"></Button>
-                <TextBlock x:Name="TextBlockDomain" Text="域名：" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2"></TextBlock>
+                <TextBlock x:Name="TextBlockDomain" Text="域名：" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="1"></TextBlock>
                 <TextBox x:Name="TextBoxDomain" Style="{StaticResource TitleText}" Tag="不可为空" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" Margin="3"></TextBox>
                 <Button x:Name="ButtonDomain" Content="检测" Visibility="Collapsed" Grid.Column="4" Grid.Row="4" Margin="2" Click="ButtonDomain_Click"></Button>
-                <TextBlock x:Name="TextBlockMaskSites" Text="伪装网站：" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2"></TextBlock>
+                <TextBlock x:Name="TextBlockMaskSites" Text="伪装网站：" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="1"></TextBlock>
                 <TextBox x:Name="TextBoxMaskSites" Style="{StaticResource TitleText}" Tag="设置此项可增加代理的隐蔽(可为空)" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3" Margin="3"></TextBox>
 
 

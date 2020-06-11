@@ -1,33 +1,34 @@
 {
-  "inbounds": [
-    {
-       "port": null,
-       "protocol": "vmess",
-       "settings": {
-           "clients": [
-              {
-                 "id": null,
-                 "alterId": 64
-              }
-          ]
-      },
-      "streamSettings": {
-          "network": "mkcp",
-          "kcpSettings": {
-              "uplinkCapacity": 100,
-              "downlinkCapacity": 100,
-              "congestion": true,
-              "header": {
-                  "type": null
-              }
-          }
-      }
-    }
-  ],
-  "outbounds": [
-     {
-        "protocol": "freedom",
-        "settings": {}
-     }
-  ]
+	"inbounds": [
+		{
+			"port": null,
+			"protocol": "vmess",
+			"settings": {
+				"clients": [
+					{
+						"id": null,
+						"alterId": 64
+					}
+				]
+			},
+			"streamSettings": {
+				"network": "mkcp",
+				"kcpSettings": {
+					"uplinkCapacity": 100,
+					"downlinkCapacity": 100,
+					"congestion": true,
+					"header": {
+						"type": null
+					},
+					"seed": null
+				}
+			}
+		}
+	],
+	"outbounds": [
+		{
+			"protocol": "freedom",
+			"settings": {}
+		}
+	]
 }

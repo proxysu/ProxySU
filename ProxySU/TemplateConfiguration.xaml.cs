@@ -217,6 +217,10 @@ namespace ProxySU
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCPNone";
                 MainWindow.ReceiveConfigurationParameters[5] = "none";
+                if (String.IsNullOrEmpty(TextBoxQuicUUID.Text)==false)
+                {
+                    MainWindow.ReceiveConfigurationParameters[6] = TextBoxQuicUUID.Text;
+                }
             }
             //mKCP+srtp伪装模式被选中
             else if (RadioButton2mKCP2SRTP.IsChecked == true)
@@ -224,6 +228,10 @@ namespace ProxySU
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCP2SRTP";
                 MainWindow.ReceiveConfigurationParameters[5] = "srtp";
+                if (String.IsNullOrEmpty(TextBoxQuicUUID.Text) == false)
+                {
+                    MainWindow.ReceiveConfigurationParameters[6] = TextBoxQuicUUID.Text;
+                }
             }
             //mKCP+utp伪装模式被选中
             else if (RadioButton2mKCPuTP.IsChecked == true)
@@ -231,6 +239,10 @@ namespace ProxySU
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCPuTP";
                 MainWindow.ReceiveConfigurationParameters[5] = "utp";
+                if (String.IsNullOrEmpty(TextBoxQuicUUID.Text) == false)
+                {
+                    MainWindow.ReceiveConfigurationParameters[6] = TextBoxQuicUUID.Text;
+                }
             }
             //mKCP+wechat-video伪装模式被选中
             else if (RadioButton2mKCP2WechatVideo.IsChecked == true)
@@ -238,6 +250,10 @@ namespace ProxySU
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCP2WechatVideo";
                 MainWindow.ReceiveConfigurationParameters[5] = "wechat-video";
+                if (String.IsNullOrEmpty(TextBoxQuicUUID.Text) == false)
+                {
+                    MainWindow.ReceiveConfigurationParameters[6] = TextBoxQuicUUID.Text;
+                }
             }
             //mKCP+dtls伪装模式被选中
             else if (RadioButton2mKCP2DTLS.IsChecked == true)
@@ -245,6 +261,10 @@ namespace ProxySU
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCP2DTLS";
                 MainWindow.ReceiveConfigurationParameters[5] = "dtls";
+                if (String.IsNullOrEmpty(TextBoxQuicUUID.Text) == false)
+                {
+                    MainWindow.ReceiveConfigurationParameters[6] = TextBoxQuicUUID.Text;
+                }
             }
             //mKCP+wireguard伪装模式被选中
             else if (RadioButton2mKCP2WireGuard.IsChecked == true)
@@ -252,6 +272,10 @@ namespace ProxySU
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCP2WireGuard";
                 MainWindow.ReceiveConfigurationParameters[5] = "wireguard";
+                if (String.IsNullOrEmpty(TextBoxQuicUUID.Text) == false)
+                {
+                    MainWindow.ReceiveConfigurationParameters[6] = TextBoxQuicUUID.Text;
+                }
             }
             //QUIC无伪装模式被选中
             else if (RadioButtonQuicNone.IsChecked == true)

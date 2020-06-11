@@ -311,7 +311,7 @@ namespace ProxySU
         }
         #endregion
 
-        #region 界面控件的有效无效控制代码块
+        #region 主界面控件的有效无效控制代码块
         private void RadioButtonNoProxy_Checked(object sender, RoutedEventArgs e)
         {
             TextBlockProxyHost.IsEnabled = false;
@@ -783,6 +783,10 @@ namespace ProxySU
                         if (serverConfig.Contains("mkcp") == true)
                         {
                             serverJson["inbounds"][0]["streamSettings"]["kcpSettings"]["header"]["type"] = ReceiveConfigurationParameters[5];
+                            if (String.IsNullOrEmpty(ReceiveConfigurationParameters[6])==false )
+                            {
+                                serverJson["inbounds"][0]["streamSettings"]["kcpSettings"]["seed"] = ReceiveConfigurationParameters[6];
+                            }
                         }
                         //quic模式下设置伪装类型及密钥
                         if (serverConfig.Contains("quic") == true)
@@ -823,13 +827,13 @@ namespace ProxySU
                         {
                             client.RunCommand("ufw allow 80");
                             client.RunCommand("ufw allow 443");
-                            client.RunCommand("yes | ufw reset");
+                            client.RunCommand("yes | ufw reload");
                         }
                         else
                         {
                             client.RunCommand($"ufw allow {openFireWallPort}/tcp");
                             client.RunCommand($"ufw allow {openFireWallPort}/udp");
-                            client.RunCommand("yes | ufw reset");
+                            client.RunCommand("yes | ufw reload");
                         }
                     }
 
@@ -987,6 +991,10 @@ namespace ProxySU
                         if (clientConfig.Contains("mkcp")==true)
                         {
                             clientJson["outbounds"][0]["streamSettings"]["kcpSettings"]["header"]["type"] = ReceiveConfigurationParameters[5];
+                            if (String.IsNullOrEmpty(ReceiveConfigurationParameters[6]) == false)
+                            {
+                                clientJson["outbounds"][0]["streamSettings"]["kcpSettings"]["seed"] = ReceiveConfigurationParameters[6];
+                            }
                         }
                         if (clientConfig.Contains("quic") == true)
                         {
@@ -1703,13 +1711,13 @@ namespace ProxySU
                         {
                             client.RunCommand("ufw allow 80");
                             client.RunCommand("ufw allow 443");
-                            client.RunCommand("yes | ufw reset");
+                            client.RunCommand("yes | ufw reload");
                         }
                         else
                         {
                             client.RunCommand($"ufw allow {openFireWallPort}/tcp");
                             client.RunCommand($"ufw allow {openFireWallPort}/udp");
-                            client.RunCommand("yes | ufw reset");
+                            client.RunCommand("yes | ufw reload");
                         }
                     }
 
@@ -2321,13 +2329,13 @@ namespace ProxySU
                         //{
                             client.RunCommand("ufw allow 80");
                             client.RunCommand("ufw allow 443");
-                            client.RunCommand("yes | ufw reset");
+                            client.RunCommand("yes | ufw reload");
                         //}
                         //else
                         //{
                         //    client.RunCommand($"ufw allow {openFireWallPort}/tcp");
                         //    client.RunCommand($"ufw allow {openFireWallPort}/udp");
-                        //    client.RunCommand("yes | ufw reset");
+                        //    client.RunCommand("yes | ufw reload");
                         //}
                     }
 
@@ -2885,13 +2893,13 @@ namespace ProxySU
                         {
                             client.RunCommand("ufw allow 80");
                             client.RunCommand("ufw allow 443");
-                            client.RunCommand("yes | ufw reset");
+                            client.RunCommand("yes | ufw reload");
                         }
                         else
                         {
                             client.RunCommand($"ufw allow {openFireWallPort}/tcp");
                             client.RunCommand($"ufw allow {openFireWallPort}/udp");
-                            client.RunCommand("yes | ufw reset");
+                            client.RunCommand("yes | ufw reload");
                         }
                     }
 
@@ -4229,7 +4237,7 @@ namespace ProxySU
 
                         client.RunCommand("ufw allow 80");
                         client.RunCommand("ufw allow 443");
-                        client.RunCommand("yes | ufw reset");
+                        client.RunCommand("yes | ufw reload");
                     }
 
                     currentStatus = "符合安装要求,V2ray安装中......";
