@@ -44,6 +44,7 @@ V2ray, Trojan, NaiveProxy, Trojan-Go, BBR install tools for windows。V2ray，Tr
 * [v2ray官方程序](https://www.v2ray.com/chapter_00/install.html)配置文件(客户端配置)  
 * [v2rayN (windows)](https://github.com/2dust/v2rayN/releases)客户端导入二维码和网址  
 * [Trojan-QT5 (windows)](https://github.com/Trojan-Qt5/Trojan-Qt5)客户端导入二维码和网址  
+* [Qv2ray (windows)](https://github.com/Qv2ray/Qv2ray)客户端导入二维码和网址  
 * [Shadowrocket (ios)](https://apps.apple.com/us/app/shadowrocket/id932747118)导入二维码和网址  
 * [v2rayNG (Android)](https://github.com/2dust/v2rayNG/releases)导入二维码和网址  
 
@@ -53,6 +54,7 @@ V2ray, Trojan, NaiveProxy, Trojan-Go, BBR install tools for windows。V2ray，Tr
 
 * [Trojan官方程序](https://github.com/trojan-gfw/trojan)配置文件（客户端配置）  
 * [Trojan-QT5 (windows)](https://github.com/TheWanderingCoel/Trojan-Qt5/releases)导入二维码和网址  
+* [Qv2ray (windows)](https://github.com/Qv2ray/Qv2ray)客户端导入二维码和网址  
 * [Shadowrocket (ios)](https://apps.apple.com/us/app/shadowrocket/id932747118)导入二维码和网址  
 * [igniter（Android）](https://github.com/trojan-gfw/igniter/releases)导入二维码和网址  
 注：Trojan官方的Windows客户端，需要安装 [vc_redist.x64.exe](https://aka.ms/vs/16/release/vc_redist.x64.exe)。[官方说明](https://github.com/trojan-gfw/trojan/wiki/Binary-&-Package-Distributions#windows-vista)  
