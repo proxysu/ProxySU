@@ -187,7 +187,7 @@ namespace ProxySU
 
             string serverConfig="";  //服务端配置文件
             string clientConfig = "";   //生成的客户端配置文件
-            string upLoadPath = "/etc/v2ray/config.json"; //服务端文件位置
+            string upLoadPath = "/usr/local/etc/v2ray/config.json"; //服务端文件位置
             //生成客户端配置时，连接的服务主机的IP或者域名
             if (String.IsNullOrEmpty(ReceiveConfigurationParameters[4])==true)
             {
@@ -487,7 +487,7 @@ namespace ProxySU
                     string resultCmdTestV2rayInstalled = client.RunCommand(cmdTestV2rayInstalled).Result;
                     //client.Disconnect();
                     //MessageBox.Show(resultCmdTestV2rayInstalled);
-                    if (resultCmdTestV2rayInstalled.Contains("/usr/bin/v2ray") == true)
+                    if (resultCmdTestV2rayInstalled.Contains("/usr/bin/v2ray") == true || resultCmdTestV2rayInstalled.Contains("/usr/local/bin/v2ray") == true)
                     {
                         MessageBoxResult messageBoxResult = MessageBox.Show("远程主机已安装V2ray,是否强制重新安装？", "", MessageBoxButton.YesNo, MessageBoxImage.Question);
                         if (messageBoxResult==MessageBoxResult.No)
@@ -725,20 +725,20 @@ namespace ProxySU
 
                     //下载官方安装脚本安装
 
-                    client.RunCommand("curl -o /tmp/go.sh https://install.direct/go.sh");
+                    client.RunCommand("curl -o /tmp/go.sh https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh");
                     client.RunCommand("bash /tmp/go.sh -f");
                     string installResult = client.RunCommand("find / -name v2ray").Result.ToString();
 
-                    if (!installResult.Contains("/usr/bin/v2ray"))
+                    if (!installResult.Contains("/usr/local/bin/v2ray"))
                     {
-                        MessageBox.Show("安装V2ray失败(官方脚本go.sh运行出错！");
-                        client.Disconnect();
-                        currentStatus = "安装V2ray失败(官方脚本go.sh运行出错！";
+                        MessageBox.Show("安装V2ray失败(官方脚本运行出错！");
+                        
+                        currentStatus = "安装V2ray失败(官方脚本运行出错！";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         client.Disconnect();
                         return;
                     }
-                    client.RunCommand("mv /etc/v2ray/config.json /etc/v2ray/config.json.1");
+                    //client.RunCommand("mv /etc/v2ray/config.json /etc/v2ray/config.json.1");
 
                     //上传配置文件
                     currentStatus = "V2ray程序安装完毕，配置文件上传中......";
@@ -800,6 +800,7 @@ namespace ProxySU
                             sw.Write(serverJson.ToString());
                         }
                     }
+                    //upLoadPath="/usr/local/etc/v2ray/config.json"; 
                     UploadConfig(connectionInfo, @"config.json",upLoadPath);
 
                     File.Delete(@"config.json");
@@ -1341,6 +1342,7 @@ namespace ProxySU
             TrojanTemplateWindow windowTrojanTemplateConfiguration = new TrojanTemplateWindow();
             windowTrojanTemplateConfiguration.ShowDialog();
         }
+
         //Trojan一键安装
         private void ButtonTrojanSetUp_Click(object sender, RoutedEventArgs e)
         {
@@ -1371,6 +1373,7 @@ namespace ProxySU
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
         }
+
         //登录远程主机布署Trojan程序
         private void StartSetUpTrojan(ConnectionInfo connectionInfo, TextBlock textBlockName, ProgressBar progressBar, string serverConfig, string clientConfig, string upLoadPath)
         {
@@ -1500,8 +1503,8 @@ namespace ProxySU
                     }
 
                     //如果使用如果是WebSocket + TLS + Web/http2/Http2Web/tcp_TLS/WebSocket_TLS模式，需要检测域名解析是否正确
-                    if (serverConfig.Contains("trojan_server") == true)
-                    {
+                    //if (serverConfig.Contains("trojan_server") == true)
+                    //{
                         currentStatus = "正在检测域名是否解析到当前VPS的IP上......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
@@ -1549,9 +1552,9 @@ namespace ProxySU
                             return;
                         }
 
-                    }
-                    if (serverConfig.Contains("trojan_server") == true)
-                    {
+                    //}
+                    //if (serverConfig.Contains("trojan_server") == true)
+                    //{
                         //检测是否安装lsof
                         if (string.IsNullOrEmpty(client.RunCommand("command -v lsof").Result) == true)
                         {
@@ -1620,30 +1623,27 @@ namespace ProxySU
                             Thread.Sleep(1000);
 
                         }
-                    }
+                   // }
                     currentStatus = "符合安装要求,布署中......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
 
-                    //在相应系统内安装curl(如果没有安装curl)
-                    if (string.IsNullOrEmpty(client.RunCommand("command -v curl").Result) == true)
+
+                    //处理极其少见的xz-utils未安装的情况
+                    if (getApt == false)
                     {
-                        //为假则表示系统有相应的组件。
-                        if (getApt == false)
-                        {
-                            client.RunCommand("apt-get -qq update");
-                            client.RunCommand("apt-get -y -qq install curl");
-                        }
-                        if (getYum == false)
-                        {
-                            client.RunCommand("yum -q makecache");
-                            client.RunCommand("yum -y -q install curl");
-                        }
-                        if (getZypper == false)
-                        {
-                            client.RunCommand("zypper ref");
-                            client.RunCommand("zypper -y install curl");
-                        }
+                        client.RunCommand("apt-get -qq update");
+                        client.RunCommand("apt-get -y -qq install xz-utils");
+                    }
+                    if (getYum == false)
+                    {
+                        client.RunCommand("yum -q makecache");
+                        client.RunCommand("yum -y -q install xz-utils");
+                    }
+                    if (getZypper == false)
+                    {
+                        client.RunCommand("zypper ref");
+                        client.RunCommand("zypper -y install xz-utils");
                     }
 
 
@@ -1657,7 +1657,7 @@ namespace ProxySU
                     if (!installResult.Contains("/usr/local/bin/trojan"))
                     {
                         MessageBox.Show("安装Trojan失败(官方脚本运行出错！");
-                        client.Disconnect();
+                        
                         currentStatus = "安装Trojan失败(官方脚本运行出错！";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         client.Disconnect();
@@ -1723,8 +1723,8 @@ namespace ProxySU
 
                    
 
-                    if (serverConfig.Contains("trojan_server") == true)
-                    {
+                    //if (serverConfig.Contains("trojan_server") == true)
+                    //{
                         currentStatus = "使用Trojan+TLS+Web模式，正在安装acme.sh......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
@@ -1759,7 +1759,7 @@ namespace ProxySU
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
                         client.RunCommand($"/root/.acme.sh/acme.sh  --installcert  -d {ReceiveConfigurationParameters[4]}  --certpath /usr/local/etc/trojan/trojan_ssl.crt --keypath /usr/local/etc/trojan/trojan_ssl.key  --capath  /usr/local/etc/trojan/trojan_ssl.crt  --reloadcmd  \"systemctl restart trojan\"");
-                    }
+                    //}
 
                     currentStatus = "正在启动Trojan......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -1772,8 +1772,8 @@ namespace ProxySU
                     Thread.Sleep(1000);
 
                     //安装Caddy
-                    if (serverConfig.Contains("trojan_server") == true)
-                    {
+                    //if (serverConfig.Contains("trojan_server") == true)
+                    //{
                         currentStatus = "正在安装Caddy";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
@@ -1788,11 +1788,11 @@ namespace ProxySU
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
 
-                        string caddyConfig = "";
-                        if (serverConfig.Contains("trojan_server") == true)
-                        {
-                            caddyConfig = "TemplateConfg\\trojan_caddy_config.caddyfile";
-                        }
+                        string caddyConfig = "TemplateConfg\\trojan_caddy_config.caddyfile";
+                        //if (serverConfig.Contains("trojan_server") == true)
+                        //{
+                        //    caddyConfig = "TemplateConfg\\trojan_caddy_config.caddyfile";
+                        //}
 
                         upLoadPath = "/etc/caddy/Caddyfile";
                         UploadConfig(connectionInfo, caddyConfig, upLoadPath);
@@ -1822,7 +1822,7 @@ namespace ProxySU
 
                         //启动Caddy服务
                         client.RunCommand("caddy -service restart");
-                    }
+                    //}
 
                     //测试BBR条件，若满足提示是否启用
                     var result = client.RunCommand("uname -r");
@@ -3373,12 +3373,12 @@ namespace ProxySU
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
 
-                    string cmdTestV2rayInstalled = @"find / -name v2ray";
+                    //string cmdTestV2rayInstalled = @"find / -name v2ray";
                     //MessageBox.Show(cmdTestV2rayInstalled);
-                    string resultCmdTestV2rayInstalled = client.RunCommand(cmdTestV2rayInstalled).Result;
+                    string resultCmdTestV2rayInstalled = client.RunCommand(@"find / -name v2ray").Result;
                     //client.Disconnect();
                     //MessageBox.Show(resultCmdTestV2rayInstalled);
-                    if (resultCmdTestV2rayInstalled.Contains("/usr/bin/v2ray") == false)
+                    if (resultCmdTestV2rayInstalled.Contains("/usr/bin/v2ray") == false && resultCmdTestV2rayInstalled.Contains("/usr/local/bin/v2ray") == false)
                     {
                         MessageBoxResult messageBoxResult = MessageBox.Show("远程主机未安装V2ray！");
 
@@ -3389,8 +3389,43 @@ namespace ProxySU
                         return;
 
                     }
+                    if (resultCmdTestV2rayInstalled.Contains("/usr/bin/v2ray") == true)
+                    {
+                        client.RunCommand("curl -o /tmp/go.sh https://raw.githubusercontent.com/proxysu/shellscript/master/v2ray/go.sh");
+                        client.RunCommand("bash /tmp/go.sh --remove");
+                        string installResult = client.RunCommand("find / -name v2ray").Result.ToString();
+
+                        if (!installResult.Contains("/usr/bin/v2ray"))
+                        {
+                            currentStatus = "删除旧版本，OK";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            Thread.Sleep(1000);
+                        }
+                        currentStatus = "安装新版本。。。。。。";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+
+                        client.RunCommand("curl -o /tmp/go.sh https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh");
+                        client.RunCommand("bash /tmp/go.sh -f");
+                        installResult = client.RunCommand("find / -name v2ray").Result.ToString();
+
+                        if (!installResult.Contains("/usr/local/bin/v2ray"))
+                        {
+                            MessageBox.Show("安装V2ray失败(官方脚本运行出错！");
+
+                            currentStatus = "安装V2ray失败(官方脚本运行出错！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            client.Disconnect();
+                            return;
+                        }
+                        client.RunCommand(@"mv /etc/v2ray/config.json /usr/local/etc/v2ray/");
+                        client.RunCommand(@"systemctl restart v2ray");
+                        currentStatus = "已更新到最新版本。";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                    }
                     string sshcmd;
-                    sshcmd = @"/usr/bin/v2ray/v2ray -version | head -n 1 | cut -d "" "" -f2";
+                    sshcmd = @"/usr/local/bin/v2ray -version | head -n 1 | cut -d "" "" -f2";
                     //MessageBox.Show(sshcmd);
                     string v2rayCurrentVersion = client.RunCommand(sshcmd).Result;//不含字母v
                     //MessageBox.Show(v2rayCurrentVersion);
@@ -3403,21 +3438,13 @@ namespace ProxySU
                     if (v2rayNewVersion.Contains(v2rayCurrentVersion)==false)
                     {
                         MessageBoxResult messageBoxResult = MessageBox.Show($"远程主机当前版本为：v{v2rayCurrentVersion}\n最新版本为：{v2rayNewVersion}\n是否升级为最新版本？", "", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                        if (messageBoxResult == MessageBoxResult.No)
-                        {
-                            currentStatus = "升级取消，退出";
-                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                            Thread.Sleep(1000);
-                            client.Disconnect();
-                            return;
-                        }
-                        else
+                        if (messageBoxResult == MessageBoxResult.Yes)
                         {
                             currentStatus = "正在升级V2ray到最新版本......";
                             textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                             Thread.Sleep(1000);
-                            client.RunCommand(@"bash <(curl -L -s https://install.direct/go.sh)");
-                            sshcmd = @"/usr/bin/v2ray/v2ray -version | head -n 1 | cut -d "" "" -f2";
+                            client.RunCommand(@"bash <(curl -L -s https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)");
+                            sshcmd = @"/usr/local/bin/v2ray -version | head -n 1 | cut -d "" "" -f2";
                             //MessageBox.Show(sshcmd);
                             v2rayCurrentVersion = client.RunCommand(sshcmd).Result;//不含字母v
                             if (v2rayNewVersion.Contains(v2rayCurrentVersion) == true)
@@ -3434,6 +3461,14 @@ namespace ProxySU
                                 textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                                 Thread.Sleep(1000);
                             }
+                        }
+                        else
+                        {
+                            currentStatus = "升级取消，退出";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            Thread.Sleep(1000);
+                            client.Disconnect();
+                            return;
                         }
                     }
                     else
@@ -3588,15 +3623,7 @@ namespace ProxySU
                     if (trojanNewVersion.Equals(trojanCurrentVersion) == false)
                     {
                         MessageBoxResult messageBoxResult = MessageBox.Show($"远程主机当前版本为：v{trojanCurrentVersion}\n最新版本为：{trojanNewVersion}\n是否升级为最新版本？", "", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                        if (messageBoxResult == MessageBoxResult.No)
-                        {
-                            currentStatus = "升级取消，退出";
-                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                            Thread.Sleep(1000);
-                            client.Disconnect();
-                            return;
-                        }
-                        else
+                        if (messageBoxResult == MessageBoxResult.Yes)
                         {
                             currentStatus = "正在升级Trojan到最新版本......";
                             textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -3630,6 +3657,15 @@ namespace ProxySU
                                 textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                                 Thread.Sleep(1000);
                             }
+                        }
+                        
+                        else
+                        {
+                            currentStatus = "升级取消，退出";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            Thread.Sleep(1000);
+                            client.Disconnect();
+                            return;
                         }
                     }
                     else
@@ -3784,15 +3820,7 @@ namespace ProxySU
                     if (trojanNewVersion.Equals(trojanCurrentVersion) == false)
                     {
                         MessageBoxResult messageBoxResult = MessageBox.Show($"远程主机当前版本为：v{trojanCurrentVersion}\n最新版本为：{trojanNewVersion}\n是否升级为最新版本？", "", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                        if (messageBoxResult == MessageBoxResult.No)
-                        {
-                            currentStatus = "升级取消，退出";
-                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                            Thread.Sleep(1000);
-                            client.Disconnect();
-                            return;
-                        }
-                        else
+                        if (messageBoxResult == MessageBoxResult.Yes)
                         {
                             currentStatus = "正在升级Trojan-Go到最新版本......";
                             textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -3826,6 +3854,15 @@ namespace ProxySU
                                 textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                                 Thread.Sleep(1000);
                             }
+                        }
+                        
+                        else
+                        {
+                            currentStatus = "升级取消，退出";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            Thread.Sleep(1000);
+                            client.Disconnect();
+                            return;
                         }
                     }
                     else
@@ -4245,20 +4282,20 @@ namespace ProxySU
                     Thread.Sleep(1000);
 
                     //下载官方安装脚本安装V2ray
-                    client.RunCommand("curl -o /tmp/go.sh https://install.direct/go.sh");
+                    client.RunCommand("curl -o /tmp/go.sh https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh");
                     client.RunCommand("bash /tmp/go.sh -f");
                     string installResult = client.RunCommand("find / -name v2ray").Result.ToString();
 
-                    if (!installResult.Contains("/usr/bin/v2ray"))
+                    if (!installResult.Contains("/usr/local/bin/v2ray"))
                     {
-                        MessageBox.Show("安装V2ray失败(官方脚本go.sh运行出错！");
-                        client.Disconnect();
-                        currentStatus = "安装V2ray失败(官方脚本go.sh运行出错！";
+                        MessageBox.Show("安装V2ray失败(官方脚本运行出错！");
+                       
+                        currentStatus = "安装V2ray失败(官方脚本运行出错！";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         client.Disconnect();
                         return;
                     }
-                    client.RunCommand("mv /etc/v2ray/config.json /etc/v2ray/config.json.1");
+                    //client.RunCommand("mv /etc/v2ray/config.json /etc/v2ray/config.json.1");
 
                     //上传配置文件
                     currentStatus = "V2ray程序安装完毕，配置文件上传中......";
@@ -4280,7 +4317,7 @@ namespace ProxySU
                             sw.Write(serverJson.ToString());
                         }
                     }
-                    upLoadPath = "/etc/v2ray/config.json";
+                    upLoadPath = "usr/local/etc/v2ray/config.json";
                     UploadConfig(connectionInfo, @"config.json", upLoadPath);
                     File.Delete(@"config.json");
 
@@ -4304,7 +4341,7 @@ namespace ProxySU
                     if (!installResult.Contains("/usr/local/bin/trojan"))
                     {
                         MessageBox.Show("安装Trojan失败(官方脚本运行出错！");
-                        client.Disconnect();
+                       
                         currentStatus = "安装Trojan失败(官方脚本运行出错！";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         client.Disconnect();
