@@ -124,8 +124,7 @@ Microsoft [.NET Framework 4.0](https://dotnet.microsoft.com/download/dotnet-fram
 为了布署方便，程序使用root账户登录主机，出于慎重，请不要在运行重要程序及用于生产的主机上使用。程序所有源码开源，所使用的库都是github开源项目，可以保障最大的使用安全，程序不夹带任何私货、恶意代码及后门，也不会收集任何个人资料，不是在本项目地址下载的，不做任何保障，请尽可能从本项目地址下载。
 
 ## 程序使用问题反馈  
-* Telegram群组 https://t.me/proxysuissues  
-* Tiwtter  [ProxySU_True](https://twitter.com/proxysu_true)  
+* Telegram群组 https://t.me/proxysuissues    
 * 在线提问  https://github.com/proxysu/windows/issues  
 * 邮箱反馈  proxysetuptools@gmail.com
 
