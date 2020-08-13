@@ -60,6 +60,7 @@ namespace ProxySU
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "TCPhttp";
+                //伪装类型
                 MainWindow.ReceiveConfigurationParameters[5] = "http";
             }
             //TCP+TLS模式被选中

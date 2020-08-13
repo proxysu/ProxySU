@@ -14,16 +14,11 @@
 			},
 			"streamSettings": {
 				"network": "h2",
-				"security": "tls",
+				"security": "none",
 				"httpSettings": {
 					"path": null,
 					"host": [
 						""
-					]
-				},
-				"tlsSettings": {
-					"certificates": [
-						{}
 					]
 				}
 			}

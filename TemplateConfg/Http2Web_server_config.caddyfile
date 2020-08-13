@@ -1,14 +1,16 @@
 ##domain## {
-    log stdout
-    errors stderr
-    root /var/www
-    tls off
+    root * /usr/share/caddy
+    file_server
+    tls {
+        protocols tls1.2 tls1.3
+        ciphers TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384 TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256
+        curves x25519
+    }
+
+    reverse_proxy ##path## http://localhost:10000 {
+        transport http {
+            versions h2c 2
+        }
+    }
     ##sites##
-    proxy ##path## https://localhost:10000 {
-        insecure_skip_verify
-        header_upstream Host {host}
-        header_upstream X-Real-IP {remote}
-        header_upstream X-Forwarded-For {remote}
-        header_upstream X-Forwarded-Port {server_port}
-        header_upstream X-Forwarded-Proto "https"
 }

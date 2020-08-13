@@ -17,8 +17,8 @@
 				"tlsSettings": {
 					"certificates": [
 						{
-							"certificateFile": "/etc/v2ray/ssl/v2ray_ssl.crt",
-							"keyFile": "/etc/v2ray/ssl/v2ray_ssl.key"
+							"certificateFile": "/usr/local/etc/v2ray/ssl/v2ray_ssl.crt",
+							"keyFile": "/usr/local/etc/v2ray/ssl/v2ray_ssl.key"
 						}
 					]
 				},

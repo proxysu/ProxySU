@@ -44,6 +44,7 @@ namespace ProxySU
         //ReceiveConfigurationParameters[6]----QUIC密钥
         //ReceiveConfigurationParameters[7]----伪装网站
         //public static ConnectionInfo ConnectionInfo;
+        static bool testDomain = false; //设置标识--域名是否需要检测解析，初始化为不需要
         public MainWindow()
         {
             InitializeComponent();
@@ -192,6 +193,7 @@ namespace ProxySU
             if (String.IsNullOrEmpty(ReceiveConfigurationParameters[4])==true)
             {
                 ReceiveConfigurationParameters[4] = TextBoxHost.Text.ToString();
+                testDomain = false;
             }
             //选择模板
             if (String.IsNullOrEmpty(ReceiveConfigurationParameters[0]) == true)
@@ -201,62 +203,74 @@ namespace ProxySU
             }
             else if (String.Equals(ReceiveConfigurationParameters[0], "TCP"))
             {
+                testDomain = false;
                 serverConfig = "TemplateConfg\\tcp_server_config.json";
                 clientConfig = "TemplateConfg\\tcp_client_config.json";
             }
             else if (String.Equals(ReceiveConfigurationParameters[0], "TCPhttp"))
             {
+                testDomain = false;
                 serverConfig = "TemplateConfg\\tcp_http_server_config.json";
                 clientConfig = "TemplateConfg\\tcp_http_client_config.json";
             }
             else if (String.Equals(ReceiveConfigurationParameters[0], "tcpTLS"))
             {
+                testDomain = true;
                 serverConfig = "TemplateConfg\\tcp_TLS_server_config.json";
                 clientConfig = "TemplateConfg\\tcp_TLS_client_config.json";
             }
             else if (String.Equals(ReceiveConfigurationParameters[0], "tcpTLSselfSigned"))
             {
+                testDomain = false;
                 serverConfig = "TemplateConfg\\tcpTLSselfSigned_server_config.json";
                 clientConfig = "TemplateConfg\\tcpTLSselfSigned_client_config.json";
             }
             else if (String.Equals(ReceiveConfigurationParameters[0], "webSocket"))
             {
+                testDomain = false;
                 serverConfig = "TemplateConfg\\webSocket_server_config.json";
                 clientConfig = "TemplateConfg\\webSocket_client_config.json";
             }
             else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS"))
             {
+                testDomain = true;
                 serverConfig = "TemplateConfg\\WebSocket_TLS_server_config.json";
                 clientConfig = "TemplateConfg\\WebSocket_TLS_client_config.json";
             }
             else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLSselfSigned"))
             {
+                testDomain = false;
                 serverConfig = "TemplateConfg\\WebSocketTLS_selfSigned_server_config.json";
                 clientConfig = "TemplateConfg\\WebSocketTLS_selfSigned_client_config.json";
             }
             else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web"))
             {
+                testDomain = true;
                 serverConfig = "TemplateConfg\\WebSocketTLSWeb_server_config.json";
                 clientConfig = "TemplateConfg\\WebSocketTLSWeb_client_config.json";
             }
             else if (String.Equals(ReceiveConfigurationParameters[0], "Http2"))
             {
+                testDomain = true;
                 serverConfig = "TemplateConfg\\http2_server_config.json";
                 clientConfig = "TemplateConfg\\http2_client_config.json";
             }
             else if (String.Equals(ReceiveConfigurationParameters[0], "http2Web"))
             {
+                testDomain = true;
                 serverConfig = "TemplateConfg\\Http2Web_server_config.json";
                 clientConfig = "TemplateConfg\\Http2Web_client_config.json";
             }
             else if (String.Equals(ReceiveConfigurationParameters[0], "http2selfSigned"))
             {
+                testDomain = false;
                 serverConfig = "TemplateConfg\\Http2selfSigned_server_config.json";
                 clientConfig = "TemplateConfg\\Http2selfSigned_client_config.json";
             }
             //else if (String.Equals(ReceiveConfigurationParameters[0], "MkcpNone")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2SRTP")||String.Equals(ReceiveConfigurationParameters[0], "mKCPuTP")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WechatVideo")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2DTLS")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WireGuard"))
             else if (ReceiveConfigurationParameters[0].Contains("mKCP"))
             {
+                testDomain = false;
                 serverConfig = "TemplateConfg\\mkcp_server_config.json";
                 clientConfig = "TemplateConfg\\mkcp_client_config.json";
             }
@@ -264,6 +278,7 @@ namespace ProxySU
             // else if (String.Equals(ReceiveConfigurationParameters[0], "QuicNone") || String.Equals(ReceiveConfigurationParameters[0], "QuicSRTP") || String.Equals(ReceiveConfigurationParameters[0], "Quic2uTP") || String.Equals(ReceiveConfigurationParameters[0], "QuicWechatVideo") || String.Equals(ReceiveConfigurationParameters[0], "QuicDTLS") || String.Equals(ReceiveConfigurationParameters[0], "QuicWireGuard"))
             else if (ReceiveConfigurationParameters[0].Contains("Quic"))
             {
+                testDomain = false;
                 serverConfig = "TemplateConfg\\quic_server_config.json";
                 clientConfig = "TemplateConfg\\quic_client_config.json";
             }
@@ -481,12 +496,8 @@ namespace ProxySU
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
 
-                    //client.RunCommand("find / -name v2ray");
                     string cmdTestV2rayInstalled = @"find / -name v2ray";
-                    //MessageBox.Show(cmdTestV2rayInstalled);
                     string resultCmdTestV2rayInstalled = client.RunCommand(cmdTestV2rayInstalled).Result;
-                    //client.Disconnect();
-                    //MessageBox.Show(resultCmdTestV2rayInstalled);
                     if (resultCmdTestV2rayInstalled.Contains("/usr/bin/v2ray") == true || resultCmdTestV2rayInstalled.Contains("/usr/local/bin/v2ray") == true)
                     {
                         MessageBoxResult messageBoxResult = MessageBox.Show("远程主机已安装V2ray,是否强制重新安装？", "", MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -506,7 +517,6 @@ namespace ProxySU
                     Thread.Sleep(1000);
 
                     string result = client.RunCommand("uname -r").Result;
-
                     string[] linuxKernelVerStr= result.Split('-');
 
                     bool detectResult = DetectKernelVersion(linuxKernelVerStr[0]);
@@ -520,38 +530,59 @@ namespace ProxySU
 
                     //检测系统是否支持yum 或 apt-get或zypper，且支持Systemd
                     //如果不存在组件，则命令结果为空，string.IsNullOrEmpty值为真，
-                    bool getApt = String.IsNullOrEmpty(client.RunCommand("command -v apt-get").Result);
+                    bool getApt = String.IsNullOrEmpty(client.RunCommand("command -v apt").Result);
+                    bool getDnf = String.IsNullOrEmpty(client.RunCommand("command -v dnf").Result);
                     bool getYum = String.IsNullOrEmpty(client.RunCommand("command -v yum").Result);
                     bool getZypper = String.IsNullOrEmpty(client.RunCommand("command -v zypper").Result);
                     bool getSystemd = String.IsNullOrEmpty(client.RunCommand("command -v systemctl").Result);
                     bool getGetenforce = String.IsNullOrEmpty(client.RunCommand("command -v getenforce").Result);
 
-                    //没有安装apt-get，也没有安装yum，也没有安装zypper,或者没有安装systemd的，不满足安装条件
-                    //也就是apt-get ，yum, zypper必须安装其中之一，且必须安装Systemd的系统才能安装。
-                    if ((getApt && getYum && getZypper) || getSystemd)
+                    //没有安装apt，也没有安装dnf\yum，也没有安装zypper,或者没有安装systemd的，不满足安装条件
+                    //也就是apt ，dnf\yum, zypper必须安装其中之一，且必须安装Systemd的系统才能安装。
+                    if ((getApt && getDnf && getYum && getZypper) || getSystemd)
                     {
-                        MessageBox.Show($"系统缺乏必要的安装组件如:apt-get||yum||zypper||Syetemd，主机系统推荐使用：CentOS 7/8,Debian 8/9/10,Ubuntu 16.04及以上版本");
+                        MessageBox.Show($"系统缺乏必要的安装组件如:apt||dnf||yum||zypper||Syetemd，主机系统推荐使用：CentOS 7/8,Debian 8/9/10,Ubuntu 16.04及以上版本");
                         currentStatus = "系统环境不满足要求，安装失败！！";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
                         client.Disconnect();
                         return;
                     }
+                    //在相应系统内安装curl(如果没有安装curl)
+                    if (string.IsNullOrEmpty(client.RunCommand("command -v curl").Result) == true)
+                    {
+                        //为假则表示系统有相应的组件。
+                        if (getApt == false)
+                        {
+                            client.RunCommand("apt -qq update");
+                            client.RunCommand("apt -y -qq install curl");
+                        }
+                        else if (getDnf == false)
+                        {
+                            client.RunCommand("dnf -q makecache");
+                            client.RunCommand("dnf -y -q install curl");
+                        }
+                        else if (getYum == false)
+                        {
+                            client.RunCommand("yum -q makecache");
+                            client.RunCommand("yum -y -q install curl");
+                        }
+                        //else if (getZypper == false)
+                        //{
+                        //    client.RunCommand("zypper ref");
+                        //    client.RunCommand("zypper -y install curl");
+                        //}
+                    }
+
                     //判断是否启用了SELinux,如果启用了，并且工作在Enforcing模式下，则改为Permissive模式
                     if (getGetenforce == false)
                     {
                         string testSELinux = client.RunCommand("getenforce").Result;
-                        //MessageBox.Show(testSELinux);
                         if (testSELinux.Contains("Enforcing")==true)
                         {
-                            //MessageBox.Show("Enforcing");
                             client.RunCommand("setenforce  0");//不重启改为Permissive模式
                             client.RunCommand("sed -i 's/SELINUX=enforcing/SELINUX=permissive/' /etc/selinux/config");//重启也工作在Permissive模式下
                         }
-                        //else
-                        //{
-                        //    MessageBox.Show("非Enforcing");
-                        //}
                     }
 
                     //校对时间
@@ -560,7 +591,7 @@ namespace ProxySU
                     Thread.Sleep(1000);
                     //获取远程主机的时间戳
                     long timeStampVPS = Convert.ToInt64(client.RunCommand("date +%s").Result.ToString());
-                    //MessageBox.Show(timesStampVPS.ToString());
+
                     //获取本地时间戳
                     TimeSpan ts = DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1, 0, 0, 0, 0);
                     long timeStampLocal = Convert.ToInt64(ts.TotalSeconds);
@@ -574,41 +605,19 @@ namespace ProxySU
                         client.Disconnect();
                         return;
                     }
-                    //MessageBox.Show(timesStamp2.ToString());
 
-                    //如果使用如果是WebSocket + TLS + Web/http2/Http2Web/tcp_TLS/WebSocket_TLS模式，需要检测域名解析是否正确
-                    if (serverConfig.Contains("WebSocketTLSWeb") == true || serverConfig.Contains("http2") == true || serverConfig.Contains("Http2Web") == true || serverConfig.Contains("tcp_TLS") == true || serverConfig.Contains("WebSocket_TLS") == true)
+                    //如果使用是WebSocket + TLS + Web/http2/Http2Web/tcp_TLS/WebSocket_TLS模式，需要检测域名解析是否正确
+                    if (testDomain == true)
                     {
                         currentStatus = "正在检测域名是否解析到当前VPS的IP上......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
 
-                        //在相应系统内安装curl(如果没有安装curl)
-                        if (string.IsNullOrEmpty(client.RunCommand("command -v curl").Result) == true)
-                        {
-                            //为假则表示系统有相应的组件。
-                            if (getApt == false)
-                            {
-                                client.RunCommand("apt-get -qq update");
-                                client.RunCommand("apt-get -y -qq install curl");
-                            }
-                            if (getYum == false)
-                            {
-                                client.RunCommand("yum -q makecache");
-                                client.RunCommand("yum -y -q install curl");
-                            }
-                            if (getZypper == false)
-                            {
-                                client.RunCommand("zypper ref");
-                                client.RunCommand("zypper -y install curl");
-                            }
-                        }
-
+                        
                         string nativeIp = client.RunCommand("curl -4 ip.sb").Result.ToString();
                         string testDomainCmd = "ping " + ReceiveConfigurationParameters[4] + " -c 1 | grep -oE -m1 \"([0-9]{1,3}\\.){3}[0-9]{1,3}\"";
                         string resultCmd = client.RunCommand(testDomainCmd).Result.ToString();
-                        //MessageBox.Show("nativeIp"+nativeIp);
-                        //MessageBox.Show("resultCmd"+ resultCmd);
+
                         if (String.Equals(nativeIp, resultCmd) == true)
                         {
                             currentStatus = "解析正确！";
@@ -626,32 +635,36 @@ namespace ProxySU
                         }
                         
                     }
-                    if (serverConfig.Contains("TLS") == true || serverConfig.Contains("http2") == true || serverConfig.Contains("Http2") == true) {
+                    if (testDomain == true) {
                         //检测是否安装lsof
                         if (string.IsNullOrEmpty(client.RunCommand("command -v lsof").Result) == true)
                         {
                             //为假则表示系统有相应的组件。
                             if (getApt == false)
                             {
-                                client.RunCommand("apt-get -qq update");
-                                client.RunCommand("apt-get -y -qq install lsof");
+                                client.RunCommand("apt -qq update");
+                                client.RunCommand("apt -y -qq install lsof");
                             }
-                            if (getYum == false)
+                            else if (getDnf == false)
+                            {
+                                client.RunCommand("dnf -q makecache");
+                                client.RunCommand("dnf -y -q install lsof");
+                            }
+                            else if (getYum == false)
                             {
                                 client.RunCommand("yum -q makecache");
                                 client.RunCommand("yum -y -q install lsof");
                             }
-                            if (getZypper == false)
-                            {
-                                client.RunCommand("zypper ref");
-                                client.RunCommand("zypper -y install lsof");
-                            }
+                            //else if (getZypper == false)
+                            //{
+                            //    client.RunCommand("zypper ref");
+                            //    client.RunCommand("zypper -y install lsof");
+                            //}
                         }
                         currentStatus = "正在检测端口占用情况......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
-                        //MessageBox.Show(@"lsof -n -P -i :80 | grep LISTEN");
-                        //MessageBox.Show(client.RunCommand(@"lsof -n -P -i :80 | grep LISTEN").Result);
+ 
                         if (String.IsNullOrEmpty(client.RunCommand(@"lsof -n -P -i :80 | grep LISTEN").Result) == false || String.IsNullOrEmpty(client.RunCommand(@"lsof -n -P -i :443 | grep LISTEN").Result) == false)
                         {
                             //MessageBox.Show("80/443端口之一，或全部被占用，请先用系统工具中的“释放80/443端口”工具，释放出，再重新安装");
@@ -671,12 +684,9 @@ namespace ProxySU
 
                             string cmdTestPort = @"lsof -n -P -i :443 | grep LISTEN";
                             string cmdResult = client.RunCommand(cmdTestPort).Result;
-                            //MessageBox.Show(cmdTestPort);
                             if (String.IsNullOrEmpty(cmdResult) == false)
                             {
-                                //MessageBox.Show(cmdResult);
-                                string[] cmdResultArry443 = cmdResult.Split(' ');
-                                //MessageBox.Show(cmdResultArry443[3]);
+                                 string[] cmdResultArry443 = cmdResult.Split(' ');
                                 client.RunCommand($"systemctl stop {cmdResultArry443[0]}");
                                 client.RunCommand($"systemctl disable {cmdResultArry443[0]}");
                                 client.RunCommand($"kill -9 {cmdResultArry443[3]}");
@@ -701,28 +711,6 @@ namespace ProxySU
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
                     
-                    //在相应系统内安装curl(如果没有安装curl)
-                    if (string.IsNullOrEmpty(client.RunCommand("command -v curl").Result) == true)
-                    {
-                        //为假则表示系统有相应的组件。
-                        if (getApt == false)
-                        {
-                            client.RunCommand("apt-get -qq update");
-                            client.RunCommand("apt-get -y -qq install curl");
-                        }
-                        if (getYum == false)
-                        {
-                            client.RunCommand("yum -q makecache");
-                            client.RunCommand("yum -y -q install curl");
-                        }
-                        if (getZypper == false)
-                        {
-                            client.RunCommand("zypper ref");
-                            client.RunCommand("zypper -y install curl");
-                        }
-                    }
-
-
                     //下载官方安装脚本安装
 
                     client.RunCommand("curl -o /tmp/go.sh https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh");
@@ -738,6 +726,7 @@ namespace ProxySU
                         client.Disconnect();
                         return;
                     }
+                    client.RunCommand("systemctl enable v2ray; systemctl start v2ray");
                     //client.RunCommand("mv /etc/v2ray/config.json /etc/v2ray/config.json.1");
 
                     //上传配置文件
@@ -752,35 +741,35 @@ namespace ProxySU
                         //设置uuid
                         serverJson["inbounds"][0]["settings"]["clients"][0]["id"] = ReceiveConfigurationParameters[2];
                         //除WebSocketTLSWeb/http2Web模式外设置监听端口
-                        if (serverConfig.Contains("WebSocketTLSWeb") == false && serverConfig.Contains("Http2Web") == false)
+                        if (ReceiveConfigurationParameters[0].Contains("WebSocketTLS2Web") == false && ReceiveConfigurationParameters[0].Contains("http2Web") == false)
                         {
                             serverJson["inbounds"][0]["port"] = int.Parse(ReceiveConfigurationParameters[1]);
                         }
-                        //TLS自签证书/http2Web模式下，使用v2ctl 生成自签证书
-                        if (serverConfig.Contains("selfSigned") == true|| serverConfig.Contains("Http2Web") == true)
+                        //TLS自签证书/WebSocketTLS(自签证书)/http2Web/http2自签证书模式下，使用v2ctl 生成自签证书
+                        if (ReceiveConfigurationParameters[0].Contains("WebSocketTLSselfSigned") == true || ReceiveConfigurationParameters[0].Contains("tcpTLSselfSigned") == true || ReceiveConfigurationParameters[0].Contains("http2Web") == true || ReceiveConfigurationParameters[0].Contains("http2selfSigned") == true)
                         {
-                            string selfSignedCa = client.RunCommand("/usr/bin/v2ray/v2ctl cert --ca").Result;
+                            string selfSignedCa = client.RunCommand("/usr/local/bin/v2ctl cert --ca").Result;
                             JObject selfSignedCaJObject = JObject.Parse(selfSignedCa);
                             serverJson["inbounds"][0]["streamSettings"]["tlsSettings"]["certificates"][0] = selfSignedCaJObject;
                         }
                         //如果是WebSocketTLSWeb/WebSocketTLS/WebSocketTLS(自签证书)模式，则设置路径
-                        if (serverConfig.Contains("WebSocket") == true)
+                        if (ReceiveConfigurationParameters[0].Contains("WebSocketTLS") == true || ReceiveConfigurationParameters[0].Contains("WebSocketTLSselfSigned") == true || ReceiveConfigurationParameters[0].Contains("WebSocketTLS2Web") == true)
                         {
                             serverJson["inbounds"][0]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[3];
                         }
                         //如果是Http2模式下，设置路径
-                        if (serverConfig.Contains("http2") == true|| serverConfig.Contains("Http2") == true)
+                        if (ReceiveConfigurationParameters[0].Contains("Http2") == true || ReceiveConfigurationParameters[0].Contains("http2Web") == true || ReceiveConfigurationParameters[0].Contains("http2selfSigned") == true)
                         {
                             serverJson["inbounds"][0]["streamSettings"]["httpSettings"]["path"] = ReceiveConfigurationParameters[3];
                         }
                         //如果是Http2Web模式下，设置host
-                        if (serverConfig.Contains("Http2Web") == true)
+                        if (ReceiveConfigurationParameters[0].Contains("http2Web") == true)
                         {
-                            serverJson["inbounds"][0]["streamSettings"]["httpSettings"]["path"] = ReceiveConfigurationParameters[3];
+                           // serverJson["inbounds"][0]["streamSettings"]["httpSettings"]["path"] = ReceiveConfigurationParameters[3];
                             serverJson["inbounds"][0]["streamSettings"]["httpSettings"]["host"][0] = ReceiveConfigurationParameters[4];
                         }
                         //mkcp模式下，设置伪装类型
-                        if (serverConfig.Contains("mkcp") == true)
+                        if (ReceiveConfigurationParameters[0].Contains("mKCP") == true)
                         {
                             serverJson["inbounds"][0]["streamSettings"]["kcpSettings"]["header"]["type"] = ReceiveConfigurationParameters[5];
                             if (String.IsNullOrEmpty(ReceiveConfigurationParameters[6])==false )
@@ -789,7 +778,7 @@ namespace ProxySU
                             }
                         }
                         //quic模式下设置伪装类型及密钥
-                        if (serverConfig.Contains("quic") == true)
+                        if (ReceiveConfigurationParameters[0].Contains("Quic") == true)
                         {
                             serverJson["inbounds"][0]["streamSettings"]["quicSettings"]["header"]["type"] = ReceiveConfigurationParameters[5];
                             serverJson["inbounds"][0]["streamSettings"]["quicSettings"]["key"] = ReceiveConfigurationParameters[6];
@@ -839,66 +828,100 @@ namespace ProxySU
                     }
 
                     //如果是WebSocket + TLS + Web模式，需要安装Caddy
-                    if (serverConfig.Contains("WebSocketTLSWeb")==true || serverConfig.Contains("Http2Web") == true)
+                    if (ReceiveConfigurationParameters[0].Contains("WebSocketTLS2Web") ==true || ReceiveConfigurationParameters[0].Contains("http2Web") == true)
                     {
                         currentStatus = "使用WebSocket+TLS+Web/HTTP2+TLS+Web模式，正在安装Caddy......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
-                        
-                        client.RunCommand("curl https://getcaddy.com -o getcaddy");
-                        client.RunCommand("bash getcaddy personal hook.service");
-                        client.RunCommand("mkdir -p /etc/caddy");
-                        client.RunCommand("mkdir -p /var/www");
 
-                        
+
+                        //为假则表示系统有相应的组件。
+                        if (getApt == false)
+                        {
+                            client.RunCommand(@"echo ""deb [trusted=yes] https://apt.fury.io/caddy/ /"" | tee -a /etc/apt/sources.list.d/caddy-fury.list");
+                            client.RunCommand("apt -qq update");
+                            client.RunCommand("apt -y -qq install caddy");
+                        }
+                        else if (getDnf == false)
+                        {
+                            client.RunCommand(@"dnf install 'dnf-command(copr)' -y");
+                            client.RunCommand(@"dnf copr enable @caddy/caddy -y");
+                            //client.RunCommand("dnf -q makecache");
+                            client.RunCommand("dnf -y -q install caddy");
+                        }
+                        else if (getYum == false)
+                        {
+                            client.RunCommand(@"yum install yum-plugin-copr -y");
+                            client.RunCommand(@"yum copr enable @caddy/caddy -y");
+                            //client.RunCommand("yum -q makecache");
+                            client.RunCommand("yum -y -q install caddy");
+                        }
+                        //else if (getZypper == false)
+                        //{
+                        //    client.RunCommand("zypper ref");
+                        //    client.RunCommand("zypper -y install curl");
+                        //}
+                        installResult = client.RunCommand("find / -name caddy").Result.ToString();
+
+                        if (!installResult.Contains("/usr/bin/caddy"))
+                        {
+                            MessageBox.Show("安装Caddy失败！");
+
+                            currentStatus = "安装Caddy失败！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            client.Disconnect();
+                            return;
+                        }
+                        else {
+                            currentStatus = "Caddy安装成功！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            Thread.Sleep(1000);
+                            client.RunCommand("systemctl enable caddy");
+                        }
                         currentStatus = "上传Caddy配置文件......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
-                        if (serverConfig.Contains("WebSocketTLSWeb") == true)
+                        if (ReceiveConfigurationParameters[0].Contains("WebSocketTLS2Web") == true)
                         {
-                        serverConfig = "TemplateConfg\\WebSocketTLSWeb_server_config.caddyfile";
+                            serverConfig = "TemplateConfg\\WebSocketTLSWeb_server_config.caddyfile";
                         }
-                        if (serverConfig.Contains("Http2Web") == true)
+                        else if (ReceiveConfigurationParameters[0].Contains("http2Web") == true)
                         {
                             serverConfig = "TemplateConfg\\Http2Web_server_config.caddyfile";
                         }
                         upLoadPath = "/etc/caddy/Caddyfile";
+                        client.RunCommand("mv /etc/caddy/Caddyfile /etc/caddy/Caddyfile.bak");
                         UploadConfig(connectionInfo, serverConfig, upLoadPath);
 
-                        //设置Caddyfile文件中的tls 邮箱
+                        //设置Caddyfile文件中的tls 邮箱,在caddy2中已经不需要设置。
                         //string sshCmdEmail = $"email={ReceiveConfigurationParameters[4]};email=${{email/./@}};echo $email";//结尾有回车符
                         //string email = client.RunCommand(sshCmdEmail).Result.Replace("\n", "");//删除结尾的回车符
-                        string email = $"user@{ReceiveConfigurationParameters[4]}";
-                        string sshCmd = $"sed -i 's/off/{email}/' {upLoadPath}";//设置Caddyfile中的邮箱
+                        //string email = $"user@{ReceiveConfigurationParameters[4]}";
+                        //string sshCmd = $"sed -i 's/off/{email}/' {upLoadPath}";//设置Caddyfile中的邮箱
+                        //client.RunCommand(sshCmd);
+
+                        //设置域名
+                        string sshCmd = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/' {upLoadPath}";
                         client.RunCommand(sshCmd);
+
                         //设置Path
                         sshCmd = $"sed -i 's/##path##/\\{ReceiveConfigurationParameters[3]}/' {upLoadPath}";
-                        //MessageBox.Show(sshCmd);
                         client.RunCommand(sshCmd);
-                        //设置域名
-                        sshCmd = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/' {upLoadPath}";
-                        //MessageBox.Show(sshCmd);
-                        client.RunCommand(sshCmd);
+
+                       
                         //设置伪装网站
                         if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7])==false)
                         {
-                            sshCmd = $"sed -i 's/##sites##/proxy \\/ {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
-                            //MessageBox.Show(sshCmd);
+                            sshCmd = $"sed -i 's/##sites##/reverse_proxy {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
                             client.RunCommand(sshCmd);
                         }
                         Thread.Sleep(2000);
-                       
-                       //安装Caddy服务
-                        sshCmd = $"caddy -service install -agree -conf /etc/caddy/Caddyfile -email {email}";
-                        //MessageBox.Show(sshCmd);
-                        client.RunCommand(sshCmd);
-                       
                         
                         //启动Caddy服务
-                        client.RunCommand("caddy -service restart");
+                        client.RunCommand("systemctl restart caddy");
                     }
 
-                    if (serverConfig.Contains("http2") == true|| serverConfig.Contains("WebSocket_TLS") ==true|| serverConfig.Contains("tcp_TLS") == true)
+                    if (ReceiveConfigurationParameters[0].Contains("Http2") == true|| ReceiveConfigurationParameters[0].Contains("WebSocketTLS") ==true|| ReceiveConfigurationParameters[0].Contains("tcpTLS") == true)
                     {
                         currentStatus = "使用Http2/WebSocket+TLS/tcp+TLS模式，正在安装acme.sh......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -907,18 +930,23 @@ namespace ProxySU
                         if (getApt == false)
                         {
                             //client.RunCommand("apt-get -qq update");
-                            client.RunCommand("apt-get -y -qq install socat");
+                            client.RunCommand("apt -y -qq install socat");
                         }
-                        if (getYum == false)
+                        else if (getDnf == false)
+                        {
+                            //client.RunCommand("yum -q makecache");
+                            client.RunCommand("dnf -y -q install socat");
+                        }
+                        else if (getYum == false)
                         {
                             //client.RunCommand("yum -q makecache");
                             client.RunCommand("yum -y -q install socat");
                         }
-                        if (getZypper == false)
-                        {
-                           // client.RunCommand("zypper ref");
-                            client.RunCommand("zypper -y install socat");
-                        }
+                        //if (getZypper == false)
+                        //{
+                        //   // client.RunCommand("zypper ref");
+                        //    client.RunCommand("zypper -y install socat");
+                        //}
                         client.RunCommand("curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh");
                         client.RunCommand("cd ~/.acme.sh/");
                         client.RunCommand("alias acme.sh=~/.acme.sh/acme.sh");
@@ -927,13 +955,13 @@ namespace ProxySU
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
 
-                        client.RunCommand("mkdir -p /etc/v2ray/ssl");
+                        client.RunCommand("mkdir -p /usr/local/etc/v2ray/ssl");
                         client.RunCommand($"/root/.acme.sh/acme.sh  --issue  --standalone  -d {ReceiveConfigurationParameters[4]}");
 
                         currentStatus = "安装证书到V2ray......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
-                        client.RunCommand($"/root/.acme.sh/acme.sh  --installcert  -d {ReceiveConfigurationParameters[4]}  --certpath /etc/v2ray/ssl/v2ray_ssl.crt --keypath /etc/v2ray/ssl/v2ray_ssl.key  --capath  /etc/v2ray/ssl/v2ray_ssl.crt  --reloadcmd  \"systemctl restart v2ray\"");
+                        client.RunCommand($"/root/.acme.sh/acme.sh  --installcert  -d {ReceiveConfigurationParameters[4]}  --certpath /usr/local/etc/v2ray/ssl/v2ray_ssl.crt --keypath /usr/local/etc/v2ray/ssl/v2ray_ssl.key  --capath  /usr/local/etc/v2ray/ssl/v2ray_ssl.crt  --reloadcmd  \"systemctl restart v2ray\"");
                     }
 
                     currentStatus = "正在启动V2ray......";
@@ -1083,7 +1111,8 @@ namespace ProxySU
             catch (Exception ex2)
             {
                 MessageBox.Show("sftp" + ex2.ToString());
-                MessageBox.Show("sftp出现未知错误");
+                MessageBox.Show("sftp出现未知错误,上传文件失败，请重试！");
+                return;
             }
         }
         
@@ -1469,16 +1498,16 @@ namespace ProxySU
                         Thread.Sleep(1000);
                     }
 
-                    //检测系统是否支持yum 或 apt-get或zypper，且支持Systemd
+                    //检测系统是否支持yum 或 apt或zypper，且支持Systemd
                     //如果不存在组件，则命令结果为空，string.IsNullOrEmpty值为真，
-                    bool getApt = String.IsNullOrEmpty(client.RunCommand("command -v apt-get").Result);
+                    bool getApt = String.IsNullOrEmpty(client.RunCommand("command -v apt").Result);
                     bool getYum = String.IsNullOrEmpty(client.RunCommand("command -v yum").Result);
                     bool getZypper = String.IsNullOrEmpty(client.RunCommand("command -v zypper").Result);
                     bool getSystemd = String.IsNullOrEmpty(client.RunCommand("command -v systemctl").Result);
                     bool getGetenforce = String.IsNullOrEmpty(client.RunCommand("command -v getenforce").Result);
 
-                    //没有安装apt-get，也没有安装yum，也没有安装zypper,或者没有安装systemd的，不满足安装条件
-                    //也就是apt-get ，yum, zypper必须安装其中之一，且必须安装Systemd的系统才能安装。
+                    //没有安装apt，也没有安装yum，也没有安装zypper,或者没有安装systemd的，不满足安装条件
+                    //也就是apt ，yum, zypper必须安装其中之一，且必须安装Systemd的系统才能安装。
                     if ((getApt && getYum && getZypper) || getSystemd)
                     {
                         MessageBox.Show($"系统缺乏必要的安装组件如:apt-get||yum||zypper||Syetemd，主机系统推荐使用：CentOS 7/8,Debian 8/9/10,Ubuntu 16.04及以上版本");
