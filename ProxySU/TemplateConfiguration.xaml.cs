@@ -171,7 +171,7 @@ namespace ProxySU
                
             }
             //http2+TLS+Web模式被选中
-            else if (RadioButtonHTTP2Web.IsChecked == true)
+            else if (RadioButtonHTTP2Web.IsChecked == true || RadioButtonHTTP2WebHot.IsChecked == true)
             {
                 if (string.IsNullOrEmpty(TextBoxDomain.Text.ToString()) == true)
                 {
@@ -352,6 +352,7 @@ namespace ProxySU
             TextBlockQuicUUID.Visibility = Visibility.Collapsed;
             TextBoxQuicUUID.Visibility = Visibility.Collapsed;
             ButtonQuicUUID.Visibility = Visibility.Collapsed;
+            TextBlockMkcpUUID.Visibility = Visibility.Collapsed;
             //隐藏Path
             TextBlockPath.Visibility = Visibility.Collapsed;
             TextBoxPath.Visibility = Visibility.Collapsed;
@@ -392,6 +393,7 @@ namespace ProxySU
             TextBlockQuicUUID.Visibility = Visibility.Collapsed;
             TextBoxQuicUUID.Visibility = Visibility.Collapsed;
             ButtonQuicUUID.Visibility = Visibility.Collapsed;
+            TextBlockMkcpUUID.Visibility = Visibility.Collapsed;
             //隐藏伪装网站
             TextBlockMaskSites.Visibility = Visibility.Collapsed;
             TextBoxMaskSites.Visibility = Visibility.Collapsed;
@@ -417,6 +419,7 @@ namespace ProxySU
             TextBlockQuicUUID.Visibility = Visibility.Collapsed;
             TextBoxQuicUUID.Visibility = Visibility.Collapsed;
             ButtonQuicUUID.Visibility = Visibility.Collapsed;
+            TextBlockMkcpUUID.Visibility = Visibility.Collapsed;
             //隐藏伪装网站
             TextBlockMaskSites.Visibility = Visibility.Collapsed;
             TextBoxMaskSites.Visibility = Visibility.Collapsed;
@@ -442,6 +445,7 @@ namespace ProxySU
             TextBlockQuicUUID.Visibility = Visibility.Collapsed;
             TextBoxQuicUUID.Visibility = Visibility.Collapsed;
             ButtonQuicUUID.Visibility = Visibility.Collapsed;
+            TextBlockMkcpUUID.Visibility = Visibility.Collapsed;
             //隐藏伪装网站
             TextBlockMaskSites.Visibility = Visibility.Collapsed;
             TextBoxMaskSites.Visibility = Visibility.Collapsed;
@@ -470,9 +474,13 @@ namespace ProxySU
             TextBlockQuicUUID.Visibility = Visibility.Collapsed;
             TextBoxQuicUUID.Visibility = Visibility.Collapsed;
             ButtonQuicUUID.Visibility = Visibility.Collapsed;
+            TextBlockMkcpUUID.Visibility = Visibility.Collapsed;
             //显示伪装网站
-            TextBlockMaskSites.Visibility = Visibility.Visible;
-            TextBoxMaskSites.Visibility = Visibility.Visible;
+            //TextBlockMaskSites.Visibility = Visibility.Visible;
+            //TextBoxMaskSites.Visibility = Visibility.Visible;
+            //隐藏伪装网站
+            TextBlockMaskSites.Visibility = Visibility.Collapsed;
+            TextBoxMaskSites.Visibility = Visibility.Collapsed;
 
             Guid uuid = Guid.NewGuid();
             TextBoxNewUUID.Text = uuid.ToString();
@@ -499,6 +507,7 @@ namespace ProxySU
             TextBlockQuicUUID.Visibility = Visibility.Collapsed;
             TextBoxQuicUUID.Visibility = Visibility.Collapsed;
             ButtonQuicUUID.Visibility = Visibility.Collapsed;
+            TextBlockMkcpUUID.Visibility = Visibility.Collapsed;
             //隐藏伪装网站
             TextBlockMaskSites.Visibility = Visibility.Collapsed;
             TextBoxMaskSites.Visibility = Visibility.Collapsed;
@@ -527,6 +536,7 @@ namespace ProxySU
             TextBlockQuicUUID.Visibility = Visibility.Collapsed;
             TextBoxQuicUUID.Visibility = Visibility.Collapsed;
             ButtonQuicUUID.Visibility = Visibility.Collapsed;
+            TextBlockMkcpUUID.Visibility = Visibility.Collapsed;
             //隐藏伪装网站
             TextBlockMaskSites.Visibility = Visibility.Collapsed;
             TextBoxMaskSites.Visibility = Visibility.Collapsed;
@@ -542,6 +552,7 @@ namespace ProxySU
             TextBlockQuicUUID.Visibility = Visibility.Visible;
             TextBoxQuicUUID.Visibility = Visibility.Visible;
             ButtonQuicUUID.Visibility = Visibility.Visible;
+            TextBlockMkcpUUID.Visibility = Visibility.Visible;
             //隐藏Path
             TextBlockPath.Visibility = Visibility.Collapsed;
             TextBoxPath.Visibility = Visibility.Collapsed;

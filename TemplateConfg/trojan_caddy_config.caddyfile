@@ -1,7 +1,5 @@
 ##domain## {
-  log stdout
-  errors stderr
-  root /var/www
-  tls off
-   ##sites##
+    root * /usr/share/caddy
+    file_server
+    ##sites##
 }
