@@ -2423,7 +2423,7 @@ namespace ProxySU
             }
             string serverConfig = "TemplateConfg\\trojan-go_all_config.json";  //服务端配置文件
             string clientConfig = "TemplateConfg\\trojan-go_all_config.json";   //生成的客户端配置文件
-            string upLoadPath = "/etc/trojan-go/config.json"; //服务端文件位置
+            string upLoadPath = "/usr/local/etc/trojan-go/config.json"; //服务端文件位置
 
             
             if (String.IsNullOrEmpty(ReceiveConfigurationParameters[0]) == true)

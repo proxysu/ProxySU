@@ -1,18 +1,18 @@
 {
-  "run_type": "",
-  "local_addr": "",
-  "local_port": "",
-  "remote_addr": "",
-  "remote_port": "",
-  "password": [
-    ""
-  ]
-  "ssl": {
-    "cert": "",
-    "key": ""
-  },
-  "websocket": {
-    "enabled": false,
-    "path": ""
-  }
+    "run_type": "",
+    "local_addr": "",
+    "local_port": "",
+    "remote_addr": "",
+    "remote_port": "",
+    "password": [
+        ""
+    ],
+    "ssl": {
+        "cert": "",
+        "key": ""
+    },
+    "websocket": {
+        "enabled": false,
+        "path": ""
+    }
 }
