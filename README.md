@@ -80,10 +80,9 @@ V2ray, Trojan, NaiveProxy, Trojan-Go, BBR install tools for windows。V2ray，Tr
   * 选择V2ray，则调用V2ray官方安装脚本 `curl -o /tmp/go.sh https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh` `bash /tmp/go.sh -f` ，安装V2ray。  
   * 选择Trojan，则调用Trojan官方安装脚本 `curl -o /tmp/trojan-quickstart.sh https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh` `yes | bash /tmp/trojan-quickstart.sh` 安装Trojan。  
   * 选择Trojan-Go，则调用本项目内的trojan-go.sh安装， `curl -o /tmp/trojan-go.sh https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh` `bash /tmp/trojan-go.sh -f` 安装Trojan-GO。  
-  * 选择NaiveProxy，则调用本项目内的naive-quickstart.sh安装，`curl -o /tmp/naive-quickstart.sh https://raw.githubusercontent.com/proxysu/shellscript/master/naive-quickstart.sh` `yes | bash /tmp/naive-quickstart.sh` 安装NaiveProxy。
+  * 选择NaiveProxy，先安装Caddy2,方法源自[Caddy官方文档](https://caddyserver.com/docs/download)。再用自编译的Caddy2(带forward_proxy插件)替换原来的Caddy运行文件。自编译Caddy2文件方法源自[NaiveProxy官方文档](https://github.com/klzgrad/naiveproxy#setup)。
 3. 根据选择读取相应配置模板，调用[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)生成相应配置文件，并上传到服务器。所有模板及配置文件 [在这里](https://github.com/proxysu/windows/tree/master/TemplateConfg)  
-4. 如果使用WebSocket + TLS + Web/http2 + TLS + Web/Trojan + TLS + Web/NaiveProxy + TLS + Web模式，则调用Caddy官方安装脚本 `curl https://getcaddy.com -o getcaddy`   
-与 `bash getcaddy personal hook.service` 、或`bash getcaddy personal hook.service,http.forwardproxy` 安装 Caddy。  
+4. 如果使用WebSocket + TLS + Web/http2 + TLS + Web/Trojan + TLS + Web/NaiveProxy + TLS + Web模式，则安装Caddy2,方法源自[Caddy官方文档](https://caddyserver.com/docs/download)。  
 5. 如果使用Http2/tcp+TLS/WebSocket+TLS/Trojan+TLS+Web模式，则调用  `curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh` 安装acme.sh，使用acme.sh申请并安装证书到V2ray/Trojan.  
 6. 安装成功后，使用[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)生成兼容于相应客户端的json文件，用C#内置的Base64库将json生成url链接，使用[QRcoder](https://github.com/codebude/QRCoder)生成二维码。
 
@@ -125,6 +124,7 @@ Microsoft [.NET Framework 4.0](https://dotnet.microsoft.com/download/dotnet-fram
 
 ## 程序使用问题反馈  
 * Telegram群组 https://t.me/proxysuissues    
+* Tiwtter  [ProxySU_True](https://twitter.com/proxysu_true)   
 * 在线提问  https://github.com/proxysu/windows/issues  
 * 邮箱反馈  proxysetuptools@gmail.com  
 [常见问题集锦](https://github.com/proxysu/windows/wiki/CommonError)  
