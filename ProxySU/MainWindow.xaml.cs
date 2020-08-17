@@ -37,7 +37,7 @@ namespace ProxySU
         public static string[] ReceiveConfigurationParameters { get; set; }
         //ReceiveConfigurationParameters[0]----模板类型
         //ReceiveConfigurationParameters[1]----服务端口
-        //ReceiveConfigurationParameters[2]----uuid
+        //ReceiveConfigurationParameters[2]----uuid/naive'password
         //ReceiveConfigurationParameters[3]----path/naive'user
         //ReceiveConfigurationParameters[4]----domain
         //ReceiveConfigurationParameters[5]----伪装类型
@@ -332,6 +332,7 @@ namespace ProxySU
             WindowTemplateConfiguration windowTemplateConfiguration = new WindowTemplateConfiguration();
             windowTemplateConfiguration.ShowDialog();
         }
+
         //传送V2Ray模板参数,启动V2Ray安装进程
         private void Button_Login_Click(object sender, RoutedEventArgs e)
 
@@ -450,6 +451,7 @@ namespace ProxySU
             //task.Start();
             
         }
+
         //登录远程主机布署V2ray程序
         private void StartSetUpV2ray(ConnectionInfo connectionInfo,TextBlock textBlockName, ProgressBar progressBar, string serverConfig,string clientConfig,string upLoadPath)
         {
@@ -1133,6 +1135,7 @@ namespace ProxySU
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
         }
+
         //升级V2ray主程序
         private void UpdateV2ray(ConnectionInfo connectionInfo, TextBlock textBlockName, ProgressBar progressBar)
         {
@@ -3217,7 +3220,7 @@ namespace ProxySU
             TextBoxNaiveUser.Text = RandomUserName();
         }
          
-        //NaiveProxy一键安装开始
+        //NaiveProxy一键安装开始传递参数
         private void ButtonNavieSetUp_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(TextBoxNaiveHostDomain.Text) == true)
@@ -3225,8 +3228,7 @@ namespace ProxySU
                 MessageBox.Show("域名不能为空！");
                 return;
             }
-            ReceiveConfigurationParameters[4] = TextBoxNaiveHostDomain.Text;
-
+           
             ConnectionInfo connectionInfo = GenerateConnectionInfo();
             if (connectionInfo == null)
             {
@@ -3235,7 +3237,7 @@ namespace ProxySU
             }
             string serverConfig = "TemplateConfg\\Naiveproxy_server_config.json";  //服务端配置文件
             string clientConfig = "TemplateConfg\\Naiveproxy_client_config.json";   //生成的客户端配置文件
-            string upLoadPath = "/etc/caddy/Caddyfile"; //Caddy服务端文件位置
+            string upLoadPath = "/etc/caddy/config.json"; //Caddy服务端文件位置
 
             //传递参数
             ReceiveConfigurationParameters[4] = TextBoxNaiveHostDomain.Text;//传递域名
@@ -3316,16 +3318,14 @@ namespace ProxySU
                         return;
                     }
                     //检测是否安装有NaiveProxy
-                    currentStatus = "检测系统是否已经安装NaiveProxy......";
+                    currentStatus = "检测系统是否已经安装Caddy......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
 
-                    //string cmdTestTrojanInstalled = @"find / -name trojan";
-                    string resultCmdTestTrojanInstalled = client.RunCommand(@"find / -name naive").Result;
-
-                    if (resultCmdTestTrojanInstalled.Contains("/usr/local/bin/naive") == true)
+                    string resultCmdTestTrojanInstalled = client.RunCommand(@"find / -name caddy").Result;
+                    if (resultCmdTestTrojanInstalled.Contains("/usr/bin/caddy") == true)
                     {
-                        MessageBoxResult messageBoxResult = MessageBox.Show("远程主机已安装NaiveProxy,是否强制重新安装？", "", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        MessageBoxResult messageBoxResult = MessageBox.Show("远程主机已安装Caddy,但不确定是否支持forward proxy，是否强制重新安装？", "", MessageBoxButton.YesNo, MessageBoxImage.Question);
                         if (messageBoxResult == MessageBoxResult.No)
                         {
                             currentStatus = "安装取消，退出";
@@ -3333,6 +3333,13 @@ namespace ProxySU
                             Thread.Sleep(1000);
                             client.Disconnect();
                             return;
+                        }
+                        else
+                        {
+                            currentStatus = "正在卸载Caddy";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            Thread.Sleep(1000);
+                            //卸载Caddy代码
                         }
                     }
 
@@ -3342,11 +3349,6 @@ namespace ProxySU
                     Thread.Sleep(1000);
 
                     string resultCmd = client.RunCommand("uname -m").Result;
-                    //var result = client.RunCommand("cat /root/test.ver");
-                    //string[] linuxKernelVerStr = resultCmd.Split('-');
-
-                    //bool detectResult = DetectKernelVersion(linuxKernelVerStr[0]);
-
                     if (resultCmd.Contains("x86_64") == false)
                     {
                         MessageBox.Show($"请在x86_64系统中安装NaiveProxy");
@@ -3355,17 +3357,18 @@ namespace ProxySU
                         Thread.Sleep(1000);
                     }
 
-                    //检测系统是否支持yum 或 apt-get或zypper，且支持Systemd
+                    //检测系统是否支持dnf\yum 或 apt或zypper，且支持Systemd
                     //如果不存在组件，则命令结果为空，string.IsNullOrEmpty值为真，
-                    bool getApt = String.IsNullOrEmpty(client.RunCommand("command -v apt-get").Result);
+                    bool getApt = String.IsNullOrEmpty(client.RunCommand("command -v apt").Result);
+                    bool getDnf = String.IsNullOrEmpty(client.RunCommand("command -v dnf").Result);
                     bool getYum = String.IsNullOrEmpty(client.RunCommand("command -v yum").Result);
                     bool getZypper = String.IsNullOrEmpty(client.RunCommand("command -v zypper").Result);
                     bool getSystemd = String.IsNullOrEmpty(client.RunCommand("command -v systemctl").Result);
                     bool getGetenforce = String.IsNullOrEmpty(client.RunCommand("command -v getenforce").Result);
 
-                    //没有安装apt-get，也没有安装yum，也没有安装zypper,或者没有安装systemd的，不满足安装条件
-                    //也就是apt-get ，yum, zypper必须安装其中之一，且必须安装Systemd的系统才能安装。
-                    if ((getApt && getYum && getZypper) || getSystemd)
+                    //没有安装apt，也没有安装dnf\yum，也没有安装zypper,或者没有安装systemd的，不满足安装条件
+                    //也就是apt，dnf\yum, zypper必须安装其中之一，且必须安装Systemd的系统才能安装。
+                    if ((getApt && getDnf && getYum && getZypper) || getSystemd)
                     {
                         MessageBox.Show($"系统缺乏必要的安装组件如:apt-get||yum||zypper||Syetemd，主机系统推荐使用：CentOS 7/8,Debian 8/9/10,Ubuntu 16.04及以上版本");
                         currentStatus = "系统环境不满足要求，安装失败！！";
@@ -3378,10 +3381,8 @@ namespace ProxySU
                     if (getGetenforce == false)
                     {
                         string testSELinux = client.RunCommand("getenforce").Result;
-                        //MessageBox.Show(testSELinux);
                         if (testSELinux.Contains("Enforcing") == true)
                         {
-                            //MessageBox.Show("Enforcing");
                             client.RunCommand("setenforce  0");//不重启改为Permissive模式
                             client.RunCommand("sed -i 's/SELINUX=enforcing/SELINUX=permissive/' /etc/selinux/config");//重启也工作在Permissive模式下
                         }
@@ -3390,18 +3391,18 @@ namespace ProxySU
                     //安装所需软件
                     if (getApt == false)
                     {
-                        client.RunCommand("apt-get -qq update");
-                        client.RunCommand("apt-get -y -qq install curl libnss3 xz-utils lsof");
+                        client.RunCommand("apt -qq update");
+                        client.RunCommand("apt -y -qq install curl libnss3 xz-utils lsof unzip");
                     }
                     if (getYum == false)
                     {
                         client.RunCommand("yum -q makecache");
-                        client.RunCommand("yum -y -q install curl nss xz lsof");
+                        client.RunCommand("yum -y -q install curl nss xz lsof unzip");
                     }
                     if (getZypper == false)
                     {
                         client.RunCommand("zypper ref");
-                        client.RunCommand("zypper -y install curl nss xz lsof");
+                        client.RunCommand("zypper -y install curl nss xz lsof unzip");
                     }
 
                     currentStatus = "正在检测域名是否解析到当前VPS的IP上......";
@@ -3410,11 +3411,8 @@ namespace ProxySU
 
 
                     string nativeIp = client.RunCommand("curl -4 ip.sb").Result.ToString();
-                    //MessageBox.Show(nativeIp);
                     string testDomainCmd = "ping " + ReceiveConfigurationParameters[4] + " -c 1 | grep -oE -m1 \"([0-9]{1,3}\\.){3}[0-9]{1,3}\"";
-                    //MessageBox.Show(testDomainCmd);
                     string resultTestDomainCmd = client.RunCommand(testDomainCmd).Result.ToString();
-                    //MessageBox.Show(resultTestDomainCmd);
                     if (String.Equals(nativeIp, resultTestDomainCmd) == true)
                     {
                         currentStatus = "解析正确！";
@@ -3453,12 +3451,9 @@ namespace ProxySU
 
                         string cmdTestPort = @"lsof -n -P -i :443 | grep LISTEN";
                         string cmdResult = client.RunCommand(cmdTestPort).Result;
-                        //MessageBox.Show(cmdTestPort);
                         if (String.IsNullOrEmpty(cmdResult) == false)
                         {
-                            //MessageBox.Show(cmdResult);
                             string[] cmdResultArry443 = cmdResult.Split(' ');
-                            //MessageBox.Show(cmdResultArry443[3]);
                             client.RunCommand($"systemctl stop {cmdResultArry443[0]}");
                             client.RunCommand($"systemctl disable {cmdResultArry443[0]}");
                             client.RunCommand($"kill -9 {cmdResultArry443[3]}");
@@ -3476,37 +3471,11 @@ namespace ProxySU
                         currentStatus = "80/443端口释放完毕！";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
-
                     }
 
                     currentStatus = "符合安装要求,布署中......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
-
-                    //下载安装脚本安装
-
-                    client.RunCommand("curl -o /tmp/naive-quickstart.sh https://raw.githubusercontent.com/proxysu/shellscript/master/naive-quickstart.sh");
-                    client.RunCommand("yes | bash /tmp/naive-quickstart.sh");
-
-                    string installResult = client.RunCommand("find / -name naive").Result.ToString();
-
-                    if (!installResult.Contains("/usr/local/bin/naive"))
-                    {
-                        MessageBox.Show("安装NaiveProxy失败(脚本运行出错！");
-                        client.Disconnect();
-                        currentStatus = "安装NaiveProxy失败(脚本运行出错！";
-                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                        client.Disconnect();
-                        return;
-                    }
-
-
-                    //上传配置文件
-                    currentStatus = "NaiveProxy程序安装完毕......";
-                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                    Thread.Sleep(1000);
-
-
 
                     //打开防火墙端口
                     string openFireWallPort = "443";//ReceiveConfigurationParameters[1];
@@ -3541,72 +3510,118 @@ namespace ProxySU
                         }
                     }
 
-                    currentStatus = "正在启动NaiveProxy......";
-                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                    Thread.Sleep(1000);
-                    //启动V2ray服务
-                    client.RunCommand("systemctl restart naive");
-
-                    currentStatus = "NaivePrxoy启动成功！";
-                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                    Thread.Sleep(1000);
-
-
                     currentStatus = "正在安装Caddy";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
 
-                    client.RunCommand("curl https://getcaddy.com -o getcaddy");
-                    client.RunCommand("bash getcaddy personal hook.service,http.forwardproxy");
-                    client.RunCommand("mkdir -p /etc/caddy");
-                    client.RunCommand("mkdir -p /var/www");
+                    //安装Caddy
+                    //为假则表示系统有相应的组件。
+                    if (getApt == false)
+                    {
+                        client.RunCommand(@"echo ""deb [trusted=yes] https://apt.fury.io/caddy/ /"" | tee -a /etc/apt/sources.list.d/caddy-fury.list");
+                        client.RunCommand("apt install -y apt-transport-https");
+                        client.RunCommand("apt -qq update");
+                        client.RunCommand("apt -y -qq install caddy");
+                    }
+                    else if (getDnf == false)
+                    {
+                        client.RunCommand(@"dnf install 'dnf-command(copr)' -y");
+                        client.RunCommand(@"dnf copr enable @caddy/caddy -y");
+                        //client.RunCommand("dnf -q makecache");
+                        client.RunCommand("dnf -y -q install caddy");
+                    }
+                    else if (getYum == false)
+                    {
+                        client.RunCommand(@"yum install yum-plugin-copr -y");
+                        client.RunCommand(@"yum copr enable @caddy/caddy -y");
+                        //client.RunCommand("yum -q makecache");
+                        client.RunCommand("yum -y -q install caddy");
+                    }
+                    //else if (getZypper == false)
+                    //{
+                    //    client.RunCommand("zypper ref");
+                    //    client.RunCommand("zypper -y install curl");
+                    //}
+                    string installResult = client.RunCommand("find / -name caddy").Result.ToString();
+
+                    if (!installResult.Contains("/usr/bin/caddy"))
+                    {
+                        MessageBox.Show("安装Caddy失败！");
+
+                        currentStatus = "安装Caddy失败！退出";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        client.Disconnect();
+                        return;
+                    }
+                    else
+                    {
+                        currentStatus = "Caddy安装成功！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                        client.RunCommand("systemctl enable caddy");
+                    }
+
+                    //使用带插件的Caddy替换
+                    currentStatus = "正在为NaiveProxy升级服务端！";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    Thread.Sleep(1000);
+
+                    client.RunCommand(@"curl -o /tmp/caddy.zip https://raw.githubusercontent.com/proxysu/Resources/master/Caddy2/caddy20200816.zip");
+                    client.RunCommand(@"unzip /tmp/caddy.zip"); //解压到当前目录 ~/
+                    client.RunCommand(@"chmod +x caddy");
+                    client.RunCommand(@"systemctl stop caddy;rm -f /usr/bin/caddy");
+                    client.RunCommand(@"cp ./caddy /usr/bin/");
 
 
                     currentStatus = "上传Caddy配置文件......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
 
-                    string caddyConfig = "TemplateConfg\\Naiveproxy_server_config.caddyfile";
-                    upLoadPath = "/etc/caddy/Caddyfile";
-                    UploadConfig(connectionInfo, caddyConfig, upLoadPath);
-
-                    //设置Caddyfile文件中的tls 邮箱
-                    string email = $"user@{ReceiveConfigurationParameters[4]}";
-
-                    //设置域名
-                    string sshCmd = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/' {upLoadPath}";
-                    client.RunCommand(sshCmd);
-                    //MessageBox.Show(sshCmd);
-
-                    //设置TLS邮箱
-                    sshCmd = $"sed -i 's/off/{email}/' {upLoadPath}";
-                    client.RunCommand(sshCmd);
-                    //设置用户名密码
-                    sshCmd = $"sed -i 's/##basicauth##/basicauth {ReceiveConfigurationParameters[3]} {ReceiveConfigurationParameters[2]}/' {upLoadPath}";
-                    client.RunCommand(sshCmd);
-                    //设置伪装网站
-                    if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7]) == false)
+                    //生成服务端配置
+                    
+                    //string email = $"user@{ReceiveConfigurationParameters[4]}";//生成Caddyfile文件中的tls 邮箱
+                    string caddyConfig = "TemplateConfg\\Naiveproxy_server_config.json";
+                    using (StreamReader reader = File.OpenText(caddyConfig))
                     {
-                        sshCmd = $"sed -i 's/##sites##/proxy \\/ {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
-                        //MessageBox.Show(sshCmd);
-                        client.RunCommand(sshCmd);
+                        JObject serverJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
+                        serverJson["apps"]["http"]["servers"]["srv0"]["routes"][0]["handle"][0]["auth_user"] = ReceiveConfigurationParameters[3];//----用户名
+                        serverJson["apps"]["http"]["servers"]["srv0"]["routes"][0]["handle"][0]["auth_pass"] = ReceiveConfigurationParameters[2]; //----密码
+
+                        serverJson["apps"]["http"]["servers"]["srv0"]["routes"][1]["match"][0]["host"][0] = ReceiveConfigurationParameters[4]; //----域名
+
+                        serverJson["apps"]["http"]["servers"]["srv0"]["tls_connection_policies"][0]["match"]["sni"][0] = ReceiveConfigurationParameters[4];  //----域名
+
+                        serverJson["apps"]["tls"]["automation"]["policies"][0]["subjects"][0] = ReceiveConfigurationParameters[4];  //-----域名
+                        serverJson["apps"]["tls"]["automation"]["policies"][0]["issuer"]["email"] = $"user@{ReceiveConfigurationParameters[4]}";  //-----邮箱
+                        //保存配置文件
+                        using (StreamWriter sw = new StreamWriter(@"config.json"))
+                        {
+                            sw.Write(serverJson.ToString());
+                        }
                     }
-                    Thread.Sleep(2000);
+                    upLoadPath = "/etc/caddy/config.json";
+                    UploadConfig(connectionInfo, @"config.json", upLoadPath);
 
-                    //安装Caddy服务
-                    sshCmd = $"caddy -service install -agree -conf /etc/caddy/Caddyfile -email {email}";
-                    //MessageBox.Show(sshCmd);
-                    client.RunCommand(sshCmd);
+                    File.Delete(@"config.json");
 
-                    //启动Caddy服务
-                    client.RunCommand("caddy -service restart");
+                    client.RunCommand(@"sed -i 's/Caddyfile/config.json/' /lib/systemd/system/caddy.service");
+                    client.RunCommand("systemctl daemon-reload");
+                    client.RunCommand("systemctl restart caddy"); //启动Caddy服务
+                    ////设置伪装网站
+                    //if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7]) == false)
+                    //{
+                    //    sshCmd = $"sed -i 's/##sites##/proxy \\/ {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
+                    //    //MessageBox.Show(sshCmd);
+                    //    client.RunCommand(sshCmd);
+                    //}
+                    //Thread.Sleep(2000);
 
                     currentStatus = "正在优化网络参数......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
 
                     //优化网络参数
-                    sshCmd = @"bash -c 'echo ""fs.file-max = 51200"" >> /etc/sysctl.conf'";
+                    string sshCmd = @"bash -c 'echo ""fs.file-max = 51200"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
                     sshCmd = @"bash -c 'echo ""net.core.rmem_max = 67108864"" >> /etc/sysctl.conf'";
                     client.RunCommand(sshCmd);
@@ -3651,7 +3666,6 @@ namespace ProxySU
 
                     //测试BBR条件，若满足提示是否启用
                     var result = client.RunCommand("uname -r");
-                    //var result = client.RunCommand("cat /root/test.ver");
                     string[] linuxKernelVerStr = result.Result.Split('-');
 
                     bool detectResult = DetectKernelVersionBBR(linuxKernelVerStr[0]);

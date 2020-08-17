@@ -196,8 +196,8 @@
                                         <TextBlock Text="密码：" Grid.Column="0" Grid.Row="3"></TextBlock>
                                         <TextBox x:Name="TextBoxNaivePassword"  Grid.Column="1" Grid.Row="3" Margin="3"></TextBox>
                                         <Button x:Name="ButtonNaivePassword" Content="更新" Grid.Column="2" Grid.Row="3" Margin="2" Click="ButtonNaivePassword_Click"></Button>
-                                        <TextBlock Text="伪装网站：" Grid.Column="0" Grid.Row="4"></TextBlock>
-                                        <TextBox x:Name="TextBoxNaiveSites" Style="{StaticResource TitleText}" Tag="可以增加代理的隐蔽(可为空)"  Grid.Column="1" Grid.Row="4" Margin="3"></TextBox>
+                                        <TextBlock Text="伪装网站：" Grid.Column="0" Grid.Row="4" Visibility="Collapsed"></TextBlock>
+                                        <TextBox x:Name="TextBoxNaiveSites" Style="{StaticResource TitleText}" Tag="可以增加代理的隐蔽(可为空)"  Grid.Column="1" Grid.Row="4" Margin="3"  Visibility="Collapsed"></TextBox>
                                        
                                     </Grid>
                                 </GroupBox>
@@ -208,7 +208,7 @@
                                 <Button x:Name="ButtonNaiveCancel" Content="取消" Grid.ColumnSpan="1" Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
                             </Grid>
                         </TabItem>
-                        <TabItem Header="三合一" Width="100" Height="30">
+                        <TabItem Header="三合一" Width="100" Height="30" Visibility="Collapsed">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition></ColumnDefinition>
@@ -410,7 +410,7 @@
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-                        <TextBlock Text="程序版本：1.7.3" Grid.Column="0" Grid.Row="0"></TextBlock>
+                        <TextBlock Text="程序版本：1.8.0" Grid.Column="0" Grid.Row="0"></TextBlock>
                         
                     </Grid>
                    
