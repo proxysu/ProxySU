@@ -740,11 +740,18 @@ namespace ProxySU
                         client.Disconnect();
                         return;
                     }
-                    client.RunCommand("systemctl enable v2ray; systemctl start v2ray");
-                    //client.RunCommand("mv /etc/v2ray/config.json /etc/v2ray/config.json.1");
+                    else
+                    {
+                        currentStatus = "V2ray成功！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                        client.RunCommand("systemctl enable v2ray; systemctl start v2ray");
+                    }
+                    
+                    client.RunCommand("mv /etc/v2ray/config.json /etc/v2ray/config.json.1");
 
                     //上传配置文件
-                    currentStatus = "V2ray程序安装完毕，配置文件上传中......";
+                    currentStatus = "V2ray配置文件上传中......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     Thread.Sleep(1000);
 
@@ -1924,6 +1931,13 @@ namespace ProxySU
                         client.Disconnect();
                         return;
                     }
+                    else
+                    {
+                        currentStatus = "Trojan安装成功！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                        client.RunCommand("systemctl enable trojan");
+                    }
                     client.RunCommand("mv /usr/local/etc/trojan/config.json /usr/local/etc/trojan/config.json.1");
 
                     //上传配置文件
@@ -2695,12 +2709,19 @@ namespace ProxySU
 
                     if (!installResult.Contains("/usr/local/bin/trojan-go"))
                     {
-                        MessageBox.Show("安装Trojan失败(安装脚本运行出错！");
+                        MessageBox.Show("安装Trojan-Go失败(安装脚本运行出错！");
                        
-                        currentStatus = "安装Trojan失败(安装脚本运行出错！";
+                        currentStatus = "安装Trojan-Go失败(安装脚本运行出错！";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         client.Disconnect();
                         return;
+                    }
+                    else
+                    {
+                        currentStatus = "Trojan-Go安装成功！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        Thread.Sleep(1000);
+                        client.RunCommand("systemctl enable trojan-go");
                     }
                     client.RunCommand("mv /etc/trojan-go/config.json /etc/trojan-go/config.json.1");
 
