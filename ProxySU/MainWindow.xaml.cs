@@ -728,7 +728,7 @@ namespace ProxySU
                     //下载官方安装脚本安装
 
                     client.RunCommand("curl -o /tmp/go.sh https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh");
-                    client.RunCommand("bash /tmp/go.sh -f");
+                    client.RunCommand("yes | bash /tmp/go.sh -f");
                     string installResult = client.RunCommand("find / -name v2ray").Result.ToString();
 
                     if (!installResult.Contains("/usr/local/bin/v2ray"))
@@ -742,7 +742,7 @@ namespace ProxySU
                     }
                     else
                     {
-                        currentStatus = "V2ray成功！";
+                        currentStatus = "V2ray安装成功！";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         Thread.Sleep(1000);
                         client.RunCommand("systemctl enable v2ray; systemctl start v2ray");
@@ -956,7 +956,7 @@ namespace ProxySU
                         client.RunCommand("systemctl restart caddy");
                     }
 
-                    if (ReceiveConfigurationParameters[0].Contains("Http2") == true|| ReceiveConfigurationParameters[0].Contains("WebSocketTLS") ==true|| ReceiveConfigurationParameters[0].Contains("tcpTLS") == true)
+                    if (String.Equals(ReceiveConfigurationParameters[0], "Http2") == true || String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS") == true|| String.Equals(ReceiveConfigurationParameters[0], "tcpTLS") == true)
                     {
                         currentStatus = "使用Http2/WebSocket+TLS/tcp+TLS模式，正在安装acme.sh......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -1218,7 +1218,7 @@ namespace ProxySU
                     else if (resultCmdTestV2rayInstalled.Contains("/usr/bin/v2ray") == true)
                     {
                         client.RunCommand("curl -o /tmp/go.sh https://raw.githubusercontent.com/proxysu/shellscript/master/v2ray/go.sh");
-                        client.RunCommand("bash /tmp/go.sh --remove");
+                        client.RunCommand("yes | bash /tmp/go.sh --remove");
                         string installResult = client.RunCommand("find / -name v2ray").Result.ToString();
 
                         if (!installResult.Contains("/usr/bin/v2ray"))
@@ -1232,7 +1232,7 @@ namespace ProxySU
                         Thread.Sleep(1000);
 
                         client.RunCommand("curl -o /tmp/go.sh https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh");
-                        client.RunCommand("bash /tmp/go.sh -f");
+                        client.RunCommand("yes | bash /tmp/go.sh -f");
                         installResult = client.RunCommand("find / -name v2ray").Result.ToString();
 
                         if (!installResult.Contains("/usr/local/bin/v2ray"))
@@ -1824,8 +1824,8 @@ namespace ProxySU
                         //为假则表示系统有相应的组件。
                         if (getApt == false)
                         {
-                            client.RunCommand("apt-get -qq update");
-                            client.RunCommand("apt-get -y -qq install lsof");
+                            client.RunCommand("apt -qq update");
+                            client.RunCommand("apt -y -qq install lsof");
                         }
                         else if (getDnf == false)
                         {
@@ -1895,8 +1895,8 @@ namespace ProxySU
                     //处理极其少见的xz-utils未安装的情况
                     if (getApt == false)
                     {
-                        client.RunCommand("apt-get -qq update");
-                        client.RunCommand("apt-get -y -qq install xz-utils");
+                        client.RunCommand("apt -qq update");
+                        client.RunCommand("apt -y -qq install xz-utils");
                     }
                     else if (getDnf == false)
                     {
@@ -2703,7 +2703,7 @@ namespace ProxySU
                    //下载安装脚本安装
 
                     client.RunCommand("curl -o /tmp/trojan-go.sh https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh");
-                    client.RunCommand("bash /tmp/trojan-go.sh -f");
+                    client.RunCommand("yes | bash /tmp/trojan-go.sh -f");
 
                     string installResult = client.RunCommand("find / -name trojan-go").Result.ToString();
 
@@ -3124,7 +3124,7 @@ namespace ProxySU
                             //client.RunCommand(sshcmd);
                             //升级Trojan-Go主程序
                             client.RunCommand("curl -o /tmp/trojan-go.sh https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh");
-                            client.RunCommand("bash /tmp/trojan-go.sh -f");
+                            client.RunCommand("yes | bash /tmp/trojan-go.sh -f");
                             //获取升级后的版本
                             sshcmd = @"echo ""$(/usr/local/bin/trojan-go -version)"" | head -n 1 | cut -d "" "" -f2";
                             trojanCurrentVersion = client.RunCommand(sshcmd).Result;//含字母v
@@ -3414,6 +3414,11 @@ namespace ProxySU
                     {
                         client.RunCommand("apt -qq update");
                         client.RunCommand("apt -y -qq install curl libnss3 xz-utils lsof unzip");
+                    }
+                    if (getDnf == false)
+                    {
+                        client.RunCommand("dnf -q makecache");
+                        client.RunCommand("dnf -y -q install curl nss xz lsof unzip");
                     }
                     if (getYum == false)
                     {
@@ -4342,7 +4347,7 @@ namespace ProxySU
 
                     //下载官方安装脚本安装V2ray
                     client.RunCommand("curl -o /tmp/go.sh https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh");
-                    client.RunCommand("bash /tmp/go.sh -f");
+                    client.RunCommand("yes | bash /tmp/go.sh -f");
                     string installResult = client.RunCommand("find / -name v2ray").Result.ToString();
 
                     if (!installResult.Contains("/usr/local/bin/v2ray"))
