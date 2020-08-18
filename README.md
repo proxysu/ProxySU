@@ -1,4 +1,4 @@
-# 使用V2ray的任何TLS加密的，尽快升级到最新版本4.23.2及以上。原因如下：  
+## 使用V2ray的任何TLS加密的，尽快升级到最新版本4.23.2及以上。原因如下：  
 [v2ray的TLS流量可被简单特征码匹配精准识别](https://github.com/v2ray/discussion/issues/704)  
 
 # ProxySU
@@ -82,8 +82,8 @@ V2ray, Trojan, NaiveProxy, Trojan-Go, BBR install tools for windows。V2ray，Tr
   * 选择Trojan-Go，则调用本项目内的trojan-go.sh安装， `curl -o /tmp/trojan-go.sh https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh` `yes | bash /tmp/trojan-go.sh -f` 安装Trojan-GO。  
   * 选择NaiveProxy，先安装Caddy2,方法源自[Caddy官方文档](https://caddyserver.com/docs/download)。再用自编译的Caddy2(带forward_proxy插件)替换原来的Caddy运行文件。自编译Caddy2文件方法源自[NaiveProxy官方文档](https://github.com/klzgrad/naiveproxy#setup)。
 3. 根据选择读取相应配置模板，调用[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)生成相应配置文件，并上传到服务器。所有模板及配置文件 [在这里](https://github.com/proxysu/windows/tree/master/TemplateConfg)  
-4. 如果使用WebSocket + TLS + Web/http2 + TLS + Web/Trojan + TLS + Web/NaiveProxy + TLS + Web模式，则安装Caddy2,方法源自[Caddy官方文档](https://caddyserver.com/docs/download)。  
-5. 如果使用Http2/tcp+TLS/WebSocket+TLS/Trojan+TLS+Web模式，则调用  `curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh` 安装acme.sh，使用acme.sh申请并安装证书到V2ray/Trojan.  
+4. 如果使用WebSocket+TLS+Web/http2+TLS+Web/Trojan+TLS+Web/Trojan-go+TLS+Web模式，则安装Caddy2,方法源自[Caddy官方文档](https://caddyserver.com/docs/download)。  
+5. 如果使用Http2/tcp+TLS/WebSocket+TLS/Trojan+TLS+Web/Trojan-go+TLS+Web模式，则调用  `curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh` 安装acme.sh，使用acme.sh申请并安装证书到V2ray/Trojan.  
 6. 安装成功后，使用[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)生成兼容于相应客户端的json文件，用C#内置的Base64库将json生成url链接，使用[QRcoder](https://github.com/codebude/QRCoder)生成二维码。
 
 * 注：V2ray安装及配置文件主要参考自：  
