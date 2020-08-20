@@ -1218,7 +1218,7 @@ namespace ProxySU
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                    sshShellCommand = @"find / -name trojan";
+                    sshShellCommand = @"find / -name v2ray";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
