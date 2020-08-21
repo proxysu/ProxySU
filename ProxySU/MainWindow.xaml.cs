@@ -64,6 +64,9 @@ namespace ProxySU
             //初始化参数给
             ReceiveConfigurationParameters = new string[8];
 
+            //初始化Trojan的密码
+            TextBoxTrojanPassword.Text = RandomUUID();
+
             //初始化NaiveProxy的用户名和密码
             TextBoxNaivePassword.Text = RandomUUID();
             TextBoxNaiveUser.Text = RandomUserName();
@@ -578,8 +581,8 @@ namespace ProxySU
                     }
                     else
                     {
-                        currentShellCommandResult = "检测结果：未安装V2Ray！";
-                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                        currentStatus = "检测结果：未安装V2Ray！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         currentShellCommandResult = currentStatus;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
@@ -2346,16 +2349,16 @@ namespace ProxySU
         #region Trojan相关
 
         //打开Trojan参数设置界面
-        private void ButtonTrojanTemplate_Click(object sender, RoutedEventArgs e)
-        {
-            for (int i = 0; i != ReceiveConfigurationParameters.Length; i++)
+        //private void ButtonTrojanTemplate_Click(object sender, RoutedEventArgs e)
+        //{
+        //    for (int i = 0; i != ReceiveConfigurationParameters.Length; i++)
 
-            {
-                ReceiveConfigurationParameters[i] = "";
-            }
-            TrojanTemplateWindow windowTrojanTemplateConfiguration = new TrojanTemplateWindow();
-            windowTrojanTemplateConfiguration.ShowDialog();
-        }
+        //    {
+        //        ReceiveConfigurationParameters[i] = "";
+        //    }
+        //    TrojanTemplateWindow windowTrojanTemplateConfiguration = new TrojanTemplateWindow();
+        //    windowTrojanTemplateConfiguration.ShowDialog();
+        //}
         
         //Trojan参数传递
         private void ButtonTrojanSetUp_Click(object sender, RoutedEventArgs e)
@@ -2366,23 +2369,61 @@ namespace ProxySU
                 MessageBox.Show("远程主机连接信息有误，请检查");
                 return;
             }
-            string serverConfig = "";  //服务端配置文件
-            string clientConfig = "";   //生成的客户端配置文件
-            string upLoadPath = "/usr/local/etc/trojan/config.json"; //服务端文件位置
-            if (String.IsNullOrEmpty(ReceiveConfigurationParameters[4]) == true)
+            //清空参数空间
+            for (int i = 0; i != ReceiveConfigurationParameters.Length; i++)
+
             {
-                ReceiveConfigurationParameters[4] = TextBoxHost.Text.ToString();
+                ReceiveConfigurationParameters[i] = "";
             }
-            if (String.IsNullOrEmpty(ReceiveConfigurationParameters[0]) == true)
+            if (string.IsNullOrEmpty(TextBoxTrojanHostDomain.Text.ToString()) == true)
             {
-                MessageBox.Show("请先选择配置模板！");
+                MessageBox.Show("域名不能为空！");
                 return;
             }
-            else if (String.Equals(ReceiveConfigurationParameters[0], "TrojanTLS2Web"))
+            //传递模板类型
+            ReceiveConfigurationParameters[0] = "TrojanTLS2Web";
+
+            //传递域名
+            ReceiveConfigurationParameters[4] = TextBoxTrojanHostDomain.Text.ToString();
+            //传递伪装网站
+            ReceiveConfigurationParameters[7] = TextBoxTrojanSites.Text.ToString();
+            //处理伪装网站域名中的前缀
+            if (TextBoxTrojanSites.Text.ToString().Length >= 7)
             {
-                serverConfig = "TemplateConfg\\trojan_server_config.json";
-                clientConfig = "TemplateConfg\\trojan_client_config.json";
+                string testDomain = TextBoxTrojanSites.Text.Substring(0, 7);
+                if (String.Equals(testDomain, "https:/") || String.Equals(testDomain, "http://"))
+                {
+                    //MessageBox.Show(testDomain);
+                    ReceiveConfigurationParameters[7] = TextBoxTrojanSites.Text.Replace("/", "\\/");
+                }
+                else
+                {
+                    ReceiveConfigurationParameters[7] = "http:\\/\\/" + TextBoxTrojanSites.Text;
+                }
             }
+            //传递服务端口
+            ReceiveConfigurationParameters[1] = "443";
+            //传递密码(uuid)
+            ReceiveConfigurationParameters[2] = TextBoxTrojanPassword.Text.ToString();
+        
+
+            string serverConfig = "TemplateConfg\\trojan_server_config.json";  //服务端配置文件
+            string clientConfig = "TemplateConfg\\trojan_client_config.json";   //生成的客户端配置文件
+            string upLoadPath = "/usr/local/etc/trojan/config.json"; //服务端文件位置
+            //if (String.IsNullOrEmpty(ReceiveConfigurationParameters[4]) == true)
+            //{
+            //    ReceiveConfigurationParameters[4] = TextBoxHost.Text.ToString();
+            //}
+            //if (String.IsNullOrEmpty(ReceiveConfigurationParameters[0]) == true)
+            //{
+            //    MessageBox.Show("请先选择配置模板！");
+            //    return;
+            //}
+            //else if (String.Equals(ReceiveConfigurationParameters[0], "TrojanTLS2Web"))
+            //{
+            //    serverConfig = "TemplateConfg\\trojan_server_config.json";
+            //    clientConfig = "TemplateConfg\\trojan_client_config.json";
+            //}
             Thread thread = new Thread(() => StartSetUpTrojan(connectionInfo, TextBlockSetUpProcessing, ProgressBarSetUpProcessing, serverConfig, clientConfig, upLoadPath));
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
@@ -2392,7 +2433,7 @@ namespace ProxySU
         private void StartSetUpTrojan(ConnectionInfo connectionInfo, TextBlock textBlockName, ProgressBar progressBar, string serverConfig, string clientConfig, string upLoadPath)
         {
             string currentStatus = "正在登录远程主机......";
-            Action<TextBlock, ProgressBar, string> updateAction = new Action<TextBlock, ProgressBar, string>(UpdateTextBlock);
+            //Action<TextBlock, ProgressBar, string> updateAction = new Action<TextBlock, ProgressBar, string>(UpdateTextBlock);
             textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
             currentShellCommandResult = currentStatus;
             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
@@ -2511,8 +2552,8 @@ namespace ProxySU
                     }
                     else
                     {
-                        currentShellCommandResult = "检测结果：未安装Trojan！";
-                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                        currentStatus = "检测结果：未安装Trojan！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);//显示命令执行的结果
                         currentShellCommandResult = currentStatus;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
@@ -3970,6 +4011,12 @@ namespace ProxySU
             #endregion
 
         }
+
+        //更新Trojan的密码
+        private void ButtonTrojanPassword_Click(object sender, RoutedEventArgs e)
+        {
+            TextBoxTrojanPassword.Text = RandomUUID();
+        }
         #endregion
 
         #region Trojan-go相关
@@ -4132,8 +4179,8 @@ namespace ProxySU
                     }
                     else
                     {
-                        currentShellCommandResult = "检测结果：未安装Trojan-go！";
-                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                        currentStatus = "检测结果：未安装Trojan-go！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);//显示命令执行的结果
                         currentShellCommandResult = currentStatus;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
@@ -6574,8 +6621,7 @@ namespace ProxySU
         //更新NaiveProxy的密码
         private void ButtonNaivePassword_Click(object sender, RoutedEventArgs e)
         {
-            Guid uuid = Guid.NewGuid();
-            TextBoxNaivePassword.Text = uuid.ToString();
+            TextBoxNaivePassword.Text = RandomUUID();
         }
         
         //生成随机UUID
@@ -8036,9 +8082,9 @@ namespace ProxySU
             #endregion
 
         }
-        #endregion
 
-       
+        #endregion
+      
     }
 
 }

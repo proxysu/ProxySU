@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProxySU"
         mc:Ignorable="d"
-        Title="ProxySU" Height="600" Width="530">
+        Title="ProxySU - v1.8.4" Height="600" Width="530">
     <!--以下样式参考自：https://yq.aliyun.com/articles/331878
 	https://docs.microsoft.com/en-us/dotnet/desktop-wpf/fundamentals/styles-templates-overview-->
     <Window.Resources>
@@ -117,9 +117,9 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition></RowDefinition>
                                     <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition Height="60"></RowDefinition>
                                 </Grid.RowDefinitions>
-                                <Button x:Name="ButtonUpdateV2ray" Content="检测/升级V2Ray版本" Grid.Column="0" Grid.Row="0" Margin="5" Click="ButtonUpdateV2ray_Click"></Button>
+                                
                                 <!--<Button x:Name="ButtonGuideConfiguration" Visibility="Visible"  Content="启用向导" Grid.Column="0" Grid.Row="0" Click="ButtonGuideConfiguration_Click"></Button>
                                 <TextBlock Text="通过向导生成配置文件" Visibility="Visible" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center"></TextBlock>-->
                                 <Button x:Name="ButtonTemplateConfiguration" Content="V2ray模板库" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonTemplateConfiguration_Click"></Button>
@@ -131,8 +131,33 @@
                                 <RadioButton x:Name="RadioButtonAdvancedConfiguration" Content="高级配置" Grid.Column="0" Grid.Row="2"></RadioButton>
                                 <TextBox x:Name="TextBoxJsonPath" Margin="10" Grid.Column="1" Grid.Row="1"></TextBox>
                                 <Button x:Name="ButtonSetConfiguration" Margin="6" Content="配置" Grid.Column="2" Grid.Row="2" Click="ButtonSetConfiguration_Click"></Button>-->
-                                <Button x:Name="Button_Login" Content="V2ray一键安装" Grid.ColumnSpan="1" Margin="10" Grid.Column="0" Grid.Row="2" Click="Button_Login_Click"></Button>
-                                <Button x:Name="Button_canel" Content="取消" Grid.ColumnSpan="1" Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
+                                <Button x:Name="Button_Login" Content="V2ray一键安装"  Margin="10" Grid.Column="0" Grid.Row="2" Click="Button_Login_Click"></Button>
+                                <Button x:Name="ButtonUpdateV2ray" Content="检测/升级V2Ray" Margin="10" Grid.Column="1" Grid.Row="2"  Click="ButtonUpdateV2ray_Click"></Button>
+                                <Button x:Name="Button_canel" Content="取消"  Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Trojan-Go" Width="100" Height="30">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition Height="60"></RowDefinition>
+
+                                </Grid.RowDefinitions>
+                               
+                                <!--<Button x:Name="ButtonTrojanTemplate" Content="Trojan参数设置" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonTrojanTemplate_Click"/>-->
+                                <!--<TextBlock Text="Trojan参数设置" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center"></TextBlock>-->
+                                <Button x:Name="ButtonTrojanGoTemplate" Content="Trojan-Go参数设置" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonTrojanGoTemplate_Click"/>
+
+                                <Button x:Name="ButtonTrojanGoSetUp" Content="Trojan-Go一键安装"  Margin="10" Grid.Column="0" Grid.Row="2" Click="ButtonTrojanGoSetUp_Click"/>
+                                <Button x:Name="ButtonUpdateTrojanGo" Content="检测/升级Trojan-Go" Margin="10" Grid.Column="1" Grid.Row="2"  Click="ButtonUpdateTrojanGo_Click"></Button>
+                                <Button x:Name="ButtonTrojanGoCancel" Content="取消"  Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
                             </Grid>
                         </TabItem>
                         <TabItem Header="Trojan" Width="100" Height="30">
@@ -146,18 +171,49 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition></RowDefinition>
                                     <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                   
-                      
+                                    <RowDefinition Height="60"></RowDefinition>
+
                                 </Grid.RowDefinitions>
-                                <Button x:Name="ButtonUpdateTrojan" Content="检测/升级Trojan版本" Grid.Column="0" Grid.Row="0" Margin="5" Click="ButtonUpdateTrojan_Click"></Button>
-                                <Button x:Name="ButtonTrojanTemplate" Content="Trojan参数设置" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonTrojanTemplate_Click"/>
+                                <GroupBox Header="参数设置" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="2">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.4*"></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition Width="0.4*"></ColumnDefinition>
+
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Text="模式：Trojan+TLS+Caddy" Grid.Column="1" Grid.Row="0"></TextBlock>
+                                        <TextBlock Text="服务器地址(域名)：" Grid.Column="0" Grid.Row="1"></TextBlock>
+                                        <TextBox x:Name="TextBoxTrojanHostDomain" Style="{StaticResource TitleText}" Tag="域名不可为空" Grid.Column="1" Grid.Row="1" Margin="3"></TextBox>
+                                        <TextBlock Text="端口：443" Grid.Column="2" Grid.Row="1"></TextBlock>
+                                        <!--<TextBlock Text="用户名：" Grid.Column="0" Grid.Row="2"></TextBlock>
+                                        <TextBox x:Name="TextBoxUser" Grid.Column="1" Grid.Row="2" Margin="3"></TextBox>
+                                        <Button x:Name="ButtonNaiveUser" Content="随机" Grid.Column="2" Grid.Row="2" Margin="2" Click="ButtonNaiveUser_Click"></Button>-->
+                                        <TextBlock Text="密码：" Grid.Column="0" Grid.Row="2"></TextBlock>
+                                        <TextBox x:Name="TextBoxTrojanPassword"  Grid.Column="1" Grid.Row="2" Margin="3"></TextBox>
+                                        <Button x:Name="ButtonTrojanPassword" Content="更新" Grid.Column="2" Grid.Row="2" Margin="2" Click="ButtonTrojanPassword_Click" ></Button>
+                                        
+                                        <TextBlock Text="伪装网站：" Grid.Column="0" Grid.Row="3" Visibility="Collapsed"></TextBlock>
+                                        <TextBox x:Name="TextBoxTrojanSites" Style="{StaticResource TitleText}" Tag="可以增加代理的隐蔽(可为空)"  Grid.Column="1" Grid.Row="3" Margin="3"  Visibility="Collapsed"></TextBox>
+                                        
+                                    </Grid>
+                                </GroupBox>
+                                
+                                <!--<Button x:Name="ButtonTrojanTemplate" Content="Trojan参数设置" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonTrojanTemplate_Click"/>-->
                                 <!--<TextBlock Text="Trojan参数设置" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center"></TextBlock>-->
                                 <!--<Button x:Name="ButtonTrojanGoTemplate" Content="Trojan-Go参数设置" Grid.Column="2" Grid.Row="0" Margin="5" Click="ButtonTrojanGoTemplate_Click"/>-->
 
 
-                                <Button x:Name="ButtonTrojanSetUp" Content="Trojan一键安装" Grid.ColumnSpan="1" Margin="10" Grid.Column="0" Grid.Row="2" Click="ButtonTrojanSetUp_Click"/>
-                                <Button x:Name="ButtonTrojanCancel" Content="取消" Grid.ColumnSpan="1" Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
+                                <Button x:Name="ButtonTrojanSetUp" Content="Trojan一键安装"  Grid.Column="0" Grid.Row="2"  Margin="10" Click="ButtonTrojanSetUp_Click"/>
+                                <Button x:Name="ButtonUpdateTrojan" Content="检测/升级Trojan" Grid.Column="1" Grid.Row="2" Margin="10" Click="ButtonUpdateTrojan_Click"></Button>
+                                <Button x:Name="ButtonTrojanCancel" Content="取消" Grid.Column="2" Grid.Row="2"  Margin="10" Click="Button_canel_Click"></Button>
                             </Grid>
                         </TabItem>
                         <TabItem x:Name="TabItemNaiveProxy" Header="NaiveProxy" Width="100" Height="30">
@@ -170,7 +226,7 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition></RowDefinition>
                                     <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition Height="60"></RowDefinition>
                                 </Grid.RowDefinitions>
                                 <GroupBox Header="参数设置" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="2">
                                     <Grid>
@@ -278,29 +334,7 @@
                                 <Button x:Name="Button_canel3in1" Content="取消" Grid.ColumnSpan="1" Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
                             </Grid>
                         </TabItem>
-                        <TabItem Header="Trojan-Go" Width="100" Height="30">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
-
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-
-                                </Grid.RowDefinitions>
-                                <Button x:Name="ButtonUpdateTrojanGo" Content="检测/升级Trojan-Go版本" Grid.Column="0" Grid.Row="0" Margin="5" Click="ButtonUpdateTrojanGo_Click"></Button>
-                                <!--<Button x:Name="ButtonTrojanTemplate" Content="Trojan参数设置" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonTrojanTemplate_Click"/>-->
-                                <!--<TextBlock Text="Trojan参数设置" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center"></TextBlock>-->
-                                <Button x:Name="ButtonTrojanGoTemplate" Content="Trojan-Go参数设置" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonTrojanGoTemplate_Click"/>
-
-                                <Button x:Name="ButtonTrojanGoSetUp" Content="Trojan-Go一键安装" Grid.ColumnSpan="1" Margin="10" Grid.Column="0" Grid.Row="2" Click="ButtonTrojanGoSetUp_Click"/>
-                                <Button x:Name="ButtonTrojanGoCancel" Content="取消" Grid.ColumnSpan="1" Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
-                            </Grid>
-                        </TabItem>
+                        
                         <TabItem Header="系统工具" Width="100" Height="30">
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -381,7 +415,7 @@
                     <WebBrowser x:Name="WebBrowserResourcesAndTools" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="9" Grid.RowSpan="13" Source="https://github.com/proxysu/windows/wiki/ResourcesAndTools" />
                 </Grid>
             </TabItem>
-            <TabItem Header="关于" Width="110" Height="30">
+            <TabItem Header="关于" Width="110" Height="30" Visibility="Collapsed">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.3*"></ColumnDefinition>
