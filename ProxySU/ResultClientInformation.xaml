@@ -7,8 +7,13 @@
         mc:Ignorable="d"
         Title="ResultClientInformation" Height="650" Width="600">
     <Grid>
-        <GroupBox Header="服务器连接配置">
-            <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition ></RowDefinition>
+            <RowDefinition Height="0.8*"></RowDefinition>
+            <RowDefinition Height="0.12*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <GroupBox Header="V2Ray 客户端配置参数" x:Name="GroupBoxV2rayClient" Visibility="Visible" Grid.Row="0">
+            <Grid >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
@@ -26,14 +31,7 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
+
                 </Grid.RowDefinitions>
                 <TextBlock Text="地址(address)" Grid.Column="0" Grid.Row="0" Margin="1"></TextBlock>
                 <TextBox x:Name="TextBoxHostAddress" IsReadOnly="True" Grid.Column="1" Grid.Row="0" Margin="2"></TextBox>
@@ -44,9 +42,9 @@
                 <TextBlock Text="用户ID(uuid)" Grid.Column="0" Grid.Row="2" Margin="1"></TextBlock>
                 <TextBox x:Name="TextBoxUUID" IsReadOnly="True" Grid.Column="1" Grid.Row="2" Margin="2"></TextBox>
                 <TextBlock Text="说明" Grid.Column="2" Grid.Row="2"></TextBlock>
-                <TextBlock Text="额外ID" Grid.Column="0" Grid.Row="3" Margin="1"></TextBlock>
+                <TextBlock x:Name="TextBlockUUIDextra" Text="额外ID" Grid.Column="0" Grid.Row="3" Margin="1"></TextBlock>
                 <TextBox x:Name="TextBoxUUIDextra" IsReadOnly="False" Grid.Column="1" Grid.Row="3" Margin="2"></TextBox>
-                <TextBlock Text="默认16，可以填不超过64的值，客户端没有此选项可不填" TextWrapping="Wrap" Grid.Column="2" Grid.Row="3"></TextBlock>
+                <TextBlock x:Name="TextBlockUUIDextraExplanation" Text="默认16，可以填不超过64的值，客户端没有此选项可不填" TextWrapping="Wrap" Grid.Column="2" Grid.Row="3"></TextBlock>
                 <TextBlock Text="加密方式" Grid.Column="0" Grid.Row="4" Margin="1"></TextBlock>
                 <TextBox x:Name="TextBoxEncryption" IsReadOnly="True" Grid.Column="1" Grid.Row="4" Margin="2"></TextBox>
                 <TextBlock Text="默认auto" Grid.Column="2" Grid.Row="4"></TextBlock>
@@ -70,21 +68,149 @@
                 <TextBox x:Name="TextBoxQuicKey" IsReadOnly="True" Grid.Column="1" Grid.Row="10" Margin="2"></TextBox>
                 <TextBlock x:Name="TextBlockQuicKeyExplain" Text="说明" Grid.Column="2" Grid.Row="10"></TextBlock>
 
-                <TextBlock Text="以上参数可以手动输入客户端，用于V2ray官方客户端的配置文件已经存放入config目录下，点击确定可打开" Grid.Column="0" Grid.Row="11" Grid.ColumnSpan="2" TextWrapping="Wrap"></TextBlock>
-                <Button x:Name="ButtonOpenSaveDir" Content="确定" Grid.Column="2" Grid.Row="11" Grid.RowSpan="1" Margin="5" Click="ButtonOpenSaveDir_Click"></Button>
-                <Grid Grid.Column="0" Grid.Row="12" Grid.ColumnSpan="2" Grid.RowSpan="7">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="85"></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="二维码和vmess链接可用于&#x0a;&#x0a;v2rayN(windows)&#x0a;&#x0a;Trojan-QT5(windows)&#x0a;&#x0a;Qv2ray(windows)&#x0a;&#x0a;Shadowrocket(ios)&#x0a;&#x0a;v2rayNG(Android)&#x0a;&#x0a;导入v2ray节点" TextWrapping="Wrap" Grid.Column="0"></TextBlock>
-                        <Image x:Name="ImageShareQRcode" Grid.Column="1"></Image>
-                    </Grid>
-                </Grid>
-                <TextBox x:Name="TextBoxvVmessUrl" TextWrapping="Wrap" Grid.Column="2" Grid.Row="12" Grid.RowSpan="7"></TextBox>
-                
+
             </Grid>
         </GroupBox>
+        <GroupBox Header="Trojan-go 客户端配置参数" x:Name="GroupBoxTrojanGoClient" Visibility="Collapsed" Grid.Row="0">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="30"></RowDefinition>
+                    <RowDefinition Height="30"></RowDefinition>
+                    <RowDefinition Height="30"></RowDefinition>
+                    <RowDefinition Height="30"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+
+
+                </Grid.RowDefinitions>
+                <TextBlock Text="服务器地址：" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" ></TextBlock>
+                <TextBox x:Name="TextBoxTrojanGoServerHost" Grid.Column="1" Grid.Row="1" Margin="4"></TextBox>
+                <TextBlock Grid.Column="2" Grid.Row="1"></TextBlock>
+                <TextBlock Text="端口：" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxTrojanGoServerPort" Grid.Column="1" Grid.Row="2" Margin="4"></TextBox>
+                <TextBlock Grid.Column="2" Grid.Row="2"></TextBlock>
+                <TextBlock Text="密钥：" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxTrojanGoServerPassword" Grid.Column="1" Grid.Row="3" Margin="4"></TextBox>
+                <TextBlock Grid.Column="2" Grid.Row="3"></TextBlock>
+                <TextBlock x:Name="TextBlockTrojanGoWebSocketPath" Text="WebSocket路径：" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxTrojanGoWSPath" Grid.Column="1" Grid.Row="4" Margin="4"></TextBox>
+                <TextBlock x:Name="TextBlockTrojanGoCaption" Grid.Column="2" Grid.Row="4"></TextBlock>
+
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Trojan 客户端配置参数" x:Name="GroupBoxTrojanClient" Visibility="Collapsed" Grid.Row="0">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="30"></RowDefinition>
+                    <RowDefinition Height="30"></RowDefinition>
+                    <RowDefinition Height="30"></RowDefinition>
+                    <RowDefinition Height="30"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+               
+
+                </Grid.RowDefinitions>
+                <TextBlock Text="服务器地址：" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" ></TextBlock>
+                <TextBox x:Name="TextBoxTrojanServerHost" Grid.Column="1" Grid.Row="1" Margin="4"></TextBox>
+                <TextBlock Grid.Column="2" Grid.Row="1"></TextBlock>
+                <TextBlock Text="端口：" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxTrojanServerPort" Grid.Column="1" Grid.Row="2" Margin="4"></TextBox>
+                <TextBlock Grid.Column="2" Grid.Row="2"></TextBlock>
+                <TextBlock Text="密钥：" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxTrojanServerPassword" Grid.Column="1" Grid.Row="3" Margin="4"></TextBox>
+                <TextBlock Grid.Column="2" Grid.Row="3"></TextBlock>
+
+
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="NaiveProxy 客户端配置参数" x:Name="GroupBoxNaiveProxyClient" Visibility="Collapsed" Grid.Row="0">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="30"></RowDefinition>
+                    <RowDefinition Height="30"></RowDefinition>
+                    <RowDefinition Height="30"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+
+
+                </Grid.RowDefinitions>
+                <TextBlock Text="服务器地址:" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxNaiveServerHost" Grid.Column="1" Grid.Row="1" Margin="4"></TextBox>
+                <TextBlock Grid.Column="2" Grid.Row="1"></TextBlock>
+                <TextBlock Text="用户名：" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxNaiveUser" Grid.Column="1" Grid.Row="2" Margin="4"></TextBox>
+                <TextBlock Grid.Column="2" Grid.Row="2"></TextBlock>
+                <TextBlock Text="密码：" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxNaivePassword" Grid.Column="1" Grid.Row="3" Margin="4"></TextBox>
+                <TextBlock Grid.Column="2" Grid.Row="3"></TextBlock>
+                <!--<Button x:Name="ButtonOpenDir" Content="确定" Grid.Column="1" Grid.Row="4" Margin="40,3,40,3" Click="ButtonOpenDir_Click"></Button>-->
+
+
+            </Grid>
+        </GroupBox>
+        <!--<GroupBox Header="客户端配置参数" x:Name="GroupBoxClient" Visibility="Collapsed" Grid.Row="0">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+
+                </Grid.RowDefinitions>
+
+
+            </Grid>
+        </GroupBox>-->
+
+        <GroupBox Header="二维码/URL" Grid.Row="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="0.6*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="TextBlockQrURLexplain" Text="二维码和URL链接可用于&#x0a;&#x0a;v2rayN(windows)&#x0a;&#x0a;Trojan-QT5(windows)&#x0a;&#x0a;Qv2ray(windows)&#x0a;&#x0a;Shadowrocket(ios)&#x0a;&#x0a;v2rayNG(Android)&#x0a;&#x0a;导入v2ray节点" TextWrapping="Wrap" Grid.Column="0"></TextBlock>
+                <Image x:Name="ImageShareQRcode" Grid.Column="1"></Image>
+                <TextBox x:Name="TextBoxURL" TextWrapping="Wrap" Grid.Column="2"></TextBox>
+            </Grid>
+        </GroupBox>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="0.3*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="以上参数可以手动或扫描输入客户端，用于官方客户端的配置和相关文件已经存放入目录下，点击 确定 按扭可打开" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Margin="5" TextWrapping="Wrap"></TextBlock>
+            <Button x:Name="ButtonOpenSaveDir" Content="确定" Grid.Column="1" Grid.Row="0" Grid.RowSpan="1" Margin="5" Click="ButtonOpenSaveDir_Click"></Button>
+
+        </Grid>
+
     </Grid>
 </Window>

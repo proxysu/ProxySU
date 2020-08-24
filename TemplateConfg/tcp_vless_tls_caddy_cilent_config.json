@@ -1,4 +1,7 @@
 {
+    "log": {
+        "loglevel": "warning"
+    },
     "inbounds": [
         {
             "protocol": "http",
@@ -6,32 +9,26 @@
         },
         {
             "port": 1080,
+            "listen": "127.0.0.1",
             "protocol": "socks",
-            "sniffing": {
-                "enabled": true,
-                "destOverride": [
-                    "http",
-                    "tls"
-                ]
-            },
             "settings": {
-                "auth": "noauth"
+                "udp": true
             }
         }
     ],
     "outbounds": [
         {
-            "protocol": "vmess",
+            "protocol": "vless",
             "settings": {
                 "vnext": [
                     {
                         "address": null,
-                        "port": null,
+                        "port": 443,
                         "users": [
                             {
                                 "id": null,
-                                "alterId": 16,
-                                "security": "auto"
+                                "encryption": "none",
+                                "level": 0
                             }
                         ]
                     }

@@ -54,9 +54,9 @@
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <RadioButton x:Name="RadioButtonTrojanGoTLS2Web" Content="Trojan-Go+TLS+Web" Grid.Column="0" Grid.Row="1" Checked="RadioButtonTrojanTLS2Web_Checked"></RadioButton>
-                    <TextBlock Text="说明" Grid.Column="1" Grid.Row="1"></TextBlock>
+                    <TextBlock Text="http/2传输，Caddy2伪装网站，抗识别，暂不支持CloudFlare的CDN" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1"></TextBlock>
                     <RadioButton x:Name="RadioButtonTrojanGoWebSocketTLS2Web" Content="Trojan-Go+WebSocket+TLS+Web" Grid.Column="0" Grid.Row="2" Checked="RadioButtonTrojanGoWebSocketTLS2Web_Checked"></RadioButton>
-                    <TextBlock Text="支持CDN" Grid.Column="1" Grid.Row="2"></TextBlock>
+                    <TextBlock Text="使用WebSocket传输，Caddy2伪装网站，抗识别，支持CloudFlare的CDN" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2"></TextBlock>
                 </Grid>
             </GroupBox>
             <GroupBox Header="其他设置" Grid.Row="1">

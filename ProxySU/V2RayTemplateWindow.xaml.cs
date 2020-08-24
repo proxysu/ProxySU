@@ -88,6 +88,37 @@ namespace ProxySU
                // MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomain.Text.ToString();
 
             }
+            //VLESS+TCP+TLS+Caddy模式选中
+            else if (RadioButtonVlessTcpTlsWeb.IsChecked == true)
+            {
+                if (string.IsNullOrEmpty(TextBoxDomain.Text.ToString()) == true)
+                {
+                    MessageBox.Show("域名不能为空！");
+                    return;
+                }
+                //传递模板类型
+                MainWindow.ReceiveConfigurationParameters[0] = "VlessTcpTlsWeb";
+
+                //传递域名
+                MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomain.Text.ToString();
+                //传递伪装网站
+                MainWindow.ReceiveConfigurationParameters[7] = TextBoxMaskSites.Text.ToString();
+                //处理伪装网站域名中的前缀
+                DisguiseURLprocessing();
+                //if (TextBoxMaskSites.Text.ToString().Length >= 7)
+                //{
+                //    string testDomain = TextBoxMaskSites.Text.Substring(0, 7);
+                //    if (String.Equals(testDomain, "https:/") || String.Equals(testDomain, "http://"))
+                //    {
+                //        //MessageBox.Show(testDomain);
+                //        MainWindow.ReceiveConfigurationParameters[7] = TextBoxMaskSites.Text.Replace("/", "\\/");
+                //    }
+                //    else
+                //    {
+                //        MainWindow.ReceiveConfigurationParameters[7] = "http:\\/\\/" + TextBoxMaskSites.Text;
+                //    }
+                //}
+            }
             //webSocket模式被选中
             else if (RadioButtonWebSocket.IsChecked == true)
             {
@@ -129,19 +160,20 @@ namespace ProxySU
                 //传递伪装网站
                 MainWindow.ReceiveConfigurationParameters[7] = TextBoxMaskSites.Text.ToString();
                 //处理伪装网站域名中的前缀
-                if (TextBoxMaskSites.Text.ToString().Length >= 7)
-                {
-                    string testDomain = TextBoxMaskSites.Text.Substring(0, 7);
-                    if (String.Equals(testDomain, "https:/") || String.Equals(testDomain, "http://"))
-                    {
-                        //MessageBox.Show(testDomain);
-                        MainWindow.ReceiveConfigurationParameters[7] = TextBoxMaskSites.Text.Replace("/", "\\/");
-                    }
-                    else
-                    {
-                        MainWindow.ReceiveConfigurationParameters[7] = "http:\\/\\/" + TextBoxMaskSites.Text;
-                    }
-                }
+                DisguiseURLprocessing();
+                //if (TextBoxMaskSites.Text.ToString().Length >= 7)
+                //{
+                //    string testDomain = TextBoxMaskSites.Text.Substring(0, 7);
+                //    if (String.Equals(testDomain, "https:/") || String.Equals(testDomain, "http://"))
+                //    {
+                //        //MessageBox.Show(testDomain);
+                //        MainWindow.ReceiveConfigurationParameters[7] = TextBoxMaskSites.Text.Replace("/", "\\/");
+                //    }
+                //    else
+                //    {
+                //        MainWindow.ReceiveConfigurationParameters[7] = "http:\\/\\/" + TextBoxMaskSites.Text;
+                //    }
+                //}
             }
             //WebSocket+TLS(自签证书)模式被选中
             else if (RadioButtonWebSocketTLSselfSigned.IsChecked == true)
@@ -187,19 +219,20 @@ namespace ProxySU
                 //传递伪装网站
                 MainWindow.ReceiveConfigurationParameters[7] = TextBoxMaskSites.Text.ToString();
                 //处理伪装网站域名中的前缀
-                if (TextBoxMaskSites.Text.ToString().Length >= 7)
-                {
-                    string testDomain = TextBoxMaskSites.Text.Substring(0, 7);
-                    if (String.Equals(testDomain, "https:/") || String.Equals(testDomain, "http://"))
-                    {
-                        //MessageBox.Show(testDomain);
-                        MainWindow.ReceiveConfigurationParameters[7] = TextBoxMaskSites.Text.Replace("/", "\\/");
-                    }
-                    else
-                    {
-                        MainWindow.ReceiveConfigurationParameters[7] = "http:\\/\\/" + TextBoxMaskSites.Text;
-                    }
-                }
+                DisguiseURLprocessing();
+                //if (TextBoxMaskSites.Text.ToString().Length >= 7)
+                //{
+                //    string testDomain = TextBoxMaskSites.Text.Substring(0, 7);
+                //    if (String.Equals(testDomain, "https:/") || String.Equals(testDomain, "http://"))
+                //    {
+                //        //MessageBox.Show(testDomain);
+                //        MainWindow.ReceiveConfigurationParameters[7] = TextBoxMaskSites.Text.Replace("/", "\\/");
+                //    }
+                //    else
+                //    {
+                //        MainWindow.ReceiveConfigurationParameters[7] = "http:\\/\\/" + TextBoxMaskSites.Text;
+                //    }
+                //}
             }
             //http2(自签证书)模式被选中
             else if (RadioButtonHTTP2selfSigned.IsChecked == true)
@@ -342,6 +375,25 @@ namespace ProxySU
 
         private void ButtondCancel_Click(object sender, RoutedEventArgs e) => Close();
 
+
+        //伪装网站处理
+        private void DisguiseURLprocessing()
+        {
+            //处理伪装网站域名中的前缀
+            if (TextBoxMaskSites.Text.ToString().Length >= 7)
+            {
+                string testDomain = TextBoxMaskSites.Text.Substring(0, 7);
+                if (String.Equals(testDomain, "https:/") || String.Equals(testDomain, "http://"))
+                {
+                    //MessageBox.Show(testDomain);
+                    MainWindow.ReceiveConfigurationParameters[7] = TextBoxMaskSites.Text.Replace("/", "\\/");
+                }
+                else
+                {
+                    MainWindow.ReceiveConfigurationParameters[7] = "http:\\/\\/" + TextBoxMaskSites.Text;
+                }
+            }
+        }
         #region 其他设置中的界面控制
         private void RadioButtonTCP_Checked(object sender, RoutedEventArgs e)
         {

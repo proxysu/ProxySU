@@ -81,26 +81,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="NaiveProxyResultInfoWindow.xaml.cs">
-      <DependentUpon>NaiveProxyResultInfoWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ProofreadTimeWindow.xaml.cs">
       <DependentUpon>ProofreadTimeWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ResultClientInformation.xaml.cs">
       <DependentUpon>ResultClientInformation.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TemplateConfiguration.xaml.cs">
-      <DependentUpon>TemplateConfiguration.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TrojanGoResultClientInfoWindow.xaml.cs">
-      <DependentUpon>TrojanGoResultClientInfoWindow.xaml</DependentUpon>
+    <Compile Include="V2RayTemplateWindow.xaml.cs">
+      <DependentUpon>V2RayTemplateWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="TrojanGoTemplateWindow.xaml.cs">
       <DependentUpon>TrojanGoTemplateWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TrojanResultClientInfoWindow.xaml.cs">
-      <DependentUpon>TrojanResultClientInfoWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -114,10 +105,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="NaiveProxyResultInfoWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="ProofreadTimeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -126,19 +113,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TemplateConfiguration.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="TrojanGoResultClientInfoWindow.xaml">
+    <Page Include="V2RayTemplateWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TrojanGoTemplateWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="TrojanResultClientInfoWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

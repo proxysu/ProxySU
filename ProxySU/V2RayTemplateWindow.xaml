@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProxySU"
         mc:Ignorable="d"
-        Title="TemplateConfiguration" Height="600" Width="850">
+        Title="V2RayTemplateConfiguration" Height="600" Width="850">
     <Window.Resources>
         <Style BasedOn="{StaticResource {x:Type TextBox}}"
            TargetType="TextBox"
@@ -61,9 +61,9 @@
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
                             <RadioButton x:Name="RadioButtonWebSocketTLS2WebHot" Content="WebSocket+TLS+Web"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="1" Checked="RadioButtonWebSocketTLS2Web_Checked"></RadioButton>
-                            <TextBlock Text="稳定性强，使用Caddy做前置，隐藏代理，会被识别为访问网站的https流量，抗封锁识别最强。(需要域名)" TextWrapping="Wrap" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"></TextBlock>
+                            <TextBlock Text="稳定性强，Caddy2做前置，隐藏代理特征，被识别为访问网站的https流量，抗封锁识别最强,需要域名,支持CDN" TextWrapping="Wrap" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"></TextBlock>
                             <RadioButton x:Name="RadioButtonHTTP2WebHot" Content="HTTP2+TLS+Web"  GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="2" Checked="RadioButtonWebSocketTLS2Web_Checked"></RadioButton>
-                            <TextBlock Text="基于 HTTP/2 的传输方式。它完整按照 HTTP/2 标准实现，使用Caddy做前置，需要域名"  Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"></TextBlock>
+                            <TextBlock Text="基于 HTTP/2 传输。完整按 HTTP/2 标准实现，Caddy2做前置，隐藏代理特征，H2C协议转发到V2Ray，需要域名，暂不支持CloudFlare的CDN" TextWrapping="Wrap" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"></TextBlock>
 
                         </Grid>
                     </TabItem>
@@ -90,10 +90,12 @@
                             <RadioButton x:Name="RadioButtonTCPhttp" Content="TCP+Http伪装" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="2" Checked="RadioButtonTCPhttp_Checked" ></RadioButton>
                             <TextBlock Text="数据加密传输，并做http伪装，会被识别为http流量，但并不是真正的http访问" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"></TextBlock>
                             <RadioButton x:Name="RadioButtonTCP2TLS" Content="TCP+TLS"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="3" Checked="RadioButtonTCP2TLS_Checked" />
-                            <TextBlock Text="数据加密传输，传输协议使用TLS，会被识别为TLS流量，不等同于https流量特征 (需要域名)" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3"></TextBlock>
+                            <TextBlock Text="数据加密传输，传输协议使用TLS，会被识别为TLS流量，不等同于https流量特征 (需域名)" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3"></TextBlock>
                             <RadioButton x:Name="RadioButtonTcpTLS2SelfSigned" Content="TCP+TLS((自签证书)"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="4" Checked="RadioButtonTCP2TLSnoDomain_Checked" />
                             <TextBlock Text="数据加密传输，传输协议使用TLS，会被识别为TLS流量，不等同于https流量特征 (无需域名)" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3"></TextBlock>
                             <TextBlock Text="Shadowrocket (ios)需要手动打开“允许不安全”选项" TextWrapping="Wrap" Grid.Column="4" Grid.Row="4" ></TextBlock>
+                            <RadioButton x:Name="RadioButtonVlessTcpTlsWeb" Content="VLESS+TCP+TLS+Web" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="5" Checked="RadioButtonTCP2TLS_Checked" ></RadioButton>
+                            <TextBlock Text="轻量协议VLESS,占用更少主机资源，数据TLS加密传输，用Caddy2在节点上做伪装网站。适合配置低的VPS,或多人共用节点，服务端客户端版本要求4.27+ (需域名)," TextWrapping="Wrap" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3"></TextBlock>
 
                         </Grid>
                     </TabItem>
@@ -120,7 +122,7 @@
                             <RadioButton x:Name="RadioButtonWebSocketTLS" Content="WebSocket+TLS"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="2" Checked="RadioButtonHTTP2_Checked"/>
                             <TextBlock Text="数据加密传输，传输协议使用WebSocket，启用TLS,将被识别为TLS流量。(需要域名)" TextWrapping="Wrap" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"></TextBlock>
                             <RadioButton x:Name="RadioButtonWebSocketTLS2Web" Content="WebSocket+TLS+Web"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="3" Checked="RadioButtonWebSocketTLS2Web_Checked"></RadioButton>
-                            <TextBlock Text="稳定性强，使用使用Caddy做前置，隐藏代理，会被识别为访问网站的https流量，抗封锁识别最强。(需要域名)" TextWrapping="Wrap" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3"></TextBlock>
+                            <TextBlock Text="稳定性强，Caddy2做前置，隐藏代理特征，被识别为访问网站的https流量，抗封锁识别最强,需要域名,支持CDN" TextWrapping="Wrap" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3"></TextBlock>
                             <RadioButton x:Name="RadioButtonWebSocketTLSselfSigned" Content="WebSocket+TLS(自签证书)"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="4" Checked="RadioButtonWebSocketTLSselfSigned_Checked"></RadioButton>
                             <TextBlock Text="数据加密传输，传输协议使用WebSocket，启用TLS,将被识别为TLS流量。(无需域名)" TextWrapping="Wrap" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3"></TextBlock>
                             <TextBlock Text="Shadowrocket (ios)需要手动打开“允许不安全”选项" TextWrapping="Wrap" Grid.Column="4" Grid.Row="4" ></TextBlock>
@@ -148,9 +150,9 @@
                             <RadioButton x:Name="RadioButtonHTTP2" Content="HTTP2"  GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="1" Checked="RadioButtonHTTP2_Checked"></RadioButton>
                             <TextBlock Text="基于 HTTP/2 的传输方式。它完整按照 HTTP/2 标准实现，需要域名"  Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"></TextBlock>
                             <RadioButton x:Name="RadioButtonHTTP2Web" Content="HTTP2+TLS+Web"  GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="2" Checked="RadioButtonWebSocketTLS2Web_Checked"></RadioButton>
-                            <TextBlock Text="基于 HTTP/2 的传输方式。它完整按照 HTTP/2 标准实现，使用Caddy做前置，需要域名"  Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"></TextBlock>
+                            <TextBlock Text="基于 HTTP/2 传输。完整按 HTTP/2 标准实现，Caddy2做前置，隐藏代理特征，H2C协议转发到V2Ray，需要域名，暂不支持CloudFlare的CDN" TextWrapping="Wrap" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"></TextBlock>
                             <RadioButton x:Name="RadioButtonHTTP2selfSigned" Content="HTTP2(自签证书)"  GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="3" Checked="RadioButtonWebSocketTLSselfSigned_Checked"></RadioButton>
-                            <TextBlock Text="基于 HTTP/2 的传输方式。它完整按照 HTTP/2 标准实现，可以不需要域名。"  Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3"></TextBlock>
+                            <TextBlock Text="基于 HTTP/2 的传输方式。它完整按照 HTTP/2 标准实现，使用自签名证书，不需要域名"  Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3"></TextBlock>
                             <TextBlock Text="Shadowrocket (ios)需要手动打开“允许不安全”选项" TextWrapping="Wrap" Grid.Column="4" Grid.Row="3" ></TextBlock>
 
                         </Grid>
@@ -176,7 +178,7 @@
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
                             <RadioButton x:Name="RadioButtonMkcpNone" Content="mKCP(无伪装)" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="1" Checked="RadioButtonQuicNone_Checked"></RadioButton>
-                            <TextBlock Text="数据加密传输，以增加流量消耗来加速，减少延迟，udp协议,无伪装，会被识别为udp流量" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"></TextBlock>
+                            <TextBlock Text="数据加密传输，以增加带宽占用，减少延迟，udp协议,无伪装，会被识别为udp流量" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"></TextBlock>
                             <RadioButton x:Name="RadioButton2mKCP2SRTP" Content="mKCP+SRTP" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="2" Checked="RadioButtonQuicNone_Checked"></RadioButton>
                             <TextBlock Text="同mKCP(无伪装)，增加伪装成 SRTP 数据包，会被识别为视频通话数据（如 FaceTime）" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"></TextBlock>
                             <RadioButton x:Name="RadioButton2mKCPuTP" Content="mKCP+uTP" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="3" Checked="RadioButtonQuicNone_Checked"></RadioButton>
@@ -251,7 +253,8 @@
                 </Grid.RowDefinitions>
                 <TextBlock x:Name="TextBlockServerListenPort" Text="服务端口：" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1"></TextBlock>
                 <TextBox x:Name="TextBoxServerListenPort" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Margin="3"></TextBox>
-                <Button x:Name="ButtonServerListenPort" Content="随机选择" Grid.Column="4" Grid.Row="0" Margin="2" Click="ButtonServerListenPort_Click"></Button>
+                <Button x:Name="ButtonServerListenPort" Content="随机选择" Grid.Column="4"  Grid.Row="0" Margin="2" Click="ButtonServerListenPort_Click"></Button>
+                <TextBlock Text="若使用TLS加密，请保持默认的443端口" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="0" Margin="3"></TextBlock>
                 <TextBlock x:Name="TextBlockNewUUID" Text="UUID：" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1"></TextBlock>
                 <TextBox x:Name="TextBoxNewUUID" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Margin="3"></TextBox>
                 <Button x:Name="ButtonNewUUID" Content="更新" Grid.Column="4" Grid.Row="1" Margin="2" Click="ButtonNewUUID_Click"></Button>
@@ -259,7 +262,7 @@
                 <TextBlock x:Name="TextBlockQuicUUID" Text="mKCP/QUIC密钥"  Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="1"></TextBlock>
                 <TextBox x:Name="TextBoxQuicUUID"  Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Margin="3"></TextBox>
                 <Button x:Name="ButtonQuicUUID"  Content="更新" Grid.Column="4" Grid.Row="2" Margin="2" Click="ButtonQuicUUID_Click"></Button>
-                <TextBlock x:Name="TextBlockMkcpUUID"  Text="启用mKCP密钥，可增强抗识别，删除留空则禁用,要求版本4.24.2以上" TextWrapping="Wrap" Grid.Column="5" Grid.Row="2" Grid.ColumnSpan="2"></TextBlock>
+                <TextBlock x:Name="TextBlockMkcpUUID"  Text="启用mKCP密钥，可增强抗识别，留空则禁用,要求版本4.24.2以上,V2rayN暂不支持" TextWrapping="Wrap" Grid.Column="5" Grid.Row="2" Grid.ColumnSpan="2"></TextBlock>
 
                 <TextBlock x:Name="TextBlockPath" Text="路径：" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="1"></TextBlock>
                 <TextBox x:Name="TextBoxPath" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" Margin="3"></TextBox>
