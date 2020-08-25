@@ -292,7 +292,7 @@ namespace ProxySU
                 TextBlockTrojanGoWebSocketPath.Visibility = Visibility.Hidden;
                 TextBlockTrojanGoCaption.Visibility = Visibility.Hidden;
 
-                TextBlockQrURLexplain.Text = "可用于ShadowRocket (ios)、igniter（Android）、Trojan-QT5 (windows) 扫码和导入url";
+                TextBlockQrURLexplain.Text = "可用于ShadowRocket (ios)、igniter（Android）、Trojan-QT5 (windows) 扫码和导入url。注意：有的客户端可能不支持WebSocket模式。";
 
                 //主机地址
                 TextBoxTrojanGoServerHost.Text = MainWindow.ReceiveConfigurationParameters[4];
@@ -319,14 +319,14 @@ namespace ProxySU
                 GroupBoxTrojanClient.Visibility = Visibility.Visible;
                 GroupBoxNaiveProxyClient.Visibility = Visibility.Collapsed;
 
+                TextBlockQrURLexplain.Text = "可用于ShadowRocket (ios)、igniter（Android）、Trojan-QT5 (windows) 扫码和导入url";
+
                 //主机地址
                 TextBoxTrojanServerHost.Text = MainWindow.ReceiveConfigurationParameters[4];
                 //主机端口
                 TextBoxTrojanServerPort.Text = "443";
                 //密钥（uuid）
                 TextBoxTrojanServerPassword.Text = MainWindow.ReceiveConfigurationParameters[2];
-
-                TextBlockQrURLexplain.Text = "可用于ShadowRocket (ios)、igniter（Android）、Trojan-QT5 (windows) 扫码和导入url";
 
                 CheckDir("trojan_config");
                 GenerateTrojanShareQRcodeAndBase64Url();
@@ -502,7 +502,7 @@ namespace ProxySU
         private void GenerateTrojanGoShareQRcodeAndBase64Url()
         {
 
-            string saveFileFolderFirst = TextBoxTrojanServerHost.Text;
+            string saveFileFolderFirst = TextBoxTrojanGoServerHost.Text;
             int num = 1;
             saveFileFolder = saveFileFolderFirst;
             CheckDir("trojan-go_config");
@@ -512,7 +512,7 @@ namespace ProxySU
                 num++;
             }
             CheckDir(@"trojan-go_config\" + saveFileFolder);
-            string trojanUrl = $"trojan://{TextBoxTrojanServerPassword.Text}@{TextBoxTrojanServerHost.Text}:{TextBoxTrojanServerPort.Text}?allowinsecure=0&tfo=0&sni=&mux=0&ws=0&group=#{TextBoxTrojanServerHost.Text}";
+            string trojanUrl = $"trojan://{TextBoxTrojanGoServerPassword.Text}@{TextBoxTrojanGoServerHost.Text}:{TextBoxTrojanGoServerPort.Text}?allowinsecure=0&tfo=0&sni=&mux=0&ws=0&group=#{TextBoxTrojanGoServerHost.Text}";
             //MessageBox.Show(v2rayNjsonObject.ToString());
             //string trojanUrl = "trojan://" + ToBase64Encode(v2rayNjsonObject.ToString());
             TextBoxURL.Text = trojanUrl;
@@ -549,9 +549,9 @@ namespace ProxySU
                 sw.WriteLine("此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)复制粘贴导入节点的网址（Trojan-Go的WebSocket模式暂不支持）");
                 sw.WriteLine("-----------------------------------------\n");
                 sw.WriteLine("服务器通用连接配置参数");
-                sw.WriteLine($"地址(address)：{TextBoxTrojanServerHost.Text}");
-                sw.WriteLine($"端口(Port)：{TextBoxTrojanServerPort.Text}");
-                sw.WriteLine($"密钥：{TextBoxTrojanServerPassword.Text}");
+                sw.WriteLine($"地址(address)：{TextBoxTrojanGoServerHost.Text}");
+                sw.WriteLine($"端口(Port)：{TextBoxTrojanGoServerPort.Text}");
+                sw.WriteLine($"密钥：{TextBoxTrojanGoServerPassword.Text}");
                 sw.WriteLine($"WebSocket路径：{TextBoxTrojanGoWSPath.Text}");
 
             }
