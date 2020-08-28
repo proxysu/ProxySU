@@ -109,6 +109,8 @@ namespace ProxySU
                     HideAlterId();
                     HidePath();
                     HideQuicKey();
+                    ImageShareQRcode.Visibility = Visibility.Collapsed;
+                    TextBoxURL.Visibility = Visibility.Collapsed;
                 }
                 else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "webSocket"))
                 {
@@ -444,15 +446,21 @@ namespace ProxySU
                 num++;
             }
             CheckDir(@"v2ray_config\" + saveFileFolder);
-            //MessageBox.Show(v2rayNjsonObject.ToString());
+            //生成二维码与URL，跳过VlessTcpTlsWeb暂时未有URL标准
             string vmessUrl = "vmess://" + ToBase64Encode(v2rayNjsonObject.ToString());
             TextBoxURL.Text = vmessUrl;
             using (StreamWriter sw = new StreamWriter($"v2ray_config\\{saveFileFolder}\\url.txt"))
             {
-                  sw.WriteLine(vmessUrl);
-
+                if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false)
+                {
+                    sw.WriteLine(vmessUrl);
+                }
             }
-            CreateQRCode(vmessUrl,"v2ray_config");
+            if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false)
+            {
+                CreateQRCode(vmessUrl, "v2ray_config");
+            }
+            
 
             if (File.Exists(@"v2ray_config\config.json"))
             {

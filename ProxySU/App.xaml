@@ -4,6 +4,11 @@
              xmlns:local="clr-namespace:ProxySU"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Translations\ProxySU.zh-CN.xaml" />
+                <ResourceDictionary Source="Translations\ProxySU.en-US.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

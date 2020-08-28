@@ -52,7 +52,7 @@ namespace ProxySU
                 client.RunCommand("ln -s /usr/share/zoneinfo/UTC /etc/localtime");
                 //获取远程主机的时间戳
                 long timeStampVPS = Convert.ToInt64(client.RunCommand("date +%s").Result.ToString());
-                //MessageBox.Show(timesStampVPS.ToString());
+
                 //获取本地时间戳
                 TimeSpan ts = DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1, 0, 0, 0, 0);
                 long timeStampLocal = Convert.ToInt64(ts.TotalSeconds);
@@ -61,9 +61,7 @@ namespace ProxySU
                 {
 
                     MessageBox.Show("本地时间与远程主机时间相差超过限制(90秒)，V2ray无法建立连接");
-                    //currentStatus = "时间较对失败......";
-                    //textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                    //Thread.Sleep(1000);
+
                     return;
                 }
                 else
@@ -107,11 +105,9 @@ namespace ProxySU
                     //获取本地时间戳
                     TimeSpan ts = DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1, 0, 0, 0, 0);
                     long timeStampLocal = Convert.ToInt64(ts.TotalSeconds);
-                    //string stampTime = timeStampLocal.ToString();
+
                     string sshCmd = $"date --set=\"$(date \"+%Y-%m-%d %H:%M:%S\" -d @{timeStampLocal.ToString()})\"";
-                    //MessageBox.Show(sshCmd);
-                    //string sshCmd = $"date --set=\"$(date \"+%Y-%m-%d %H:%M:%S\" -d @1489739011)\"";
-                    //MessageBox.Show(sshCmd);
+
                     client.RunCommand(sshCmd);
                     MessageBox.Show("同步本地时间校时完毕");
 
@@ -124,17 +120,12 @@ namespace ProxySU
                     long timeStampVPS = Convert.ToInt64(utcTS.TotalSeconds);
                     if (timeStampVPS!=0)
                     {
-                        //MessageBox.Show(timeStampVPS.ToString());
+
                         string sshCmd = $"date --set=\"$(date \"+%Y-%m-%d %H:%M:%S\" -d @{timeStampVPS.ToString()})\"";
-                        //MessageBox.Show(sshCmd);
+
                         client.RunCommand(sshCmd);
                         MessageBox.Show("同步网络时间校时完毕");
                     }
-                    //else
-                    //{
-                    //    MessageBox.Show(timeStampVPS.ToString());
-                    //    MessageBox.Show("同步网络时间失败");
-                    //}
                 
                 }
                 client.Disconnect();

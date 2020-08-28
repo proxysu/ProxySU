@@ -39,7 +39,7 @@
                 <RowDefinition></RowDefinition>
 
             </Grid.RowDefinitions>
-            <GroupBox Header="模板库" Grid.Row="0">
+            <GroupBox Header="{DynamicResource GroupBoxHeaderTrojanGoTemplates}" Grid.Row="0">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.6*"></ColumnDefinition>
@@ -54,18 +54,18 @@
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <RadioButton x:Name="RadioButtonTrojanGoTLS2Web" Content="Trojan-Go+TLS+Web" Grid.Column="0" Grid.Row="1" Checked="RadioButtonTrojanTLS2Web_Checked"></RadioButton>
-                    <TextBlock Text="http/2传输，Caddy2伪装网站，抗识别，暂不支持CloudFlare的CDN" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1"></TextBlock>
+                    <TextBlock Text="{DynamicResource TextBlockTrojanGoTLSwebPlan}" TextWrapping="Wrap" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1"></TextBlock>
                     <RadioButton x:Name="RadioButtonTrojanGoWebSocketTLS2Web" Content="Trojan-Go+WebSocket+TLS+Web" Grid.Column="0" Grid.Row="2" Checked="RadioButtonTrojanGoWebSocketTLS2Web_Checked"></RadioButton>
-                    <TextBlock Text="使用WebSocket传输，Caddy2伪装网站，抗识别，支持CloudFlare的CDN" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2"></TextBlock>
+                    <TextBlock Text="{DynamicResource TextBlockTrojanGoWebSocketTLSwebPlan}" TextWrapping="Wrap" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2"></TextBlock>
                 </Grid>
             </GroupBox>
-            <GroupBox Header="其他设置" Grid.Row="1">
+            <GroupBox Header="{DynamicResource GroupBoxHeaderParameterTrojanGo}" Grid.Row="1">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.3*"></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition Width="0.4*"></ColumnDefinition>
-                        <ColumnDefinition Width="0.4*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.3*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.5*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
@@ -76,22 +76,22 @@
                         <RowDefinition></RowDefinition>
                         
                     </Grid.RowDefinitions>
-                    <TextBlock x:Name="TextBlockDomain" Text="域名：" Grid.Column="0" Grid.Row="0" Margin="5"></TextBlock>
-                    <TextBox x:Name="TextBoxDomain" Style="{StaticResource TitleText}" Tag="不可为空" Grid.Column="1" Grid.Row="0" Margin="5"></TextBox>
-                    <TextBlock Text="端口：443" Grid.Column="2" Grid.Row="0" Margin="5"></TextBlock>
+                    <TextBlock x:Name="TextBlockDomain" Text="{DynamicResource TextBlockTrojanGoDomain}" Grid.Column="0" Grid.Row="0" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                    <TextBox x:Name="TextBoxDomain" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxDomainPrompt}" Grid.Column="1" Grid.Row="0" Margin="5"></TextBox>
+                    <TextBlock Text="{DynamicResource TextBlockTrojanGoPort}" Grid.Column="2" Grid.Row="0" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
                  
                     <!--<Button x:Name="ButtonDomain" Content="检测" Visibility="Collapsed" Grid.Column="2" Grid.Row="0" Margin="2" Click="ButtonDomain_Click"></Button>-->
                     <!--<TextBlock x:Name="TextBlockServerListenPort" Text="服务端口：" Grid.Column="0" Grid.Row="1"></TextBlock>
                     <TextBox x:Name="TextBoxServerListenPort" Grid.Column="1" Grid.Row="1" Margin="3"></TextBox>
                     <Button x:Name="ButtonServerListenPort" Content="随机选择" Grid.Column="2" Grid.Row="1" Margin="2" Click="ButtonServerListenPort_Click"></Button>-->
 
-                    <TextBlock x:Name="TextBlockNewUUID" Text="密码：" Grid.Column="0" Grid.Row="1" ></TextBlock>
+                    <TextBlock x:Name="TextBlockNewUUID" Text="{DynamicResource TextBlockTrojanGoPassword}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" ></TextBlock>
                     <TextBox x:Name="TextBoxNewUUID" Grid.Column="1" Grid.Row="1" Margin="5"></TextBox>
-                    <Button x:Name="ButtonNewUUID" Content="更新" Grid.Column="2" Grid.Row="1" Margin="3" Click="ButtonNewUUID_Click"></Button>
-                    <TextBlock Text="使用已有密码，直接粘贴到框中" TextWrapping="Wrap" Grid.Column="3" Grid.Row="1"></TextBlock>
-                    <TextBlock x:Name="TextBlockPath" Text="WebSocket路径：" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"></TextBlock>
+                    <Button x:Name="ButtonNewUUID" Content="{DynamicResource ButtonTrojanChangePassword}" Grid.Column="2" Grid.Row="1" Margin="3" Click="ButtonNewUUID_Click"></Button>
+                    <TextBlock Text="{DynamicResource TextBlockTrojanGoPasswordExplain}" TextWrapping="Wrap" Grid.Column="3" Grid.Row="1"></TextBlock>
+                    <TextBlock x:Name="TextBlockPath" Text="{DynamicResource TextBlockTrojanGoWebSocketPath}" Grid.Column="0" Grid.Row="2"  HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                     <TextBox x:Name="TextBoxPath" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="1" Margin="5"></TextBox>
-                    <Button x:Name="ButtonPath" Content="随机" Grid.Column="2" Grid.Row="2" Margin="2" Click="ButtonPath_Click"></Button>
+                    <Button x:Name="ButtonPath" Content="{DynamicResource ButtonNaiveProxyChangeUser}" Grid.Column="2" Grid.Row="2" Margin="2" Click="ButtonPath_Click"></Button>
 
                     <TextBlock x:Name="TextBlockMaskSites" Text="伪装网站：" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Visibility="Hidden"></TextBlock>
                     <TextBox x:Name="TextBoxMaskSites" Style="{StaticResource TitleText}" Tag="设置此项可增加代理的隐蔽(可为空)" Grid.Column="1" Grid.Row="3" Margin="5" Visibility="Hidden"></TextBox>
@@ -103,8 +103,8 @@
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Button x:Name="ButtondDecide" Content="确定" Grid.Column="1" Grid.Row="6" Margin="3" Click="ButtondDecide_Click"></Button>
-                        <Button x:Name="ButtondCancel" Content="取消" Grid.Column="3" Grid.Row="6" Margin="3" Click="ButtondCancel_Click"></Button>
+                        <Button x:Name="ButtondDecide" Content="{DynamicResource ButtonTrojanGoTemplateOK}" Grid.Column="1" Grid.Row="6" Margin="3" Click="ButtondDecide_Click"></Button>
+                        <Button x:Name="ButtondCancel" Content="{DynamicResource ButtonTrojanGoTemplateCancel}" Grid.Column="3" Grid.Row="6" Margin="3" Click="ButtondCancel_Click"></Button>
 
                     </Grid>
                 </Grid>

@@ -197,7 +197,7 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition Width="0.6*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <TextBlock x:Name="TextBlockQrURLexplain" Text="二维码和URL链接可用于&#x0a;v2rayN(windows)&#x0a;Trojan-QT5(windows)&#x0a;Qv2ray(windows)&#x0a;Shadowrocket(ios)&#x0a;v2rayNG(Android)&#x0a;导入v2ray节点&#x0a;注意:Vless协议需要手动输入配置参数，二维码和URL无效" TextWrapping="Wrap" Grid.Column="0"></TextBlock>
+                <TextBlock x:Name="TextBlockQrURLexplain" Text="二维码和URL链接可用于&#x0a;v2rayN(windows)&#x0a;Trojan-QT5(windows)&#x0a;Qv2ray(windows)&#x0a;Shadowrocket(ios)&#x0a;v2rayNG(Android)&#x0a;导入v2ray节点&#x0a;&#x0a;注意:Vless协议需要手动输入配置参数，二维码和URL无效" TextWrapping="Wrap" Grid.Column="0"></TextBlock>
                 <Image x:Name="ImageShareQRcode" Grid.Column="1"></Image>
                 <TextBox x:Name="TextBoxURL" TextWrapping="Wrap" Grid.Column="2"></TextBox>
             </Grid>

@@ -51,9 +51,13 @@ namespace ProxySU
         static string sshCmdUpdate;                 //保存软件安装所用更新软件库命令
         static string sshCmdInstall;                //保存软件安装所用命令格式
 
+        //******  ******
+        //  Application.Current.FindResource("").ToString()
         public MainWindow()
         {
+
             InitializeComponent();
+            ResourcesLoad();
             //初始化选定密码登录
             RadioButtonPasswordLogin.IsChecked = true;
             //初始化选定无代理
@@ -118,6 +122,29 @@ namespace ProxySU
         #endregion
 
         #region 主界面控件的有效无效控制代码块
+        //加载语言资源文件
+        private void ResourcesLoad()
+        {
+            string Culture = System.Globalization.CultureInfo.InstalledUICulture.Name;
+            List<ResourceDictionary> dictionaryList = new List<ResourceDictionary>();
+            foreach (ResourceDictionary dictionary in Application.Current.Resources.MergedDictionaries)
+            {
+                dictionaryList.Add(dictionary);
+            }
+            string requestedCulture = string.Format(@"Translations\ProxySU.{0}.xaml", Culture);
+            //string requestedCulture = string.Format(@"Translations\ProxySU.{0}.xaml", "default");
+            ResourceDictionary resourceDictionary = dictionaryList.FirstOrDefault(d => d.Source.OriginalString.Equals(requestedCulture));
+            if (resourceDictionary == null)
+            {
+                requestedCulture = @"Translations\ProxySU.en-US.xaml";
+                resourceDictionary = dictionaryList.FirstOrDefault(d => d.Source.OriginalString.Equals(requestedCulture));
+            }
+            if (resourceDictionary != null)
+            {
+                Application.Current.Resources.MergedDictionaries.Remove(resourceDictionary);
+                Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
+            }
+        }
         private void RadioButtonNoProxy_Checked(object sender, RoutedEventArgs e)
         {
             TextBlockProxyHost.IsEnabled = false;
@@ -186,7 +213,7 @@ namespace ProxySU
             ButtonOpenFileDialog.Visibility = Visibility.Collapsed;
             TextBoxCertFilePath.IsEnabled = false;
             TextBoxCertFilePath.Visibility = Visibility.Collapsed;
-            TextBlockPassword.Text = "密码：";
+            //TextBlockPassword.Text = "密码：";
             //TextBlockPassword.Visibility = Visibility.Visible;
             PasswordBoxHostPassword.IsEnabled = true;
             PasswordBoxHostPassword.Visibility = Visibility.Visible;
@@ -194,7 +221,7 @@ namespace ProxySU
 
         private void RadioButtonCertLogin_Checked(object sender, RoutedEventArgs e)
         {
-            TextBlockPassword.Text = "密钥：";
+            //TextBlockPassword.Text = "密钥：";
             //TextBlockPassword.Visibility = Visibility.Collapsed;
             PasswordBoxHostPassword.IsEnabled = false;
             PasswordBoxHostPassword.Visibility = Visibility.Collapsed;
@@ -237,7 +264,8 @@ namespace ProxySU
             #region 检测输入的内空是否有错，并读取内容
             if (string.IsNullOrEmpty(TextBoxHost.Text) == true || string.IsNullOrEmpty(TextBoxPort.Text) == true || string.IsNullOrEmpty(TextBoxUserName.Text) == true)
             {
-                MessageBox.Show("主机地址、主机端口、用户名为必填项，不能为空");
+                //******"主机地址、主机端口、用户名为必填项，不能为空"******
+                MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorHostPortUserNotEmpty").ToString());
 
                 return connectionInfo = null;
             }
@@ -247,13 +275,15 @@ namespace ProxySU
 
             if (RadioButtonPasswordLogin.IsChecked == true && string.IsNullOrEmpty(PasswordBoxHostPassword.Password) == true)
             {
-                MessageBox.Show("登录密码为必填项，不能为空");
+                //****** "登录密码为必填项，不能为空!!" ******
+                MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorHostPasswordNotEmpty").ToString());
                 return connectionInfo = null;
             }
             string sshPassword = PasswordBoxHostPassword.Password.ToString();
             if (RadioButtonCertLogin.IsChecked == true && string.IsNullOrEmpty(TextBoxCertFilePath.Text) == true)
             {
-                MessageBox.Show("密钥文件为必填项，不能为空");
+                //****** "密钥文件为必填项，不能为空!" ******
+                MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorHostKeyNotEmpty").ToString());
                 return connectionInfo = null;
             }
             string sshPrivateKey = TextBoxCertFilePath.Text.ToString();
@@ -280,14 +310,16 @@ namespace ProxySU
             //MessageBox.Show(proxyTypes.ToString());
             if (RadioButtonNoProxy.IsChecked == false && (string.IsNullOrEmpty(TextBoxProxyHost.Text) == true || string.IsNullOrEmpty(TextBoxProxyPort.Text) == true))
             {
-                MessageBox.Show("如果选择了代理，则代理地址与端口不能为空");
+                //****** "如果选择了代理，则代理地址与端口不能为空!" ******
+                MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorProxyAddressPortNotEmpty").ToString());
                 return connectionInfo = null;
             }
             string sshProxyHost = TextBoxProxyHost.Text.ToString();
             int sshProxyPort = int.Parse(TextBoxProxyPort.Text.ToString());
             if (RadioButtonNoProxy.IsChecked==false && RadiobuttonProxyYesLogin.IsChecked == true && (string.IsNullOrEmpty(TextBoxProxyUserName.Text) == true || string.IsNullOrEmpty(PasswordBoxProxyPassword.Password) == true))
             {
-                MessageBox.Show("如果代理需要登录，则代理登录的用户名与密码不能为空");
+                //****** "如果代理需要登录，则代理登录的用户名与密码不能为空!" ******
+                MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorProxyUserPasswordNotEmpty").ToString());
                 return connectionInfo = null;
             }
             string sshProxyUser = TextBoxProxyUserName.Text.ToString();
@@ -352,7 +384,7 @@ namespace ProxySU
             ConnectionInfo connectionInfo = GenerateConnectionInfo();
             if(connectionInfo==null)
             {
-                MessageBox.Show("远程主机连接信息有误，请检查");
+                MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorHostConnection").ToString());    //远程主机连接信息有误，请检查
                 return;
             }
 
@@ -370,7 +402,8 @@ namespace ProxySU
             //选择模板
             if (String.IsNullOrEmpty(ReceiveConfigurationParameters[0]) == true)
             {
-                MessageBox.Show("请先选择配置模板！");
+                //"请先选择配置模板！"
+                MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ChooseTemplate").ToString()); 
                 return;
             }
             else if (String.Equals(ReceiveConfigurationParameters[0], "TCP"))
@@ -473,7 +506,9 @@ namespace ProxySU
         //登录远程主机布署V2ray程序
         private void StartSetUpV2ray(ConnectionInfo connectionInfo,TextBlock textBlockName, ProgressBar progressBar, string serverConfig,string clientConfig,string upLoadPath)
         {
-            string currentStatus = "正在登录远程主机......";
+
+            //"正在登录远程主机......"
+            string currentStatus = Application.Current.FindResource("DisplayInstallInfo_Login").ToString();
             textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
             currentShellCommandResult = currentStatus;
             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
@@ -513,14 +548,18 @@ namespace ProxySU
                     client.Connect();
                     if (client.IsConnected == true)
                     {
-                        currentStatus = "主机登录成功";
+                        //"主机登录成功"
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_LoginSuccessful").ToString();  
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         currentShellCommandResult = currentStatus;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果在监视窗口
                         Thread.Sleep(1000);
                     }
-                    //检测是否运行在root权限下
-                    currentShellCommandResult = "检测是否运行在root权限下...";
+
+                    //"检测是否运行在root权限下..."
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_DetectionRootPermission").ToString(); 
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    currentShellCommandResult = currentStatus;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     sshShellCommand = @"id -u";
@@ -531,32 +570,29 @@ namespace ProxySU
                     string testRootAuthority = currentShellCommandResult;
                     if (testRootAuthority.Equals("0\n") == false)
                     {
-                        MessageBox.Show("请使用具有root权限的账户登录主机！！");
+                        //"请使用具有root权限的账户登录主机！！"
+                        MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorRootPermission").ToString());
                         client.Disconnect();
                         return;
                     }
                     else
                     {
-                        currentShellCommandResult = "检测结果：OK！";
+                        //"检测结果：OK！"
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_DetectionRoot_OK").ToString();
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     }
-                    //string testRootAuthority = client.RunCommand(@"id -u").Result;
-                    //if (testRootAuthority.Equals("0\n")==false)
-                    //{
-                    //    MessageBox.Show("请使用具有root权限的账户登录主机！！");
-                    //    client.Disconnect();
-                    //    return;
-                    //}
-                    //检测是否安装有V2ray
-                    currentStatus = "检测系统是否已经安装V2ray......";
+
+                    //"检测系统是否已经安装V2ray......"
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_TestExistV2Ray").ToString();
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     currentShellCommandResult = currentStatus;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     Thread.Sleep(1000);
 
-                    //string cmdTestV2rayInstalled = @"find / -name v2ray";
                     sshShellCommand = @"find / -name v2ray";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -565,10 +601,12 @@ namespace ProxySU
                     string resultCmdTestV2rayInstalled = currentShellCommandResult;
                     if (resultCmdTestV2rayInstalled.Contains("/usr/bin/v2ray") == true || resultCmdTestV2rayInstalled.Contains("/usr/local/bin/v2ray") == true)
                     {
-                        MessageBoxResult messageBoxResult = MessageBox.Show("远程主机已安装V2ray,是否强制重新安装？", "", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        //"远程主机已安装V2ray,是否强制重新安装？"
+                        MessageBoxResult messageBoxResult = MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ExistedV2Ray").ToString(), "", MessageBoxButton.YesNo, MessageBoxImage.Question);
                         if (messageBoxResult==MessageBoxResult.No)
                         {
-                            currentStatus = "安装取消，退出";
+                            //"安装取消，退出"
+                            currentStatus = Application.Current.FindResource("DisplayInstallInfo_InstallationCanceledExit").ToString();
                             textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                             currentShellCommandResult = currentStatus;
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
@@ -579,7 +617,8 @@ namespace ProxySU
                         }
                         else
                         {
-                            currentStatus = "已选择强制安装V2Ray！";
+                            //"已选择强制安装V2Ray！"
+                            currentStatus = Application.Current.FindResource("DisplayInstallInfo_ForceInstallV2Ray").ToString();
                             textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                             currentShellCommandResult = currentStatus;
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
@@ -588,34 +627,40 @@ namespace ProxySU
                     }
                     else
                     {
-                        currentStatus = "检测结果：未安装V2Ray！";
+                        //"检测结果：未安装V2Ray！"
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_NoInstalledV2Ray").ToString();
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         currentShellCommandResult = currentStatus;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     }
 
-                    //检测远程主机系统环境是否符合要求
-                    currentStatus = "检测系统是否符合安装要求......";
+                    //"检测系统是否符合安装要求......"
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_CheckSystemRequirements").ToString();
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     currentShellCommandResult = currentStatus;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     Thread.Sleep(1000);
 
-                    //string result = client.RunCommand("uname -r").Result;
                     sshShellCommand = @"uname -r";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
                     string result = currentShellCommandResult;
                     string[] linuxKernelVerStr= result.Split('-');
-
                     bool detectResult = DetectKernelVersion(linuxKernelVerStr[0]);
                     if (detectResult == false)
                     {
-                        MessageBox.Show($"当前系统内核版本为{linuxKernelVerStr[0]}，V2ray要求内核为2.6.23及以上。请升级内核再安装！");
-                        currentStatus = "系统内核版本不符合要求，安装失败！！";
+                        //$"当前系统内核版本为{linuxKernelVerStr[0]}，V2ray要求内核为2.6.23及以上。请升级内核再安装！"
+                        MessageBox.Show(
+                            Application.Current.FindResource("MessageBoxShow_CurrentKernelVersion").ToString() 
+                            + $"{linuxKernelVerStr[0]}" 
+                            + Application.Current.FindResource("MessageBoxShow_RequiredKernelVersionExplain").ToString()
+                            );
+                        //"系统内核版本不符合要求，安装失败！！"
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_KernelVersionNotMatch").ToString();
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         currentShellCommandResult = currentStatus;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
@@ -625,12 +670,6 @@ namespace ProxySU
 
                     //检测系统是否支持yum 或 apt-get或zypper，且支持Systemd
                     //如果不存在组件，则命令结果为空，string.IsNullOrEmpty值为真，
-                    //bool getApt = String.IsNullOrEmpty(client.RunCommand("command -v apt").Result);
-                    //bool getDnf = String.IsNullOrEmpty(client.RunCommand("command -v dnf").Result);
-                    //bool getYum = String.IsNullOrEmpty(client.RunCommand("command -v yum").Result);
-                    //bool getZypper = String.IsNullOrEmpty(client.RunCommand("command -v zypper").Result);
-                    //bool getSystemd = String.IsNullOrEmpty(client.RunCommand("command -v systemctl").Result);
-                    //bool getGetenforce = String.IsNullOrEmpty(client.RunCommand("command -v getenforce").Result);
 
                     sshShellCommand = @"command -v apt";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
@@ -673,19 +712,23 @@ namespace ProxySU
                     //也就是apt ，dnf\yum, zypper必须安装其中之一，且必须安装Systemd的系统才能安装。
                     if ((getApt && getDnf && getYum && getZypper) || getSystemd)
                     {
-                        MessageBox.Show($"系统缺乏必要的安装组件如:apt||dnf||yum||zypper||Syetemd，主机系统推荐使用：CentOS 7/8,Debian 8/9/10,Ubuntu 16.04及以上版本");
-                        currentStatus = "系统环境不满足要求，安装失败！！";
-                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        //"系统缺乏必要的安装组件如:apt||dnf||yum||zypper||Syetemd，主机系统推荐使用：CentOS 7/8,Debian 8/9/10,Ubuntu 16.04及以上版本"
+                        MessageBox.Show(Application.Current.FindResource("MessageBoxShow_MissingSystemComponents").ToString());
 
+                        //"系统环境不满足要求，安装失败！！"
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_MissingSystemComponents").ToString();
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         currentShellCommandResult = currentStatus;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
                         Thread.Sleep(1000);
                         client.Disconnect();
                         return;
                     }
                     else
                     {
-                        currentStatus = "检测结果：OK!";
+                        //"检测结果：OK!"
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_SystemRequirementsOK").ToString();
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         currentShellCommandResult = currentStatus;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
@@ -695,29 +738,21 @@ namespace ProxySU
                     //设置安装软件所用的命令格式
                     if (getApt == false)
                     {
-                        //client.RunCommand("apt -qq update");
-                        //client.RunCommand("apt -y -qq install curl");
                         sshCmdUpdate = @"apt -qq update";
                         sshCmdInstall = @"apt -y -qq install ";
                     }
                     else if (getDnf == false)
                     {
-                        //client.RunCommand("dnf -q makecache");
-                        //client.RunCommand("dnf -y -q install curl");
                         sshCmdUpdate = @"dnf -q makecache";
                         sshCmdInstall = @"dnf -y -q install ";
                     }
                     else if (getYum == false)
                     {
-                        //client.RunCommand("yum -q makecache");
-                        //client.RunCommand("yum -y -q install curl");
                         sshCmdUpdate = @"yum -q makecache";
                         sshCmdInstall = @"yum -y -q install ";
                     }
                     else if (getZypper == false)
                     {
-                        //client.RunCommand("zypper ref");
-                        //client.RunCommand("zypper -y install curl");
                         sshCmdUpdate = @"zypper ref";
                         sshCmdInstall = @"zypper -y install ";
                     }
@@ -725,7 +760,6 @@ namespace ProxySU
                     //判断是否启用了SELinux,如果启用了，并且工作在Enforcing模式下，则改为Permissive模式
                     if (getGetenforce == false)
                     {
-                        //string testSELinux = client.RunCommand("getenforce").Result;
                         sshShellCommand = @"getenforce";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -735,24 +769,23 @@ namespace ProxySU
 
                         if (testSELinux.Contains("Enforcing") == true)
                         {
-                            currentStatus = "检测到系统启用SELinux，且工作在严格模式下，需改为宽松模式！修改中...";
+                            //"检测到系统启用SELinux，且工作在严格模式下，需改为宽松模式！修改中......"
+                            currentStatus = Application.Current.FindResource("DisplayInstallInfo_EnableSELinux").ToString();
                             textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                             currentShellCommandResult = currentStatus;
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                            //MessageBox.Show("Enforcing");
-                            //client.RunCommand("setenforce  0");//不重启改为Permissive模式
-                            //client.RunCommand("sed -i 's/SELINUX=enforcing/SELINUX=permissive/' /etc/selinux/config");//重启也工作在Permissive模式下
                             sshShellCommand = @"setenforce  0";
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                             currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
                             sshShellCommand = @"sed -i 's/SELINUX=enforcing/SELINUX=permissive/' /etc/selinux/config";
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                             currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
-
-                            currentStatus = "修改完毕！";
+                            //"修改完毕！"
+                            currentStatus = Application.Current.FindResource("DisplayInstallInfo_SELinuxModifyOK").ToString();
                             textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                             currentShellCommandResult = currentStatus;
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
@@ -773,67 +806,10 @@ namespace ProxySU
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                        //为假则表示系统有相应的组件。
-                        //if (getApt == false)
-                        //{
-                        //    client.RunCommand("apt -qq update");
-                        //    client.RunCommand("apt -y -qq install curl");
-                        //}
-                        //else if (getDnf == false)
-                        //{
-                        //    client.RunCommand("dnf -q makecache");
-                        //    client.RunCommand("dnf -y -q install curl");
-                        //}
-                        //else if (getYum == false)
-                        //{
-                        //    client.RunCommand("yum -q makecache");
-                        //    client.RunCommand("yum -y -q install curl");
-                        //}
-                        //else if (getZypper == false)
-                        //{
-                        //    client.RunCommand("zypper ref");
-                        //    client.RunCommand("zypper -y install curl");
-                        //}
                     }
-                    ////在相应系统内安装curl(如果没有安装curl)
-                    //if (string.IsNullOrEmpty(client.RunCommand("command -v curl").Result) == true)
-                    //{
-                    //    //为假则表示系统有相应的组件。
-                    //    if (getApt == false)
-                    //    {
-                    //        client.RunCommand("apt -qq update");
-                    //        client.RunCommand("apt -y -qq install curl");
-                    //    }
-                    //    else if (getDnf == false)
-                    //    {
-                    //        client.RunCommand("dnf -q makecache");
-                    //        client.RunCommand("dnf -y -q install curl");
-                    //    }
-                    //    else if (getYum == false)
-                    //    {
-                    //        client.RunCommand("yum -q makecache");
-                    //        client.RunCommand("yum -y -q install curl");
-                    //    }
-                    //    //else if (getZypper == false)
-                    //    //{
-                    //    //    client.RunCommand("zypper ref");
-                    //    //    client.RunCommand("zypper -y install curl");
-                    //    //}
-                    //}
 
-                    ////判断是否启用了SELinux,如果启用了，并且工作在Enforcing模式下，则改为Permissive模式
-                    //if (getGetenforce == false)
-                    //{
-                    //    string testSELinux = client.RunCommand("getenforce").Result;
-                    //    if (testSELinux.Contains("Enforcing")==true)
-                    //    {
-                    //        client.RunCommand("setenforce  0");//不重启改为Permissive模式
-                    //        client.RunCommand("sed -i 's/SELINUX=enforcing/SELINUX=permissive/' /etc/selinux/config");//重启也工作在Permissive模式下
-                    //    }
-                    //}
-
-                    //校对时间
-                    currentStatus = "校对时间......";
+                    //"校对时间......"
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_ProofreadingTime").ToString();
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     currentShellCommandResult = currentStatus;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
@@ -847,9 +823,10 @@ namespace ProxySU
                     long timeStampLocal = Convert.ToInt64(ts.TotalSeconds);
                     if (Math.Abs(timeStampLocal - timeStampVPS) >= 90)
                     {
-
-                        MessageBox.Show("本地时间与远程主机时间相差超过限制(90秒)，请先用\"系统工具-->时间校对\"校对时间后再设置");
-                        currentStatus = "时间较对失败......";
+                        //"本地时间与远程主机时间相差超过限制(90秒)，请先用 '系统工具-->时间校对' 校对时间后再设置"
+                        MessageBox.Show(Application.Current.FindResource("MessageBoxShow_TimeError").ToString());
+                        //"时间较对失败......"
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_TimeError").ToString();
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         currentShellCommandResult = currentStatus;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
@@ -858,7 +835,8 @@ namespace ProxySU
                         client.Disconnect();
                         return;
                     }
-                    currentStatus = "时间差符合要求，OK!";
+                    //"时间差符合要求，OK!"
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_TimeOK").ToString();
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     currentShellCommandResult = currentStatus;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
@@ -874,22 +852,16 @@ namespace ProxySU
 
                         Thread.Sleep(1000);
 
-                        //string nativeIp = client.RunCommand("curl -4 ip.sb").Result.ToString();
-                        //string testDomainCmd = "ping " + ReceiveConfigurationParameters[4] + " -c 1 | grep -oE -m1 \"([0-9]{1,3}\\.){3}[0-9]{1,3}\"";
-                        //string resultCmd = client.RunCommand(testDomainCmd).Result.ToString();
-
                         sshShellCommand = @"curl -4 ip.sb";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
-
                         string nativeIp = currentShellCommandResult;
 
                         sshShellCommand = "ping " + ReceiveConfigurationParameters[4] + " -c 1 | grep -oE -m1 \"([0-9]{1,3}\\.){3}[0-9]{1,3}\"";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
-
                         string resultTestDomainCmd = currentShellCommandResult;
 
                         if (String.Equals(nativeIp, resultTestDomainCmd) == true)
@@ -927,27 +899,6 @@ namespace ProxySU
                             currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                            //为假则表示系统有相应的组件。
-                            //if (getApt == false)
-                            //    {
-                            //        client.RunCommand("apt -qq update");
-                            //        client.RunCommand("apt -y -qq install lsof");
-                            //    }
-                            //    else if (getDnf == false)
-                            //    {
-                            //        client.RunCommand("dnf -q makecache");
-                            //        client.RunCommand("dnf -y -q install lsof");
-                            //    }
-                            //    else if (getYum == false)
-                            //    {
-                            //        client.RunCommand("yum -q makecache");
-                            //        client.RunCommand("yum -y -q install lsof");
-                            //    }
-                                //else if (getZypper == false)
-                                //{
-                                //    client.RunCommand("zypper ref");
-                                //    client.RunCommand("zypper -y install lsof");
-                                //}
                         }
                         currentStatus = "正在检测端口占用情况......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -991,15 +942,9 @@ namespace ProxySU
 
                             Thread.Sleep(1000);
 
-                            //string cmdTestPort = @"lsof -n -P -i :443 | grep LISTEN";
-                            //string cmdResult = client.RunCommand(cmdTestPort).Result;
-
                             if (String.IsNullOrEmpty(testPort443) == false)
                             {
                                 string[] cmdResultArry443 = testPort443.Split(' ');
-                                //client.RunCommand($"systemctl stop {cmdResultArry443[0]}");
-                                //client.RunCommand($"systemctl disable {cmdResultArry443[0]}");
-                                //client.RunCommand($"kill -9 {cmdResultArry443[3]}");
                                 sshShellCommand = $"systemctl stop {cmdResultArry443[0]}";
                                 TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                                 currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -1017,14 +962,9 @@ namespace ProxySU
 
                             }
 
-                            //cmdTestPort = @"lsof -n -P -i :80 | grep LISTEN";
-                            //cmdResult = client.RunCommand(cmdTestPort).Result;
                             if (String.IsNullOrEmpty(testPort80) == false)
                             {
                                 string[] cmdResultArry80 = testPort80.Split(' ');
-                                //client.RunCommand($"systemctl stop {cmdResultArry80[0]}");
-                                //client.RunCommand($"systemctl disable {cmdResultArry80[0]}");
-                                //client.RunCommand($"kill -9 {cmdResultArry80[3]}");
                                 sshShellCommand = $"systemctl stop {cmdResultArry80[0]}";
                                 TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                                 currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -1057,48 +997,6 @@ namespace ProxySU
 
                         }
 
-                        //if (String.IsNullOrEmpty(client.RunCommand(@"lsof -n -P -i :80 | grep LISTEN").Result) == false || String.IsNullOrEmpty(client.RunCommand(@"lsof -n -P -i :443 | grep LISTEN").Result) == false)
-                        //{
-                        //    //MessageBox.Show("80/443端口之一，或全部被占用，请先用系统工具中的“释放80/443端口”工具，释放出，再重新安装");
-                        //    MessageBoxResult dialogResult = MessageBox.Show("80/443端口之一，或全部被占用，将强制停止占用80/443端口的程序?", "Stop application", MessageBoxButton.YesNo);
-                        //    if (dialogResult == MessageBoxResult.No)
-                        //    {
-                        //        currentStatus = "端口被占用，安装失败......";
-                        //        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                        //        Thread.Sleep(1000);
-                        //        client.Disconnect();
-                        //        return;
-                        //    }
-
-                        //    currentStatus = "正在释放80/443端口......";
-                        //    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                        //    Thread.Sleep(1000);
-
-                        //    string cmdTestPort = @"lsof -n -P -i :443 | grep LISTEN";
-                        //    string cmdResult = client.RunCommand(cmdTestPort).Result;
-                        //    if (String.IsNullOrEmpty(cmdResult) == false)
-                        //    {
-                        //        string[] cmdResultArry443 = cmdResult.Split(' ');
-                        //        client.RunCommand($"systemctl stop {cmdResultArry443[0]}");
-                        //        client.RunCommand($"systemctl disable {cmdResultArry443[0]}");
-                        //        client.RunCommand($"kill -9 {cmdResultArry443[3]}");
-                        //    }
-
-                        //    cmdTestPort = @"lsof -n -P -i :80 | grep LISTEN";
-                        //    cmdResult = client.RunCommand(cmdTestPort).Result;
-                        //    if (String.IsNullOrEmpty(cmdResult) == false)
-                        //    {
-                        //        string[] cmdResultArry80 = cmdResult.Split(' ');
-                        //        client.RunCommand($"systemctl stop {cmdResultArry80[0]}");
-                        //        client.RunCommand($"systemctl disable {cmdResultArry80[0]}");
-                        //        client.RunCommand($"kill -9 {cmdResultArry80[3]}");
-                        //    }
-                        //    currentStatus = "80/443端口释放完毕！";
-                        //    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                        //    Thread.Sleep(1000);
-
-                        //}
-
                     }
                     currentStatus = "系统环境检测完毕，符合安装要求,开始布署......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -1118,10 +1016,6 @@ namespace ProxySU
                     {
                         if (String.Equals(openFireWallPort, "443"))
                         {
-                            //client.RunCommand("firewall-cmd --zone=public --add-port=80/tcp --permanent");
-                            //client.RunCommand("firewall-cmd --zone=public --add-port=443/tcp --permanent");
-                            //client.RunCommand("firewall-cmd --reload");
-
                             sshShellCommand = @"firewall-cmd --zone=public --add-port=80/tcp --permanent";
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                             currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -1139,10 +1033,6 @@ namespace ProxySU
                         }
                         else
                         {
-                            //client.RunCommand($"firewall-cmd --zone=public --add-port={openFireWallPort}/tcp --permanent");
-                            //client.RunCommand($"firewall-cmd --zone=public --add-port={openFireWallPort}/udp --permanent");
-                            //client.RunCommand("firewall-cmd --reload");
-
                             sshShellCommand = $"firewall-cmd --zone=public --add-port={openFireWallPort}/tcp --permanent";
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                             currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -1164,10 +1054,6 @@ namespace ProxySU
                     {
                         if (String.Equals(openFireWallPort, "443"))
                         {
-                            //client.RunCommand("ufw allow 80");
-                            //client.RunCommand("ufw allow 443");
-                            //client.RunCommand("yes | ufw reload");
-
                             sshShellCommand = @"ufw allow 80";
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                             currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -1186,9 +1072,6 @@ namespace ProxySU
                         }
                         else
                         {
-                            //client.RunCommand($"ufw allow {openFireWallPort}/tcp");
-                            //client.RunCommand($"ufw allow {openFireWallPort}/udp");
-                            //client.RunCommand("yes | ufw reload");
                             sshShellCommand = $"ufw allow {openFireWallPort}/tcp";
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                             currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -1215,9 +1098,6 @@ namespace ProxySU
 
                     Thread.Sleep(1000);
 
-                    //client.RunCommand("curl -o /tmp/go.sh https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh");
-                    //client.RunCommand("yes | bash /tmp/go.sh -f");
-                    //string installResult = client.RunCommand("find / -name v2ray").Result.ToString();
                     sshShellCommand = @"curl -o /tmp/go.sh https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -1255,7 +1135,7 @@ namespace ProxySU
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                         Thread.Sleep(1000);
-                        //client.RunCommand("systemctl enable v2ray; systemctl start v2ray");
+   
                         sshShellCommand = @"systemctl enable v2ray";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -1263,7 +1143,6 @@ namespace ProxySU
 
                     }
 
-                    //client.RunCommand("mv /usr/local/etc/v2ray/config.json /usr/local/etc/v2ray/config.json.1");
                     sshShellCommand = @"mv /usr/local/etc/v2ray/config.json /usr/local/etc/v2ray/config.json.1";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -1359,33 +1238,30 @@ namespace ProxySU
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                        //if (getApt == false)
-                        //{
-                        //    //client.RunCommand("apt-get -qq update");
-                        //    client.RunCommand("apt -y -qq install socat");
-                        //}
-                        //else if (getDnf == false)
-                        //{
-                        //    //client.RunCommand("yum -q makecache");
-                        //    client.RunCommand("dnf -y -q install socat");
-                        //}
-                        //else if (getYum == false)
-                        //{
-                        //    //client.RunCommand("yum -q makecache");
-                        //    client.RunCommand("yum -y -q install socat");
-                        //}
-                        //if (getZypper == false)
-                        //{
-                        //   // client.RunCommand("zypper ref");
-                        //    client.RunCommand("zypper -y install socat");
-                        //}
-                        //client.RunCommand("curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh");
-                        //client.RunCommand("cd ~/.acme.sh/");
-                        //client.RunCommand("alias acme.sh=~/.acme.sh/acme.sh");
+                       
                         sshShellCommand = @"curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        if (currentShellCommandResult.Contains("Install success") == true)
+                        {
+                            currentStatus = "acme.sh安装成功！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            Thread.Sleep(1000);
+                        }
+                        else
+                        {
+                            currentStatus = "acme.sh安装失败！原因未知，请向开发者提问！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            return;
+                        }
 
                         sshShellCommand = @"cd ~/.acme.sh/";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
@@ -1405,20 +1281,29 @@ namespace ProxySU
 
                         Thread.Sleep(1000);
 
-                        //client.RunCommand("mkdir -p /etc/v2ray/ssl");
-                        //client.RunCommand($"/root/.acme.sh/acme.sh  --issue  --standalone  -d {ReceiveConfigurationParameters[4]}");
                         sshShellCommand = $"/root/.acme.sh/acme.sh  --issue  --standalone  -d {ReceiveConfigurationParameters[4]}";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
+                        if (currentShellCommandResult.Contains("Cert success") == true)
+                        {
+                            currentStatus = "证书申请成功！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                        //currentStatus = "申请域名证书......";
-                        //textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                        //Thread.Sleep(1000);
+                            Thread.Sleep(1000);
+                        }
+                        else
+                        {
+                            currentStatus = "证书申请失败！原因未知，请向开发者提问！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                        //client.RunCommand("mkdir -p /usr/local/etc/v2ray/ssl");
-                        //client.RunCommand($"/root/.acme.sh/acme.sh  --issue  --standalone  -d {ReceiveConfigurationParameters[4]}");
+                            return;
+                        }
 
                         currentStatus = "安装证书到V2ray......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -1432,11 +1317,32 @@ namespace ProxySU
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                        // client.RunCommand($"/root/.acme.sh/acme.sh  --installcert  -d {ReceiveConfigurationParameters[4]}  --certpath /usr/local/etc/v2ray/ssl/v2ray_ssl.crt --keypath /usr/local/etc/v2ray/ssl/v2ray_ssl.key  --capath  /usr/local/etc/v2ray/ssl/v2ray_ssl.crt  --reloadcmd  \"systemctl restart v2ray\"");
                         sshShellCommand = $"/root/.acme.sh/acme.sh  --installcert  -d {ReceiveConfigurationParameters[4]}  --certpath /usr/local/etc/v2ray/ssl/v2ray_ssl.crt --keypath /usr/local/etc/v2ray/ssl/v2ray_ssl.key  --capath  /usr/local/etc/v2ray/ssl/v2ray_ssl.crt  --reloadcmd  \"systemctl restart v2ray\"";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        sshShellCommand = @"if [ ! -f ""/usr/local/etc/v2ray/ssl/v2ray_ssl.key"" ]; then echo ""0""; else echo ""1""; fi | head -n 1";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        if (currentShellCommandResult.Contains("1") == true)
+                        {
+                            currentStatus = "证书安装到V2ray，成功！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        }
+                        else
+                        {
+                            currentStatus = "证书安装到V2ray失败，原因未知，可以向开发者提问！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                            return;
+                        }
 
                         //设置私钥权限
                         sshShellCommand = @"chmod 644 /usr/local/etc/v2ray/ssl/v2ray_ssl.key";
@@ -1460,10 +1366,7 @@ namespace ProxySU
                         //为假则表示系统有相应的组件。
                         if (getApt == false)
                         {
-                            //client.RunCommand(@"echo ""deb [trusted=yes] https://apt.fury.io/caddy/ /"" | tee -a /etc/apt/sources.list.d/caddy-fury.list");
-                            //client.RunCommand("apt install -y apt-transport-https");
-                            //client.RunCommand("apt -qq update");
-                            //client.RunCommand("apt -y -qq install caddy");
+
                             sshShellCommand = @"echo ""deb [trusted=yes] https://apt.fury.io/caddy/ /"" | tee -a /etc/apt/sources.list.d/caddy-fury.list";
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                             currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -1487,10 +1390,7 @@ namespace ProxySU
                         }
                         else if (getDnf == false)
                         {
-                            //client.RunCommand(@"dnf install 'dnf-command(copr)' -y");
-                            //client.RunCommand(@"dnf copr enable @caddy/caddy -y");
-                            ////client.RunCommand("dnf -q makecache");
-                            //client.RunCommand("dnf -y -q install caddy");
+
                             sshShellCommand = @"dnf install 'dnf-command(copr)' -y";
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                             currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -1506,6 +1406,7 @@ namespace ProxySU
                             //currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                             //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
+
                             sshShellCommand = @"dnf -y -q install caddy";
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                             currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -1514,10 +1415,7 @@ namespace ProxySU
                         }
                         else if (getYum == false)
                         {
-                            //client.RunCommand(@"yum install yum-plugin-copr -y");
-                            //client.RunCommand(@"yum copr enable @caddy/caddy -y");
-                            ////client.RunCommand("yum -q makecache");
-                            //client.RunCommand("yum -y -q install caddy");
+
                             sshShellCommand = @"yum install yum-plugin-copr -y";
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                             currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -1539,32 +1437,6 @@ namespace ProxySU
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                         }
-                        //if (getApt == false)
-                        //{
-                        //    client.RunCommand(@"echo ""deb [trusted=yes] https://apt.fury.io/caddy/ /"" | tee -a /etc/apt/sources.list.d/caddy-fury.list");
-                        //    client.RunCommand("apt install -y apt-transport-https");
-                        //    client.RunCommand("apt -qq update");
-                        //    client.RunCommand("apt -y -qq install caddy");
-                        //}
-                        //else if (getDnf == false)
-                        //{
-                        //    client.RunCommand(@"dnf install 'dnf-command(copr)' -y");
-                        //    client.RunCommand(@"dnf copr enable @caddy/caddy -y");
-                        //    //client.RunCommand("dnf -q makecache");
-                        //    client.RunCommand("dnf -y -q install caddy");
-                        //}
-                        //else if (getYum == false)
-                        //{
-                        //    client.RunCommand(@"yum install yum-plugin-copr -y");
-                        //    client.RunCommand(@"yum copr enable @caddy/caddy -y");
-                        //    //client.RunCommand("yum -q makecache");
-                        //    client.RunCommand("yum -y -q install caddy");
-                        //}
-                        //else if (getZypper == false)
-                        //{
-                        //    client.RunCommand("zypper ref");
-                        //    client.RunCommand("zypper -y install curl");
-                        //}
 
                         sshShellCommand = @"find / -name caddy";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
@@ -1592,55 +1464,12 @@ namespace ProxySU
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                         Thread.Sleep(1000);
-                        //client.RunCommand("systemctl enable caddy");
+
                         sshShellCommand = @"systemctl enable caddy";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                        //if (getApt == false)
-                        //{
-                        //    client.RunCommand(@"echo ""deb [trusted=yes] https://apt.fury.io/caddy/ /"" | tee -a /etc/apt/sources.list.d/caddy-fury.list");
-                        //    client.RunCommand("apt install -y apt-transport-https");
-                        //    client.RunCommand("apt -qq update");
-                        //    client.RunCommand("apt -y -qq install caddy");
-                        //}
-                        //else if (getDnf == false)
-                        //{
-                        //    client.RunCommand(@"dnf install 'dnf-command(copr)' -y");
-                        //    client.RunCommand(@"dnf copr enable @caddy/caddy -y");
-                        //    //client.RunCommand("dnf -q makecache");
-                        //    client.RunCommand("dnf -y -q install caddy");
-                        //}
-                        //else if (getYum == false)
-                        //{
-                        //    client.RunCommand(@"yum install yum-plugin-copr -y");
-                        //    client.RunCommand(@"yum copr enable @caddy/caddy -y");
-                        //    //client.RunCommand("yum -q makecache");
-                        //    client.RunCommand("yum -y -q install caddy");
-                        //}
-                        ////else if (getZypper == false)
-                        ////{
-                        ////    client.RunCommand("zypper ref");
-                        ////    client.RunCommand("zypper -y install curl");
-                        ////}
-                        //installResult = client.RunCommand("find / -name caddy").Result.ToString();
-
-                        //if (!installResult.Contains("/usr/bin/caddy"))
-                        //{
-                        //    MessageBox.Show("安装Caddy失败！");
-
-                        //    currentStatus = "安装Caddy失败！";
-                        //    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                        //    client.Disconnect();
-                        //    return;
-                        //}
-                        //else {
-                        //    currentStatus = "Caddy安装成功！";
-                        //    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                        //    Thread.Sleep(1000);
-                        //    client.RunCommand("systemctl enable caddy");
-                        //}
                         //在Caddy 2还未推出2.2.0的正式版之前，先用测试版替代
                         if (String.Equals(ReceiveConfigurationParameters[0], "http2Web"))
                         {
@@ -1650,12 +1479,6 @@ namespace ProxySU
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                             Thread.Sleep(1000);
-
-                            //client.RunCommand(@"curl -o /tmp/caddy.zip https://raw.githubusercontent.com/proxysu/Resources/master/Caddy2/caddy.zip");
-                            //client.RunCommand(@"unzip /tmp/caddy.zip");
-                            //client.RunCommand(@"chmod +x caddy");
-                            //client.RunCommand(@"systemctl stop caddy;rm -f /usr/bin/caddy");
-                            //client.RunCommand(@"cp /root/caddy /usr/bin/");
 
                             sshShellCommand = @"curl -o /tmp/caddy.zip https://raw.githubusercontent.com/proxysu/Resources/master/Caddy2/caddy.zip";
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
@@ -1713,23 +1536,15 @@ namespace ProxySU
                         UploadConfig(connectionInfo, serverConfig, upLoadPath);
 
                         //设置Caddyfile文件中的tls 邮箱,在caddy2中已经不需要设置。
-                        //string sshCmdEmail = $"email={ReceiveConfigurationParameters[4]};email=${{email/./@}};echo $email";//结尾有回车符
-                        //string email = client.RunCommand(sshCmdEmail).Result.Replace("\n", "");//删除结尾的回车符
-                        //string email = $"user@{ReceiveConfigurationParameters[4]}";
-                        //string sshCmd = $"sed -i 's/off/{email}/' {upLoadPath}";//设置Caddyfile中的邮箱
-                        //client.RunCommand(sshCmd);
 
                         //设置域名
-                        //string sshCmd = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/' {upLoadPath}";
-                        //client.RunCommand(sshCmd);
+
                         sshShellCommand = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/' {upLoadPath}";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                         //设置Path
-                        //sshCmd = $"sed -i 's/##path##/\\{ReceiveConfigurationParameters[3]}/' {upLoadPath}";
-                        //client.RunCommand(sshCmd);
                         sshShellCommand = $"sed -i 's/##path##/\\{ReceiveConfigurationParameters[3]}/' {upLoadPath}";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -1738,9 +1553,7 @@ namespace ProxySU
                         //设置伪装网站
                         if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7])==false)
                         {
-                            //sshCmd = $"sed -i 's/##sites##/reverse_proxy {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
-                            //client.RunCommand(sshCmd);
-                            sshShellCommand = $"sed -i 's/##sites##/proxy \\/ {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
+                           sshShellCommand = $"sed -i 's/##sites##/proxy \\/ {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                             currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
@@ -1754,28 +1567,81 @@ namespace ProxySU
                         Thread.Sleep(1000);
 
                         //启动Caddy服务
-                        //client.RunCommand("systemctl restart caddy");
+
                         currentStatus = "正在启动Caddy......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                         currentShellCommandResult = currentStatus;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                       // Thread.Sleep(1000);
                         //启动Caddy服务
                         sshShellCommand = @"systemctl restart caddy";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                        currentStatus = "Caddy启动成功！";
-                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                        currentShellCommandResult = currentStatus;
+                        Thread.Sleep(3000);
+
+                        sshShellCommand = @"ps aux | grep caddy";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                        Thread.Sleep(1000);
-                    }
+                        if (currentShellCommandResult.Contains("/usr/bin/caddy") == true)
+                        {
+                            //运行成功
+                            currentStatus = "Caddy启动成功！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                    
+                            Thread.Sleep(1000);
+                        }
+                        else
+                        {
+                            //运行失败
+                            currentStatus = "Caddy启动失败！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                            Thread.Sleep(1000);
+                            currentStatus = "正在启动Caddy（第二次尝试）！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                            Thread.Sleep(3000);
+                            sshShellCommand = @"systemctl restart caddy";
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                            currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            Thread.Sleep(3000);
+
+                            sshShellCommand = @"ps aux | grep caddy";
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                            currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                            if (currentShellCommandResult.Contains("/usr/bin/caddy") == true)
+                            {
+                                currentStatus = "Caddy启动成功！";
+                                textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                                currentShellCommandResult = currentStatus;
+                                TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                                Thread.Sleep(1000);
+                            }
+                            else
+                            {
+                                currentStatus = "Caddy启动失败(第二次)！退出安装！";
+                                textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                                currentShellCommandResult = currentStatus;
+                                TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                                Thread.Sleep(1000);
+                                MessageBox.Show("Caddy启动失败，原因未知！请向开发者问询！");
+                                return;
+                            }
+                        }
+                 
+                    }
 
                     currentStatus = "正在启动V2ray......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -1784,20 +1650,74 @@ namespace ProxySU
 
                     Thread.Sleep(1000);
                     //启动V2ray服务
-                    //client.RunCommand("systemctl restart v2ray");
                     sshShellCommand = @"systemctl restart v2ray";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
+                    Thread.Sleep(3000);
 
-                    currentStatus = "V2ray启动成功！";
-                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                    currentShellCommandResult = currentStatus;
+                    sshShellCommand = @"ps aux | grep v2ray";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                    Thread.Sleep(1000);
+                    if (currentShellCommandResult.Contains("/usr/local/bin/v2ray") == true)
+                    {
+                        //运行成功
+                        currentStatus = "V2ray启动成功！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
+                        Thread.Sleep(1000);
+                    }
+                    else
+                    {
+                        //运行失败
+                        currentStatus = "V2ray启动失败！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                        Thread.Sleep(3000);
+                        currentStatus = "正在启动V2ray（第二次尝试）！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                        Thread.Sleep(3000);
+                        sshShellCommand = @"systemctl restart v2ray";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        Thread.Sleep(3000);
+
+                        sshShellCommand = @"ps aux | grep v2ray";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                        if (currentShellCommandResult.Contains("/usr/local/bin/v2ray") == true)
+                        {
+                            currentStatus = "V2ray启动成功！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            Thread.Sleep(1000);
+                        }
+                        else
+                        {
+                            currentStatus = "V2ray启动失败(第二次)！退出安装！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                            Thread.Sleep(1000);
+                            MessageBox.Show("V2Ray启动失败，原因未知！请向开发者问询！");
+                            return;
+                        }
+                    }
+
+                   
                     //测试BBR条件，若满足提示是否启用
                     currentStatus = "BBR测试......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -1806,7 +1726,6 @@ namespace ProxySU
 
                     Thread.Sleep(1000);
 
-                    //var result = client.RunCommand("uname -r");
                     sshShellCommand = @"uname -r";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -1815,7 +1734,7 @@ namespace ProxySU
                     string[] linuxKernelVerStrBBR = currentShellCommandResult.Split('-');
 
                     bool detectResultBBR = DetectKernelVersionBBR(linuxKernelVerStrBBR[0]);
-                    //client.RunCommand(@"sysctl net.ipv4.tcp_congestion_control | grep bbr").Result;
+
                     sshShellCommand = @"sysctl net.ipv4.tcp_congestion_control | grep bbr";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -1831,9 +1750,6 @@ namespace ProxySU
 
                         Thread.Sleep(1000);
 
-                        //client.RunCommand(@"bash -c 'echo ""net.core.default_qdisc=fq"" >> /etc/sysctl.conf'");
-                        //client.RunCommand(@"bash -c 'echo ""net.ipv4.tcp_congestion_control=bbr"" >> /etc/sysctl.conf'");
-                        //client.RunCommand(@"sysctl -p");
                         sshShellCommand = @"bash -c 'echo ""net.core.default_qdisc=fq"" >> /etc/sysctl.conf'";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -1867,20 +1783,7 @@ namespace ProxySU
 
                     }
                     client.Disconnect();//断开服务器ssh连接
-                    //result = client.RunCommand("uname -r").Result;
-                    ////var result = client.RunCommand("cat /root/test.ver");
-                    //linuxKernelVerStr = result.Split('-');
-
-                    //detectResult = DetectKernelVersionBBR(linuxKernelVerStr[0]);
-                    //string resultCmdTestBBR = client.RunCommand(@"sysctl net.ipv4.tcp_congestion_control | grep bbr").Result;
-                    ////如果内核满足大于等于4.9，且还未启用BBR，则启用BBR
-                    //if (detectResult == true && resultCmdTestBBR.Contains("bbr") == false)
-                    //{
-                    //    client.RunCommand(@"bash -c 'echo ""net.core.default_qdisc=fq"" >> /etc/sysctl.conf'");
-                    //    client.RunCommand(@"bash -c 'echo ""net.ipv4.tcp_congestion_control=bbr"" >> /etc/sysctl.conf'");
-                    //    client.RunCommand(@"sysctl -p");
-                    //}
-
+  
                     //生成客户端配置
                     currentStatus = "生成客户端配置......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -1892,7 +1795,7 @@ namespace ProxySU
                     {
                         Directory.CreateDirectory("v2ray_config");//创建该文件夹　　   
                     }
-                    //string clientConfig = "TemplateConfg\\tcp_client_config.json";
+
                     using (StreamReader reader = File.OpenText(clientConfig))
                     {
                         JObject clientJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
@@ -1935,8 +1838,6 @@ namespace ProxySU
                             sw.Write(clientJson.ToString());
                         }
                     }
-
-                    //client.Disconnect();
 
                     currentStatus = "V2Ray安装成功,祝你玩的愉快！！";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -1989,7 +1890,6 @@ namespace ProxySU
 
             }
             #endregion
-
         }
 
         //检测升级远程主机端的V2Ray版本
@@ -2466,7 +2366,9 @@ namespace ProxySU
                     }
 
                     //检测是否运行在root权限下
-                    currentShellCommandResult = "检测是否运行在root权限下...";
+                    currentStatus = "检测是否运行在root权限下...";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    currentShellCommandResult = currentStatus;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     sshShellCommand = @"id -u";
@@ -2483,7 +2385,9 @@ namespace ProxySU
                     }
                     else
                     {
-                        currentShellCommandResult = "检测结果：OK！";
+                        currentStatus = "检测结果：OK！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     }
@@ -2617,29 +2521,21 @@ namespace ProxySU
 
                     if (getApt == false)
                     {
-                        //client.RunCommand("apt -qq update");
-                        //client.RunCommand("apt -y -qq install curl");
                         sshCmdUpdate = @"apt -qq update";
                         sshCmdInstall = @"apt -y -qq install ";
                     }
                     else if (getDnf == false)
                     {
-                        //client.RunCommand("dnf -q makecache");
-                        //client.RunCommand("dnf -y -q install curl");
                         sshCmdUpdate = @"dnf -q makecache";
                         sshCmdInstall = @"dnf -y -q install ";
                     }
                     else if (getYum == false)
                     {
-                        //client.RunCommand("yum -q makecache");
-                        //client.RunCommand("yum -y -q install curl");
                         sshCmdUpdate = @"yum -q makecache";
                         sshCmdInstall = @"yum -y -q install ";
                     }
                     else if (getZypper == false)
                     {
-                        //client.RunCommand("zypper ref");
-                        //client.RunCommand("zypper -y install curl");
                         sshCmdUpdate = @"zypper ref";
                         sshCmdInstall = @"zypper -y install ";
                     }
@@ -2647,14 +2543,13 @@ namespace ProxySU
                     //判断是否启用了SELinux,如果启用了，并且工作在Enforcing模式下，则改为Permissive模式
                     if (getGetenforce == false)
                     {
-                        // string testSELinux = client.RunCommand("getenforce").Result;
                         sshShellCommand = @"getenforce";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                         string testSELinux = currentShellCommandResult;
-                        //MessageBox.Show(testSELinux);
+
                         if (testSELinux.Contains("Enforcing") == true)
                         {
                             currentStatus = "检测到系统启用SELinux，且工作在严格模式下，需改为宽松模式！修改中...";
@@ -2662,10 +2557,7 @@ namespace ProxySU
                             currentShellCommandResult = currentStatus;
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                            //MessageBox.Show("Enforcing");
-                            //    client.RunCommand("setenforce  0");//不重启改为Permissive模式
-                            //    client.RunCommand("sed -i 's/SELINUX=enforcing/SELINUX=permissive/' /etc/selinux/config");//重启也工作在Permissive模式下
-                            sshShellCommand = @"setenforce  0";
+                             sshShellCommand = @"setenforce  0";
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                             currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
@@ -2705,27 +2597,6 @@ namespace ProxySU
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                        ////为假则表示系统有相应的组件。
-                        //if (getApt == false)
-                        //{
-                        //    client.RunCommand("apt-get -qq update");
-                        //    client.RunCommand("apt-get -y -qq install curl");
-                        //}
-                        //else if (getDnf == false)
-                        //{
-                        //    client.RunCommand("dnf -q makecache");
-                        //    client.RunCommand("dnf -y -q install curl");
-                        //}
-                        //else if (getYum == false)
-                        //{
-                        //    client.RunCommand("yum -q makecache");
-                        //    client.RunCommand("yum -y -q install curl");
-                        //}
-                        //else if (getZypper == false)
-                        //{
-                        //    client.RunCommand("zypper ref");
-                        //    client.RunCommand("zypper -y install curl");
-                        //}
                     }
 
                     sshShellCommand = @"curl -4 ip.sb";
@@ -2740,7 +2611,6 @@ namespace ProxySU
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                    //string testDomainCmd = "ping " + ReceiveConfigurationParameters[4] + " -c 1 | grep -oE -m1 \"([0-9]{1,3}\\.){3}[0-9]{1,3}\"";
                     string resultTestDomainCmd = currentShellCommandResult;
 
                     if (String.Equals(nativeIp, resultTestDomainCmd) == true)
@@ -2778,27 +2648,7 @@ namespace ProxySU
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                        //为假则表示系统有相应的组件。
-                        //if (getApt == false)
-                        //{
-                        //    client.RunCommand("apt -qq update");
-                        //    client.RunCommand("apt -y -qq install lsof");
-                        //}
-                        //else if (getDnf == false)
-                        //{
-                        //    client.RunCommand("dnf -q makecache");
-                        //    client.RunCommand("dnf -y -q install lsof");
-                        //}
-                        //else if (getYum == false)
-                        //{
-                        //    client.RunCommand("yum -q makecache");
-                        //    client.RunCommand("yum -y -q install lsof");
-                        //}
-                        //else if (getZypper == false)
-                        //{
-                        //    client.RunCommand("zypper ref");
-                        //    client.RunCommand("zypper -y install lsof");
-                        //}
+                        
                     }
                     currentStatus = "正在检测端口占用情况......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -2806,8 +2656,7 @@ namespace ProxySU
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     Thread.Sleep(1000);
-                    //MessageBox.Show(@"lsof -n -P -i :80 | grep LISTEN");
-                    //MessageBox.Show(client.RunCommand(@"lsof -n -P -i :80 | grep LISTEN").Result);
+
                     sshShellCommand = @"lsof -n -P -i :80 | grep LISTEN";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -2842,15 +2691,10 @@ namespace ProxySU
 
                         Thread.Sleep(1000);
 
-                        //string cmdTestPort = @"lsof -n -P -i :443 | grep LISTEN";
-                        //string cmdResult = client.RunCommand(cmdTestPort).Result;
-
                         if (String.IsNullOrEmpty(testPort443) == false)
                         {
                             string[] cmdResultArry443 = testPort443.Split(' ');
-                            //client.RunCommand($"systemctl stop {cmdResultArry443[0]}");
-                            //client.RunCommand($"systemctl disable {cmdResultArry443[0]}");
-                            //client.RunCommand($"kill -9 {cmdResultArry443[3]}");
+
                             sshShellCommand = $"systemctl stop {cmdResultArry443[0]}";
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                             currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -2868,14 +2712,11 @@ namespace ProxySU
 
                         }
 
-                        //cmdTestPort = @"lsof -n -P -i :80 | grep LISTEN";
-                        //cmdResult = client.RunCommand(cmdTestPort).Result;
+
                         if (String.IsNullOrEmpty(testPort80) == false)
                         {
                             string[] cmdResultArry80 = testPort80.Split(' ');
-                            //client.RunCommand($"systemctl stop {cmdResultArry80[0]}");
-                            //client.RunCommand($"systemctl disable {cmdResultArry80[0]}");
-                            //client.RunCommand($"kill -9 {cmdResultArry80[3]}");
+
                             sshShellCommand = $"systemctl stop {cmdResultArry80[0]}";
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                             currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -2924,9 +2765,6 @@ namespace ProxySU
                     if (String.IsNullOrEmpty(client.RunCommand("command -v firewall-cmd").Result) == false)
                     {
 
-                        //client.RunCommand("firewall-cmd --zone=public --add-port=80/tcp --permanent");
-                        //client.RunCommand("firewall-cmd --zone=public --add-port=443/tcp --permanent");
-                        //client.RunCommand("firewall-cmd --reload");
                         sshShellCommand = @"firewall-cmd --zone=public --add-port=80/tcp --permanent";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -2945,9 +2783,6 @@ namespace ProxySU
                     }
                     if (String.IsNullOrEmpty(client.RunCommand("command -v ufw").Result) == false)
                     {
-                        //client.RunCommand("ufw allow 80");
-                        //client.RunCommand("ufw allow 443");
-                        //client.RunCommand("yes | ufw reload");
 
                         sshShellCommand = @"ufw allow 80";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
@@ -2973,9 +2808,6 @@ namespace ProxySU
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     Thread.Sleep(1000);
-
-                    //client.RunCommand("curl -o /tmp/trojan-go.sh https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh");
-                    //client.RunCommand("yes | bash /tmp/trojan-go.sh -f");
 
                     sshShellCommand = @"curl -o /tmp/trojan-go.sh https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
@@ -3014,14 +2846,14 @@ namespace ProxySU
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                         Thread.Sleep(1000);
-                        //client.RunCommand("systemctl enable trojan-go");
+
                         sshShellCommand = @"systemctl enable trojan-go";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     }
-                    //client.RunCommand("mv /etc/trojan-go/config.json /etc/trojan-go/config.json.1");
+
                     sshShellCommand = @"mv /etc/trojan-go/config.json /etc/trojan-go/config.json.1";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -3068,6 +2900,7 @@ namespace ProxySU
 
                     File.Delete(@"config.json");
 
+                    //安装acme.sh
                     currentStatus = "正在安装acme.sh......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     currentShellCommandResult = currentStatus;
@@ -3086,34 +2919,29 @@ namespace ProxySU
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                    //if (getApt == false)
-                    //{
-                    //    //client.RunCommand("apt-get -qq update");
-                    //    client.RunCommand("apt-get -y -qq install socat");
-                    //}
-                    //else if (getDnf == false)
-                    //{
-                    //    //client.RunCommand("yum -q makecache");
-                    //    client.RunCommand("dnf -y -q install socat");
-                    //}
-                    //else if (getYum == false)
-                    //{
-                    //    //client.RunCommand("yum -q makecache");
-                    //    client.RunCommand("yum -y -q install socat");
-                    //}
-                    //else if (getZypper == false)
-                    //{
-                    //    // client.RunCommand("zypper ref");
-                    //    client.RunCommand("zypper -y install socat");
-                    //}
-                    //client.RunCommand("curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh");
-                    //client.RunCommand("cd ~/.acme.sh/");
-                    //client.RunCommand("alias acme.sh=~/.acme.sh/acme.sh");
-
                     sshShellCommand = @"curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    if (currentShellCommandResult.Contains("Install success") == true)
+                    {
+                        currentStatus = "acme.sh安装成功！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        Thread.Sleep(1000);
+                    }
+                    else
+                    {
+                        currentStatus = "acme.sh安装失败！原因未知，请向开发者提问！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        return;
+                    }
 
                     sshShellCommand = @"cd ~/.acme.sh/";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
@@ -3133,12 +2961,30 @@ namespace ProxySU
 
                     Thread.Sleep(1000);
 
-                    //client.RunCommand("mkdir -p /etc/v2ray/ssl");
-                    //client.RunCommand($"/root/.acme.sh/acme.sh  --issue  --standalone  -d {ReceiveConfigurationParameters[4]}");
-                    sshShellCommand = $"/root/.acme.sh/acme.sh  --issue  --standalone  -d {ReceiveConfigurationParameters[4]}";
+                     sshShellCommand = $"/root/.acme.sh/acme.sh  --issue  --standalone  -d {ReceiveConfigurationParameters[4]}";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    if (currentShellCommandResult.Contains("Cert success") == true)
+                    {
+                        currentStatus = "证书申请成功！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        Thread.Sleep(1000);
+                    }
+                    else
+                    {
+                        currentStatus = "证书申请失败！原因未知，请向开发者提问！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        return;
+                    }
+
 
                     currentStatus = "安装证书到Trojan-Go......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -3146,11 +2992,32 @@ namespace ProxySU
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     Thread.Sleep(1000);
-                    //client.RunCommand($"/root/.acme.sh/acme.sh  --installcert  -d {ReceiveConfigurationParameters[4]}  --certpath /usr/local/etc/trojan-go/trojan-go.crt --keypath /usr/local/etc/trojan-go/trojan-go.key  --capath  /usr/local/etc/trojan-go/trojan-go.crt  --reloadcmd  \"systemctl restart trojan-go\"");
-                    sshShellCommand = $"/root/.acme.sh/acme.sh  --installcert  -d {ReceiveConfigurationParameters[4]}  --certpath /usr/local/etc/trojan-go/trojan-go.crt --keypath /usr/local/etc/trojan-go/trojan-go.key  --capath  /usr/local/etc/trojan-go/trojan-go.crt  --reloadcmd  \"systemctl restart trojan-go\"";
+                     sshShellCommand = $"/root/.acme.sh/acme.sh  --installcert  -d {ReceiveConfigurationParameters[4]}  --certpath /usr/local/etc/trojan-go/trojan-go.crt --keypath /usr/local/etc/trojan-go/trojan-go.key  --capath  /usr/local/etc/trojan-go/trojan-go.crt  --reloadcmd  \"systemctl restart trojan-go\"";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    sshShellCommand = @"if [ ! -f ""/usr/local/etc/trojan-go/trojan-go.key"" ]; then echo ""0""; else echo ""1""; fi | head -n 1";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    if (currentShellCommandResult.Contains("1") == true)
+                    {
+                        currentStatus = "证书安装到Trojan-go，成功！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    }
+                    else
+                    {
+                        currentStatus = "证书安装到Trojan-go失败，原因未知，可以向开发者提问！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                        return;
+                    }
 
                     //设置证书权限
                     sshShellCommand = @"chmod 644 /usr/local/etc/trojan-go/trojan-go.key";
@@ -3170,10 +3037,6 @@ namespace ProxySU
                     //为假则表示系统有相应的组件。
                     if (getApt == false)
                     {
-                        //client.RunCommand(@"echo ""deb [trusted=yes] https://apt.fury.io/caddy/ /"" | tee -a /etc/apt/sources.list.d/caddy-fury.list");
-                        //client.RunCommand("apt install -y apt-transport-https");
-                        //client.RunCommand("apt -qq update");
-                        //client.RunCommand("apt -y -qq install caddy");
                         sshShellCommand = @"echo ""deb [trusted=yes] https://apt.fury.io/caddy/ /"" | tee -a /etc/apt/sources.list.d/caddy-fury.list";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -3197,10 +3060,6 @@ namespace ProxySU
                     }
                     else if (getDnf == false)
                     {
-                        //client.RunCommand(@"dnf install 'dnf-command(copr)' -y");
-                        //client.RunCommand(@"dnf copr enable @caddy/caddy -y");
-                        ////client.RunCommand("dnf -q makecache");
-                        //client.RunCommand("dnf -y -q install caddy");
                         sshShellCommand = @"dnf install 'dnf-command(copr)' -y";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -3224,10 +3083,6 @@ namespace ProxySU
                     }
                     else if (getYum == false)
                     {
-                        //client.RunCommand(@"yum install yum-plugin-copr -y");
-                        //client.RunCommand(@"yum copr enable @caddy/caddy -y");
-                        ////client.RunCommand("yum -q makecache");
-                        //client.RunCommand("yum -y -q install caddy");
                         sshShellCommand = @"yum install yum-plugin-copr -y";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -3276,7 +3131,7 @@ namespace ProxySU
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     Thread.Sleep(1000);
-                    // client.RunCommand("systemctl enable caddy");
+
                     sshShellCommand = @"systemctl enable caddy";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -3291,7 +3146,6 @@ namespace ProxySU
 
                     Thread.Sleep(1000);
 
-                    //client.RunCommand("mv /etc/caddy/Caddyfile /etc/caddy/Caddyfile.bak");//备份原文件
                     sshShellCommand = @"mv /etc/caddy/Caddyfile /etc/caddy/Caddyfile.bak";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -3307,7 +3161,6 @@ namespace ProxySU
 
                     //string email = $"user@{ReceiveConfigurationParameters[4]}";
                     //设置域名
-                    //string sshCmd = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/' {upLoadPath}";
                     sshShellCommand = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/' {upLoadPath}";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -3317,8 +3170,6 @@ namespace ProxySU
                     //设置伪装网站
                     if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7]) == false)
                     {
-                        // sshCmd = $"sed -i 's/##sites##/proxy \\/ {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
-                        //client.RunCommand(sshCmd);
                         sshShellCommand = $"sed -i 's/##sites##/proxy \\/ {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -3331,9 +3182,6 @@ namespace ProxySU
 
                     Thread.Sleep(1000);
 
-                    //安装Caddy服务
-                    //sshCmd = $"caddy -service install -agree -conf /etc/caddy/Caddyfile -email {email}";
-                    //client.RunCommand(sshCmd);
                     //启动Caddy服务
                     currentStatus = "正在启动Caddy......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -3342,19 +3190,71 @@ namespace ProxySU
 
                     Thread.Sleep(1000);
                     //启动Caddy服务
-                    //client.RunCommand("systemctl restart caddy");
-                    sshShellCommand = @"systemctl restart caddy";
+                     sshShellCommand = @"systemctl restart caddy";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                    Thread.Sleep(3000);
+
+                    sshShellCommand = @"ps aux | grep caddy";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
+                    if (currentShellCommandResult.Contains("/usr/bin/caddy") == true)
+                    {
+                        //运行成功
+                        currentStatus = "Caddy启动成功！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                    currentStatus = "Caddy启动成功！";
-                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                    currentShellCommandResult = currentStatus;
-                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                        Thread.Sleep(1000);
+                    }
+                    else
+                    {
+                        //运行失败
+                        currentStatus = "Caddy启动失败！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                        Thread.Sleep(3000);
+                        currentStatus = "正在启动Caddy（第二次尝试）！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                        Thread.Sleep(3000);
+                        sshShellCommand = @"systemctl restart caddy";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                    Thread.Sleep(1000);
+                        Thread.Sleep(3000);
+
+                        sshShellCommand = @"ps aux | grep caddy";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                        if (currentShellCommandResult.Contains("/usr/bin/caddy") == true)
+                        {
+                            currentStatus = "Caddy启动成功！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            Thread.Sleep(1000);
+                        }
+                        else
+                        {
+                            currentStatus = "Caddy启动失败(第二次)！退出安装！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                            Thread.Sleep(1000);
+                            MessageBox.Show("Caddy启动失败，原因未知！请向开发者问询！");
+                            return;
+                        }
+                    }
 
                     currentStatus = "正在启动Trojan-Go......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -3363,19 +3263,74 @@ namespace ProxySU
 
                     Thread.Sleep(1000);
                     //启动Trojan-go服务
-                    //client.RunCommand("systemctl restart trojan-go");
+ 
                     sshShellCommand = @"systemctl restart trojan-go";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
+                    Thread.Sleep(3000);
 
-                    currentStatus = "Trojan-go启动成功！";
-                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                    currentShellCommandResult = currentStatus;
+                    sshShellCommand = @"ps aux | grep trojan-go";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                    Thread.Sleep(1000);
+                    if (currentShellCommandResult.Contains("/usr/local/bin/trojan-go") == true)
+                    {
+                        //运行成功
+                        currentStatus = "Trojan-go启动成功！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        Thread.Sleep(1000);
+                    }
+                    else
+                    {
+                        //运行失败
+                        currentStatus = "Trojan-go启动失败！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                        Thread.Sleep(3000);
+                        currentStatus = "正在启动Trojan-go（第二次尝试）！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                        Thread.Sleep(3000);
+                        sshShellCommand = @"systemctl restart trojan-go";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        Thread.Sleep(3000);
+
+                        sshShellCommand = @"ps aux | grep trojan-go";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                        if (currentShellCommandResult.Contains("usr/local/bin/trojan-go") == true)
+                        {
+                            currentStatus = "Trojan-go启动成功！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            Thread.Sleep(1000);
+                        }
+                        else
+                        {
+                            currentStatus = "Trojan-go启动失败(第二次)！退出安装！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                            Thread.Sleep(1000);
+                            MessageBox.Show("Trojan-go启动失败，原因未知！请向开发者问询！");
+                            return;
+                        }
+                    }
+
 
                     //测试BBR条件，若满足提示是否启用
                     currentStatus = "BBR测试......";
@@ -3385,7 +3340,6 @@ namespace ProxySU
 
                     Thread.Sleep(1000);
 
-                    //var result = client.RunCommand("uname -r");
                     sshShellCommand = @"uname -r";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -3394,7 +3348,7 @@ namespace ProxySU
                     string[] linuxKernelVerStr = currentShellCommandResult.Split('-');
 
                     bool detectResult = DetectKernelVersionBBR(linuxKernelVerStr[0]);
-                    //client.RunCommand(@"sysctl net.ipv4.tcp_congestion_control | grep bbr").Result;
+
                     sshShellCommand = @"sysctl net.ipv4.tcp_congestion_control | grep bbr";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -3410,9 +3364,6 @@ namespace ProxySU
 
                         Thread.Sleep(1000);
 
-                        //client.RunCommand(@"bash -c 'echo ""net.core.default_qdisc=fq"" >> /etc/sysctl.conf'");
-                        //client.RunCommand(@"bash -c 'echo ""net.ipv4.tcp_congestion_control=bbr"" >> /etc/sysctl.conf'");
-                        //client.RunCommand(@"sysctl -p");
                         sshShellCommand = @"bash -c 'echo ""net.core.default_qdisc=fq"" >> /etc/sysctl.conf'";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -3448,21 +3399,7 @@ namespace ProxySU
 
                     client.Disconnect();//断开服务器ssh连接
 
-                    ////测试BBR条件，若满足提示是否启用
-                    //var result = client.RunCommand("uname -r");
-                    ////var result = client.RunCommand("cat /root/test.ver");
-                    //string[] linuxKernelVerStr = result.Result.Split('-');
-
-                    //bool detectResult = DetectKernelVersionBBR(linuxKernelVerStr[0]);
-                    //string resultCmdTestBBR = client.RunCommand(@"sysctl net.ipv4.tcp_congestion_control | grep bbr").Result;
-                    ////如果内核满足大于等于4.9，且还未启用BBR，则启用BBR
-                    //if (detectResult == true && resultCmdTestBBR.Contains("bbr") == false)
-                    //{
-                    //    client.RunCommand(@"bash -c 'echo ""net.core.default_qdisc=fq"" >> /etc/sysctl.conf'");
-                    //    client.RunCommand(@"bash -c 'echo ""net.ipv4.tcp_congestion_control=bbr"" >> /etc/sysctl.conf'");
-                    //    client.RunCommand(@"sysctl -p");
-                    //}
-
+                    
                     //生成客户端配置
                     currentStatus = "生成客户端配置......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -3498,8 +3435,6 @@ namespace ProxySU
                         }
                     }
 
-
-
                     currentStatus = "Trojan-go安装成功,祝你玩的愉快！！";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     currentShellCommandResult = currentStatus;
@@ -3508,10 +3443,9 @@ namespace ProxySU
                     Thread.Sleep(1000);
 
                     //显示服务端连接参数
-                    //MessageBox.Show("用于Trojan官方客户端的配置文件已保存在config文件夹中");
+
                     proxyType = "TrojanGo";
-                    //TrojanGoResultClientInfoWindow resultClientInformation = new TrojanGoResultClientInfoWindow();
-                    //resultClientInformation.ShowDialog();
+
                     ResultClientInformation resultClientInformation = new ResultClientInformation();
                     resultClientInformation.ShowDialog();
                     return;
@@ -3520,7 +3454,7 @@ namespace ProxySU
             catch (Exception ex1)//例外处理   
             #region 例外处理
             {
-                //MessageBox.Show(ex1.Message);
+
                 if (ex1.Message.Contains("连接尝试失败") == true)
                 {
                     MessageBox.Show($"{ex1.Message}\n请检查主机地址及端口是否正确，如果通过代理，请检查代理是否正常工作");
@@ -3835,18 +3769,6 @@ namespace ProxySU
 
         #region Trojan相关
 
-        //打开Trojan参数设置界面
-        //private void ButtonTrojanTemplate_Click(object sender, RoutedEventArgs e)
-        //{
-        //    for (int i = 0; i != ReceiveConfigurationParameters.Length; i++)
-
-        //    {
-        //        ReceiveConfigurationParameters[i] = "";
-        //    }
-        //    TrojanTemplateWindow windowTrojanTemplateConfiguration = new TrojanTemplateWindow();
-        //    windowTrojanTemplateConfiguration.ShowDialog();
-        //}
-
         //Trojan参数传递
         private void ButtonTrojanSetUp_Click(object sender, RoutedEventArgs e)
         {
@@ -3968,7 +3890,9 @@ namespace ProxySU
                         Thread.Sleep(1000);
                     }
                     //检测是否运行在root权限下
-                    currentShellCommandResult = "检测是否运行在root权限下...";
+                    currentStatus = "检测是否运行在root权限下...";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    currentShellCommandResult = currentStatus;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     sshShellCommand = @"id -u";
@@ -3985,19 +3909,13 @@ namespace ProxySU
                     }
                     else
                     {
-                        currentShellCommandResult = "检测结果：OK！";
+                        currentStatus = "检测结果：OK！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     }
-                    ////检测是否运行在root权限下
-                    //string testRootAuthority = client.RunCommand(@"id -u").Result;
-                    //if (testRootAuthority.Equals("0\n") == false)
-                    //{
-                    //    MessageBox.Show("请使用具有root权限的账户登录主机！！");
-                    //    client.Disconnect();
-                    //    return;
-                    //}
-
+ 
                     //检测是否安装有Trojan
                     currentStatus = "检测系统是否已经安装Trojan......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -4006,7 +3924,6 @@ namespace ProxySU
 
                     Thread.Sleep(1000);
 
-                    //string resultCmdTestTrojanInstalled = client.RunCommand(@"find / -name trojan").Result;
                     sshShellCommand = @"find / -name trojan";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -4053,7 +3970,6 @@ namespace ProxySU
 
                     Thread.Sleep(1000);
 
-                    //string resultCmd = client.RunCommand("uname -m").Result;
                     sshShellCommand = @"uname -m";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -4146,29 +4062,21 @@ namespace ProxySU
 
                     if (getApt == false)
                     {
-                        //client.RunCommand("apt -qq update");
-                        //client.RunCommand("apt -y -qq install curl");
                         sshCmdUpdate = @"apt -qq update";
                         sshCmdInstall = @"apt -y -qq install ";
                     }
                     else if (getDnf == false)
                     {
-                        //client.RunCommand("dnf -q makecache");
-                        //client.RunCommand("dnf -y -q install curl");
                         sshCmdUpdate = @"dnf -q makecache";
                         sshCmdInstall = @"dnf -y -q install ";
                     }
                     else if (getYum == false)
                     {
-                        //client.RunCommand("yum -q makecache");
-                        //client.RunCommand("yum -y -q install curl");
                         sshCmdUpdate = @"yum -q makecache";
                         sshCmdInstall = @"yum -y -q install ";
                     }
                     else if (getZypper == false)
                     {
-                        //client.RunCommand("zypper ref");
-                        //client.RunCommand("zypper -y install curl");
                         sshCmdUpdate = @"zypper ref";
                         sshCmdInstall = @"zypper -y install ";
                     }
@@ -4176,7 +4084,6 @@ namespace ProxySU
                     //判断是否启用了SELinux,如果启用了，并且工作在Enforcing模式下，则改为Permissive模式
                     if (getGetenforce == false)
                     {
-                        //string testSELinux = client.RunCommand("getenforce").Result;
                         sshShellCommand = @"getenforce";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -4191,9 +4098,6 @@ namespace ProxySU
                             currentShellCommandResult = currentStatus;
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                            //MessageBox.Show("Enforcing");
-                            //client.RunCommand("setenforce  0");//不重启改为Permissive模式
-                            //client.RunCommand("sed -i 's/SELINUX=enforcing/SELINUX=permissive/' /etc/selinux/config");//重启也工作在Permissive模式下
                             sshShellCommand = @"setenforce  0";
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                             currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -4233,35 +4137,8 @@ namespace ProxySU
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                        //为假则表示系统有相应的组件。
-                        //if (getApt == false)
-                        //{
-                        //    client.RunCommand("apt -qq update");
-                        //    client.RunCommand("apt -y -qq install curl");
-                        //}
-                        //else if (getDnf == false)
-                        //{
-                        //    client.RunCommand("dnf -q makecache");
-                        //    client.RunCommand("dnf -y -q install curl");
-                        //}
-                        //else if (getYum == false)
-                        //{
-                        //    client.RunCommand("yum -q makecache");
-                        //    client.RunCommand("yum -y -q install curl");
-                        //}
-                        //else if (getZypper == false)
-                        //{
-                        //    client.RunCommand("zypper ref");
-                        //    client.RunCommand("zypper -y install curl");
-                        //}
                     }
                     //检测域名是否解析正确
-                    //currentStatus = "正在检测域名是否解析到当前VPS的IP上......";
-                    //textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                    //Thread.Sleep(1000);
-                    //string nativeIp = client.RunCommand("curl -4 ip.sb").Result.ToString();
-                    //string testDomainCmd = "ping " + ReceiveConfigurationParameters[4] + " -c 1 | grep -oE -m1 \"([0-9]{1,3}\\.){3}[0-9]{1,3}\"";
-                    //string resultTestDomainCmd = client.RunCommand(testDomainCmd).Result.ToString();
                     sshShellCommand = @"curl -4 ip.sb";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -4274,7 +4151,6 @@ namespace ProxySU
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                    //string testDomainCmd = "ping " + ReceiveConfigurationParameters[4] + " -c 1 | grep -oE -m1 \"([0-9]{1,3}\\.){3}[0-9]{1,3}\"";
                     string resultTestDomainCmd = currentShellCommandResult;
                     if (String.Equals(nativeIp, resultTestDomainCmd) == true)
                     {
@@ -4311,27 +4187,6 @@ namespace ProxySU
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                        //为假则表示系统有相应的组件。
-                        //if (getApt == false)
-                        //{
-                        //    client.RunCommand("apt -qq update");
-                        //    client.RunCommand("apt -y -qq install lsof");
-                        //}
-                        //else if (getDnf == false)
-                        //{
-                        //    client.RunCommand("dnf -q makecache");
-                        //    client.RunCommand("dnf -y -q install lsof");
-                        //}
-                        //else if (getYum == false)
-                        //{
-                        //    client.RunCommand("yum -q makecache");
-                        //    client.RunCommand("yum -y -q install lsof");
-                        //}
-                        //else if (getZypper == false)
-                        //{
-                        //    client.RunCommand("zypper ref");
-                        //    client.RunCommand("zypper -y install lsof");
-                        //}
                     }
                     currentStatus = "正在检测端口占用情况......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -4375,15 +4230,10 @@ namespace ProxySU
 
                         Thread.Sleep(1000);
 
-                        //string cmdTestPort = @"lsof -n -P -i :443 | grep LISTEN";
-                        //string cmdResult = client.RunCommand(cmdTestPort).Result;
-
                         if (String.IsNullOrEmpty(testPort443) == false)
                         {
                             string[] cmdResultArry443 = testPort443.Split(' ');
-                            //client.RunCommand($"systemctl stop {cmdResultArry443[0]}");
-                            //client.RunCommand($"systemctl disable {cmdResultArry443[0]}");
-                            //client.RunCommand($"kill -9 {cmdResultArry443[3]}");
+
                             sshShellCommand = $"systemctl stop {cmdResultArry443[0]}";
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                             currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -4401,14 +4251,10 @@ namespace ProxySU
 
                         }
 
-                        //cmdTestPort = @"lsof -n -P -i :80 | grep LISTEN";
-                        //cmdResult = client.RunCommand(cmdTestPort).Result;
                         if (String.IsNullOrEmpty(testPort80) == false)
                         {
                             string[] cmdResultArry80 = testPort80.Split(' ');
-                            //client.RunCommand($"systemctl stop {cmdResultArry80[0]}");
-                            //client.RunCommand($"systemctl disable {cmdResultArry80[0]}");
-                            //client.RunCommand($"kill -9 {cmdResultArry80[3]}");
+
                             sshShellCommand = $"systemctl stop {cmdResultArry80[0]}";
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                             currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -4440,27 +4286,7 @@ namespace ProxySU
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     }
-                    //if (String.IsNullOrEmpty() == false)
-                    //    {
-                    //        string[] cmdResultArry443 = cmdResult.Split(' ');
-                    //        client.RunCommand($"systemctl stop {cmdResultArry443[0]}");
-                    //        client.RunCommand($"systemctl disable {cmdResultArry443[0]}");
-                    //        client.RunCommand($"kill -9 {cmdResultArry443[3]}");
-                    //    }
-
-                    //    cmdTestPort = @"lsof -n -P -i :80 | grep LISTEN";
-                    //    cmdResult = client.RunCommand(cmdTestPort).Result;
-                    //    if (String.IsNullOrEmpty(cmdResult) == false)
-                    //    {
-                    //        string[] cmdResultArry80 = cmdResult.Split(' ');
-                    //        client.RunCommand($"systemctl stop {cmdResultArry80[0]}");
-                    //        client.RunCommand($"systemctl disable {cmdResultArry80[0]}");
-                    //        client.RunCommand($"kill -9 {cmdResultArry80[3]}");
-                    //    }
-                    //    currentStatus = "80/443端口释放完毕！";
-                    //    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                    //    Thread.Sleep(1000);
-                    //}
+                    
 
                     currentStatus = "系统环境检测完毕，符合安装要求,开始布署......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -4478,9 +4304,6 @@ namespace ProxySU
                     if (String.IsNullOrEmpty(client.RunCommand("command -v firewall-cmd").Result) == false)
                     {
 
-                        //client.RunCommand("firewall-cmd --zone=public --add-port=80/tcp --permanent");
-                        //client.RunCommand("firewall-cmd --zone=public --add-port=443/tcp --permanent");
-                        //client.RunCommand("firewall-cmd --reload");
                         sshShellCommand = @"firewall-cmd --zone=public --add-port=80/tcp --permanent";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -4499,10 +4322,6 @@ namespace ProxySU
                     }
                     if (String.IsNullOrEmpty(client.RunCommand("command -v ufw").Result) == false)
                     {
-                        //client.RunCommand("ufw allow 80");
-                        //client.RunCommand("ufw allow 443");
-                        //client.RunCommand("yes | ufw reload");
-
                         sshShellCommand = @"ufw allow 80";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -4531,28 +4350,6 @@ namespace ProxySU
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                    //if (getApt == false)
-                    //{
-                    //    client.RunCommand("apt -qq update");
-                    //    client.RunCommand("apt -y -qq install xz-utils");
-                    //}
-                    //else if (getDnf == false)
-                    //{
-                    //    //client.RunCommand("yum -q makecache");
-                    //    client.RunCommand("dnf -y -q install xz-utils");
-                    //}
-                    //else if (getYum == false)
-                    //{
-                    //    client.RunCommand("yum -q makecache");
-                    //    client.RunCommand("yum -y -q install xz-utils");
-                    //}
-                    //else if (getZypper == false)
-                    //{
-                    //    client.RunCommand("zypper ref");
-                    //    client.RunCommand("zypper -y install xz-utils");
-                    //}
-
-
                     //下载安装脚本安装
                     currentStatus = "正在安装Trojan......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -4561,8 +4358,6 @@ namespace ProxySU
 
                     Thread.Sleep(1000);
 
-                    //client.RunCommand("curl -o /tmp/trojan-quickstart.sh https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh");
-                    //client.RunCommand("yes | bash /tmp/trojan-quickstart.sh");
                     sshShellCommand = @"curl -o /tmp/trojan-quickstart.sh https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -4579,8 +4374,6 @@ namespace ProxySU
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     string installResult = currentShellCommandResult;
-
-                    //string installResult = client.RunCommand("find / -name trojan").Result.ToString();
 
                     if (!installResult.Contains("/usr/local/bin/trojan"))
                     {
@@ -4602,14 +4395,13 @@ namespace ProxySU
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                         Thread.Sleep(1000);
-                        //client.RunCommand("systemctl enable trojan");
+
                         sshShellCommand = @"systemctl enable trojan";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     }
-                    //client.RunCommand("mv /usr/local/etc/trojan/config.json /usr/local/etc/trojan/config.json.1");
                     sshShellCommand = @"mv /usr/local/etc/trojan/config.json /usr/local/etc/trojan/config.json.1";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -4641,39 +4433,6 @@ namespace ProxySU
 
                     File.Delete(@"config.json");
 
-                    ////打开防火墙端口
-                    //string openFireWallPort = ReceiveConfigurationParameters[1];
-                    //if (String.IsNullOrEmpty(client.RunCommand("command -v firewall-cmd").Result) == false)
-                    //{
-                    //    if (String.Equals(openFireWallPort, "443"))
-                    //    {
-                    //        client.RunCommand("firewall-cmd --zone=public --add-port=80/tcp --permanent");
-                    //        client.RunCommand("firewall-cmd --zone=public --add-port=443/tcp --permanent");
-                    //        client.RunCommand("firewall-cmd --reload");
-                    //    }
-                    //    else
-                    //    {
-                    //        client.RunCommand($"firewall-cmd --zone=public --add-port={openFireWallPort}/tcp --permanent");
-                    //        client.RunCommand($"firewall-cmd --zone=public --add-port={openFireWallPort}/udp --permanent");
-                    //        client.RunCommand("firewall-cmd --reload");
-                    //    }
-                    //}
-                    //if (String.IsNullOrEmpty(client.RunCommand("command -v ufw").Result) == false)
-                    //{
-                    //    if (String.Equals(openFireWallPort, "443"))
-                    //    {
-                    //        client.RunCommand("ufw allow 80");
-                    //        client.RunCommand("ufw allow 443");
-                    //        client.RunCommand("yes | ufw reload");
-                    //    }
-                    //    else
-                    //    {
-                    //        client.RunCommand($"ufw allow {openFireWallPort}/tcp");
-                    //        client.RunCommand($"ufw allow {openFireWallPort}/udp");
-                    //        client.RunCommand("yes | ufw reload");
-                    //    }
-                    //}
-
                     currentStatus = "正在安装acme.sh......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     currentShellCommandResult = currentStatus;
@@ -4692,33 +4451,29 @@ namespace ProxySU
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                    //if (getApt == false)
-                    //{
-                    //    //client.RunCommand("apt-get -qq update");
-                    //    client.RunCommand("apt-get -y -qq install socat");
-                    //}
-                    //else if (getDnf == false)
-                    //{
-                    //    //client.RunCommand("yum -q makecache");
-                    //    client.RunCommand("dnf -y -q install socat");
-                    //}
-                    //else if (getYum == false)
-                    //{
-                    //    //client.RunCommand("yum -q makecache");
-                    //    client.RunCommand("yum -y -q install socat");
-                    //}
-                    //else if (getZypper == false)
-                    //{
-                    //    // client.RunCommand("zypper ref");
-                    //    client.RunCommand("zypper -y install socat");
-                    //}
-                    //client.RunCommand("curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh");
-                    //client.RunCommand("cd ~/.acme.sh/");
-                    //client.RunCommand("alias acme.sh=~/.acme.sh/acme.sh");
                     sshShellCommand = @"curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    if (currentShellCommandResult.Contains("Install success") == true)
+                    {
+                        currentStatus = "acme.sh安装成功！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        Thread.Sleep(1000);
+                    }
+                    else
+                    {
+                        currentStatus = "acme.sh安装失败！原因未知，请向开发者提问！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        return;
+                    }
 
                     sshShellCommand = @"cd ~/.acme.sh/";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
@@ -4738,12 +4493,29 @@ namespace ProxySU
 
                     Thread.Sleep(1000);
 
-                        //client.RunCommand("mkdir -p /etc/v2ray/ssl");
-                    //client.RunCommand($"/root/.acme.sh/acme.sh  --issue  --standalone  -d {ReceiveConfigurationParameters[4]}");
-                    sshShellCommand = $"/root/.acme.sh/acme.sh  --issue  --standalone  -d {ReceiveConfigurationParameters[4]}";
+                     sshShellCommand = $"/root/.acme.sh/acme.sh  --issue  --standalone  -d {ReceiveConfigurationParameters[4]}";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    if (currentShellCommandResult.Contains("Cert success") == true)
+                    {
+                        currentStatus = "证书申请成功！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        Thread.Sleep(1000);
+                    }
+                    else
+                    {
+                        currentStatus = "证书申请失败！原因未知，请向开发者提问！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        return;
+                    }
 
                     currentStatus = "安装证书到Trojan......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -4752,21 +4524,39 @@ namespace ProxySU
 
                     Thread.Sleep(1000);
 
-                    //client.RunCommand($"/root/.acme.sh/acme.sh  --installcert  -d {ReceiveConfigurationParameters[4]}  --certpath /usr/local/etc/trojan/trojan_ssl.crt --keypath /usr/local/etc/trojan/trojan_ssl.key  --capath  /usr/local/etc/trojan/trojan_ssl.crt  --reloadcmd  \"systemctl restart trojan\"");
                     sshShellCommand = $"/root/.acme.sh/acme.sh  --installcert  -d {ReceiveConfigurationParameters[4]}  --certpath /usr/local/etc/trojan/trojan_ssl.crt --keypath /usr/local/etc/trojan/trojan_ssl.key  --capath  /usr/local/etc/trojan/trojan_ssl.crt  --reloadcmd  \"systemctl restart trojan\"";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                    //currentStatus = "正在启动Trojan......";
-                    //textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                    //Thread.Sleep(1000);
+                    sshShellCommand = @"if [ ! -f ""/usr/local/etc/trojan/trojan_ssl.key"" ]; then echo ""0""; else echo ""1""; fi | head -n 1";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                    //client.RunCommand("systemctl restart trojan");
+                    if (currentShellCommandResult.Contains("1") == true)
+                    {
+                        currentStatus = "证书安装到Trojan，成功！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                    //currentStatus = "Trojan启动成功！";
-                    //textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                    //Thread.Sleep(1000);
+                    }
+                    else
+                    {
+                        currentStatus = "证书安装到Trojan-go失败，原因未知，可以向开发者提问！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                        return;
+                    }
+
+                    //设置证书权限
+                    sshShellCommand = @"chmod 644 /usr/local/etc/trojan/trojan_ssl.key";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
 
                     currentStatus = "正在安装Caddy";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -4775,19 +4565,10 @@ namespace ProxySU
 
                     Thread.Sleep(1000);
 
-                    //client.RunCommand("curl https://getcaddy.com -o getcaddy");
-                    //client.RunCommand("bash getcaddy personal hook.service");
-                    //client.RunCommand("mkdir -p /etc/caddy");
-                    //client.RunCommand("mkdir -p /var/www");
-
                     //安装Caddy
                     //为假则表示系统有相应的组件。
                     if (getApt == false)
                     {
-                        //client.RunCommand(@"echo ""deb [trusted=yes] https://apt.fury.io/caddy/ /"" | tee -a /etc/apt/sources.list.d/caddy-fury.list");
-                        //client.RunCommand("apt install -y apt-transport-https");
-                        //client.RunCommand("apt -qq update");
-                        //client.RunCommand("apt -y -qq install caddy");
                         sshShellCommand = @"echo ""deb [trusted=yes] https://apt.fury.io/caddy/ /"" | tee -a /etc/apt/sources.list.d/caddy-fury.list";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -4811,10 +4592,7 @@ namespace ProxySU
                     }
                     else if (getDnf == false)
                     {
-                        //client.RunCommand(@"dnf install 'dnf-command(copr)' -y");
-                        //client.RunCommand(@"dnf copr enable @caddy/caddy -y");
-                        ////client.RunCommand("dnf -q makecache");
-                        //client.RunCommand("dnf -y -q install caddy");
+
                         sshShellCommand = @"dnf install 'dnf-command(copr)' -y";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -4838,10 +4616,6 @@ namespace ProxySU
                     }
                     else if (getYum == false)
                     {
-                        //client.RunCommand(@"yum install yum-plugin-copr -y");
-                        //client.RunCommand(@"yum copr enable @caddy/caddy -y");
-                        ////client.RunCommand("yum -q makecache");
-                        //client.RunCommand("yum -y -q install caddy");
                         sshShellCommand = @"yum install yum-plugin-copr -y";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -4863,33 +4637,7 @@ namespace ProxySU
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     }
-                    //if (getApt == false)
-                    //{
-                    //    client.RunCommand(@"echo ""deb [trusted=yes] https://apt.fury.io/caddy/ /"" | tee -a /etc/apt/sources.list.d/caddy-fury.list");
-                    //    client.RunCommand("apt install -y apt-transport-https");
-                    //    client.RunCommand("apt -qq update");
-                    //    client.RunCommand("apt -y -qq install caddy");
-                    //}
-                    //else if (getDnf == false)
-                    //{
-                    //    client.RunCommand(@"dnf install 'dnf-command(copr)' -y");
-                    //    client.RunCommand(@"dnf copr enable @caddy/caddy -y");
-                    //    //client.RunCommand("dnf -q makecache");
-                    //    client.RunCommand("dnf -y -q install caddy");
-                    //}
-                    //else if (getYum == false)
-                    //{
-                    //    client.RunCommand(@"yum install yum-plugin-copr -y");
-                    //    client.RunCommand(@"yum copr enable @caddy/caddy -y");
-                    //    //client.RunCommand("yum -q makecache");
-                    //    client.RunCommand("yum -y -q install caddy");
-                    //}
-                    //else if (getZypper == false)
-                    //{
-                    //    client.RunCommand("zypper ref");
-                    //    client.RunCommand("zypper -y install curl");
-                    //}
-
+                   
                     sshShellCommand = @"find / -name caddy";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -4916,29 +4664,12 @@ namespace ProxySU
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     Thread.Sleep(1000);
-                    //client.RunCommand("systemctl enable caddy");
+
                     sshShellCommand = @"systemctl enable caddy";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
-
-
-                    //if (!installResult.Contains("/usr/bin/caddy"))
-                    //{
-                    //    MessageBox.Show("安装Caddy失败！");
-                    //    currentStatus = "安装Caddy失败！";
-                    //    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                    //    client.Disconnect();
-                    //    return;
-                    //}
-                    //else
-                    //{
-                    //    currentStatus = "Caddy安装成功！";
-                    //    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                    //    Thread.Sleep(1000);
-                    //    client.RunCommand("systemctl enable caddy");
-                    //}
-
+                    
                     currentStatus = "上传Caddy配置文件......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     currentShellCommandResult = currentStatus;
@@ -4953,16 +4684,12 @@ namespace ProxySU
 
                     string caddyConfig = "TemplateConfg\\trojan_caddy_config.caddyfile";
                     upLoadPath = "/etc/caddy/Caddyfile";
-                    //client.RunCommand("mv /etc/caddy/Caddyfile /etc/caddy/Caddyfile.bak");
+
                     UploadConfig(connectionInfo, caddyConfig, upLoadPath);
 
-                        ////设置Caddyfile文件中的tls 邮箱
-
-                        //string email = $"user@{ReceiveConfigurationParameters[4]}";
-                     //string sshCmd;
+  
                     //设置域名
-                    //string sshCmd = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/' {upLoadPath}";
-                    //client.RunCommand(sshCmd);
+
                     sshShellCommand = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/' {upLoadPath}";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -4971,8 +4698,6 @@ namespace ProxySU
                     //设置伪装网站
                     if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7]) == false)
                     {
-                        //sshCmd = $"sed -i 's/##sites##/proxy \\/ {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
-                        //client.RunCommand(sshCmd);
                         sshShellCommand = $"sed -i 's/##sites##/proxy \\/ {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -4985,13 +4710,7 @@ namespace ProxySU
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     Thread.Sleep(1000);
-                    // Thread.Sleep(2000);
-
-                    //安装Caddy服务
-                    //sshCmd = $"caddy -service install -agree -conf /etc/caddy/Caddyfile -email {email}";
-                    //MessageBox.Show(sshCmd);
-                    //client.RunCommand(sshCmd);
-
+ 
                     currentStatus = "正在启动Caddy......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     currentShellCommandResult = currentStatus;
@@ -5004,12 +4723,67 @@ namespace ProxySU
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                    currentStatus = "Caddy启动成功！";
-                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                    currentShellCommandResult = currentStatus;
+                    Thread.Sleep(3000);
+
+                    sshShellCommand = @"ps aux | grep caddy";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                    Thread.Sleep(1000);
+                    if (currentShellCommandResult.Contains("/usr/bin/caddy") == true)
+                    {
+                        //运行成功
+                        currentStatus = "Caddy启动成功！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        Thread.Sleep(1000);
+                    }
+                    else
+                    {
+                        //运行失败
+                        currentStatus = "Caddy启动失败！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                        Thread.Sleep(1000);
+                        currentStatus = "正在启动Caddy（第二次尝试）！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                        Thread.Sleep(1000);
+                        sshShellCommand = @"systemctl restart caddy";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        Thread.Sleep(3000);
+
+                        sshShellCommand = @"ps aux | grep caddy";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                        if (currentShellCommandResult.Contains("/usr/bin/caddy") == true)
+                        {
+                            currentStatus = "Caddy启动成功！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            Thread.Sleep(1000);
+                        }
+                        else
+                        {
+                            currentStatus = "Caddy启动失败(第二次)！退出安装！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                            Thread.Sleep(1000);
+                            MessageBox.Show("Caddy启动失败，原因未知！请向开发者问询！");
+                            return;
+                        }
+                    }
 
                     currentStatus = "正在启动Trojan......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -5018,19 +4792,72 @@ namespace ProxySU
 
                     Thread.Sleep(1000);
                     //启动Trojan-go服务
-                    //client.RunCommand("systemctl restart trojan-go");
                     sshShellCommand = @"systemctl restart trojan";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
+                    Thread.Sleep(3000);
 
-                    currentStatus = "Trojan启动成功！";
-                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                    currentShellCommandResult = currentStatus;
+                    sshShellCommand = @"ps aux | grep trojan";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                    if (currentShellCommandResult.Contains("/usr/local/bin/trojan") == true)
+                    {
+                        currentStatus = "Trojan启动成功！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                    Thread.Sleep(1000);
+                        Thread.Sleep(1000);
+                    }
+                    else
+                    {
+
+                        //运行失败
+                        currentStatus = "Trojan启动失败！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                        Thread.Sleep(3000);
+                        currentStatus = "正在启动Trojan（第二次尝试）！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                        Thread.Sleep(3000);
+                        sshShellCommand = @"systemctl restart trojan";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        Thread.Sleep(3000);
+
+                        sshShellCommand = @"ps aux | grep trojan";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                        if (currentShellCommandResult.Contains("usr/local/bin/trojan-go") == true)
+                        {
+                            currentStatus = "Trojan启动成功！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            Thread.Sleep(1000);
+                        }
+                        else
+                        {
+                            currentStatus = "Trojan启动失败(第二次)！退出安装！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                            Thread.Sleep(1000);
+                            MessageBox.Show("Trojan启动失败，原因未知！请向开发者问询！");
+                            return;
+                        }
+                    }
+
 
                     //测试BBR条件，若满足提示是否启用
                     currentStatus = "BBR测试......";
@@ -5040,7 +4867,6 @@ namespace ProxySU
 
                     Thread.Sleep(1000);
 
-                    //var result = client.RunCommand("uname -r");
                     sshShellCommand = @"uname -r";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -5049,7 +4875,7 @@ namespace ProxySU
                     string[] linuxKernelVerStr = currentShellCommandResult.Split('-');
 
                     bool detectResult = DetectKernelVersionBBR(linuxKernelVerStr[0]);
-                    //client.RunCommand(@"sysctl net.ipv4.tcp_congestion_control | grep bbr").Result;
+
                     sshShellCommand = @"sysctl net.ipv4.tcp_congestion_control | grep bbr";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -5065,9 +4891,6 @@ namespace ProxySU
 
                         Thread.Sleep(1000);
 
-                        //client.RunCommand(@"bash -c 'echo ""net.core.default_qdisc=fq"" >> /etc/sysctl.conf'");
-                        //client.RunCommand(@"bash -c 'echo ""net.ipv4.tcp_congestion_control=bbr"" >> /etc/sysctl.conf'");
-                        //client.RunCommand(@"sysctl -p");
                         sshShellCommand = @"bash -c 'echo ""net.core.default_qdisc=fq"" >> /etc/sysctl.conf'";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -5101,18 +4924,7 @@ namespace ProxySU
 
                     }
                     client.Disconnect();//断开服务器ssh连接
-                    //var result = client.RunCommand("uname -r");
-                    //string[] linuxKernelVerStr = result.Result.Split('-');
-
-                    //bool detectResult = DetectKernelVersionBBR(linuxKernelVerStr[0]);
-                    //string resultCmdTestBBR = client.RunCommand(@"sysctl net.ipv4.tcp_congestion_control | grep bbr").Result;
-                    ////如果内核满足大于等于4.9，且还未启用BBR，则启用BBR
-                    //if (detectResult == true && resultCmdTestBBR.Contains("bbr") == false)
-                    //{
-                    //    client.RunCommand(@"bash -c 'echo ""net.core.default_qdisc=fq"" >> /etc/sysctl.conf'");
-                    //    client.RunCommand(@"bash -c 'echo ""net.ipv4.tcp_congestion_control=bbr"" >> /etc/sysctl.conf'");
-                    //    client.RunCommand(@"sysctl -p");
-                    //}
+                  
 
                     //生成客户端配置
                     currentStatus = "生成客户端配置......";
@@ -5141,8 +4953,6 @@ namespace ProxySU
                         }
                     }
 
-                    //client.Disconnect();
-
                     currentStatus = "Trojan安装成功,祝你玩的愉快！！";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     currentShellCommandResult = currentStatus;
@@ -5152,8 +4962,7 @@ namespace ProxySU
 
                     //显示服务端连接参数
                     proxyType = "Trojan";
-                    //TrojanResultClientInfoWindow resultClientInformation = new TrojanResultClientInfoWindow();
-                    //resultClientInformation.ShowDialog();
+
                     ResultClientInformation resultClientInformation = new ResultClientInformation();
                     resultClientInformation.ShowDialog();
                     return;
@@ -5162,7 +4971,7 @@ namespace ProxySU
             catch (Exception ex1)//例外处理   
             #region 例外处理
             {
-                //MessageBox.Show(ex1.Message);
+
                 if (ex1.Message.Contains("连接尝试失败") == true)
                 {
                     MessageBox.Show($"{ex1.Message}\n请检查主机地址及端口是否正确，如果通过代理，请检查代理是否正常工作");
@@ -5605,7 +5414,9 @@ namespace ProxySU
                         Thread.Sleep(1000);
                     }
                     //检测是否运行在root权限下
-                    currentShellCommandResult = "检测是否运行在root权限下...";
+                    currentStatus = "检测是否运行在root权限下...";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    currentShellCommandResult = currentStatus;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     sshShellCommand = @"id -u";
@@ -5622,7 +5433,9 @@ namespace ProxySU
                     }
                     else
                     {
-                        currentShellCommandResult = "检测结果：OK！";
+                        currentStatus = "检测结果：OK！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     }
@@ -5666,21 +5479,14 @@ namespace ProxySU
                     }
                     else
                     {
-                        currentShellCommandResult = "检测结果：未安装Caddy！";
+                        currentStatus = "检测结果：未安装Caddy！";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                        currentShellCommandResult = currentStatus;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     }
 
-                    //MessageBoxResult messageBoxResult1 = MessageBox.Show("远程主机已安装Caddy,但不确定是否支持forward proxy，是否强制重新安装？", "", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    //if (messageBoxResult1 == MessageBoxResult.No)
-                    //{
-                    //    currentStatus = "安装取消，退出";
-                    //    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                    //    Thread.Sleep(1000);
-                    //    client.Disconnect();
-                    //    return;
-                    //}
-
+                   
                     //检测远程主机系统环境是否符合要求
                     currentStatus = "检测系统是否符合安装要求......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
@@ -5771,29 +5577,22 @@ namespace ProxySU
                     //为假则表示系统有相应的组件。
                     if (getApt == false)
                     {
-                        //client.RunCommand("apt -qq update");
-                        //client.RunCommand("apt -y -qq install curl");
                         sshCmdUpdate = @"apt -qq update";
                         sshCmdInstall = @"apt -y -qq install ";
                     }
                     else if (getDnf == false)
                     {
-                        //client.RunCommand("dnf -q makecache");
-                        //client.RunCommand("dnf -y -q install curl");
                         sshCmdUpdate = @"dnf -q makecache";
                         sshCmdInstall = @"dnf -y -q install ";
                     }
                     else if (getYum == false)
                     {
-                        //client.RunCommand("yum -q makecache");
-                        //client.RunCommand("yum -y -q install curl");
                         sshCmdUpdate = @"yum -q makecache";
                         sshCmdInstall = @"yum -y -q install ";
                     }
                     else if (getZypper == false)
                     {
-                        //client.RunCommand("zypper ref");
-                        //client.RunCommand("zypper -y install curl");
+
                         sshCmdUpdate = @"zypper ref";
                         sshCmdInstall = @"zypper -y install ";
                     }
@@ -5814,8 +5613,6 @@ namespace ProxySU
                             currentShellCommandResult = currentStatus;
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                            //client.RunCommand("setenforce  0");//不重启改为Permissive模式
-                            //client.RunCommand("sed -i 's/SELINUX=enforcing/SELINUX=permissive/' /etc/selinux/config");//重启也工作在Permissive模式下
                             sshShellCommand = @"setenforce  0";
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                             currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -5849,66 +5646,7 @@ namespace ProxySU
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                    //if (getApt == false)
-                    //{
-                    //    //client.RunCommand("apt -qq update");
-                    //    //client.RunCommand("apt -y -qq install curl libnss3 xz-utils lsof unzip");
-                    //    sshShellCommand = @"apt -qq update";
-                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
-                    //    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
-                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
-
-                    //    sshShellCommand = @"apt -y -qq install curl libnss3 xz-utils lsof unzip";
-                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
-                    //    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
-                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
-
-                    //}
-                    //else if (getDnf == false)
-                    //{
-                    //    //client.RunCommand("dnf -q makecache");
-                    //    //client.RunCommand("dnf -y -q install curl nss xz lsof unzip");
-                    //    sshShellCommand = @"dnf -q makecache";
-                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
-                    //    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
-                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
-
-                    //    sshShellCommand = @"dnf -y -q install curl nss xz lsof unzip";
-                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
-                    //    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
-                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
-
-                    //}
-                    //else if (getYum == false)
-                    //{
-                    //    //client.RunCommand("yum -q makecache");
-                    //    //client.RunCommand("yum -y -q install curl nss xz lsof unzip");
-                    //    sshShellCommand = @"yum -q makecache";
-                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
-                    //    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
-                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
-
-                    //    sshShellCommand = @"yum -y -q install curl nss xz lsof unzip";
-                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
-                    //    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
-                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
-
-                    //}
-                    //else if (getZypper == false)
-                    //{
-                    //    //client.RunCommand("zypper ref");
-                    //    //client.RunCommand("zypper -y install curl nss xz lsof unzip");
-                    //    sshShellCommand = @"zypper ref";
-                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
-                    //    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
-                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
-
-                    //    sshShellCommand = @"zypper -y install curl nss xz lsof unzip";
-                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
-                    //    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
-                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
-
-                    //}
+                   
                     currentStatus = "安装完毕！OK！";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     currentShellCommandResult = currentStatus;
@@ -5999,9 +5737,7 @@ namespace ProxySU
                         if (String.IsNullOrEmpty(testPort443) == false)
                         {
                             string[] cmdResultArry443 = testPort443.Split(' ');
-                            //client.RunCommand($"systemctl stop {cmdResultArry443[0]}");
-                            //client.RunCommand($"systemctl disable {cmdResultArry443[0]}");
-                            //client.RunCommand($"kill -9 {cmdResultArry443[3]}");
+
                             sshShellCommand = $"systemctl stop {cmdResultArry443[0]}";
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                             currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -6022,9 +5758,7 @@ namespace ProxySU
                         if (String.IsNullOrEmpty(testPort80) == false)
                         {
                             string[] cmdResultArry80 = testPort80.Split(' ');
-                            //client.RunCommand($"systemctl stop {cmdResultArry80[0]}");
-                            //client.RunCommand($"systemctl disable {cmdResultArry80[0]}");
-                            //client.RunCommand($"kill -9 {cmdResultArry80[3]}");
+
                             sshShellCommand = $"systemctl stop {cmdResultArry80[0]}";
                             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                             currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -6072,10 +5806,6 @@ namespace ProxySU
 
                     if (String.IsNullOrEmpty(client.RunCommand("command -v firewall-cmd").Result) == false)
                     {
-
-                        //client.RunCommand("firewall-cmd --zone=public --add-port=80/tcp --permanent");
-                        //client.RunCommand("firewall-cmd --zone=public --add-port=443/tcp --permanent");
-                        //client.RunCommand("firewall-cmd --reload");
                         sshShellCommand = @"firewall-cmd --zone=public --add-port=80/tcp --permanent";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -6094,9 +5824,6 @@ namespace ProxySU
                     }
                     if (String.IsNullOrEmpty(client.RunCommand("command -v ufw").Result) == false)
                     {
-                        //client.RunCommand("ufw allow 80");
-                        //client.RunCommand("ufw allow 443");
-                        //client.RunCommand("yes | ufw reload");
 
                         sshShellCommand = @"ufw allow 80";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
@@ -6126,10 +5853,7 @@ namespace ProxySU
                     //为假则表示系统有相应的组件。
                     if (getApt == false)
                     {
-                        //client.RunCommand(@"echo ""deb [trusted=yes] https://apt.fury.io/caddy/ /"" | tee -a /etc/apt/sources.list.d/caddy-fury.list");
-                        //client.RunCommand("apt install -y apt-transport-https");
-                        //client.RunCommand("apt -qq update");
-                        //client.RunCommand("apt -y -qq install caddy");
+
                         sshShellCommand = @"echo ""deb [trusted=yes] https://apt.fury.io/caddy/ /"" | tee -a /etc/apt/sources.list.d/caddy-fury.list";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -6153,10 +5877,7 @@ namespace ProxySU
                     }
                     else if (getDnf == false)
                     {
-                        //client.RunCommand(@"dnf install 'dnf-command(copr)' -y");
-                        //client.RunCommand(@"dnf copr enable @caddy/caddy -y");
-                        ////client.RunCommand("dnf -q makecache");
-                        //client.RunCommand("dnf -y -q install caddy");
+
                         sshShellCommand = @"dnf install 'dnf-command(copr)' -y";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -6180,10 +5901,7 @@ namespace ProxySU
                     }
                     else if (getYum == false)
                     {
-                        //client.RunCommand(@"yum install yum-plugin-copr -y");
-                        //client.RunCommand(@"yum copr enable @caddy/caddy -y");
-                        ////client.RunCommand("yum -q makecache");
-                        //client.RunCommand("yum -y -q install caddy");
+
                         sshShellCommand = @"yum install yum-plugin-copr -y";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -6237,7 +5955,7 @@ namespace ProxySU
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                         Thread.Sleep(1000);
-                        //client.RunCommand("systemctl enable caddy");
+
                         sshShellCommand = @"systemctl enable caddy";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -6253,11 +5971,6 @@ namespace ProxySU
 
                     Thread.Sleep(1000);
 
-                    //client.RunCommand(@"curl -o /tmp/caddy.zip https://raw.githubusercontent.com/proxysu/Resources/master/Caddy2/caddy20200816.zip");
-                    //client.RunCommand(@"unzip /tmp/caddy.zip"); //解压到当前目录 ~/
-                    //client.RunCommand(@"chmod +x caddy");
-                    //client.RunCommand(@"systemctl stop caddy;rm -f /usr/bin/caddy");
-                    //client.RunCommand(@"cp ./caddy /usr/bin/");
                     sshShellCommand = @"curl -o /tmp/caddy.zip https://raw.githubusercontent.com/proxysu/Resources/master/Caddy2/caddy20200816.zip";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -6298,7 +6011,6 @@ namespace ProxySU
 
                     //生成服务端配置
 
-                    //string email = $"user@{ReceiveConfigurationParameters[4]}";//生成Caddyfile文件中的tls 邮箱
                     string caddyConfig = "TemplateConfg\\Naiveproxy_server_config.json";
                     using (StreamReader reader = File.OpenText(caddyConfig))
                     {
@@ -6335,9 +6047,6 @@ namespace ProxySU
                     currentShellCommandResult = currentStatus;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                    //client.RunCommand(@"sed -i 's/Caddyfile/config.json/' /lib/systemd/system/caddy.service");
-                    //client.RunCommand("systemctl daemon-reload");
-                    //client.RunCommand("systemctl restart caddy"); //启动Caddy服务
                     sshShellCommand = @"sed -i 's/Caddyfile/config.json/' /lib/systemd/system/caddy.service";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -6348,7 +6057,7 @@ namespace ProxySU
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                    currentStatus = "设置完毕，正在重启Caddy......";
+                    currentStatus = "设置完毕，正在启动Caddy......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
                     currentShellCommandResult = currentStatus;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
@@ -6359,11 +6068,69 @@ namespace ProxySU
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                    currentStatus = "重启Caddy完毕，OK!";
-                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                    currentShellCommandResult = currentStatus;
+                    Thread.Sleep(3000);
+
+                    sshShellCommand = @"ps aux | grep caddy";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
+                    if (currentShellCommandResult.Contains("/usr/bin/caddy") == true)
+                    {
+                        //运行成功
+                        currentStatus = "Caddy启动成功！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        Thread.Sleep(1000);
+                    }
+                    else
+                    {
+                        //运行失败
+                        currentStatus = "Caddy启动失败！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                        Thread.Sleep(1000);
+                        currentStatus = "正在启动Caddy（第二次尝试）！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                        Thread.Sleep(1000);
+                        sshShellCommand = @"systemctl restart caddy";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        Thread.Sleep(3000);
+
+                        sshShellCommand = @"ps aux | grep caddy";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                        if (currentShellCommandResult.Contains("/usr/bin/caddy") == true)
+                        {
+                            currentStatus = "Caddy启动成功！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            Thread.Sleep(1000);
+                        }
+                        else
+                        {
+                            currentStatus = "Caddy启动失败(第二次)！退出安装！";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                            Thread.Sleep(1000);
+                            MessageBox.Show("Caddy启动失败，原因未知！请向开发者问询！");
+                            return;
+                        }
+                    }
+
+                   
                     ////设置伪装网站
                     //if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7]) == false)
                     //{
@@ -6382,115 +6149,96 @@ namespace ProxySU
 
                     //优化网络参数
                     sshShellCommand = @"bash -c 'echo ""fs.file-max = 51200"" >> /etc/sysctl.conf'";
-                    //client.RunCommand(sshShellCommand);
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     sshShellCommand = @"bash -c 'echo ""net.core.rmem_max = 67108864"" >> /etc/sysctl.conf'";
-                    //client.RunCommand(sshShellCommand);
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     sshShellCommand = @"bash -c 'echo ""net.core.wmem_max = 67108864"" >> /etc/sysctl.conf'";
-                    //client.RunCommand(sshShellCommand);
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     sshShellCommand = @"bash -c 'echo ""net.core.rmem_default = 65536"" >> /etc/sysctl.conf'";
-                    //client.RunCommand(sshShellCommand);
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     sshShellCommand = @"bash -c 'echo ""net.core.wmem_default = 65536"" >> /etc/sysctl.conf'";
-                    //client.RunCommand(sshShellCommand);
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     sshShellCommand = @"bash -c 'echo ""net.core.netdev_max_backlog = 4096"" >> /etc/sysctl.conf'";
-                    //client.RunCommand(sshShellCommand);
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     sshShellCommand = @"bash -c 'echo ""net.core.somaxconn = 4096"" >> /etc/sysctl.conf'";
-                    //client.RunCommand(sshShellCommand);
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     sshShellCommand = @"bash -c 'echo ""net.ipv4.tcp_syncookies = 1"" >> /etc/sysctl.conf'";
-                    //client.RunCommand(sshShellCommand);
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     sshShellCommand = @"bash -c 'echo ""net.ipv4.tcp_tw_reuse = 1"" >> /etc/sysctl.conf'";
-                    //client.RunCommand(sshShellCommand);
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     sshShellCommand = @"bash -c 'echo ""net.ipv4.tcp_tw_recycle = 0"" >> /etc/sysctl.conf'";
-                    //client.RunCommand(sshShellCommand);
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     sshShellCommand = @"bash -c 'echo ""net.ipv4.tcp_fin_timeout = 30"" >> /etc/sysctl.conf'";
-                    //client.RunCommand(sshShellCommand);
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     sshShellCommand = @"bash -c 'echo ""net.ipv4.tcp_keepalive_time = 1200"" >> /etc/sysctl.conf'";
-                    //client.RunCommand(sshShellCommand);
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     sshShellCommand = @"bash -c 'echo ""net.ipv4.ip_local_port_range = 10000 65000"" >> /etc/sysctl.conf'";
-                    //client.RunCommand(sshShellCommand);
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     sshShellCommand = @"bash -c 'echo ""net.ipv4.tcp_max_syn_backlog = 4096"" >> /etc/sysctl.conf'";
-                    //client.RunCommand(sshShellCommand);
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     sshShellCommand = @"bash -c 'echo ""net.ipv4.tcp_max_tw_buckets = 5000"" >> /etc/sysctl.conf'";
-                    //client.RunCommand(sshShellCommand);
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     sshShellCommand = @"bash -c 'echo ""net.ipv4.tcp_rmem = 4096 87380 67108864"" >> /etc/sysctl.conf'";
-                    //client.RunCommand(sshShellCommand);
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     sshShellCommand = @"bash -c 'echo ""net.ipv4.tcp_wmem = 4096 65536 67108864"" >> /etc/sysctl.conf'";
-                    //client.RunCommand(sshShellCommand);
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     sshShellCommand = @"bash -c 'echo ""net.ipv4.tcp_mtu_probing = 1"" >> /etc/sysctl.conf'";
-                    //client.RunCommand(sshShellCommand);
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     sshShellCommand = @"sysctl -p";
-                    //client.RunCommand(sshShellCommand);
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
@@ -6511,7 +6259,6 @@ namespace ProxySU
 
                     Thread.Sleep(1000);
 
-                    //var result = client.RunCommand("uname -r");
                     sshShellCommand = @"uname -r";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -6520,7 +6267,6 @@ namespace ProxySU
                     string[] linuxKernelVerStr = currentShellCommandResult.Split('-');
 
                     bool detectResult = DetectKernelVersionBBR(linuxKernelVerStr[0]);
-                    //client.RunCommand(@"sysctl net.ipv4.tcp_congestion_control | grep bbr").Result;
                     sshShellCommand = @"sysctl net.ipv4.tcp_congestion_control | grep bbr";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -6536,9 +6282,6 @@ namespace ProxySU
 
                         Thread.Sleep(1000);
 
-                        //client.RunCommand(@"bash -c 'echo ""net.core.default_qdisc=fq"" >> /etc/sysctl.conf'");
-                        //client.RunCommand(@"bash -c 'echo ""net.ipv4.tcp_congestion_control=bbr"" >> /etc/sysctl.conf'");
-                        //client.RunCommand(@"sysctl -p");
                         sshShellCommand = @"bash -c 'echo ""net.core.default_qdisc=fq"" >> /etc/sysctl.conf'";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -6605,8 +6348,6 @@ namespace ProxySU
 
                     //显示服务端连接参数
                     proxyType = "NaiveProxy";
-                    //NaiveProxyResultInfoWindow resultClientInformation = new NaiveProxyResultInfoWindow();
-                    //resultClientInformation.ShowDialog();
                     ResultClientInformation resultClientInformation = new ResultClientInformation();
                     resultClientInformation.ShowDialog();
                     return;
@@ -6862,12 +6603,11 @@ namespace ProxySU
                     string cmdResult;
                     cmdTestPort = @"lsof -n -P -i :443 | grep LISTEN";
                     cmdResult = client.RunCommand(cmdTestPort).Result;
-                    //MessageBox.Show(cmdTestPort);
+
                     if (String.IsNullOrEmpty(cmdResult) == false)
                     {
-                        //MessageBox.Show(cmdResult);
+
                         string[] cmdResultArry443 = cmdResult.Split(' ');
-                        //MessageBox.Show(cmdResultArry443[3]);
                         client.RunCommand($"systemctl stop {cmdResultArry443[0]}");
                         client.RunCommand($"systemctl disable {cmdResultArry443[0]}");
                         client.RunCommand($"kill -9 {cmdResultArry443[3]}");
@@ -6910,8 +6650,9 @@ namespace ProxySU
         private void StartTestAndEnableBBR(ConnectionInfo connectionInfo, TextBlock textBlockName, ProgressBar progressBar)
         {
             string currentStatus = "正在登录远程主机......";
-            Action<TextBlock, ProgressBar, string> updateAction = new Action<TextBlock, ProgressBar, string>(UpdateTextBlock);
             textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+            currentShellCommandResult = currentStatus;
+            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
             try
             {
@@ -6950,84 +6691,102 @@ namespace ProxySU
                     {
                         currentStatus = "主机登录成功";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果在监视窗口
                         Thread.Sleep(1000);
                     }
                     //检测是否运行在root权限下
-                    string testRootAuthority = client.RunCommand(@"id -u").Result;
+                    currentStatus = "检测是否运行在root权限下...";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    currentShellCommandResult = currentStatus;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    sshShellCommand = @"id -u";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    string testRootAuthority = currentShellCommandResult;
                     if (testRootAuthority.Equals("0\n") == false)
                     {
                         MessageBox.Show("请使用具有root权限的账户登录主机！！");
                         client.Disconnect();
                         return;
                     }
+                    else
+                    {
+                        currentStatus = "检测结果：OK！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    }
                     //检测远程主机系统环境是否符合要求
                     currentStatus = "检测系统内核版本是否符合要求......";
                     textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    currentShellCommandResult = currentStatus;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
                     Thread.Sleep(1000);
 
-                    var result = client.RunCommand("uname -r");
-                    //var result = client.RunCommand("cat /root/test.ver");
-                    string[] linuxKernelVerStr = result.Result.Split('-');
+                    sshShellCommand = @"uname -r";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                    bool detectResult = DetectKernelVersionBBR(linuxKernelVerStr[0]);
-                    if (detectResult == false)
+                    string[] linuxKernelVerStrBBR = currentShellCommandResult.Split('-');
+
+                    bool detectResultBBR = DetectKernelVersionBBR(linuxKernelVerStrBBR[0]);
+
+                    sshShellCommand = @"sysctl net.ipv4.tcp_congestion_control | grep bbr";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                    string resultCmdTestBBR = currentShellCommandResult;
+                    //如果内核满足大于等于4.9，且还未启用BBR，则启用BBR
+                    if (detectResultBBR == true && resultCmdTestBBR.Contains("bbr") == false)
                     {
-                        MessageBox.Show($"当前系统内核版本为{linuxKernelVerStr[0]}，启用BBR要求内核为4.9及以上。请升级内核再安装！或更换系统为CentOS8/Debian9/10/Ubuntu18.04及以上");
-                        currentStatus = "系统内核版本不符合要求，安装失败！！";
+                        currentStatus = "正在启用BBR......";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
                         Thread.Sleep(1000);
-                        client.Disconnect();
-                        return;
+
+                        sshShellCommand = @"bash -c 'echo ""net.core.default_qdisc=fq"" >> /etc/sysctl.conf'";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        sshShellCommand = @"bash -c 'echo ""net.ipv4.tcp_congestion_control=bbr"" >> /etc/sysctl.conf'";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        sshShellCommand = @"sysctl -p";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
                     }
-                    //检测是否安装有NaiveProxy
-                    currentStatus = "检测系统是否已经启用BBR......";
-                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                    Thread.Sleep(1000);
-
-                    string resultCmdTestBBR = client.RunCommand(@"sysctl net.ipv4.tcp_congestion_control | grep bbr").Result;
-
-                    if (resultCmdTestBBR.Contains("bbr") == true)
+                    else if (resultCmdTestBBR.Contains("bbr") == true)
                     {
-                        MessageBoxResult messageBoxResult = MessageBox.Show("远程主机已启用BBR!");
-
-                        currentStatus = "远程主机已启用BBR！退出！";
+                        currentStatus = "BBR已经启用了！";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                        Thread.Sleep(1000);
-                        client.Disconnect();
-                        return;
-                    }
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                    currentStatus = "内核符合要求,启用中......";
-                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                    Thread.Sleep(1000);
-
-                    //启用BBR
-
-                    client.RunCommand(@"bash -c 'echo ""net.core.default_qdisc=fq"" >> /etc/sysctl.conf'");
-                    client.RunCommand(@"bash -c 'echo ""net.ipv4.tcp_congestion_control=bbr"" >> /etc/sysctl.conf'");
-                    client.RunCommand(@"sysctl -p");
-
-                    resultCmdTestBBR = client.RunCommand(@"sysctl net.ipv4.tcp_congestion_control | grep bbr").Result;
-                    //resultCmdTestBBR = client.RunCommand(@"sysctl -n net.ipv4.tcp_congestion_control").Result;
-                    if (resultCmdTestBBR.Contains("bbr") == true)
-                    {
-                        MessageBoxResult messageBoxResult = MessageBox.Show("远程主机已成功启用BBR!");
-
-                        currentStatus = "远程主机已启用BBR！成功！";
-                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                        Thread.Sleep(1000);
                     }
                     else
                     {
-                        MessageBoxResult messageBoxResult = MessageBox.Show("BBR启用失败!原因未知，请重试或更换系统为CentOS8/Debian9/10/Ubuntu18.04及以上");
-
-                        currentStatus = "BBR启用失败！";
+                        currentStatus = "系统不满足启用BBR的条件，启用失败！";
                         textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
-                        Thread.Sleep(1000);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     }
+                    client.Disconnect();//断开服务器ssh连接
 
-                    client.Disconnect();
                     return;
                 }
             }
@@ -7063,6 +6822,8 @@ namespace ProxySU
                 }
                 currentStatus = "主机登录失败";
                 textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                currentShellCommandResult = currentStatus;
+                TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
             }
             #endregion
@@ -8117,9 +7878,13 @@ namespace ProxySU
 
         }
 
+
         #endregion
 
-  
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(System.Globalization.CultureInfo.InstalledUICulture.Name);
+        }
     }
 
 }

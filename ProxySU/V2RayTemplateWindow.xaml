@@ -39,35 +39,35 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <GroupBox Header="模板库" Grid.Row="0" Grid.RowSpan="3">
+        <GroupBox Header="{DynamicResource GroupBoxHeaderV2RayTemplates}" Grid.Row="0" Grid.RowSpan="3">
             <Grid>
                 <TabControl x:Name="TabControlTemplate">
-                    <TabItem Header="热门方案" Width="110" Height="30">
+                    <TabItem Header="{DynamicResource TabItemHeaderV2RayHotPlan}" Width="110" Height="30">
                         <Grid>
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.8*"></ColumnDefinition>
                                 <ColumnDefinition></ColumnDefinition>
                                 <ColumnDefinition></ColumnDefinition>
                                 <ColumnDefinition></ColumnDefinition>
-                                <ColumnDefinition></ColumnDefinition>
-                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition Width="0.3*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
+                                <RowDefinition Height="1.2*"></RowDefinition>
+                                <RowDefinition Height="1.2*"></RowDefinition>
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <RadioButton x:Name="RadioButtonWebSocketTLS2WebHot" Content="WebSocket+TLS+Web"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="1" Checked="RadioButtonWebSocketTLS2Web_Checked"></RadioButton>
-                            <TextBlock Text="稳定性强，Caddy2做前置，隐藏代理特征，被识别为访问网站的https流量，抗封锁识别最强,需要域名,支持CDN" TextWrapping="Wrap" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButtonHTTP2WebHot" Content="HTTP2+TLS+Web"  GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="2" Checked="RadioButtonWebSocketTLS2Web_Checked"></RadioButton>
-                            <TextBlock Text="基于 HTTP/2 传输。完整按 HTTP/2 标准实现，Caddy2做前置，隐藏代理特征，H2C协议转发到V2Ray，需要域名，暂不支持CloudFlare的CDN" TextWrapping="Wrap" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"></TextBlock>
+                            <RadioButton x:Name="RadioButtonWebSocketTLS2WebHot" Content="WebSocket+TLS+Web"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="1" Checked="RadioButtonWebSocketTLS2Web_Checked" HorizontalAlignment="Left" VerticalAlignment="Center"></RadioButton>
+                            <TextBlock Text="{DynamicResource TextBlockV2RayWebSocketTlsWebExplain}" TextWrapping="Wrap" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                            <RadioButton x:Name="RadioButtonHTTP2WebHot" Content="HTTP2+TLS+Web"  GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="2" Checked="RadioButtonWebSocketTLS2Web_Checked" HorizontalAlignment="Left" VerticalAlignment="Center"></RadioButton>
+                            <TextBlock Text="{DynamicResource TextBlockV2RayHttp2TlsWebExplain}" TextWrapping="Wrap" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
 
                         </Grid>
                     </TabItem>
-                    <TabItem Header="TCP传输协议" Width="110" Height="30">
+                    <TabItem Header="{DynamicResource TabItemHeaderV2RayTcpProtocol}" Width="110" Height="30">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition></ColumnDefinition>
@@ -81,28 +81,28 @@
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
+                                <RowDefinition Height="1.3*"></RowDefinition>
+                                <RowDefinition Height="1.7*"></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <RadioButton x:Name="RadioButtonTCP" Content="TCP"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="1" Checked="RadioButtonTCP_Checked"></RadioButton>
-                            <TextBlock Text="数据加密传输，会被识别为未知的tcp流量" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButtonTCPhttp" Content="TCP+Http伪装" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="2" Checked="RadioButtonTCPhttp_Checked" ></RadioButton>
-                            <TextBlock Text="数据加密传输，并做http伪装，会被识别为http流量，但并不是真正的http访问" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButtonTCP2TLS" Content="TCP+TLS"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="3" Checked="RadioButtonTCP2TLS_Checked" />
-                            <TextBlock Text="数据加密传输，传输协议使用TLS，会被识别为TLS流量，不等同于https流量特征 (需域名)" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButtonTcpTLS2SelfSigned" Content="TCP+TLS((自签证书)"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="4" Checked="RadioButtonTCP2TLSnoDomain_Checked" />
-                            <TextBlock Text="数据加密传输，传输协议使用TLS，会被识别为TLS流量，不等同于https流量特征 (无需域名)" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3"></TextBlock>
-                            <TextBlock Text="Shadowrocket (ios)需要手动打开“允许不安全”选项" TextWrapping="Wrap" Grid.Column="4" Grid.Row="4" ></TextBlock>
-                            <RadioButton x:Name="RadioButtonVlessTcpTlsWeb" Content="VLESS+TCP+TLS+Web" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="5" Checked="RadioButtonTCP2TLS_Checked" ></RadioButton>
-                            <TextBlock Text="轻量协议VLESS,占用更少主机资源，数据TLS加密传输，用Caddy2在节点上做伪装网站。适合配置低的VPS,或多人共用节点，服务端客户端版本要求4.27+ (需域名)," TextWrapping="Wrap" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3"></TextBlock>
+                            <RadioButton x:Name="RadioButtonTCP" Content="TCP"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="1" Checked="RadioButtonTCP_Checked" VerticalAlignment="Center" HorizontalAlignment="Left"></RadioButton>
+                            <TextBlock Text="{DynamicResource TextBlockV2RayTcpExplain}" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                            <RadioButton x:Name="RadioButtonTCPhttp" Content="{DynamicResource RadioButtonV2RayTcpHttp}" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="2" Checked="RadioButtonTCPhttp_Checked" VerticalAlignment="Center" HorizontalAlignment="Left" ></RadioButton>
+                            <TextBlock Text="{DynamicResource TextBlockV2RayTcpHttpExplain}" TextWrapping="Wrap" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                            <RadioButton x:Name="RadioButtonTCP2TLS" Content="TCP+TLS"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="3" Checked="RadioButtonTCP2TLS_Checked" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                            <TextBlock Text="{DynamicResource TextBlockV2RayTcpTlsExplain}"  TextWrapping="Wrap" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                            <RadioButton x:Name="RadioButtonTcpTLS2SelfSigned" Content="{DynamicResource RadioButtonV2RayTcpTlsSelfSigned}"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="4" Checked="RadioButtonTCP2TLSnoDomain_Checked" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                            <TextBlock Text="{DynamicResource TextBlockV2RayTcpTlsSelfSignedExplain}"  TextWrapping="Wrap" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                            <TextBlock Text="{DynamicResource TextBlockV2RaySelfSignedShadowrocketExplain}" TextWrapping="Wrap" Grid.Column="4" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" ></TextBlock>
+                            <RadioButton x:Name="RadioButtonVlessTcpTlsWeb" Content="VLESS+TCP+TLS+Web" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="5" Checked="RadioButtonTCP2TLS_Checked" VerticalAlignment="Center" HorizontalAlignment="Left" ></RadioButton>
+                            <TextBlock Text="{DynamicResource TextBlockV2RayVlessTcpTlsWebExplain}" TextWrapping="Wrap" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
 
                         </Grid>
                     </TabItem>
-                    <TabItem Header="WebSocket传输协议" Width="150" Height="30">
+                    <TabItem Header="{DynamicResource TabItemHeaderV2RayWebSocketProtocol}" Width="150" Height="30">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1.2*"></ColumnDefinition>
+                                <ColumnDefinition Width="1.5*"></ColumnDefinition>
                                 <ColumnDefinition></ColumnDefinition>
                                 <ColumnDefinition></ColumnDefinition>
                                 <ColumnDefinition></ColumnDefinition>
@@ -112,27 +112,27 @@
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
+                                <RowDefinition Height="1.3*"></RowDefinition>
+                                <RowDefinition Height="1.3*"></RowDefinition>
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <RadioButton x:Name="RadioButtonWebSocket" Content="WebSocket"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="1" Checked="RadioButtonTCP_Checked"/>
-                            <TextBlock Text="数据加密传输，传输协议使用WebSocket，未启用TLS,将被识别为WebSocket流量。" TextWrapping="Wrap" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButtonWebSocketTLS" Content="WebSocket+TLS"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="2" Checked="RadioButtonHTTP2_Checked"/>
-                            <TextBlock Text="数据加密传输，传输协议使用WebSocket，启用TLS,将被识别为TLS流量。(需要域名)" TextWrapping="Wrap" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButtonWebSocketTLS2Web" Content="WebSocket+TLS+Web"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="3" Checked="RadioButtonWebSocketTLS2Web_Checked"></RadioButton>
-                            <TextBlock Text="稳定性强，Caddy2做前置，隐藏代理特征，被识别为访问网站的https流量，抗封锁识别最强,需要域名,支持CDN" TextWrapping="Wrap" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButtonWebSocketTLSselfSigned" Content="WebSocket+TLS(自签证书)"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="4" Checked="RadioButtonWebSocketTLSselfSigned_Checked"></RadioButton>
-                            <TextBlock Text="数据加密传输，传输协议使用WebSocket，启用TLS,将被识别为TLS流量。(无需域名)" TextWrapping="Wrap" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3"></TextBlock>
-                            <TextBlock Text="Shadowrocket (ios)需要手动打开“允许不安全”选项" TextWrapping="Wrap" Grid.Column="4" Grid.Row="4" ></TextBlock>
+                            <RadioButton x:Name="RadioButtonWebSocket" Content="WebSocket"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="1" Checked="RadioButtonTCP_Checked" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource TextBlockV2RayWebSocketExplain}" TextWrapping="Wrap" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                            <RadioButton x:Name="RadioButtonWebSocketTLS" Content="WebSocket+TLS"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="2" Checked="RadioButtonHTTP2_Checked" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource TextBlockV2RayWebSocketTlsExplain}" TextWrapping="Wrap" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                            <RadioButton x:Name="RadioButtonWebSocketTLS2Web" Content="WebSocket+TLS+Web"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="3" Checked="RadioButtonWebSocketTLS2Web_Checked" HorizontalAlignment="Left" VerticalAlignment="Center"></RadioButton>
+                            <TextBlock Text="{DynamicResource TextBlockV2RayWebSocketTlsWebExplain}" TextWrapping="Wrap" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                            <RadioButton x:Name="RadioButtonWebSocketTLSselfSigned" Content="{DynamicResource RadioButtonV2RayWebSocketTlsSelfSigned}"  GroupName="TemplateGroup" Grid.Column="0" Grid.Row="4" Checked="RadioButtonWebSocketTLSselfSigned_Checked" HorizontalAlignment="Left" VerticalAlignment="Center"></RadioButton>
+                            <TextBlock Text="{DynamicResource TextBlockV2RayWebSocketTlsSelfSignedExplain}" TextWrapping="Wrap" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                            <TextBlock Text="{DynamicResource TextBlockV2RaySelfSignedShadowrocketExplain}" TextWrapping="Wrap" Grid.Column="4" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" ></TextBlock>
 
                         </Grid>
                     </TabItem>
-                    <TabItem Header="Http/2传输协议" Width="110" Height="30">
+                    <TabItem Header="{DynamicResource TabItemHeaderV2RayHttp2Protocol}" Width="110" Height="30">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
                                 <ColumnDefinition></ColumnDefinition>
                                 <ColumnDefinition></ColumnDefinition>
                                 <ColumnDefinition></ColumnDefinition>
@@ -141,24 +141,24 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
+                                <RowDefinition Height="1.8*"></RowDefinition>
+                                <RowDefinition Height="1.5*"></RowDefinition>
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <RadioButton x:Name="RadioButtonHTTP2" Content="HTTP2"  GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="1" Checked="RadioButtonHTTP2_Checked"></RadioButton>
-                            <TextBlock Text="基于 HTTP/2 的传输方式。它完整按照 HTTP/2 标准实现，需要域名"  Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButtonHTTP2Web" Content="HTTP2+TLS+Web"  GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="2" Checked="RadioButtonWebSocketTLS2Web_Checked"></RadioButton>
-                            <TextBlock Text="基于 HTTP/2 传输。完整按 HTTP/2 标准实现，Caddy2做前置，隐藏代理特征，H2C协议转发到V2Ray，需要域名，暂不支持CloudFlare的CDN" TextWrapping="Wrap" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButtonHTTP2selfSigned" Content="HTTP2(自签证书)"  GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="3" Checked="RadioButtonWebSocketTLSselfSigned_Checked"></RadioButton>
-                            <TextBlock Text="基于 HTTP/2 的传输方式。它完整按照 HTTP/2 标准实现，使用自签名证书，不需要域名"  Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3"></TextBlock>
-                            <TextBlock Text="Shadowrocket (ios)需要手动打开“允许不安全”选项" TextWrapping="Wrap" Grid.Column="4" Grid.Row="3" ></TextBlock>
+                            <RadioButton x:Name="RadioButtonHTTP2" Content="HTTP2"  GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="1" Checked="RadioButtonHTTP2_Checked" HorizontalAlignment="Left" VerticalAlignment="Center"></RadioButton>
+                            <TextBlock Text="{DynamicResource TextBlockV2RayHttp2Explain}" TextWrapping="Wrap" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                            <RadioButton x:Name="RadioButtonHTTP2Web" Content="HTTP2+TLS+Web"  GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="2" Checked="RadioButtonWebSocketTLS2Web_Checked" HorizontalAlignment="Left" VerticalAlignment="Center"></RadioButton>
+                            <TextBlock Text="{DynamicResource TextBlockV2RayHttp2TlsWebExplain}" TextWrapping="Wrap" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                            <RadioButton x:Name="RadioButtonHTTP2selfSigned" Content="{DynamicResource RadioButtonV2RayHttp2SelfSigned}"  GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="3" Checked="RadioButtonWebSocketTLSselfSigned_Checked" HorizontalAlignment="Left" VerticalAlignment="Center"></RadioButton>
+                            <TextBlock Text="{DynamicResource TextBlockV2RayHttp2SelfSignedExplain}" TextWrapping="Wrap" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                            <TextBlock Text="{DynamicResource TextBlockV2RaySelfSignedShadowrocketExplain}" TextWrapping="Wrap" Grid.Column="4" Grid.Row="3" ></TextBlock>
 
                         </Grid>
                     </TabItem>
-                   
-                    <TabItem Header="mKCP传输协议" Width="110" Height="30">
+
+                    <TabItem Header="{DynamicResource TabItemHeaderV2RayMkcpProtocol}" Width="110" Height="30">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition></ColumnDefinition>
@@ -177,22 +177,22 @@
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <RadioButton x:Name="RadioButtonMkcpNone" Content="mKCP(无伪装)" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="1" Checked="RadioButtonQuicNone_Checked"></RadioButton>
-                            <TextBlock Text="数据加密传输，以增加带宽占用，减少延迟，udp协议,无伪装，会被识别为udp流量" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButton2mKCP2SRTP" Content="mKCP+SRTP" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="2" Checked="RadioButtonQuicNone_Checked"></RadioButton>
-                            <TextBlock Text="同mKCP(无伪装)，增加伪装成 SRTP 数据包，会被识别为视频通话数据（如 FaceTime）" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButton2mKCPuTP" Content="mKCP+uTP" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="3" Checked="RadioButtonQuicNone_Checked"></RadioButton>
-                            <TextBlock Text="同mKCP(无伪装)，增加伪装成 uTP 数据包，会被识别为 BT 下载数据" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButton2mKCP2WechatVideo" Content="mKCP+WechatVideo" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="4" Checked="RadioButtonQuicNone_Checked"></RadioButton>
-                            <TextBlock Text="同mKCP(无伪装)，增加伪装成微信视频通话的数据包" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButton2mKCP2DTLS" Content="mKCP+DTLS 1.2" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="5" Checked="RadioButtonQuicNone_Checked"></RadioButton>
-                            <TextBlock Text="同mKCP(无伪装)，增加伪装成 DTLS 1.2 数据包" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButton2mKCP2WireGuard" Content="mKCP+WireGuard" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="6" Checked="RadioButtonQuicNone_Checked"></RadioButton>
-                            <TextBlock Text="同mKCP(无伪装)，增加伪装成 WireGuard 数据包。(并不是真正的 WireGuard 协议)" TextWrapping="Wrap" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="3"></TextBlock>
+                            <RadioButton x:Name="RadioButtonMkcpNone" Content="{DynamicResource RadioButtonV2RayMkcpNone}" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="1" Checked="RadioButtonQuicNone_Checked" HorizontalAlignment="Left" VerticalAlignment="Center"></RadioButton>
+                            <TextBlock Text="{DynamicResource TextBlockV2RayMkcpNoneExplain}" TextWrapping="Wrap" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                            <RadioButton x:Name="RadioButton2mKCP2SRTP" Content="mKCP+SRTP" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="2" Checked="RadioButtonQuicNone_Checked" HorizontalAlignment="Left" VerticalAlignment="Center"></RadioButton>
+                            <TextBlock Text="{DynamicResource TextBlockV2RayMkcpSRTPExplain}" TextWrapping="Wrap"  Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                            <RadioButton x:Name="RadioButton2mKCPuTP" Content="mKCP+uTP" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="3" Checked="RadioButtonQuicNone_Checked" HorizontalAlignment="Left" VerticalAlignment="Center"></RadioButton>
+                            <TextBlock Text="{DynamicResource TextBlockV2RayMkcpuTPExplain}" TextWrapping="Wrap"  Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                            <RadioButton x:Name="RadioButton2mKCP2WechatVideo" Content="mKCP+WechatVideo" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="4" Checked="RadioButtonQuicNone_Checked" HorizontalAlignment="Left" VerticalAlignment="Center"></RadioButton>
+                            <TextBlock Text="{DynamicResource TextBlockV2RayMkcpWeChatExplain}" TextWrapping="Wrap"  Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                            <RadioButton x:Name="RadioButton2mKCP2DTLS" Content="mKCP+DTLS 1.2" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="5" Checked="RadioButtonQuicNone_Checked" HorizontalAlignment="Left" VerticalAlignment="Center"></RadioButton>
+                            <TextBlock Text="{DynamicResource TextBlockV2RayMkcpDTLSExplain}" TextWrapping="Wrap"  Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                            <RadioButton x:Name="RadioButton2mKCP2WireGuard" Content="mKCP+WireGuard" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="6" Checked="RadioButtonQuicNone_Checked" HorizontalAlignment="Left" VerticalAlignment="Center"></RadioButton>
+                            <TextBlock Text="{DynamicResource TextBlockV2RayMkcpWireGuardExplain}" TextWrapping="Wrap" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
 
                         </Grid>
                     </TabItem>
-                    <TabItem Header="QUIC传输协议" Width="110" Height="30">
+                    <TabItem Header="{DynamicResource TabItemHeaderV2RayQuicProtocol}" Width="110" Height="30">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition></ColumnDefinition>
@@ -211,26 +211,26 @@
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <TextBlock Text="提醒：Shadowrocket目前暂不支持QUIC的传输模式。" Foreground="Red" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5"></TextBlock>
-                            <RadioButton x:Name="RadioButtonQuicNone"  Content="QUIC(无伪装)"  GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="1" Checked="RadioButtonQuicNone_Checked"></RadioButton>
-                            <TextBlock Text="数据加密传输，无伪装会被识别为udp流量，谷歌出品，优点:减少延迟、多路复用、连接迁移"  Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButtonQuicSRTP"  Content="QUIC+SRTP" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="2" Checked="RadioButtonQuicNone_Checked"></RadioButton>
-                            <TextBlock Text="同QUIC(无伪装)，增加伪装成 SRTP 数据包，会被识别为视频通话数据（如 FaceTime）"  Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButtonQuic2uTP"  Content="QUIC+uTP" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="3" Checked="RadioButtonQuicNone_Checked"></RadioButton>
-                            <TextBlock Text="同QUIC(无伪装)，增加伪装成 uTP 数据包，会被识别为 BT 下载数据"  Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButtonQuicWechatVideo"  Content="QUIC+WechatVideo" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="4" Checked="RadioButtonQuicNone_Checked"></RadioButton>
-                            <TextBlock Text="同QUIC(无伪装)，增加伪装成微信视频通话的数据包"  Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButtonQuicDTLS" Content="QUIC+DTLS 1.2"  GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="5" Checked="RadioButtonQuicNone_Checked"></RadioButton>
-                            <TextBlock Text="同QUIC(无伪装)，增加伪装成 DTLS 1.2 数据包" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3"></TextBlock>
-                            <RadioButton x:Name="RadioButtonQuicWireGuard" Content="QUIC+WireGuard" GroupName="TemplateGroup" Grid.Column="0" Grid.Row="6" Checked="RadioButtonQuicNone_Checked"></RadioButton>
-                            <TextBlock Text="同QUIC(无伪装)，增加伪装成 WireGuard 数据包。(并不是真正的 WireGuard 协议)" TextWrapping="Wrap" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="3"></TextBlock>
+                            <TextBlock Text="{DynamicResource TextBlockV2RayQuicShadowrocketExplain}" Foreground="Red" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                            <RadioButton x:Name="RadioButtonQuicNone"  Content="{DynamicResource RadioButtonV2RayQuicNone}"  GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="1" Checked="RadioButtonQuicNone_Checked" HorizontalAlignment="Left" VerticalAlignment="Center"></RadioButton>
+                            <TextBlock Text="{DynamicResource TextBlockV2RayQuicNoneExplain}" TextWrapping="Wrap"  Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                            <RadioButton x:Name="RadioButtonQuicSRTP"  Content="QUIC+SRTP" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="2" Checked="RadioButtonQuicNone_Checked" HorizontalAlignment="Left" VerticalAlignment="Center"></RadioButton>
+                            <TextBlock Text="{DynamicResource TextBlockV2RayQuicSRTPExplain}"  TextWrapping="Wrap"  Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                            <RadioButton x:Name="RadioButtonQuic2uTP"  Content="QUIC+uTP" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="3" Checked="RadioButtonQuicNone_Checked" HorizontalAlignment="Left" VerticalAlignment="Center"></RadioButton>
+                            <TextBlock Text="{DynamicResource TextBlockV2RayQuicuTPExplain}"  TextWrapping="Wrap"  Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                            <RadioButton x:Name="RadioButtonQuicWechatVideo"  Content="QUIC+WechatVideo" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="4" Checked="RadioButtonQuicNone_Checked" HorizontalAlignment="Left" VerticalAlignment="Center"></RadioButton>
+                            <TextBlock Text="{DynamicResource TextBlockV2RayQuicWeChatExplain}"  TextWrapping="Wrap"  Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                            <RadioButton x:Name="RadioButtonQuicDTLS" Content="QUIC+DTLS 1.2"  GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="5" Checked="RadioButtonQuicNone_Checked" HorizontalAlignment="Left" VerticalAlignment="Center"></RadioButton>
+                            <TextBlock Text="{DynamicResource TextBlockV2RayQuicDTLSExplain}" TextWrapping="Wrap"  Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                            <RadioButton x:Name="RadioButtonQuicWireGuard" Content="QUIC+WireGuard" GroupName="TemplateGroup" Grid.Column="0" Grid.Row="6" Checked="RadioButtonQuicNone_Checked" HorizontalAlignment="Left" VerticalAlignment="Center"></RadioButton>
+                            <TextBlock Text="{DynamicResource TextBlockV2RayQuicWireGuardExplain}" TextWrapping="Wrap" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
 
                         </Grid>
                     </TabItem>
                 </TabControl>
             </Grid>
         </GroupBox>
-        <GroupBox Header="其他设置" Grid.Row="3" Grid.RowSpan="2">
+        <GroupBox Header="{DynamicResource GroupBoxHeaderParameterV2Ray}" Grid.Row="3" Grid.RowSpan="2">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
@@ -251,31 +251,31 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                <TextBlock x:Name="TextBlockServerListenPort" Text="服务端口：" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1"></TextBlock>
+                <TextBlock x:Name="TextBlockServerListenPort" Text="{DynamicResource TextBlockV2RayServerPort}" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxServerListenPort" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Margin="3"></TextBox>
-                <Button x:Name="ButtonServerListenPort" Content="随机选择" Grid.Column="4"  Grid.Row="0" Margin="2" Click="ButtonServerListenPort_Click"></Button>
-                <TextBlock Text="若使用TLS加密，请保持默认的443端口" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="0" Margin="3"></TextBlock>
-                <TextBlock x:Name="TextBlockNewUUID" Text="UUID：" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1"></TextBlock>
+                <Button x:Name="ButtonServerListenPort" Content="{DynamicResource ButtonV2RayServerPortChange}" Grid.Column="4"  Grid.Row="0" Margin="2" Click="ButtonServerListenPort_Click"></Button>
+                <TextBlock Text="{DynamicResource TextBlockV2RayServerPortExplain}" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="0" Margin="3"></TextBlock>
+                <TextBlock x:Name="TextBlockNewUUID" Text="UUID:" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxNewUUID" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Margin="3"></TextBox>
-                <Button x:Name="ButtonNewUUID" Content="更新" Grid.Column="4" Grid.Row="1" Margin="2" Click="ButtonNewUUID_Click"></Button>
-                <TextBlock Text="使用已有UUID，直接粘贴到框中" TextWrapping="Wrap" Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="2" Margin="0"></TextBlock>
-                <TextBlock x:Name="TextBlockQuicUUID" Text="mKCP/QUIC密钥"  Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="1"></TextBlock>
+                <Button x:Name="ButtonNewUUID" Content="{DynamicResource ButtonTrojanChangePassword}" Grid.Column="4" Grid.Row="1" Margin="2" Click="ButtonNewUUID_Click"></Button>
+                <TextBlock Text="{DynamicResource TextBlockV2RayUUIDExplain}" TextWrapping="Wrap" Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="2" Margin="0"></TextBlock>
+                <TextBlock x:Name="TextBlockQuicUUID" Text="{DynamicResource TextBlockV2RayQuicUUID}"  Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxQuicUUID"  Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Margin="3"></TextBox>
-                <Button x:Name="ButtonQuicUUID"  Content="更新" Grid.Column="4" Grid.Row="2" Margin="2" Click="ButtonQuicUUID_Click"></Button>
-                <TextBlock x:Name="TextBlockMkcpUUID"  Text="启用mKCP密钥，可增强抗识别，留空则禁用,要求版本4.24.2以上,V2rayN暂不支持" TextWrapping="Wrap" Grid.Column="5" Grid.Row="2" Grid.ColumnSpan="2"></TextBlock>
+                <Button x:Name="ButtonQuicUUID"  Content="{DynamicResource ButtonTrojanChangePassword}" Grid.Column="4" Grid.Row="2" Margin="2" Click="ButtonQuicUUID_Click"></Button>
+                <TextBlock x:Name="TextBlockMkcpUUID"  Text="{DynamicResource TextBlockV2RayMkcpExplain}" TextWrapping="Wrap" Grid.Column="5" Grid.Row="2" Grid.ColumnSpan="2"></TextBlock>
 
-                <TextBlock x:Name="TextBlockPath" Text="路径：" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="1"></TextBlock>
+                <TextBlock x:Name="TextBlockPath" Text="{DynamicResource TextBlockV2RayPath}" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxPath" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" Margin="3"></TextBox>
-                <Button x:Name="ButtonPath" Content="随机" Grid.Column="4" Grid.Row="3" Margin="2" Click="ButtonPath_Click"></Button>
-                <TextBlock x:Name="TextBlockDomain" Text="域名：" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="1"></TextBlock>
-                <TextBox x:Name="TextBoxDomain" Style="{StaticResource TitleText}" Tag="不可为空" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" Margin="3"></TextBox>
+                <Button x:Name="ButtonPath" Content="{DynamicResource ButtonNaiveProxyChangeUser}" Grid.Column="4" Grid.Row="3" Margin="2" Click="ButtonPath_Click"></Button>
+                <TextBlock x:Name="TextBlockDomain" Text="{DynamicResource TextBlockV2RayDomain}" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxDomain" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxDomainPrompt}" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" Margin="3"></TextBox>
                 <Button x:Name="ButtonDomain" Content="检测" Visibility="Collapsed" Grid.Column="4" Grid.Row="4" Margin="2" Click="ButtonDomain_Click"></Button>
-                <TextBlock x:Name="TextBlockMaskSites" Text="伪装网站：" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="1" Visibility="Hidden"></TextBlock>
-                <TextBox x:Name="TextBoxMaskSites" Style="{StaticResource TitleText}" Tag="设置此项可增加代理的隐蔽(可为空)" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3" Margin="3" Visibility="Hidden"></TextBox>
+                <TextBlock x:Name="TextBlockMaskSites" Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="1" Visibility="Hidden"></TextBlock>
+                <TextBox x:Name="TextBoxMaskSites" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxV2RayMaskSitesTag}" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3" Margin="3" Visibility="Hidden"></TextBox>
 
 
-                <Button x:Name="ButtondDecide" Content="确定" Grid.Column="1" Grid.Row="6" Margin="0" Click="ButtondDecide_Click"></Button>
-                <Button x:Name="ButtondCancel" Content="取消" Grid.Column="3" Grid.Row="6" Margin="0" Click="ButtondCancel_Click"></Button>
+                <Button x:Name="ButtondDecide" Content="{DynamicResource ButtonTrojanGoTemplateOK}" Grid.Column="1" Grid.Row="6" Margin="0" Click="ButtondDecide_Click"></Button>
+                <Button x:Name="ButtondCancel" Content="{DynamicResource ButtonTrojanGoTemplateCancel}" Grid.Column="3" Grid.Row="6" Margin="0" Click="ButtondCancel_Click"></Button>
                 <!--<Button x:Name="ButtonTestChecked" Content="测试选中状态" Grid.Column="5" Grid.Row="6" Click="ButtonTestChecked_Click"></Button>-->
             </Grid>
         </GroupBox>
