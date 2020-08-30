@@ -68,7 +68,8 @@ namespace ProxySU
             {
                 if (string.IsNullOrEmpty(TextBoxDomain.Text.ToString()) == true)
                 {
-                    MessageBox.Show("域名不能为空！");
+                    //****** "域名不能为空，请检查相关参数设置！" ******
+                    MessageBox.Show(Application.Current.FindResource("MessageBoxShow_DomainNotEmpty").ToString());
                     return;
                 }
                 //传递模板类型
@@ -93,7 +94,8 @@ namespace ProxySU
             {
                 if (string.IsNullOrEmpty(TextBoxDomain.Text.ToString()) == true)
                 {
-                    MessageBox.Show("域名不能为空！");
+                    //****** "域名不能为空，请检查相关参数设置！" ******
+                    MessageBox.Show(Application.Current.FindResource("MessageBoxShow_DomainNotEmpty").ToString());
                     return;
                 }
                 //传递模板类型
@@ -131,7 +133,8 @@ namespace ProxySU
             {
                 if (string.IsNullOrEmpty(TextBoxDomain.Text.ToString()) == true)
                 {
-                    MessageBox.Show("域名不能为空！");
+                    //****** "域名不能为空，请检查相关参数设置！" ******
+                    MessageBox.Show(Application.Current.FindResource("MessageBoxShow_DomainNotEmpty").ToString());
                     return;
                 }
                 //传递模板类型
@@ -148,7 +151,8 @@ namespace ProxySU
             {
                 if (string.IsNullOrEmpty(TextBoxDomain.Text.ToString()) == true)
                 {
-                    MessageBox.Show("域名不能为空！");
+                    //****** "域名不能为空，请检查相关参数设置！" ******
+                    MessageBox.Show(Application.Current.FindResource("MessageBoxShow_DomainNotEmpty").ToString());
                     return;
                 }
                 //传递模板类型
@@ -191,7 +195,8 @@ namespace ProxySU
             {
                 if (string.IsNullOrEmpty(TextBoxDomain.Text.ToString()) == true)
                 {
-                    MessageBox.Show("域名不能为空！");
+                    //****** "域名不能为空，请检查相关参数设置！" ******
+                    MessageBox.Show(Application.Current.FindResource("MessageBoxShow_DomainNotEmpty").ToString());
                     return;
                 }
                 //传递模板类型
@@ -207,7 +212,8 @@ namespace ProxySU
             {
                 if (string.IsNullOrEmpty(TextBoxDomain.Text.ToString()) == true)
                 {
-                    MessageBox.Show("域名不能为空！");
+                    //****** "域名不能为空，请检查相关参数设置！" ******
+                    MessageBox.Show(Application.Current.FindResource("MessageBoxShow_DomainNotEmpty").ToString());
                     return;
                 }
                 //传递模板类型

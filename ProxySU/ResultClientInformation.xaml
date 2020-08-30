@@ -12,10 +12,11 @@
             <RowDefinition Height="0.8*"></RowDefinition>
             <RowDefinition Height="0.12*"></RowDefinition>
         </Grid.RowDefinitions>
-        <GroupBox Header="V2Ray 客户端配置参数" x:Name="GroupBoxV2rayClient" Visibility="Visible" Grid.Row="0">
+        <!-- 客户端配置参数 -->
+        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxV2rayClient" Visibility="Collapsed" Grid.Row="0">
             <Grid >
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="0.6*"></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
@@ -23,7 +24,7 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="1.2*"></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
@@ -33,45 +34,45 @@
                     <RowDefinition></RowDefinition>
 
                 </Grid.RowDefinitions>
-                <TextBlock Text="地址(address)" Grid.Column="0" Grid.Row="0" Margin="1"></TextBlock>
+                <TextBlock Text="{DynamicResource TextBlockServerAddress}" Grid.Column="0" Grid.Row="0" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxHostAddress" IsReadOnly="True" Grid.Column="1" Grid.Row="0" Margin="2"></TextBox>
-                <TextBlock Text="说明" Grid.Column="2" Grid.Row="0"></TextBlock>
-                <TextBlock Text="端口(port)" Grid.Column="0" Grid.Row="1" Margin="1"></TextBlock>
+                <TextBlock Text="" Grid.Column="2" Grid.Row="0"></TextBlock>
+                <TextBlock Text="{DynamicResource TextBlockServerPort}" Grid.Column="0" Grid.Row="1" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxPort" IsReadOnly="True" Grid.Column="1" Grid.Row="1" Margin="2"></TextBox>
-                <TextBlock Text="说明" Grid.Column="2" Grid.Row="1"></TextBlock>
-                <TextBlock Text="用户ID(uuid)" Grid.Column="0" Grid.Row="2" Margin="1"></TextBlock>
+                <TextBlock Text="" Grid.Column="2" Grid.Row="1"></TextBlock>
+                <TextBlock Text="{DynamicResource TextBlockUserUUID}" Grid.Column="0" Grid.Row="2" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxUUID" IsReadOnly="True" Grid.Column="1" Grid.Row="2" Margin="2"></TextBox>
-                <TextBlock Text="说明" Grid.Column="2" Grid.Row="2"></TextBlock>
-                <TextBlock x:Name="TextBlockUUIDextra" Text="额外ID" Grid.Column="0" Grid.Row="3" Margin="1"></TextBlock>
+                <TextBlock Text="" Grid.Column="2" Grid.Row="2"></TextBlock>
+                <TextBlock x:Name="TextBlockUUIDextra" Text="{DynamicResource TextBlockV2RayAlterId}" Grid.Column="0" Grid.Row="3" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxUUIDextra" IsReadOnly="False" Grid.Column="1" Grid.Row="3" Margin="2"></TextBox>
-                <TextBlock x:Name="TextBlockUUIDextraExplanation" Text="默认16，可以填不超过64的值，客户端没有此选项可不填" TextWrapping="Wrap" Grid.Column="2" Grid.Row="3"></TextBlock>
-                <TextBlock Text="加密方式" Grid.Column="0" Grid.Row="4" Margin="1"></TextBlock>
+                <TextBlock x:Name="TextBlockUUIDextraExplanation" Text="{DynamicResource TextBlockV2RayAlterIdExplain}" TextWrapping="Wrap" Grid.Column="2" Grid.Row="3"></TextBlock>
+                <TextBlock Text="{DynamicResource TextBlockEncryption}" Grid.Column="0" Grid.Row="4" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxEncryption" IsReadOnly="True" Grid.Column="1" Grid.Row="4" Margin="2"></TextBox>
-                <TextBlock Text="默认auto" Grid.Column="2" Grid.Row="4"></TextBlock>
-                <TextBlock Text="传输协议" Grid.Column="0" Grid.Row="5" Margin="1"></TextBlock>
+                <TextBlock Text="{DynamicResource TextBlockEncryptionIsAuto}" Grid.Column="2" Grid.Row="4"></TextBlock>
+                <TextBlock Text="{DynamicResource TextBlockTransferProtocol}" Grid.Column="0" Grid.Row="5" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxTransmission" IsReadOnly="True" Grid.Column="1" Grid.Row="5" Margin="2"></TextBox>
-                <TextBlock Text="说明" Grid.Column="2" Grid.Row="5"></TextBlock>
-                <TextBlock Text="伪装类型" Grid.Column="0" Grid.Row="6" Margin="1"></TextBlock>
+                <TextBlock Text="" Grid.Column="2" Grid.Row="5"></TextBlock>
+                <TextBlock Text="{DynamicResource TextBlockCamouflageType}" Grid.Column="0" Grid.Row="6" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxCamouflageType" IsReadOnly="True" Grid.Column="1" Grid.Row="6" Margin="2"></TextBox>
-                <TextBlock Text="说明" Grid.Column="2" Grid.Row="6"></TextBlock>
-                <TextBlock x:Name="TextBlocTLSonOrNo" Text="是否使用TLS" Grid.Column="0" Grid.Row="7" Margin="1"></TextBlock>
+                <TextBlock Text="" Grid.Column="2" Grid.Row="6"></TextBlock>
+                <TextBlock x:Name="TextBlocTLSonOrNo" Text="{DynamicResource TextBlockIsOrNotTLS}" Grid.Column="0" Grid.Row="7" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxTLS" IsReadOnly="True" Grid.Column="1" Grid.Row="7" Margin="2"></TextBox>
-                <TextBlock x:Name="TextBlocTLSonOrNoExplain" Text="说明" Grid.Column="2" Grid.Row="7"></TextBlock>
-                <TextBlock x:Name="TextBlockHost" Text="Host" Grid.Column="0" Grid.Row="8" Margin="1"></TextBlock>
+                <TextBlock x:Name="TextBlocTLSonOrNoExplain" Text="" Grid.Column="2" Grid.Row="7"></TextBlock>
+                <TextBlock x:Name="TextBlockHost" Text="Host:" Grid.Column="0" Grid.Row="8" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxHost" IsReadOnly="True" Grid.Column="1" Grid.Row="8" Margin="2"></TextBox>
-                <TextBlock x:Name="TextBlockHostExplain" Text="说明" Grid.Column="2" Grid.Row="8"></TextBlock>
+                <TextBlock x:Name="TextBlockHostExplain" Text="" Grid.Column="2" Grid.Row="8"></TextBlock>
 
-                <TextBlock x:Name="TextBlockPath" Text="路径(Path)" Grid.Column="0" Grid.Row="9" Margin="1"></TextBlock>
+                <TextBlock x:Name="TextBlockPath" Text="{DynamicResource TextBlockClientPath}" Grid.Column="0" Grid.Row="9" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxPath" IsReadOnly="True" Grid.Column="1" Grid.Row="9" Margin="2"></TextBox>
-                <TextBlock x:Name="TextBlockPathExplain" Text="说明" Grid.Column="2" Grid.Row="9"></TextBlock>
-                <TextBlock x:Name="TextBlockQuicKey" Text="mKCP/QUIC密钥" Grid.Column="0" Grid.Row="10" Margin="1"></TextBlock>
+                <TextBlock x:Name="TextBlockPathExplain" Text="" Grid.Column="2" Grid.Row="9"></TextBlock>
+                <TextBlock x:Name="TextBlockQuicKey" Text="{DynamicResource TextBlockClientMkcpQuicKey}" Grid.Column="0" Grid.Row="10" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxQuicKey" IsReadOnly="True" Grid.Column="1" Grid.Row="10" Margin="2"></TextBox>
-                <TextBlock x:Name="TextBlockQuicKeyExplain" Text="说明" Grid.Column="2" Grid.Row="10"></TextBlock>
+                <TextBlock x:Name="TextBlockQuicKeyExplain" Text="" Grid.Column="2" Grid.Row="10"></TextBlock>
 
 
             </Grid>
         </GroupBox>
-        <GroupBox Header="Trojan-go 客户端配置参数" x:Name="GroupBoxTrojanGoClient" Visibility="Collapsed" Grid.Row="0">
+        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxTrojanGoClient" Visibility="Collapsed" Grid.Row="0">
             <Grid >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.5*"></ColumnDefinition>
@@ -86,24 +87,23 @@
                     <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition></RowDefinition>
 
-
                 </Grid.RowDefinitions>
-                <TextBlock Text="服务器地址：" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" ></TextBlock>
+                <TextBlock Text="{DynamicResource TextBlockServerAddress}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" ></TextBlock>
                 <TextBox x:Name="TextBoxTrojanGoServerHost" Grid.Column="1" Grid.Row="1" Margin="4"></TextBox>
                 <TextBlock Grid.Column="2" Grid.Row="1"></TextBlock>
-                <TextBlock Text="端口：" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBlock Text="{DynamicResource TextBlockServerPort}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxTrojanGoServerPort" Grid.Column="1" Grid.Row="2" Margin="4"></TextBox>
                 <TextBlock Grid.Column="2" Grid.Row="2"></TextBlock>
-                <TextBlock Text="密钥：" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBlock Text="{DynamicResource TextBlockHostPassword}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxTrojanGoServerPassword" Grid.Column="1" Grid.Row="3" Margin="4"></TextBox>
                 <TextBlock Grid.Column="2" Grid.Row="3"></TextBlock>
-                <TextBlock x:Name="TextBlockTrojanGoWebSocketPath" Text="WebSocket路径：" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBlock x:Name="TextBlockTrojanGoWebSocketPath" Text="{DynamicResource TextBlockTrojanGoWebSocketPath}" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxTrojanGoWSPath" Grid.Column="1" Grid.Row="4" Margin="4"></TextBox>
                 <TextBlock x:Name="TextBlockTrojanGoCaption" Grid.Column="2" Grid.Row="4"></TextBlock>
 
             </Grid>
         </GroupBox>
-        <GroupBox Header="Trojan 客户端配置参数" x:Name="GroupBoxTrojanClient" Visibility="Collapsed" Grid.Row="0">
+        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxTrojanClient" Visibility="Collapsed" Grid.Row="0">
             <Grid >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.5*"></ColumnDefinition>
@@ -117,23 +117,23 @@
                     <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition></RowDefinition>
-               
+
 
                 </Grid.RowDefinitions>
-                <TextBlock Text="服务器地址：" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" ></TextBlock>
+                <TextBlock Text="{DynamicResource TextBlockServerAddress}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" ></TextBlock>
                 <TextBox x:Name="TextBoxTrojanServerHost" Grid.Column="1" Grid.Row="1" Margin="4"></TextBox>
                 <TextBlock Grid.Column="2" Grid.Row="1"></TextBlock>
-                <TextBlock Text="端口：" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBlock Text="{DynamicResource TextBlockServerPort}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxTrojanServerPort" Grid.Column="1" Grid.Row="2" Margin="4"></TextBox>
                 <TextBlock Grid.Column="2" Grid.Row="2"></TextBlock>
-                <TextBlock Text="密钥：" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBlock Text="{DynamicResource TextBlockHostPassword}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxTrojanServerPassword" Grid.Column="1" Grid.Row="3" Margin="4"></TextBox>
                 <TextBlock Grid.Column="2" Grid.Row="3"></TextBlock>
 
 
             </Grid>
         </GroupBox>
-        <GroupBox Header="NaiveProxy 客户端配置参数" x:Name="GroupBoxNaiveProxyClient" Visibility="Collapsed" Grid.Row="0">
+        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxNaiveProxyClient" Visibility="Visible" Grid.Row="0">
             <Grid >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.5*"></ColumnDefinition>
@@ -150,13 +150,13 @@
 
 
                 </Grid.RowDefinitions>
-                <TextBlock Text="服务器地址:" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBlock Text="{DynamicResource TextBlockServerAddress}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxNaiveServerHost" Grid.Column="1" Grid.Row="1" Margin="4"></TextBox>
                 <TextBlock Grid.Column="2" Grid.Row="1"></TextBlock>
-                <TextBlock Text="用户名：" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBlock Text="{DynamicResource TextBlockHostUser}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxNaiveUser" Grid.Column="1" Grid.Row="2" Margin="4"></TextBox>
                 <TextBlock Grid.Column="2" Grid.Row="2"></TextBlock>
-                <TextBlock Text="密码：" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBlock Text="{DynamicResource TextBlockServerPort}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxNaivePassword" Grid.Column="1" Grid.Row="3" Margin="4"></TextBox>
                 <TextBlock Grid.Column="2" Grid.Row="3"></TextBlock>
                 <!--<Button x:Name="ButtonOpenDir" Content="确定" Grid.Column="1" Grid.Row="4" Margin="40,3,40,3" Click="ButtonOpenDir_Click"></Button>-->
@@ -164,7 +164,7 @@
 
             </Grid>
         </GroupBox>
-        <!--<GroupBox Header="客户端配置参数" x:Name="GroupBoxClient" Visibility="Collapsed" Grid.Row="0">
+        <!--<GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxClient" Visibility="Collapsed" Grid.Row="0">
             <Grid >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
@@ -190,14 +190,14 @@
             </Grid>
         </GroupBox>-->
 
-        <GroupBox Header="二维码/URL" Grid.Row="1">
+        <GroupBox Header="{DynamicResource GrouBoxHeaderUrlOrQR}" Grid.Row="1">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.5*"></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition Width="0.6*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <TextBlock x:Name="TextBlockQrURLexplain" Text="二维码和URL链接可用于&#x0a;v2rayN(windows)&#x0a;Trojan-QT5(windows)&#x0a;Qv2ray(windows)&#x0a;Shadowrocket(ios)&#x0a;v2rayNG(Android)&#x0a;导入v2ray节点&#x0a;&#x0a;注意:Vless协议需要手动输入配置参数，二维码和URL无效" TextWrapping="Wrap" Grid.Column="0"></TextBlock>
+                <TextBlock x:Name="TextBlockQrURLexplain" Text="{DynamicResource TextBlockQrURLexplainV2Ray}" TextWrapping="Wrap" Grid.Column="0"></TextBlock>
                 <Image x:Name="ImageShareQRcode" Grid.Column="1"></Image>
                 <TextBox x:Name="TextBoxURL" TextWrapping="Wrap" Grid.Column="2"></TextBox>
             </Grid>
@@ -207,8 +207,8 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition Width="0.3*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <TextBlock Text="以上参数可以手动或扫描输入客户端，用于官方客户端的配置和相关文件已经存放入目录下，点击 确定 按扭可打开" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Margin="5" TextWrapping="Wrap"></TextBlock>
-            <Button x:Name="ButtonOpenSaveDir" Content="确定" Grid.Column="1" Grid.Row="0" Grid.RowSpan="1" Margin="5" Click="ButtonOpenSaveDir_Click"></Button>
+            <TextBlock Text="{DynamicResource TextBlockUsedParameter}" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Margin="5" TextWrapping="Wrap"></TextBlock>
+            <Button x:Name="ButtonOpenSaveDir" Content="{DynamicResource ButtonTrojanGoTemplateOK}" Grid.Column="1" Grid.Row="0" Grid.RowSpan="1" Margin="5" Click="ButtonOpenSaveDir_Click"></Button>
 
         </Grid>
 

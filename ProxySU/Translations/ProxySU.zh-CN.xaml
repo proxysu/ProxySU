@@ -2,6 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:ProxySU.Translations"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <!-- 主程序界面 -->
+    <sys:String x:Key="MainWindowsLanguage">界面语言:</sys:String>
     <sys:String x:Key="TabItemHeaderAppDeployment">应用布署</sys:String>
     <sys:String x:Key="TabItemHeaderResourceTools">资源工具</sys:String>
     <sys:String x:Key="TextBlockHostName">主机:</sys:String>
@@ -19,6 +21,7 @@
     <sys:String x:Key="ButtonTrojanGoSetUp">Trojan-Go一键安装</sys:String>
     <sys:String x:Key="ButtonUpdateTrojanGo">升级Trojan-Go</sys:String>
     <sys:String x:Key="ButtonTrojanGoCancel">取消</sys:String>
+    <!-- 以下Trojan设置参数标签页界面 -->
     <sys:String x:Key="GroupBoxHeaderParameterTrojan">参数设置</sys:String>
     <sys:String x:Key="TextBlockTrojanTemplateExplanation">模式：Trojan+TLS+Caddy</sys:String>
     <sys:String x:Key="TextBlockTrojanServerDomain">服务器地址(域名):</sys:String>
@@ -29,28 +32,33 @@
     <sys:String x:Key="ButtonTrojanSetUp">Trojan一键安装</sys:String>
     <sys:String x:Key="ButtonUpdateTrojan">升级Trojan</sys:String>
     <sys:String x:Key="ButtonTrojanCancel">取消</sys:String>
+    <!-- 以下NaiveProxy设置参数标签页界面  -->
     <sys:String x:Key="TextBlockNaiveProxyTemplateExplanation">模式：NaiveProxy+TLS+Caddy</sys:String>
     <sys:String x:Key="ButtonNaiveProxyChangeUser">随机</sys:String>
     <sys:String x:Key="ButtonNavieSetUp">NaiveProxy一键安装</sys:String>
     <sys:String x:Key="ButtonNaiveCancel">取消</sys:String>
+    <!-- 以下系统工具标签页界面 -->
     <sys:String x:Key="ButtonProofreadTime">校对时间</sys:String>
     <sys:String x:Key="ButtonClearOccupiedPorts">释放80/443端口</sys:String>
     <sys:String x:Key="ButtonTestAndEnableBBR">启用BBR</sys:String>
+    <!-- 以下资源工具标签页界面 -->
     <sys:String x:Key="ButtonWebBrowserHomePage">主页</sys:String>
     <sys:String x:Key="ButtonWebBrowserForward">前进</sys:String>
     <sys:String x:Key="ButtonWebBrowserBack">后退</sys:String>
     <sys:String x:Key="TextBlockWebExplain">由于众所周知的原因，在某些时候，加载缓慢，请耐心等待一下</sys:String>
+    <!-- 以下Trojan-go模板库界面 -->
     <sys:String x:Key="GroupBoxHeaderTrojanGoTemplates">Trojan-go 模板库</sys:String>
     <sys:String x:Key="TextBlockTrojanGoTLSwebPlan">http/2传输，Caddy2伪装网站，抗识别，暂不支持CloudFlare的CDN</sys:String>
     <sys:String x:Key="TextBlockTrojanGoWebSocketTLSwebPlan">使用WebSocket传输，Caddy2伪装网站，抗识别，支持CloudFlare的CDN</sys:String>
     <sys:String x:Key="GroupBoxHeaderParameterTrojanGo">参数设置</sys:String>
-    <sys:String x:Key="TextBlockTrojanGoDomain">域名：</sys:String>
-    <sys:String x:Key="TextBlockTrojanGoPort">端口：443</sys:String>
-    <sys:String x:Key="TextBlockTrojanGoPassword">密码：</sys:String>
+    <sys:String x:Key="TextBlockTrojanGoDomain">域名:</sys:String>
+    <sys:String x:Key="TextBlockTrojanGoPort">端口: 443</sys:String>
+    <sys:String x:Key="TextBlockTrojanGoPassword">密码:</sys:String>
     <sys:String x:Key="TextBlockTrojanGoPasswordExplain">使用已有密码，直接粘贴到框中</sys:String>
-    <sys:String x:Key="TextBlockTrojanGoWebSocketPath">WebSocket路径：</sys:String>
+    <sys:String x:Key="TextBlockTrojanGoWebSocketPath">WebSocket路径:</sys:String>
     <sys:String x:Key="ButtonTrojanGoTemplateOK">确定</sys:String>
     <sys:String x:Key="ButtonTrojanGoTemplateCancel">取消</sys:String>
+    <!-- 以下V2Ray模板库界面 -->
     <sys:String x:Key="GroupBoxHeaderV2RayTemplates">V2Ray 模板库</sys:String>
     <sys:String x:Key="TabItemHeaderV2RayHotPlan">热门方案</sys:String>
     <sys:String x:Key="TabItemHeaderV2RayTcpProtocol">TCP传输协议</sys:String>
@@ -101,7 +109,36 @@
     <sys:String x:Key="TextBlockV2RayQuicWeChatExplain">同QUIC(无伪装)，增加伪装成微信视频通话的数据包</sys:String>
     <sys:String x:Key="TextBlockV2RayQuicDTLSExplain">同QUIC(无伪装)，增加伪装成 DTLS 1.2 数据包</sys:String>
     <sys:String x:Key="TextBlockV2RayQuicWireGuardExplain">同QUIC(无伪装)，增加伪装成 WireGuard 数据包。(并不是真正的 WireGuard 协议)</sys:String>
-<!--以下为程序内的-->
+    <!--以下为时间校对窗口-->
+    <sys:String x:Key="RadioButtonNetworkTime">同步网络时间</sys:String>
+    <sys:String x:Key="TextBlockNetworkTime">将远程主机时间校正为网络时间，注意：本机电脑的时间必须也是与网络时间同步的，否则本机电脑V2ray有可能连接出错&#x0a;&#x0a;推荐：优先使用此方法校对时间</sys:String>
+    <sys:String x:Key="RadioButtonLocalTime">同步本机时间</sys:String>
+    <sys:String x:Key="TextBlockLocalTime">将远程主机时间同步为本地时间，注意：本机电脑的时间必须是准确的，与网络时间同步的，否则其他客户端中，有可能连接出错&#x0a;&#x0a;使用网络校时无法校对时间时，使用此种方法</sys:String>
+    <sys:String x:Key="RadioButtonUpDateLocalTime">更新本机时间</sys:String>
+    <sys:String x:Key="TextBlockUpDateLocalTime">将本机电脑时间与网络时间同步。&#x0a;&#x0a;注意：使用此项功能，必须以管理员身份运行本程序</sys:String>
+    <sys:String x:Key="ButtonTestTime">检测时间误差</sys:String>
+    <sys:String x:Key="ButtonProofreading">校对时间</sys:String>
+    <!--以下为客户端参数显示窗口-->
+    <sys:String x:Key="GroupBoxHeaderClientParameter">客户端配置参数</sys:String>
+    <sys:String x:Key="TextBlockServerAddress">服务器地址(address):</sys:String>
+    <sys:String x:Key="TextBlockServerPort">端口(port):</sys:String>
+    <sys:String x:Key="TextBlockUserUUID">用户ID(uuid):</sys:String>
+    <sys:String x:Key="TextBlockV2RayAlterId">额外ID:</sys:String>
+    <sys:String x:Key="TextBlockV2RayAlterIdExplain">默认16，可以填不超过64的值，客户端没有此选项可不填</sys:String>
+    <sys:String x:Key="TextBlockEncryption">加密方式:</sys:String>
+    <sys:String x:Key="TextBlockTransferProtocol">传输协议:</sys:String>
+    <sys:String x:Key="TextBlockCamouflageType">伪装类型:</sys:String>
+    <sys:String x:Key="TextBlockIsOrNotTLS">是否使用TLS:</sys:String>
+    <sys:String x:Key="TextBlockClientPath">路径(Path):</sys:String>
+    <sys:String x:Key="TextBlockClientMkcpQuicKey">mKCP/QUIC密钥:</sys:String>
+    <sys:String x:Key="TextBlockEncryptionIsAuto">默认auto</sys:String>
+    <sys:String x:Key="GrouBoxHeaderUrlOrQR">二维码/URL</sys:String>
+    <sys:String x:Key="TextBlockUsedParameter">以上参数可以手动或扫描输入客户端，用于官方客户端的配置和相关文件已经存放入目录下，点击 确定 按扭可打开</sys:String>
+    <sys:String x:Key="TextBlockQrURLexplainV2Ray">二维码和URL链接可用于&#x0a;v2rayN(windows)&#x0a;Trojan-QT5(windows)&#x0a;Qv2ray(windows)&#x0a;Shadowrocket(ios)&#x0a;v2rayNG(Android)&#x0a;导入v2ray节点&#x0a;&#x0a;注意:Vless协议需要手动输入配置参数，二维码和URL无效</sys:String>
+    <sys:String x:Key="TextBlockQrURLexplainTrojan-go">"可用于ShadowRocket (ios)、igniter（Android）、Trojan-QT5 (windows) 扫码和导入url。注意：有的客户端可能不支持WebSocket模式。"</sys:String>
+    <sys:String x:Key="TextBlockQrURLexplainTrojan">"可用于ShadowRocket (ios)、igniter（Android）、Trojan-QT5 (windows) 扫码和导入url。注意：有的客户端可能不支持WebSocket模式。"</sys:String>
+    <sys:String x:Key="TextBlockQrURLexplainNaiveProxy">用于NaiveGUI(windows)的URL导入链接</sys:String>
+ <!--以下为程序内的-->
     <sys:String x:Key="MessageBoxShow_ErrorHostPortUserNotEmpty">主机地址、主机端口、用户名为必填项，不能为空!!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorHostPasswordNotEmpty">登录密码为必填项，不能为空!!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorHostKeyNotEmpty">密钥文件为必填项，不能为空!!</sys:String>
@@ -113,7 +150,7 @@
     <sys:String x:Key="DisplayInstallInfo_LoginSuccessful">主机登录成功!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_DetectionRootPermission">检测是否运行在root权限下...</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorRootPermission">请使用具有root权限的账户登录主机！！</sys:String>
-    <sys:String x:Key="DisplayInstallInfo_DetectionRoot_OK">检测结果：OK！</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_DetectionRootOK">检测结果：OK！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_TestExistSoft">检测系统是否已经安装</sys:String>
     <sys:String x:Key="MessageBoxShow_ExistedSoft">远程主机已安装</sys:String>
     <sys:String x:Key="MessageBoxShow_ForceInstallSoft">,是否强制重新安装？</sys:String>
@@ -148,7 +185,7 @@
     <sys:String x:Key="DisplayInstallInfo_StartInstallSoft">正在安装</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorInstallSoftFail">安装失败,官方脚本运行出错！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_SoftInstallSuccess">安装成功！</sys:String>
-    <sys:String x:Key="DisplayInstallInfo_UploadSoftConfig">上传配置文件......</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_UploadSoftConfig">安装完毕，上传配置文件......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_StartInstallAcmeSh">正在安装acme.sh......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_AcmeShInstallSuccess">acme.sh安装成功！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_ErrorAcmeShInstallFail">acme.sh安装失败！原因未知，请向开发者提问！</sys:String>
@@ -157,8 +194,10 @@
     <sys:String x:Key="DisplayInstallInfo_ApplyCertFail">证书申请失败！原因未知，请向开发者提问！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_IntallCertToSoft">安装证书到</sys:String>
     <sys:String x:Key="DisplayInstallInfo_IntallCertToSoftOK">证书成功安装到</sys:String>
-    <sys:String x:Key="DisplayInstallInfo_IntallCertToV2RayFail">证书安装到V2ray失败，原因未知，可以向开发者提问！</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_IntallCertToSoftFail">证书安装到</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_InstallCertFailAsk">失败，原因未知，可以向开发者提问！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_StartInstallCaddy">安装Caddy......</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_NotInstalledCaddy">检测结果：未安装Caddy！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_ErrorInstallCaddyFail">安装Caddy失败！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_InstalledCaddyOK">Caddy安装成功！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_UpgradeCaddy">正在为Http2Web模式升级Caddy v2.2.0测试版！</sys:String>
@@ -170,18 +209,18 @@
     <sys:String x:Key="DisplayInstallInfo_StartCaddyServiceSecond">正在启动Caddy（第二次尝试）！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_StartCaddyServiceSecondFail">Caddy启动失败(第二次)！退出安装！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_CaddyServiceFailedExit">Caddy启动失败，原因未知！请向开发者问询！</sys:String>
-    <sys:String x:Key="DisplayInstallInfo_StartV2Ray">正在启动V2ray......</sys:String>
-    <sys:String x:Key="DisplayInstallInfo_StartV2RayOK">V2ray启动成功！</sys:String>
-    <sys:String x:Key="DisplayInstallInfo_StartV2RayFail">V2ray启动失败！</sys:String>
-    <sys:String x:Key="DisplayInstallInfo_StartV2RaySecond">正在启动V2ray（第二次尝试）！</sys:String>
-    <sys:String x:Key="DisplayInstallInfo_StartV2RaySecondFail">V2ray启动失败(第二次)！退出安装！</sys:String>
-    <sys:String x:Key="DisplayInstallInfo_StartV2RayFailedExit">V2Ray启动失败，原因未知！请向开发者问询！</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_StartSoft">正在启动</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_StartSoftOK">启动成功！</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_StartSoftFail">启动失败！</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_StartSoftSecond">正在第二次尝试启动</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_StartSoftSecondFail">启动失败(第二次)！退出安装！</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_StartSoftFailedExit">启动失败，原因未知！请向开发者问询！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_TestBBR">BBR测试......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_EnableBBR">正在启用BBR......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_BBRisEnabled">BBR已经启用了！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_BBRFailed">系统不满足启用BBR的条件，启用失败！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_GenerateClientConfig">生成客户端配置......</sys:String>
-    <sys:String x:Key="DisplayInstallInfo_V2RayProxyInstalledOK">V2Ray安装成功,祝你玩的愉快！！</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_ProxyInstalledOK">安装成功,祝你玩的愉快！！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_LoginFailed">主机登录失败!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorLoginOccurred">发生错误!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorLoginUserOrPassword">密码错误或用户名错误!</sys:String>
@@ -189,7 +228,7 @@
     <sys:String x:Key="MessageBoxShow_ErrorLoginKey">所选密钥文件错误或者格式不对!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorLoginKeyOrUser">使用密钥登录，密钥文件错误或用户名错误!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorLoginHostOrProxyPort">主机地址错误，如果使用了代理，也可能是连接代理的端口错误!</sys:String>
-    <sys:String x:Key="MessageBoxShow_ErrorUpgradeV2RayNotInstall">远程主机未安装V2ray，退出！</sys:String>
+    <sys:String x:Key="MessageBoxShow_ErrorUpgradeSoftNotInstall">退出！原因：远程主机未安装</sys:String>
     <sys:String x:Key="DisplayInstallInfo_OldScriptInstalledV2Ray">检测到使用旧安装脚本的V2Ray......</sys:String>
     <sys:String x:Key="MessageBoxShow_OldScriptInstalledV2Ray">检测到使用旧安装脚本的V2Ray,是否卸载旧版本并使用新安装脚本重新安装？</sys:String>
     <sys:String x:Key="DisplayInstallInfo_RemoveOldScriptInstalledV2Ray">正在卸载旧版本......</sys:String>
@@ -206,13 +245,69 @@
     <sys:String x:Key="DisplayInstallInfo_UpgradeVersionCancel">升级取消，退出!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_IsNewVersion">远程主机当前已是最新版本：</sys:String>
     <sys:String x:Key="DisplayInstallInfo_NotUpgradeVersion">无需升级！退出！</sys:String>
-    <sys:String x:Key="MessageBoxShow_DomainNotEmpty">空域名，请检查相关参数设置！</sys:String>
+    <sys:String x:Key="MessageBoxShow_DomainNotEmpty">域名不能为空，请检查相关参数设置！</sys:String>
+    <sys:String x:Key="MessageBoxShow_PleaseInstallSoftAtX64">请在x86_64系统中安装</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_BackTrojanConfig">备份Trojan配置文件......</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_RestoreTrojanConfig">恢复Trojan配置文件......</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_ExistedCaddy">"远程主机已安装Caddy,但不确定是否支持forward proxy，是否强制重新安装？"</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_RemoveCaddyOrRebuiled">请先行卸载Caddy或重装VPS系统！</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_InstallRelySoft">正在安装依赖的软件......</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_SoftInstalledOK">安装完毕！OK！</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_StartCaddy">正在安装Caddy.....</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_UpgradeNaiveProxy">正在为NaiveProxy升级服务端</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_UpgradeNaiveProxyOK">升级完毕，OK！</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_OptimizeNetwork">正在优化网络参数......</sys:String>
+    <!--以下为V2Ray客户端说明文件-->
+    <sys:String x:Key="readmeTxtV2RayExplainLine01">此文件为V2Ray官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080，http代理地址：127.0.0.1:1081</sys:String>
+    <sys:String x:Key="readmeTxtV2RayExplainLine02">v2ray官方网站：https://www.v2ray.com/</sys:String>
+    <sys:String x:Key="readmeTxtV2RayExplainLine03">v2ray官方程序下载地址：https://github.com/v2ray/v2ray-core/releases</sys:String>
+    <sys:String x:Key="readmeTxtV2RayExplainLine04">下载相应版本，Windows选择v2ray-windows-64.zip或者v2ray-windows-32.zip，解压后提取v2ctl.exe和v2ray.exe。与config.json放在同一目录，运行v2ray.exe即可。</sys:String>
+    <sys:String x:Key="readmeTxtV2RayExplainLine05">此文件为v2rayN、Trojan-QT5、v2rayNG(Android)、Shadowrocket(ios)扫码导入节点</sys:String>
+    <sys:String x:Key="readmeTxtV2RayExplainLine06">v2rayN下载网址：https://github.com/2dust/v2rayN/releases</sys:String>
+    <sys:String x:Key="readmeTxtV2RayExplainLine07">Trojan-QT5：https://github.com/Trojan-Qt5/Trojan-Qt5</sys:String>
+    <sys:String x:Key="readmeTxtV2RayExplainLine08">v2rayNG(Android)下载网址：https://github.com/2dust/v2rayNG/releases</sys:String>
+    <sys:String x:Key="readmeTxtV2RayExplainLine09">v2rayNG(Android)在Google Play下载网址：https://play.google.com/store/apps/details?id=com.v2ray.ang</sys:String>
+    <sys:String x:Key="readmeTxtV2RayExplainLine10">Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。</sys:String>
+    <sys:String x:Key="readmeTxtV2RayExplainLine11">此文件为v2rayN、Trojan-QT5、v2rayNG(Android)、Shadowrocket(ios)复制粘贴导入节点的vmess网址</sys:String>
+    <sys:String x:Key="readmeTxtV2RayExplainLine12">服务器通用连接配置参数</sys:String>
+    <!--以下为Trojan-go客户端说明文件-->
+    <sys:String x:Key="readmeTxtTrojan-goExplainLine01">此文件为Trojan-go官方程序所使用的客户端配置文件，配置为全局模式，http与socks5地址：127.0.0.1:1080</sys:String>
+    <sys:String x:Key="readmeTxtTrojan-goExplainLine02">Trojan-go官方网站：https://github.com/p4gefau1t/trojan-go</sys:String>
+    <sys:String x:Key="readmeTxtTrojan-goExplainLine03">Trojan-go官方程序下载地址：https://github.com/p4gefau1t/trojan-go/releases</sys:String>
+    <sys:String x:Key="readmeTxtTrojan-goExplainLine04">下载相应版本，Windows选择Trojan-go-x.xx-win.zip,解压后提取trojan-go.exe。与config.json放在同一目录，运行trojan-go.exe即可。</sys:String>
+    <sys:String x:Key="readmeTxtTrojan-goExplainLine05">此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)扫码导入节点（Trojan-Go的WebSocket模式暂不支持）</sys:String>
+    <sys:String x:Key="readmeTxtTrojan-goExplainLine06">Trojan-QT5 (windows)下载网址：https://github.com/TheWanderingCoel/Trojan-Qt5/releases</sys:String>
+    <sys:String x:Key="readmeTxtTrojan-goExplainLine07">igniter（Android）下载网址：https://github.com/trojan-gfw/igniter/releases</sys:String>
+    <sys:String x:Key="readmeTxtTrojan-goExplainLine08">Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。</sys:String>
+    <sys:String x:Key="readmeTxtTrojan-goExplainLine09">此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)复制粘贴导入节点的网址（Trojan-Go的WebSocket模式暂不支持）</sys:String>
+    <sys:String x:Key="readmeTxtTrojan-goExplainLine10">服务器通用连接配置参数</sys:String>
+    <!--以下为Trojan客户端说明文件-->
+    <sys:String x:Key="readmeTxtTrojanExplainLine01">此文件为Trojan官方程序所使用的客户端配置文件，配置为全局模式，http与socks5地址：127.0.0.1:1080</sys:String>
+    <sys:String x:Key="readmeTxtTrojanExplainLine02">Trojan官方网站：https://trojan-gfw.github.io/trojan/</sys:String>
+    <sys:String x:Key="readmeTxtTrojanExplainLine03">Trojan官方程序下载地址：https://github.com/trojan-gfw/trojan/releases</sys:String>
+    <sys:String x:Key="readmeTxtTrojanExplainLine04">下载相应版本，Windows选择Trojan-x.xx-win.zip,解压后提取trojan.exe。与config.json放在同一目录，运行trojan.exe即可。</sys:String>
+    <sys:String x:Key="readmeTxtTrojanExplainLine05">此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)扫码导入节点</sys:String>
+    <sys:String x:Key="readmeTxtTrojanExplainLine06">Trojan-QT5 (windows)下载网址：https://github.com/TheWanderingCoel/Trojan-Qt5/releases</sys:String>
+    <sys:String x:Key="readmeTxtTrojanExplainLine07">igniter（Android）下载网址：https://github.com/trojan-gfw/igniter/releases</sys:String>
+    <sys:String x:Key="readmeTxtTrojanExplainLine08">Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。</sys:String>
+    <sys:String x:Key="readmeTxtTrojanExplainLine09">此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)复制粘贴导入节点的网址</sys:String>
+    <sys:String x:Key="readmeTxtTrojanExplainLine10">服务器通用连接配置参数</sys:String>
+    <!--以下为NaiveProxy客户端说明文件-->
+    <sys:String x:Key="readmeTxtNaiveProxyExplainLine01">此文件为NaiveProxy官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080</sys:String>
+    <sys:String x:Key="readmeTxtNaiveProxyExplainLine02">NaiveProxy官方网站：https://github.com/klzgrad/naiveproxy</sys:String>
+    <sys:String x:Key="readmeTxtNaiveProxyExplainLine03">NaiveProxy官方程序下载地址：https://github.com/klzgrad/naiveproxy/releases</sys:String>
+    <sys:String x:Key="readmeTxtNaiveProxyExplainLine04">下载相应版本，Windows选择naiveproxy-x.xx-win.zip,解压后提取naive.exe。与config.json放在同一目录，运行naive.exe即可。</sys:String>
+    <sys:String x:Key="readmeTxtNaiveProxyExplainLine05">此文件为NaiveGUI(windows)复制粘贴导入节点的网址</sys:String>
+    <sys:String x:Key="readmeTxtNaiveProxyExplainLine06">NaiveGUI(windows)下载网址：https://github.com/ExcitedCodes/NaiveGUI/releases</sys:String>
+    <sys:String x:Key="readmeTxtNaiveProxyExplainLine07">服务器通用连接配置参数</sys:String>
 
-   
+    <!--<sys:String x:Key="MsgShowTime">Now</sys:String>
+    <sys:String x:Key="BtnOK1">OK</sys:String>
+    <sys:String x:Key="HdNo1">No.</sys:String>
     <sys:String x:Key="HdName1">Name</sys:String>
     <sys:String x:Key="HdGender1">Gender</sys:String>
     <sys:String x:Key="HdDept1">Dept</sys:String>
     <sys:String x:Key="HdEmail1">Email</sys:String>
     <sys:String x:Key="HdTel1">Tel</sys:String>
-    <sys:String x:Key="MsgShowTime1">Now</sys:String>
+    <sys:String x:Key="MsgShowTime1">Now</sys:String>-->
 </ResourceDictionary>

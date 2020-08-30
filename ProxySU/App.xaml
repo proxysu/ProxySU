@@ -8,6 +8,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Translations\ProxySU.zh-CN.xaml" />
                 <ResourceDictionary Source="Translations\ProxySU.en-US.xaml" />
+                <ResourceDictionary Source="Translations\ProxySU.zh-TW.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

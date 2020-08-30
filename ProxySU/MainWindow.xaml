@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProxySU"
         mc:Ignorable="d"
-        Title="ProxySU - v1.8.6" Height="600" Width="530">
+        Title="ProxySU - v1.8.6" Height="625" Width="530">
     <!--以下样式参考自：https://yq.aliyun.com/articles/331878
 	https://docs.microsoft.com/en-us/dotnet/desktop-wpf/fundamentals/styles-templates-overview-->
     <Window.Resources>
@@ -32,7 +32,22 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <TabControl>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="3" Text="{DynamicResource MainWindowsLanguage}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5"></TextBlock>
+            <ComboBox x:Name="ComboBoxLanguage" Grid.Column="4" Height="25" Width="80" SelectionChanged="ComboBoxLanguage_SelectionChanged"></ComboBox>
+        </Grid>
+        <TabControl Grid.Row="1">
             <!--<TabItem Header="V2ray配置生成器" Width="110" Height="30">
                 <Grid>
                     
@@ -265,7 +280,7 @@
                                 <Button x:Name="ButtonNaiveCancel" Content="{DynamicResource ButtonNaiveCancel}" Grid.ColumnSpan="1" Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
                             </Grid>
                         </TabItem>
-                        <TabItem Header="三合一" Width="100" Height="30" Visibility="Collapsed">
+                        <!--<TabItem Header="三合一" Width="100" Height="30" Visibility="Collapsed">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition></ColumnDefinition>
@@ -304,7 +319,7 @@
                                         <TextBlock Text="地址(域名)：" Grid.Column="0" Grid.Row="2" Margin="3"></TextBlock>
                                         <TextBox x:Name="TextBoxDomain3in1" Text="" Style="{StaticResource TitleText}" Tag="IP或域名(不可为空)"  Grid.Column="1" Grid.Row="2" Margin="3"></TextBox>
                                         <TextBlock Text="端口：443" Grid.Column="2" Grid.Row="2" Margin="3"></TextBlock>
-                                        <!--<TextBox x:Name="TextBoxPort3in1" Text="443" IsReadOnly="True" Grid.Column="3" Grid.Row="2" Margin="3"></TextBox>-->
+                                        --><!--<TextBox x:Name="TextBoxPort3in1" Text="443" IsReadOnly="True" Grid.Column="3" Grid.Row="2" Margin="3"></TextBox>--><!--
                                         <TextBlock Text="伪装网站：" Grid.Column="3" Grid.Row="2" Margin="3"></TextBlock>
                                         <TextBox x:Name="TextBoxSites3in1" Text="" Style="{StaticResource TitleText}" Tag="伪装网站域名(可为空)"  Grid.Column="4" Grid.Row="2" Margin="3"></TextBox>
 
@@ -333,7 +348,7 @@
                                 <Button x:Name="Button_Login3in1" Content="一键安装" Grid.ColumnSpan="1" Margin="10" Grid.Column="0" Grid.Row="2" Click="Button_Login3in1_Click"/>
                                 <Button x:Name="Button_canel3in1" Content="取消" Grid.ColumnSpan="1" Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
                             </Grid>
-                        </TabItem>
+                        </TabItem>-->
 
                         <TabItem Header="{DynamicResource TabItemHeaderSysTools}" Width="100" Height="30">
                             <Grid>
@@ -351,7 +366,6 @@
                                 <Button x:Name="ButtonProofreadTime" Content="{DynamicResource ButtonProofreadTime}" Grid.Column="0" Grid.Row="0" Margin="5" Click="ButtonProofreadTime_Click"/>
                                 <Button x:Name="ButtonClearOccupiedPorts" Content="{DynamicResource ButtonClearOccupiedPorts}" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonClearOccupiedPorts_Click"></Button>
                                 <Button x:Name="ButtonTestAndEnableBBR" Content="{DynamicResource ButtonTestAndEnableBBR}" Grid.Column="2" Grid.Row="0" Margin="5" Click="ButtonTestAndEnableBBR_Click"></Button>
-
                             </Grid>
                         </TabItem>
                         

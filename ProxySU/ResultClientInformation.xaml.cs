@@ -294,7 +294,8 @@ namespace ProxySU
                 TextBlockTrojanGoWebSocketPath.Visibility = Visibility.Hidden;
                 TextBlockTrojanGoCaption.Visibility = Visibility.Hidden;
 
-                TextBlockQrURLexplain.Text = "可用于ShadowRocket (ios)、igniter（Android）、Trojan-QT5 (windows) 扫码和导入url。注意：有的客户端可能不支持WebSocket模式。";
+                //******"可用于ShadowRocket (ios)、igniter（Android）、Trojan-QT5 (windows) 扫码和导入url。注意：有的客户端可能不支持WebSocket模式。" ******
+                TextBlockQrURLexplain.Text = Application.Current.FindResource("TextBlockQrURLexplainTrojan-go").ToString();
 
                 //主机地址
                 TextBoxTrojanGoServerHost.Text = MainWindow.ReceiveConfigurationParameters[4];
@@ -321,7 +322,7 @@ namespace ProxySU
                 GroupBoxTrojanClient.Visibility = Visibility.Visible;
                 GroupBoxNaiveProxyClient.Visibility = Visibility.Collapsed;
 
-                TextBlockQrURLexplain.Text = "可用于ShadowRocket (ios)、igniter（Android）、Trojan-QT5 (windows) 扫码和导入url";
+                TextBlockQrURLexplain.Text = Application.Current.FindResource("TextBlockQrURLexplainTrojan").ToString();
 
                 //主机地址
                 TextBoxTrojanServerHost.Text = MainWindow.ReceiveConfigurationParameters[4];
@@ -340,7 +341,7 @@ namespace ProxySU
                 GroupBoxTrojanClient.Visibility = Visibility.Collapsed;
                 GroupBoxNaiveProxyClient.Visibility = Visibility.Visible;
 
-                TextBlockQrURLexplain.Text = "用于NaiveGUI(windows)的URL导入链接";
+                TextBlockQrURLexplain.Text = Application.Current.FindResource("TextBlockQrURLexplainNaiveProxy").ToString();
 
                 TextBoxNaiveServerHost.Text = MainWindow.ReceiveConfigurationParameters[4];
                 TextBoxNaiveUser.Text = MainWindow.ReceiveConfigurationParameters[3];
@@ -468,38 +469,64 @@ namespace ProxySU
                 //File.Delete(@"config\config.json");//删除该文件
             }
 
-            using (StreamWriter sw = new StreamWriter($"v2ray_config\\{saveFileFolder}\\说明.txt"))
+            using (StreamWriter sw = new StreamWriter($"v2ray_config\\{saveFileFolder}\\readme.txt"))
             {
                 sw.WriteLine("config.json");
-                sw.WriteLine("此文件为v2ray官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080，http代理地址：127.0.0.1:1081");
-                sw.WriteLine("v2ray官方网站：https://www.v2ray.com/");
-                sw.WriteLine("v2ray官方程序下载地址：https://github.com/v2ray/v2ray-core/releases");
-                sw.WriteLine("下载相应版本，Windows选择v2ray-windows-64.zip或者v2ray-windows-32.zip，解压后提取v2ctl.exe和v2ray.exe。与config.json放在同一目录，运行v2ray.exe即可。");
+                //****** "此文件为v2ray官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080，http代理地址：127.0.0.1:1081" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine01").ToString());
+
+                //****** "v2ray官方网站：https://www.v2ray.com/" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine02").ToString());
+
+                //****** "v2ray官方程序下载地址：https://github.com/v2ray/v2ray-core/releases" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine03").ToString());
+
+                //****** "下载相应版本，Windows选择v2ray-windows-64.zip或者v2ray-windows-32.zip，解压后提取v2ctl.exe和v2ray.exe。与config.json放在同一目录，运行v2ray.exe即可。" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine04").ToString());
+
                 sw.WriteLine("-----------------------------------------");
                 sw.WriteLine("QR.bmp");
-                sw.WriteLine("此文件为v2rayN、Trojan-QT5、v2rayNG(Android)、Shadowrocket(ios)扫码导入节点");
-                sw.WriteLine("v2rayN下载网址：https://github.com/2dust/v2rayN/releases");
-                sw.WriteLine("Trojan-QT5：https://github.com/Trojan-Qt5/Trojan-Qt5");
-                sw.WriteLine("v2rayNG(Android)下载网址：https://github.com/2dust/v2rayNG/releases");
-                sw.WriteLine("v2rayNG(Android)在Google Play下载网址：https://play.google.com/store/apps/details?id=com.v2ray.ang");
-                sw.WriteLine("Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。");
+
+                //****** "此文件为v2rayN、Trojan-QT5、v2rayNG(Android)、Shadowrocket(ios)扫码导入节点" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine05").ToString());
+
+                //****** "v2rayN下载网址：https://github.com/2dust/v2rayN/releases" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine06").ToString());
+
+                //****** "Trojan-QT5：https://github.com/Trojan-Qt5/Trojan-Qt5" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine07").ToString());
+                
+                //****** "v2rayNG(Android)下载网址：https://github.com/2dust/v2rayNG/releases" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine08").ToString());
+
+                //****** "v2rayNG(Android)在Google Play下载网址：https://play.google.com/store/apps/details?id=com.v2ray.ang" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine09").ToString());
+
+                //****** "Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine10").ToString());
 
                 sw.WriteLine("-----------------------------------------");
                 sw.WriteLine("url.txt");
-                sw.WriteLine("此文件为v2rayN、Trojan-QT5、v2rayNG(Android)、Shadowrocket(ios)复制粘贴导入节点的vmess网址");
+
+                //****** "此文件为v2rayN、Trojan-QT5、v2rayNG(Android)、Shadowrocket(ios)复制粘贴导入节点的vmess网址" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine11").ToString());
                 sw.WriteLine("-----------------------------------------\n");
-                sw.WriteLine("服务器通用连接配置参数");
-                sw.WriteLine($"地址(address)：{TextBoxHostAddress.Text}");
-                sw.WriteLine($"端口(Port)：{TextBoxPort.Text}");
-                sw.WriteLine($"用户ID(uuid)：{TextBoxUUID.Text}");
-                sw.WriteLine($"额外ID：{TextBoxUUIDextra.Text}");
-                sw.WriteLine($"加密方式：{TextBoxEncryption.Text}");
-                sw.WriteLine($"传输协议：{TextBoxTransmission.Text}");
-                sw.WriteLine($"伪装类型：{TextBoxCamouflageType.Text}");
-                sw.WriteLine($"是否使用TLS：{TextBoxTLS.Text}");
-                sw.WriteLine($"host：{TextBoxHostAddress.Text}");
-                sw.WriteLine($"路径(Path)：{TextBoxPath.Text}");
-                sw.WriteLine($"mKCP/QUIC密钥：{TextBoxQuicKey.Text}");
+
+                //****** "服务器通用连接配置参数" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine12").ToString());
+                //sw.Write(Application.Current.FindResource("readmeTxtV2RayExplain").ToString());
+                sw.WriteLine(Application.Current.FindResource("TextBlockServerAddress").ToString() + $"{TextBoxHostAddress.Text}");
+                sw.WriteLine(Application.Current.FindResource("TextBlockServerPort").ToString() + $"{TextBoxPort.Text}");
+                sw.WriteLine(Application.Current.FindResource("TextBlockUserUUID").ToString() + $"{TextBoxUUID.Text}");
+                sw.WriteLine(Application.Current.FindResource("TextBlockV2RayAlterId").ToString() + $"{TextBoxUUIDextra.Text}");
+                sw.WriteLine(Application.Current.FindResource("TextBlockEncryption").ToString() + $"{TextBoxEncryption.Text}");
+                sw.WriteLine(Application.Current.FindResource("TextBlockTransferProtocol").ToString() + $"{TextBoxTransmission.Text}");
+                sw.WriteLine(Application.Current.FindResource("TextBlockCamouflageType").ToString() + $"{TextBoxCamouflageType.Text}");
+                sw.WriteLine(Application.Current.FindResource("TextBlockIsOrNotTLS").ToString() + $"{TextBoxTLS.Text}");
+                sw.WriteLine("host:" + $"{TextBoxHostAddress.Text}");
+                sw.WriteLine(Application.Current.FindResource("TextBlockClientPath").ToString() + $"{TextBoxPath.Text}");
+                sw.WriteLine(Application.Current.FindResource("TextBlockClientMkcpQuicKey").ToString() + $"{TextBoxQuicKey.Text}");
+                
             }
 
 
@@ -538,29 +565,57 @@ namespace ProxySU
                 //File.Delete(@"config\config.json");//删除该文件
             }
 
-            using (StreamWriter sw = new StreamWriter($"trojan-go_config\\{saveFileFolder}\\说明.txt"))
+            using (StreamWriter sw = new StreamWriter($"trojan-go_config\\{saveFileFolder}\\readme.txt"))
             {
                 sw.WriteLine("config.json");
-                sw.WriteLine("此文件为Trojan-go官方程序所使用的客户端配置文件，配置为全局模式，http与socks5地址：127.0.0.1:1080");
-                sw.WriteLine("Trojan-go官方网站：https://github.com/p4gefau1t/trojan-go");
-                sw.WriteLine("Trojan-go官方程序下载地址：https://github.com/p4gefau1t/trojan-go/releases");
-                sw.WriteLine("下载相应版本，Windows选择Trojan-x.xx-win.zip,解压后提取trojan.exe。与config.json放在同一目录，运行trojan.exe即可。");
-                sw.WriteLine("-----------------------------------------\n");
-                sw.WriteLine("QR.bmp");
-                sw.WriteLine("此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)扫码导入节点（Trojan-Go的WebSocket模式暂不支持）");
-                sw.WriteLine("Trojan-QT5 (windows)下载网址：https://github.com/TheWanderingCoel/Trojan-Qt5/releases");
-                sw.WriteLine("igniter（Android）下载网址：https://github.com/trojan-gfw/igniter/releases");
-                sw.WriteLine("Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。");
+
+                //****** "此文件为Trojan-go官方程序所使用的客户端配置文件，配置为全局模式，http与socks5地址：127.0.0.1:1080" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtTrojan-goExplainLine01").ToString());
+
+                //****** "Trojan-go官方网站：https://github.com/p4gefau1t/trojan-go" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtTrojan-goExplainLine02").ToString());
+
+                //sw.WriteLine("Trojan-go官方程序下载地址：https://github.com/p4gefau1t/trojan-go/releases");
+                sw.WriteLine(Application.Current.FindResource("readmeTxtTrojan-goExplainLine03").ToString());
+
+                //sw.WriteLine("下载相应版本，Windows选择Trojan-go-x.xx-win.zip,解压后提取trojan-go.exe。与config.json放在同一目录，运行trojan-go.exe即可。");
+                sw.WriteLine(Application.Current.FindResource("readmeTxtTrojan-goExplainLine04").ToString());
 
                 sw.WriteLine("-----------------------------------------\n");
-                sw.WriteLine("url.txt");
-                sw.WriteLine("此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)复制粘贴导入节点的网址（Trojan-Go的WebSocket模式暂不支持）");
+                sw.WriteLine("QR.bmp");
+
+                //sw.WriteLine("此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)扫码导入节点（Trojan-Go的WebSocket模式暂不支持）");
+                sw.WriteLine(Application.Current.FindResource("readmeTxtTrojan-goExplainLine05").ToString());
+
+                //sw.WriteLine("Trojan-QT5 (windows)下载网址：https://github.com/TheWanderingCoel/Trojan-Qt5/releases");
+                sw.WriteLine(Application.Current.FindResource("readmeTxtTrojan-goExplainLine06").ToString());
+
+                //sw.WriteLine("igniter（Android）下载网址：https://github.com/trojan-gfw/igniter/releases");
+                sw.WriteLine(Application.Current.FindResource("readmeTxtTrojan-goExplainLine07").ToString());
+
+                //sw.WriteLine("Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。");
+                sw.WriteLine(Application.Current.FindResource("readmeTxtTrojan-goExplainLine08").ToString());
                 sw.WriteLine("-----------------------------------------\n");
-                sw.WriteLine("服务器通用连接配置参数");
-                sw.WriteLine($"地址(address)：{TextBoxTrojanGoServerHost.Text}");
-                sw.WriteLine($"端口(Port)：{TextBoxTrojanGoServerPort.Text}");
-                sw.WriteLine($"密钥：{TextBoxTrojanGoServerPassword.Text}");
-                sw.WriteLine($"WebSocket路径：{TextBoxTrojanGoWSPath.Text}");
+                sw.WriteLine("url.txt");
+
+                //sw.WriteLine("此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)复制粘贴导入节点的网址（Trojan-Go的WebSocket模式暂不支持）");
+                sw.WriteLine(Application.Current.FindResource("readmeTxtTrojan-goExplainLine09").ToString());
+                sw.WriteLine("-----------------------------------------\n");
+
+                //sw.WriteLine("服务器通用连接配置参数");
+                sw.WriteLine(Application.Current.FindResource("readmeTxtTrojan-goExplainLine10").ToString());
+
+                //****** 服务器地址(address): ******
+                sw.WriteLine(Application.Current.FindResource("TextBlockServerAddress").ToString() + $"{TextBoxTrojanGoServerHost.Text}");
+
+                //****** 端口(port): ******
+                sw.WriteLine(Application.Current.FindResource("TextBlockServerPort").ToString() + $"{TextBoxTrojanGoServerPort.Text}");
+
+                //****** 密码: ******
+                sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoPassword").ToString() + $"{TextBoxTrojanGoServerPassword.Text}");
+
+                //****** WebSocket路径: ******
+                sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoWebSocketPath").ToString() + $"{TextBoxTrojanGoWSPath.Text}");
 
             }
 
@@ -598,28 +653,76 @@ namespace ProxySU
                 //File.Delete(@"config\config.json");//删除该文件
             }
 
-            using (StreamWriter sw = new StreamWriter($"trojan_config\\{saveFileFolder}\\说明.txt"))
+            using (StreamWriter sw = new StreamWriter($"trojan_config\\{saveFileFolder}\\readme.txt"))
             {
                 sw.WriteLine("config.json");
-                sw.WriteLine("此文件为Trojan官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080");
-                sw.WriteLine("Trojan官方网站：https://trojan-gfw.github.io/trojan/");
-                sw.WriteLine("Trojan官方程序下载地址：https://github.com/trojan-gfw/trojan/releases");
-                sw.WriteLine("下载相应版本，Windows选择Trojan-x.xx-win.zip,解压后提取trojan.exe。与config.json放在同一目录，运行trojan.exe即可。");
-                sw.WriteLine("-----------------------------------------\n");
-                sw.WriteLine("QR.bmp");
-                sw.WriteLine("此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)扫码导入节点");
-                sw.WriteLine("Trojan-QT5 (windows)下载网址：https://github.com/TheWanderingCoel/Trojan-Qt5/releases");
-                sw.WriteLine("igniter（Android）下载网址：https://github.com/trojan-gfw/igniter/releases");
-                sw.WriteLine("Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。");
+
+                //****** "此文件为Trojan官方程序所使用的客户端配置文件，配置为全局模式，http与socks5地址：127.0.0.1:1080" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtTrojanExplainLine01").ToString());
+
+                //****** "Trojan官方网站：https://trojan-gfw.github.io/trojan/" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtTrojanExplainLine02").ToString());
+
+                //sw.WriteLine("Trojan官方程序下载地址：https://github.com/trojan-gfw/trojan/releases");
+                sw.WriteLine(Application.Current.FindResource("readmeTxtTrojanExplainLine03").ToString());
+
+                //sw.WriteLine("下载相应版本，Windows选择Trojan-x.xx-win.zip,解压后提取trojan.exe。与config.json放在同一目录，运行trojan.exe即可。");
+                sw.WriteLine(Application.Current.FindResource("readmeTxtTrojanExplainLine04").ToString());
 
                 sw.WriteLine("-----------------------------------------\n");
-                sw.WriteLine("url.txt");
-                sw.WriteLine("此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)复制粘贴导入节点的网址");
+                sw.WriteLine("QR.bmp");
+
+                //sw.WriteLine("此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)扫码导入节点");
+                sw.WriteLine(Application.Current.FindResource("readmeTxtTrojanExplainLine05").ToString());
+
+                //sw.WriteLine("Trojan-QT5 (windows)下载网址：https://github.com/TheWanderingCoel/Trojan-Qt5/releases");
+                sw.WriteLine(Application.Current.FindResource("readmeTxtTrojanExplainLine06").ToString());
+
+                //sw.WriteLine("igniter（Android）下载网址：https://github.com/trojan-gfw/igniter/releases");
+                sw.WriteLine(Application.Current.FindResource("readmeTxtTrojanExplainLine07").ToString());
+
+                //sw.WriteLine("Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。");
+                sw.WriteLine(Application.Current.FindResource("readmeTxtTrojanExplainLine08").ToString());
                 sw.WriteLine("-----------------------------------------\n");
-                sw.WriteLine("服务器通用连接配置参数");
-                sw.WriteLine($"地址(address)：{TextBoxTrojanServerHost.Text}");
-                sw.WriteLine($"端口(Port)：{TextBoxTrojanServerPort.Text}");
-                sw.WriteLine($"密钥：{TextBoxTrojanServerPassword.Text}");
+                sw.WriteLine("url.txt");
+
+                //sw.WriteLine("此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)复制粘贴导入节点的网址");
+                sw.WriteLine(Application.Current.FindResource("readmeTxtTrojanExplainLine09").ToString());
+                sw.WriteLine("-----------------------------------------\n");
+
+                //sw.WriteLine("服务器通用连接配置参数");
+                sw.WriteLine(Application.Current.FindResource("readmeTxtTrojanExplainLine10").ToString());
+
+                //****** 服务器地址(address): ******
+                sw.WriteLine(Application.Current.FindResource("TextBlockServerAddress").ToString() + $"{TextBoxTrojanGoServerHost.Text}");
+
+                //****** 端口(port): ******
+                sw.WriteLine(Application.Current.FindResource("TextBlockServerPort").ToString() + $"{TextBoxTrojanGoServerPort.Text}");
+
+                //****** 密码: ******
+                sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoPassword").ToString() + $"{TextBoxTrojanGoServerPassword.Text}");
+                //sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoWebSocketPath").ToString() + $"{TextBoxTrojanGoWSPath.Text}");
+
+                //sw.WriteLine("config.json");
+                //sw.WriteLine("此文件为Trojan官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080");
+                //sw.WriteLine("Trojan官方网站：https://trojan-gfw.github.io/trojan/");
+                //sw.WriteLine("Trojan官方程序下载地址：https://github.com/trojan-gfw/trojan/releases");
+                //sw.WriteLine("下载相应版本，Windows选择Trojan-x.xx-win.zip,解压后提取trojan.exe。与config.json放在同一目录，运行trojan.exe即可。");
+                //sw.WriteLine("-----------------------------------------\n");
+                //sw.WriteLine("QR.bmp");
+                //sw.WriteLine("此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)扫码导入节点");
+                //sw.WriteLine("Trojan-QT5 (windows)下载网址：https://github.com/TheWanderingCoel/Trojan-Qt5/releases");
+                //sw.WriteLine("igniter（Android）下载网址：https://github.com/trojan-gfw/igniter/releases");
+                //sw.WriteLine("Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。");
+
+                //sw.WriteLine("-----------------------------------------\n");
+                //sw.WriteLine("url.txt");
+                //sw.WriteLine("此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)复制粘贴导入节点的网址");
+                //sw.WriteLine("-----------------------------------------\n");
+                //sw.WriteLine("服务器通用连接配置参数");
+                //sw.WriteLine($"地址(address)：{TextBoxTrojanServerHost.Text}");
+                //sw.WriteLine($"端口(Port)：{TextBoxTrojanServerPort.Text}");
+                //sw.WriteLine($"密钥：{TextBoxTrojanServerPassword.Text}");
 
             }
 
@@ -659,14 +762,29 @@ namespace ProxySU
                 //File.Delete(@"config\config.json");//删除该文件
             }
 
-            using (StreamWriter sw = new StreamWriter($"naive_config\\{saveFileFolder}\\说明.txt"))
+            using (StreamWriter sw = new StreamWriter($"naive_config\\{saveFileFolder}\\readme.txt"))
             {
                 sw.WriteLine("config.json");
-                sw.WriteLine("此文件为NaiveProxy官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080");
-                sw.WriteLine("NaiveProxy官方网站：https://github.com/klzgrad/naiveproxy");
-                sw.WriteLine("NaiveProxy官方程序下载地址：https://github.com/klzgrad/naiveproxy/releases");
-                sw.WriteLine("下载相应版本，Windows选择naiveproxy-x.xx-win.zip,解压后提取naive.exe。与config.json放在同一目录，运行naive.exe即可。");
+
+                //****** "此文件为NaiveProxy官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtNaiveProxyExplainLine01").ToString());
+
+                //****** "NaiveProxy官方网站：https://github.com/klzgrad/naiveproxy" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtNaiveProxyExplainLine02").ToString());
+
+                //sw.WriteLine("NaiveProxy官方程序下载地址：https://github.com/klzgrad/naiveproxy/releases");
+                sw.WriteLine(Application.Current.FindResource("readmeTxtNaiveProxyExplainLine03").ToString());
+
+                //sw.WriteLine("下载相应版本，Windows选择naiveproxy-x.xx-win.zip,解压后提取naive.exe。与config.json放在同一目录，运行naive.exe即可。");
+                sw.WriteLine(Application.Current.FindResource("readmeTxtNaiveProxyExplainLine04").ToString());
+
+                //sw.WriteLine("此文件为NaiveProxy官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080");
+                //sw.WriteLine("NaiveProxy官方网站：https://github.com/klzgrad/naiveproxy");
+                //sw.WriteLine("NaiveProxy官方程序下载地址：https://github.com/klzgrad/naiveproxy/releases");
+                //sw.WriteLine("下载相应版本，Windows选择naiveproxy-x.xx-win.zip,解压后提取naive.exe。与config.json放在同一目录，运行naive.exe即可。");
+
                 sw.WriteLine("-----------------------------------------\n");
+
                 //sw.WriteLine("其他平台的客户端，暂未发布");
                 //sw.WriteLine("QR.bmp");
                 //sw.WriteLine("此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)扫码导入节点");
@@ -676,14 +794,26 @@ namespace ProxySU
 
                 //sw.WriteLine("-----------------------------------------\n");
                 sw.WriteLine("url.txt");
-                sw.WriteLine("此文件为NaiveGUI(windows)复制粘贴导入节点的网址");
-                sw.WriteLine("NaiveGUI(windows)下载网址：https://github.com/ExcitedCodes/NaiveGUI/releases");
+
+                //sw.WriteLine("此文件为NaiveGUI(windows)复制粘贴导入节点的网址");
+                sw.WriteLine(Application.Current.FindResource("readmeTxtNaiveProxyExplainLine05").ToString());
+
+                //sw.WriteLine("NaiveGUI(windows)下载网址：https://github.com/ExcitedCodes/NaiveGUI/releases");
+                sw.WriteLine(Application.Current.FindResource("readmeTxtNaiveProxyExplainLine06").ToString());
 
                 sw.WriteLine("-----------------------------------------\n");
-                sw.WriteLine("服务器通用连接配置参数");
-                sw.WriteLine($"地址(address)：{TextBoxNaiveServerHost.Text}");
-                sw.WriteLine($"用户名：{TextBoxNaiveUser.Text}");
-                sw.WriteLine($"密钥：{TextBoxNaivePassword.Text}");
+
+                //sw.WriteLine("服务器通用连接配置参数");
+                sw.WriteLine(Application.Current.FindResource("readmeTxtNaiveProxyExplainLine07").ToString());
+
+                //****** 服务器地址(address): ******
+                sw.WriteLine(Application.Current.FindResource("TextBlockServerAddress").ToString() + $"{TextBoxNaiveServerHost.Text}");
+
+                //****** 用户名:******
+                sw.WriteLine(Application.Current.FindResource("TextBlockHostUser").ToString() + $"{TextBoxNaiveUser.Text}");
+
+                //****** 密码: ******
+                sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoPassword").ToString() + $"{TextBoxNaivePassword.Text}");
 
             }
 
