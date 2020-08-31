@@ -3,7 +3,7 @@
                     xmlns:local="clr-namespace:ProxySU.Translations"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <!-- 主程序界面 -->
-    <sys:String x:Key="MainWindowsLanguage">界面语言:</sys:String>
+    <sys:String x:Key="MainWindowsLanguage">Languages:</sys:String>
     <sys:String x:Key="TabItemHeaderAppDeployment">应用布署</sys:String>
     <sys:String x:Key="TabItemHeaderResourceTools">资源工具</sys:String>
     <sys:String x:Key="TextBlockHostName">主机:</sys:String>
