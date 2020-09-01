@@ -233,7 +233,7 @@
         <GroupBox Header="{DynamicResource GroupBoxHeaderParameterV2Ray}" Grid.Row="3" Grid.RowSpan="2">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="1.1*"></ColumnDefinition>
                     <ColumnDefinition ></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>

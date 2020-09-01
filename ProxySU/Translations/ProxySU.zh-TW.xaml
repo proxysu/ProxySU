@@ -72,8 +72,8 @@
     <sys:String x:Key="ButtonV2RayServerPortChange">隨機選擇</sys:String>
     <sys:String x:Key="TextBlockV2RayServerPortExplain">若使用TLS加密，請保持默認的443端口</sys:String>
     <sys:String x:Key="TextBlockV2RayUUIDExplain">使用已有UUID，直接粘貼到框中</sys:String>
-    <sys:String x:Key="TextBlockV2RayQuicUUID">mKCP/QUIC密鑰</sys:String>
-    <sys:String x:Key="TextBlockV2RayMkcpExplain">啟用mKCP密鑰，可增強抗識別，留空則禁用,要求版本4.24.2以上,V2rayN暫不支持</sys:String>
+    <sys:String x:Key="TextBlockV2RayQuicUUID">mKCP Seed/QUIC密鑰</sys:String>
+    <sys:String x:Key="TextBlockV2RayMkcpExplain">啟用mKCP Seed密鑰，可增強抗識別，留空則禁用,要求版本4.24.2以上,V2rayN暫不支持</sys:String>
     <sys:String x:Key="TextBlockV2RayPath">路徑：</sys:String>
     <sys:String x:Key="TextBlockV2RayDomain">域名：</sys:String>
     <sys:String x:Key="TextBlockV2RayMaskSites">偽裝網站：</sys:String>
@@ -131,7 +131,7 @@
     <sys:String x:Key="TextBlockCamouflageType">偽裝類型:</sys:String>
     <sys:String x:Key="TextBlockIsOrNotTLS">是否使用TLS:</sys:String>
     <sys:String x:Key="TextBlockClientPath">路徑(Path):</sys:String>
-    <sys:String x:Key="TextBlockClientMkcpQuicKey">mKCP/QUIC密鑰:</sys:String>
+    <sys:String x:Key="TextBlockClientMkcpQuicKey">mKCP Seed/QUIC密鑰:</sys:String>
     <sys:String x:Key="TextBlockEncryptionIsAuto">默認auto</sys:String>
     <sys:String x:Key="GrouBoxHeaderUrlOrQR">二維碼/URL</sys:String>
     <sys:String x:Key="TextBlockUsedParameter">以上參數可以手動或掃描輸入客戶端，用於官方客戶端的配置和相關文件已經存放入目錄下，點擊 確定 按扭可打開</sys:String>

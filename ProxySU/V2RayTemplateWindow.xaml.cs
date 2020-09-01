@@ -257,6 +257,7 @@ namespace ProxySU
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCPNone";
                 MainWindow.ReceiveConfigurationParameters[5] = "none";
+                //传递mKCP Seed
                 if (String.IsNullOrEmpty(TextBoxQuicUUID.Text)==false)
                 {
                     MainWindow.ReceiveConfigurationParameters[6] = TextBoxQuicUUID.Text;
@@ -268,6 +269,7 @@ namespace ProxySU
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCP2SRTP";
                 MainWindow.ReceiveConfigurationParameters[5] = "srtp";
+                //传递mKCP Seed
                 if (String.IsNullOrEmpty(TextBoxQuicUUID.Text) == false)
                 {
                     MainWindow.ReceiveConfigurationParameters[6] = TextBoxQuicUUID.Text;
@@ -279,6 +281,7 @@ namespace ProxySU
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCPuTP";
                 MainWindow.ReceiveConfigurationParameters[5] = "utp";
+                //传递mKCP Seed
                 if (String.IsNullOrEmpty(TextBoxQuicUUID.Text) == false)
                 {
                     MainWindow.ReceiveConfigurationParameters[6] = TextBoxQuicUUID.Text;
@@ -290,6 +293,7 @@ namespace ProxySU
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCP2WechatVideo";
                 MainWindow.ReceiveConfigurationParameters[5] = "wechat-video";
+                //传递mKCP Seed
                 if (String.IsNullOrEmpty(TextBoxQuicUUID.Text) == false)
                 {
                     MainWindow.ReceiveConfigurationParameters[6] = TextBoxQuicUUID.Text;
@@ -301,6 +305,7 @@ namespace ProxySU
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCP2DTLS";
                 MainWindow.ReceiveConfigurationParameters[5] = "dtls";
+                //传递mKCP Seed
                 if (String.IsNullOrEmpty(TextBoxQuicUUID.Text) == false)
                 {
                     MainWindow.ReceiveConfigurationParameters[6] = TextBoxQuicUUID.Text;
@@ -312,6 +317,7 @@ namespace ProxySU
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCP2WireGuard";
                 MainWindow.ReceiveConfigurationParameters[5] = "wireguard";
+                //传递mKCP Seed
                 if (String.IsNullOrEmpty(TextBoxQuicUUID.Text) == false)
                 {
                     MainWindow.ReceiveConfigurationParameters[6] = TextBoxQuicUUID.Text;
@@ -643,7 +649,7 @@ namespace ProxySU
             Guid uuid = Guid.NewGuid();
             TextBoxNewUUID.Text = uuid.ToString();
         }
-        //产生QUIC密钥所用的UUID
+        //产生QUIC密钥/mKCP Seed所用的UUID
         private void ButtonQuicUUID_Click(object sender, RoutedEventArgs e)
         {
             Guid uuid = Guid.NewGuid();

@@ -71,8 +71,8 @@
     <sys:String x:Key="ButtonV2RayServerPortChange">Random</sys:String>
     <sys:String x:Key="TextBlockV2RayServerPortExplain">If TLS encryption is used, please keep the default port 443</sys:String>
     <sys:String x:Key="TextBlockV2RayUUIDExplain">Use the existing UUID and paste it directly into the box</sys:String>
-    <sys:String x:Key="TextBlockV2RayQuicUUID">mKCP/QUIC key</sys:String>
-    <sys:String x:Key="TextBlockV2RayMkcpExplain">Enable the mKCP key to enhance anti-recognition, leave it blank to disable it. Version 4.24.2 or above is required. V2rayN does not currently support</sys:String>
+    <sys:String x:Key="TextBlockV2RayQuicUUID">mKCP Seed/QUIC key</sys:String>
+    <sys:String x:Key="TextBlockV2RayMkcpExplain">Enable the mKCP Seed key to enhance anti-recognition, leave it blank to disable it. Version 4.24.2 or above is required. V2rayN does not currently support</sys:String>
     <sys:String x:Key="TextBlockV2RayPath">Path:</sys:String>
     <sys:String x:Key="TextBlockV2RayDomain">Domain name:</sys:String>
     <sys:String x:Key="TextBlockV2RayMaskSites">Mask a website:</sys:String>
@@ -130,7 +130,7 @@
     <sys:String x:Key="TextBlockCamouflageType">Camouflage type:</sys:String>
     <sys:String x:Key="TextBlockIsOrNotTLS">TLS:</sys:String>
     <sys:String x:Key="TextBlockClientPath">Path:</sys:String>
-    <sys:String x:Key="TextBlockClientMkcpQuicKey">mKCP/QUIC key:</sys:String>
+    <sys:String x:Key="TextBlockClientMkcpQuicKey">mKCP Seed/QUIC key:</sys:String>
     <sys:String x:Key="TextBlockEncryptionIsAuto">default auto</sys:String>
     <sys:String x:Key="GrouBoxHeaderUrlOrQR">QR/URL</sys:String>
     <sys:String x:Key="TextBlockUsedParameter">The above parameters can be entered into the client manually or by scanning. The configuration and related files used for the official client have been stored in the directory. Click the OK button to open</sys:String>
