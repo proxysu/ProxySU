@@ -13,9 +13,11 @@
                     }
                 ],
                 "decryption": "none",
-                "fallback": {
-                    "port": 88
-                }
+                "fallbacks": [
+                    {
+                        "dest": 88
+                    }
+                ]
             },
             "streamSettings": {
                 "network": "tcp",
