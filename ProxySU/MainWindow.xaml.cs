@@ -22,6 +22,7 @@ using Newtonsoft.Json.Serialization;
 using System.Drawing;
 using QRCoder;
 using System.Net;
+using System.ComponentModel;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Runtime;
@@ -108,15 +109,164 @@ namespace ProxySU
 
             //TextBoxNaiveUser3in1.Text = RandomUserName();
             //TextBoxNaivePassword3in1.Text= RandomUUID();
-            
+
+            Thread thread = new Thread(() => TestLatestVersionProxySU(TextBlockLastVersionProxySU, TextBlockNewVersionReminder, ButtonUpgradeProxySU));
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
         }
 
-        #region 端口数字防错代码，密钥选择代码
+        #region 端口数字防错代码，密钥选择代码 检测新版本代码
+        //检测ProxySU新版本
+        private void TestLatestVersionProxySU(TextBlock TextBlockLastVersionProxySU,TextBlock TextBlockNewVersionReminder,Button ButtonUpgradeProxySU)
+        {
+            string strJson = GetLatestJson(@"https://api.github.com/repos/proxysu/windows/releases/latest");
+            if (String.IsNullOrEmpty(strJson) == false)
+            {
+                JObject lastVerJsonObj = JObject.Parse(strJson);
+                string lastVersion = (string)lastVerJsonObj["tag_name"];//得到远程版本信息
+
+                Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+                string cerversion = "v" + version.ToString().Substring(0, 5); //获取本地版本信息
+
+                //版本信息不相同，则认为新版本发布，显示出新版本信息及更新提醒，下载按钮
+                if (String.Equals(lastVersion, cerversion) == false)
+                {
+                    TextBlockLastVersionProxySU.Dispatcher.BeginInvoke(updateNewVersionProxySUAction, TextBlockLastVersionProxySU, TextBlockNewVersionReminder, ButtonUpgradeProxySU, lastVersion);
+                }
+                else
+                {
+
+                }
+            }
+            else
+            {
+                //MessageBox.Show("获取Json失败");
+            }
+        }
+
+        //下载最新版ProxySU
+        private void ButtonUpgradeProxySU_Click(object sender, RoutedEventArgs e)
+        {
+            TextBlockNewVersionReminder.Visibility = Visibility.Hidden;
+            TextBlockNewVersionDown.Visibility = Visibility.Visible;
+            //TextBlockNewVersionReminder.Text = Application.Current.FindResource("TextBlockNewVersionDown").ToString();
+            try
+            {
+                string strJson = GetLatestJson(@"https://api.github.com/repos/proxysu/windows/releases/latest");
+                if (String.IsNullOrEmpty(strJson) == false)
+                {
+                    JObject lastVerJsonObj = JObject.Parse(strJson);
+                    string latestVerDownUrl = (string)lastVerJsonObj["assets"][0]["browser_download_url"];
+
+                    Uri latestVerDownUri = new Uri(latestVerDownUrl);
+                    string latestNewVerFileName = (string)lastVerJsonObj["assets"][0]["name"];
+
+                    WebClient webClientNewVer = new WebClient();
+                    webClientNewVer.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
+                    //webClientNewVer.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
+                    webClientNewVer.DownloadFileAsync(latestVerDownUri, latestNewVerFileName);
+                    //webClientNewVer.DownloadFile(latestVerDownUrl, latestNewVerFileName);
+                }
+            }
+            catch (Exception ex1)
+            {
+               // MessageBox.Show(ex1.ToString());
+
+                return;
+            }
+        }
+        //文件下载完处理方法
+        private void Completed(object sender, AsyncCompletedEventArgs e)
+        {
+            if (e.Cancelled == true)
+            {
+                MessageBox.Show(e.Error.ToString());
+                MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorDownProxyFail").ToString());
+                //label1.Text = "Download cancelled!";
+            }
+            else
+            {
+                MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorDownProxySuccess").ToString());
+            }
+        }
+
+        //获取LatestJson
+        private string GetLatestJson(string theLatestUrl)
+        {
+            try
+            {
+                //ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | (SecurityProtocolType)3072 | (SecurityProtocolType)768 | SecurityProtocolType.Tls;
+                ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
+                // ServicePointManager.SecurityProtocol = (SecurityProtocolType)(0xc0 | 0x300 | 0xc00 | 0x30);
+                //string url = "https://api.github.com/repos/proxysu/windows/releases/latest";
+                Uri uri = new Uri(theLatestUrl);
+                HttpWebRequest req = (HttpWebRequest)WebRequest.Create(uri);
+                req.Accept = @"application/json";
+                req.UserAgent = @"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0";
+                HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
+                Stream stream = resp.GetResponseStream();
+                StreamReader sr = new StreamReader(stream);
+                string strJson = sr.ReadToEnd();
+                return strJson;
+            }
+            catch (Exception ex1)
+            {
+                return null;
+            }
+        }
+
+        //更新新版本提醒显示
+        Action<TextBlock, TextBlock, Button, string> updateNewVersionProxySUAction = new Action<TextBlock, TextBlock, Button, string>(UpdateNewVersionProxySU);
+        private static void UpdateNewVersionProxySU(TextBlock TextBlockLastVersionProxySU, TextBlock TextBlockNewVersionReminder, Button ButtonUpgradeProxySU, string theLatestVersion)
+        {
+            TextBlockLastVersionProxySU.Text = theLatestVersion;
+            TextBlockLastVersionProxySU.Visibility = Visibility.Visible;
+            TextBlockNewVersionReminder.Visibility = Visibility.Visible;
+            ButtonUpgradeProxySU.Visibility = Visibility.Visible;
+        }
+
+
+        //更新状态条显示
+        Action<TextBlock, ProgressBar, string> updateAction = new Action<TextBlock, ProgressBar, string>(UpdateTextBlock);
+        private static void UpdateTextBlock(TextBlock textBlockName, ProgressBar progressBar, string currentStatus)
+        {
+            textBlockName.Text = currentStatus;
+
+            if (currentStatus.Contains("成功") == true || currentStatus.ToLower().Contains("success") == true)
+            {
+                progressBar.IsIndeterminate = false;
+                progressBar.Value = 100;
+            }
+            else if (currentStatus.Contains("失败") == true || currentStatus.Contains("取消") == true || currentStatus.Contains("退出") == true || currentStatus.ToLower().Contains("fail") == true || currentStatus.ToLower().Contains("cancel") == true || currentStatus.ToLower().Contains("exit") == true)
+            {
+                progressBar.IsIndeterminate = false;
+                progressBar.Value = 0;
+            }
+            else
+            {
+                progressBar.IsIndeterminate = true;
+                //progressBar.Value = 0;
+            }
+
+
+        }
+
+        //更新监视窗内的显示
+        Action<TextBox, string> updateMonitorAction = new Action<TextBox, string>(UpdateTextBox);
+        private static void UpdateTextBox(TextBox textBoxName, string currentResult)
+        {
+            textBoxName.Text = textBoxName.Text + currentResult + Environment.NewLine;
+            textBoxName.ScrollToEnd();
+        }
+
+        //退出主程序
         private void Button_canel_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
         // private static readonly Regex _regex = new Regex("[^0-9]+");
+
+        //检测数字输入
         private void TextBoxPort_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
@@ -6729,39 +6879,6 @@ namespace ProxySU
             }
         }
 
-        //更新UI显示内容
-        Action<TextBlock, ProgressBar, string> updateAction = new Action<TextBlock, ProgressBar, string>(UpdateTextBlock);
-        private static void UpdateTextBlock(TextBlock textBlockName, ProgressBar progressBar, string currentStatus)
-        {
-            textBlockName.Text = currentStatus;
-        
-            if (currentStatus.Contains("成功") == true || currentStatus.ToLower().Contains("success") == true)
-            {
-                progressBar.IsIndeterminate = false;
-                progressBar.Value = 100;
-            }
-            else if (currentStatus.Contains("失败") == true || currentStatus.Contains("取消") == true || currentStatus.Contains("退出") == true || currentStatus.ToLower().Contains("fail") == true || currentStatus.ToLower().Contains("cancel") == true || currentStatus.ToLower().Contains("exit") == true)
-            {
-                progressBar.IsIndeterminate = false;
-                progressBar.Value = 0;
-            }
-            else
-            {
-                progressBar.IsIndeterminate = true;
-                //progressBar.Value = 0;
-            }
-
-
-        }
-
-        //更新监视窗内的显示内容
-        Action<TextBox, string> updateMonitorAction = new Action<TextBox, string>(UpdateTextBox);
-        private static void UpdateTextBox(TextBox textBoxName, string currentResult)
-        {
-            textBoxName.Text = textBoxName.Text + currentResult + Environment.NewLine;
-            textBoxName.ScrollToEnd();
-        }
-
         //检测系统内核是否符合安装要求
         private static bool DetectKernelVersion(string kernelVer)
         {
@@ -7133,8 +7250,7 @@ namespace ProxySU
             }
         }
 
-
-        #endregion
+       #endregion
 
         //        #region 三合一安装过程
 

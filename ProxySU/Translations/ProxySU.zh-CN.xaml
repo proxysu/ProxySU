@@ -3,6 +3,11 @@
                     xmlns:local="clr-namespace:ProxySU.Translations"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <!-- 主程序界面 -->
+    <sys:String x:Key="TextBlockNewVersionReminder">最新版本已发布了，快去更新一下吧！</sys:String>
+    <sys:String x:Key="TextBlockNewVersionDown">正在下载最新版，请等待完成提示....</sys:String>
+    <sys:String x:Key="MessageBoxShow_ErrorDownProxyFail">最新版下载失败，请稍后重试！</sys:String>
+    <sys:String x:Key="MessageBoxShow_ErrorDownProxySuccess">下载最新版成功，文件已存入当前ProxySU.exe同一目录</sys:String>
+    <sys:String x:Key="ButtonUpgradeProxySU">下载更新</sys:String>
     <sys:String x:Key="MainWindowsLanguage">Languages:</sys:String>
     <sys:String x:Key="TabItemHeaderAppDeployment">应用布署</sys:String>
     <sys:String x:Key="TabItemHeaderResourceTools">资源工具</sys:String>

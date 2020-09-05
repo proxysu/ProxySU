@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProxySU"
         mc:Ignorable="d"
-        Title="ProxySU - v2.0.2" Height="625" Width="530">
+        Title="ProxySU - v2.0.3" Height="625" Width="530">
     <!--以下样式参考自：https://yq.aliyun.com/articles/331878
 	https://docs.microsoft.com/en-us/dotnet/desktop-wpf/fundamentals/styles-templates-overview-->
     <Window.Resources>
@@ -38,12 +38,16 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                <ColumnDefinition Width="1.6*"></ColumnDefinition>
+                <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                <ColumnDefinition Width="0.6*"></ColumnDefinition>
+                <ColumnDefinition Width="0.7*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
+            <TextBlock x:Name="TextBlockLastVersionProxySU" Foreground="Red" Grid.Column="0" Margin="3" Visibility="Hidden" HorizontalAlignment="Right" ></TextBlock>
+            <TextBlock x:Name="TextBlockNewVersionReminder" Text="{DynamicResource TextBlockNewVersionReminder}" Grid.Column="1" Grid.ColumnSpan="1" Margin="3" Visibility="Hidden"></TextBlock>
+            <TextBlock x:Name="TextBlockNewVersionDown" Text="{DynamicResource TextBlockNewVersionDown}" Grid.Column="1" Grid.ColumnSpan="1" Margin="3" Visibility="Hidden"></TextBlock>
+            <Button x:Name="ButtonUpgradeProxySU" Content="{DynamicResource ButtonUpgradeProxySU}" Grid.Column="2" Margin="3" Visibility="Hidden" Click="ButtonUpgradeProxySU_Click"></Button>
             <TextBlock Grid.Column="3" Text="{DynamicResource MainWindowsLanguage}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5"></TextBlock>
             <ComboBox x:Name="ComboBoxLanguage" Grid.Column="4" Height="25" Width="80" SelectionChanged="ComboBoxLanguage_SelectionChanged"></ComboBox>
         </Grid>
