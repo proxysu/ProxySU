@@ -26,6 +26,8 @@
     <sys:String x:Key="ButtonTrojanGoSetUp">Trojan-Go install</sys:String>
     <sys:String x:Key="ButtonUpdateTrojanGo">Upgrade Trojan-Go</sys:String>
     <sys:String x:Key="ButtonTrojanGoCancel">Cancel</sys:String>
+    <sys:String x:Key="TextBlockCurrentlySelectedPlan">Currently selected plan:</sys:String>
+    <sys:String x:Key="TextBlockCurrentlySelectedPlanNo">No plan selected</sys:String>
     <!-- The following Trojan settings parameter tab interface -->
     <sys:String x:Key="GroupBoxHeaderParameterTrojan">Parameter settings</sys:String>
     <sys:String x:Key="TextBlockTrojanTemplateExplanation">Mode: Trojan+TLS+Caddy</sys:String>

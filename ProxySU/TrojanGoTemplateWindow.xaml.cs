@@ -58,11 +58,16 @@ namespace ProxySU
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "TrojanGoTLS2Web";
+                //传递方案名称
+                MainWindow.ReceiveConfigurationParameters[8] = RadioButtonTrojanGoTLS2Web.Content.ToString();
+
             }
             else if (RadioButtonTrojanGoWebSocketTLS2Web.IsChecked == true)
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "TrojanGoWebSocketTLS2Web";
+                //传递方案名称
+                MainWindow.ReceiveConfigurationParameters[8] = RadioButtonTrojanGoWebSocketTLS2Web.Content.ToString();
                 MainWindow.ReceiveConfigurationParameters[3] = TextBoxPath.Text;
             }
 

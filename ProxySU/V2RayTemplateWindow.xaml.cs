@@ -53,6 +53,8 @@ namespace ProxySU
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "TCP";
+                //传递方案名称
+                MainWindow.ReceiveConfigurationParameters[8] = RadioButtonTCP.Content.ToString();
 
             }
             //TCP+http伪装模式被选中
@@ -60,8 +62,11 @@ namespace ProxySU
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "TCPhttp";
+                //传递方案名称
+                MainWindow.ReceiveConfigurationParameters[8] = RadioButtonTCPhttp.Content.ToString();
                 //伪装类型
                 MainWindow.ReceiveConfigurationParameters[5] = "http";
+              
             }
             //TCP+TLS模式被选中
             else if (RadioButtonTCP2TLS.IsChecked == true)
@@ -74,6 +79,8 @@ namespace ProxySU
                 }
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "tcpTLS";
+                //传递方案名称
+                MainWindow.ReceiveConfigurationParameters[8] = RadioButtonTCP2TLS.Content.ToString();
 
                 //传递域名
                 MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomain.Text.ToString();
@@ -84,9 +91,11 @@ namespace ProxySU
             {
                //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "tcpTLSselfSigned";
+                //传递方案名称
+                MainWindow.ReceiveConfigurationParameters[8] = RadioButtonTcpTLS2SelfSigned.Content.ToString();
 
                 //传递域名
-               // MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomain.Text.ToString();
+                // MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomain.Text.ToString();
 
             }
             //VLESS+TCP+TLS+Caddy模式选中
@@ -100,6 +109,8 @@ namespace ProxySU
                 }
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "VlessTcpTlsWeb";
+                //传递方案名称
+                MainWindow.ReceiveConfigurationParameters[8] = RadioButtonVlessTcpTlsWeb.Content.ToString();
 
                 //传递域名
                 MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomain.Text.ToString();
@@ -126,6 +137,8 @@ namespace ProxySU
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "webSocket";
+                //传递方案名称
+                MainWindow.ReceiveConfigurationParameters[8] = RadioButtonWebSocket.Content.ToString();
 
             }
             //WebSocket+TLS模式被选中
@@ -139,6 +152,8 @@ namespace ProxySU
                 }
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "WebSocketTLS";
+                //传递方案名称
+                MainWindow.ReceiveConfigurationParameters[8] = RadioButtonWebSocketTLS.Content.ToString();
                 //传递路径
                 MainWindow.ReceiveConfigurationParameters[3] = TextBoxPath.Text.ToString();
                 //传递域名
@@ -157,6 +172,9 @@ namespace ProxySU
                 }
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "WebSocketTLS2Web";
+                //传递方案名称
+                MainWindow.ReceiveConfigurationParameters[8] = RadioButtonWebSocketTLS2Web.Content.ToString();
+
                 //传递路径
                 MainWindow.ReceiveConfigurationParameters[3] = TextBoxPath.Text.ToString();
                 //传递域名
@@ -184,6 +202,9 @@ namespace ProxySU
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "WebSocketTLSselfSigned";
+                //传递方案名称
+                MainWindow.ReceiveConfigurationParameters[8] = RadioButtonWebSocketTLSselfSigned.Content.ToString();
+
                 //传递路径
                 MainWindow.ReceiveConfigurationParameters[3] = TextBoxPath.Text.ToString();
                 //传递域名
@@ -201,6 +222,9 @@ namespace ProxySU
                 }
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "Http2";
+                //传递方案名称
+                MainWindow.ReceiveConfigurationParameters[8] = RadioButtonHTTP2.Content.ToString();
+
                 //传递路径
                 MainWindow.ReceiveConfigurationParameters[3] = TextBoxPath.Text.ToString();
                 //传递域名
@@ -218,6 +242,9 @@ namespace ProxySU
                 }
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "http2Web";
+                //传递方案名称
+                MainWindow.ReceiveConfigurationParameters[8] = RadioButtonHTTP2Web.Content.ToString();
+
                 //传递路径
                 MainWindow.ReceiveConfigurationParameters[3] = TextBoxPath.Text.ToString();
                 //传递域名
@@ -245,6 +272,9 @@ namespace ProxySU
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "http2selfSigned";
+                //传递方案名称
+                MainWindow.ReceiveConfigurationParameters[8] = RadioButtonHTTP2selfSigned.Content.ToString();
+
                 //传递路径
                 MainWindow.ReceiveConfigurationParameters[3] = TextBoxPath.Text.ToString();
                 //传递域名
@@ -256,6 +286,9 @@ namespace ProxySU
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCPNone";
+                //传递方案名称
+                MainWindow.ReceiveConfigurationParameters[8] = RadioButtonMkcpNone.Content.ToString();
+
                 MainWindow.ReceiveConfigurationParameters[5] = "none";
                 //传递mKCP Seed
                 if (String.IsNullOrEmpty(TextBoxQuicUUID.Text)==false)
@@ -268,6 +301,9 @@ namespace ProxySU
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCP2SRTP";
+                //传递方案名称
+                MainWindow.ReceiveConfigurationParameters[8] = RadioButton2mKCP2SRTP.Content.ToString();
+
                 MainWindow.ReceiveConfigurationParameters[5] = "srtp";
                 //传递mKCP Seed
                 if (String.IsNullOrEmpty(TextBoxQuicUUID.Text) == false)
@@ -280,6 +316,9 @@ namespace ProxySU
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCPuTP";
+                //传递方案名称
+                MainWindow.ReceiveConfigurationParameters[8] = RadioButton2mKCPuTP.Content.ToString();
+
                 MainWindow.ReceiveConfigurationParameters[5] = "utp";
                 //传递mKCP Seed
                 if (String.IsNullOrEmpty(TextBoxQuicUUID.Text) == false)
@@ -292,6 +331,9 @@ namespace ProxySU
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCP2WechatVideo";
+                //传递方案名称
+                MainWindow.ReceiveConfigurationParameters[8] = RadioButton2mKCP2WechatVideo.Content.ToString();
+
                 MainWindow.ReceiveConfigurationParameters[5] = "wechat-video";
                 //传递mKCP Seed
                 if (String.IsNullOrEmpty(TextBoxQuicUUID.Text) == false)
@@ -304,6 +346,9 @@ namespace ProxySU
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCP2DTLS";
+                //传递方案名称
+                MainWindow.ReceiveConfigurationParameters[8] = RadioButton2mKCP2DTLS.Content.ToString();
+
                 MainWindow.ReceiveConfigurationParameters[5] = "dtls";
                 //传递mKCP Seed
                 if (String.IsNullOrEmpty(TextBoxQuicUUID.Text) == false)
@@ -316,6 +361,9 @@ namespace ProxySU
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "mKCP2WireGuard";
+                //传递方案名称
+                MainWindow.ReceiveConfigurationParameters[8] = RadioButton2mKCP2WireGuard.Content.ToString();
+
                 MainWindow.ReceiveConfigurationParameters[5] = "wireguard";
                 //传递mKCP Seed
                 if (String.IsNullOrEmpty(TextBoxQuicUUID.Text) == false)
@@ -328,6 +376,9 @@ namespace ProxySU
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "QuicNone";
+                //传递方案名称
+                MainWindow.ReceiveConfigurationParameters[8] = RadioButtonQuicNone.Content.ToString();
+
                 MainWindow.ReceiveConfigurationParameters[5] = "none";
                 MainWindow.ReceiveConfigurationParameters[6] = TextBoxQuicUUID.Text;
             }
@@ -336,6 +387,9 @@ namespace ProxySU
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "QuicSRTP";
+                //传递方案名称
+                MainWindow.ReceiveConfigurationParameters[8] = RadioButtonQuicSRTP.Content.ToString();
+
                 MainWindow.ReceiveConfigurationParameters[5] = "srtp";
                 MainWindow.ReceiveConfigurationParameters[6] = TextBoxQuicUUID.Text;
             }
@@ -344,6 +398,9 @@ namespace ProxySU
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "Quic2uTP";
+                //传递方案名称
+                MainWindow.ReceiveConfigurationParameters[8] = RadioButtonQuic2uTP.Content.ToString();
+
                 MainWindow.ReceiveConfigurationParameters[5] = "utp";
                 MainWindow.ReceiveConfigurationParameters[6] = TextBoxQuicUUID.Text;
             }
@@ -352,6 +409,9 @@ namespace ProxySU
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "QuicWechatVideo";
+                //传递方案名称
+                MainWindow.ReceiveConfigurationParameters[8] = RadioButtonQuicWechatVideo.Content.ToString();
+
                 MainWindow.ReceiveConfigurationParameters[5] = "wechat-video";
                 MainWindow.ReceiveConfigurationParameters[6] = TextBoxQuicUUID.Text;
             }
@@ -360,6 +420,9 @@ namespace ProxySU
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "QuicDTLS";
+                //传递方案名称
+                MainWindow.ReceiveConfigurationParameters[8] = RadioButtonQuicDTLS.Content.ToString();
+
                 MainWindow.ReceiveConfigurationParameters[5] = "dtls";
                 MainWindow.ReceiveConfigurationParameters[6] = TextBoxQuicUUID.Text;
             }
@@ -368,20 +431,26 @@ namespace ProxySU
             {
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "QuicWireGuard";
+                //传递方案名称
+                MainWindow.ReceiveConfigurationParameters[8] = RadioButtonQuicWireGuard.Content.ToString();
+
                 MainWindow.ReceiveConfigurationParameters[5] = "wireguard";
                 MainWindow.ReceiveConfigurationParameters[6] = TextBoxQuicUUID.Text;
             }
-            //默认模式为 TCP
-            else
-            {
-                //传递模板类型
-                MainWindow.ReceiveConfigurationParameters[0] = "TCP";
-            }
+            ////默认模式为 TCP
+            //else
+            //{
+            //    //传递模板类型
+            //    MainWindow.ReceiveConfigurationParameters[0] = "TCP";
+            //    //传递方案名称
+            //    MainWindow.ReceiveConfigurationParameters[8] = RadioButtonTCP.Content.ToString();
+
+            //}
             //传递服务端口
             MainWindow.ReceiveConfigurationParameters[1] = TextBoxServerListenPort.Text.ToString();
             //传递uuid
             MainWindow.ReceiveConfigurationParameters[2] = TextBoxNewUUID.Text.ToString();
-       
+
             this.Close();
         }
 

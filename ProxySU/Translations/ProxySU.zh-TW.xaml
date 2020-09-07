@@ -26,7 +26,8 @@
     <sys:String x:Key="ButtonTrojanGoSetUp">Trojan-Go一鍵安裝</sys:String>
     <sys:String x:Key="ButtonUpdateTrojanGo">升級Trojan-Go</sys:String>
     <sys:String x:Key="ButtonTrojanGoCancel">取消</sys:String>
-
+    <sys:String x:Key="TextBlockCurrentlySelectedPlan">當前所選方案：</sys:String>
+    <sys:String x:Key="TextBlockCurrentlySelectedPlanNo">未選擇方案</sys:String>
     <!-- 以下Trojan設置參數標籤頁界面 -->
     <sys:String x:Key="GroupBoxHeaderParameterTrojan">參數設置</sys:String>
     <sys:String x:Key="TextBlockTrojanTemplateExplanation">模式：Trojan+TLS+Caddy</sys:String>

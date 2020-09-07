@@ -35,7 +35,7 @@ namespace ProxySU
     /// </summary>
     public partial class MainWindow : Window
     {
-        //语言参数
+        //多语言参数
         public class LanguageInfo
         {
             public string Name { get; set; }
@@ -48,15 +48,17 @@ namespace ProxySU
         //ReceiveConfigurationParameters[3]----path/naive'user
         //ReceiveConfigurationParameters[4]----domain
         //ReceiveConfigurationParameters[5]----伪装类型
-        //ReceiveConfigurationParameters[6]----QUIC密钥
+        //ReceiveConfigurationParameters[6]----QUIC密钥/mKCP Seed
         //ReceiveConfigurationParameters[7]----伪装网站
+        //ReceiveConfigurationParameters[8]----方案名称
         //public static ConnectionInfo ConnectionInfo;
-        public static string proxyType = "V2Ray";             //代理类型标识: V2Ray\TrojanGo\Trojan\NaiveProxy
+        public static string proxyType = "V2Ray";   //代理类型标识: V2Ray\TrojanGo\Trojan\NaiveProxy
         static bool testDomain = false;             //设置标识--域名是否需要检测解析，初始化为不需要
         static string sshShellCommand;              //定义保存执行的命令
         static string currentShellCommandResult;    //定义Shell命令执行结果保存变量
         static string sshCmdUpdate;                 //保存软件安装所用更新软件库命令
         static string sshCmdInstall;                //保存软件安装所用命令格式
+        static int randomCaddyListenPort = 8800;    //Caddy做伪装网站所监听的端口，随机2000-9000
 
         //******  ******
         //  Application.Current.FindResource("").ToString()
@@ -66,6 +68,7 @@ namespace ProxySU
         {
             InitializeComponent();
 
+            #region 多语言选择设置 初始设置为auto
             List<LanguageInfo> languageList = new List<LanguageInfo>();
 
             languageList.Add(new LanguageInfo { Name = "auto", Value = "auto" });
@@ -83,6 +86,11 @@ namespace ProxySU
             string Culture = System.Globalization.CultureInfo.InstalledUICulture.Name;
             //Culture = "en-US";
             ResourcesLoad(Culture);
+            #endregion
+
+            //初始化参数设置数组
+            ReceiveConfigurationParameters = new string[9];
+
             //初始化选定密码登录
             RadioButtonPasswordLogin.IsChecked = true;
             //初始化选定无代理
@@ -91,8 +99,6 @@ namespace ProxySU
             RadioButtonProxyNoLogin.IsChecked = true;
             //初始化隐藏Socks4代理，
             RadioButtonSocks4.Visibility = Visibility.Collapsed;
-            //初始化参数给
-            ReceiveConfigurationParameters = new string[8];
 
             //初始化Trojan的密码
             TextBoxTrojanPassword.Text = RandomUUID();
@@ -110,6 +116,7 @@ namespace ProxySU
             //TextBoxNaiveUser3in1.Text = RandomUserName();
             //TextBoxNaivePassword3in1.Text= RandomUUID();
 
+            //自动检查ProxySU是否有新版本发布，有则显示更新提示
             Thread thread = new Thread(() => TestLatestVersionProxySU(TextBlockLastVersionProxySU, TextBlockNewVersionReminder, ButtonUpgradeProxySU));
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
@@ -133,15 +140,9 @@ namespace ProxySU
                 {
                     TextBlockLastVersionProxySU.Dispatcher.BeginInvoke(updateNewVersionProxySUAction, TextBlockLastVersionProxySU, TextBlockNewVersionReminder, ButtonUpgradeProxySU, lastVersion);
                 }
-                else
-                {
 
-                }
             }
-            else
-            {
-                //MessageBox.Show("获取Json失败");
-            }
+
         }
 
         //下载最新版ProxySU
@@ -156,16 +157,25 @@ namespace ProxySU
                 if (String.IsNullOrEmpty(strJson) == false)
                 {
                     JObject lastVerJsonObj = JObject.Parse(strJson);
-                    string latestVerDownUrl = (string)lastVerJsonObj["assets"][0]["browser_download_url"];
-
-                    Uri latestVerDownUri = new Uri(latestVerDownUrl);
-                    string latestNewVerFileName = (string)lastVerJsonObj["assets"][0]["name"];
+                    string lastVersion = (string)lastVerJsonObj["tag_name"];//得到远程版本信息
+                    string latestVerDownUrl = (string)lastVerJsonObj["assets"][0]["browser_download_url"];//得到最新版文件下载地址
+                    string latestNewVerFileName = (string)lastVerJsonObj["assets"][0]["name"];//得到最新版文件名
+                    string latestNewVerExplanation = (string)lastVerJsonObj["body"];//得到更新说明
 
                     WebClient webClientNewVer = new WebClient();
                     webClientNewVer.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
                     //webClientNewVer.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
-                    webClientNewVer.DownloadFileAsync(latestVerDownUri, latestNewVerFileName);
-                    //webClientNewVer.DownloadFile(latestVerDownUrl, latestNewVerFileName);
+                    if (CheckDir(lastVersion))
+                    {
+                        Uri latestVerDownUri = new Uri(latestVerDownUrl);
+                        webClientNewVer.DownloadFileAsync(latestVerDownUri, lastVersion + @"\" + latestNewVerFileName);
+                        //webClientNewVer.DownloadFile(latestVerDownUrl, latestNewVerFileName);
+
+                        using (StreamWriter sw = new StreamWriter(lastVersion + @"\" + "readme.txt"))
+                        {
+                            sw.WriteLine(latestNewVerExplanation);
+                        }
+                    }
                 }
             }
             catch (Exception ex1)
@@ -212,6 +222,21 @@ namespace ProxySU
             catch (Exception ex1)
             {
                 return null;
+            }
+        }
+
+        //判断目录是否存在，不存在则创建
+        private static bool CheckDir(string folder)
+        {
+            try
+            {
+                if (!Directory.Exists(folder))//如果不存在就创建file文件夹
+                    Directory.CreateDirectory(folder);//创建该文件夹　　            
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 
@@ -296,7 +321,7 @@ namespace ProxySU
         #endregion
 
         #region 主界面控件的有效无效控制代码块及界面语言
-
+   
         //加载语言资源文件
         private void ResourcesLoad(string Culture)
         {
@@ -611,7 +636,161 @@ namespace ProxySU
                 ReceiveConfigurationParameters[i] = "";
             }
             WindowTemplateConfiguration windowTemplateConfiguration = new WindowTemplateConfiguration();
+            windowTemplateConfiguration.Closed += windowTemplateConfigurationClosed;
             windowTemplateConfiguration.ShowDialog();
+        }
+        //V2Ray模板设置窗口关闭后，触发事件，将所选的方案与其参数显示在UI上
+        private void windowTemplateConfigurationClosed(object sender, System.EventArgs e)
+        {
+            if (String.IsNullOrEmpty(ReceiveConfigurationParameters[0]) == true)
+            {
+                //显示"未选择方案！"
+                TextBlockCurrentlySelectedPlan.Text = Application.Current.FindResource("TextBlockCurrentlySelectedPlanNo").ToString();
+
+                TextBlockV2RayShowPort.Visibility = Visibility.Hidden;
+                TextBlockCurrentlySelectedPlanPort.Visibility = Visibility.Hidden;
+
+                TextBlockV2RayShowUUID.Visibility = Visibility.Hidden;
+                TextBlockCurrentlySelectedPlanUUID.Visibility = Visibility.Hidden;
+
+                TextBlockV2RayShowPathSeedKey.Visibility = Visibility.Hidden;
+                TextBlockCurrentlySelectedPlanPathSeedKey.Visibility = Visibility.Hidden;
+
+                TextBlockV2RayShowCurrentlySelectedPlanDomain.Visibility = Visibility.Hidden;
+                TextBlockCurrentlySelectedPlanDomain.Visibility = Visibility.Hidden;
+
+                TextBlockV2RayShowCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+                TextBlockCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+                return;
+            }
+            TextBlockCurrentlySelectedPlan.Text = ReceiveConfigurationParameters[8];            //所选方案名称
+            TextBlockCurrentlySelectedPlanPort.Text = ReceiveConfigurationParameters[1];        //服务器端口
+            TextBlockCurrentlySelectedPlanUUID.Text = ReceiveConfigurationParameters[2];        //UUID
+            TextBlockCurrentlySelectedPlanPathSeedKey.Text = ReceiveConfigurationParameters[6]; //mKCP Seed\Quic Key\Path
+            TextBlockCurrentlySelectedPlanDomain.Text = ReceiveConfigurationParameters[4];      //域名
+            TextBlockCurrentlySelectedPlanFakeWebsite.Text = ReceiveConfigurationParameters[7]; //伪装网站
+
+            if (String.Equals(ReceiveConfigurationParameters[0],"TCP") 
+                || String.Equals(ReceiveConfigurationParameters[0], "TCPhttp")
+                || String.Equals(ReceiveConfigurationParameters[0], "tcpTLSselfSigned")
+                || String.Equals(ReceiveConfigurationParameters[0], "webSocket"))
+            {
+                TextBlockV2RayShowPort.Visibility = Visibility.Visible;
+                TextBlockCurrentlySelectedPlanPort.Visibility = Visibility.Visible;
+
+                TextBlockV2RayShowUUID.Visibility = Visibility.Visible;
+                TextBlockCurrentlySelectedPlanUUID.Visibility = Visibility.Visible;
+
+                TextBlockV2RayShowPathSeedKey.Visibility = Visibility.Hidden;
+                TextBlockCurrentlySelectedPlanPathSeedKey.Visibility = Visibility.Hidden;
+
+                TextBlockV2RayShowCurrentlySelectedPlanDomain.Visibility = Visibility.Hidden;
+                TextBlockCurrentlySelectedPlanDomain.Visibility = Visibility.Hidden;
+
+                TextBlockV2RayShowCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+                TextBlockCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+
+            }
+            else if (String.Equals(ReceiveConfigurationParameters[0], "tcpTLS") || String.Equals(ReceiveConfigurationParameters[0], "VlessTcpTlsWeb"))
+            {
+                TextBlockV2RayShowPort.Visibility = Visibility.Visible;
+                TextBlockCurrentlySelectedPlanPort.Visibility = Visibility.Visible;
+
+                TextBlockV2RayShowUUID.Visibility = Visibility.Visible;
+                TextBlockCurrentlySelectedPlanUUID.Visibility = Visibility.Visible;
+
+                TextBlockV2RayShowPathSeedKey.Visibility = Visibility.Hidden;
+                TextBlockCurrentlySelectedPlanPathSeedKey.Visibility = Visibility.Hidden;
+
+                TextBlockV2RayShowCurrentlySelectedPlanDomain.Visibility = Visibility.Visible;
+                TextBlockCurrentlySelectedPlanDomain.Visibility = Visibility.Visible;
+
+                TextBlockV2RayShowCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+                TextBlockCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+            }
+            else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS")
+                || String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web")
+                || String.Equals(ReceiveConfigurationParameters[0], "Http2")
+                || String.Equals(ReceiveConfigurationParameters[0], "http2Web"))
+            {
+                TextBlockV2RayShowPort.Visibility = Visibility.Visible;
+                TextBlockCurrentlySelectedPlanPort.Visibility = Visibility.Visible;
+
+                TextBlockV2RayShowUUID.Visibility = Visibility.Visible;
+                TextBlockCurrentlySelectedPlanUUID.Visibility = Visibility.Visible;
+
+                TextBlockV2RayShowPathSeedKey.Text = "Path:";
+                TextBlockCurrentlySelectedPlanPathSeedKey.Text = ReceiveConfigurationParameters[3]; //mKCP Seed\Quic Key\Path
+
+                TextBlockV2RayShowPathSeedKey.Visibility = Visibility.Visible;
+                TextBlockCurrentlySelectedPlanPathSeedKey.Visibility = Visibility.Visible;
+
+                TextBlockV2RayShowCurrentlySelectedPlanDomain.Visibility = Visibility.Visible;
+                TextBlockCurrentlySelectedPlanDomain.Visibility = Visibility.Visible;
+
+                TextBlockV2RayShowCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+                TextBlockCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+            }
+            else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLSselfSigned") || String.Equals(ReceiveConfigurationParameters[0], "http2selfSigned"))
+            {
+                TextBlockV2RayShowPort.Visibility = Visibility.Visible;
+                TextBlockCurrentlySelectedPlanPort.Visibility = Visibility.Visible;
+
+                TextBlockV2RayShowUUID.Visibility = Visibility.Visible;
+                TextBlockCurrentlySelectedPlanUUID.Visibility = Visibility.Visible;
+
+                TextBlockV2RayShowPathSeedKey.Text = "Path:";
+                TextBlockCurrentlySelectedPlanPathSeedKey.Text = ReceiveConfigurationParameters[3]; //mKCP Seed\Quic Key\Path
+
+                TextBlockV2RayShowPathSeedKey.Visibility = Visibility.Visible;
+                TextBlockCurrentlySelectedPlanPathSeedKey.Visibility = Visibility.Visible;
+
+                TextBlockV2RayShowCurrentlySelectedPlanDomain.Visibility = Visibility.Hidden;
+                TextBlockCurrentlySelectedPlanDomain.Visibility = Visibility.Hidden;
+
+                TextBlockV2RayShowCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+                TextBlockCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+            }
+            else if (ReceiveConfigurationParameters[0].Contains("mKCP"))
+            {
+                TextBlockV2RayShowPort.Visibility = Visibility.Visible;
+                TextBlockCurrentlySelectedPlanPort.Visibility = Visibility.Visible;
+
+                TextBlockV2RayShowUUID.Visibility = Visibility.Visible;
+                TextBlockCurrentlySelectedPlanUUID.Visibility = Visibility.Visible;
+
+                TextBlockV2RayShowPathSeedKey.Text = "mKCP Seed:";
+                TextBlockCurrentlySelectedPlanPathSeedKey.Text = ReceiveConfigurationParameters[6]; //mKCP Seed\Quic Key\Path
+
+                TextBlockV2RayShowPathSeedKey.Visibility = Visibility.Visible;
+                TextBlockCurrentlySelectedPlanPathSeedKey.Visibility = Visibility.Visible;
+
+                TextBlockV2RayShowCurrentlySelectedPlanDomain.Visibility = Visibility.Hidden;
+                TextBlockCurrentlySelectedPlanDomain.Visibility = Visibility.Hidden;
+
+                TextBlockV2RayShowCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+                TextBlockCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+            }
+            else if (ReceiveConfigurationParameters[0].Contains("Quic"))
+            {
+                TextBlockV2RayShowPort.Visibility = Visibility.Visible;
+                TextBlockCurrentlySelectedPlanPort.Visibility = Visibility.Visible;
+
+                TextBlockV2RayShowUUID.Visibility = Visibility.Visible;
+                TextBlockCurrentlySelectedPlanUUID.Visibility = Visibility.Visible;
+
+                TextBlockV2RayShowPathSeedKey.Text = "QUIC Key:";
+                TextBlockCurrentlySelectedPlanPathSeedKey.Text = ReceiveConfigurationParameters[6]; //mKCP Seed\Quic Key\Path
+
+                TextBlockV2RayShowPathSeedKey.Visibility = Visibility.Visible;
+                TextBlockCurrentlySelectedPlanPathSeedKey.Visibility = Visibility.Visible;
+
+                TextBlockV2RayShowCurrentlySelectedPlanDomain.Visibility = Visibility.Hidden;
+                TextBlockCurrentlySelectedPlanDomain.Visibility = Visibility.Hidden;
+
+                TextBlockV2RayShowCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+                TextBlockCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+            }
         }
 
         //传送V2Ray模板参数,启动V2Ray安装进程
@@ -1422,6 +1601,14 @@ namespace ProxySU
                         {
                             serverJson["inbounds"][0]["port"] = int.Parse(ReceiveConfigurationParameters[1]);
                         }
+                        if (String.Equals(ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == true)
+                        {
+                            //设置Caddy随机监听的端口，用于Trojan-go,Trojan,V2Ray vless TLS
+                            Random random = new Random();
+                            randomCaddyListenPort = random.Next(2000, 9000);
+                            //指向Caddy监听的随机端口
+                            serverJson["inbounds"][0]["settings"]["fallbacks"][0]["dest"] = randomCaddyListenPort;
+                        }
                         //TLS自签证书/WebSocketTLS(自签证书)/http2自签证书模式下，使用v2ctl 生成自签证书
                         if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLSselfSigned") == true || String.Equals(ReceiveConfigurationParameters[0], "tcpTLSselfSigned") == true || String.Equals(ReceiveConfigurationParameters[0], "http2selfSigned") == true)
                         {
@@ -1803,8 +1990,15 @@ namespace ProxySU
 
                         //设置Caddyfile文件中的tls 邮箱,在caddy2中已经不需要设置。
 
-                        //设置域名
+                        //设置Caddy监听的随机端口
+                        string randomCaddyListenPortStr = randomCaddyListenPort.ToString();
 
+                        sshShellCommand = $"sed -i 's/8800/{randomCaddyListenPortStr}/' {upLoadPath}";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        //设置域名
                         sshShellCommand = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/' {upLoadPath}";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -2590,7 +2784,80 @@ namespace ProxySU
                 ReceiveConfigurationParameters[i] = "";
             }
             TrojanGoTemplateWindow windowTrojanGoTemplateConfiguration = new TrojanGoTemplateWindow();
+            windowTrojanGoTemplateConfiguration.Closed += windowTrojanGoTemplateConfigurationClosed;
             windowTrojanGoTemplateConfiguration.ShowDialog();
+        }
+        //TrojanGo模板设置窗口关闭后，触发事件，将所选的方案与其参数显示在UI上
+        private void windowTrojanGoTemplateConfigurationClosed(object sender, System.EventArgs e)
+        {
+            if (String.IsNullOrEmpty(ReceiveConfigurationParameters[0]) == true)
+            {
+                //显示"未选择方案！"
+                TextBlockCurrentlySelectedPlan.Text = Application.Current.FindResource("TextBlockCurrentlySelectedPlanNo").ToString();
+
+                TextBlockTrojanGoShowPort.Visibility = Visibility.Hidden;
+                TextBlockTrojanGoCurrentlySelectedPlanPort.Visibility = Visibility.Hidden;
+
+                TextBlockTrojanGoShowPassword.Visibility = Visibility.Hidden;
+                TextBlockTrojanGoCurrentlySelectedPlanPassword.Visibility = Visibility.Hidden;
+
+                TextBlockTrojanGoShowPath.Visibility = Visibility.Hidden;
+                TextBlockTrojanGoCurrentlySelectedPlanPathSeedKey.Visibility = Visibility.Hidden;
+
+                TextBlockTrojanGoShowCurrentlySelectedPlanDomain.Visibility = Visibility.Hidden;
+                TextBlockTrojanGoCurrentlySelectedPlanDomain.Visibility = Visibility.Hidden;
+
+                TextBlockTrojanGoShowCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+                TextBlockTrojanGoCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+                return;
+            }
+            TextBlockTrojanGoCurrentlySelectedPlan.Text = ReceiveConfigurationParameters[8];            //所选方案名称
+            TextBlockTrojanGoCurrentlySelectedPlanPort.Text = ReceiveConfigurationParameters[1];        //服务器端口
+            TextBlockTrojanGoCurrentlySelectedPlanPassword.Text = ReceiveConfigurationParameters[2];        //UUID
+            TextBlockTrojanGoCurrentlySelectedPlanPathSeedKey.Text = ReceiveConfigurationParameters[6]; //mKCP Seed\Quic Key\Path
+            TextBlockTrojanGoCurrentlySelectedPlanDomain.Text = ReceiveConfigurationParameters[4];      //域名
+            TextBlockTrojanGoCurrentlySelectedPlanFakeWebsite.Text = ReceiveConfigurationParameters[7]; //伪装网站
+
+            if (String.Equals(ReceiveConfigurationParameters[0], "TrojanGoTLS2Web"))
+            {
+                TextBlockTrojanGoShowPort.Visibility = Visibility.Visible;
+                TextBlockTrojanGoCurrentlySelectedPlanPort.Visibility = Visibility.Visible;
+
+                TextBlockTrojanGoShowPassword.Visibility = Visibility.Visible;
+                TextBlockTrojanGoCurrentlySelectedPlanPassword.Visibility = Visibility.Visible;
+
+                TextBlockTrojanGoShowPath.Visibility = Visibility.Hidden;
+                TextBlockTrojanGoCurrentlySelectedPlanPathSeedKey.Visibility = Visibility.Hidden;
+
+                TextBlockTrojanGoShowCurrentlySelectedPlanDomain.Visibility = Visibility.Visible;
+                TextBlockTrojanGoCurrentlySelectedPlanDomain.Visibility = Visibility.Visible;
+
+                TextBlockTrojanGoShowCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+                TextBlockTrojanGoCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+
+            }
+            else if (String.Equals(ReceiveConfigurationParameters[0], "TrojanGoWebSocketTLS2Web"))
+            {
+                TextBlockTrojanGoShowPort.Visibility = Visibility.Visible;
+                TextBlockTrojanGoCurrentlySelectedPlanPort.Visibility = Visibility.Visible;
+
+                TextBlockTrojanGoShowPassword.Visibility = Visibility.Visible;
+                TextBlockTrojanGoCurrentlySelectedPlanPassword.Visibility = Visibility.Visible;
+
+                TextBlockTrojanGoShowPath.Text = "WebSocket Path:";
+                TextBlockTrojanGoCurrentlySelectedPlanPathSeedKey.Text = ReceiveConfigurationParameters[3]; //mKCP Seed\Quic Key\Path
+
+
+                TextBlockTrojanGoShowPath.Visibility = Visibility.Visible;
+                TextBlockTrojanGoCurrentlySelectedPlanPathSeedKey.Visibility = Visibility.Visible;
+
+                TextBlockTrojanGoShowCurrentlySelectedPlanDomain.Visibility = Visibility.Visible;
+                TextBlockTrojanGoCurrentlySelectedPlanDomain.Visibility = Visibility.Visible;
+
+                TextBlockTrojanGoShowCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+                TextBlockTrojanGoCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+            }
+           
         }
 
         //传递TrojanGo参数
@@ -3213,12 +3480,16 @@ namespace ProxySU
                     //生成服务端配置
                     using (StreamReader reader = File.OpenText(serverConfig))
                     {
+                        //设置Caddy随机监听的端口，用于Trojan-go,Trojan,V2Ray vless TLS
+                        Random random = new Random();
+                        randomCaddyListenPort = random.Next(2000, 9000);
+
                         JObject serverJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
                         serverJson["run_type"] = "server";
                         serverJson["local_addr"] = "0.0.0.0";
                         serverJson["local_port"] = 443;
                         serverJson["remote_addr"] = "127.0.0.1";
-                        serverJson["remote_port"] = 88;
+                        serverJson["remote_port"] = randomCaddyListenPort;
                         //设置密码
                         serverJson["password"][0] = ReceiveConfigurationParameters[2];
                         //设置证书
@@ -3510,7 +3781,14 @@ namespace ProxySU
 
                     //设置Caddyfile文件中的tls 邮箱
 
-                    //string email = $"user@{ReceiveConfigurationParameters[4]}";
+                    //设置Caddy监听的随机端口
+                    string randomCaddyListenPortStr = randomCaddyListenPort.ToString();
+
+                    sshShellCommand = $"sed -i 's/8800/{randomCaddyListenPortStr}/' {upLoadPath}";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
                     //设置域名
                     sshShellCommand = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/' {upLoadPath}";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
@@ -4798,8 +5076,13 @@ namespace ProxySU
                         JObject serverJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
                         //设置密码
                         serverJson["password"][0] = ReceiveConfigurationParameters[2];
-                        //设置监听端口
-                        //serverJson["inbounds"][0]["port"] = int.Parse(ReceiveConfigurationParameters[1]);
+
+                        //设置Caddy随机监听的端口，用于Trojan-go,Trojan,V2Ray vless TLS
+                        Random random = new Random();
+                        randomCaddyListenPort = random.Next(2000, 9000);
+
+                        //设置转发到Caddy的随机监听端口
+                        serverJson["remote_port"] = randomCaddyListenPort;
 
                         using (StreamWriter sw = new StreamWriter(@"config.json"))
                         {
@@ -5078,7 +5361,15 @@ namespace ProxySU
 
                     UploadConfig(connectionInfo, caddyConfig, upLoadPath);
 
-  
+                    //设置Caddy监听的随机端口
+                    string randomCaddyListenPortStr = randomCaddyListenPort.ToString();
+
+                    sshShellCommand = $"sed -i 's/8800/{randomCaddyListenPortStr}/' {upLoadPath}";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+
                     //设置域名
 
                     sshShellCommand = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/' {upLoadPath}";
@@ -7250,7 +7541,9 @@ namespace ProxySU
             }
         }
 
-       #endregion
+
+
+        #endregion
 
         //        #region 三合一安装过程
 
