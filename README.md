@@ -48,7 +48,6 @@ V2ray, Trojan, NaiveProxy, Trojan-Go, ShadowsocksR(SSR),BBR install tools for wi
 
 * [v2ray官方程序](https://www.v2ray.com/chapter_00/install.html)配置文件(客户端配置)  
 * [v2rayN (windows)](https://github.com/2dust/v2rayN/releases)客户端导入二维码和网址  
-* [Trojan-QT5 (windows)](https://github.com/Trojan-Qt5/Trojan-Qt5)客户端导入二维码和网址  
 * [Qv2ray (windows)](https://github.com/Qv2ray/Qv2ray)客户端导入二维码和网址  
 * [Shadowrocket (ios)](https://apps.apple.com/us/app/shadowrocket/id932747118)导入二维码和网址  
 * [v2rayNG (Android)](https://github.com/2dust/v2rayNG/releases)导入二维码和网址  
