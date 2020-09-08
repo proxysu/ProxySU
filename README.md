@@ -2,9 +2,9 @@
 [v2ray的TLS流量可被简单特征码匹配精准识别](https://github.com/v2ray/discussion/issues/704)  
 
 # ProxySU
-V2ray, Trojan, NaiveProxy, Trojan-Go, SSR+TLS+Caddy,BBR install tools for windows。V2ray，Trojan，NaiveProxy, Trojan-Go, SSR+TLS+Caddy一键安装工具。BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）,支持语言:English、简体中文、正体（繁体）中文。
+V2ray, Trojan, NaiveProxy, Trojan-Go, SSR,BBR install tools for windows。V2ray，Trojan，NaiveProxy, Trojan-Go, SSR一键安装工具。BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）,支持语言:English、简体中文、正体（繁体）中文。
 
-编译环境Visual Studio 2017  使用WPF界面。可一键安装V2ray、Trojan、NaiveProxy，Trojan-Go,SSR+TLS+Caddy 后续还会再添加其他。  
+编译环境Visual Studio 2017  使用WPF界面。可一键安装V2ray、Trojan、NaiveProxy，Trojan-Go,SSR 后续还会再添加其他。  
 使用提醒：ProxySU的安装流程，都是假设系统是全新系统，没有装过以上代理软件的前提下，如果已经安装过，最好是将系统重装一下，会减少很多的麻烦。
 
 ##### V2ray可一键安装的模式有：
@@ -24,10 +24,10 @@ V2ray, Trojan, NaiveProxy, Trojan-Go, SSR+TLS+Caddy,BBR install tools for window
 * QUIC及各种伪装。  
 注：mKCP和QUIC模式使用udp协议，可以有效减少网络延时，有加速的作用，但在网络管控严厉时期，会导致IP被封，遇到的一次，就是刚安装好，使用了3个小时后，IP被封（现已确认是mKCP的流量被识别导致，项目组正在维护中。2020.6.10维护完毕，升级到版本4.24.2及以上，启用mKCP密钥可增强抗识别）。以上模式最推荐的是WebSocket+TLS+Web 和http2+TLS+Web 需要有一个域名。如果能加上CDN则稳定性更好。加上CDN后，是加速还是减速，与线路有关。
 
-##### Trojan 可一键安装的模式有：  
+##### Trojan 可一键安装：  
 * Trojan + TLS + Web
 
-##### Trojan-Go 可一键安装的模式有：  
+##### Trojan-Go 可一键安装：  
 * Trojan-Go + TLS + Web  
 * Trojan-Go + WebSocket + TLS + Web
 
