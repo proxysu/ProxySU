@@ -44,6 +44,9 @@
     <sys:String x:Key="ButtonNaiveProxyChangeUser">Random</sys:String>
     <sys:String x:Key="ButtonNavieSetUp">NaiveProxy install</sys:String>
     <sys:String x:Key="ButtonNaiveCancel">Cancel</sys:String>
+    <!-- 以下SSR设置参数标签页界面 -->
+    <sys:String x:Key="TextBlockSSRTemplateExplanation">Mode: SSR+TLS+Caddy</sys:String>
+    <sys:String x:Key="ButtonSSRSetUp">SSR install</sys:String>
     <!-- The following system tool tab interface -->
     <sys:String x:Key="ButtonProofreadTime">Proofreading Time</sys:String>
     <sys:String x:Key="ButtonClearOccupiedPorts">Release 80/443</sys:String>
@@ -134,7 +137,7 @@
     <sys:String x:Key="TextBlockV2RayAlterIdExplain">The default is 16, and you can fill in a value not exceeding 64. If the client does not have this option, leave it blank</sys:String>
     <sys:String x:Key="TextBlockEncryption">Encryption method:</sys:String>
     <sys:String x:Key="TextBlockTransferProtocol">Transfer Protocol:</sys:String>
-    <sys:String x:Key="TextBlockCamouflageType">Camouflage type:</sys:String>
+    <sys:String x:Key="TextBlockCamouflageType">Camouflage type(Confuse):</sys:String>
     <sys:String x:Key="TextBlockIsOrNotTLS">TLS:</sys:String>
     <sys:String x:Key="TextBlockClientPath">Path:</sys:String>
     <sys:String x:Key="TextBlockClientMkcpQuicKey">mKCP Seed/QUIC key:</sys:String>
@@ -145,6 +148,7 @@
     <sys:String x:Key="TextBlockQrURLexplainTrojan-go">" can be used for ShadowRocket (ios), ignore (Android), Trojan-QT5 (windows) to scan codes and import URLs. Note: some clients may not support WebSocket mode ."</sys:String>
     <sys:String x:Key="TextBlockQrURLexplainTrojan">"Can be used for ShadowRocket (ios), ignore (Android), Trojan-QT5 (windows) to scan codes and import URLs. Note: Some clients may not support WebSocket mode."</sys:String>
     <sys:String x:Key="TextBlockQrURLexplainNaiveProxy">URL import link for NaiveGUI (windows)</sys:String>
+    <sys:String x:Key="TextBlockQrURLexplainSSR">Used to scan codes and import URL import links for ShadowsocksR (windows), SSRR (android), Shadowrocket (ios)</sys:String>
     <!--The following is in the program-->
     <sys:String x:Key="MessageBoxShow_ErrorHostPortUserNotEmpty">Host address, host port, and user name are required and cannot be empty!!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorHostPasswordNotEmpty">The login password is required and cannot be empty!!</sys:String>
@@ -307,7 +311,13 @@
     <sys:String x:Key="readmeTxtNaiveProxyExplainLine05">This file is NaiveGUI (windows) copy and paste the URL of the imported node</sys:String>
     <sys:String x:Key="readmeTxtNaiveProxyExplainLine06">NaiveGUI(windows) download URL: https://github.com/ExcitedCodes/NaiveGUI/releases</sys:String>
     <sys:String x:Key="readmeTxtNaiveProxyExplainLine07">Server general connection configuration parameters</sys:String>
-
+    <!--The following is the SSR+TLS+Caddy client documentation-->
+    <sys:String x:Key="readmeTxtSSRExplainLine05">This file is for ShadowsocksR (windows), SSRR (Android), Shadowrocket (ios) scan code import node</sys:String>
+    <sys:String x:Key="readmeTxtSSRExplainLine06">ShadowsocksR (windows) download URL: https://github.com/shadowsocksrr/shadowsocksr-csharp/releases</sys:String>
+    <sys:String x:Key="readmeTxtSSRExplainLine07">SSRR (Android) download URL: https://github.com/shadowsocksrr/shadowsocksr-android/releases</sys:String>
+    <sys:String x:Key="readmeTxtSSRExplainLine08">Shadowrocket(ios) download, you need to use the AppleID of the foreign region. Please Google method yourself.</sys:String>
+    <sys:String x:Key="readmeTxtSSRExplainLine09">This file is ShadowsocksR (windows), SSRR (Android), Shadowrocket (ios) copy and paste the URL of the imported node</sys:String>
+    <sys:String x:Key="readmeTxtSSRExplainLine10">Server general connection configuration parameters</sys:String>
 
     <!--<sys:String x:Key="TabItemHeaderAppDeployment">Deployment</sys:String>
     <sys:String x:Key="TabItemHeaderResourceTools">Resource Tools</sys:String>

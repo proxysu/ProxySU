@@ -44,6 +44,9 @@
     <sys:String x:Key="ButtonNaiveProxyChangeUser">隨機</sys:String>
     <sys:String x:Key="ButtonNavieSetUp">NaiveProxy一鍵安裝</sys:String>
     <sys:String x:Key="ButtonNaiveCancel">取消</sys:String>
+    <!-- 以下SSR设置参数标签页界面 -->
+    <sys:String x:Key="TextBlockSSRTemplateExplanation">模式：SSR+TLS+Caddy</sys:String>
+    <sys:String x:Key="ButtonSSRSetUp">SSR一鍵安裝</sys:String>
     <!-- 以下系統工具標籤頁界面 -->
     <sys:String x:Key="ButtonProofreadTime">校對時間</sys:String>
     <sys:String x:Key="ButtonClearOccupiedPorts">釋放80/443端口</sys:String>
@@ -134,7 +137,7 @@
     <sys:String x:Key="TextBlockV2RayAlterIdExplain">默認16，可以填不超過64的值，客戶端沒有此選項可不填</sys:String>
     <sys:String x:Key="TextBlockEncryption">加密方式:</sys:String>
     <sys:String x:Key="TextBlockTransferProtocol">傳輸協議:</sys:String>
-    <sys:String x:Key="TextBlockCamouflageType">偽裝類型:</sys:String>
+    <sys:String x:Key="TextBlockCamouflageType">偽裝類型(混淆):</sys:String>
     <sys:String x:Key="TextBlockIsOrNotTLS">是否使用TLS:</sys:String>
     <sys:String x:Key="TextBlockClientPath">路徑(Path):</sys:String>
     <sys:String x:Key="TextBlockClientMkcpQuicKey">mKCP Seed/QUIC密鑰:</sys:String>
@@ -145,6 +148,7 @@
     <sys:String x:Key="TextBlockQrURLexplainTrojan-go">"可用於ShadowRocket (ios)、igniter（Android）、Trojan-QT5 (windows) 掃碼和導入url。注意：有的客戶端可能不支持WebSocket模式。"</sys:String>
     <sys:String x:Key="TextBlockQrURLexplainTrojan">"可用於ShadowRocket (ios)、igniter（Android）、Trojan-QT5 (windows) 掃碼和導入url。注意：有的客戶端可能不支持WebSocket模式。"</sys:String>
     <sys:String x:Key="TextBlockQrURLexplainNaiveProxy">用於NaiveGUI(windows)的URL導入鏈接</sys:String>
+    <sys:String x:Key="TextBlockQrURLexplainSSR">用於ShadowsocksR(windows)、SSRR(android)、Shadowrocket(ios)的掃碼和導入URL導入鏈接</sys:String>
     <!--以下為程序內的-->
     <sys:String x:Key="MessageBoxShow_ErrorHostPortUserNotEmpty">主機地址、主機端口、用戶名為必填項，不能為空!!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorHostPasswordNotEmpty">登錄密碼為必填項，不能為空!!</sys:String>
@@ -308,5 +312,12 @@
     <sys:String x:Key="readmeTxtNaiveProxyExplainLine05">此文件為NaiveGUI(windows)複製粘貼導入節點的網址</sys:String>
     <sys:String x:Key="readmeTxtNaiveProxyExplainLine06">NaiveGUI(windows)下載網址：https://github.com/ExcitedCodes/NaiveGUI/releases</sys:String>
     <sys:String x:Key="readmeTxtNaiveProxyExplainLine07">服務器通用連接配置參數</sys:String>
+    <!--以下為SSR+TLS+Caddy客戶端說明文件-->
+    <sys:String x:Key="readmeTxtSSRExplainLine05">此文件為ShadowsocksR (windows)、SSRR（Android）、Shadowrocket(ios)掃碼導入節點</sys:String>
+    <sys:String x:Key="readmeTxtSSRExplainLine06">ShadowsocksR (windows)下載網址：https://github.com/shadowsocksrr/shadowsocksr-csharp/releases</sys:String>
+    <sys:String x:Key="readmeTxtSSRExplainLine07">SSRR（Android）下載網址：https://github.com/shadowsocksrr/shadowsocksr-android/releases</sys:String>
+    <sys:String x:Key="readmeTxtSSRExplainLine08">Shadowrocket(ios)下載,需要使用國外區的AppleID。請自行谷歌方法。</sys:String>
+    <sys:String x:Key="readmeTxtSSRExplainLine09">此文件為ShadowsocksR (windows)、SSRR（Android）、Shadowrocket(ios)複製粘貼導入節點的網址</sys:String>
+    <sys:String x:Key="readmeTxtSSRExplainLine10">服務器通用連接配置參數</sys:String>
 
 </ResourceDictionary>

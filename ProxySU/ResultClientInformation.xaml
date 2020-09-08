@@ -12,8 +12,8 @@
             <RowDefinition Height="0.8*"></RowDefinition>
             <RowDefinition Height="0.12*"></RowDefinition>
         </Grid.RowDefinitions>
-        <!-- 客户端配置参数 -->
-        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxV2rayClient" Visibility="Visible" Grid.Row="0">
+        <!-- V2Ray客户端配置参数 -->
+        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxV2rayClient" Visibility="Collapsed" Grid.Row="0">
             <Grid >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.6*"></ColumnDefinition>
@@ -32,7 +32,6 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
-
                 </Grid.RowDefinitions>
                 <TextBlock Text="{DynamicResource TextBlockServerAddress}" Grid.Column="0" Grid.Row="0" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxHostAddress" IsReadOnly="True" Grid.Column="1" Grid.Row="0" Margin="2"></TextBox>
@@ -72,6 +71,7 @@
 
             </Grid>
         </GroupBox>
+        <!-- Trojan-Go客户端配置参数 -->
         <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxTrojanGoClient" Visibility="Collapsed" Grid.Row="0">
             <Grid >
                 <Grid.ColumnDefinitions>
@@ -86,7 +86,6 @@
                     <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition></RowDefinition>
-
                 </Grid.RowDefinitions>
                 <TextBlock Text="{DynamicResource TextBlockServerAddress}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" ></TextBlock>
                 <TextBox x:Name="TextBoxTrojanGoServerHost" Grid.Column="1" Grid.Row="1" Margin="4"></TextBox>
@@ -100,9 +99,9 @@
                 <TextBlock x:Name="TextBlockTrojanGoWebSocketPath" Text="{DynamicResource TextBlockTrojanGoWebSocketPath}" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxTrojanGoWSPath" Grid.Column="1" Grid.Row="4" Margin="4"></TextBox>
                 <TextBlock x:Name="TextBlockTrojanGoCaption" Grid.Column="2" Grid.Row="4"></TextBlock>
-
             </Grid>
         </GroupBox>
+        <!-- Trojan客户端配置参数 -->
         <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxTrojanClient" Visibility="Collapsed" Grid.Row="0">
             <Grid >
                 <Grid.ColumnDefinitions>
@@ -117,8 +116,6 @@
                     <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition></RowDefinition>
-
-
                 </Grid.RowDefinitions>
                 <TextBlock Text="{DynamicResource TextBlockServerAddress}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" ></TextBlock>
                 <TextBox x:Name="TextBoxTrojanServerHost" Grid.Column="1" Grid.Row="1" Margin="4"></TextBox>
@@ -129,10 +126,9 @@
                 <TextBlock Text="{DynamicResource TextBlockHostPassword}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxTrojanServerPassword" Grid.Column="1" Grid.Row="3" Margin="4"></TextBox>
                 <TextBlock Grid.Column="2" Grid.Row="3"></TextBlock>
-
-
             </Grid>
         </GroupBox>
+        <!-- NaiveProxy客户端配置参数 -->
         <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxNaiveProxyClient" Visibility="Collapsed" Grid.Row="0">
             <Grid >
                 <Grid.ColumnDefinitions>
@@ -147,8 +143,6 @@
                     <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
-
-
                 </Grid.RowDefinitions>
                 <TextBlock Text="{DynamicResource TextBlockServerAddress}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxNaiveServerHost" Grid.Column="1" Grid.Row="1" Margin="4"></TextBox>
@@ -160,6 +154,61 @@
                 <TextBox x:Name="TextBoxNaivePassword" Grid.Column="1" Grid.Row="3" Margin="4"></TextBox>
                 <TextBlock Grid.Column="2" Grid.Row="3"></TextBlock>
                 <!--<Button x:Name="ButtonOpenDir" Content="确定" Grid.Column="1" Grid.Row="4" Margin="40,3,40,3" Click="ButtonOpenDir_Click"></Button>-->
+            </Grid>
+        </GroupBox>
+        <!-- SSR+TLS+Caddy客户端配置参数 -->
+        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxSSRClient" Visibility="Visible" Grid.Row="0">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.6*"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{DynamicResource TextBlockServerAddress}" Grid.Column="0" Grid.Row="0" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxSSRHostAddress" IsReadOnly="True" Grid.Column="1" Grid.Row="0" Margin="2"></TextBox>
+                <TextBlock Text="" Grid.Column="2" Grid.Row="0"></TextBlock>
+                <TextBlock Text="{DynamicResource TextBlockServerPort}" Grid.Column="0" Grid.Row="1" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxSSRPort" IsReadOnly="True" Grid.Column="1" Grid.Row="1" Margin="2"></TextBox>
+                <TextBlock Text="" Grid.Column="2" Grid.Row="1"></TextBlock>
+                <TextBlock Text="{DynamicResource TextBlockTrojanGoPassword}" Grid.Column="0" Grid.Row="2" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxSSRUUID" IsReadOnly="True" Grid.Column="1" Grid.Row="2" Margin="2"></TextBox>
+                <TextBlock Text="" Grid.Column="2" Grid.Row="2"></TextBlock>
+                <!--<TextBlock x:Name="TextBlockSSRUUIDextra" Text="{DynamicResource TextBlockV2RayAlterId}" Grid.Column="0" Grid.Row="3" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxSSRUUIDextra" IsReadOnly="False" Grid.Column="1" Grid.Row="3" Margin="2"></TextBox>
+                <TextBlock x:Name="TextBlockSSRUUIDextraExplanation" Text="{DynamicResource TextBlockV2RayAlterIdExplain}" TextWrapping="Wrap" Grid.Column="2" Grid.Row="3"></TextBlock>-->
+                <TextBlock Text="{DynamicResource TextBlockEncryption}" Grid.Column="0" Grid.Row="3" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxSSREncryption" IsReadOnly="True" Grid.Column="1" Grid.Row="3" Margin="2"></TextBox>
+                <!--<TextBlock Text="{DynamicResource TextBlockEncryptionIsAuto}" Grid.Column="2" Grid.Row="3"></TextBlock>-->
+                <TextBlock Text="{DynamicResource TextBlockTransferProtocol}" Grid.Column="0" Grid.Row="4" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxSSRTransmission" IsReadOnly="True" Grid.Column="1" Grid.Row="4" Margin="2"></TextBox>
+                <TextBlock Text="" Grid.Column="2" Grid.Row="4"></TextBlock>
+                <TextBlock Text="{DynamicResource TextBlockCamouflageType}" Grid.Column="0" Grid.Row="5" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxSSRCamouflageType" IsReadOnly="True" Grid.Column="1" Grid.Row="5" Margin="2"></TextBox>
+                <TextBlock Text="" Grid.Column="2" Grid.Row="5"></TextBlock>
+                <!--<TextBlock x:Name="TextBlocSSRTLSonOrNo" Text="{DynamicResource TextBlockIsOrNotTLS}" Grid.Column="0" Grid.Row="7" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxSSRTLS" IsReadOnly="True" Grid.Column="1" Grid.Row="7" Margin="2"></TextBox>
+                <TextBlock x:Name="TextBlocSSRTLSonOrNoExplain" Text="" Grid.Column="2" Grid.Row="7"></TextBlock>
+                <TextBlock x:Name="TextBlockSSRHost" Text="Host:" Grid.Column="0" Grid.Row="8" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxSSRHost" IsReadOnly="True" Grid.Column="1" Grid.Row="8" Margin="2"></TextBox>
+                <TextBlock x:Name="TextBlockSSRHostExplain" Text="" Grid.Column="2" Grid.Row="8"></TextBlock>-->
+
+                <!--<TextBlock x:Name="TextBlockSSRPath" Text="{DynamicResource TextBlockClientPath}" Grid.Column="0" Grid.Row="9" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxSSRPath" IsReadOnly="True" Grid.Column="1" Grid.Row="9" Margin="2"></TextBox>
+                <TextBlock x:Name="TextBlockSSRPathExplain" Text="" Grid.Column="2" Grid.Row="9"></TextBlock>
+                <TextBlock x:Name="TextBlockSSRQuicKey" Text="{DynamicResource TextBlockClientMkcpQuicKey}" Grid.Column="0" Grid.Row="10" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxSSRQuicKey" IsReadOnly="True" Grid.Column="1" Grid.Row="10" Margin="2"></TextBox>
+                <TextBlock x:Name="TextBlockSSRQuicKeyExplain" Text="" Grid.Column="2" Grid.Row="10"></TextBlock>-->
 
 
             </Grid>

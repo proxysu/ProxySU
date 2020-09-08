@@ -44,6 +44,10 @@
     <sys:String x:Key="ButtonNaiveProxyChangeUser">随机</sys:String>
     <sys:String x:Key="ButtonNavieSetUp">NaiveProxy一键安装</sys:String>
     <sys:String x:Key="ButtonNaiveCancel">取消</sys:String>
+    <!-- 以下SSR设置参数标签页界面 -->
+    <sys:String x:Key="TextBlockSSRTemplateExplanation">模式：SSR+TLS+Caddy</sys:String>
+    <sys:String x:Key="ButtonSSRSetUp">SSR一键安装</sys:String>
+    
     <!-- 以下系统工具标签页界面 -->
     <sys:String x:Key="ButtonProofreadTime">校对时间</sys:String>
     <sys:String x:Key="ButtonClearOccupiedPorts">释放80/443端口</sys:String>
@@ -134,7 +138,7 @@
     <sys:String x:Key="TextBlockV2RayAlterIdExplain">默认16，可以填不超过64的值，客户端没有此选项可不填</sys:String>
     <sys:String x:Key="TextBlockEncryption">加密方式:</sys:String>
     <sys:String x:Key="TextBlockTransferProtocol">传输协议:</sys:String>
-    <sys:String x:Key="TextBlockCamouflageType">伪装类型:</sys:String>
+    <sys:String x:Key="TextBlockCamouflageType">伪装类型(混淆):</sys:String>
     <sys:String x:Key="TextBlockIsOrNotTLS">是否使用TLS:</sys:String>
     <sys:String x:Key="TextBlockClientPath">路径(Path):</sys:String>
     <sys:String x:Key="TextBlockClientMkcpQuicKey">mKCP Seed/QUIC密钥:</sys:String>
@@ -145,6 +149,7 @@
     <sys:String x:Key="TextBlockQrURLexplainTrojan-go">"可用于ShadowRocket (ios)、igniter（Android）、Trojan-QT5 (windows) 扫码和导入url。注意：有的客户端可能不支持WebSocket模式。"</sys:String>
     <sys:String x:Key="TextBlockQrURLexplainTrojan">"可用于ShadowRocket (ios)、igniter（Android）、Trojan-QT5 (windows) 扫码和导入url。注意：有的客户端可能不支持WebSocket模式。"</sys:String>
     <sys:String x:Key="TextBlockQrURLexplainNaiveProxy">用于NaiveGUI(windows)的URL导入链接</sys:String>
+    <sys:String x:Key="TextBlockQrURLexplainSSR">用于ShadowsocksR(windows)、SSRR(android)、Shadowrocket(ios)的扫码和导入URL导入链接</sys:String>
  <!--以下为程序内的-->
     <sys:String x:Key="MessageBoxShow_ErrorHostPortUserNotEmpty">主机地址、主机端口、用户名为必填项，不能为空!!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorHostPasswordNotEmpty">登录密码为必填项，不能为空!!</sys:String>
@@ -307,7 +312,13 @@
     <sys:String x:Key="readmeTxtNaiveProxyExplainLine05">此文件为NaiveGUI(windows)复制粘贴导入节点的网址</sys:String>
     <sys:String x:Key="readmeTxtNaiveProxyExplainLine06">NaiveGUI(windows)下载网址：https://github.com/ExcitedCodes/NaiveGUI/releases</sys:String>
     <sys:String x:Key="readmeTxtNaiveProxyExplainLine07">服务器通用连接配置参数</sys:String>
-
+    <!--以下为SSR+TLS+Caddy客户端说明文件-->
+    <sys:String x:Key="readmeTxtSSRExplainLine05">此文件为ShadowsocksR (windows)、SSRR（Android）、Shadowrocket(ios)扫码导入节点</sys:String>
+    <sys:String x:Key="readmeTxtSSRExplainLine06">ShadowsocksR (windows)下载网址：https://github.com/shadowsocksrr/shadowsocksr-csharp/releases</sys:String>
+    <sys:String x:Key="readmeTxtSSRExplainLine07">SSRR（Android）下载网址：https://github.com/shadowsocksrr/shadowsocksr-android/releases</sys:String>
+    <sys:String x:Key="readmeTxtSSRExplainLine08">Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。</sys:String>
+    <sys:String x:Key="readmeTxtSSRExplainLine09">此文件为ShadowsocksR (windows)、SSRR（Android）、Shadowrocket(ios)复制粘贴导入节点的网址</sys:String>
+    <sys:String x:Key="readmeTxtSSRExplainLine10">服务器通用连接配置参数</sys:String>
     <!--<sys:String x:Key="MsgShowTime">Now</sys:String>
     <sys:String x:Key="BtnOK1">OK</sys:String>
     <sys:String x:Key="HdNo1">No.</sys:String>

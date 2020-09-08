@@ -38,6 +38,8 @@ namespace ProxySU
                 GroupBoxTrojanGoClient.Visibility = Visibility.Collapsed;
                 GroupBoxTrojanClient.Visibility = Visibility.Collapsed;
                 GroupBoxNaiveProxyClient.Visibility = Visibility.Collapsed;
+                GroupBoxSSRClient.Visibility = Visibility.Collapsed;
+
                 //主机地址
                 TextBoxHostAddress.Text = MainWindow.ReceiveConfigurationParameters[4];
                 //主机端口
@@ -290,6 +292,7 @@ namespace ProxySU
                 GroupBoxTrojanGoClient.Visibility = Visibility.Visible;
                 GroupBoxTrojanClient.Visibility = Visibility.Collapsed;
                 GroupBoxNaiveProxyClient.Visibility = Visibility.Collapsed;
+                GroupBoxSSRClient.Visibility = Visibility.Collapsed;
 
                 TextBoxTrojanGoWSPath.Visibility = Visibility.Hidden;
                 TextBlockTrojanGoWebSocketPath.Visibility = Visibility.Hidden;
@@ -322,6 +325,7 @@ namespace ProxySU
                 GroupBoxTrojanGoClient.Visibility = Visibility.Collapsed;
                 GroupBoxTrojanClient.Visibility = Visibility.Visible;
                 GroupBoxNaiveProxyClient.Visibility = Visibility.Collapsed;
+                GroupBoxSSRClient.Visibility = Visibility.Collapsed;
 
                 TextBlockQrURLexplain.Text = Application.Current.FindResource("TextBlockQrURLexplainTrojan").ToString();
 
@@ -341,6 +345,7 @@ namespace ProxySU
                 GroupBoxTrojanGoClient.Visibility = Visibility.Collapsed;
                 GroupBoxTrojanClient.Visibility = Visibility.Collapsed;
                 GroupBoxNaiveProxyClient.Visibility = Visibility.Visible;
+                GroupBoxSSRClient.Visibility = Visibility.Collapsed;
 
                 TextBlockQrURLexplain.Text = Application.Current.FindResource("TextBlockQrURLexplainNaiveProxy").ToString();
 
@@ -349,7 +354,33 @@ namespace ProxySU
                 TextBoxNaivePassword.Text = MainWindow.ReceiveConfigurationParameters[2];
                 GenerateNaivePrxoyShareQRcodeAndBase64Url();
             }
-          
+            else if (String.Equals(MainWindow.proxyType, "SSR"))
+            {
+                GroupBoxV2rayClient.Visibility = Visibility.Collapsed;
+                GroupBoxTrojanGoClient.Visibility = Visibility.Collapsed;
+                GroupBoxTrojanClient.Visibility = Visibility.Collapsed;
+                GroupBoxNaiveProxyClient.Visibility = Visibility.Collapsed;
+                GroupBoxSSRClient.Visibility = Visibility.Visible;
+
+                TextBlockQrURLexplain.Text = Application.Current.FindResource("TextBlockQrURLexplainSSR").ToString();
+
+                //主机地址
+                TextBoxSSRHostAddress.Text = MainWindow.ReceiveConfigurationParameters[4];
+                //主机端口
+                TextBoxSSRPort.Text = "443";
+                //密码（uuid）
+                TextBoxSSRUUID.Text = MainWindow.ReceiveConfigurationParameters[2];
+                //加密方式
+                TextBoxSSREncryption.Text = "none";
+                //传输协议
+                TextBoxSSRTransmission.Text = "auth_chain_a";
+                //混淆
+                TextBoxSSRCamouflageType.Text = "tls1.2_ticket_auth";
+
+                //CheckDir("ssr_config");
+                GenerateSSRShareQRcodeAndBase64Url();
+            }
+
         }
         #region 界面控制相关
         private void HidePath()
@@ -395,6 +426,7 @@ namespace ProxySU
 
         }
         #endregion
+       
         //生成v2rayN客户端导入文件
         private void GenerateV2rayShareQRcodeAndBase64Url()
         {
@@ -708,30 +740,8 @@ namespace ProxySU
                 sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoPassword").ToString() + $"{TextBoxTrojanGoServerPassword.Text}");
                 //sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoWebSocketPath").ToString() + $"{TextBoxTrojanGoWSPath.Text}");
 
-                //sw.WriteLine("config.json");
-                //sw.WriteLine("此文件为Trojan官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080");
-                //sw.WriteLine("Trojan官方网站：https://trojan-gfw.github.io/trojan/");
-                //sw.WriteLine("Trojan官方程序下载地址：https://github.com/trojan-gfw/trojan/releases");
-                //sw.WriteLine("下载相应版本，Windows选择Trojan-x.xx-win.zip,解压后提取trojan.exe。与config.json放在同一目录，运行trojan.exe即可。");
-                //sw.WriteLine("-----------------------------------------\n");
-                //sw.WriteLine("QR.bmp");
-                //sw.WriteLine("此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)扫码导入节点");
-                //sw.WriteLine("Trojan-QT5 (windows)下载网址：https://github.com/TheWanderingCoel/Trojan-Qt5/releases");
-                //sw.WriteLine("igniter（Android）下载网址：https://github.com/trojan-gfw/igniter/releases");
-                //sw.WriteLine("Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。");
-
-                //sw.WriteLine("-----------------------------------------\n");
-                //sw.WriteLine("url.txt");
-                //sw.WriteLine("此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)复制粘贴导入节点的网址");
-                //sw.WriteLine("-----------------------------------------\n");
-                //sw.WriteLine("服务器通用连接配置参数");
-                //sw.WriteLine($"地址(address)：{TextBoxTrojanServerHost.Text}");
-                //sw.WriteLine($"端口(Port)：{TextBoxTrojanServerPort.Text}");
-                //sw.WriteLine($"密钥：{TextBoxTrojanServerPassword.Text}");
 
             }
-
-
 
         }
 
@@ -783,21 +793,8 @@ namespace ProxySU
                 //sw.WriteLine("下载相应版本，Windows选择naiveproxy-x.xx-win.zip,解压后提取naive.exe。与config.json放在同一目录，运行naive.exe即可。");
                 sw.WriteLine(Application.Current.FindResource("readmeTxtNaiveProxyExplainLine04").ToString());
 
-                //sw.WriteLine("此文件为NaiveProxy官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080");
-                //sw.WriteLine("NaiveProxy官方网站：https://github.com/klzgrad/naiveproxy");
-                //sw.WriteLine("NaiveProxy官方程序下载地址：https://github.com/klzgrad/naiveproxy/releases");
-                //sw.WriteLine("下载相应版本，Windows选择naiveproxy-x.xx-win.zip,解压后提取naive.exe。与config.json放在同一目录，运行naive.exe即可。");
-
                 sw.WriteLine("-----------------------------------------\n");
 
-                //sw.WriteLine("其他平台的客户端，暂未发布");
-                //sw.WriteLine("QR.bmp");
-                //sw.WriteLine("此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)扫码导入节点");
-                //sw.WriteLine("Trojan-QT5 (windows)下载网址：https://github.com/TheWanderingCoel/Trojan-Qt5/releases");
-                //sw.WriteLine("igniter（Android）下载网址：https://github.com/trojan-gfw/igniter/releases");
-                //sw.WriteLine("Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。");
-
-                //sw.WriteLine("-----------------------------------------\n");
                 sw.WriteLine("url.txt");
 
                 //sw.WriteLine("此文件为NaiveGUI(windows)复制粘贴导入节点的网址");
@@ -822,6 +819,80 @@ namespace ProxySU
 
             }
 
+        }
+
+        //生成SSR客户端资料
+        private void GenerateSSRShareQRcodeAndBase64Url()
+        {
+
+            string saveFileFolderFirst = TextBoxSSRHostAddress.Text;
+            int num = 1;
+            saveFileFolder = saveFileFolderFirst;
+            CheckDir("ssr_config");
+            while (Directory.Exists(@"ssr_config\" + saveFileFolder))
+            {
+                saveFileFolder = saveFileFolderFirst + "_copy_" + num.ToString();
+                num++;
+            }
+            CheckDir(@"ssr_config\" + saveFileFolder);
+
+            string ssrUrl = GetSSRLinkForServer();
+            TextBoxURL.Text = ssrUrl;
+            using (StreamWriter sw = new StreamWriter($"ssr_config\\{saveFileFolder}\\url.txt"))
+            {
+                sw.WriteLine(ssrUrl);
+
+            }
+            CreateQRCode(ssrUrl, "ssr_config");
+
+            using (StreamWriter sw = new StreamWriter($"ssr_config\\{saveFileFolder}\\readme.txt"))
+            {
+               //sw.WriteLine("-----------------------------------------\n");
+                sw.WriteLine("QR.bmp");
+
+                //***"此文件为ShadowsocksR (windows)、SSRR（Android）、Shadowrocket(ios)扫码导入节点"***
+                sw.WriteLine(Application.Current.FindResource("readmeTxtSSRExplainLine05").ToString());
+
+                //***"ShadowsocksR (windows)下载网址：https://github.com/shadowsocksrr/shadowsocksr-csharp/releases"***
+                sw.WriteLine(Application.Current.FindResource("readmeTxtSSRExplainLine06").ToString());
+
+                //***"SSRR（Android）下载网址：https://github.com/shadowsocksrr/shadowsocksr-android/releases"***
+                sw.WriteLine(Application.Current.FindResource("readmeTxtSSRExplainLine07").ToString());
+
+                //***"Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。"***
+                sw.WriteLine(Application.Current.FindResource("readmeTxtSSRExplainLine08").ToString());
+                sw.WriteLine("-----------------------------------------\n");
+                sw.WriteLine("url.txt");
+
+                //***"此文件为ShadowsocksR (windows)、SSRR（Android）、Shadowrocket(ios)复制粘贴导入节点的网址"***
+                sw.WriteLine(Application.Current.FindResource("readmeTxtSSRExplainLine09").ToString());
+                sw.WriteLine("-----------------------------------------\n");
+
+                //***"服务器通用连接配置参数"***
+                sw.WriteLine(Application.Current.FindResource("readmeTxtTrojanExplainLine10").ToString());
+
+                //****** 服务器地址(address): ******
+                sw.WriteLine(Application.Current.FindResource("TextBlockServerAddress").ToString() + $"{ TextBoxSSRHostAddress.Text}");
+
+                //****** 端口(port): ******
+                sw.WriteLine(Application.Current.FindResource("TextBlockServerPort").ToString() + $"{TextBoxSSRPort.Text}");
+
+                //****** 密码: ******
+                sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoPassword").ToString() + $"{TextBoxSSRUUID.Text}");
+
+                //****** 加密方式: ******
+                sw.WriteLine(Application.Current.FindResource("TextBlockEncryption").ToString() + $"{TextBoxSSREncryption.Text}");
+
+                //****** 传输协议: ******
+                sw.WriteLine(Application.Current.FindResource("TextBlockTransferProtocol").ToString() + $"{TextBoxSSRTransmission.Text}");
+
+                //****** 混淆: ******
+                sw.WriteLine(Application.Current.FindResource("TextBlockCamouflageType").ToString() + $"{TextBoxSSRCamouflageType.Text}");
+
+                //****** 密码: ******
+                //sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoWebSocketPath").ToString() + $"{TextBoxTrojanGoWSPath.Text}");
+
+            }
         }
 
         //生成base64
@@ -894,6 +965,69 @@ namespace ProxySU
                 System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
                 this.Close();
             }
+            else if (String.Equals(MainWindow.proxyType, "SSR"))
+            {
+                string openFolderPath = @"ssr_config\" + saveFileFolder;
+                System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
+                this.Close();
+            }
+        }
+
+        //SSR生成URL链接
+        public string GetSSRLinkForServer()
+        {
+            string server = TextBoxSSRHostAddress.Text;
+            string server_port = TextBoxSSRPort.Text;
+            string password = TextBoxSSRUUID.Text;
+            string protocol = TextBoxSSRTransmission.Text;
+            string method = TextBoxSSREncryption.Text;
+            string obfs = TextBoxSSRCamouflageType.Text;
+
+            string obfsparam="";
+            string protocolparam = "";
+            string remarks = TextBoxSSRHostAddress.Text;
+            string group = TextBoxSSRHostAddress.Text;
+            bool udp_over_tcp = true;
+            int server_udp_port = 0;
+
+            string main_part = server + ":" + server_port + ":" + protocol + ":" + method + ":" + obfs + ":" + EncodeUrlSafeBase64(password);
+            string param_str = "obfsparam=" + EncodeUrlSafeBase64(obfsparam ?? "");
+            if (!string.IsNullOrEmpty(protocolparam))
+            {
+                param_str += "&protoparam=" + EncodeUrlSafeBase64(protocolparam);
+            }
+            if (!string.IsNullOrEmpty(remarks))
+            {
+                param_str += "&remarks=" + EncodeUrlSafeBase64(remarks);
+            }
+            if (!string.IsNullOrEmpty(group))
+            {
+                param_str += "&group=" + EncodeUrlSafeBase64(group);
+            }
+            if (udp_over_tcp)
+            {
+                param_str += "&uot=" + "1";
+            }
+            if (server_udp_port > 0)
+            {
+                param_str += "&udpport=" + server_udp_port.ToString();
+            }
+            string base64 = EncodeUrlSafeBase64(main_part + "/?" + param_str);
+            return "ssr://" + base64;
+        }
+
+        private string EncodeUrlSafeBase64(byte[] val, bool trim)
+        {
+            if (trim)
+                return Convert.ToBase64String(val).Replace('+', '-').Replace('/', '_').TrimEnd('=');
+            else
+                return Convert.ToBase64String(val).Replace('+', '-').Replace('/', '_');
+        }
+        private string EncodeUrlSafeBase64(string val, bool trim = true)
+        {
+            return EncodeUrlSafeBase64(Encoding.UTF8.GetBytes(val), trim);
         }
     }
+
+    
 }

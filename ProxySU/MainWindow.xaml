@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProxySU"
         mc:Ignorable="d"
-        Title="ProxySU - v2.0.4" Height="625" Width="530">
+        Title="ProxySU - v2.1.0" Height="625" Width="530">
     <!--以下样式参考自：https://yq.aliyun.com/articles/331878
 	https://docs.microsoft.com/en-us/dotnet/desktop-wpf/fundamentals/styles-templates-overview-->
     <Window.Resources>
@@ -126,7 +126,7 @@
                     <ProgressBar x:Name="ProgressBarSetUpProcessing" Minimum="0" Maximum="100" Value="0" IsIndeterminate="False" Margin="7" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4"></ProgressBar>
                     <TextBox x:Name="TextBoxMonitorCommandResults" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"  Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="4" Grid.RowSpan="5" Margin="30,0,30,10"></TextBox>
                     <TabControl Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="4" Grid.RowSpan="3">
-                        <TabItem Header="V2Ray" Width="100" Height="30">
+                        <TabItem Header="V2Ray" Width="80" Height="30">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition></ColumnDefinition>
@@ -185,7 +185,7 @@
                                 <Button x:Name="Button_canel" Content="{DynamicResource Button_canel}"  Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
                             </Grid>
                         </TabItem>
-                        <TabItem Header="Trojan-Go" Width="100" Height="30">
+                        <TabItem Header="Trojan-Go" Width="80" Height="30">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition></ColumnDefinition>
@@ -238,7 +238,7 @@
                                 <Button x:Name="ButtonTrojanGoCancel" Content="{DynamicResource ButtonTrojanGoCancel}"  Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
                             </Grid>
                         </TabItem>
-                        <TabItem Header="Trojan" Width="100" Height="30">
+                        <TabItem Header="Trojan" Width="80" Height="30">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition></ColumnDefinition>
@@ -277,9 +277,9 @@
                                         <TextBlock Text="{DynamicResource TextBlockTrojanHostPassword}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5"></TextBlock>
                                         <TextBox x:Name="TextBoxTrojanPassword"  Grid.Column="1" Grid.Row="2" Margin="3"></TextBox>
                                         <Button x:Name="ButtonTrojanPassword" Content="{DynamicResource ButtonTrojanChangePassword}" Grid.Column="2" Grid.Row="2" Margin="2" Click="ButtonTrojanPassword_Click" ></Button>
-                                        
-                                        <TextBlock Text="伪装网站：" Grid.Column="0" Grid.Row="3" Visibility="Collapsed"></TextBlock>
-                                        <TextBox x:Name="TextBoxTrojanSites" Style="{StaticResource TitleText}" Tag="可以增加代理的隐蔽(可为空)"  Grid.Column="1" Grid.Row="3" Margin="3"  Visibility="Collapsed"></TextBox>
+
+                                        <TextBlock Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="3" Visibility="Collapsed"></TextBlock>
+                                        <TextBox x:Name="TextBoxTrojanSites" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxV2RayMaskSitesTag}"  Grid.Column="1" Grid.Row="3" Margin="3"  Visibility="Collapsed"></TextBox>
                                         
                                     </Grid>
                                 </GroupBox>
@@ -294,7 +294,7 @@
                                 <Button x:Name="ButtonTrojanCancel" Content="{DynamicResource ButtonTrojanCancel}" Grid.Column="2" Grid.Row="2"  Margin="10" Click="Button_canel_Click"></Button>
                             </Grid>
                         </TabItem>
-                        <TabItem x:Name="TabItemNaiveProxy" Header="NaiveProxy" Width="100" Height="30">
+                        <TabItem x:Name="TabItemNaiveProxy" Header="NaiveProxy" Width="80" Height="30">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition></ColumnDefinition>
@@ -331,8 +331,8 @@
                                         <TextBlock Text="{DynamicResource TextBlockTrojanHostPassword}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                                         <TextBox x:Name="TextBoxNaivePassword"  Grid.Column="1" Grid.Row="3" Margin="3"></TextBox>
                                         <Button x:Name="ButtonNaivePassword" Content="{DynamicResource ButtonTrojanChangePassword}" Grid.Column="2" Grid.Row="3" Margin="2" Click="ButtonNaivePassword_Click"></Button>
-                                        <TextBlock Text="伪装网站：" Grid.Column="0" Grid.Row="4" Visibility="Collapsed"></TextBlock>
-                                        <TextBox x:Name="TextBoxNaiveSites" Style="{StaticResource TitleText}" Tag="可以增加代理的隐蔽(可为空)"  Grid.Column="1" Grid.Row="4" Margin="3"  Visibility="Collapsed"></TextBox>
+                                        <TextBlock Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="4" Visibility="Collapsed"></TextBlock>
+                                        <TextBox x:Name="TextBoxNaiveSites" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxV2RayMaskSitesTag}"  Grid.Column="1" Grid.Row="4" Margin="3"  Visibility="Collapsed"></TextBox>
                                        
                                     </Grid>
                                 </GroupBox>
@@ -341,6 +341,57 @@
 
                                 <Button x:Name="ButtonNavieSetUp" Content="{DynamicResource ButtonNavieSetUp}" Grid.ColumnSpan="1" Margin="10" Grid.Column="0" Grid.Row="2" Click="ButtonNavieSetUp_Click"/>
                                 <Button x:Name="ButtonNaiveCancel" Content="{DynamicResource ButtonNaiveCancel}" Grid.ColumnSpan="1" Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="SSR" Width="80" Height="30">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition Height="60"></RowDefinition>
+
+                                </Grid.RowDefinitions>
+                                <GroupBox Header="{DynamicResource GroupBoxHeaderParameterTrojan}" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="2">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition Width="0.4*"></ColumnDefinition>
+
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Text="{DynamicResource TextBlockSSRTemplateExplanation}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                        <TextBlock Text="{DynamicResource TextBlockTrojanServerDomain}" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5"></TextBlock>
+                                        <TextBox x:Name="TextBoxSSRHostDomain" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxDomainPrompt}" Grid.Column="1" Grid.Row="1" Margin="3"></TextBox>
+                                        <TextBlock Text="{DynamicResource TextBlockTrojanPort}" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                                        <!--<TextBlock Text="用户名：" Grid.Column="0" Grid.Row="2"></TextBlock>
+                                        <TextBox x:Name="TextBoxUser" Grid.Column="1" Grid.Row="2" Margin="3"></TextBox>
+                                        <Button x:Name="ButtonNaiveUser" Content="随机" Grid.Column="2" Grid.Row="2" Margin="2" Click="ButtonNaiveUser_Click"></Button>-->
+                                        <TextBlock Text="{DynamicResource TextBlockTrojanHostPassword}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5"></TextBlock>
+                                        <TextBox x:Name="TextBoxSSRPassword"  Grid.Column="1" Grid.Row="2" Margin="3"></TextBox>
+                                        <Button x:Name="ButtonSSRPassword" Content="{DynamicResource ButtonTrojanChangePassword}" Grid.Column="2" Grid.Row="2" Margin="2" Click="ButtonSSRPassword_Click" ></Button>
+
+                                        <TextBlock Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="3" Visibility="Collapsed"></TextBlock>
+                                        <TextBox x:Name="TextBoxSSRSites" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxV2RayMaskSitesTag}"  Grid.Column="1" Grid.Row="3" Margin="3"  Visibility="Collapsed"></TextBox>
+
+                                    </Grid>
+                                </GroupBox>
+
+                                <Button x:Name="ButtonSSRSetUp" Content="{DynamicResource ButtonSSRSetUp}"  Grid.Column="0" Grid.Row="2"  Margin="10" Click="ButtonSSRSetUp_Click"/>
+                                <!--<Button x:Name="ButtonUpdateTrojan" Content="{DynamicResource ButtonUpdateTrojan}" Grid.Column="1" Grid.Row="2" Margin="10" Click="ButtonUpdateTrojan_Click"></Button>-->
+                                <Button x:Name="ButtonSSRCancel" Content="{DynamicResource ButtonTrojanCancel}" Grid.Column="2" Grid.Row="2"  Margin="10" Click="Button_canel_Click"></Button>
                             </Grid>
                         </TabItem>
                         <!--<TabItem Header="三合一" Width="100" Height="30" Visibility="Collapsed">
@@ -413,7 +464,7 @@
                             </Grid>
                         </TabItem>-->
 
-                        <TabItem Header="{DynamicResource TabItemHeaderSysTools}" Width="100" Height="30">
+                        <TabItem Header="{DynamicResource TabItemHeaderSysTools}" Width="80" Height="30">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition></ColumnDefinition>
