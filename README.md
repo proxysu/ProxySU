@@ -2,9 +2,9 @@
 [v2ray的TLS流量可被简单特征码匹配精准识别](https://github.com/v2ray/discussion/issues/704)  
 
 # ProxySU
-V2ray, Trojan, NaiveProxy, Trojan-Go, BBR install tools for windows。V2ray，Trojan，NaiveProxy, Trojan-Go 一键安装工具。BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）,支持语言:English、简体中文、正体（繁体）中文。
+V2ray, Trojan, NaiveProxy, Trojan-Go, SSR+TLS+Caddy,BBR install tools for windows。V2ray，Trojan，NaiveProxy, Trojan-Go, SSR+TLS+Caddy一键安装工具。BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）,支持语言:English、简体中文、正体（繁体）中文。
 
-编译环境Visual Studio 2017  使用WPF界面。可一键安装V2ray、Trojan、NaiveProxy，Trojan-Go 后续还会再添加其他。  
+编译环境Visual Studio 2017  使用WPF界面。可一键安装V2ray、Trojan、NaiveProxy，Trojan-Go,SSR+TLS+Caddy 后续还会再添加其他。  
 使用提醒：ProxySU的安装流程，都是假设系统是全新系统，没有装过以上代理软件的前提下，如果已经安装过，最好是将系统重装一下，会减少很多的麻烦。
 
 ##### V2ray可一键安装的模式有：
@@ -32,7 +32,10 @@ V2ray, Trojan, NaiveProxy, Trojan-Go, BBR install tools for windows。V2ray，Tr
 * Trojan-Go + WebSocket + TLS + Web
 
 ##### NaiveProxy一键安装：  
-* NaiveProxy + TLS +Web
+* NaiveProxy + TLS +Web  
+
+##### SSR一键安装：  
+* SSR+TLS+Caddy  
 
 ##### 支持的VPS系统为：  
 * CentOS 7/8   
@@ -73,8 +76,15 @@ V2ray, Trojan, NaiveProxy, Trojan-Go, BBR install tools for windows。V2ray，Tr
 
 * [NaiveProxy官方客户端](https://github.com/klzgrad/naiveproxy/releases)配置文件（windows客户端配置）  
 * [NaiveGUI](https://github.com/ExcitedCodes/NaiveGUI/releases)(第三方Windows图形客户端)URL导入链接。  
-* [Qv2ray (windows)](https://github.com/Qv2ray/Qv2ray)客户端导入二维码和网址  
+* [Qv2ray (windows)](https://github.com/Qv2ray/Qv2ray)客户端导入二维码和URL  
 注：这里多说几句NaiveProxy，现在墙越来越高，翻墙软件需要隐藏访问目标网址和加密数据的同时，还要隐藏自己的流量特征，不被识别出是代理流量。V2ray，Trojan都有其自己的实现。而NaiveProxy是配合Caddy的一个http.forwardproxy插件，插件有防嗅探，转发流量的功能。代理http流量很完美，但是在代理https流量时，会出现长度特征，NaiverProxy则弥补了这一点，消除了代理https时的流量特征(当配置文件中Padding=true时)，另外还应用 [Chrome's network stack](https://www.chromium.org/developers/design-documents/network-stack).更好的消除TLS的指纹特征。详细介绍请看项目官方介绍：[NaiveProxy官方文档](https://github.com/klzgrad/naiveproxy)。有兴趣的不妨一试。
+
+###### SSR+TLS+Caddy 模式目前已支持生成用于  
+
+* [ShadowsocksR (windows)](https://github.com/shadowsocksrr/shadowsocksr-csharp/releases)客户端导入二维码和URL  
+* [SSRR（Android）](https://github.com/shadowsocksrr/shadowsocksr-android/releases)导入二维码和URL  
+* [Shadowrocket (ios)](https://apps.apple.com/us/app/shadowrocket/id932747118)导入二维码和URL  
+
 
 ## 程序工作流程：  
 1. 使用[SSH.NET](https://github.com/sshnet/SSH.NET)登录远程主机  
@@ -82,9 +92,10 @@ V2ray, Trojan, NaiveProxy, Trojan-Go, BBR install tools for windows。V2ray，Tr
   * 选择V2ray，则调用V2ray官方安装脚本 `curl -o /tmp/go.sh https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh` `yes | bash /tmp/go.sh -f` ，安装V2ray。  
   * 选择Trojan，则调用Trojan官方安装脚本 `curl -o /tmp/trojan-quickstart.sh https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh` `yes | bash /tmp/trojan-quickstart.sh` 安装Trojan。  
   * 选择Trojan-Go，则调用本项目内的trojan-go.sh安装， `curl -o /tmp/trojan-go.sh https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh` `yes | bash /tmp/trojan-go.sh -f` 安装Trojan-GO。  
-  * 选择NaiveProxy，先安装Caddy2,方法源自[Caddy官方文档](https://caddyserver.com/docs/download)。再用自编译的Caddy2(带forward_proxy插件)替换原来的Caddy运行文件。自编译Caddy2文件方法源自[NaiveProxy官方文档](https://github.com/klzgrad/naiveproxy#setup)。
+  * 选择NaiveProxy，先安装Caddy2,方法源自[Caddy官方文档](https://caddyserver.com/docs/download)。再用自编译的Caddy2(带forward_proxy插件)替换原来的Caddy运行文件。自编译Caddy2文件方法源自[NaiveProxy官方文档](https://github.com/klzgrad/naiveproxy#setup)。  
+  * 选择SSR+TLS+Caddy模式，则调用本项目内的ssr.sh安装， `curl -o /tmp/ssr.sh https://raw.githubusercontent.com/proxysu/shellscript/master/ssr/ssr.sh` `yes | bash /tmp/ssr.sh -f` 安装SSR。  
 3. 根据选择读取相应配置模板，调用[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)生成相应配置文件，并上传到服务器。所有模板及配置文件 [在这里](https://github.com/proxysu/windows/tree/master/TemplateConfg)  
-4. 如果使用WebSocket+TLS+Web/http2+TLS+Web/Trojan+TLS+Web/Trojan-go+TLS+Web模式，则安装Caddy2,方法源自[Caddy官方文档](https://caddyserver.com/docs/download)。  
+4. 如果使用WebSocket+TLS+Web/http2+TLS+Web/Trojan+TLS+Web/Trojan-go+TLS+Web/SSR+TLS+Caddy模式，则安装Caddy2,方法源自[Caddy官方文档](https://caddyserver.com/docs/download)。  
 5. 如果使用Http2/tcp+TLS/WebSocket+TLS/Trojan+TLS+Web/Trojan-go+TLS+Web模式，则调用  `curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh` 安装acme.sh，使用acme.sh申请并安装证书到V2ray/Trojan.  
 6. 安装成功后，使用[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)生成兼容于相应客户端的json文件，用C#内置的Base64库将json生成url链接，使用[QRcoder](https://github.com/codebude/QRCoder)生成二维码。
 
@@ -100,7 +111,11 @@ V2ray, Trojan, NaiveProxy, Trojan-Go, BBR install tools for windows。V2ray，Tr
 
 * 注：NaiveProxy安装及配置文件主要参考自：  
 [NaiveProxy官方说明](https://github.com/klzgrad/naiveproxy)  
-[美博园教程-自建最强科学上网4：NaiveProxy + Caddy](https://dafahao.com/naiveproxy-caddy.html "需加代理访问")
+[美博园教程-自建最强科学上网4：NaiveProxy + Caddy](https://dafahao.com/naiveproxy-caddy.html "需加代理访问")  
+
+* 注：SSR+TLS+Caddy安装及配置文件主要参考自：  
+[ShadowsocksR+Caddy+TLS伪装流量科学上网](https://blog.duyuanchao.me/posts/a384749f/)  
+[teddysun大佬的SSR一键脚本](https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocksR.sh)
 
 ## License
 
