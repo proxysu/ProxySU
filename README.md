@@ -5,7 +5,9 @@
 V2ray, Trojan, NaiveProxy, Trojan-Go, ShadowsocksR(SSR),BBR install tools for windows。V2ray，Trojan，NaiveProxy, Trojan-Go, ShadowsocksR(SSR)一键安装工具。BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）,支持语言:English、简体中文、正体（繁体）中文。
 
 编译环境Visual Studio 2017  使用WPF界面。可一键安装V2ray、Trojan、NaiveProxy，Trojan-Go,ShadowsocksR(SSR) 后续还会再添加其他。  
-使用提醒：ProxySU的安装流程，是假设在全新系统下，没有装过以上代理软件，如果已经安装过，最好将系统重装一下，会减少很多的麻烦。ProxySU在开发过程中，一般都是在vultr的vps中测试，测试系统版本为：Centos7/8  Debian9/10 Ubuntu18.04/20.04。由于同一个版本的Linux系统，不同的VPS商,云服务商也不完全相同。实在没有精力去逐一测试。各位翻墙网友在使用过程中，如果发现问题，请及时发issues，或者到TG群组，推特下反馈，希望这个工具做的越来越好，让更多人喜欢。谢谢。
+
+##### 使用提醒：  
+ProxySU的安装流程，是假设在全新系统下，没有装过以上代理软件，如果已经安装过，最好将系统重装一下，会减少很多的麻烦。ProxySU在开发过程中，一般都是在vultr的vps中测试，测试系统版本为：Centos7/8  Debian9/10 Ubuntu18.04/20.04。由于同一个版本的Linux系统，不同的VPS商,云服务商也不完全相同。实在没有精力去逐一测试。各位翻墙网友在使用过程中，如果发现问题，请及时发issues，或者到TG群组，推特下反馈，希望这个工具做的越来越好，让更多人喜欢。谢谢。
 
 ##### V2ray可一键安装的模式有：
 * tcp 
