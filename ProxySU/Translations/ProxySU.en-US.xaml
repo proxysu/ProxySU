@@ -14,8 +14,17 @@
     <sys:String x:Key="TextBlockHostName">Host:</sys:String>
     <sys:String x:Key="TextBoxHostNamePrompt">IP or Domain (Not empty)</sys:String>
     <sys:String x:Key="TextBlockHostPart">Port:</sys:String>
-    <sys:String x:Key="TextBlockHostUser">User name:</sys:String>
+    <sys:String x:Key="TextBlockHostUser">User:</sys:String>
     <sys:String x:Key="TextBlockHostPassword">Password:</sys:String>
+    <sys:String x:Key="TextBlockHostCert">Key:</sys:String>
+    <sys:String x:Key="TextBoxKeyNotEmptyPrompt">Key file Path (Not Empty)</sys:String>
+    <sys:String x:Key="ButtonOpenFileDialog">Open...</sys:String>
+    <sys:String x:Key="RadioButtonPasswordLogin">Password Login</sys:String>
+    <sys:String x:Key="RadioButtonCertLogin">Key Login</sys:String>
+    <sys:String x:Key="RadioButtonNoProxy">No Proxy</sys:String>
+    <sys:String x:Key="RadioButtonProxyNoLogin">Not Login</sys:String>
+    <sys:String x:Key="RadiobuttonProxyYesLogin">Requires Login</sys:String>
+    <sys:String x:Key="TextBlockProxyHost">Proxy Addr:</sys:String>
     <sys:String x:Key="TextBlockSetUpProcessing">Waiting for installation and deployment</sys:String>
     <sys:String x:Key="TabItemHeaderSysTools">System Tools</sys:String>
     <sys:String x:Key="ButtonV2RayTemplateConfiguration">V2Ray Templates</sys:String>
@@ -47,6 +56,35 @@
     <!-- 以下SSR设置参数标签页界面 -->
     <sys:String x:Key="TextBlockSSRTemplateExplanation">Mode: SSR+TLS+Caddy</sys:String>
     <sys:String x:Key="ButtonSSRSetUp">SSR install</sys:String>
+    <!-- 以下SS设置参数标签页界面 -->
+    <sys:String x:Key="ButtonSetUpSS">SS one-click installation</sys:String>
+    <sys:String x:Key="ButtonTemplateConfigurationSS">SS plug-in library</sys:String>
+    <sys:String x:Key="TabItemHeaderNonePluginSS">Classic mode</sys:String>
+    <sys:String x:Key="TextBlockNonePluginPointSS">Tip: This mode, long time, large traffic use, easy to be blocked and interfered, is not recommended!</sys:String>
+    <sys:String x:Key="RadioButtonNonePluginSS">SS Classic</sys:String>
+    <sys:String x:Key="TextBlockNonePluginExplainSS">SS classic use mode, no domain name is required, data is encrypted with high strength, and the data is recognized as unknown data. At present, the traffic is easy to be identified, and it is easy to be interfered and blocked. Use it with caution! Putting here is just a feeling and tribute!</sys:String>
+    <sys:String x:Key="TabItemHeaderObfsPluginSS">Simple-obfs plug-in</sys:String>
+    <sys:String x:Key="TextBlockObfsPluginPointSS">Tip: This is a traffic obfuscation scheme used in the early days of SS. The plug-in has not been updated for a long time and is not recommended!</sys:String>
+    <sys:String x:Key="RadioButtonObfsPluginHttpWebSS">SS+obfs+http+Web</sys:String>
+    <sys:String x:Key="TextBlockObfsPluginHttpWebExplainSS">Does not require a domain name, the data is highly encrypted, the traffic is confused as http (not the real http), and the use of Web site camouflage can enhance the anti-recognition to a certain extent! CDN is not supported.</sys:String>
+    <sys:String x:Key="RadioButtonObfsPluginHttpsWebSS">SS+obfs+TLS(https)+Web</sys:String>
+    <sys:String x:Key="TextBlockObfsPluginTLShttpsWebExplainSS">requires a domain name, the use of a domain name will greatly enhance the anti-identification, high-strength data encryption, traffic confusion as https (not real https), the use of Web site camouflage, further enhance the anti-identification! CDN is not supported.</sys:String>
+    <sys:String x:Key="TabItemHeaderV2RayPluginSS">V2Ray plug-in</sys:String>
+    <sys:String x:Key="TextBlockV2rayPluginPointSS">Reminder: ShadowRocket(ios) does not support SS+Quic mode</sys:String>
+    <sys:String x:Key="RadioButtonWebSocketTLSWebSS">SS+WebSocket+TLS+Caddy (Web post)</sys:String>
+    <sys:String x:Key="RadioButtonWebSocketTLSWebFrontSS">SS+WebSocket+TLS+Caddy (Web front)</sys:String>
+    <sys:String x:Key="TextBlockV2RayPluginPointSS">Tip: In the above scheme, there is no difference in the use effect between Web front and Web post. In the Web post scheme, the TLS certificate is applied for by acme.sh. After the certificate expires, acme.sh will automatically renew, but you need to manually restart SS to load the new certificate. The certificate in the web front-end solution is automatically applied for and loaded by Caddy without restarting SS.</sys:String>
+    <sys:String x:Key="RadioButtonQuicSS">SS+QUIC</sys:String>
+    <sys:String x:Key="TextBlockQuicExplainSS">V2Ray-Plugin uses QUIC protocol for transmission, and TLS encryption is mandatory. Encrypted data transmission, identified as udp traffic, was originally initiated by Google, advantages: reduced delay, multiplexing, connection migration, domain name is required,</sys:String>
+    <!--<sys:String x:Key="TabItemHeaderOtherPluginsSS">kcptun/GoQuiet/Cloak plugin</sys:String>-->
+    <sys:String x:Key="TabItemHeaderOtherPluginsSS">kcptun Plugin</sys:String>
+    <sys:String x:Key="TextBlockGoQuietPluginPointSS">Reminder: Shadowrocket(ios) does not support GoQuiet-plugin. shadowsocks (Android) does not support GoQuiet-plugin and Cloak-plugin plug-ins</sys:String>
+    <sys:String x:Key="TextBlockKcptunPluginExplainSS">KCP is a fast and reliable protocol. It can waste 10%-20% of bandwidth than TCP in exchange for a 30%-40% reduction in average latency and a three-fold reduction in maximum latency The transmission effect. Use UDP protocol for transmission, high-strength data encryption, transmission of the same content, kcp generally consumes more traffic than TCP, and will greatly increase the network speed under lines with high packet loss rates, and may be restricted by QOS at individual operators .</sys:String>
+    <sys:String x:Key="TextBlockGoQuietPluginExplainSS">The basic principle is to simulate TLS traffic while disguising the server as a normal web server. This confusion is not the first: simple-obfs and ShadowsocksR’s tls1.2_ticket_auth mode proves this. It works. This plug-in improves the existing methods, and its goal is to make large-scale blockade of HTTPS servers (even IP segments) the only effective way to block SS</sys:String>
+    <sys:String x:Key="TextBlockCloakPluginExplainSS">Use encryption to confuse proxy traffic into legitimate HTTPS traffic, and disguise the proxy server as a normal Web server to avoid Internet censorship. It can be seen as an upgraded version of GoQuiet above, optimizing the network connection speed, and not confusing https but real https traffic.</sys:String>
+    <sys:String x:Key="TextBlockPluginNameExplainSS">Plugin program:</sys:String>
+    <sys:String x:Key="TextBlockPluginOptionExplainSS">Plugin options:</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_ExplainBuildSS">Use the compilation method, it will take a little longer, please be patient...</sys:String>
     <!-- The following system tool tab interface -->
     <sys:String x:Key="ButtonProofreadTime">Proofreading Time</sys:String>
     <sys:String x:Key="ButtonClearOccupiedPorts">Release 80/443</sys:String>
@@ -82,7 +120,7 @@
     <sys:String x:Key="TextBlockV2RayServerPortExplain">If TLS encryption is used, please keep the default port 443</sys:String>
     <sys:String x:Key="TextBlockV2RayUUIDExplain">Use the existing UUID and paste it directly into the box</sys:String>
     <sys:String x:Key="TextBlockV2RayQuicUUID">mKCP Seed/QUIC key</sys:String>
-    <sys:String x:Key="TextBlockV2RayMkcpExplain">Enable the mKCP Seed key to enhance anti-recognition, leave it blank to disable it. Version 4.24.2 or above is required. V2rayN does not currently support</sys:String>
+    <sys:String x:Key="TextBlockV2RayMkcpExplain">Enable the mKCP Seed key to enhance anti-recognition, leave it blank to disable it. Version 4.24.2+</sys:String>
     <sys:String x:Key="TextBlockV2RayPath">Path:</sys:String>
     <sys:String x:Key="TextBlockV2RayDomain">Domain name:</sys:String>
     <sys:String x:Key="TextBlockV2RayMaskSites">Mask a website:</sys:String>
@@ -98,7 +136,7 @@
     <sys:String x:Key="TextBlockV2RaySelfSignedShadowrocketExplain">Shadowrocket (ios) needs to manually open the "Allow Unsafe" option</sys:String>
     <sys:String x:Key="TextBlockV2RayVlessTcpTlsWebExplain">Lightweight protocol VLESS, occupies less host resources, data TLS encrypted transmission, and Caddy2 is used as a disguised website on the node. Suitable for low-profile VPS, or shared nodes by multiple people, the server client version requires 4.27+ (domain name required)</sys:String>
     <sys:String x:Key="TextBlockV2RayWebSocketExplain">Data encrypted transmission, the transmission protocol uses WebSocket, if TLS is not enabled, it will be recognized as WebSocket traffic.</sys:String>
-    <sys:String x:Key="TextBlockV2RayWebSocketTlsExplain">Data encrypted transmission, the transmission protocol uses WebSocket, and TLS is enabled, it will be recognized as TLS traffic. (Domain name required)</sys:String>
+    <sys:String x:Key="TextBlockV2RayWebSocketTlsExplain">Data encrypted transmission, the transmission protocol uses WebSocket, and TLS is enabled, it will be recognized as TLS traffic. (Domain name required)，Support CDN.</sys:String>
     <sys:String x:Key="RadioButtonV2RayWebSocketTlsSelfSigned">WebSocket+TLS (self-signed certificate)</sys:String>
     <sys:String x:Key="TextBlockV2RayWebSocketTlsSelfSignedExplain">Data encrypted transmission, the transmission protocol uses WebSocket, and TLS is enabled, and it will be recognized as TLS traffic. (No domain name required)</sys:String>
     <sys:String x:Key="TextBlockV2RayHttp2Explain">The transmission method based on HTTP/2. It is fully implemented in accordance with the HTTP/2 standard and requires a domain name</sys:String>
@@ -113,7 +151,7 @@
     <sys:String x:Key="TextBlockV2RayMkcpWireGuardExplain">Same as mKCP (without camouflage), with the addition of disguised as WireGuard packets. (Not the real WireGuard protocol)</sys:String>
     <sys:String x:Key="TextBlockV2RayQuicShadowrocketExplain">Reminder: Shadowrocket currently does not support QUIC transmission mode.</sys:String>
     <sys:String x:Key="RadioButtonV2RayQuicNone">QUIC (no camouflage)</sys:String>
-    <sys:String x:Key="TextBlockV2RayQuicNoneExplain">Data encrypted transmission, no disguise will be recognized as udp traffic, produced by Google, advantages: reduced delay, multiplexing, connection migration</sys:String>
+    <sys:String x:Key="TextBlockV2RayQuicNoneExplain">Encrypted data transmission, no pretense will be recognized as udp traffic, originally created by Google, advantages: reduced delay, multiplexing, connection migration</sys:String>
     <sys:String x:Key="TextBlockV2RayQuicSRTPExplain">Same as QUIC (no camouflage), adding a packet disguised as SRTP, it will be recognized as video call data (such as FaceTime)</sys:String>
     <sys:String x:Key="TextBlockV2RayQuicuTPExplain">Same as QUIC (without camouflage), add disguised as uTP data packet, it will be recognized as BT download data</sys:String>
     <sys:String x:Key="TextBlockV2RayQuicWeChatExplain">Same as QUIC (no camouflage), adding data packets disguised as WeChat video calls</sys:String>
@@ -194,7 +232,8 @@
     <sys:String x:Key="DisplayInstallInfo_StartInstalling">The system environment has been tested and the installation requirements are met, and the deployment begins...</sys:String>
     <sys:String x:Key="DisplayInstallInfo_OpenFireWallPort">Open the corresponding port of the firewall...</sys:String>
     <sys:String x:Key="DisplayInstallInfo_StartInstallSoft">Installing</sys:String>
-    <sys:String x:Key="MessageBoxShow_ErrorInstallSoftFail">The installation failed, the official script runs incorrectly!</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_CompilingSS">Compiling, please wait patiently.............</sys:String>
+    <sys:String x:Key="MessageBoxShow_ErrorInstallSoftFail">The installation failed, the script runs incorrectly!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_SoftInstallSuccess">The installation is successful!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_UploadSoftConfig">After installation, upload the configuration file......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_StartInstallAcmeSh">Installing acme.sh......</sys:String>
@@ -268,6 +307,7 @@
     <sys:String x:Key="DisplayInstallInfo_UpgradeNaiveProxy">The server is being upgraded for NaiveProxy</sys:String>
     <sys:String x:Key="DisplayInstallInfo_UpgradeNaiveProxyOK">The upgrade is complete, OK!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_OptimizeNetwork">Optimizing network parameters...</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_OptimizeNetworkOK">Optimize network parameters, OK!</sys:String>
     <!--The following is the V2Ray client description file-->
     <sys:String x:Key="readmeTxtV2RayExplainLine01">This file is the client configuration file used by the official V2Ray program. It is configured in global mode, socks5 address: 127.0.0.1:1080, http proxy address: 127.0.0.1:1081</sys:String>
     <sys:String x:Key="readmeTxtV2RayExplainLine02">v2ray official website: https://www.v2ray.com/</sys:String>
@@ -318,7 +358,32 @@
     <sys:String x:Key="readmeTxtSSRExplainLine08">Shadowrocket(ios) download, you need to use the AppleID of the foreign region. Please Google method yourself.</sys:String>
     <sys:String x:Key="readmeTxtSSRExplainLine09">This file is ShadowsocksR (windows), SSRR (Android), Shadowrocket (ios) copy and paste the URL of the imported node</sys:String>
     <sys:String x:Key="readmeTxtSSRExplainLine10">Server general connection configuration parameters</sys:String>
-
+    <!--The following is the SS client description file-->
+    <sys:String x:Key="readmeTxtExplainLineSS01">This file is a Shadowsocks (windows) scan code import node</sys:String>
+    <sys:String x:Key="readmeTxtExplainLineSS02">This file is Shadowsocks (windows) copy and paste the URL of the imported node</sys:String>
+    <sys:String x:Key="readmeTxtExplainLineSS05">This file is for shadowsocks (Android), Shadowrocket (ios) scan code to import nodes</sys:String>
+    <sys:String x:Key="readmeTxtExplainLineSS06">Shadowsocks (windows) download URL: https://github.com/shadowsocks/shadowsocks-windows/releases</sys:String>
+    <sys:String x:Key="readmeTxtExplainLineSS07">shadowsocks (Android) download URL: https://github.com/shadowsocks/shadowsocks-android/releases</sys:String>
+    <sys:String x:Key="readmeTxtExplainLineSS08">Shadowrocket(ios) download, you need to use the AppleID of the foreign region. Please Google method yourself.</sys:String>
+    <sys:String x:Key="readmeTxtExplainLineSS09">This file is shadowsocks (Android), Shadowrocket (ios) copy and paste the URL of the imported node</sys:String>
+    <sys:String x:Key="readmeTxtExplainLineSS10">Server general connection configuration parameters</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSS">plug-in instructions</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSS01">ProxySU defaults all plug-ins, under the subfolder plugins of the folder where the Shadowsocks (windows) run file is located.</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSS02">Instructions for manually installing the plug-in on the computer</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSS03">First download the plug-in, the download address of each plug-in Windows client is:</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSS04">Simple-obfs: https://github.com/shadowsocks/simple-obfs/releases only download obfs-local.zip</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSS05">V2ray-plugin: https://github.com/shadowsocks/v2ray-plugin/releases 64-bit system selection: v2ray-plugin-windows-amd64-vx.xxtar.gz , 32-bit system selection: v2ray-plugin-windows-386-vx.xxtar.gz (x is a number, is the version number)</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSS06">Kcptun-plugin: https://github.com/shadowsocks/kcptun/releases 64-bit system selection: kcptun-windows-amd64-xxxxxx.tar.gz, 32-bit system selection ：Kcptun-plugin-windows-386-xxxxxx.tar.gz (x is a number, is the version number)</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSS07">GoQuiet-plugin: https://github.com/cbeuw/GoQuiet/releases 64-bit system selection: gq-client-windows-amd64-xxxexe, 32-bit system selection: gq-client-windows-386-xxxexe (x is a number, is the version number)</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSS08">Cloak-plugin: https://github.com/cbeuw/Cloak/releases 64-bit system selection: ck-client-windows-amd64-xxxexe, 32-bit system selection: ck-client-windows-386-xxxexe (x is a number, is the version number)</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSS09">In the folder where the Shadowsocks (windows) run file is located, create a new folder plugins, and copy all the files (two) extracted from obfs-local.zip to plugins, v2ray -plugin download the file, unzip the file, copy it to plugins, and rename it to: v2ray-plugin.exe. Kcptun-plugin downloads the file, unzip the two files, copy the file starting with client_windows into the plugins, and rename it to: kcptun-client.exe. The file downloaded by GoQuiet-plugin is directly copied to the plugin and renamed to: goquiet-client.exe. The file downloaded by Cloak-plugin is directly copied to the plugin and renamed to: cloak-client.exe</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSS10">installation completed</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSSandroid02">Mobile Android client plug-in installation instructions</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSSandroid03">first download the plug-in, the download address of each plug-in Android client is:</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSSandroid04">Simple-obfs: https://github.com/shadowsocks/simple-obfs-android/releases only download obfs-local-nightly-xxxapk (x is a number, is the version Number)</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSSandroid05">V2ray-plugin: https://github.com/shadowsocks/v2ray-plugin-android/releases Generally choose v2ray--universal-xxxapk (x is a number, is the version number )</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSSandroid06">Kcptun-plugin: https://github.com/shadowsocks/kcptun-android/releases Generally choose kcptun--universal-xxxapk (x is a number, is the version number)</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSSandroid07">Transfer the above apk file to the phone and install it!</sys:String>
     <!--<sys:String x:Key="TabItemHeaderAppDeployment">Deployment</sys:String>
     <sys:String x:Key="TabItemHeaderResourceTools">Resource Tools</sys:String>
     <sys:String x:Key="TextBlockHostName">Host:</sys:String>
@@ -369,7 +434,7 @@
     <sys:String x:Key="ButtonTrojanGoTemplateOK">OK</sys:String>
     <sys:String x:Key="ButtonTrojanGoTemplateCancel">Cancel</sys:String>
     <sys:String x:Key="GroupBoxHeaderV2RayTemplates">V2Ray Templates</sys:String>
-    <sys:String x:Key="TabItemHeaderV2RayHotPlan">Hot Plan</sys:String>
+    <sys:String x:Key="TabItemHeaderV2RayHotPlan">Recommend</sys:String>
     <sys:String x:Key="TabItemHeaderV2RayTcpProtocol">TCP</sys:String>
     <sys:String x:Key="TabItemHeaderV2RayWebSocketProtocol">WebSocket</sys:String>
     <sys:String x:Key="TabItemHeaderV2RayHttp2Protocol">Http/2</sys:String>

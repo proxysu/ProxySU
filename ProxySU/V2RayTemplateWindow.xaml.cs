@@ -501,8 +501,8 @@ namespace ProxySU
 
             Guid uuid = Guid.NewGuid();
             TextBoxNewUUID.Text = uuid.ToString();
-            Random random = new Random();
-            int randomServerPort = random.Next(30001, 50000);
+            //Random random = new Random();
+            int randomServerPort = GetRandomPort();
             TextBoxServerListenPort.Text = randomServerPort.ToString();
             //清除其他选项卡中的选项
             UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
@@ -704,8 +704,8 @@ namespace ProxySU
             uuid = Guid.NewGuid();
             TextBoxQuicUUID.Text = uuid.ToString();
 
-            Random random = new Random();
-            int randomServerPort = random.Next(30001, 50000);
+            //Random random = new Random();
+            int randomServerPort = GetRandomPort();
             TextBoxServerListenPort.Text = randomServerPort.ToString();
             //清除其他选项卡中的选项
             UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
@@ -727,8 +727,8 @@ namespace ProxySU
         //产生随机服务端口
         private void ButtonServerListenPort_Click(object sender, RoutedEventArgs e)
         {
-            Random random = new Random();
-            int randomServerPort = random.Next(30001, 50000);
+            //Random random = new Random();
+            int randomServerPort = GetRandomPort();
             TextBoxServerListenPort.Text = randomServerPort.ToString();
         }
         //产生随机的Path
@@ -742,7 +742,12 @@ namespace ProxySU
             TextBoxPath.Text = $"/{path}";
             //MessageBox.Show(path);
         }
-
+        //产生随机端口
+        private int GetRandomPort()
+        {
+            Random random = new Random();
+            return random.Next(10001, 60000);
+        }
         private void ButtonDomain_Click(object sender, RoutedEventArgs e)
         {
 

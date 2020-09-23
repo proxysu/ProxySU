@@ -157,7 +157,7 @@
             </Grid>
         </GroupBox>
         <!-- SSR+TLS+Caddy客户端配置参数 -->
-        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxSSRClient" Visibility="Visible" Grid.Row="0">
+        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxSSRClient" Visibility="Collapsed" Grid.Row="0">
             <Grid >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.6*"></ColumnDefinition>
@@ -213,6 +213,55 @@
 
             </Grid>
         </GroupBox>
+        <!-- SS客户端配置参数 -->
+        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxClientSS" Visibility="Visible" Grid.Row="0">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.6*"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{DynamicResource TextBlockServerAddress}" Grid.Column="0" Grid.Row="0" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxHostAddressSS" IsReadOnly="True" Grid.Column="1" Grid.Row="0" Margin="2" VerticalAlignment="Center"/>
+                <TextBlock Text="" Grid.Column="2" Grid.Row="0"></TextBlock>
+                <TextBlock Text="{DynamicResource TextBlockServerPort}" Grid.Column="0" Grid.Row="1" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxPortSS" IsReadOnly="True" Grid.Column="1" Grid.Row="1" Margin="2" VerticalAlignment="Center"/>
+                <TextBlock Text="" Grid.Column="2" Grid.Row="1"></TextBlock>
+                <TextBlock Text="{DynamicResource TextBlockTrojanGoPassword}" Grid.Column="0" Grid.Row="2" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxPasswordSS" IsReadOnly="True" Grid.Column="1" Grid.Row="2" Margin="2" VerticalAlignment="Center"/>
+                <TextBlock Text="" Grid.Column="2" Grid.Row="2"></TextBlock>
+                <!--<TextBlock x:Name="TextBlockSSRUUIDextra" Text="{DynamicResource TextBlockV2RayAlterId}" Grid.Column="0" Grid.Row="3" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxSSRUUIDextra" IsReadOnly="False" Grid.Column="1" Grid.Row="3" Margin="2"></TextBox>
+                <TextBlock x:Name="TextBlockSSRUUIDextraExplanation" Text="{DynamicResource TextBlockV2RayAlterIdExplain}" TextWrapping="Wrap" Grid.Column="2" Grid.Row="3"></TextBlock>-->
+                <TextBlock Text="{DynamicResource TextBlockEncryption}" Grid.Column="0" Grid.Row="3" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxEncryptionSS" IsReadOnly="True" Grid.Column="1" Grid.Row="3" Margin="2" VerticalAlignment="Center"/>
+                <!--<TextBlock Text="{DynamicResource TextBlockEncryptionIsAuto}" Grid.Column="2" Grid.Row="3"></TextBlock>-->
+                <TextBlock x:Name="TextBlockPluginNameExplainSS" Text="{DynamicResource TextBlockPluginNameExplainSS}" Grid.Column="0" Grid.Row="4" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxPluginNameExplainSS" IsReadOnly="True" Grid.Column="1" Grid.Row="4" Margin="2" VerticalAlignment="Center"/>
+                <TextBox x:Name="TextBoxPluginNameExplainSSpc" IsReadOnly="True" Grid.Column="1" Grid.Row="4" Margin="2" Visibility="Collapsed" VerticalAlignment="Center"/>
+                <TextBlock Text="" Grid.Column="2" Grid.Row="4"></TextBlock>
+                <TextBlock x:Name="TextBlockPluginOptionExplainSS" Text="{DynamicResource TextBlockPluginOptionExplainSS}" Grid.Column="0" Grid.Row="5" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxPluginOptionExplainSS" IsReadOnly="True" Grid.Column="1" Grid.Row="5" Margin="2" VerticalAlignment="Center"/>
+                <TextBlock Text="" Grid.Column="2" Grid.Row="5"></TextBlock>
+                <TextBlock x:Name="TextBlockClientPromptSS" Text="{DynamicResource TextBlockClientPromptSS}" Foreground="Red" TextWrapping="Wrap" Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="3" Margin="10,0,0,0"></TextBlock>
+                <RadioButton x:Name="RadioButtonMobile" Content="{DynamicResource RadioButtonMobileSS}" Grid.Column="1" Grid.Row="8" HorizontalAlignment="Left" VerticalAlignment="Center" Checked="RadioButtonMobile_Checked"></RadioButton>
+                <RadioButton x:Name="RadioButtonPC" Content="{DynamicResource RadioButtonPCSS}" Grid.Column="2" Grid.Row="8" HorizontalAlignment="Left" VerticalAlignment="Center" Checked="RadioButtonPC_Checked"></RadioButton>
+       
+            </Grid>
+        </GroupBox>
+
+
         <!--<GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxClient" Visibility="Collapsed" Grid.Row="0">
             <Grid >
                 <Grid.ColumnDefinitions>
@@ -239,7 +288,7 @@
             </Grid>
         </GroupBox>-->
 
-        <GroupBox Header="{DynamicResource GrouBoxHeaderUrlOrQR}" Grid.Row="1">
+        <GroupBox x:Name="GroupBoxClientQRandURL" Header="{DynamicResource GrouBoxHeaderUrlOrQR}" Grid.Row="1" Visibility="Visible">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.5*"></ColumnDefinition>
@@ -251,6 +300,20 @@
                 <TextBox x:Name="TextBoxURL" TextWrapping="Wrap" Grid.Column="2"></TextBox>
             </Grid>
         </GroupBox>
+
+        <GroupBox x:Name="GroupBoxClientSSpc" Header="{DynamicResource GrouBoxHeaderUrlOrQR}" Grid.Row="1" Visibility="Collapsed">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="0.6*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="TextBlockQrURLexplainSSpc"  TextWrapping="Wrap" Grid.Column="0"></TextBlock>
+                <Image x:Name="ImageShareQRcodeSSpc" Grid.Column="1"></Image>
+                <TextBox x:Name="TextBoxURLpcSS" TextWrapping="Wrap" Grid.Column="2"></TextBox>
+            </Grid>
+        </GroupBox>
+
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>

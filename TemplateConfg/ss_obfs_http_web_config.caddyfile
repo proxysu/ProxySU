@@ -1,0 +1,5 @@
+:8800 {
+    root * /usr/share/caddy
+    file_server
+    ##sites##
+}

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProxySU"
         mc:Ignorable="d"
-        Title="ProxySU - v2.1.0" Height="625" Width="530">
+        Title="ProxySU - v2.2.0" Height="675" Width="620">
     <!--以下样式参考自：https://yq.aliyun.com/articles/331878
 	https://docs.microsoft.com/en-us/dotnet/desktop-wpf/fundamentals/styles-templates-overview-->
     <Window.Resources>
@@ -49,352 +49,443 @@
             <TextBlock x:Name="TextBlockNewVersionDown" Text="{DynamicResource TextBlockNewVersionDown}" Grid.Column="1" Grid.ColumnSpan="1" Margin="3" Visibility="Hidden"></TextBlock>
             <Button x:Name="ButtonUpgradeProxySU" Content="{DynamicResource ButtonUpgradeProxySU}" Grid.Column="2" Margin="3" Visibility="Hidden" Click="ButtonUpgradeProxySU_Click"></Button>
             <TextBlock Grid.Column="3" Text="{DynamicResource MainWindowsLanguage}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5"></TextBlock>
-            <ComboBox x:Name="ComboBoxLanguage" Grid.Column="4" Height="25" Width="80" SelectionChanged="ComboBoxLanguage_SelectionChanged"></ComboBox>
+            <ComboBox x:Name="ComboBoxLanguage" Grid.Column="4" Height="20" Width="80" SelectionChanged="ComboBoxLanguage_SelectionChanged"></ComboBox>
         </Grid>
-        <TabControl Grid.Row="1">
-            <!--<TabItem Header="V2ray配置生成器" Width="110" Height="30">
-                <Grid>
-                    
-                </Grid>
-            </TabItem>-->
-            <TabItem Header="{DynamicResource TabItemHeaderAppDeployment}" Width="110" Height="30">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="80"></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition Width="80"></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition Height="30" ></RowDefinition>
-                        <RowDefinition ></RowDefinition>
-                        <RowDefinition ></RowDefinition>
-                        <RowDefinition Height="60"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <TextBlock Text="{DynamicResource TextBlockHostName}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5" Grid.Column="0" Grid.Row="0"></TextBlock>
-                    <TextBlock Text="{DynamicResource TextBlockHostPart}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5" Grid.Column="2" Grid.Row="0"></TextBlock>
-                    <TextBox x:Name="TextBoxHost" Text="" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxHostNamePrompt}" Margin="5" Grid.Column="1" Grid.Row="0"></TextBox>
-                    <TextBox x:Name="TextBoxPort" CommandManager.PreviewExecuted="TextBoxPort_PreviewExecuted" Text="22" Margin="5" Grid.Column="3" Grid.Row="0" PreviewTextInput="TextBoxPort_PreviewTextInput"/>
-                    <TextBlock Text="{DynamicResource TextBlockHostUser}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5" Grid.Column="0" Grid.Row="1"></TextBlock>
-                    <TextBlock x:Name="TextBlockPassword" Text="{DynamicResource TextBlockHostPassword}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5" Grid.Column="2" Grid.Row="1"></TextBlock>
-                    <TextBox x:Name="TextBoxUserName" Text="root" Margin="5" Grid.Column="1" Grid.Row="1"></TextBox>
-                    <PasswordBox x:Name="PasswordBoxHostPassword" Password=""   Margin="5" Grid.Column="3" Grid.Row="1"></PasswordBox>
-                    <RadioButton x:Name="RadioButtonPasswordLogin" GroupName="CertIsYesNo" Content="密码登录" Visibility="Hidden" Grid.Column="0" Grid.Row="2" Checked="RadioButtonPasswordLogin_Checked"></RadioButton>
-                    <RadioButton x:Name="RadioButtonCertLogin" GroupName="CertIsYesNo" Content="密钥登录" Visibility="Collapsed" Grid.Column="1" Grid.Row="2" Checked="RadioButtonCertLogin_Checked"></RadioButton>
-                    <Button x:Name="ButtonOpenFileDialog" Content="浏览..." Visibility="Collapsed" Margin="8" Grid.Column="2" Grid.Row="2" Click="ButtonOpenFileDialog_Click"></Button>
-                    <TextBox x:Name="TextBoxCertFilePath" Text=""  Style="{StaticResource TitleText}" Tag="密钥文件存放路径(不可为空)" Visibility="Collapsed" Margin="10" Grid.Column="3" Grid.Row="2"></TextBox>
-                    <!--代理设置-->
-                    <Grid Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" Visibility="Collapsed">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <RadioButton x:Name="RadioButtonNoProxy" GroupName="ProxyIsYesNo"  Content="无代理" Grid.Column="0" Grid.Row="0"  Checked="RadioButtonNoProxy_Checked" Unchecked="RadioButtonNoProxy_Unchecked"/>
-                        <RadioButton x:Name="RadioButtonHttp" GroupName="ProxyIsYesNo" Content="Http" Grid.Column="1" Grid.Row="0"/>
-
-                        <RadioButton x:Name="RadioButtonSocks5" GroupName="ProxyIsYesNo" Content="Socks5" Grid.Column="2" Grid.Row="0"/>
-                        <RadioButton x:Name="RadioButtonSocks4" GroupName="ProxyIsYesNo" Content="Socks4" Grid.Column="3" Grid.Row="0" />
-                    </Grid>
-
-                    <TextBlock x:Name="TextBlockProxyHost" IsEnabled="False" Text="代理地址" HorizontalAlignment="Left" Margin="5,10,0,5" Grid.Column="0" Grid.Row="4" Visibility="Collapsed"/>
-                    <TextBlock x:Name="TextBlockProxyPort" IsEnabled="False" Text="端口" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5" Grid.Column="2" Grid.Row="4" Visibility="Collapsed"></TextBlock>
-                    <TextBox x:Name="TextBoxProxyHost" IsEnabled="False" Text="127.0.0.1" Margin="5" Grid.Column="1" Grid.Row="4" Visibility="Collapsed"></TextBox>
-                    <TextBox x:Name="TextBoxProxyPort" IsEnabled="False" CommandManager.PreviewExecuted="TextBoxPort_PreviewExecuted" Text="1080" Margin="5" Grid.Column="3" Grid.Row="4" PreviewTextInput="TextBoxPort_PreviewTextInput" Visibility="Collapsed"/>
-                    <!--代理用户名密码设置-->
-                    <RadioButton x:Name="RadioButtonProxyNoLogin" Content="不需登录" GroupName="proxyYesNOLogin" Grid.Column="0" Grid.Row="5" Checked="RadioButtonProxyNoLogin_Checked" Visibility="Collapsed"></RadioButton>
-                    <RadioButton x:Name="RadiobuttonProxyYesLogin" Content="需要登录" GroupName="proxyYesNOLogin" Grid.Column="1" Grid.Row="5" Checked="RadiobuttonProxyYesLogin_Checked" Visibility="Collapsed"></RadioButton>
-                    <TextBlock x:Name="TextBlockProxyUser" IsEnabled="False" Text="用户名：" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5" Grid.Column="0" Grid.Row="6" Visibility="Collapsed"></TextBlock>
-                    <TextBlock x:Name="TextBlockProxyPassword" IsEnabled="False" Text="密码：" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5" Grid.Column="2" Grid.Row="6" Visibility="Collapsed"></TextBlock>
-                    <TextBox x:Name="TextBoxProxyUserName" IsEnabled="False" Text="" Margin="5" Grid.Column="1" Grid.Row="6" Visibility="Collapsed"></TextBox>
-                    <PasswordBox x:Name="PasswordBoxProxyPassword" IsEnabled="False" Password=""  Margin="5" Grid.Column="3" Grid.Row="6" Visibility="Collapsed"></PasswordBox>
-
-                    <!--<StatusBar x:Name="StatusBarStatusMonitoring" Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="4"></StatusBar>-->
-                    <TextBlock x:Name="TextBlockSetUpProcessing" Text="{DynamicResource TextBlockSetUpProcessing}" Foreground="Blue" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4"></TextBlock>
-                    <ProgressBar x:Name="ProgressBarSetUpProcessing" Minimum="0" Maximum="100" Value="0" IsIndeterminate="False" Margin="7" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4"></ProgressBar>
-                    <TextBox x:Name="TextBoxMonitorCommandResults" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"  Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="4" Grid.RowSpan="5" Margin="30,0,30,10"></TextBox>
-                    <TabControl Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="4" Grid.RowSpan="3">
-                        <TabItem Header="V2Ray" Width="80" Height="30">
-                            <Grid>
+        <Grid Grid.Row="1">
+            <TabControl>
+                <TabItem Header="{DynamicResource TabItemHeaderAppDeployment}" Width="110" Height="30">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition Height="1.3*"></RowDefinition>
+                            <RowDefinition Height="1.8*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition Height="2*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="70"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="50"></ColumnDefinition>
+                                    <ColumnDefinition Width="110"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{DynamicResource TextBlockHostName}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5" Grid.Column="0" ></TextBlock>
+                                <TextBox x:Name="TextBoxHost" Text="" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxHostNamePrompt}" Margin="3" Grid.Column="1" VerticalAlignment="Center"></TextBox>
+                               
+                                <TextBlock Text="{DynamicResource TextBlockHostPart}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5" Grid.Column="2"></TextBlock>
+                                <TextBox x:Name="TextBoxPort" CommandManager.PreviewExecuted="TextBoxPort_PreviewExecuted" Text="22" Margin="3" Grid.Column="3" PreviewTextInput="TextBoxPort_PreviewTextInput" VerticalAlignment="Center"/>
+
+                                <RadioButton x:Name="RadioButtonPasswordLogin" GroupName="CertIsYesNo" Content="{DynamicResource RadioButtonPasswordLogin}"  Grid.Column="5"  Checked="RadioButtonPasswordLogin_Checked" VerticalAlignment="Center"></RadioButton>
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="70"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="50"></ColumnDefinition>
+                                    <ColumnDefinition Width="110"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{DynamicResource TextBlockHostUser}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="3" Grid.Column="0" Grid.Row="1"></TextBlock>
+                                <TextBox x:Name="TextBoxUserName" Text="root" Margin="3" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center"></TextBox>
+
+                                <TextBlock x:Name="TextBlockPassword" Text="{DynamicResource TextBlockHostPassword}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="3" Grid.Column="2" Grid.Row="1"></TextBlock>
+                                <TextBlock x:Name="TextBlockCert" Text="{DynamicResource TextBlockHostCert}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="3" Grid.Column="2" Grid.Row="1"></TextBlock>
+                                <PasswordBox x:Name="PasswordBoxHostPassword" Password=""   Margin="3" Grid.Column="3" Grid.Row="1" VerticalAlignment="Center"></PasswordBox>
+                                <TextBox x:Name="TextBoxCertFilePath" Text=""  Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxKeyNotEmptyPrompt}" Margin="3" Grid.Column="3" VerticalAlignment="Center"></TextBox>
+                                <Button x:Name="ButtonOpenFileDialog" Content="{DynamicResource ButtonOpenFileDialog}"  Margin="3" Grid.Column="4" Grid.Row="2" Click="ButtonOpenFileDialog_Click"></Button>
+                                <RadioButton x:Name="RadioButtonCertLogin" GroupName="CertIsYesNo" Content="{DynamicResource RadioButtonCertLogin}" Grid.Column="5"  Checked="RadioButtonCertLogin_Checked" VerticalAlignment="Center"></RadioButton>
+
+                            </Grid>
+
+                            <Grid Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="75"></ColumnDefinition>
+                                    <ColumnDefinition Width="70"></ColumnDefinition>
+                                    <ColumnDefinition Width="70"></ColumnDefinition>
                                     <ColumnDefinition></ColumnDefinition>
                                     <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="1.2*"></ColumnDefinition>
                                     <ColumnDefinition></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
+                                <RadioButton x:Name="RadioButtonNoProxy" GroupName="ProxyIsYesNo"  Content="{DynamicResource RadioButtonNoProxy}" Grid.Column="0" Grid.Row="0"  Checked="RadioButtonNoProxy_Checked" Unchecked="RadioButtonNoProxy_Unchecked" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <RadioButton x:Name="RadioButtonHttp" GroupName="ProxyIsYesNo" Content="Http" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                                <RadioButton x:Name="RadioButtonSocks5" GroupName="ProxyIsYesNo" Content="Socks5" Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <RadioButton x:Name="RadioButtonSocks4" GroupName="ProxyIsYesNo" Content="Socks4" Visibility="Collapsed" Grid.Column="3" Grid.Row="0" VerticalAlignment="Center" />
+                                <RadioButton x:Name="RadioButtonProxyNoLogin" Content="{DynamicResource RadioButtonProxyNoLogin}" GroupName="proxyYesNOLogin" Grid.Column="4"  Checked="RadioButtonProxyNoLogin_Checked" VerticalAlignment="Center" ></RadioButton>
+                                <RadioButton x:Name="RadiobuttonProxyYesLogin" Content="{DynamicResource RadiobuttonProxyYesLogin}" GroupName="proxyYesNOLogin" Grid.Column="5"  Checked="RadiobuttonProxyYesLogin_Checked" VerticalAlignment="Center" ></RadioButton>
+
+                            </Grid>
+                            <Grid Grid.Row="3">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="50"></RowDefinition>
                                     <RowDefinition></RowDefinition>
-                                    <RowDefinition Height="60"></RowDefinition>
+                                    <RowDefinition></RowDefinition>
                                 </Grid.RowDefinitions>
-                                
-                                <!--<Button x:Name="ButtonGuideConfiguration" Visibility="Visible"  Content="启用向导" Grid.Column="0" Grid.Row="0" Click="ButtonGuideConfiguration_Click"></Button>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="70"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="70"></ColumnDefinition>
+                                    <ColumnDefinition Width="80"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <!--代理设置-->
+                                <TextBlock x:Name="TextBlockProxyHost" IsEnabled="False" Text="{DynamicResource TextBlockProxyHost}" HorizontalAlignment="Right" Margin="5,10,0,5" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" />
+                                <TextBox x:Name="TextBoxProxyHost" IsEnabled="False" Text="127.0.0.1" Margin="3" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" ></TextBox>
+                                <TextBlock x:Name="TextBlockProxyPort" IsEnabled="False" Text="{DynamicResource TextBlockHostPart}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5" Grid.Column="2" Grid.Row="0"></TextBlock>
+                                <TextBox x:Name="TextBoxProxyPort" IsEnabled="False" CommandManager.PreviewExecuted="TextBoxPort_PreviewExecuted" Text="1080" Margin="3" Grid.Column="3" Grid.Row="0" PreviewTextInput="TextBoxPort_PreviewTextInput" VerticalAlignment="Center" />
+                                <!--代理用户名密码设置-->
+                                <TextBlock x:Name="TextBlockProxyUser" IsEnabled="False" Text="{DynamicResource TextBlockHostUser}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5" Grid.Column="0" Grid.Row="1" ></TextBlock>
+                                <TextBlock x:Name="TextBlockProxyPassword" IsEnabled="False" Text="{DynamicResource TextBlockHostPassword}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5" Grid.Column="2"  Grid.Row="1" ></TextBlock>
+                                <TextBox x:Name="TextBoxProxyUserName" IsEnabled="False" Text="" Margin="3" Grid.Column="1"  Grid.Row="1" ></TextBox>
+                                <PasswordBox x:Name="PasswordBoxProxyPassword" IsEnabled="False" Password=""  Margin="3" Grid.Column="3"  Grid.Row="1"></PasswordBox>
+
+                            </Grid>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20"></RowDefinition>
+                                <RowDefinition Height="20"></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock x:Name="TextBlockSetUpProcessing" Text="{DynamicResource TextBlockSetUpProcessing}" Foreground="Blue" HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Row="0"></TextBlock>
+                            <ProgressBar x:Name="ProgressBarSetUpProcessing" Minimum="0" Maximum="100" Value="{Binding InsertBindingHere}" Margin="10,0,10,3" Grid.Row="1"></ProgressBar>
+                            <TextBlock Text="{Binding ElementName=ProgressBarSetUpProcessing, Path=Value, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1"/>
+                            <TextBox x:Name="TextBoxMonitorCommandResults"  IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"  Grid.Row="2" Margin="10,0,10,3"></TextBox>
+
+                        </Grid>
+                        <Grid Grid.Row="2">
+                            <TabControl Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="4" Grid.RowSpan="3">
+                                <TabItem Header="V2Ray" Width="80" Height="30">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="50"></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition Height="60"></RowDefinition>
+                                        </Grid.RowDefinitions>
+
+                                        <!--<Button x:Name="ButtonGuideConfiguration" Visibility="Visible"  Content="启用向导" Grid.Column="0" Grid.Row="0" Click="ButtonGuideConfiguration_Click"></Button>
                                 <TextBlock Text="通过向导生成配置文件" Visibility="Visible" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center"></TextBlock>-->
-                                <Button x:Name="ButtonTemplateConfiguration" Content="{DynamicResource ButtonV2RayTemplateConfiguration}" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonTemplateConfiguration_Click"></Button>
-                                <!--<TextBlock Text="模板库" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center"></TextBlock>-->
-                                <!--<Button x:Name="ButtonAdvancedConfiguration" Visibility="Visible" Content="配置编辑器" Grid.Column="2" Grid.Row="0" Click="ButtonAdvancedConfiguration_Click"></Button>
+                                        <Button x:Name="ButtonTemplateConfiguration" Content="{DynamicResource ButtonV2RayTemplateConfiguration}" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonTemplateConfiguration_Click"></Button>
+                                        <!--<TextBlock Text="模板库" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center"></TextBlock>-->
+                                        <!--<Button x:Name="ButtonAdvancedConfiguration" Visibility="Visible" Content="配置编辑器" Grid.Column="2" Grid.Row="0" Click="ButtonAdvancedConfiguration_Click"></Button>
                                 <TextBlock Text="配置文件高级生成器&#x0a;（有经验用户可以使用）" Visibility="Visible" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center"></TextBlock>-->
-                                <!--<RadioButton x:Name="RadioButtonGuideConfiguration" Content="向导生成配置" Grid.Column="0" Grid.Row="0"></RadioButton>
+                                        <!--<RadioButton x:Name="RadioButtonGuideConfiguration" Content="向导生成配置" Grid.Column="0" Grid.Row="0"></RadioButton>
                                 <RadioButton x:Name="RadioButtonTemplateConfiguration" Content="模板配置" Grid.Column="0" Grid.Row="1"></RadioButton>
                                 <RadioButton x:Name="RadioButtonAdvancedConfiguration" Content="高级配置" Grid.Column="0" Grid.Row="2"></RadioButton>
                                 <TextBox x:Name="TextBoxJsonPath" Margin="10" Grid.Column="1" Grid.Row="1"></TextBox>
                                 <Button x:Name="ButtonSetConfiguration" Margin="6" Content="配置" Grid.Column="2" Grid.Row="2" Click="ButtonSetConfiguration_Click"></Button>-->
 
-                                <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="0.5*"></ColumnDefinition>
-                                        <ColumnDefinition></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition></RowDefinition>
-                                        <RowDefinition></RowDefinition>
-                                        <RowDefinition></RowDefinition>
-                                        <RowDefinition></RowDefinition>
-                                        <RowDefinition></RowDefinition>
-                                        <RowDefinition></RowDefinition>
-                                    </Grid.RowDefinitions>
-                                    <TextBlock  Text="{DynamicResource TextBlockCurrentlySelectedPlan}" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
-                                    <TextBlock x:Name="TextBlockV2RayShowPort" Text="{DynamicResource TextBlockV2RayServerPort}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
-                                    <TextBlock x:Name="TextBlockV2RayShowUUID" Text="UUID:" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
-                                    <TextBlock x:Name="TextBlockV2RayShowPathSeedKey"  Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
-                                    <TextBlock x:Name="TextBlockV2RayShowCurrentlySelectedPlanDomain" Text="{DynamicResource TextBlockV2RayDomain}" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
-                                    <TextBlock x:Name="TextBlockV2RayShowCurrentlySelectedPlanFakeWebsite" Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center"  Visibility="Hidden"></TextBlock>
+                                        <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                                                <ColumnDefinition></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock  Text="{DynamicResource TextBlockCurrentlySelectedPlan}" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
+                                            <TextBlock x:Name="TextBlockV2RayShowPort" Text="{DynamicResource TextBlockV2RayServerPort}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
+                                            <TextBlock x:Name="TextBlockV2RayShowUUID" Text="UUID:" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
+                                            <TextBlock x:Name="TextBlockV2RayShowPathSeedKey"  Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
+                                            <TextBlock x:Name="TextBlockV2RayShowCurrentlySelectedPlanDomain" Text="{DynamicResource TextBlockV2RayDomain}" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
+                                            <TextBlock x:Name="TextBlockV2RayShowCurrentlySelectedPlanFakeWebsite" Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center"  Visibility="Hidden"></TextBlock>
 
-                                    <TextBlock x:Name="TextBlockCurrentlySelectedPlan" Text="{DynamicResource TextBlockCurrentlySelectedPlanNo}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
-                                    <TextBlock x:Name="TextBlockCurrentlySelectedPlanPort" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
-                                    <TextBlock x:Name="TextBlockCurrentlySelectedPlanUUID" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
-                                    <TextBlock x:Name="TextBlockCurrentlySelectedPlanPathSeedKey" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
-                                    <TextBlock x:Name="TextBlockCurrentlySelectedPlanDomain" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
-                                    <TextBlock x:Name="TextBlockCurrentlySelectedPlanFakeWebsite" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Center"  Visibility="Hidden"></TextBlock>
+                                            <TextBlock x:Name="TextBlockCurrentlySelectedPlan" Text="{DynamicResource TextBlockCurrentlySelectedPlanNo}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                                            <TextBlock x:Name="TextBlockCurrentlySelectedPlanPort" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
+                                            <TextBlock x:Name="TextBlockCurrentlySelectedPlanUUID" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
+                                            <TextBlock x:Name="TextBlockCurrentlySelectedPlanPathSeedKey" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
+                                            <TextBlock x:Name="TextBlockCurrentlySelectedPlanDomain" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
+                                            <TextBlock x:Name="TextBlockCurrentlySelectedPlanFakeWebsite" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Center"  Visibility="Hidden"></TextBlock>
 
-                                </Grid>
-                                
-                                <Button x:Name="Button_Login" Content="{DynamicResource ButtonV2RayOneKeyInstall}"  Margin="10" Grid.Column="0" Grid.Row="2" Click="Button_Login_Click"></Button>
-                                <Button x:Name="ButtonUpdateV2ray" Content="{DynamicResource ButtonUpdateV2ray}" Margin="10" Grid.Column="1" Grid.Row="2"  Click="ButtonUpdateV2ray_Click"></Button>
-                                <Button x:Name="Button_canel" Content="{DynamicResource Button_canel}"  Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
-                            </Grid>
-                        </TabItem>
-                        <TabItem Header="Trojan-Go" Width="80" Height="30">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
+                                        </Grid>
 
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="50"></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition Height="60"></RowDefinition>
-
-                                </Grid.RowDefinitions>
-                               
-                                <!--<Button x:Name="ButtonTrojanTemplate" Content="Trojan参数设置" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonTrojanTemplate_Click"/>-->
-                                <!--<TextBlock Text="Trojan参数设置" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center"></TextBlock>-->
-                                <Button x:Name="ButtonTrojanGoTemplate" Content="{DynamicResource ButtonTrojanGoTemplate}" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonTrojanGoTemplate_Click"/>
-
-                                <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="0.5*"></ColumnDefinition>
-                                        <ColumnDefinition></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition></RowDefinition>
-                                        <RowDefinition></RowDefinition>
-                                        <RowDefinition></RowDefinition>
-                                        <RowDefinition></RowDefinition>
-                                        <RowDefinition></RowDefinition>
-                                        <RowDefinition></RowDefinition>
-                                    </Grid.RowDefinitions>
-                                    <TextBlock  Text="{DynamicResource TextBlockCurrentlySelectedPlan}" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
-                                    <TextBlock x:Name="TextBlockTrojanGoShowPort" Text="{DynamicResource TextBlockV2RayServerPort}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
-                                    <TextBlock x:Name="TextBlockTrojanGoShowPassword" Text="UUID:" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
-                                    <TextBlock x:Name="TextBlockTrojanGoShowPath"  Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
-                                    <TextBlock x:Name="TextBlockTrojanGoShowCurrentlySelectedPlanDomain" Text="{DynamicResource TextBlockV2RayDomain}" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
-                                    <TextBlock x:Name="TextBlockTrojanGoShowCurrentlySelectedPlanFakeWebsite" Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center"  Visibility="Hidden"></TextBlock>
-
-                                    <TextBlock x:Name="TextBlockTrojanGoCurrentlySelectedPlan" Text="{DynamicResource TextBlockCurrentlySelectedPlanNo}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
-                                    <TextBlock x:Name="TextBlockTrojanGoCurrentlySelectedPlanPort" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
-                                    <TextBlock x:Name="TextBlockTrojanGoCurrentlySelectedPlanPassword" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
-                                    <TextBlock x:Name="TextBlockTrojanGoCurrentlySelectedPlanPathSeedKey" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
-                                    <TextBlock x:Name="TextBlockTrojanGoCurrentlySelectedPlanDomain" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
-                                    <TextBlock x:Name="TextBlockTrojanGoCurrentlySelectedPlanFakeWebsite" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Center"  Visibility="Hidden"></TextBlock>
-
-                                </Grid>
-
-                                <Button x:Name="ButtonTrojanGoSetUp" Content="{DynamicResource ButtonTrojanGoSetUp}"  Margin="10" Grid.Column="0" Grid.Row="2" Click="ButtonTrojanGoSetUp_Click"/>
-                                <Button x:Name="ButtonUpdateTrojanGo" Content="{DynamicResource ButtonUpdateTrojanGo}" Margin="10" Grid.Column="1" Grid.Row="2"  Click="ButtonUpdateTrojanGo_Click"></Button>
-                                <Button x:Name="ButtonTrojanGoCancel" Content="{DynamicResource ButtonTrojanGoCancel}"  Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
-                            </Grid>
-                        </TabItem>
-                        <TabItem Header="Trojan" Width="80" Height="30">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
-                          
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition Height="60"></RowDefinition>
-
-                                </Grid.RowDefinitions>
-                                <GroupBox Header="{DynamicResource GroupBoxHeaderParameterTrojan}" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="2">
+                                        <Button x:Name="Button_Login" Content="{DynamicResource ButtonV2RayOneKeyInstall}"  Margin="10" Grid.Column="0" Grid.Row="2" Click="Button_Login_Click"></Button>
+                                        <Button x:Name="ButtonUpdateV2ray" Content="{DynamicResource ButtonUpdateV2ray}" Margin="10" Grid.Column="1" Grid.Row="2"  Click="ButtonUpdateV2ray_Click"></Button>
+                                        <Button x:Name="Button_canel" Content="{DynamicResource Button_canel}"  Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="Trojan-Go" Width="80" Height="30">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="0.5*"></ColumnDefinition>
                                             <ColumnDefinition></ColumnDefinition>
-                                            <ColumnDefinition Width="0.4*"></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="50"></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition Height="60"></RowDefinition>
+
+                                        </Grid.RowDefinitions>
+
+                                        <!--<Button x:Name="ButtonTrojanTemplate" Content="Trojan参数设置" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonTrojanTemplate_Click"/>-->
+                                        <!--<TextBlock Text="Trojan参数设置" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center"></TextBlock>-->
+                                        <Button x:Name="ButtonTrojanGoTemplate" Content="{DynamicResource ButtonTrojanGoTemplate}" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonTrojanGoTemplate_Click"/>
+
+                                        <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                                                <ColumnDefinition></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock  Text="{DynamicResource TextBlockCurrentlySelectedPlan}" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
+                                            <TextBlock x:Name="TextBlockTrojanGoShowPort" Text="{DynamicResource TextBlockV2RayServerPort}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
+                                            <TextBlock x:Name="TextBlockTrojanGoShowPassword" Text="UUID:" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
+                                            <TextBlock x:Name="TextBlockTrojanGoShowPath"  Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
+                                            <TextBlock x:Name="TextBlockTrojanGoShowCurrentlySelectedPlanDomain" Text="{DynamicResource TextBlockV2RayDomain}" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
+                                            <TextBlock x:Name="TextBlockTrojanGoShowCurrentlySelectedPlanFakeWebsite" Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center"  Visibility="Hidden"></TextBlock>
+
+                                            <TextBlock x:Name="TextBlockTrojanGoCurrentlySelectedPlan" Text="{DynamicResource TextBlockCurrentlySelectedPlanNo}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                                            <TextBlock x:Name="TextBlockTrojanGoCurrentlySelectedPlanPort" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
+                                            <TextBlock x:Name="TextBlockTrojanGoCurrentlySelectedPlanPassword" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
+                                            <TextBlock x:Name="TextBlockTrojanGoCurrentlySelectedPlanPathSeedKey" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
+                                            <TextBlock x:Name="TextBlockTrojanGoCurrentlySelectedPlanDomain" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
+                                            <TextBlock x:Name="TextBlockTrojanGoCurrentlySelectedPlanFakeWebsite" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Center"  Visibility="Hidden"></TextBlock>
+
+                                        </Grid>
+
+                                        <Button x:Name="ButtonTrojanGoSetUp" Content="{DynamicResource ButtonTrojanGoSetUp}"  Margin="10" Grid.Column="0" Grid.Row="2" Click="ButtonTrojanGoSetUp_Click"/>
+                                        <Button x:Name="ButtonUpdateTrojanGo" Content="{DynamicResource ButtonUpdateTrojanGo}" Margin="10" Grid.Column="1" Grid.Row="2"  Click="ButtonUpdateTrojanGo_Click"></Button>
+                                        <Button x:Name="ButtonTrojanGoCancel" Content="{DynamicResource ButtonTrojanGoCancel}"  Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="Trojan" Width="80" Height="30">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
 
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition></RowDefinition>
                                             <RowDefinition></RowDefinition>
-                                            <RowDefinition></RowDefinition>
-                                            <RowDefinition></RowDefinition>
-                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition Height="60"></RowDefinition>
+
                                         </Grid.RowDefinitions>
-                                        <TextBlock Text="{DynamicResource TextBlockTrojanTemplateExplanation}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
-                                        <TextBlock Text="{DynamicResource TextBlockTrojanServerDomain}" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5"></TextBlock>
-                                        <TextBox x:Name="TextBoxTrojanHostDomain" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxDomainPrompt}" Grid.Column="1" Grid.Row="1" Margin="3"></TextBox>
-                                        <TextBlock Text="{DynamicResource TextBlockTrojanPort}" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
-                                        <!--<TextBlock Text="用户名：" Grid.Column="0" Grid.Row="2"></TextBlock>
+                                        <GroupBox Header="{DynamicResource GroupBoxHeaderParameterTrojan}" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="2">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition Width="0.4*"></ColumnDefinition>
+
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Text="{DynamicResource TextBlockTrojanTemplateExplanation}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                                <TextBlock Text="{DynamicResource TextBlockTrojanServerDomain}" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5"></TextBlock>
+                                                <TextBox x:Name="TextBoxTrojanHostDomain" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxDomainPrompt}" Grid.Column="1" Grid.Row="1" Margin="3"></TextBox>
+                                                <TextBlock Text="{DynamicResource TextBlockTrojanPort}" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                                                <!--<TextBlock Text="用户名：" Grid.Column="0" Grid.Row="2"></TextBlock>
                                         <TextBox x:Name="TextBoxUser" Grid.Column="1" Grid.Row="2" Margin="3"></TextBox>
                                         <Button x:Name="ButtonNaiveUser" Content="随机" Grid.Column="2" Grid.Row="2" Margin="2" Click="ButtonNaiveUser_Click"></Button>-->
-                                        <TextBlock Text="{DynamicResource TextBlockTrojanHostPassword}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5"></TextBlock>
-                                        <TextBox x:Name="TextBoxTrojanPassword"  Grid.Column="1" Grid.Row="2" Margin="3"></TextBox>
-                                        <Button x:Name="ButtonTrojanPassword" Content="{DynamicResource ButtonTrojanChangePassword}" Grid.Column="2" Grid.Row="2" Margin="2" Click="ButtonTrojanPassword_Click" ></Button>
+                                                <TextBlock Text="{DynamicResource TextBlockTrojanHostPassword}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5"></TextBlock>
+                                                <TextBox x:Name="TextBoxTrojanPassword"  Grid.Column="1" Grid.Row="2" Margin="3"></TextBox>
+                                                <Button x:Name="ButtonTrojanPassword" Content="{DynamicResource ButtonTrojanChangePassword}" Grid.Column="2" Grid.Row="2" Margin="2" Click="ButtonTrojanPassword_Click" ></Button>
 
-                                        <TextBlock Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="3" Visibility="Collapsed"></TextBlock>
-                                        <TextBox x:Name="TextBoxTrojanSites" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxV2RayMaskSitesTag}"  Grid.Column="1" Grid.Row="3" Margin="3"  Visibility="Collapsed"></TextBox>
-                                        
+                                                <TextBlock Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="3" Visibility="Collapsed"></TextBlock>
+                                                <TextBox x:Name="TextBoxTrojanSites" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxV2RayMaskSitesTag}"  Grid.Column="1" Grid.Row="3" Margin="3"  Visibility="Collapsed"></TextBox>
+
+                                            </Grid>
+                                        </GroupBox>
+
+                                        <!--<Button x:Name="ButtonTrojanTemplate" Content="Trojan参数设置" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonTrojanTemplate_Click"/>-->
+                                        <!--<TextBlock Text="Trojan参数设置" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center"></TextBlock>-->
+                                        <!--<Button x:Name="ButtonTrojanGoTemplate" Content="Trojan-Go参数设置" Grid.Column="2" Grid.Row="0" Margin="5" Click="ButtonTrojanGoTemplate_Click"/>-->
+
+
+                                        <Button x:Name="ButtonTrojanSetUp" Content="{DynamicResource ButtonTrojanSetUp}"  Grid.Column="0" Grid.Row="2"  Margin="10" Click="ButtonTrojanSetUp_Click"/>
+                                        <Button x:Name="ButtonUpdateTrojan" Content="{DynamicResource ButtonUpdateTrojan}" Grid.Column="1" Grid.Row="2" Margin="10" Click="ButtonUpdateTrojan_Click"></Button>
+                                        <Button x:Name="ButtonTrojanCancel" Content="{DynamicResource ButtonTrojanCancel}" Grid.Column="2" Grid.Row="2"  Margin="10" Click="Button_canel_Click"></Button>
                                     </Grid>
-                                </GroupBox>
-                                
-                                <!--<Button x:Name="ButtonTrojanTemplate" Content="Trojan参数设置" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonTrojanTemplate_Click"/>-->
-                                <!--<TextBlock Text="Trojan参数设置" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center"></TextBlock>-->
-                                <!--<Button x:Name="ButtonTrojanGoTemplate" Content="Trojan-Go参数设置" Grid.Column="2" Grid.Row="0" Margin="5" Click="ButtonTrojanGoTemplate_Click"/>-->
-
-
-                                <Button x:Name="ButtonTrojanSetUp" Content="{DynamicResource ButtonTrojanSetUp}"  Grid.Column="0" Grid.Row="2"  Margin="10" Click="ButtonTrojanSetUp_Click"/>
-                                <Button x:Name="ButtonUpdateTrojan" Content="{DynamicResource ButtonUpdateTrojan}" Grid.Column="1" Grid.Row="2" Margin="10" Click="ButtonUpdateTrojan_Click"></Button>
-                                <Button x:Name="ButtonTrojanCancel" Content="{DynamicResource ButtonTrojanCancel}" Grid.Column="2" Grid.Row="2"  Margin="10" Click="Button_canel_Click"></Button>
-                            </Grid>
-                        </TabItem>
-                        <TabItem x:Name="TabItemNaiveProxy" Header="NaiveProxy" Width="80" Height="30">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition Height="60"></RowDefinition>
-                                </Grid.RowDefinitions>
-                                <GroupBox Header="{DynamicResource GroupBoxHeaderParameterTrojan}" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="2">
+                                </TabItem>
+                                <TabItem x:Name="TabItemNaiveProxy" Header="NaiveProxy" Width="80" Height="30">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="0.4*"></ColumnDefinition>
                                             <ColumnDefinition></ColumnDefinition>
-                                            <ColumnDefinition Width="0.4*"></ColumnDefinition>
-
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition></RowDefinition>
                                             <RowDefinition></RowDefinition>
-                                            <RowDefinition></RowDefinition>
-                                            <RowDefinition></RowDefinition>
-                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition Height="60"></RowDefinition>
                                         </Grid.RowDefinitions>
-                                        <TextBlock Text="{DynamicResource TextBlockNaiveProxyTemplateExplanation}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
-                                        <TextBlock Text="{DynamicResource TextBlockTrojanServerDomain}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
-                                        <TextBox x:Name="TextBoxNaiveHostDomain" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxDomainPrompt}" Grid.Column="1" Grid.Row="1" Margin="3"></TextBox>
-                                        <TextBlock Text="{DynamicResource TextBlockTrojanPort}" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
-                                        <TextBlock Text="{DynamicResource TextBlockHostUser}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
-                                        <TextBox x:Name="TextBoxNaiveUser" Grid.Column="1" Grid.Row="2" Margin="3"></TextBox>
-                                        <Button x:Name="ButtonNaiveUser" Content="{DynamicResource ButtonNaiveProxyChangeUser}" Grid.Column="2" Grid.Row="2" Margin="2" Click="ButtonNaiveUser_Click"></Button>
-                                        <TextBlock Text="{DynamicResource TextBlockTrojanHostPassword}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
-                                        <TextBox x:Name="TextBoxNaivePassword"  Grid.Column="1" Grid.Row="3" Margin="3"></TextBox>
-                                        <Button x:Name="ButtonNaivePassword" Content="{DynamicResource ButtonTrojanChangePassword}" Grid.Column="2" Grid.Row="3" Margin="2" Click="ButtonNaivePassword_Click"></Button>
-                                        <TextBlock Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="4" Visibility="Collapsed"></TextBlock>
-                                        <TextBox x:Name="TextBoxNaiveSites" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxV2RayMaskSitesTag}"  Grid.Column="1" Grid.Row="4" Margin="3"  Visibility="Collapsed"></TextBox>
-                                       
-                                    </Grid>
-                                </GroupBox>
-                                <!--<Button x:Name="ButtonNaiveTemplate" Content="Naive设置" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonTrojanTemplate_Click"/>
+                                        <GroupBox Header="{DynamicResource GroupBoxHeaderParameterTrojan}" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="2">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="0.4*"></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition Width="0.4*"></ColumnDefinition>
+
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Text="{DynamicResource TextBlockNaiveProxyTemplateExplanation}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                                <TextBlock Text="{DynamicResource TextBlockTrojanServerDomain}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                                                <TextBox x:Name="TextBoxNaiveHostDomain" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxDomainPrompt}" Grid.Column="1" Grid.Row="1" Margin="3"></TextBox>
+                                                <TextBlock Text="{DynamicResource TextBlockTrojanPort}" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                                                <TextBlock Text="{DynamicResource TextBlockHostUser}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                                                <TextBox x:Name="TextBoxNaiveUser" Grid.Column="1" Grid.Row="2" Margin="3"></TextBox>
+                                                <Button x:Name="ButtonNaiveUser" Content="{DynamicResource ButtonNaiveProxyChangeUser}" Grid.Column="2" Grid.Row="2" Margin="2" Click="ButtonNaiveUser_Click"></Button>
+                                                <TextBlock Text="{DynamicResource TextBlockTrojanHostPassword}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                                                <TextBox x:Name="TextBoxNaivePassword"  Grid.Column="1" Grid.Row="3" Margin="3"></TextBox>
+                                                <Button x:Name="ButtonNaivePassword" Content="{DynamicResource ButtonTrojanChangePassword}" Grid.Column="2" Grid.Row="3" Margin="2" Click="ButtonNaivePassword_Click"></Button>
+                                                <TextBlock Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="4" Visibility="Collapsed"></TextBlock>
+                                                <TextBox x:Name="TextBoxNaiveSites" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxV2RayMaskSitesTag}"  Grid.Column="1" Grid.Row="4" Margin="3"  Visibility="Collapsed"></TextBox>
+
+                                            </Grid>
+                                        </GroupBox>
+                                        <!--<Button x:Name="ButtonNaiveTemplate" Content="Naive设置" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonTrojanTemplate_Click"/>
                                 <TextBlock Text="Naive参数设置" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center"></TextBlock>-->
 
-                                <Button x:Name="ButtonNavieSetUp" Content="{DynamicResource ButtonNavieSetUp}" Grid.ColumnSpan="1" Margin="10" Grid.Column="0" Grid.Row="2" Click="ButtonNavieSetUp_Click"/>
-                                <Button x:Name="ButtonNaiveCancel" Content="{DynamicResource ButtonNaiveCancel}" Grid.ColumnSpan="1" Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
-                            </Grid>
-                        </TabItem>
-                        <TabItem Header="SSR" Width="80" Height="30">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
-
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition Height="60"></RowDefinition>
-
-                                </Grid.RowDefinitions>
-                                <GroupBox Header="{DynamicResource GroupBoxHeaderParameterTrojan}" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="2">
+                                        <Button x:Name="ButtonNavieSetUp" Content="{DynamicResource ButtonNavieSetUp}" Grid.ColumnSpan="1" Margin="10" Grid.Column="0" Grid.Row="2" Click="ButtonNavieSetUp_Click"/>
+                                        <Button x:Name="ButtonNaiveCancel" Content="{DynamicResource ButtonNaiveCancel}" Grid.ColumnSpan="1" Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="SSR" Width="60" Height="30">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="0.5*"></ColumnDefinition>
                                             <ColumnDefinition></ColumnDefinition>
-                                            <ColumnDefinition Width="0.4*"></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
 
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition></RowDefinition>
                                             <RowDefinition></RowDefinition>
-                                            <RowDefinition></RowDefinition>
-                                            <RowDefinition></RowDefinition>
-                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition Height="60"></RowDefinition>
+
                                         </Grid.RowDefinitions>
-                                        <TextBlock Text="{DynamicResource TextBlockSSRTemplateExplanation}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
-                                        <TextBlock Text="{DynamicResource TextBlockTrojanServerDomain}" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5"></TextBlock>
-                                        <TextBox x:Name="TextBoxSSRHostDomain" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxDomainPrompt}" Grid.Column="1" Grid.Row="1" Margin="3"></TextBox>
-                                        <TextBlock Text="{DynamicResource TextBlockTrojanPort}" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
-                                        <!--<TextBlock Text="用户名：" Grid.Column="0" Grid.Row="2"></TextBlock>
+                                        <GroupBox Header="{DynamicResource GroupBoxHeaderParameterTrojan}" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="2">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition Width="0.4*"></ColumnDefinition>
+
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Text="{DynamicResource TextBlockSSRTemplateExplanation}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                                <TextBlock Text="{DynamicResource TextBlockTrojanServerDomain}" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5"></TextBlock>
+                                                <TextBox x:Name="TextBoxSSRHostDomain" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxDomainPrompt}" Grid.Column="1" Grid.Row="1" Margin="3"></TextBox>
+                                                <TextBlock Text="{DynamicResource TextBlockTrojanPort}" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                                                <!--<TextBlock Text="用户名：" Grid.Column="0" Grid.Row="2"></TextBlock>
                                         <TextBox x:Name="TextBoxUser" Grid.Column="1" Grid.Row="2" Margin="3"></TextBox>
                                         <Button x:Name="ButtonNaiveUser" Content="随机" Grid.Column="2" Grid.Row="2" Margin="2" Click="ButtonNaiveUser_Click"></Button>-->
-                                        <TextBlock Text="{DynamicResource TextBlockTrojanHostPassword}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5"></TextBlock>
-                                        <TextBox x:Name="TextBoxSSRPassword"  Grid.Column="1" Grid.Row="2" Margin="3"></TextBox>
-                                        <Button x:Name="ButtonSSRPassword" Content="{DynamicResource ButtonTrojanChangePassword}" Grid.Column="2" Grid.Row="2" Margin="2" Click="ButtonSSRPassword_Click" ></Button>
+                                                <TextBlock Text="{DynamicResource TextBlockTrojanHostPassword}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5"></TextBlock>
+                                                <TextBox x:Name="TextBoxSSRPassword"  Grid.Column="1" Grid.Row="2" Margin="3"></TextBox>
+                                                <Button x:Name="ButtonSSRPassword" Content="{DynamicResource ButtonTrojanChangePassword}" Grid.Column="2" Grid.Row="2" Margin="2" Click="ButtonSSRPassword_Click" ></Button>
 
-                                        <TextBlock Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="3" Visibility="Collapsed"></TextBlock>
-                                        <TextBox x:Name="TextBoxSSRSites" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxV2RayMaskSitesTag}"  Grid.Column="1" Grid.Row="3" Margin="3"  Visibility="Collapsed"></TextBox>
+                                                <TextBlock Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="3" Visibility="Collapsed"></TextBlock>
+                                                <TextBox x:Name="TextBoxSSRSites" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxV2RayMaskSitesTag}"  Grid.Column="1" Grid.Row="3" Margin="3"  Visibility="Collapsed"></TextBox>
 
+                                            </Grid>
+                                        </GroupBox>
+
+                                        <Button x:Name="ButtonSSRSetUp" Content="{DynamicResource ButtonSSRSetUp}"  Grid.Column="0" Grid.Row="2"  Margin="10" Click="ButtonSSRSetUp_Click"/>
+                                        <!--<Button x:Name="ButtonUpdateTrojan" Content="{DynamicResource ButtonUpdateTrojan}" Grid.Column="1" Grid.Row="2" Margin="10" Click="ButtonUpdateTrojan_Click"></Button>-->
+                                        <Button x:Name="ButtonSSRCancel" Content="{DynamicResource ButtonTrojanCancel}" Grid.Column="2" Grid.Row="2"  Margin="10" Click="Button_canel_Click"></Button>
                                     </Grid>
-                                </GroupBox>
+                                </TabItem>
+                                <TabItem Header="SS" Width="60" Height="30">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="50"></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition Height="60"></RowDefinition>
+                                        </Grid.RowDefinitions>
 
-                                <Button x:Name="ButtonSSRSetUp" Content="{DynamicResource ButtonSSRSetUp}"  Grid.Column="0" Grid.Row="2"  Margin="10" Click="ButtonSSRSetUp_Click"/>
-                                <!--<Button x:Name="ButtonUpdateTrojan" Content="{DynamicResource ButtonUpdateTrojan}" Grid.Column="1" Grid.Row="2" Margin="10" Click="ButtonUpdateTrojan_Click"></Button>-->
-                                <Button x:Name="ButtonSSRCancel" Content="{DynamicResource ButtonTrojanCancel}" Grid.Column="2" Grid.Row="2"  Margin="10" Click="Button_canel_Click"></Button>
-                            </Grid>
-                        </TabItem>
-                        <!--<TabItem Header="三合一" Width="100" Height="30" Visibility="Collapsed">
+                                        <Button x:Name="ButtonTemplateConfigurationSS" Content="{DynamicResource ButtonTemplateConfigurationSS}" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonTemplateConfigurationSS_Click"></Button>
+
+                                        <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                                                <ColumnDefinition></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock  Text="{DynamicResource TextBlockCurrentlySelectedPlan}" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
+                                            <TextBlock x:Name="TextBlockShowPortSS" Text="{DynamicResource TextBlockV2RayServerPort}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"></TextBlock>
+                                            <TextBlock x:Name="TextBlockShowUUIDSS" Text="{DynamicResource TextBlockTrojanHostPassword}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"></TextBlock>
+                                            <TextBlock x:Name="TextBlockShowMethodSS" Text="{DynamicResource TextBlockEncryption}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center"  Visibility="Collapsed"></TextBlock>
+                                            <TextBlock x:Name="TextBlockShowDomainSS" Text="{DynamicResource TextBlockV2RayDomain}" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"></TextBlock>
+                                            <TextBlock x:Name="TextBlockShowPathSS" Text="{DynamicResource TextBlockTrojanGoWebSocketPath}" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"></TextBlock>
+                                            <TextBlock x:Name="TextBlockShowFakeWebsiteSS" Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center"  Visibility="Hidden"></TextBlock>
+
+                                            <TextBlock x:Name="TextBlockCurrentlySelectedPlanSS" Text="{DynamicResource TextBlockCurrentlySelectedPlanNo}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+
+                                            <TextBlock x:Name="TextBlockCurrentlySelectedPlanPortSS" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Visible"></TextBlock>
+                                            <TextBlock x:Name="TextBlockCurrentlySelectedPlanUUIDSS" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Visible"></TextBlock>
+                                            <TextBlock x:Name="TextBlockCurrentlySelectedPlanMethodSS" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Visible"></TextBlock>
+                                            <TextBlock x:Name="TextBlockCurrentlySelectedPlanDomainSS" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Visible"></TextBlock>
+                                            <TextBlock x:Name="TextBlockCurrentlySelectedPlanPathSS" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Visible"></TextBlock>
+                                            <TextBlock x:Name="TextBlockCurrentlySelectedPlanFakeWebsiteSS" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Center"  Visibility="Hidden"></TextBlock>
+
+                                        </Grid>
+
+                                        <Button x:Name="Button_LoginSS" Content="{DynamicResource ButtonSetUpSS}"  Margin="10" Grid.Column="0" Grid.Row="2" Click="Button_LoginSS_Click"></Button>
+                                        <!--<Button x:Name="ButtonUpdateSS" Content="{DynamicResource ButtonUpdateV2ray}" Margin="10" Grid.Column="1" Grid.Row="2"  Click="ButtonUpdateV2ray_Click"></Button>-->
+                                        <Button x:Name="Button_canelSS" Content="{DynamicResource Button_canel}"  Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
+                                    </Grid>
+                                </TabItem>
+                                <!--<TabItem Header="三合一" Width="100" Height="30" Visibility="Collapsed">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition></ColumnDefinition>
@@ -433,7 +524,9 @@
                                         <TextBlock Text="地址(域名)：" Grid.Column="0" Grid.Row="2" Margin="3"></TextBlock>
                                         <TextBox x:Name="TextBoxDomain3in1" Text="" Style="{StaticResource TitleText}" Tag="IP或域名(不可为空)"  Grid.Column="1" Grid.Row="2" Margin="3"></TextBox>
                                         <TextBlock Text="端口：443" Grid.Column="2" Grid.Row="2" Margin="3"></TextBlock>
-                                        --><!--<TextBox x:Name="TextBoxPort3in1" Text="443" IsReadOnly="True" Grid.Column="3" Grid.Row="2" Margin="3"></TextBox>--><!--
+                                        -->
+                                <!--<TextBox x:Name="TextBoxPort3in1" Text="443" IsReadOnly="True" Grid.Column="3" Grid.Row="2" Margin="3"></TextBox>
+                                
                                         <TextBlock Text="伪装网站：" Grid.Column="3" Grid.Row="2" Margin="3"></TextBlock>
                                         <TextBox x:Name="TextBoxSites3in1" Text="" Style="{StaticResource TitleText}" Tag="伪装网站域名(可为空)"  Grid.Column="4" Grid.Row="2" Margin="3"></TextBox>
 
@@ -464,107 +557,43 @@
                             </Grid>
                         </TabItem>-->
 
-                        <TabItem Header="{DynamicResource TabItemHeaderSysTools}" Width="80" Height="30">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                </Grid.RowDefinitions>
-                                <Button x:Name="ButtonProofreadTime" Content="{DynamicResource ButtonProofreadTime}" Grid.Column="0" Grid.Row="0" Margin="5" Click="ButtonProofreadTime_Click"/>
-                                <Button x:Name="ButtonClearOccupiedPorts" Content="{DynamicResource ButtonClearOccupiedPorts}" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonClearOccupiedPorts_Click"></Button>
-                                <Button x:Name="ButtonTestAndEnableBBR" Content="{DynamicResource ButtonTestAndEnableBBR}" Grid.Column="2" Grid.Row="0" Margin="5" Click="ButtonTestAndEnableBBR_Click"></Button>
-                            </Grid>
-                        </TabItem>
-                        
-                        <!--<TabItem Header="测试面板" Visibility="Visible" Width="70" Height="30">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                </Grid.RowDefinitions>
-                                <Button x:Name="ButtonTestTrojanClientInfoWin" Content="测试监控窗口"></Button>
-                            </Grid>
-                        </TabItem>-->
-                    </TabControl>
+                                <TabItem Header="{DynamicResource TabItemHeaderSysTools}" Width="90" Height="30">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Button x:Name="ButtonProofreadTime" Content="{DynamicResource ButtonProofreadTime}" Grid.Column="0" Grid.Row="0" Margin="5" Click="ButtonProofreadTime_Click"/>
+                                        <Button x:Name="ButtonClearOccupiedPorts" Content="{DynamicResource ButtonClearOccupiedPorts}" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonClearOccupiedPorts_Click"></Button>
+                                        <Button x:Name="ButtonTestAndEnableBBR" Content="{DynamicResource ButtonTestAndEnableBBR}" Grid.Column="2" Grid.Row="0" Margin="5" Click="ButtonTestAndEnableBBR_Click"></Button>
+                                    </Grid>
+                                </TabItem>
 
 
-                  
-                </Grid>
-            </TabItem>
-            <TabItem Header="{DynamicResource TabItemHeaderResourceTools}" Width="110" Height="30">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
+                            </TabControl>
 
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Button x:Name="ButtonWebBrowserHomePage" Content="{DynamicResource ButtonWebBrowserHomePage}" Grid.Column="0" Grid.Row="0" Margin="5" Click="ButtonWebBrowserHomePage_Click"></Button>
-                    <Button x:Name="ButtonWebBrowserForward" Content="{DynamicResource ButtonWebBrowserForward}" Grid.Column="2" Grid.Row="0" Margin="5" Click="ButtonWebBrowserForward_Click"></Button>
-                    <Button x:Name="ButtonWebBrowserBack" Content="{DynamicResource ButtonWebBrowserBack}" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonWebBrowserBack_Click"/>
-                    <TextBlock Text="{DynamicResource TextBlockWebExplain}" TextWrapping="Wrap" Grid.Column="4" Grid.Row="0" Grid.ColumnSpan="4"></TextBlock>
-                    <!--<TextBox x:Name="TextBoxWebBrowserProxyUrl" Style="{StaticResource TitleText}" Tag="粘贴被墙的网址到这里点击 GO(下面被墙网址右击==复制快捷方式)" Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="5" Margin="5"></TextBox>
-                    <Button x:Name="ButtonWebBrowserProxyGo" Content="Go" Grid.Column="8" Grid.Row="0" Margin="5" Click="ButtonWebBrowserProxyGo_Click"></Button>-->
-                    <WebBrowser x:Name="WebBrowserResourcesAndTools" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="9" Grid.RowSpan="13" Source="https://github.com/proxysu/windows/wiki/ResourcesAndTools" />
-                </Grid>
-            </TabItem>
-            <TabItem Header="关于" Width="110" Height="30" Visibility="Collapsed">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.3*"></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="0.3*"></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Grid Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
+                        </Grid>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="{DynamicResource TabItemHeaderResourceTools}" Width="110" Height="30">
+                    <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
-                            
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition></RowDefinition>
@@ -573,14 +602,62 @@
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-                        <TextBlock Text="程序版本：1.8.3" Grid.Column="0" Grid.Row="0"></TextBlock>
-                        
+                        <Button x:Name="ButtonWebBrowserHomePage" Content="{DynamicResource ButtonWebBrowserHomePage}" Grid.Column="0" Grid.Row="0" Margin="5" Click="ButtonWebBrowserHomePage_Click"></Button>
+                        <Button x:Name="ButtonWebBrowserForward" Content="{DynamicResource ButtonWebBrowserForward}" Grid.Column="2" Grid.Row="0" Margin="5" Click="ButtonWebBrowserForward_Click"></Button>
+                        <Button x:Name="ButtonWebBrowserBack" Content="{DynamicResource ButtonWebBrowserBack}" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonWebBrowserBack_Click"/>
+                        <TextBlock Text="{DynamicResource TextBlockWebExplain}" TextWrapping="Wrap" Grid.Column="4" Grid.Row="0" Grid.ColumnSpan="4"></TextBlock>
+                        <!--<TextBox x:Name="TextBoxWebBrowserProxyUrl" Style="{StaticResource TitleText}" Tag="粘贴被墙的网址到这里点击 GO(下面被墙网址右击==复制快捷方式)" Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="5" Margin="5"></TextBox>
+                    <Button x:Name="ButtonWebBrowserProxyGo" Content="Go" Grid.Column="8" Grid.Row="0" Margin="5" Click="ButtonWebBrowserProxyGo_Click"></Button>-->
+                        <WebBrowser x:Name="WebBrowserResourcesAndTools" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="9" Grid.RowSpan="13" Source="https://github.com/proxysu/windows/wiki/ResourcesAndTools" />
                     </Grid>
-                   
-                </Grid>
-            </TabItem>
-            
-        </TabControl>
+                </TabItem>
+                <TabItem Header="关于" Width="110" Height="30" Visibility="Collapsed">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.3*"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.3*"></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="程序版本：1.8.3" Grid.Column="0" Grid.Row="0"></TextBlock>
+
+                        </Grid>
+
+                    </Grid>
+                </TabItem>
+
+            </TabControl>
+        </Grid>
     </Grid>
 </Window>

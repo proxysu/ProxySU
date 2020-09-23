@@ -64,6 +64,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -86,6 +87,9 @@
     </Compile>
     <Compile Include="ResultClientInformation.xaml.cs">
       <DependentUpon>ResultClientInformation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SSpluginWindow.xaml.cs">
+      <DependentUpon>SSpluginWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="V2RayTemplateWindow.xaml.cs">
       <DependentUpon>V2RayTemplateWindow.xaml</DependentUpon>
@@ -110,6 +114,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ResultClientInformation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SSpluginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

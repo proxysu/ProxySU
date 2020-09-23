@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -26,7 +27,8 @@ namespace ProxySU
     /// </summary>
     public partial class ResultClientInformation : Window
     {
-        private string saveFileFolder = "";
+        private static string saveFileFolder = "";
+        private static string server = MainWindow.ReceiveConfigurationParameters[4];
         public ResultClientInformation()
         {
             InitializeComponent();
@@ -39,6 +41,7 @@ namespace ProxySU
                 GroupBoxTrojanClient.Visibility = Visibility.Collapsed;
                 GroupBoxNaiveProxyClient.Visibility = Visibility.Collapsed;
                 GroupBoxSSRClient.Visibility = Visibility.Collapsed;
+                GroupBoxClientSS.Visibility = Visibility.Collapsed;
 
                 //主机地址
                 TextBoxHostAddress.Text = MainWindow.ReceiveConfigurationParameters[4];
@@ -293,6 +296,7 @@ namespace ProxySU
                 GroupBoxTrojanClient.Visibility = Visibility.Collapsed;
                 GroupBoxNaiveProxyClient.Visibility = Visibility.Collapsed;
                 GroupBoxSSRClient.Visibility = Visibility.Collapsed;
+                GroupBoxClientSS.Visibility = Visibility.Collapsed;
 
                 TextBoxTrojanGoWSPath.Visibility = Visibility.Hidden;
                 TextBlockTrojanGoWebSocketPath.Visibility = Visibility.Hidden;
@@ -326,6 +330,7 @@ namespace ProxySU
                 GroupBoxTrojanClient.Visibility = Visibility.Visible;
                 GroupBoxNaiveProxyClient.Visibility = Visibility.Collapsed;
                 GroupBoxSSRClient.Visibility = Visibility.Collapsed;
+                GroupBoxClientSS.Visibility = Visibility.Collapsed;
 
                 TextBlockQrURLexplain.Text = Application.Current.FindResource("TextBlockQrURLexplainTrojan").ToString();
 
@@ -346,6 +351,7 @@ namespace ProxySU
                 GroupBoxTrojanClient.Visibility = Visibility.Collapsed;
                 GroupBoxNaiveProxyClient.Visibility = Visibility.Visible;
                 GroupBoxSSRClient.Visibility = Visibility.Collapsed;
+                GroupBoxClientSS.Visibility = Visibility.Collapsed;
 
                 TextBlockQrURLexplain.Text = Application.Current.FindResource("TextBlockQrURLexplainNaiveProxy").ToString();
 
@@ -361,6 +367,7 @@ namespace ProxySU
                 GroupBoxTrojanClient.Visibility = Visibility.Collapsed;
                 GroupBoxNaiveProxyClient.Visibility = Visibility.Collapsed;
                 GroupBoxSSRClient.Visibility = Visibility.Visible;
+                GroupBoxClientSS.Visibility = Visibility.Collapsed;
 
                 TextBlockQrURLexplain.Text = Application.Current.FindResource("TextBlockQrURLexplainSSR").ToString();
 
@@ -379,6 +386,108 @@ namespace ProxySU
 
                 //CheckDir("ssr_config");
                 GenerateSSRShareQRcodeAndBase64Url();
+            }
+            else if (String.Equals(MainWindow.proxyType, "SS"))
+            {
+                GroupBoxV2rayClient.Visibility = Visibility.Collapsed;
+                GroupBoxTrojanGoClient.Visibility = Visibility.Collapsed;
+                GroupBoxTrojanClient.Visibility = Visibility.Collapsed;
+                GroupBoxNaiveProxyClient.Visibility = Visibility.Collapsed;
+                GroupBoxSSRClient.Visibility = Visibility.Collapsed;
+                GroupBoxClientSS.Visibility = Visibility.Visible;
+
+                //主机地址
+                TextBoxHostAddressSS.Text = MainWindow.ReceiveConfigurationParameters[4];
+                //主机端口
+                TextBoxPortSS.Text = MainWindow.ReceiveConfigurationParameters[1];
+                //密码（uuid）
+                TextBoxPasswordSS.Text = MainWindow.ReceiveConfigurationParameters[2];
+                //加密方式
+                TextBoxEncryptionSS.Text = MainWindow.ReceiveConfigurationParameters[6];
+                //插件程序
+                TextBoxPluginNameExplainSS.Text = MainWindow.ReceiveConfigurationParameters[5];
+                //插件选项
+                TextBoxPluginOptionExplainSS.Text = MainWindow.ReceiveConfigurationParameters[9];
+                //创建ss配置文件总文件夹
+                CheckDir("ss_config");
+
+                if (String.IsNullOrEmpty(TextBoxPluginNameExplainSS.Text) == true)
+                {
+                    TextBlockPluginNameExplainSS.Visibility = Visibility.Collapsed;
+                    TextBoxPluginNameExplainSS.Visibility = Visibility.Collapsed;
+
+                    //TextBoxPluginNameExplainSSpc.Visibility = Visibility.Collapsed;
+                    TextBlockPluginOptionExplainSS.Visibility = Visibility.Collapsed;
+                    TextBoxPluginOptionExplainSS.Visibility = Visibility.Collapsed;
+                    
+                    TextBlockClientPromptSS.Visibility = Visibility.Collapsed;
+                    RadioButtonMobile.Visibility = Visibility.Collapsed;
+                    RadioButtonPC.Visibility = Visibility.Collapsed;
+                    TextBlockQrURLexplain.Text = Application.Current.FindResource("TextBlockQrURLexplainSS").ToString();
+                }
+                else
+                {
+                    //显示插件程序与插件选项
+                    TextBlockPluginNameExplainSS.Visibility = Visibility.Visible;
+                    TextBoxPluginNameExplainSS.Visibility = Visibility.Visible;
+
+                    TextBlockPluginOptionExplainSS.Visibility = Visibility.Visible;
+                    TextBoxPluginOptionExplainSS.Visibility = Visibility.Visible;
+
+                    TextBlockClientPromptSS.Visibility = Visibility.Visible;
+                    RadioButtonMobile.Visibility = Visibility.Visible;
+                    RadioButtonPC.Visibility = Visibility.Visible;
+
+                    TextBlockQrURLexplain.Text = Application.Current.FindResource("TextBlockQrURLexplainSSmobile").ToString();
+                    TextBlockQrURLexplainSSpc.Text = Application.Current.FindResource("TextBlockQrURLexplainSSpc").ToString();
+
+                    //转换成PC版plugin格式
+                    if (String.Equals(TextBoxPluginNameExplainSS.Text, "obfs-local"))
+                    {
+                        TextBoxPluginNameExplainSSpc.Text = @"plugins\obfs-local.exe";
+                    }
+                    else if (String.Equals(TextBoxPluginNameExplainSS.Text, "v2ray-plugin"))
+                    {
+                        TextBoxPluginNameExplainSSpc.Text = @"plugins\v2ray-plugin.exe";
+                    }
+                    else if (String.Equals(TextBoxPluginNameExplainSS.Text, "kcptun"))
+                    {
+                        TextBoxPluginNameExplainSSpc.Text = @"plugins\kcptun-client.exe";
+                    }
+                    else if (String.Equals(TextBoxPluginNameExplainSS.Text, "goquiet"))
+                    {
+                        TextBoxPluginNameExplainSSpc.Text = @"plugins\goquiet-client.exe";
+                    }
+                    else if (String.Equals(TextBoxPluginNameExplainSS.Text, "cloak"))
+                    {
+                        TextBoxPluginNameExplainSSpc.Text = @"plugins\cloak-client.exe";
+                    }
+                }
+
+                GenerateShareQRcodeAndBase64UrlSS();
+                //选择手机端做为默认显示
+                if (String.IsNullOrEmpty(TextBoxPluginNameExplainSS.Text) == false)
+                {
+                    RadioButtonMobile.IsChecked = true;
+                    if (String.Equals(TextBoxPluginNameExplainSS.Text, "goquiet"))
+                    {
+                        RadioButtonPC.IsChecked = true;
+                        RadioButtonMobile.Visibility = Visibility.Collapsed;
+                        TextBlockClientPromptSS.Visibility = Visibility.Collapsed;
+                        //File.Delete($"ss_config\\{saveFileFolder}\\QR.bmp");
+                        //File.Delete($"ss_config\\{saveFileFolder}\\url.txt");
+                    }
+                    else if (String.Equals(TextBoxPluginNameExplainSS.Text, "cloak"))
+                    {
+                        RadioButtonPC.IsChecked = true;
+                        RadioButtonMobile.Visibility = Visibility.Collapsed;
+                        TextBlockClientPromptSS.Visibility = Visibility.Collapsed;
+                        //File.Delete($"ss_config\\{saveFileFolder}\\QR.bmp");
+                        //File.Delete($"ss_config\\{saveFileFolder}\\url.txt");
+                    }
+                    
+                }
+               
             }
 
         }
@@ -496,7 +605,7 @@ namespace ProxySU
             }
             if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false)
             {
-                CreateQRCode(vmessUrl, "v2ray_config");
+                ImageShareQRcode.Source = CreateQRCode(vmessUrl, $"v2ray_config\\{saveFileFolder}\\QR.bmp");
             }
             
 
@@ -593,7 +702,7 @@ namespace ProxySU
                 sw.WriteLine(trojanUrl);
 
             }
-            CreateQRCode(trojanUrl, "trojan-go_config");
+            ImageShareQRcode.Source = CreateQRCode(trojanUrl, $"trojan-go_config\\{saveFileFolder}\\QR.bmp");
 
             //移动Trojan官方程序配置文件到相应目录
             if (File.Exists(@"trojan-go_config\config.json"))
@@ -681,7 +790,7 @@ namespace ProxySU
                 sw.WriteLine(trojanUrl);
 
             }
-            CreateQRCode(trojanUrl, "trojan_config");
+            ImageShareQRcode.Source = CreateQRCode(trojanUrl, $"trojan_config\\{saveFileFolder}\\QR.bmp");
 
             //移动Trojan官方程序配置文件到相应目录
             if (File.Exists(@"trojan_config\config.json"))
@@ -841,9 +950,8 @@ namespace ProxySU
             using (StreamWriter sw = new StreamWriter($"ssr_config\\{saveFileFolder}\\url.txt"))
             {
                 sw.WriteLine(ssrUrl);
-
             }
-            CreateQRCode(ssrUrl, "ssr_config");
+            ImageShareQRcode.Source = CreateQRCode(ssrUrl, $"ssr_config\\{saveFileFolder}\\QR.bmp");
 
             using (StreamWriter sw = new StreamWriter($"ssr_config\\{saveFileFolder}\\readme.txt"))
             {
@@ -895,6 +1003,180 @@ namespace ProxySU
             }
         }
 
+        //生成SS客户端资料
+        private void GenerateShareQRcodeAndBase64UrlSS()
+        {
+            //创建保存目录
+            string configSavePath = CreateConfigSaveDir(@"ss_config", TextBoxHostAddressSS.Text);
+            string ssUrl;
+
+            //生成手机端的URL(无插件时，为电脑手机通用)
+            if (String.Equals(TextBoxPluginNameExplainSS.Text, "goquiet")==false && String.Equals(TextBoxPluginNameExplainSS.Text, "cloak") == false)
+            {
+                ssUrl = GetSStoURL(TextBoxPluginNameExplainSS.Text);
+                TextBoxURL.Text = ssUrl;
+                using (StreamWriter sw = new StreamWriter($"{configSavePath}\\url.txt"))
+                {
+                    sw.WriteLine(ssUrl);
+                }
+                ImageShareQRcode.Source = CreateQRCode(ssUrl, $"{configSavePath}\\QR.bmp");
+            }
+
+            if (String.IsNullOrEmpty(TextBoxPluginNameExplainSS.Text) == false)
+            {
+                //生成电脑端
+                ssUrl = GetSStoURL(TextBoxPluginNameExplainSSpc.Text);
+                TextBoxURLpcSS.Text = ssUrl;
+                using (StreamWriter sw = new StreamWriter($"{configSavePath}\\url_pc.txt"))
+                {
+                    sw.WriteLine(ssUrl);
+                }
+                ImageShareQRcodeSSpc.Source = CreateQRCode(ssUrl, $"{configSavePath}\\QR_pc.bmp");
+            }
+            using (StreamWriter sw = new StreamWriter($"{configSavePath}\\readme.txt"))
+            {
+                if (String.Equals(TextBoxPluginNameExplainSS.Text, "goquiet") == false && String.Equals(TextBoxPluginNameExplainSS.Text, "cloak") == false)
+                {
+                    //sw.WriteLine("-----------------------------------------\n");
+                    sw.WriteLine("QR.bmp");
+                    if (String.IsNullOrEmpty(TextBoxPluginNameExplainSS.Text) == true)
+                    {
+                        //***"此文件为Shadowsocks (windows)、shadowsocks（Android）、Shadowrocket(ios)扫码导入节点"***
+                        sw.WriteLine(Application.Current.FindResource("readmeTxtExplainLineSS05").ToString());
+
+                    }
+                    else
+                    {
+                        //***"此文件为shadowsocks（Android）、Shadowrocket(ios)扫码导入节点"***
+                        sw.WriteLine(Application.Current.FindResource("readmeTxtExplainLineSS05").ToString());
+                    }
+
+                    sw.WriteLine("-----------------------------------------\n");
+                    sw.WriteLine("url.txt");
+                    if (String.IsNullOrEmpty(TextBoxPluginNameExplainSS.Text) == true)
+                    {
+                        //***"此文件为Shadowsocks (windows)、shadowsocks（Android）、Shadowrocket(ios)复制粘贴导入节点的网址"***
+                        sw.WriteLine(Application.Current.FindResource("readmeTxtExplainLineSS09").ToString());
+                    }
+                    else
+                    {
+                        //***"此文件为shadowsocks（Android）、Shadowrocket(ios)复制粘贴导入节点的网址"***
+                        sw.WriteLine(Application.Current.FindResource("readmeTxtExplainLineSS09").ToString());
+                    }
+                    sw.WriteLine("");
+                    //***"shadowsocks（Android）下载网址：https://github.com/shadowsocks/shadowsocks-android/releases"***
+                    sw.WriteLine(Application.Current.FindResource("readmeTxtExplainLineSS07").ToString());
+
+                    //***"Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。"***
+                    sw.WriteLine(Application.Current.FindResource("readmeTxtExplainLineSS08").ToString());
+                }
+                if (String.IsNullOrEmpty(TextBoxPluginNameExplainSS.Text) == false)
+                {
+                    sw.WriteLine("");
+                    sw.WriteLine("-----------------------------------------\n");
+                    sw.WriteLine("QR_pc.bmp");
+
+                    //***"此文件为Shadowsocks (windows)扫码导入节点"***
+                    sw.WriteLine(Application.Current.FindResource("readmeTxtExplainLineSS01").ToString());
+                    sw.WriteLine("-----------------------------------------\n");
+                    sw.WriteLine("url_pc.txt");
+
+                    //***"此文件为Shadowsocks (windows)复制粘贴导入节点的网址"***
+                    sw.WriteLine(Application.Current.FindResource("readmeTxtExplainLineSS02").ToString());
+                    sw.WriteLine("");
+
+                }
+                //***"Shadowsocks(windows)下载网址：https://github.com/shadowsocks/shadowsocks-windows/releases"***
+                sw.WriteLine(Application.Current.FindResource("readmeTxtExplainLineSS06").ToString());
+                sw.WriteLine("-----------------------------------------\n");
+
+                //***"服务器通用连接配置参数"***
+                sw.WriteLine(Application.Current.FindResource("readmeTxtTrojanExplainLine10").ToString());
+
+                //****** 服务器地址(address): ******
+                sw.WriteLine(Application.Current.FindResource("TextBlockServerAddress").ToString() + $"{TextBoxHostAddressSS.Text}");
+
+                //****** 端口(port): ******
+                sw.WriteLine(Application.Current.FindResource("TextBlockServerPort").ToString() + $"{TextBoxPortSS.Text}");
+
+                //****** 密码: ******
+                sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoPassword").ToString() + $"{TextBoxPasswordSS.Text}");
+
+                //****** 加密方式: ******
+                sw.WriteLine(Application.Current.FindResource("TextBlockEncryption").ToString() + $"{TextBoxEncryptionSS.Text}");
+
+
+                if (String.IsNullOrEmpty(TextBoxPluginNameExplainSS.Text) == false)
+                {
+                    //****** 插件程序:: ******
+                    sw.WriteLine(Application.Current.FindResource("TextBlockPluginNameExplainSS").ToString() + $"{TextBoxPluginNameExplainSS.Text}");
+
+                    //****** 插件选项: ******
+                    sw.WriteLine(Application.Current.FindResource("TextBlockPluginOptionExplainSS").ToString() + $"{TextBoxPluginOptionExplainSS.Text}");
+
+                    sw.WriteLine("-----------------------------------------\n");
+                    //****** 插件使用说明 ******
+                    sw.WriteLine(Application.Current.FindResource("readmeTxtPluginExplainSS").ToString());
+
+                    //****** ProxySU默认所有插件，在Shadowsocks (windows)运行文件所在文件夹的子文件夹plugins下。 ******
+                    sw.WriteLine(Application.Current.FindResource("readmeTxtPluginExplainSS01").ToString());
+
+                    //****** 电脑端手动安装插件说明 ******
+                    sw.WriteLine(Application.Current.FindResource("readmeTxtPluginExplainSS02").ToString());
+
+                    //****** 先下载插件，各个插件Windows客户端下载地址为： ******
+                    sw.WriteLine(Application.Current.FindResource("readmeTxtPluginExplainSS03").ToString());
+
+                    //****** Simple-obfs: https://github.com/shadowsocks/simple-obfs/releases 只下载 obfs-local.zip  ******
+                    sw.WriteLine(Application.Current.FindResource("readmeTxtPluginExplainSS04").ToString());
+
+                    //****** V2ray-plugin: https://github.com/shadowsocks/v2ray-plugin/releases 64位系统选择：v2ray-plugin-windows-amd64-vx.x.x.tar.gz,32位系统选择：v2ray-plugin-windows-386-vx.x.x.tar.gz (x为数字，是版本号)******
+                    sw.WriteLine(Application.Current.FindResource("readmeTxtPluginExplainSS05").ToString());
+
+                    //****** Kcptun-plugin: https://github.com/shadowsocks/kcptun/releases  64位系统选择：kcptun-windows-amd64-xxxxxx.tar.gz,32位系统选择：kcptun-plugin-windows-386-xxxxxx.tar.gz (x为数字，是版本号)******
+                    sw.WriteLine(Application.Current.FindResource("readmeTxtPluginExplainSS06").ToString());
+
+                    ////****** GoQuiet-plugin: https://github.com/cbeuw/GoQuiet/releases  64位系统选择：gq-client-windows-amd64-x.x.x.exe,32位系统选择：gq-client-windows-386-x.x.x.exe(x为数字，是版本号)******
+                    //sw.WriteLine(Application.Current.FindResource("readmeTxtPluginExplainSS07").ToString());
+
+                    ////****** Cloak-plugin: https://github.com/cbeuw/Cloak/releases 64位系统选择：ck-client-windows-amd64-x.x.x.exe,32位系统选择：ck-client-windows-386-x.x.x.exe(x为数字，是版本号) ******
+                    //sw.WriteLine(Application.Current.FindResource("readmeTxtPluginExplainSS08").ToString());
+
+                    //****** 在Shadowsocks (windows)运行文件所在文件夹中，新建文件夹plugins，将obfs-local.zip解压出的文件（两个）全部复到plugins中，
+                    //v2ray -plugin下载得到的文件，解压出的文件，复制到plugins中，并重命名为：v2ray-plugin.exe。
+                    //Kcptun -plugin下载得到的文件，解压出两个文件，将其中的client_windows开头的文件，复制到plugins中，并重命名为：kcptun-client.exe。
+                    //GoQuiet-plugin下载得到的文件，直接复制到plugin中，并重命名为：goquiet-client.exe。
+                    //Cloak-plugin下载得到的文件，直接复制到plugin中，并重命名为：cloak-client.exe
+                    //******
+                    sw.WriteLine(Application.Current.FindResource("readmeTxtPluginExplainSS09").ToString());
+                    //******安装完毕 ******
+                    sw.WriteLine(Application.Current.FindResource("readmeTxtPluginExplainSS10").ToString());
+
+                    sw.WriteLine("-----------------------------------------\n");
+
+                    //******手机安卓客户端插件安装说明 ******
+                    sw.WriteLine(Application.Current.FindResource("readmeTxtPluginExplainSSandroid02").ToString());
+
+                    //****** 先下载插件，各个插件安卓客户端下载地址为： ******
+                    sw.WriteLine(Application.Current.FindResource("readmeTxtPluginExplainSSandroid03").ToString());
+
+                    //****** Simple-obfs: https://github.com/shadowsocks/simple-obfs-android/releases 只下载 obfs-local-nightly-x.x.x.apk(x为数字，是版本号)  ******
+                    sw.WriteLine(Application.Current.FindResource("readmeTxtPluginExplainSSandroid04").ToString());
+
+                    //****** V2ray-plugin: https://github.com/shadowsocks/v2ray-plugin-android/releases 一般选择v2ray--universal-x.x.x.apk(x为数字，是版本号)******
+                    sw.WriteLine(Application.Current.FindResource("readmeTxtPluginExplainSSandroid05").ToString());
+
+                    //****** Kcptun-plugin: https://github.com/shadowsocks/kcptun-android/releases 一般选择kcptun--universal-x.x.x.apk(x为数字，是版本号)******
+                    sw.WriteLine(Application.Current.FindResource("readmeTxtPluginExplainSSandroid06").ToString());
+                    //******将上述apk文件传到手机，安装即可！ ******
+                    sw.WriteLine(Application.Current.FindResource("readmeTxtPluginExplainSSandroid07").ToString());
+
+                }
+
+            }
+
+        }
+
         //生成base64
         private string ToBase64Encode(string text)
         {
@@ -907,24 +1189,24 @@ namespace ProxySU
             return Convert.ToBase64String(textBytes);
         }
 
-        //生成QRcoder图片
-        private void CreateQRCode(string varBase64,string configPath)
+        //生成QRcoder图片，并按给出的路径与名称保存，返回窗口显示的图片源
+        private BitmapSource CreateQRCode(string varBase64,string configPath)
         {
-            //string varBase64 = varBase64;
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
             QRCodeData qrCodeData = qrGenerator.CreateQrCode(varBase64, QRCodeGenerator.ECCLevel.Q);
             QRCode qrCode = new QRCode(qrCodeData);
             Bitmap qrCodeImage = qrCode.GetGraphic(20);
             IntPtr myImagePtr = qrCodeImage.GetHbitmap();
             BitmapSource imgsource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(myImagePtr, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-            ImageShareQRcode.Source = imgsource;
+            //ImageShareQRcode.Source = imgsource;
             //DeleteObject(myImagePtr);
-            qrCodeImage.Save($"{configPath}\\{saveFileFolder}\\QR.bmp");
-            //ImageShareQRcode.Source = @"config\v2rayN.bmp";
+            qrCodeImage.Save(configPath);
+            return imgsource;
+
         }
 
         //判断目录是否存在，不存在则创建
-        private static bool CheckDir(string folder)
+        private bool CheckDir(string folder)
         {
             try
             {
@@ -936,6 +1218,31 @@ namespace ProxySU
             {
                 return false;
             }
+        }
+
+        //目录已存在则生成序号递增,并返回所创建的目录路径。
+        private string CreateConfigSaveDir(string upperDir,string configDir)
+        {
+            try
+            {
+                //string saveFileFolderFirst = configDir;
+                int num = 1;
+                saveFileFolder = configDir;
+                CheckDir(upperDir);
+                while (Directory.Exists(upperDir + @"\" + saveFileFolder))
+                {
+                    saveFileFolder = configDir + "_copy_" + num.ToString();
+                    num++;
+                }
+                CheckDir(upperDir + @"\" + saveFileFolder);
+                return upperDir + @"\" + saveFileFolder;
+            }
+            catch (Exception)
+            {
+                saveFileFolder = "";
+                return upperDir + @"\" + saveFileFolder;
+            }
+            
         }
 
         //打开文件夹
@@ -971,10 +1278,16 @@ namespace ProxySU
                 System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
                 this.Close();
             }
+            else if (String.Equals(MainWindow.proxyType, "SS"))
+            {
+                string openFolderPath = @"ss_config\" + saveFileFolder;
+                System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
+                this.Close();
+            }
         }
 
         //SSR生成URL链接
-        public string GetSSRLinkForServer()
+        private string GetSSRLinkForServer()
         {
             string server = TextBoxSSRHostAddress.Text;
             string server_port = TextBoxSSRPort.Text;
@@ -1016,6 +1329,80 @@ namespace ProxySU
             return "ssr://" + base64;
         }
 
+        //SS生成URL链接，需要给出plugin的内容，用于生成手机端或电脑端的URL
+        public string GetSStoURL(string plugin,bool legacyUrl = true)
+        {
+            string tag = string.Empty;
+            string url = string.Empty;
+
+            server = TextBoxHostAddressSS.Text;
+            string server_port = TextBoxPortSS.Text;
+            
+            string password = TextBoxPasswordSS.Text;
+            string method = TextBoxEncryptionSS.Text;
+
+           // plugin = TextBoxPluginNameExplainSS.Text;
+            string plugin_opts = TextBoxPluginOptionExplainSS.Text;
+
+            string remarks = server;
+
+            if (legacyUrl && string.IsNullOrWhiteSpace(plugin))
+            {
+                // For backwards compatiblity, if no plugin, use old url format
+                string parts = $"{method}:{password}@{server}:{server_port}";
+                string base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(parts));
+                url = base64;
+            }
+            else
+            {
+                // SIP002
+                string parts = $"{method}:{password}";
+                string base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(parts));
+                string websafeBase64 = base64.Replace('+', '-').Replace('/', '_').TrimEnd('=');
+
+                url = string.Format(
+                    "{0}@{1}:{2}/",
+                    websafeBase64,
+                    FormalHostName,
+                    server_port
+                    );
+
+                if (!String.IsNullOrWhiteSpace(plugin))
+                {
+
+                    string pluginPart = plugin;
+                    if (!String.IsNullOrWhiteSpace(plugin_opts))
+                    {
+                        pluginPart += ";" + plugin_opts;
+                    }
+                    string pluginQuery = "?plugin=" + HttpUtility.UrlEncode(pluginPart, Encoding.UTF8);
+                    url += pluginQuery;
+                }
+            }
+
+            if (!String.IsNullOrEmpty(remarks))
+            {
+                tag = $"#{HttpUtility.UrlEncode(remarks, Encoding.UTF8)}";
+            }
+            return $"ss://{url}{tag}";
+        }
+
+        //格式化主机名称
+        private string FormalHostName
+        {
+            get
+            {
+                // CheckHostName() won't do a real DNS lookup
+                switch (Uri.CheckHostName(server))
+                {
+                    case UriHostNameType.IPv6:  // Add square bracket when IPv6 (RFC3986)
+                        return $"[{server}]";
+                    default:    // IPv4 or domain name
+                        return server;
+                }
+            }
+        }
+        //编码安全Base64
         private string EncodeUrlSafeBase64(byte[] val, bool trim)
         {
             if (trim)
@@ -1023,10 +1410,31 @@ namespace ProxySU
             else
                 return Convert.ToBase64String(val).Replace('+', '-').Replace('/', '_');
         }
+        //编码安全Base64重载
         private string EncodeUrlSafeBase64(string val, bool trim = true)
         {
             return EncodeUrlSafeBase64(Encoding.UTF8.GetBytes(val), trim);
         }
+
+        private void RadioButtonMobile_Checked(object sender, RoutedEventArgs e)
+        {
+            TextBoxPluginNameExplainSS.Visibility = Visibility.Visible;
+            GroupBoxClientQRandURL.Visibility = Visibility.Visible;
+            
+            TextBoxPluginNameExplainSSpc.Visibility = Visibility.Collapsed;
+            GroupBoxClientSSpc.Visibility = Visibility.Collapsed;
+            
+        }
+
+        private void RadioButtonPC_Checked(object sender, RoutedEventArgs e)
+        {
+            TextBoxPluginNameExplainSS.Visibility = Visibility.Collapsed;
+            GroupBoxClientQRandURL.Visibility = Visibility.Collapsed;
+
+            TextBoxPluginNameExplainSSpc.Visibility = Visibility.Visible;
+            GroupBoxClientSSpc.Visibility = Visibility.Visible;
+        }
+
     }
 
     

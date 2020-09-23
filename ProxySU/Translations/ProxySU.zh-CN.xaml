@@ -14,8 +14,17 @@
     <sys:String x:Key="TextBlockHostName">主机:</sys:String>
     <sys:String x:Key="TextBoxHostNamePrompt">IP或域名(不可为空)</sys:String>
     <sys:String x:Key="TextBlockHostPart">端口:</sys:String>
-    <sys:String x:Key="TextBlockHostUser">用户名:</sys:String>
+    <sys:String x:Key="TextBlockHostUser">用户:</sys:String>
     <sys:String x:Key="TextBlockHostPassword">密码:</sys:String>
+    <sys:String x:Key="TextBlockHostCert">密钥:</sys:String>
+    <sys:String x:Key="TextBoxKeyNotEmptyPrompt">密钥文件存放路径(不可为空)</sys:String>
+    <sys:String x:Key="ButtonOpenFileDialog">浏览...</sys:String>
+    <sys:String x:Key="RadioButtonPasswordLogin">密码登录</sys:String>
+    <sys:String x:Key="RadioButtonCertLogin">密钥登录</sys:String>
+    <sys:String x:Key="RadioButtonNoProxy">无代理</sys:String>
+    <sys:String x:Key="RadioButtonProxyNoLogin">不需登录</sys:String>
+    <sys:String x:Key="RadiobuttonProxyYesLogin">需要登录</sys:String>
+    <sys:String x:Key="TextBlockProxyHost">代理地址:</sys:String>
     <sys:String x:Key="TextBlockSetUpProcessing">等待安装布署</sys:String>
     <sys:String x:Key="TabItemHeaderSysTools">系统工具</sys:String>
     <sys:String x:Key="ButtonV2RayTemplateConfiguration">V2Ray模板库</sys:String>
@@ -47,6 +56,36 @@
     <!-- 以下SSR设置参数标签页界面 -->
     <sys:String x:Key="TextBlockSSRTemplateExplanation">模式：SSR+TLS+Caddy</sys:String>
     <sys:String x:Key="ButtonSSRSetUp">SSR一键安装</sys:String>
+
+    <!-- 以下SS设置参数标签页界面 -->
+    <sys:String x:Key="ButtonSetUpSS">SS 一键安装</sys:String>
+    <sys:String x:Key="ButtonTemplateConfigurationSS">SS 插件库</sys:String>
+    <sys:String x:Key="TabItemHeaderNonePluginSS">经典模式</sys:String>
+    <sys:String x:Key="TextBlockNonePluginPointSS">提示：这种模式，长时间，大流量使用，容易被阻断和干扰，不推荐使用！</sys:String>
+    <sys:String x:Key="RadioButtonNonePluginSS">SS 经典</sys:String>
+    <sys:String x:Key="TextBlockNonePluginExplainSS">SS经典使用模式，无需域名，数据高强度加密，数据被识别为未知数据。目前流量容易被识别，极易被干扰与阻断，慎重使用！放在这里仅仅只是一种情怀与致敬！</sys:String>
+    <sys:String x:Key="TabItemHeaderObfsPluginSS">Simple-obfs 插件</sys:String>
+    <sys:String x:Key="TextBlockObfsPluginPointSS">提示：这是SS早期使用的流量混淆方案，插件已经长时间不再更新，不推荐使用！</sys:String>
+    <sys:String x:Key="RadioButtonObfsPluginHttpWebSS">SS+obfs+http+Web</sys:String>
+    <sys:String x:Key="TextBlockObfsPluginHttpWebExplainSS">无需域名，数据高强度加密，流量混淆为http(并非真正的http)，使用Web网站伪装，可在一定程度上增强抗识别！不支持CDN。</sys:String>
+    <sys:String x:Key="RadioButtonObfsPluginHttpsWebSS">SS+obfs+TLS(https)+Web</sys:String>
+    <sys:String x:Key="TextBlockObfsPluginTLShttpsWebExplainSS">需要域名，使用域名将很大增强抗识别，数据高强度加密，流量混淆为https(并非真正的https)，使用Web网站伪装，进一步增强抗识别！不支持CDN。</sys:String>
+    <sys:String x:Key="TabItemHeaderV2RayPluginSS">V2Ray 插件</sys:String>
+    <sys:String x:Key="TextBlockV2rayPluginPointSS">提醒：ShadowRocket(ios)不支持SS+Quic模式</sys:String>
+    <sys:String x:Key="RadioButtonWebSocketTLSWebSS">SS+WebSocket+TLS+Caddy(Web后置)</sys:String>
+    <sys:String x:Key="RadioButtonWebSocketTLSWebFrontSS">SS+WebSocket+TLS+Caddy(Web前置)</sys:String>
+    <sys:String x:Key="TextBlockV2RayPluginPointSS">提示：上面方案中的Web前置与Web后置，使用效果上没有差别，Web后置方案，TLS证书由acme.sh申请，证书到期后，acme.sh会自动续期，但是需要手动重启SS加载新证书。而Web前置方案中的证书由Caddy自动申请并加载，不需要重启SS。</sys:String>
+    <sys:String x:Key="RadioButtonQuicSS">SS+QUIC</sys:String>
+    <sys:String x:Key="TextBlockQuicExplainSS">通过V2Ray-Plugin使用QUIC协议传输，强制使用TLS加密。数据加密传输，被识别为udp流量，最初由谷歌创始，优点:减少延迟、多路复用、连接迁移，需要域名，</sys:String>
+    <!--<sys:String x:Key="TabItemHeaderOtherPluginsSS">kcptun/GoQuiet/Cloak 插件</sys:String>-->
+    <sys:String x:Key="TabItemHeaderOtherPluginsSS">kcptun 插件</sys:String>
+    <sys:String x:Key="TextBlockGoQuietPluginPointSS">提醒：Shadowrocket(ios)不支持GoQuiet-plugin插件。shadowsocks(Android)不支持GoQuiet-plugin与Cloak-plugin插件</sys:String>
+    <sys:String x:Key="TextBlockKcptunPluginExplainSS">KCP是一个快速可靠协议，能以比 TCP浪费10%-20%的带宽的代价，换取平均延迟降低 30%-40%，且最大延迟降低三倍的传输效果。使用UDP协议传输，数据高强度加密，传输同样的内容，kcp 一般比 TCP 消耗更多的流量,在丢包率高的线路下将极大提高网速，在个别运营商处可能会被QOS限制。</sys:String>
+    <sys:String x:Key="TextBlockGoQuietPluginExplainSS">基本原理为模拟TLS的流量同时将服务器伪装成一个正常的网站服务器，这个混淆思路并非首创：simple-obfs和ShadowsocksR的tls1.2_ticket_auth模式证明这条道是行得通的。此插件对现有的方法进行了改善，其目标为让大规模封锁HTTPS服务器（甚至IP段）成为封锁SS的唯一有效手段</sys:String>
+    <sys:String x:Key="TextBlockCloakPluginExplainSS">通过加密方式将代理流量混淆为合法的HTTPS流量，并将代理服务器伪装成普通的Web服务器以规避互联网审查。可以看成是上面GoQuiet升级版，优化网络连接速度，并且不是混淆https而是真正的https流量。</sys:String>
+    <sys:String x:Key="TextBlockPluginNameExplainSS">插件程序:</sys:String>
+    <sys:String x:Key="TextBlockPluginOptionExplainSS">插件选项:</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_ExplainBuildSS">使用编译方式，时间稍长，请耐心等待......</sys:String>
     
     <!-- 以下系统工具标签页界面 -->
     <sys:String x:Key="ButtonProofreadTime">校对时间</sys:String>
@@ -71,7 +110,7 @@
     <sys:String x:Key="ButtonTrojanGoTemplateCancel">取消</sys:String>
     <!-- 以下V2Ray模板库界面 -->
     <sys:String x:Key="GroupBoxHeaderV2RayTemplates">V2Ray 模板库</sys:String>
-    <sys:String x:Key="TabItemHeaderV2RayHotPlan">热门方案</sys:String>
+    <sys:String x:Key="TabItemHeaderV2RayHotPlan">推荐方案</sys:String>
     <sys:String x:Key="TabItemHeaderV2RayTcpProtocol">TCP传输协议</sys:String>
     <sys:String x:Key="TabItemHeaderV2RayWebSocketProtocol">WebSocket传输协议</sys:String>
     <sys:String x:Key="TabItemHeaderV2RayHttp2Protocol">Http/2传输协议</sys:String>
@@ -83,7 +122,7 @@
     <sys:String x:Key="TextBlockV2RayServerPortExplain">若使用TLS加密，请保持默认的443端口</sys:String>
     <sys:String x:Key="TextBlockV2RayUUIDExplain">使用已有UUID，直接粘贴到框中</sys:String>
     <sys:String x:Key="TextBlockV2RayQuicUUID">mKCP Seed/QUIC密钥</sys:String>
-    <sys:String x:Key="TextBlockV2RayMkcpExplain">启用mKCP Seed密钥，可增强抗识别，留空则禁用,要求版本4.24.2以上,V2rayN暂不支持</sys:String>
+    <sys:String x:Key="TextBlockV2RayMkcpExplain">启用mKCP Seed密钥，可增强抗识别，留空则禁用,要求版本4.24.2+</sys:String>
     <sys:String x:Key="TextBlockV2RayPath">路径：</sys:String>
     <sys:String x:Key="TextBlockV2RayDomain">域名：</sys:String>
     <sys:String x:Key="TextBlockV2RayMaskSites">伪装网站：</sys:String>
@@ -99,7 +138,7 @@
     <sys:String x:Key="TextBlockV2RaySelfSignedShadowrocketExplain">Shadowrocket (ios)需要手动打开“允许不安全”选项</sys:String>
     <sys:String x:Key="TextBlockV2RayVlessTcpTlsWebExplain">轻量协议VLESS,占用更少主机资源，数据TLS加密传输，用Caddy2在节点上做伪装网站。适合配置低的VPS,或多人共用节点，服务端客户端版本要求4.27+ (需域名)</sys:String>
     <sys:String x:Key="TextBlockV2RayWebSocketExplain">数据加密传输，传输协议使用WebSocket，未启用TLS,将被识别为WebSocket流量。</sys:String>
-    <sys:String x:Key="TextBlockV2RayWebSocketTlsExplain">数据加密传输，传输协议使用WebSocket，启用TLS,将被识别为TLS流量。(需要域名)</sys:String>
+    <sys:String x:Key="TextBlockV2RayWebSocketTlsExplain">数据加密传输，传输协议使用WebSocket，启用TLS,将被识别为TLS流量。(需要域名)支持CDN。</sys:String>
     <sys:String x:Key="RadioButtonV2RayWebSocketTlsSelfSigned">WebSocket+TLS(自签证书)</sys:String>
     <sys:String x:Key="TextBlockV2RayWebSocketTlsSelfSignedExplain">数据加密传输，传输协议使用WebSocket，启用TLS,将被识别为TLS流量。(无需域名)</sys:String>
     <sys:String x:Key="TextBlockV2RayHttp2Explain">基于 HTTP/2 的传输方式。它完整按照 HTTP/2 标准实现，需要域名</sys:String>
@@ -114,7 +153,7 @@
     <sys:String x:Key="TextBlockV2RayMkcpWireGuardExplain">同mKCP(无伪装)，增加伪装成 WireGuard 数据包。(并不是真正的 WireGuard 协议)</sys:String>
     <sys:String x:Key="TextBlockV2RayQuicShadowrocketExplain">提醒：Shadowrocket目前暂不支持QUIC的传输模式。</sys:String>
     <sys:String x:Key="RadioButtonV2RayQuicNone">QUIC(无伪装)</sys:String>
-    <sys:String x:Key="TextBlockV2RayQuicNoneExplain">数据加密传输，无伪装会被识别为udp流量，谷歌出品，优点:减少延迟、多路复用、连接迁移</sys:String>
+    <sys:String x:Key="TextBlockV2RayQuicNoneExplain">数据加密传输，无伪装会被识别为udp流量，最初由谷歌创始，优点:减少延迟、多路复用、连接迁移</sys:String>
     <sys:String x:Key="TextBlockV2RayQuicSRTPExplain">同QUIC(无伪装)，增加伪装成 SRTP 数据包，会被识别为视频通话数据（如 FaceTime）</sys:String>
     <sys:String x:Key="TextBlockV2RayQuicuTPExplain">同QUIC(无伪装)，增加伪装成 uTP 数据包，会被识别为 BT 下载数据</sys:String>
     <sys:String x:Key="TextBlockV2RayQuicWeChatExplain">同QUIC(无伪装)，增加伪装成微信视频通话的数据包</sys:String>
@@ -149,8 +188,15 @@
     <sys:String x:Key="TextBlockQrURLexplainTrojan-go">"可用于ShadowRocket (ios)、igniter（Android）、Trojan-QT5 (windows) 扫码和导入url。注意：有的客户端可能不支持WebSocket模式。"</sys:String>
     <sys:String x:Key="TextBlockQrURLexplainTrojan">"可用于ShadowRocket (ios)、igniter（Android）、Trojan-QT5 (windows) 扫码和导入url。注意：有的客户端可能不支持WebSocket模式。"</sys:String>
     <sys:String x:Key="TextBlockQrURLexplainNaiveProxy">用于NaiveGUI(windows)的URL导入链接</sys:String>
-    <sys:String x:Key="TextBlockQrURLexplainSSR">用于ShadowsocksR(windows)、SSRR(android)、Shadowrocket(ios)的扫码和导入URL导入链接</sys:String>
- <!--以下为程序内的-->
+    <sys:String x:Key="TextBlockQrURLexplainSSR">用于ShadowsocksR(windows)、SSRR(android)、Shadowrocket(ios)的扫码和URL导入链接</sys:String>
+    <sys:String x:Key="TextBlockQrURLexplainSSmobile">用于手机客户端shadowsocks(android)、Shadowrocket(ios)的扫码和URL导入链接</sys:String>
+    <sys:String x:Key="TextBlockQrURLexplainSSpc">用于电脑客户端Shadowsocks (windows)的扫码和URL导入链接</sys:String>
+    <sys:String x:Key="TextBlockQrURLexplainSS">用于Shadowsocks (windows)、shadowsocks(android)、Shadowrocket(ios)的扫码和URL导入链接</sys:String>
+    <sys:String x:Key="TextBlockClientPromptSS">提醒: 电脑客户端Shadowsocks (windows)与手机客户端shadowsocks(android)、Shadowrocket(ios)的导入格式不兼容，请选择相应格式。</sys:String>
+    <sys:String x:Key="RadioButtonMobileSS">手机端</sys:String>
+    <sys:String x:Key="RadioButtonPCSS">电脑端</sys:String>
+
+    <!--以下为程序内的-->
     <sys:String x:Key="MessageBoxShow_ErrorHostPortUserNotEmpty">主机地址、主机端口、用户名为必填项，不能为空!!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorHostPasswordNotEmpty">登录密码为必填项，不能为空!!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorHostKeyNotEmpty">密钥文件为必填项，不能为空!!</sys:String>
@@ -195,7 +241,8 @@
     <sys:String x:Key="DisplayInstallInfo_StartInstalling">系统环境检测完毕，符合安装要求,开始布署......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_OpenFireWallPort">开启防火墙相应端口......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_StartInstallSoft">正在安装</sys:String>
-    <sys:String x:Key="MessageBoxShow_ErrorInstallSoftFail">安装失败,官方脚本运行出错！</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_CompilingSS">编译中,请耐心等待.............</sys:String>
+    <sys:String x:Key="MessageBoxShow_ErrorInstallSoftFail">安装失败,脚本运行出错！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_SoftInstallSuccess">安装成功！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_UploadSoftConfig">安装完毕，上传配置文件......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_StartInstallAcmeSh">正在安装acme.sh......</sys:String>
@@ -269,6 +316,7 @@
     <sys:String x:Key="DisplayInstallInfo_UpgradeNaiveProxy">正在为NaiveProxy升级服务端</sys:String>
     <sys:String x:Key="DisplayInstallInfo_UpgradeNaiveProxyOK">升级完毕，OK！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_OptimizeNetwork">正在优化网络参数......</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_OptimizeNetworkOK">优化网络参数,OK!</sys:String>
     <!--以下为V2Ray客户端说明文件-->
     <sys:String x:Key="readmeTxtV2RayExplainLine01">此文件为V2Ray官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080，http代理地址：127.0.0.1:1081</sys:String>
     <sys:String x:Key="readmeTxtV2RayExplainLine02">v2ray官方网站：https://www.v2ray.com/</sys:String>
@@ -319,6 +367,34 @@
     <sys:String x:Key="readmeTxtSSRExplainLine08">Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。</sys:String>
     <sys:String x:Key="readmeTxtSSRExplainLine09">此文件为ShadowsocksR (windows)、SSRR（Android）、Shadowrocket(ios)复制粘贴导入节点的网址</sys:String>
     <sys:String x:Key="readmeTxtSSRExplainLine10">服务器通用连接配置参数</sys:String>
+    <!--以下为SS客户端说明文件-->
+    <sys:String x:Key="readmeTxtExplainLineSS01">此文件为Shadowsocks (windows)扫码导入节点</sys:String>
+    <sys:String x:Key="readmeTxtExplainLineSS02">此文件为Shadowsocks (windows)复制粘贴导入节点的网址</sys:String>
+    <sys:String x:Key="readmeTxtExplainLineSS05">此文件为shadowsocks（Android）、Shadowrocket(ios)扫码导入节点</sys:String>
+    <sys:String x:Key="readmeTxtExplainLineSS06">Shadowsocks (windows)下载网址：https://github.com/shadowsocks/shadowsocks-windows/releases</sys:String>
+    <sys:String x:Key="readmeTxtExplainLineSS07">shadowsocks（Android）下载网址：https://github.com/shadowsocks/shadowsocks-android/releases</sys:String>
+    <sys:String x:Key="readmeTxtExplainLineSS08">Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。</sys:String>
+    <sys:String x:Key="readmeTxtExplainLineSS09">此文件为shadowsocks（Android）、Shadowrocket(ios)复制粘贴导入节点的网址</sys:String>
+    <sys:String x:Key="readmeTxtExplainLineSS10">服务器通用连接配置参数</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSS">插件使用说明</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSS01">ProxySU默认所有插件，在Shadowsocks (windows)运行文件所在文件夹的子文件夹plugins下。</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSS02">电脑端手动安装插件说明</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSS03">先下载插件，各个插件Windows客户端下载地址为：</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSS04">Simple-obfs: https://github.com/shadowsocks/simple-obfs/releases 只下载 obfs-local.zip</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSS05">V2ray-plugin: https://github.com/shadowsocks/v2ray-plugin/releases 64位系统选择：v2ray-plugin-windows-amd64-vx.x.x.tar.gz,32位系统选择：v2ray-plugin-windows-386-vx.x.x.tar.gz (x为数字，是版本号)</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSS06">Kcptun-plugin: https://github.com/shadowsocks/kcptun/releases  64位系统选择：kcptun-windows-amd64-xxxxxx.tar.gz,32位系统选择：kcptun-plugin-windows-386-xxxxxx.tar.gz (x为数字，是版本号)</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSS07">GoQuiet-plugin: https://github.com/cbeuw/GoQuiet/releases  64位系统选择：gq-client-windows-amd64-x.x.x.exe,32位系统选择：gq-client-windows-386-x.x.x.exe(x为数字，是版本号)</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSS08">Cloak-plugin: https://github.com/cbeuw/Cloak/releases 64位系统选择：ck-client-windows-amd64-x.x.x.exe,32位系统选择：ck-client-windows-386-x.x.x.exe(x为数字，是版本号)</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSS09">在Shadowsocks (windows)运行文件所在文件夹中，新建文件夹plugins，将obfs-local.zip解压出的文件（两个）全部复制到plugins中，v2ray -plugin下载得到的文件，解压出的文件，复制到plugins中，并重命名为：v2ray-plugin.exe。Kcptun -plugin下载得到的文件，解压出两个文件，将其中的client_windows开头的文件，复制到plugins中，并重命名为：kcptun-client.exe。GoQuiet-plugin下载得到的文件，直接复制到plugin中，并重命名为：goquiet-client.exe。Cloak-plugin下载得到的文件，直接复制到plugin中，并重命名为：cloak-client.exe</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSS10">安装完毕</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSSandroid02">手机安卓客户端插件安装说明</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSSandroid03">先下载插件，各个插件安卓客户端下载地址为：</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSSandroid04">Simple-obfs: https://github.com/shadowsocks/simple-obfs-android/releases 只下载 obfs-local-nightly-x.x.x.apk(x为数字，是版本号)</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSSandroid05">V2ray-plugin: https://github.com/shadowsocks/v2ray-plugin-android/releases 一般选择v2ray--universal-x.x.x.apk(x为数字，是版本号)</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSSandroid06">Kcptun-plugin: https://github.com/shadowsocks/kcptun-android/releases 一般选择kcptun--universal-x.x.x.apk(x为数字，是版本号)</sys:String>
+    <sys:String x:Key="readmeTxtPluginExplainSSandroid07">将上述apk文件传到手机，安装即可！</sys:String>
+
+
     <!--<sys:String x:Key="MsgShowTime">Now</sys:String>
     <sys:String x:Key="BtnOK1">OK</sys:String>
     <sys:String x:Key="HdNo1">No.</sys:String>
