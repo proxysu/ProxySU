@@ -14,7 +14,7 @@ ProxySU的安装流程，是假设在全新系统下，没有装过以上代理�
 * tcp+http伪装  
 * tcp+TLS 
 * tcp+TLS （自签证书）
-* Vless+tcp+TLS+Web
+* Vless+tcp+TLS+Web (新热门协议)
 * WebSocket
 * WebSocket+TLS 
 * WebSocket+TLS+Web 
@@ -38,6 +38,15 @@ ProxySU的安装流程，是假设在全新系统下，没有装过以上代理�
 
 ##### ShadowsocksR(SSR)一键安装：  
 * SSR+TLS+Caddy  
+
+##### Shadowsocks-libev及相关插件一键安装：  
+* SS 经典模式  
+* SS+WebSocket+TLS+Caddy(Web前置)(推荐)  
+* SS+WebSocket  
+* SS+QUIC  
+* SS+kcptun  
+* SS+obfs+http+Web  
+* SS+obfs+TLS+Web  
 
 ##### 支持的VPS系统为：  
 * CentOS 7/8   
@@ -86,6 +95,11 @@ ProxySU的安装流程，是假设在全新系统下，没有装过以上代理�
 * [SSRR（Android）](https://github.com/shadowsocksrr/shadowsocksr-android/releases)导入二维码和URL  
 * [Shadowrocket (ios)](https://apps.apple.com/us/app/shadowrocket/id932747118)导入二维码和URL  
 
+###### Shadowsocks-libev 目前已支持生成用于  
+
+* [Shadowsocks (windows)](https://github.com/shadowsocks/shadowsocks-windows/releases)客户端导入二维码和URL  
+* [shadowsocks（Android）](https://github.com/shadowsocks/shadowsocks-android/releases)导入二维码和URL  
+* [Shadowrocket (ios)](https://apps.apple.com/us/app/shadowrocket/id932747118)导入二维码和URL  
 
 ## 程序工作流程：  
 1. 使用[SSH.NET](https://github.com/sshnet/SSH.NET)登录远程主机  
@@ -95,6 +109,7 @@ ProxySU的安装流程，是假设在全新系统下，没有装过以上代理�
   * 选择Trojan-Go，则调用本项目内的trojan-go.sh安装， `curl -o /tmp/trojan-go.sh https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh` `yes | bash /tmp/trojan-go.sh -f` 安装Trojan-GO。  
   * 选择NaiveProxy，先安装Caddy2,方法源自[Caddy官方文档](https://caddyserver.com/docs/download)。再用自编译的Caddy2(带forward_proxy插件)替换原来的Caddy运行文件。自编译Caddy2文件方法源自[NaiveProxy官方文档](https://github.com/klzgrad/naiveproxy#setup)。  
   * 选择SSR+TLS+Caddy模式，则调用本项目内的ssr.sh安装， `curl -o /tmp/ssr.sh https://raw.githubusercontent.com/proxysu/shellscript/master/ssr/ssr.sh` `yes | bash /tmp/ssr.sh -f` 安装SSR。  
+  * 先择Shadowsocks-libev与插件模式，则调用本项目内的ss-install.sh安装，`curl -o /tmp/install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/ss/ss-install.sh` `yes | bash /tmp/install.sh`  
 3. 根据选择读取相应配置模板，调用[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)生成相应配置文件，并上传到服务器。所有模板及配置文件 [在这里](https://github.com/proxysu/windows/tree/master/TemplateConfg)  
 4. 如果使用WebSocket+TLS+Web/http2+TLS+Web/Trojan+TLS+Web/Trojan-go+TLS+Web/SSR+TLS+Caddy模式，则安装Caddy2,方法源自[Caddy官方文档](https://caddyserver.com/docs/download)。  
 5. 如果使用Http2/tcp+TLS/WebSocket+TLS/Trojan+TLS+Web/Trojan-go+TLS+Web模式，则调用  `curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh` 安装acme.sh，使用acme.sh申请并安装证书到V2ray/Trojan.  
@@ -117,6 +132,10 @@ ProxySU的安装流程，是假设在全新系统下，没有装过以上代理�
 * 注：SSR+TLS+Caddy安装及配置文件主要参考自：  
 [ShadowsocksR+Caddy+TLS伪装流量科学上网](https://blog.duyuanchao.me/posts/a384749f/)  
 [teddysun大佬的SSR一键脚本](https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocksR.sh)
+
+* 注：Shadowsocks-libev安装及配置文件主要参考自：  
+[Shadowsocks官方文档](https://shadowsocks.org/)  
+[teddysun大佬的shadowsocks-libev.sh一键脚本](https://github.com/teddysun/shadowsocks_install/blob/master/shadowsocks-libev.sh)
 
 ## License
 
