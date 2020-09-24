@@ -150,7 +150,7 @@
                 <TextBlock Text="{DynamicResource TextBlockHostUser}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxNaiveUser" Grid.Column="1" Grid.Row="2" Margin="4"></TextBox>
                 <TextBlock Grid.Column="2" Grid.Row="2"></TextBlock>
-                <TextBlock Text="{DynamicResource TextBlockServerPort}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBlock Text="{DynamicResource TextBlockHostPassword}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxNaivePassword" Grid.Column="1" Grid.Row="3" Margin="4"></TextBox>
                 <TextBlock Grid.Column="2" Grid.Row="3"></TextBlock>
                 <!--<Button x:Name="ButtonOpenDir" Content="确定" Grid.Column="1" Grid.Row="4" Margin="40,3,40,3" Click="ButtonOpenDir_Click"></Button>-->
@@ -214,7 +214,7 @@
             </Grid>
         </GroupBox>
         <!-- SS客户端配置参数 -->
-        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxClientSS" Visibility="Visible" Grid.Row="0">
+        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxClientSS" Visibility="Collapsed" Grid.Row="0">
             <Grid >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.6*"></ColumnDefinition>
