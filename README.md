@@ -2,9 +2,9 @@
 [v2ray的TLS流量可被简单特征码匹配精准识别](https://github.com/v2ray/discussion/issues/704)  
 
 # ProxySU
-V2ray, Trojan, NaiveProxy, Trojan-Go, ShadowsocksR(SSR),BBR install tools for windows。V2ray，Trojan，NaiveProxy, Trojan-Go, ShadowsocksR(SSR)一键安装工具。BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）,支持语言:English、简体中文、正体（繁体）中文。
+V2ray, Trojan, NaiveProxy, Trojan-Go, ShadowsocksR(SSR),Shadowsocks-libev and Plugins,BBR install tools for windows。V2ray，Trojan，NaiveProxy, Trojan-Go, ShadowsocksR(SSR),Shadowsocks-libev及相关插件 一键安装工具。BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）,支持语言:English、简体中文、正体（繁体）中文。
 
-编译环境Visual Studio 2017  使用WPF界面。可一键安装V2ray、Trojan、NaiveProxy，Trojan-Go,ShadowsocksR(SSR) 后续还会再添加其他。  
+编译环境Visual Studio 2017  使用WPF界面。可一键安装V2ray、Trojan、NaiveProxy，Trojan-Go,ShadowsocksR(SSR),Shadowsocks-libev and Plugins 后续还会再添加其他。  
 
 ##### 使用提醒：  
 ProxySU的安装流程，是假设在全新系统下，没有装过以上代理软件，如果已经安装过，最好将系统重装一下，会减少很多的麻烦。ProxySU在开发过程中，一般都是在vultr的vps中测试，测试系统版本为：Centos7/8  Debian9/10 Ubuntu18.04/20.04。由于同一个版本的Linux系统，不同的VPS商,云服务商也不完全相同。实在没有精力去逐一测试。各位翻墙网友在使用过程中，如果发现问题，请及时发[issues](https://github.com/proxysu/windows/issues)，或者到[TG群组](https://t.me/proxysuissues)，[推特](https://twitter.com/proxysu_true)下反馈，希望这个工具做的越来越好，让更多人喜欢。谢谢。
@@ -41,7 +41,7 @@ ProxySU的安装流程，是假设在全新系统下，没有装过以上代理�
 
 ##### Shadowsocks-libev及相关插件一键安装：  
 * SS 经典模式  
-* SS+WebSocket+TLS+Caddy(Web前置)(推荐)  
+* SS+WebSocket+TLS+Caddy(Web前置) (推荐)  
 * SS+WebSocket  
 * SS+QUIC  
 * SS+kcptun  
@@ -109,10 +109,10 @@ ProxySU的安装流程，是假设在全新系统下，没有装过以上代理�
   * 选择Trojan-Go，则调用本项目内的trojan-go.sh安装， `curl -o /tmp/trojan-go.sh https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh` `yes | bash /tmp/trojan-go.sh -f` 安装Trojan-GO。  
   * 选择NaiveProxy，先安装Caddy2,方法源自[Caddy官方文档](https://caddyserver.com/docs/download)。再用自编译的Caddy2(带forward_proxy插件)替换原来的Caddy运行文件。自编译Caddy2文件方法源自[NaiveProxy官方文档](https://github.com/klzgrad/naiveproxy#setup)。  
   * 选择SSR+TLS+Caddy模式，则调用本项目内的ssr.sh安装， `curl -o /tmp/ssr.sh https://raw.githubusercontent.com/proxysu/shellscript/master/ssr/ssr.sh` `yes | bash /tmp/ssr.sh -f` 安装SSR。  
-  * 先择Shadowsocks-libev与插件模式，则调用本项目内的ss-install.sh安装，`curl -o /tmp/install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/ss/ss-install.sh` `yes | bash /tmp/install.sh`  
+  * 选择Shadowsocks-libev与插件模式，则调用本项目内的ss-install.sh安装，`curl -o /tmp/install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/ss/ss-install.sh` `yes | bash /tmp/install.sh`  
 3. 根据选择读取相应配置模板，调用[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)生成相应配置文件，并上传到服务器。所有模板及配置文件 [在这里](https://github.com/proxysu/windows/tree/master/TemplateConfg)  
-4. 如果使用WebSocket+TLS+Web/http2+TLS+Web/Trojan+TLS+Web/Trojan-go+TLS+Web/SSR+TLS+Caddy模式，则安装Caddy2,方法源自[Caddy官方文档](https://caddyserver.com/docs/download)。  
-5. 如果使用Http2/tcp+TLS/WebSocket+TLS/Trojan+TLS+Web/Trojan-go+TLS+Web模式，则调用  `curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh` 安装acme.sh，使用acme.sh申请并安装证书到V2ray/Trojan.  
+4. 如果使用WebSocket+TLS+Web/http2+TLS+Web/Trojan+TLS+Web/Trojan-go+TLS+Web/SSR+TLS+Caddy/SS+WebSocket+TLS+Caddy/SS+obfs+http+Web/SS+obfs+TLS+Web 模式，则安装Caddy2,方法源自[Caddy官方文档](https://caddyserver.com/docs/download)。  
+5. 如果使用Http2/tcp+TLS/WebSocket+TLS/Trojan+TLS+Web/Trojan-go+TLS+Web/SS+QUIC模式，则调用  `curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh` 安装acme.sh，使用acme.sh申请证书.  
 6. 安装成功后，使用[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)生成兼容于相应客户端的json文件，用C#内置的Base64库将json生成url链接，使用[QRcoder](https://github.com/codebude/QRCoder)生成二维码。
 
 * 注：V2ray安装及配置文件主要参考自：  
