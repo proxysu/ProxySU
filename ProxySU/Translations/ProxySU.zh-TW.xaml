@@ -271,6 +271,7 @@
     <sys:String x:Key="DisplayInstallInfo_EnableBBR">正在啟用BBR......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_BBRisEnabled">BBR已經啟用了！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_BBRFailed">系統不滿足啟用BBR的條件，啟用失敗！</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_BBREnabledSuccess">BBR 啟用成功！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_GenerateClientConfig">生成客戶端配置......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_ProxyInstalledOK">安裝成功,祝你玩的愉快！ ！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_LoginFailed">主機登錄失敗!</sys:String>

@@ -1,0 +1,31 @@
+{
+    "outbounds": [
+        {
+            "protocol": "vmess",
+            "settings": {
+                "vnext": [
+                    {
+                        "address": null,
+                        "port": null,
+                        "users": [
+                            {
+                                "id": null,
+                                "alterId": 16
+                            }
+                        ]
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "quic",
+                "quicSettings": {
+                    "security": "chacha20-poly1305",
+                    "key": null,
+                    "header": {
+                        "type": null
+                    }
+                }
+            }
+        }
+    ]
+}

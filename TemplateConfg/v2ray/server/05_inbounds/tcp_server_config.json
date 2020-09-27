@@ -1,0 +1,16 @@
+{
+    "inbounds": [
+        {
+            "port": null,
+            "protocol": "vmess",
+            "settings": {
+                "clients": [
+                    {
+                        "id": null,
+                        "alterId": 64
+                    }
+                ]
+            }
+        }
+    ]
+}

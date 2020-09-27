@@ -1,0 +1,8 @@
+:8800 {
+    root * /usr/share/caddy
+    file_server
+    ##sites##
+}
+##domain##:80 {
+    redir https://##domain##{uri}
+}

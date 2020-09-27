@@ -182,7 +182,7 @@
 del "$(TargetDir)*.pdb"
 del "$(TargetDir)*.zip"
 mkdir "$(TargetDir)TemplateConfg"
-copy /Y "$(TargetDir)..\..\..\TemplateConfg\*.*" "$(TargetDir)TemplateConfg\"
+xcopy /Y /E /R "$(TargetDir)..\..\..\TemplateConfg\*.*" "$(TargetDir)TemplateConfg\"
 "$(TargetDir)..\..\..\7z\7z.exe" a $(TargetDir)Release.zip $(TargetDir) -xr!*config
 rmdir /S /Q "$(TargetDir)..\Beta"
 mkdir "$(TargetDir)..\Beta"
