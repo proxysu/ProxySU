@@ -91,6 +91,13 @@
     <sys:String x:Key="ButtonProofreadTime">校对时间</sys:String>
     <sys:String x:Key="ButtonClearOccupiedPorts">释放80/443端口</sys:String>
     <sys:String x:Key="ButtonTestAndEnableBBR">启用BBR</sys:String>
+    <sys:String x:Key="ButtonRemoveAllSoft">卸载代理</sys:String>
+    <sys:String x:Key="MessageBoxShow_RemoveAllSoft">仅支持卸载由ProxySU安装的代理软件及相关配置，请确保重要配置已备份。不支持卸载使用其他方法或脚本安装的代理。确定要卸载远程主机上的代理软件吗？</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_StartRemoveProxy">开始卸载</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_DiscoverProxySoft">检测到已安装</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_RemoveProxySoftFailed">卸载失败！请向开发者问询！</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_RemoveProxySoftSuccess">卸载成功！</sys:String>
+    
     <!-- 以下资源工具标签页界面 -->
     <sys:String x:Key="ButtonWebBrowserHomePage">主页</sys:String>
     <sys:String x:Key="ButtonWebBrowserForward">前进</sys:String>

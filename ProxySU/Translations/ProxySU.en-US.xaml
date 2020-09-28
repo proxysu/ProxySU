@@ -89,6 +89,12 @@
     <sys:String x:Key="ButtonProofreadTime">Proofreading Time</sys:String>
     <sys:String x:Key="ButtonClearOccupiedPorts">Release 80/443</sys:String>
     <sys:String x:Key="ButtonTestAndEnableBBR">Enable BBR</sys:String>
+    <sys:String x:Key="ButtonRemoveAllSoft">Uninstall Proxy</sys:String>
+    <sys:String x:Key="MessageBoxShow_RemoveAllSoft">Only the proxy software installed by ProxySU and related configurations are supported. Please make sure that important configurations have been backed up. Uninstalling agents installed using other methods or scripts is not supported. Are you sure you want to uninstall the agent software on the remote host?</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_StartRemoveProxy">Start uninstall......</sys:String>
+
+    
+    
     <!-- The following resource tool tab interface -->
     <sys:String x:Key="ButtonWebBrowserHomePage">Home</sys:String>
     <sys:String x:Key="ButtonWebBrowserForward">Forward</sys:String>
