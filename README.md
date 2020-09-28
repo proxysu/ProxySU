@@ -57,6 +57,9 @@ ProxySU在开发过程中，一般都是在vultr的vps中测试，测试系统�
 
 (注意：如果系统启用了SELinux且工作在Enforcing模式下时，需要将Enforcing更改为Permissive模式，否则使用WebSocket+TLS+Web时，Caddy的service无法开机启动，这种情形一般出现在Centos7/8中，程序在安装过程中将自动处理。)
 
+##### 关于卸载功能  
+有网友要求，可以卸载其他方法安装的，经过考虑，还是不这样做。1，容易引起争议。2，不容易卸载干净，在用ProxySU安装时可能还会出错。所以第一次使用ProxySU建议使用全新系统，如果以前安装过代理程序，请尽可能将系统重装一下，可以减少很多安装的错误和冲突。  
+
 ###### V2ray模式目前已支持生成用于
 
 * [v2ray官方程序](https://www.v2ray.com/chapter_00/install.html)配置文件(客户端配置)  
