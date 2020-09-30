@@ -20,23 +20,19 @@ ProxySU在开发过程中，一般都是在vultr的vps中测试，测试系统�
 * VLESS+WebSocket+TLS+Web  
 * VLESS+http2+TLS+Web  
 
-
 * tcp 
 * tcp+http伪装  
 * tcp+TLS 
 * tcp+TLS （自签证书）
-
 
 * WebSocket
 * WebSocket+TLS 
 * WebSocket+TLS+Web 
 * WebSocket+TLS（自签证书） 
 
-
 * http2  
 * http2+TLS+Web
 * http2（自签证书）  
-
 
 * mKCP及各种伪装 
 * QUIC及各种伪装。  
@@ -85,6 +81,7 @@ Let's Encrypt证书申请频率的限制
 每个账号同一个IP地址每3小时最多可以创建10个证书  
 每个多域名（SAN） SSL证书（不是通配符域名证书）最多只能包含100个子域  
 更新证书没有次数的限制，但是更新证书会受到上述重复证书的限制  
+如果提示证书申请失败，可以尝试更换域名再试（添加或换不同的二级域名，也算是新域名）
 (网友分享)
 
 ###### V2ray模式目前已支持生成用于
