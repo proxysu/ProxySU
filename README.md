@@ -20,19 +20,23 @@ ProxySU在开发过程中，一般都是在vultr的vps中测试，测试系统�
 * VLESS+WebSocket+TLS+Web  
 * VLESS+http2+TLS+Web  
 
+
 * tcp 
 * tcp+http伪装  
 * tcp+TLS 
 * tcp+TLS （自签证书）
+
 
 * WebSocket
 * WebSocket+TLS 
 * WebSocket+TLS+Web 
 * WebSocket+TLS（自签证书） 
 
+
 * http2  
 * http2+TLS+Web
 * http2（自签证书）  
+
 
 * mKCP及各种伪装 
 * QUIC及各种伪装。  
