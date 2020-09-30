@@ -11,19 +11,27 @@ ProxySU的安装流程，是假设在全新系统下，没有装过以上代理�
 ProxySU将安装代理软件的最新版本，为了最好的兼容，请确保客户端也是当前最新版本。  
 ProxySU在开发过程中，一般都是在vultr的vps中测试，测试系统版本为：Centos7/8  Debian9/10 Ubuntu18.04/20.04。由于同一个版本的Linux系统，不同的VPS商,云服务商也不完全相同。实在没有精力去逐一测试。如果安装失败，可以先尝试以下方法解决：1.如果以前装过翻墙软件，请重装一下vps系统后，再试。2.更换为其他版本的linux发行版，再试。以上两种方法不能解决，请各位翻墙网友及时发[issues](https://github.com/proxysu/windows/issues)，或者到[TG群组](https://t.me/proxysuissues)，[推特](https://twitter.com/proxysu_true)下反馈，希望这个工具做的越来越好，让更多人喜欢。谢谢。
 
-##### V2ray可一键安装的模式有：
+##### V2ray可一键安装的模式有： 
+
+* VLESS+TCP+XTLS+Web (最新黑科技)
+* Vless+tcp+TLS+Web (新热门协议)  
+* VLESS+WebSocket+TLS+Web  
+* VLESS+http2+TLS+Web  
+
 * tcp 
 * tcp+http伪装  
 * tcp+TLS 
 * tcp+TLS （自签证书）
-* Vless+tcp+TLS+Web (新热门协议)
+
 * WebSocket
 * WebSocket+TLS 
 * WebSocket+TLS+Web 
 * WebSocket+TLS（自签证书） 
+
 * http2  
 * http2+TLS+Web
-* http2（自签证书）
+* http2（自签证书）  
+
 * mKCP及各种伪装 
 * QUIC及各种伪装。  
 注：mKCP和QUIC模式使用udp协议，可以有效减少网络延时，有加速的作用，但在网络管控严厉时期，会导致IP被封，遇到的一次，就是刚安装好，使用了3个小时后，IP被封（现已确认是mKCP的流量被识别导致，项目组正在维护中。2020.6.10维护完毕，升级到版本4.24.2及以上，启用mKCP密钥可增强抗识别）。以上模式最推荐的是WebSocket+TLS+Web 和http2+TLS+Web 需要有一个域名。如果能加上CDN则稳定性更好。加上CDN后，是加速还是减速，与线路有关。
@@ -165,11 +173,12 @@ Microsoft [.NET Framework 4.0](https://dotnet.microsoft.com/download/dotnet-fram
 为了布署方便，程序使用root账户登录主机，出于慎重，请不要在运行重要程序及用于生产的主机上使用。程序所有源码开源，所使用的库都是github开源项目，可以保障最大的使用安全，程序不夹带任何私货、恶意代码及后门，也不会收集任何个人资料，不是在本项目地址下载的，不做任何保障，请尽可能从本项目地址下载。
 
 ## 程序使用问题反馈  
-* Telegram群组 https://t.me/proxysuissues    
+* Telegram群组 https://t.me/proxysuissues   
+* Telegram频道 https://t.me/proxysu_channel 
 * Tiwtter  [ProxySU_True](https://twitter.com/proxysu_true)   
 * 在线提问  https://github.com/proxysu/windows/issues  
 * 邮箱反馈  proxysetuptools@gmail.com  
-[常见问题集锦](https://github.com/proxysu/windows/wiki/CommonError)  
+在使用遇到问题时，请先看一下[常见问题集锦](https://github.com/proxysu/windows/wiki/CommonError)，如果还不能解决，可以到以上平台询问，个人精力有限，尽力解答。
 ## v1.0.0发布小记  
   足足用了近两个月的业余时间，终于做成一个功能还算完善的版本。虽是一个简单的小工具，没想到对于我这个初学C#的人，还是有点小吃力，如果不是因为武汉肺炎疫情，被禁足在家，还真没时间。学习C#，为啥编写这样一个小工具软件来练手？现在一键安装脚本多的是，这样的工具还有必要吗？咋说呢？我也不知道有多少人会喜欢这个小工具，只是觉得自己用着方便，也想方便一下别人吧，喜欢用就用，不喜欢，也随意。  
   生意又忙起来了，对于我这个业余的编程爱好者，可能没有多少业余时间继续折腾了，尽力吧。  
