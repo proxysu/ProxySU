@@ -1,0 +1,37 @@
+{
+    "inbounds": [
+        {
+            "port": 443,
+            "protocol": "vless",
+            "settings": {
+                "clients": [
+                    {
+                        "id": "",
+                        "flow": "xtls-rprx-origin"
+                    }
+                ],
+                "decryption": "none",
+                "fallbacks": [
+                    {
+                        "dest": 8800
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "tcp",
+                "security": "xtls",
+                "xtlsSettings": {
+                    "alpn": [
+                        "http/1.1"
+                    ],
+                    "certificates": [
+                        {
+                            "certificateFile": "/usr/local/etc/v2ray/ssl/v2ray_ssl.crt",
+                            "keyFile": "/usr/local/etc/v2ray/ssl/v2ray_ssl.key"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

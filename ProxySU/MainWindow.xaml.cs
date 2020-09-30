@@ -45,10 +45,10 @@ namespace ProxySU
         //ReceiveConfigurationParameters[0]----模板类型
         //ReceiveConfigurationParameters[1]----服务端口
         //ReceiveConfigurationParameters[2]----V2Ray uuid/(naive/Trojan-go/Trojan/SSR/SS)' Password
-        //ReceiveConfigurationParameters[3]----Websocket'Path/http2'Path/naive'user
+        //ReceiveConfigurationParameters[3]----QUIC加密方式/SSR 加密方法/naive'user
         //ReceiveConfigurationParameters[4]----Domain
         //ReceiveConfigurationParameters[5]----伪装类型/插件名称
-        //ReceiveConfigurationParameters[6]----QUIC密钥/mKCP Seed/SS 加密方式
+        //ReceiveConfigurationParameters[6]----Websocket'Path/http2'Path/QUIC密钥/mKCP Seed/SS 加密方式
         //ReceiveConfigurationParameters[7]----伪装网站
         //ReceiveConfigurationParameters[8]----方案名称
         //ReceiveConfigurationParameters[9]----插件参数选项
@@ -112,6 +112,9 @@ namespace ProxySU
 
             //初始化SSR的密码
             TextBoxSSRPassword.Text = RandomUUID();
+
+            //初始化所选方案面板为不显示
+            GridV2rayCurrentlyPlan.Visibility = Visibility.Hidden;
 
             //初始化三合一的所有内容
             //TextBoxV2rayUUID3in1.Text = RandomUUID();
@@ -698,151 +701,201 @@ namespace ProxySU
                 //显示"未选择方案！"
                 TextBlockCurrentlySelectedPlan.Text = Application.Current.FindResource("TextBlockCurrentlySelectedPlanNo").ToString();
 
-                TextBlockV2RayShowPort.Visibility = Visibility.Hidden;
-                TextBlockCurrentlySelectedPlanPort.Visibility = Visibility.Hidden;
+                GridV2rayCurrentlyPlan.Visibility = Visibility.Hidden;
 
-                TextBlockV2RayShowUUID.Visibility = Visibility.Hidden;
-                TextBlockCurrentlySelectedPlanUUID.Visibility = Visibility.Hidden;
-
-                TextBlockV2RayShowPathSeedKey.Visibility = Visibility.Hidden;
-                TextBlockCurrentlySelectedPlanPathSeedKey.Visibility = Visibility.Hidden;
-
-                TextBlockV2RayShowCurrentlySelectedPlanDomain.Visibility = Visibility.Hidden;
-                TextBlockCurrentlySelectedPlanDomain.Visibility = Visibility.Hidden;
-
-                TextBlockV2RayShowCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
-                TextBlockCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
                 return;
+            }
+            else
+            {
+                GridV2rayCurrentlyPlan.Visibility = Visibility.Visible;
             }
             TextBlockCurrentlySelectedPlan.Text = ReceiveConfigurationParameters[8];            //所选方案名称
             TextBlockCurrentlySelectedPlanPort.Text = ReceiveConfigurationParameters[1];        //服务器端口
             TextBlockCurrentlySelectedPlanUUID.Text = ReceiveConfigurationParameters[2];        //UUID
             TextBlockCurrentlySelectedPlanPathSeedKey.Text = ReceiveConfigurationParameters[6]; //mKCP Seed\Quic Key\Path
-            TextBlockCurrentlySelectedPlanDomain.Text = ReceiveConfigurationParameters[4];      //域名
+            
             TextBlockCurrentlySelectedPlanFakeWebsite.Text = ReceiveConfigurationParameters[7]; //伪装网站
 
-            if (String.Equals(ReceiveConfigurationParameters[0],"TCP") 
-                || String.Equals(ReceiveConfigurationParameters[0], "TCPhttp")
-                || String.Equals(ReceiveConfigurationParameters[0], "tcpTLSselfSigned")
-                || String.Equals(ReceiveConfigurationParameters[0], "webSocket"))
+            if (String.Equals(ReceiveConfigurationParameters[0],"TCP") == true
+                || String.Equals(ReceiveConfigurationParameters[0], "TCPhttp") == true
+                || String.Equals(ReceiveConfigurationParameters[0], "tcpTLSselfSigned") == true
+                || String.Equals(ReceiveConfigurationParameters[0], "webSocket") == true)
             {
-                TextBlockV2RayShowPort.Visibility = Visibility.Visible;
-                TextBlockCurrentlySelectedPlanPort.Visibility = Visibility.Visible;
+                //隐藏Path/mKCP Seed/Quic Key
+                HideV2RayPathSeedKey();
 
-                TextBlockV2RayShowUUID.Visibility = Visibility.Visible;
-                TextBlockCurrentlySelectedPlanUUID.Visibility = Visibility.Visible;
+                //隐藏域名/Quic加密方式
+                HideV2RayDomainQuicEncrypt();
 
-                TextBlockV2RayShowPathSeedKey.Visibility = Visibility.Hidden;
-                TextBlockCurrentlySelectedPlanPathSeedKey.Visibility = Visibility.Hidden;
-
-                TextBlockV2RayShowCurrentlySelectedPlanDomain.Visibility = Visibility.Hidden;
-                TextBlockCurrentlySelectedPlanDomain.Visibility = Visibility.Hidden;
-
-                TextBlockV2RayShowCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
-                TextBlockCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+                //隐藏伪装网站
+                HideV2RayMaskSites();
 
             }
-            else if (String.Equals(ReceiveConfigurationParameters[0], "tcpTLS") || String.Equals(ReceiveConfigurationParameters[0], "VlessTcpTlsWeb"))
+            else if (String.Equals(ReceiveConfigurationParameters[0], "tcpTLS") == true)
             {
-                TextBlockV2RayShowPort.Visibility = Visibility.Visible;
-                TextBlockCurrentlySelectedPlanPort.Visibility = Visibility.Visible;
+                //隐藏Path/mKCP Seed/Quic Key
+                HideV2RayPathSeedKey();
 
-                TextBlockV2RayShowUUID.Visibility = Visibility.Visible;
-                TextBlockCurrentlySelectedPlanUUID.Visibility = Visibility.Visible;
+                //显示域名
+                ShowV2RayDomainQuicEncrypt();
+                TextBlockV2RayShowCurrentlySelectedPlanDomain.Text = Application.Current.FindResource("TextBlockV2RayDomain").ToString();
+                TextBlockCurrentlySelectedPlanDomain.Text = ReceiveConfigurationParameters[4];      //域名
 
-                TextBlockV2RayShowPathSeedKey.Visibility = Visibility.Hidden;
-                TextBlockCurrentlySelectedPlanPathSeedKey.Visibility = Visibility.Hidden;
 
-                TextBlockV2RayShowCurrentlySelectedPlanDomain.Visibility = Visibility.Visible;
-                TextBlockCurrentlySelectedPlanDomain.Visibility = Visibility.Visible;
-
-                TextBlockV2RayShowCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
-                TextBlockCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+                //隐藏伪装网站
+                HideV2RayMaskSites();
             }
-            else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS")
-                || String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web")
-                || String.Equals(ReceiveConfigurationParameters[0], "Http2")
-                || String.Equals(ReceiveConfigurationParameters[0], "http2Web"))
+            else if (String.Equals(ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == true
+              || String.Equals(ReceiveConfigurationParameters[0], "VlessXtlsTcp") == true)
             {
-                TextBlockV2RayShowPort.Visibility = Visibility.Visible;
-                TextBlockCurrentlySelectedPlanPort.Visibility = Visibility.Visible;
+                //隐藏Path/mKCP Seed/Quic Key
+                HideV2RayPathSeedKey();
 
-                TextBlockV2RayShowUUID.Visibility = Visibility.Visible;
-                TextBlockCurrentlySelectedPlanUUID.Visibility = Visibility.Visible;
+                //显示域名
+                ShowV2RayDomainQuicEncrypt();
+                TextBlockV2RayShowCurrentlySelectedPlanDomain.Text = Application.Current.FindResource("TextBlockV2RayDomain").ToString();
+                TextBlockCurrentlySelectedPlanDomain.Text = ReceiveConfigurationParameters[4];      //域名
 
+
+                //显示伪装网站(暂时不显示)
+                ShowV2RayMaskSites();
+            }
+            else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS") == true
+                || String.Equals(ReceiveConfigurationParameters[0], "Http2") == true)
+            {
+                //显示Path
+                ShowV2RayPathSeedKey();
                 TextBlockV2RayShowPathSeedKey.Text = "Path:";
-                TextBlockCurrentlySelectedPlanPathSeedKey.Text = ReceiveConfigurationParameters[3]; //mKCP Seed\Quic Key\Path
+                TextBlockCurrentlySelectedPlanPathSeedKey.Text = ReceiveConfigurationParameters[6]; //mKCP Seed\Quic Key\Path
 
-                TextBlockV2RayShowPathSeedKey.Visibility = Visibility.Visible;
-                TextBlockCurrentlySelectedPlanPathSeedKey.Visibility = Visibility.Visible;
 
-                TextBlockV2RayShowCurrentlySelectedPlanDomain.Visibility = Visibility.Visible;
-                TextBlockCurrentlySelectedPlanDomain.Visibility = Visibility.Visible;
+                //显示域名
+                ShowV2RayDomainQuicEncrypt();
+                TextBlockV2RayShowCurrentlySelectedPlanDomain.Text = Application.Current.FindResource("TextBlockV2RayDomain").ToString();
+                TextBlockCurrentlySelectedPlanDomain.Text = ReceiveConfigurationParameters[4];      //域名
 
-                TextBlockV2RayShowCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
-                TextBlockCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+                //显示伪装网站(暂时不显示)
+                HideV2RayMaskSites();
             }
-            else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLSselfSigned") || String.Equals(ReceiveConfigurationParameters[0], "http2selfSigned"))
+            else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web") == true
+                || String.Equals(ReceiveConfigurationParameters[0], "http2Web") == true
+                || String.Equals(ReceiveConfigurationParameters[0], "VlessWebSocketTlsWeb") == true
+                || String.Equals(ReceiveConfigurationParameters[0], "VlessHttp2Web") == true)
             {
-                TextBlockV2RayShowPort.Visibility = Visibility.Visible;
-                TextBlockCurrentlySelectedPlanPort.Visibility = Visibility.Visible;
-
-                TextBlockV2RayShowUUID.Visibility = Visibility.Visible;
-                TextBlockCurrentlySelectedPlanUUID.Visibility = Visibility.Visible;
-
+                //显示Path
+                ShowV2RayPathSeedKey();
                 TextBlockV2RayShowPathSeedKey.Text = "Path:";
-                TextBlockCurrentlySelectedPlanPathSeedKey.Text = ReceiveConfigurationParameters[3]; //mKCP Seed\Quic Key\Path
+                TextBlockCurrentlySelectedPlanPathSeedKey.Text = ReceiveConfigurationParameters[6]; //mKCP Seed\Quic Key\Path
 
-                TextBlockV2RayShowPathSeedKey.Visibility = Visibility.Visible;
-                TextBlockCurrentlySelectedPlanPathSeedKey.Visibility = Visibility.Visible;
+                //显示域名
+                ShowV2RayDomainQuicEncrypt();
+                TextBlockV2RayShowCurrentlySelectedPlanDomain.Text = Application.Current.FindResource("TextBlockV2RayDomain").ToString();
+                TextBlockCurrentlySelectedPlanDomain.Text = ReceiveConfigurationParameters[4];      //域名
 
-                TextBlockV2RayShowCurrentlySelectedPlanDomain.Visibility = Visibility.Hidden;
-                TextBlockCurrentlySelectedPlanDomain.Visibility = Visibility.Hidden;
-
-                TextBlockV2RayShowCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
-                TextBlockCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+                //显示伪装网站(暂时不显示)
+                ShowV2RayMaskSites();
             }
-            else if (ReceiveConfigurationParameters[0].Contains("mKCP"))
+            else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLSselfSigned") == true
+                || String.Equals(ReceiveConfigurationParameters[0], "http2selfSigned") == true)
+            { 
+                //显示Path
+                ShowV2RayPathSeedKey();
+                TextBlockV2RayShowPathSeedKey.Text = "Path:";
+                TextBlockCurrentlySelectedPlanPathSeedKey.Text = ReceiveConfigurationParameters[6]; //mKCP Seed\Quic Key\Path
+
+                //隐藏域名/Quic加密方式
+                HideV2RayDomainQuicEncrypt();
+
+                //隐藏伪装网站
+                HideV2RayMaskSites();
+            }
+            else if (ReceiveConfigurationParameters[0].Contains("mKCP") == true)
             {
-                TextBlockV2RayShowPort.Visibility = Visibility.Visible;
-                TextBlockCurrentlySelectedPlanPort.Visibility = Visibility.Visible;
-
-                TextBlockV2RayShowUUID.Visibility = Visibility.Visible;
-                TextBlockCurrentlySelectedPlanUUID.Visibility = Visibility.Visible;
-
+                //显示mKCP Seed
+                ShowV2RayPathSeedKey();
                 TextBlockV2RayShowPathSeedKey.Text = "mKCP Seed:";
                 TextBlockCurrentlySelectedPlanPathSeedKey.Text = ReceiveConfigurationParameters[6]; //mKCP Seed\Quic Key\Path
 
-                TextBlockV2RayShowPathSeedKey.Visibility = Visibility.Visible;
-                TextBlockCurrentlySelectedPlanPathSeedKey.Visibility = Visibility.Visible;
+                //隐藏域名/Quic加密方式
+                HideV2RayDomainQuicEncrypt();
 
-                TextBlockV2RayShowCurrentlySelectedPlanDomain.Visibility = Visibility.Hidden;
-                TextBlockCurrentlySelectedPlanDomain.Visibility = Visibility.Hidden;
-
-                TextBlockV2RayShowCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
-                TextBlockCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+                //隐藏伪装网站
+                HideV2RayMaskSites();
             }
-            else if (ReceiveConfigurationParameters[0].Contains("Quic"))
+            else if (ReceiveConfigurationParameters[0].Contains("Quic") == true)
             {
-                TextBlockV2RayShowPort.Visibility = Visibility.Visible;
-                TextBlockCurrentlySelectedPlanPort.Visibility = Visibility.Visible;
-
-                TextBlockV2RayShowUUID.Visibility = Visibility.Visible;
-                TextBlockCurrentlySelectedPlanUUID.Visibility = Visibility.Visible;
-
+                //显示QUIC Key
+                ShowV2RayPathSeedKey();
                 TextBlockV2RayShowPathSeedKey.Text = "QUIC Key:";
                 TextBlockCurrentlySelectedPlanPathSeedKey.Text = ReceiveConfigurationParameters[6]; //mKCP Seed\Quic Key\Path
 
-                TextBlockV2RayShowPathSeedKey.Visibility = Visibility.Visible;
-                TextBlockCurrentlySelectedPlanPathSeedKey.Visibility = Visibility.Visible;
+                //显示Quic加密方式
+                ShowV2RayDomainQuicEncrypt();
+                TextBlockV2RayShowCurrentlySelectedPlanDomain.Text = Application.Current.FindResource("TextBlockQuicEncryption").ToString();
+                TextBlockCurrentlySelectedPlanDomain.Text = ReceiveConfigurationParameters[3];      //Quic加密方式
+                if (String.Equals(TextBlockCurrentlySelectedPlanDomain.Text,"none")==true)
+                {
+                    HideV2RayPathSeedKey();
+                }
 
-                TextBlockV2RayShowCurrentlySelectedPlanDomain.Visibility = Visibility.Hidden;
-                TextBlockCurrentlySelectedPlanDomain.Visibility = Visibility.Hidden;
 
-                TextBlockV2RayShowCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
-                TextBlockCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+                //隐藏伪装网站
+                HideV2RayMaskSites();
             }
         }
+
+        #region 当前方案界面控制
+        //显示端口与UUID
+        private void ShowV2RayCurrentPortUUID()
+        {
+            TextBlockV2RayShowPort.Visibility = Visibility.Visible;
+            TextBlockCurrentlySelectedPlanPort.Visibility = Visibility.Visible;
+
+            TextBlockV2RayShowUUID.Visibility = Visibility.Visible;
+            TextBlockCurrentlySelectedPlanUUID.Visibility = Visibility.Visible;
+        }
+
+        //显示Path/mKCP Seed/Quic Key
+        private void ShowV2RayPathSeedKey()
+        {
+            TextBlockV2RayShowPathSeedKey.Visibility = Visibility.Visible;
+            TextBlockCurrentlySelectedPlanPathSeedKey.Visibility = Visibility.Visible;
+        }
+
+        //隐藏Path/mKCP Seed/Quic Key
+        private void HideV2RayPathSeedKey()
+        {
+            TextBlockV2RayShowPathSeedKey.Visibility = Visibility.Hidden;
+            TextBlockCurrentlySelectedPlanPathSeedKey.Visibility = Visibility.Hidden;
+        }
+
+        //显示域名/Quic加密方式
+        private void ShowV2RayDomainQuicEncrypt()
+        {
+            TextBlockV2RayShowCurrentlySelectedPlanDomain.Visibility = Visibility.Visible;
+            TextBlockCurrentlySelectedPlanDomain.Visibility = Visibility.Visible;
+        }
+
+        //隐藏域名/Quic加密方式
+        private void HideV2RayDomainQuicEncrypt()
+        {
+            TextBlockV2RayShowCurrentlySelectedPlanDomain.Visibility = Visibility.Hidden;
+            TextBlockCurrentlySelectedPlanDomain.Visibility = Visibility.Hidden;
+        }
+        //显示伪装网站(暂时不显示)
+        private void ShowV2RayMaskSites()
+        {
+            TextBlockV2RayShowCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+            TextBlockCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+        }
+
+        //隐藏伪装网站
+        private void HideV2RayMaskSites()
+        {
+            TextBlockV2RayShowCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+            TextBlockCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+        }
+        #endregion
 
         //传送V2Ray模板参数,启动V2Ray安装进程
         private void Button_Login_Click(object sender, RoutedEventArgs e)
@@ -1700,89 +1753,73 @@ namespace ProxySU
                         if (String.Equals(ReceiveConfigurationParameters[0], "TCP"))
                         {
                             inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\tcp_server_config.json";
-                            //serverConfig = "TemplateConfg\\tcp_server_config.json";
-                            //clientConfig = "TemplateConfg\\tcp_client_config.json";
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "TCPhttp"))
                         {
                             inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\tcp_http_server_config.json";
-                            //serverConfig = "TemplateConfg\\tcp_http_server_config.json";
-                            //clientConfig = "TemplateConfg\\tcp_http_client_config.json";
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "tcpTLS"))
                         {
                             inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\tcp_TLS_server_config.json";
-                            //serverConfig = "TemplateConfg\\tcp_TLS_server_config.json";
-                            //clientConfig = "TemplateConfg\\tcp_TLS_client_config.json";
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "tcpTLSselfSigned"))
                         {
                             inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\tcpTLSselfSigned_server_config.json";
-                            //serverConfig = "TemplateConfg\\tcpTLSselfSigned_server_config.json";
-                            //clientConfig = "TemplateConfg\\tcpTLSselfSigned_client_config.json";
+                        }
+                        else if (String.Equals(ReceiveConfigurationParameters[0], "VlessXtlsTcp"))
+                        {
+                            inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\vless_tcp_xtls_server_config.json";
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "VlessTcpTlsWeb"))
                         {
-                            inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\tcp_vless_tls_caddy_server_config.json";
-                            //serverConfig = "TemplateConfg\\tcp_vless_tls_caddy_server_config.json";
-                            //clientConfig = "TemplateConfg\\tcp_vless_tls_caddy_cilent_config.json";
+                            inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\vless_tcp_tls_server_config.json";
+                        }
+                        else if (String.Equals(ReceiveConfigurationParameters[0], "VlessWebSocketTlsWeb"))
+                        {
+                            inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\vless_ws_tls_server_config.json";
+                        }
+                        else if (String.Equals(ReceiveConfigurationParameters[0], "VlessHttp2Web"))
+                        {
+                            inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\vless_http2_tls_server_config.json";
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "webSocket"))
                         {
                             inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\webSocket_server_config.json";
-                            //serverConfig = "TemplateConfg\\webSocket_server_config.json";
-                            //clientConfig = "TemplateConfg\\webSocket_client_config.json";
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS"))
                         {
                             inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\WebSocket_TLS_server_config.json";
-                            //serverConfig = "TemplateConfg\\WebSocket_TLS_server_config.json";
-                            //clientConfig = "TemplateConfg\\WebSocket_TLS_client_config.json";
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLSselfSigned"))
                         {
                             inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\WebSocketTLS_selfSigned_server_config.json";
-                            //serverConfig = "TemplateConfg\\WebSocketTLS_selfSigned_server_config.json";
-                            //clientConfig = "TemplateConfg\\WebSocketTLS_selfSigned_client_config.json";
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web"))
                         {
                             inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\WebSocketTLSWeb_server_config.json";
-                            //serverConfig = "TemplateConfg\\WebSocketTLSWeb_server_config.json";
-                            //clientConfig = "TemplateConfg\\WebSocketTLSWeb_client_config.json";
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "Http2"))
                         {
                             inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\http2_server_config.json";
-                            //serverConfig = "TemplateConfg\\http2_server_config.json";
-                            //clientConfig = @"TemplateConfg\http2_client_config.json";
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "http2Web"))
                         {
                             inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\Http2Web_server_config.json";
-                            //serverConfig = "TemplateConfg\\Http2Web_server_config.json";
-                            //clientConfig = "TemplateConfg\\Http2Web_client_config.json";
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "http2selfSigned"))
                         {
                             inboundsConfigJson = @"TemplateConfg\v2ray\server\Http2selfSigned_server_config.json";
-                            //serverConfig = "TemplateConfg\\Http2selfSigned_server_config.json";
-                            //clientConfig = "TemplateConfg\\Http2selfSigned_client_config.json";
                         }
                         //else if (String.Equals(ReceiveConfigurationParameters[0], "MkcpNone")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2SRTP")||String.Equals(ReceiveConfigurationParameters[0], "mKCPuTP")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WechatVideo")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2DTLS")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WireGuard"))
                         else if (ReceiveConfigurationParameters[0].Contains("mKCP"))
                         {
                             inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\mkcp_server_config.json";
-                            //serverConfig = "TemplateConfg\\mkcp_server_config.json";
-                            //clientConfig = "TemplateConfg\\mkcp_client_config.json";
                         }
 
                         // else if (String.Equals(ReceiveConfigurationParameters[0], "QuicNone") || String.Equals(ReceiveConfigurationParameters[0], "QuicSRTP") || String.Equals(ReceiveConfigurationParameters[0], "Quic2uTP") || String.Equals(ReceiveConfigurationParameters[0], "QuicWechatVideo") || String.Equals(ReceiveConfigurationParameters[0], "QuicDTLS") || String.Equals(ReceiveConfigurationParameters[0], "QuicWireGuard"))
                         else if (ReceiveConfigurationParameters[0].Contains("Quic"))
                         {
                             inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\quic_server_config.json";
-                            //serverConfig = "TemplateConfg\\quic_server_config.json";
-                            //clientConfig = "TemplateConfg\\quic_client_config.json";
                         }
 
                         //读取"inbounds"
@@ -1802,21 +1839,27 @@ namespace ProxySU
 
                             //设置uuid
                             jObjectJson["inbounds"][0]["settings"]["clients"][0]["id"] = ReceiveConfigurationParameters[2];
-                            //除WebSocketTLSWeb/http2Web/VlessTcpTlsWeb模式外设置监听端口
+                           
+                            //除WebSocketTLSWeb/http2Web/VLESS+WebSocket+TLS+Web/VLESS+http2+TLS+Web模式外设置监听端口
                             if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web") == false
                                 && String.Equals(ReceiveConfigurationParameters[0], "http2Web") == false
-                                && String.Equals(ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false)
+                                && String.Equals(ReceiveConfigurationParameters[0], "VlessWebSocketTlsWeb") == false
+                                && String.Equals(ReceiveConfigurationParameters[0], "VlessHttp2Web") == false)
                             {
                                 jObjectJson["inbounds"][0]["port"] = int.Parse(ReceiveConfigurationParameters[1]);
                             }
-                            if (String.Equals(ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == true)
+
+                            //设置VLESS协议的回落端口，指向Caddy
+                            if (String.Equals(ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == true
+                                || String.Equals(ReceiveConfigurationParameters[0], "VlessXtlsTcp") == true)
                             {
-                                //设置Caddy随机监听的端口，用于Trojan-go,Trojan,V2Ray vless TLS
-                                //Random random = new Random();
+                                //设置Caddy随机监听的端口
                                 randomCaddyListenPort = GetRandomPort();
+                                
                                 //指向Caddy监听的随机端口
                                 jObjectJson["inbounds"][0]["settings"]["fallbacks"][0]["dest"] = randomCaddyListenPort;
                             }
+
                             //TLS自签证书/WebSocketTLS(自签证书)/http2自签证书模式下，使用v2ctl 生成自签证书
                             if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLSselfSigned") == true
                                 || String.Equals(ReceiveConfigurationParameters[0], "tcpTLSselfSigned") == true
@@ -1826,26 +1869,32 @@ namespace ProxySU
                                 JObject selfSignedCaJObject = JObject.Parse(selfSignedCa);
                                 jObjectJson["inbounds"][0]["streamSettings"]["tlsSettings"]["certificates"][0] = selfSignedCaJObject;
                             }
-                            //如果是WebSocketTLSWeb/WebSocketTLS/WebSocketTLS(自签证书)模式，则设置路径
+
+                            //如果是WebSocketTLSWeb/WebSocketTLS/WebSocketTLS(自签证书)/VLESS+WebSocket+TLS+Web模式，则设置路径
                             if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS") == true
                                 || String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLSselfSigned") == true
-                                || String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web") == true)
+                                || String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web") == true
+                                || String.Equals(ReceiveConfigurationParameters[0], "VlessWebSocketTlsWeb")==true)
                             {
-                                jObjectJson["inbounds"][0]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[3];
+                                jObjectJson["inbounds"][0]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[6];
                             }
-                            //如果是Http2/http2Web/http2自签模式下，设置路径
+
+                            //如果是Http2/http2Web/http2自签/VLESS+http2+TLS+Web模式下，设置路径
                             if (String.Equals(ReceiveConfigurationParameters[0], "Http2") == true
                                 || String.Equals(ReceiveConfigurationParameters[0], "http2Web") == true
-                                || String.Equals(ReceiveConfigurationParameters[0], "http2selfSigned") == true)
+                                || String.Equals(ReceiveConfigurationParameters[0], "http2selfSigned") == true
+                                || String.Equals(ReceiveConfigurationParameters[0], "VlessHttp2Web") == true)
                             {
-                                jObjectJson["inbounds"][0]["streamSettings"]["httpSettings"]["path"] = ReceiveConfigurationParameters[3];
+                                jObjectJson["inbounds"][0]["streamSettings"]["httpSettings"]["path"] = ReceiveConfigurationParameters[6];
                             }
-                            //如果是Http2Web模式下，设置host
-                            if (String.Equals(ReceiveConfigurationParameters[0], "http2Web") == true)
+
+                            //如果是Http2+Web/VLESS+http2+TLS+Web模式下，设置host
+                            if (String.Equals(ReceiveConfigurationParameters[0], "http2Web") == true
+                                || String.Equals(ReceiveConfigurationParameters[0], "VlessHttp2Web") == true)
                             {
-                                // jObjectJson["inbounds"][0]["streamSettings"]["httpSettings"]["path"] = ReceiveConfigurationParameters[3];
                                 jObjectJson["inbounds"][0]["streamSettings"]["httpSettings"]["host"][0] = ReceiveConfigurationParameters[4];
                             }
+
                             //mkcp模式下，设置伪装类型
                             if (ReceiveConfigurationParameters[0].Contains("mKCP") == true)
                             {
@@ -1855,12 +1904,20 @@ namespace ProxySU
                                     jObjectJson["inbounds"][0]["streamSettings"]["kcpSettings"]["seed"] = ReceiveConfigurationParameters[6];
                                 }
                             }
+
                             //quic模式下设置伪装类型及密钥
                             if (ReceiveConfigurationParameters[0].Contains("Quic") == true)
                             {
                                 jObjectJson["inbounds"][0]["streamSettings"]["quicSettings"]["header"]["type"] = ReceiveConfigurationParameters[5];
+                                jObjectJson["inbounds"][0]["streamSettings"]["quicSettings"]["security"] = ReceiveConfigurationParameters[3];
+                               
+                                if (String.Equals(ReceiveConfigurationParameters[3],"none") == true)
+                                {
+                                  ReceiveConfigurationParameters[6] = "";
+                                }
                                 jObjectJson["inbounds"][0]["streamSettings"]["quicSettings"]["key"] = ReceiveConfigurationParameters[6];
                             }
+
                             serverJson["inbounds"] = jObjectJson["inbounds"];
                         }
 
@@ -1874,8 +1931,12 @@ namespace ProxySU
 
                     File.Delete(@"config.json");
 
-                    //如果使用http2/WebSocketTLS/tcpTLS/VlessTcpTlsWeb模式，先要安装acme.sh,申请证书
-                    if (String.Equals(ReceiveConfigurationParameters[0], "Http2") == true || String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS") == true || String.Equals(ReceiveConfigurationParameters[0], "tcpTLS") == true || String.Equals(ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == true)
+                    //如果使用http2/WebSocketTLS/tcpTLS/VlessTcpTlsWeb/VLESS+TCP+XTLS+Web模式，先要安装acme.sh,申请证书
+                    if (String.Equals(ReceiveConfigurationParameters[0], "Http2") == true
+                        || String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS") == true
+                        || String.Equals(ReceiveConfigurationParameters[0], "tcpTLS") == true
+                        || String.Equals(ReceiveConfigurationParameters[0], "VlessXtlsTcp") == true
+                        || String.Equals(ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == true)
                     {
                         //****** "正在安装acme.sh......" ******22
                         SetUpProgressBarProcessing(55);
@@ -2030,10 +2091,13 @@ namespace ProxySU
 
                     }
 
-                    //如果是WebSocket+TLS+Web/http2Web/vlessTcpTlsWeb模式，需要安装Caddy
-                    if (ReceiveConfigurationParameters[0].Contains("WebSocketTLS2Web") ==true
-                        || ReceiveConfigurationParameters[0].Contains("http2Web") == true
-                        || ReceiveConfigurationParameters[0].Contains("VlessTcpTlsWeb") == true)
+                    //如果是VLESS+TCP+XTLS+Web/VLESS+TCP+TLS+Web/VLESS+WebSocket+TLS+Web/VLESS+http2+TLS+Web/WebSocket+TLS+Web/http2Web模式，需要安装Caddy
+                    if (String.Equals(ReceiveConfigurationParameters[0], "VlessXtlsTcp") == true
+                        || String.Equals(ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == true
+                        || String.Equals(ReceiveConfigurationParameters[0], "VlessWebSocketTlsWeb") == true
+                        || String.Equals(ReceiveConfigurationParameters[0], "VlessHttp2Web") == true
+                        || String.Equals(ReceiveConfigurationParameters[0],"WebSocketTLS2Web") ==true
+                        || String.Equals(ReceiveConfigurationParameters[0], "http2Web") == true)
                     {
                         //****** "安装Caddy......" ******28
                         SetUpProgressBarProcessing(70);
@@ -2155,7 +2219,8 @@ namespace ProxySU
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                         //在Caddy 2还未推出2.2.0的正式版之前，先用测试版替代
-                        if (String.Equals(ReceiveConfigurationParameters[0], "http2Web"))
+                        if (String.Equals(ReceiveConfigurationParameters[0], "http2Web") == true
+                            || String.Equals(ReceiveConfigurationParameters[0], "VlessHttp2Web") == true)
                         {
                             //****** "正在为Http2Web模式升级Caddy v2.2.0测试版！" ******30
                             SetUpProgressBarProcessing(77);
@@ -2211,18 +2276,22 @@ namespace ProxySU
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
-                        if (ReceiveConfigurationParameters[0].Contains("WebSocketTLS2Web") == true)
-                        {
-                            serverConfig = @"TemplateConfg\v2ray\caddy\WebSocketTLSWeb.caddyfile";
-                        }
-                        else if (ReceiveConfigurationParameters[0].Contains("http2Web") == true)
-                        {
-                            serverConfig = @"TemplateConfg\v2ray\caddy\Http2Web.caddyfile";
-                        }
-                        else if(ReceiveConfigurationParameters[0].Contains("VlessTcpTlsWeb")==true)
+                        if (String.Equals(ReceiveConfigurationParameters[0], "VlessXtlsTcp") == true
+                            || String.Equals(ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == true)
                         {
                             serverConfig = @"TemplateConfg\v2ray\caddy\vlessTcpTlsWeb.caddyfile";
                         }
+                        else if (String.Equals(ReceiveConfigurationParameters[0], "VlessWebSocketTlsWeb") == true
+                            || String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web") == true)
+                        {
+                            serverConfig = @"TemplateConfg\v2ray\caddy\WebSocketTLSWeb.caddyfile";
+                        }
+                        else if (String.Equals(ReceiveConfigurationParameters[0], "VlessHttp2Web") == true
+                            || String.Equals(ReceiveConfigurationParameters[0], "http2Web") == true)
+                        {
+                            serverConfig = @"TemplateConfg\v2ray\caddy\Http2Web.caddyfile";
+                        }
+                        
                         string upLoadPath = "/etc/caddy/Caddyfile";
                         client.RunCommand("mv /etc/caddy/Caddyfile /etc/caddy/Caddyfile.bak");
                         UploadConfig(connectionInfo, serverConfig, upLoadPath);
@@ -2244,7 +2313,7 @@ namespace ProxySU
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                         //设置Path
-                        sshShellCommand = $"sed -i 's/##path##/\\{ReceiveConfigurationParameters[3]}/' {upLoadPath}";
+                        sshShellCommand = $"sed -i 's/##path##/\\{ReceiveConfigurationParameters[6]}/' {upLoadPath}";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
@@ -2616,117 +2685,120 @@ namespace ProxySU
                             clientJson["reverse"] = jObjectJson["reverse"];
                         }
 
+                        //根据选择的不同模式，选择相应的配置文件
                         if (String.Equals(ReceiveConfigurationParameters[0], "TCP"))
                         {
                             outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\tcp_client_config.json";
-                            //serverConfig = "TemplateConfg\\tcp_server_config.json";
-                            //clientConfig = "TemplateConfg\\tcp_client_config.json";
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "TCPhttp"))
                         {
                             outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\tcp_http_client_config.json";
-                            //serverConfig = "TemplateConfg\\tcp_http_server_config.json";
-                            //clientConfig = "TemplateConfg\\tcp_http_client_config.json";
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "tcpTLS"))
                         {
                             outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\tcp_TLS_client_config.json";
-                            //serverConfig = "TemplateConfg\\tcp_TLS_server_config.json";
-                            //clientConfig = "TemplateConfg\\tcp_TLS_client_config.json";
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "tcpTLSselfSigned"))
                         {
                             outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\tcpTLSselfSigned_client_config.json";
-                            //serverConfig = "TemplateConfg\\tcpTLSselfSigned_server_config.json";
-                            //clientConfig = "TemplateConfg\\tcpTLSselfSigned_client_config.json";
+                        }
+                        else if (String.Equals(ReceiveConfigurationParameters[0], "VlessXtlsTcp"))
+                        {
+                            outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\vless_tcp_xtls_client_config.json";
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "VlessTcpTlsWeb"))
                         {
-                            outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\tcp_vless_tls_caddy_cilent_config.json";
-                            //serverConfig = "TemplateConfg\\tcp_vless_tls_caddy_server_config.json";
-                            //clientConfig = "TemplateConfg\\tcp_vless_tls_caddy_cilent_config.json";
+                            outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\vless_tcp_tls_caddy_cilent_config.json";
+                          }
+                        else if (String.Equals(ReceiveConfigurationParameters[0], "VlessWebSocketTlsWeb"))
+                        {
+                            outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\vless_ws_tls_client_config.json";
+                        }
+                        else if (String.Equals(ReceiveConfigurationParameters[0], "VlessHttp2Web"))
+                        {
+                            outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\vless_http2_tls_server_config.json";
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "webSocket"))
                         {
                             outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\webSocket_client_config.json";
-                            //serverConfig = "TemplateConfg\\webSocket_server_config.json";
-                            //clientConfig = "TemplateConfg\\webSocket_client_config.json";
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS"))
                         {
                             outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\WebSocket_TLS_client_config.json";
-                            //serverConfig = "TemplateConfg\\WebSocket_TLS_server_config.json";
-                            //clientConfig = "TemplateConfg\\WebSocket_TLS_client_config.json";
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLSselfSigned"))
                         {
                             outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\WebSocketTLS_selfSigned_client_config.json";
-                            //serverConfig = "TemplateConfg\\WebSocketTLS_selfSigned_server_config.json";
-                            //clientConfig = "TemplateConfg\\WebSocketTLS_selfSigned_client_config.json";
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web"))
                         {
                             outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\WebSocketTLSWeb_client_config.json";
-                            //serverConfig = "TemplateConfg\\WebSocketTLSWeb_server_config.json";
-                            //clientConfig = "TemplateConfg\\WebSocketTLSWeb_client_config.json";
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "Http2"))
                         {
                             outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\http2_client_config.json";
-                            //serverConfig = "TemplateConfg\\http2_server_config.json";
-                            //clientConfig = @"TemplateConfg\http2_client_config.json";
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "http2Web"))
                         {
                             outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\Http2Web_client_config.json";
-                            //serverConfig = "TemplateConfg\\Http2Web_server_config.json";
-                            //clientConfig = "TemplateConfg\\Http2Web_client_config.json";
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "http2selfSigned"))
                         {
                             outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\Http2selfSigned_client_config.json";
-                            //serverConfig = "TemplateConfg\\Http2selfSigned_server_config.json";
-                            //clientConfig = "TemplateConfg\\Http2selfSigned_client_config.json";
                         }
                         //else if (String.Equals(ReceiveConfigurationParameters[0], "MkcpNone")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2SRTP")||String.Equals(ReceiveConfigurationParameters[0], "mKCPuTP")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WechatVideo")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2DTLS")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WireGuard"))
                         else if (ReceiveConfigurationParameters[0].Contains("mKCP"))
                         {
                             outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\mkcp_client_config.json";
-                            //serverConfig = "TemplateConfg\\mkcp_server_config.json";
-                            //clientConfig = "TemplateConfg\\mkcp_client_config.json";
                         }
-
                         // else if (String.Equals(ReceiveConfigurationParameters[0], "QuicNone") || String.Equals(ReceiveConfigurationParameters[0], "QuicSRTP") || String.Equals(ReceiveConfigurationParameters[0], "Quic2uTP") || String.Equals(ReceiveConfigurationParameters[0], "QuicWechatVideo") || String.Equals(ReceiveConfigurationParameters[0], "QuicDTLS") || String.Equals(ReceiveConfigurationParameters[0], "QuicWireGuard"))
                         else if (ReceiveConfigurationParameters[0].Contains("Quic"))
                         {
                             outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\quic_client_config.json";
-                            //serverConfig = "TemplateConfg\\quic_server_config.json";
-                            //clientConfig = "TemplateConfg\\quic_client_config.json";
                         }
 
                         //读取"相应模板的outbounds"
                         using (StreamReader readerJson = File.OpenText(outboundsConfigJson))
                         {
                             JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+                            
                             //设置客户端的地址/端口/id
                             jObjectJson["outbounds"][0]["settings"]["vnext"][0]["address"] = ReceiveConfigurationParameters[4];
                             jObjectJson["outbounds"][0]["settings"]["vnext"][0]["port"] = int.Parse(ReceiveConfigurationParameters[1]);
                             jObjectJson["outbounds"][0]["settings"]["vnext"][0]["users"][0]["id"] = ReceiveConfigurationParameters[2];
-                            //设置WebSocket系统模式下的path
-                            if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS") == true || String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLSselfSigned") == true || String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web") == true)
+                            
+                            //设置WebSocket模式下的path
+                            if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS") == true
+                                || String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLSselfSigned") == true
+                                || String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web") == true
+                                || String.Equals(ReceiveConfigurationParameters[0], "VlessWebSocketTlsWeb") == true)
                             {
-                                jObjectJson["outbounds"][0]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[3];
+                                jObjectJson["outbounds"][0]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[6];
                             }
+
                             //设置http2模式下的path
-                            if (String.Equals(ReceiveConfigurationParameters[0], "Http2") == true || String.Equals(ReceiveConfigurationParameters[0], "http2Web") == true || String.Equals(ReceiveConfigurationParameters[0], "http2selfSigned") == true)
+                            if (String.Equals(ReceiveConfigurationParameters[0], "Http2") == true
+                                || String.Equals(ReceiveConfigurationParameters[0], "http2Web") == true
+                                || String.Equals(ReceiveConfigurationParameters[0], "http2selfSigned") == true
+                                || String.Equals(ReceiveConfigurationParameters[0], "VlessHttp2Web") == true)
                             {
-                                jObjectJson["outbounds"][0]["streamSettings"]["httpSettings"]["path"] = ReceiveConfigurationParameters[3];
+                                jObjectJson["outbounds"][0]["streamSettings"]["httpSettings"]["path"] = ReceiveConfigurationParameters[6];
                             }
-                            //设置http2web模式下的host
-                            if (String.Equals(ReceiveConfigurationParameters[0], "http2Web") == true)
+
+                            //设置http2+TLS+Web/VLESS+http2+TLS+Web模式下的host
+                            if (String.Equals(ReceiveConfigurationParameters[0], "http2Web") == true
+                                || String.Equals(ReceiveConfigurationParameters[0], "VlessHttp2Web") == true)
                             {
                                 jObjectJson["outbounds"][0]["streamSettings"]["httpSettings"]["host"][0] = ReceiveConfigurationParameters[4];
                             }
+
+                            //设置VLESS+TCP+XTLS+Web模式下的serverName
+                            if (String.Equals(ReceiveConfigurationParameters[0], "VlessXtlsTcp") == true)
+                            {
+                                jObjectJson["outbounds"][0]["streamSettings"]["xtlsSettings"]["serverName"] = ReceiveConfigurationParameters[4];
+                            }
+
+                            //设置mkcp
                             if (ReceiveConfigurationParameters[0].Contains("mKCP") == true)
                             {
                                 jObjectJson["outbounds"][0]["streamSettings"]["kcpSettings"]["header"]["type"] = ReceiveConfigurationParameters[5];
@@ -2735,9 +2807,16 @@ namespace ProxySU
                                     jObjectJson["outbounds"][0]["streamSettings"]["kcpSettings"]["seed"] = ReceiveConfigurationParameters[6];
                                 }
                             }
+
+                            //设置QUIC
                             if (ReceiveConfigurationParameters[0].Contains("Quic") == true)
                             {
                                 jObjectJson["outbounds"][0]["streamSettings"]["quicSettings"]["header"]["type"] = ReceiveConfigurationParameters[5];
+                                jObjectJson["inbounds"][0]["streamSettings"]["quicSettings"]["security"] = ReceiveConfigurationParameters[3];
+                                if (String.Equals(ReceiveConfigurationParameters[3], "none") == true)
+                                {
+                                    ReceiveConfigurationParameters[6] = "";
+                                }
                                 jObjectJson["outbounds"][0]["streamSettings"]["quicSettings"]["key"] = ReceiveConfigurationParameters[6];
                             }
 
@@ -12153,12 +12232,19 @@ namespace ProxySU
                 MessageBox.Show(ex.Message);
             }
         }
-       
 
 
         #endregion
 
-        //       #region 三合一安装过程
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            //显示服务端连接参数
+            proxyType = "V2Ray";
+            ResultClientInformation resultClientInformation = new ResultClientInformation();
+            resultClientInformation.ShowDialog();
+        }
+
+             #region 三合一安装过程
 
         //        //生成三合一的v2ray路径
         //        private void ButtonV2rayPath3in1_Click(object sender, RoutedEventArgs e)
@@ -13141,7 +13227,7 @@ namespace ProxySU
         //        }
 
 
-        //        #endregion
+              #endregion
 
     }
 

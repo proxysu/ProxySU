@@ -115,6 +115,12 @@
     <!-- 以下V2Ray模板庫界面 -->
     <sys:String x:Key="GroupBoxHeaderV2RayTemplates">V2Ray 模板庫</sys:String>
     <sys:String x:Key="TabItemHeaderV2RayHotPlan">推薦方案</sys:String>
+    <sys:String x:Key="TabItemHeaderV2RayVlessProtocol">VLESS協議</sys:String>
+    <sys:String x:Key="TextBlockVlessExplain">VLESS 是一個無狀態的輕量傳輸協議，與 VMess 不同，VLESS 不依賴於系統時間，認證方式同樣為 UUID，但不需要 alterId。目前 VLESS 沒有自帶加密，請用於可靠信道，如 TLS。優點：可以有效的降低主機資源消耗。目前 VLESS 不支持分享。 VLESS 處於公測階段，測試期間請確保客戶端與服務端的 v2ray-core 均為最新版本。</sys:String>
+    <sys:String x:Key="TextBlockVlessXtlsTcpExplain">XTLS 在低性能或沒有AES 硬解的設備上效果出眾，如在硬路由上換用XTLS，同樣跑滿CPU 時實現網速翻倍，或是相同網速時CPU 佔用率減半,而對於移動設備，計算量減少意味著省電。服務端客戶端版本要求4.29+ (需域名)不支持CDN。</sys:String>
+    <sys:String x:Key="TextBlockV2RayVlessTcpTlsWebExplain">輕量協議VLESS,佔用更少主機資源，數據TLS加密傳輸，用Caddy2在節點上做偽裝網站。適合配置低的VPS,或多人共用節點，服務端客戶端版本要求4.27+ (需域名)不支持CDN。</sys:String>
+    <sys:String x:Key="TextBlockVlessWebSocketTlsWebExplain">使用VLESS協議，與VMESS的此類型方案，更輕量。穩定性強，Caddy2做前置，隱藏代理特徵，被識別為訪問網站的https流量，抗封鎖識別最強,需要域名,支持CDN</sys:String>
+    <sys:String x:Key="TextBlockVlessHttp2WebExplain">使用VLESS協議，與VMESS的此類型方案，更輕量。基於 HTTP/2 傳輸。完整按 HTTP/2 標準實現，Caddy2做前置，隱藏代理特徵，H2C協議轉發到V2Ray，需要域名，暫不支持CloudFlare的CDN</sys:String>
     <sys:String x:Key="TabItemHeaderV2RayTcpProtocol">TCP傳輸協議</sys:String>
     <sys:String x:Key="TabItemHeaderV2RayWebSocketProtocol">WebSocket傳輸協議</sys:String>
     <sys:String x:Key="TabItemHeaderV2RayHttp2Protocol">Http/2傳輸協議</sys:String>
@@ -125,9 +131,11 @@
     <sys:String x:Key="ButtonV2RayServerPortChange">隨機選擇</sys:String>
     <sys:String x:Key="TextBlockV2RayServerPortExplain">若使用TLS加密，請保持默認的443端口</sys:String>
     <sys:String x:Key="TextBlockV2RayUUIDExplain">使用已有UUID，直接粘貼到框中</sys:String>
-    <sys:String x:Key="TextBlockV2RayQuicUUID">mKCP Seed/QUIC密鑰</sys:String>
+    <sys:String x:Key="TextBlockV2RayQuicUUID">QUIC密鑰:</sys:String>
+    <sys:String x:Key="TextBlockV2RayMkcpSeedUUID">mKCP Seed:</sys:String>
     <sys:String x:Key="TextBlockV2RayMkcpExplain">啟用mKCP Seed密鑰，可增強抗識別，留空則禁用,要求版本4.24.2+</sys:String>
     <sys:String x:Key="TextBlockV2RayPath">路徑：</sys:String>
+    <sys:String x:Key="TextBlockQuicEncryption">QUIC加密方式：</sys:String>
     <sys:String x:Key="TextBlockV2RayDomain">域名：</sys:String>
     <sys:String x:Key="TextBlockV2RayMaskSites">偽裝網站：</sys:String>
     <sys:String x:Key="TextBoxV2RayMaskSitesTag">設置此項可增加代理的隱蔽(可為空)</sys:String>
@@ -140,7 +148,6 @@
     <sys:String x:Key="RadioButtonV2RayTcpTlsSelfSigned">TCP+TLS(自簽證書)</sys:String>
     <sys:String x:Key="TextBlockV2RayTcpTlsSelfSignedExplain">數據加密傳輸，傳輸協議使用TLS，會被識別為TLS流量，不等同於https流量特徵 (無需域名)</sys:String>
     <sys:String x:Key="TextBlockV2RaySelfSignedShadowrocketExplain">Shadowrocket (ios)需要手動打開“允許不安全”選項</sys:String>
-    <sys:String x:Key="TextBlockV2RayVlessTcpTlsWebExplain">輕量協議VLESS,佔用更少主機資源，數據TLS加密傳輸，用Caddy2在節點上做偽裝網站。適合配置低的VPS,或多人共用節點，服務端客戶端版本要求4.27+ (需域名)</sys:String>
     <sys:String x:Key="TextBlockV2RayWebSocketExplain">數據加密傳輸，傳輸協議使用WebSocket，未啟用TLS,將被識別為WebSocket流量。</sys:String>
     <sys:String x:Key="TextBlockV2RayWebSocketTlsExplain">數據加密傳輸，傳輸協議使用WebSocket，啟用TLS,將被識別為TLS流量。 (需要域名)支持CDN。</sys:String>
     <sys:String x:Key="RadioButtonV2RayWebSocketTlsSelfSigned">WebSocket+TLS(自簽證書)</sys:String>
@@ -177,12 +184,16 @@
     <sys:String x:Key="TextBlockServerAddress">服務器地址(address):</sys:String>
     <sys:String x:Key="TextBlockServerPort">端口(port):</sys:String>
     <sys:String x:Key="TextBlockUserUUID">用戶ID(uuid):</sys:String>
+    <sys:String x:Key="ButtonCopyV2RayUUIDtoClip">複製</sys:String>
+    <sys:String x:Key="MessageBoxShow_V2RayUUIDcopyedToClip">已復製到剪貼板中！</sys:String>
+    <sys:String x:Key="MessageBoxShow_V2RayEmptyToClip">空內容！</sys:String>
     <sys:String x:Key="TextBlockV2RayAlterId">額外ID:</sys:String>
-    <sys:String x:Key="TextBlockV2RayAlterIdExplain">默認16，可以填不超過64的值，客戶端沒有此選項可不填</sys:String>
+    <sys:String x:Key="TextBlockV2RayAlterIdExplain">不超過64，客戶端沒此項可不填</sys:String>
     <sys:String x:Key="TextBlockEncryption">加密方式:</sys:String>
     <sys:String x:Key="TextBlockTransferProtocol">傳輸協議:</sys:String>
     <sys:String x:Key="TextBlockCamouflageType">偽裝類型(混淆):</sys:String>
     <sys:String x:Key="TextBlockIsOrNotTLS">是否使用TLS:</sys:String>
+    <sys:String x:Key="TextBlockCopyToClipExplain">提示：雙擊以上內容窗，即可複製到剪貼板中。</sys:String>
     <sys:String x:Key="TextBlockClientPath">路徑(Path):</sys:String>
     <sys:String x:Key="TextBlockClientMkcpQuicKey">mKCP Seed/QUIC密鑰:</sys:String>
     <sys:String x:Key="TextBlockEncryptionIsAuto">默認auto</sys:String>

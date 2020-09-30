@@ -18,7 +18,7 @@ namespace ProxySU
     /// </summary>
     public partial class SSpluginWindow : Window
     {
-
+        //SS加密方法设定
         public class EncryptionMethodInfo
         {
             public string Name { get; set; }
@@ -144,12 +144,6 @@ namespace ProxySU
             //V2Ray-Plugin SS+WebSocket+TLS+Web模式被选中
             else if (RadioButtonWebSocketTLSWebFrontSS.IsChecked == true || RadioButtonWebSocketTLSWebFrontSSHot.IsChecked == true)
             {
-                //if (string.IsNullOrEmpty(TextBoxDomain.Text.ToString()) == true)
-                //{
-                //    //****** "域名不能为空，请检查相关参数设置！" ******
-                //    MessageBox.Show(Application.Current.FindResource("MessageBoxShow_DomainNotEmpty").ToString());
-                //    return;
-                //}
                 testDomain = TestDomainIsEmpty();
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "WebSocketTLSWebFrontSS";
@@ -203,12 +197,6 @@ namespace ProxySU
             //SS+GoQuiet-Plugin模式被选中
             else if (RadioButtonGoQuietPluginSS.IsChecked == true)
             {
-                //if (string.IsNullOrEmpty(TextBoxDomainSS.Text.ToString()) == true)
-                //{
-                //    //****** "域名不能为空，请检查相关参数设置！" ******
-                //    MessageBox.Show(Application.Current.FindResource("MessageBoxShow_DomainNotEmpty").ToString());
-                //    return;
-                //}
                 testDomain = TestDomainIsEmpty();
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "GoQuietPluginSS";
@@ -221,12 +209,6 @@ namespace ProxySU
             //SS+Cloak-Plugin模式被选中
             else if (RadioButtonCloakPluginSS.IsChecked == true)
             {
-                //if (string.IsNullOrEmpty(TextBoxDomainSS.Text.ToString()) == true)
-                //{
-                //    //****** "域名不能为空，请检查相关参数设置！" ******
-                //    MessageBox.Show(Application.Current.FindResource("MessageBoxShow_DomainNotEmpty").ToString());
-                //    return;
-                //}
                 testDomain = TestDomainIsEmpty();
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "CloakPluginSS";
@@ -259,10 +241,6 @@ namespace ProxySU
         //无插件的界面
         private void RadioButtonNonePluginSS_Checked(object sender, RoutedEventArgs e)
         {
-            //TextBlockServerListenPort.Visibility = Visibility.Visible;
-            //TextBoxServerListenPort.Visibility = Visibility.Visible;
-            //ButtonServerListenPort.Visibility = Visibility.Visible;
-
             //隐藏Websocket Path
             TextBlockWebSocketPathSS.Visibility = Visibility.Collapsed;
             TextBoxWebSocketPathSS.Visibility = Visibility.Collapsed;

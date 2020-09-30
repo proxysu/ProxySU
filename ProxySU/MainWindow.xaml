@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProxySU"
         mc:Ignorable="d"
-        Title="ProxySU - v2.2.3" Height="675" Width="620">
+        Title="ProxySU - v2.3.0" Height="675" Width="620">
     <!--以下样式参考自：https://yq.aliyun.com/articles/331878
 	https://docs.microsoft.com/en-us/dotnet/desktop-wpf/fundamentals/styles-templates-overview-->
     <Window.Resources>
@@ -204,19 +204,34 @@
                                                 <RowDefinition></RowDefinition>
                                             </Grid.RowDefinitions>
                                             <TextBlock  Text="{DynamicResource TextBlockCurrentlySelectedPlan}" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
-                                            <TextBlock x:Name="TextBlockV2RayShowPort" Text="{DynamicResource TextBlockV2RayServerPort}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
-                                            <TextBlock x:Name="TextBlockV2RayShowUUID" Text="UUID:" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
-                                            <TextBlock x:Name="TextBlockV2RayShowPathSeedKey"  Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
-                                            <TextBlock x:Name="TextBlockV2RayShowCurrentlySelectedPlanDomain" Text="{DynamicResource TextBlockV2RayDomain}" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
-                                            <TextBlock x:Name="TextBlockV2RayShowCurrentlySelectedPlanFakeWebsite" Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center"  Visibility="Hidden"></TextBlock>
-
                                             <TextBlock x:Name="TextBlockCurrentlySelectedPlan" Text="{DynamicResource TextBlockCurrentlySelectedPlanNo}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
-                                            <TextBlock x:Name="TextBlockCurrentlySelectedPlanPort" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
-                                            <TextBlock x:Name="TextBlockCurrentlySelectedPlanUUID" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
-                                            <TextBlock x:Name="TextBlockCurrentlySelectedPlanPathSeedKey" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
-                                            <TextBlock x:Name="TextBlockCurrentlySelectedPlanDomain" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"></TextBlock>
-                                            <TextBlock x:Name="TextBlockCurrentlySelectedPlanFakeWebsite" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Center"  Visibility="Hidden"></TextBlock>
-
+                                            <Grid x:Name="GridV2rayCurrentlyPlan" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="5">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock x:Name="TextBlockV2RayShowPort" Text="{DynamicResource TextBlockV2RayServerPort}" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                                <TextBlock x:Name="TextBlockCurrentlySelectedPlanPort" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                                                
+                                                <TextBlock x:Name="TextBlockV2RayShowUUID" Text="UUID:" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                                <TextBlock x:Name="TextBlockCurrentlySelectedPlanUUID" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                                                
+                                                <TextBlock x:Name="TextBlockV2RayShowPathSeedKey" Text="Path/mKCP Seed/Quic Key" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                                <TextBlock x:Name="TextBlockCurrentlySelectedPlanPathSeedKey" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                                                
+                                                <TextBlock x:Name="TextBlockV2RayShowCurrentlySelectedPlanDomain" Text="Domain/Quic Encrypt" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                                <TextBlock x:Name="TextBlockCurrentlySelectedPlanDomain" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                                                
+                                                <TextBlock x:Name="TextBlockV2RayShowCurrentlySelectedPlanFakeWebsite" Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                                <TextBlock x:Name="TextBlockCurrentlySelectedPlanFakeWebsite" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                                            </Grid>
                                         </Grid>
 
                                         <Button x:Name="Button_Login" Content="{DynamicResource ButtonV2RayOneKeyInstall}"  Margin="10" Grid.Column="0" Grid.Row="2" Click="Button_Login_Click"></Button>
@@ -574,6 +589,7 @@
                                         <Button x:Name="ButtonClearOccupiedPorts" Content="{DynamicResource ButtonClearOccupiedPorts}" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonClearOccupiedPorts_Click"></Button>
                                         <Button x:Name="ButtonTestAndEnableBBR" Content="{DynamicResource ButtonTestAndEnableBBR}" Grid.Column="2" Grid.Row="0" Margin="5" Click="ButtonTestAndEnableBBR_Click"></Button>
                                         <Button x:Name="ButtonRemoveAllSoft" Content="{DynamicResource ButtonRemoveAllSoft}" Grid.Column="3" Grid.Row="0" Margin="5" Click="ButtonRemoveAllSoft_Click"></Button>
+                                        <Button Content="test" Grid.Column="0" Grid.Row="1" Margin="10" Click="Button_Click"></Button>
                                     </Grid>
                                 </TabItem>
 

@@ -93,8 +93,6 @@
     <sys:String x:Key="MessageBoxShow_RemoveAllSoft">Only the proxy software installed by ProxySU and related configurations are supported. Please make sure that important configurations have been backed up. Uninstalling agents installed using other methods or scripts is not supported. Are you sure you want to uninstall the agent software on the remote host?</sys:String>
     <sys:String x:Key="DisplayInstallInfo_StartRemoveProxy">Start uninstall......</sys:String>
 
-    
-    
     <!-- The following resource tool tab interface -->
     <sys:String x:Key="ButtonWebBrowserHomePage">Home</sys:String>
     <sys:String x:Key="ButtonWebBrowserForward">Forward</sys:String>
@@ -115,6 +113,12 @@
     <!-- The following V2Ray template library interface -->
     <sys:String x:Key="GroupBoxHeaderV2RayTemplates">V2Ray template library</sys:String>
     <sys:String x:Key="TabItemHeaderV2RayHotPlan">Popular Plan</sys:String>
+    <sys:String x:Key="TabItemHeaderV2RayVlessProtocol">VLESS</sys:String>
+    <sys:String x:Key="TextBlockVlessExplain">VLESS is a  lightweight transmission protocol. Unlike VMess, VLESS don't depend on the system time. The authentication method is also UUID, but alterId is not required. Currently VLESS does not have its own encryption, please use it for reliable channels, such as TLS. Advantages: It can effectively reduce host resource consumption. Currently VLESS does not support sharing.  Please ensure that both the client and server v2ray-core are the latest version.</sys:String>
+    <sys:String x:Key="TextBlockVlessXtlsTcpExplain">XTLS works well on devices with low performance or without AES hard-decoding. For example, XTLS is used on hard routers, and the network speed can be doubled when the CPU is full, or the same The CPU occupancy rate is halved at Internet speed, and for mobile devices, the reduction in the amount of calculation means power saving.Version requires 4.29+ (Domain required) Not support CDN.</sys:String>
+    <sys:String x:Key="TextBlockV2RayVlessTcpTlsWebExplain">Lightweight protocol VLESS, occupies less host resources, data TLS encrypted transmission, and Caddy2 is used as a disguised website on the node. Suitable for VPS with low configuration, or shared nodes by multiple people, the server client version requires 4.27+ (Domain required) Notsupport CDN.</sys:String>
+    <sys:String x:Key="TextBlockVlessWebSocketTlsWebExplain">VLESS protocol, this type of solution with VMESS is more lightweight. Stability is strong, Caddy2 is front-facing, hidden proxy features, it is recognized as https traffic visiting the website, the strongest anti-blocking recognition, (Domain required) CDN is supported</sys:String>
+    <sys:String x:Key="TextBlockVlessHttp2WebExplain">VLESS protocol, this type of solution with VMESS is more lightweight. Based on HTTP/2 transmission. Completely implemented in accordance with the HTTP/2 standard, with Caddy2 as the front, hidden proxy features, H2C protocol forwarding to V2Ray, (Domain required) CloudFlare CDN is not supported</sys:String>
     <sys:String x:Key="TabItemHeaderV2RayTcpProtocol">TCP</sys:String>
     <sys:String x:Key="TabItemHeaderV2RayWebSocketProtocol">WebSocket</sys:String>
     <sys:String x:Key="TabItemHeaderV2RayHttp2Protocol">Http/2</sys:String>
@@ -125,9 +129,11 @@
     <sys:String x:Key="ButtonV2RayServerPortChange">Random</sys:String>
     <sys:String x:Key="TextBlockV2RayServerPortExplain">If TLS encryption is used, please keep the default port 443</sys:String>
     <sys:String x:Key="TextBlockV2RayUUIDExplain">Use the existing UUID and paste it directly into the box</sys:String>
-    <sys:String x:Key="TextBlockV2RayQuicUUID">mKCP Seed/QUIC key</sys:String>
+    <sys:String x:Key="TextBlockV2RayQuicUUID">QUIC Key:</sys:String>
+    <sys:String x:Key="TextBlockV2RayMkcpSeedUUID">mKCP Seed:</sys:String>
     <sys:String x:Key="TextBlockV2RayMkcpExplain">Enable the mKCP Seed key to enhance anti-recognition, leave it blank to disable it. Version 4.24.2+</sys:String>
     <sys:String x:Key="TextBlockV2RayPath">Path:</sys:String>
+    <sys:String x:Key="TextBlockQuicEncryption">QUIC Encryption：</sys:String>
     <sys:String x:Key="TextBlockV2RayDomain">Domain name:</sys:String>
     <sys:String x:Key="TextBlockV2RayMaskSites">Mask a website:</sys:String>
     <sys:String x:Key="TextBoxV2RayMaskSitesTag">Set this item to increase the concealment of the agent (may be empty)</sys:String>
@@ -140,8 +146,7 @@
     <sys:String x:Key="RadioButtonV2RayTcpTlsSelfSigned">TCP+TLS (self-signed certificate)</sys:String>
     <sys:String x:Key="TextBlockV2RayTcpTlsSelfSignedExplain">Data encrypted transmission, the transmission protocol uses TLS, it will be recognized as TLS traffic, not equivalent to https traffic characteristics (no domain name required)</sys:String>
     <sys:String x:Key="TextBlockV2RaySelfSignedShadowrocketExplain">Shadowrocket (ios) needs to manually open the "Allow Unsafe" option</sys:String>
-    <sys:String x:Key="TextBlockV2RayVlessTcpTlsWebExplain">Lightweight protocol VLESS, occupies less host resources, data TLS encrypted transmission, and Caddy2 is used as a disguised website on the node. Suitable for low-profile VPS, or shared nodes by multiple people, the server client version requires 4.27+ (domain name required)</sys:String>
-    <sys:String x:Key="TextBlockV2RayWebSocketExplain">Data encrypted transmission, the transmission protocol uses WebSocket, if TLS is not enabled, it will be recognized as WebSocket traffic.</sys:String>
+   <sys:String x:Key="TextBlockV2RayWebSocketExplain">Data encrypted transmission, the transmission protocol uses WebSocket, if TLS is not enabled, it will be recognized as WebSocket traffic.</sys:String>
     <sys:String x:Key="TextBlockV2RayWebSocketTlsExplain">Data encrypted transmission, the transmission protocol uses WebSocket, and TLS is enabled, it will be recognized as TLS traffic. (Domain name required)，Support CDN.</sys:String>
     <sys:String x:Key="RadioButtonV2RayWebSocketTlsSelfSigned">WebSocket+TLS (self-signed certificate)</sys:String>
     <sys:String x:Key="TextBlockV2RayWebSocketTlsSelfSignedExplain">Data encrypted transmission, the transmission protocol uses WebSocket, and TLS is enabled, and it will be recognized as TLS traffic. (No domain name required)</sys:String>
@@ -177,12 +182,16 @@
     <sys:String x:Key="TextBlockServerAddress">Server address:</sys:String>
     <sys:String x:Key="TextBlockServerPort">Port:</sys:String>
     <sys:String x:Key="TextBlockUserUUID">User ID(uuid):</sys:String>
+    <sys:String x:Key="ButtonCopyV2RayUUIDtoClip">Copy</sys:String>
+    <sys:String x:Key="MessageBoxShow_V2RayUUIDcopyedToClip">Copied to the clipboard!</sys:String>
+    <sys:String x:Key="MessageBoxShow_V2RayEmptyToClip">Empty content!</sys:String>
     <sys:String x:Key="TextBlockV2RayAlterId">alterId:</sys:String>
     <sys:String x:Key="TextBlockV2RayAlterIdExplain">The default is 16, and you can fill in a value not exceeding 64. If the client does not have this option, leave it blank</sys:String>
     <sys:String x:Key="TextBlockEncryption">Encryption method:</sys:String>
     <sys:String x:Key="TextBlockTransferProtocol">Transfer Protocol:</sys:String>
     <sys:String x:Key="TextBlockCamouflageType">Camouflage type(Confuse):</sys:String>
     <sys:String x:Key="TextBlockIsOrNotTLS">TLS:</sys:String>
+    <sys:String x:Key="TextBlockCopyToClipExplain">Tip: Double-click the above content window to copy it to the clipboard.</sys:String>
     <sys:String x:Key="TextBlockClientPath">Path:</sys:String>
     <sys:String x:Key="TextBlockClientMkcpQuicKey">mKCP Seed/QUIC key:</sys:String>
     <sys:String x:Key="TextBlockEncryptionIsAuto">default auto</sys:String>

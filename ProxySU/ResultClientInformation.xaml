@@ -13,18 +13,18 @@
             <RowDefinition Height="0.12*"></RowDefinition>
         </Grid.RowDefinitions>
         <!-- V2Ray客户端配置参数 -->
-        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxV2rayClient" Visibility="Collapsed" Grid.Row="0">
+        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxV2rayClient" Visibility="Visible" Grid.Row="0">
             <Grid >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.6*"></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="0.7*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
-                    <RowDefinition Height="1.2*"></RowDefinition>
+                    <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
@@ -34,39 +34,48 @@
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <TextBlock Text="{DynamicResource TextBlockServerAddress}" Grid.Column="0" Grid.Row="0" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
-                <TextBox x:Name="TextBoxHostAddress" IsReadOnly="True" Grid.Column="1" Grid.Row="0" Margin="2"></TextBox>
-                <TextBlock Text="" Grid.Column="2" Grid.Row="0"></TextBlock>
+                <TextBox x:Name="TextBoxHostAddress" IsReadOnly="True" Grid.Column="1" Grid.Row="0" Margin="2" MouseDoubleClick="TextBoxHostAddress_MouseDoubleClick"></TextBox>
+                <TextBlock x:Name="TextBlockVmessOrVless" Text="" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                
                 <TextBlock Text="{DynamicResource TextBlockServerPort}" Grid.Column="0" Grid.Row="1" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
-                <TextBox x:Name="TextBoxPort" IsReadOnly="True" Grid.Column="1" Grid.Row="1" Margin="2"></TextBox>
-                <TextBlock Text="" Grid.Column="2" Grid.Row="1"></TextBlock>
+                <TextBox x:Name="TextBoxPort" IsReadOnly="True" Grid.Column="1" Grid.Row="1" Margin="2" MouseDoubleClick="TextBoxPort_MouseDoubleClick"></TextBox>
+                
                 <TextBlock Text="{DynamicResource TextBlockUserUUID}" Grid.Column="0" Grid.Row="2" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
-                <TextBox x:Name="TextBoxUUID" IsReadOnly="True" Grid.Column="1" Grid.Row="2" Margin="2"></TextBox>
-                <TextBlock Text="" Grid.Column="2" Grid.Row="2"></TextBlock>
+                <TextBox x:Name="TextBoxUUID" IsReadOnly="True" Grid.Column="1" Grid.Row="2" Margin="2" MouseDoubleClick="TextBoxUUID_MouseDoubleClick"></TextBox>
+               
                 <TextBlock x:Name="TextBlockUUIDextra" Text="{DynamicResource TextBlockV2RayAlterId}" Grid.Column="0" Grid.Row="3" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
-                <TextBox x:Name="TextBoxUUIDextra" IsReadOnly="False" Grid.Column="1" Grid.Row="3" Margin="2"></TextBox>
-                <TextBlock x:Name="TextBlockUUIDextraExplanation" Text="{DynamicResource TextBlockV2RayAlterIdExplain}" TextWrapping="Wrap" Grid.Column="2" Grid.Row="3"></TextBlock>
-                <TextBlock Text="{DynamicResource TextBlockEncryption}" Grid.Column="0" Grid.Row="4" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
-                <TextBox x:Name="TextBoxEncryption" IsReadOnly="True" Grid.Column="1" Grid.Row="4" Margin="2"></TextBox>
-                <TextBlock Text="{DynamicResource TextBlockEncryptionIsAuto}" Grid.Column="2" Grid.Row="4"></TextBlock>
-                <TextBlock Text="{DynamicResource TextBlockTransferProtocol}" Grid.Column="0" Grid.Row="5" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
-                <TextBox x:Name="TextBoxTransmission" IsReadOnly="True" Grid.Column="1" Grid.Row="5" Margin="2"></TextBox>
-                <TextBlock Text="" Grid.Column="2" Grid.Row="5"></TextBlock>
-                <TextBlock Text="{DynamicResource TextBlockCamouflageType}" Grid.Column="0" Grid.Row="6" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
-                <TextBox x:Name="TextBoxCamouflageType" IsReadOnly="True" Grid.Column="1" Grid.Row="6" Margin="2"></TextBox>
-                <TextBlock Text="" Grid.Column="2" Grid.Row="6"></TextBlock>
-                <TextBlock x:Name="TextBlocTLSonOrNo" Text="{DynamicResource TextBlockIsOrNotTLS}" Grid.Column="0" Grid.Row="7" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
-                <TextBox x:Name="TextBoxTLS" IsReadOnly="True" Grid.Column="1" Grid.Row="7" Margin="2"></TextBox>
-                <TextBlock x:Name="TextBlocTLSonOrNoExplain" Text="" Grid.Column="2" Grid.Row="7"></TextBlock>
-                <TextBlock x:Name="TextBlockHost" Text="Host:" Grid.Column="0" Grid.Row="8" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
-                <TextBox x:Name="TextBoxHost" IsReadOnly="True" Grid.Column="1" Grid.Row="8" Margin="2"></TextBox>
-                <TextBlock x:Name="TextBlockHostExplain" Text="" Grid.Column="2" Grid.Row="8"></TextBlock>
+                <TextBox x:Name="TextBoxUUIDextra" IsReadOnly="False" Grid.Column="1" Grid.Row="3" Margin="2" MouseDoubleClick="TextBoxUUIDextra_MouseDoubleClick"></TextBox>
+                <TextBlock x:Name="TextBlockUUIDextraExplanation" Text="{DynamicResource TextBlockV2RayAlterIdExplain}" TextWrapping="Wrap" Grid.Column="2" Grid.Row="3" VerticalAlignment="Center"></TextBlock>
 
-                <TextBlock x:Name="TextBlockPath" Text="{DynamicResource TextBlockClientPath}" Grid.Column="0" Grid.Row="9" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
-                <TextBox x:Name="TextBoxPath" IsReadOnly="True" Grid.Column="1" Grid.Row="9" Margin="2"></TextBox>
-                <TextBlock x:Name="TextBlockPathExplain" Text="" Grid.Column="2" Grid.Row="9"></TextBlock>
-                <TextBlock x:Name="TextBlockQuicKey" Text="{DynamicResource TextBlockClientMkcpQuicKey}" Grid.Column="0" Grid.Row="10" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
-                <TextBox x:Name="TextBoxQuicKey" IsReadOnly="True" Grid.Column="1" Grid.Row="10" Margin="2"></TextBox>
-                <TextBlock x:Name="TextBlockQuicKeyExplain" Text="" Grid.Column="2" Grid.Row="10"></TextBlock>
+                <!--<TextBlock x:Name="TextBlockVless" Text="{DynamicResource TextBlockV2RayAlterId}" Grid.Column="0" Grid.Row="3" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxVless" IsReadOnly="False" Grid.Column="1" Grid.Row="3" Margin="2"></TextBox>-->
+
+                <TextBlock Text="{DynamicResource TextBlockEncryption}" Grid.Column="0" Grid.Row="4" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxEncryption" IsReadOnly="True" Grid.Column="1" Grid.Row="4" Margin="2" MouseDoubleClick="TextBoxEncryption_MouseDoubleClick"></TextBox>
+                <TextBlock Text="{DynamicResource TextBlockEncryptionIsAuto}" Grid.Column="2" Grid.Row="4" VerticalAlignment="Center"></TextBlock>
+                <TextBlock Text="{DynamicResource TextBlockTransferProtocol}" Grid.Column="0" Grid.Row="5" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxTransmission" IsReadOnly="True" Grid.Column="1" Grid.Row="5" Margin="2" MouseDoubleClick="TextBoxTransmission_MouseDoubleClick"></TextBox>
+
+                <TextBlock Text="{DynamicResource TextBlockCamouflageType}" Grid.Column="0" Grid.Row="6" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxCamouflageType" IsReadOnly="True" Grid.Column="1" Grid.Row="6" Margin="2" MouseDoubleClick="TextBoxCamouflageType_MouseDoubleClick"></TextBox>
+           
+                <TextBlock x:Name="TextBlockQuicEncryption" Text="{DynamicResource TextBlockQuicEncryption}" Visibility="Collapsed" Grid.Column="0" Grid.Row="7" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBlock x:Name="TextBlockHost" Text="Host:" Grid.Column="0" Grid.Row="7" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxHostQuicEncryption" IsReadOnly="True" Grid.Column="1" Grid.Row="7" Margin="2" MouseDoubleClick="TextBoxHostQuicEncryption_MouseDoubleClick"></TextBox>
+
+                
+                <!--<TextBox x:Name="TextBoxPath" IsReadOnly="True" Grid.Column="1" Grid.Row="9" Margin="2"></TextBox>
+                <TextBlock x:Name="TextBlockPathExplain" Text="" Grid.Column="2" Grid.Row="9"></TextBlock>-->
+
+                <TextBlock x:Name="TextBlockPath" Text="{DynamicResource TextBlockClientPath}" Visibility="Visible" Grid.Column="0" Grid.Row="8" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBlock x:Name="TextBlockMkcpSeed" Text="{DynamicResource TextBlockClientMkcpSeed}" Visibility="Collapsed" Grid.Column="0" Grid.Row="8" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBlock x:Name="TextBlockQuicKey" Text="{DynamicResource TextBlockClientQuicKey}" Visibility="Collapsed" Grid.Column="0" Grid.Row="8" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxQuicKeyMkcpSeedPath" IsReadOnly="True" Grid.Column="1" Grid.Row="8" Margin="2" MouseDoubleClick="TextBoxQuicKeyMkcpSeedPath_MouseDoubleClick"></TextBox>
+ 
+                <TextBlock x:Name="TextBlocTLSonOrNo" Text="{DynamicResource TextBlockIsOrNotTLS}" Grid.Column="0" Grid.Row="9" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxTLS" IsReadOnly="True" Grid.Column="1" Grid.Row="9" Margin="2" MouseDoubleClick="TextBoxTLS_MouseDoubleClick"></TextBox>
+
+                <TextBlock Text="{DynamicResource TextBlockCopyToClipExplain}" Grid.Column="0" Grid.Row="10" Grid.ColumnSpan="3" Margin="5"></TextBlock>
 
 
             </Grid>
@@ -129,7 +138,7 @@
             </Grid>
         </GroupBox>
         <!-- NaiveProxy客户端配置参数 -->
-        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxNaiveProxyClient" Visibility="Visible" Grid.Row="0">
+        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxNaiveProxyClient" Visibility="Collapsed" Grid.Row="0">
             <Grid >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.5*"></ColumnDefinition>
