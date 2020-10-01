@@ -18,6 +18,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using System.Drawing;
 using QRCoder;
+using System.Runtime.InteropServices;
 
 
 namespace ProxySU
@@ -29,6 +30,10 @@ namespace ProxySU
     {
         private static string saveFileFolder = "";
         private static string server = MainWindow.ReceiveConfigurationParameters[4];
+
+        [DllImport("user32.dll")]
+        private static extern int MessageBoxTimeoutA(IntPtr hWnd, string msg, string Caps, int type, int Id, int time);   //引用DLL
+ 
         public ResultClientInformation()
         {
             InitializeComponent();
@@ -112,9 +117,7 @@ namespace ProxySU
                     HideAlterId();
                     ShowHostName();
                     ShowPathV2ray();
-                    //TextBlockQrURLexplain.Text = Application.Current.FindResource("TabItemHeaderV2RayVlessProtocol").ToString();
-                    ImageShareQRcode.Visibility = Visibility.Collapsed;
-                    TextBoxURL.Visibility = Visibility.Collapsed;
+                    HideGroupBoxClientQRandURL();
                 }
                 else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb"))
                 {
@@ -127,9 +130,7 @@ namespace ProxySU
                     HideAlterId();
                     ShowHostName();
                     ShowPathV2ray();
-                    //TextBlockQrURLexplain.Text = Application.Current.FindResource("TabItemHeaderV2RayVlessProtocol").ToString();
-                    ImageShareQRcode.Visibility = Visibility.Collapsed;
-                    TextBoxURL.Visibility = Visibility.Collapsed;
+                    HideGroupBoxClientQRandURL();
                 }
                 else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessWebSocketTlsWeb"))
                 {
@@ -142,9 +143,7 @@ namespace ProxySU
                     HideAlterId();
                     ShowHostName();
                     ShowPathV2ray();
-                    //TextBlockQrURLexplain.Text = Application.Current.FindResource("TabItemHeaderV2RayVlessProtocol").ToString();
-                    ImageShareQRcode.Visibility = Visibility.Collapsed;
-                    TextBoxURL.Visibility = Visibility.Collapsed;
+                    HideGroupBoxClientQRandURL();
                 }
                 else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessHttp2Web"))
                 {
@@ -157,9 +156,7 @@ namespace ProxySU
                     HideAlterId();
                     ShowHostName();
                     ShowPathV2ray();
-                    //TextBlockQrURLexplain.Text = Application.Current.FindResource("TabItemHeaderV2RayVlessProtocol").ToString();
-                    ImageShareQRcode.Visibility = Visibility.Collapsed;
-                    TextBoxURL.Visibility = Visibility.Collapsed;
+                    HideGroupBoxClientQRandURL();
                 }
                 else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "webSocket"))
                 {
@@ -560,7 +557,18 @@ namespace ProxySU
 
         }
 
+        //显示二维码与链接分享
+        private void ShowGroupBoxClientQRandURL()
+        {
+            GroupBoxClientQRandURL.Visibility = Visibility.Visible;
+        }
+        //隐藏二维码与链接分享
+        private void HideGroupBoxClientQRandURL()
+        {
+            GroupBoxClientQRandURL.Visibility = Visibility.Collapsed;
+        }
 
+        
         //private void HidePath()
         //{
         //    TextBlockPath.Visibility = Visibility.Collapsed;
@@ -593,11 +601,15 @@ namespace ProxySU
             if (content != "")
             {
                 Clipboard.SetDataObject(content);
-                MessageBox.Show(Application.Current.FindResource("MessageBoxShow_V2RayUUIDcopyedToClip").ToString());
+                //MessageBox.Show(Application.Current.FindResource("MessageBoxShow_V2RayUUIDcopyedToClip").ToString());
+                string message = Application.Current.FindResource("MessageBoxShow_V2RayUUIDcopyedToClip").ToString();
+                MessageBoxTimeoutA((IntPtr)0, message, "", 0, 0, 600);    // 直接调用  0.6秒后自动关闭 
             }
             else
             {
-                MessageBox.Show(Application.Current.FindResource("MessageBoxShow_V2RayEmptyToClip").ToString());
+                //MessageBox.Show(Application.Current.FindResource("MessageBoxShow_V2RayEmptyToClip").ToString());
+                string message = Application.Current.FindResource("MessageBoxShow_V2RayEmptyToClip").ToString();
+                MessageBoxTimeoutA((IntPtr)0, message, "", 0, 0, 600);    // 直接调用  0.6秒后自动关闭 
             }
         }
 
@@ -650,14 +662,22 @@ namespace ProxySU
             CopyToClipboard(TextBoxHostQuicEncryption.Text);
         }
 
+        //复制Quic Key/mKCP Seed/路径Path 到剪贴板中
         private void TextBoxQuicKeyMkcpSeedPath_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             CopyToClipboard(TextBoxQuicKeyMkcpSeedPath.Text);
         }
 
+        //复制TLS 到剪贴板中
         private void TextBoxTLS_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             CopyToClipboard(TextBoxTLS.Text);
+        }
+
+        //复制URL链接到剪贴板中
+        private void TextBoxURL_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxURL.Text);
         }
 
         #endregion

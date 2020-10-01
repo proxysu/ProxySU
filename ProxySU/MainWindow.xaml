@@ -589,7 +589,7 @@
                                         <Button x:Name="ButtonClearOccupiedPorts" Content="{DynamicResource ButtonClearOccupiedPorts}" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonClearOccupiedPorts_Click"></Button>
                                         <Button x:Name="ButtonTestAndEnableBBR" Content="{DynamicResource ButtonTestAndEnableBBR}" Grid.Column="2" Grid.Row="0" Margin="5" Click="ButtonTestAndEnableBBR_Click"></Button>
                                         <Button x:Name="ButtonRemoveAllSoft" Content="{DynamicResource ButtonRemoveAllSoft}" Grid.Column="3" Grid.Row="0" Margin="5" Click="ButtonRemoveAllSoft_Click"></Button>
-                                        <Button Content="test" Grid.Column="0" Grid.Row="1" Margin="10" Click="Button_Click"></Button>
+                                        <Button Content="test" Grid.Column="0" Grid.Row="1" Margin="10" Click="Button_Click" Visibility="Collapsed"></Button>
                                     </Grid>
                                 </TabItem>
 
