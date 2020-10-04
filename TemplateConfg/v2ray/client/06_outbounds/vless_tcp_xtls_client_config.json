@@ -19,10 +19,7 @@
             },
             "streamSettings": {
                 "network": "tcp",
-                "security": "xtls",
-                "xtlsSettings": {
-                    "serverName": ""
-                }
+                "security": "xtls"
             }
         }
     ]

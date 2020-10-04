@@ -11,7 +11,7 @@
                             {
                                 "id": null,
                                 "alterId": 0,
-                                "security": "auto"
+                                "security": "none"
                             }
                         ]
                     }

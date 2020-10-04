@@ -10,8 +10,7 @@
                         "users": [
                             {
                                 "id": null,
-                                "encryption": "none",
-                                "level": 0
+                                "encryption": "none"
                             }
                         ]
                     }

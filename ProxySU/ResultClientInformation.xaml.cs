@@ -29,6 +29,7 @@ namespace ProxySU
     public partial class ResultClientInformation : Window
     {
         private static string saveFileFolder = "";
+        private static string configDomainSavePath = "";
         private static string server = MainWindow.ReceiveConfigurationParameters[4];
 
         [DllImport("user32.dll")]
@@ -55,7 +56,7 @@ namespace ProxySU
                 //用户ID(uuid)
                 TextBoxUUID.Text = MainWindow.ReceiveConfigurationParameters[2];
                 //额外ID
-                TextBoxUUIDextra.Text = "16";
+                TextBoxUUIDextra.Text = "0";
                 //加密方式，一般都为auto
                 TextBoxEncryption.Text = "auto";
 
@@ -70,231 +71,269 @@ namespace ProxySU
                 //QUIC密钥/mKCP Seed/路径Path
                 TextBoxQuicKeyMkcpSeedPath.Text = MainWindow.ReceiveConfigurationParameters[6];
 
-                //是否启用TLS
+                //TLS设置
                 TextBoxTLS.Text = "none";
 
-                if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "TCP"))
-                {
-                    TextBoxTransmission.Text = "tcp";
-                    TextBoxCamouflageType.Text = "none";
-                    TextBoxTLS.Text = "none";
-                    ShowHostName();
-                    ShowPathV2ray();
+                //初始化时，隐藏多方案客户端选择面板
+                GroupBoxSelectVlessVmessXtlsTcpWs.Visibility = Visibility.Collapsed;
 
-                }
-                else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "TCPhttp"))
+                if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessVmessXtlsTcpWebSocketWeb") == false)
                 {
-                    TextBoxTransmission.Text = "tcp";
-                    TextBoxCamouflageType.Text = "http";
-                    TextBoxTLS.Text = "none";
-                    ShowHostName();
-                    ShowPathV2ray();
-                }
-                else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "tcpTLS"))
-                {
-                    TextBoxTransmission.Text = "tcp";
-                    TextBoxCamouflageType.Text = "none";
-                    TextBoxTLS.Text = "tls";
-                    ShowHostName();
-                    ShowPathV2ray();
-                }
-                else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "tcpTLSselfSigned"))
-                {
-                    TextBoxTransmission.Text = "tcp";
-                    TextBoxCamouflageType.Text = "none";
-                    TextBoxTLS.Text = "tls";
-                    ShowHostName();
-                    ShowPathV2ray();
-                }
-                else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessXtlsTcp"))
-                {
-                    TextBlockVmessOrVless.Text = Application.Current.FindResource("TabItemHeaderV2RayVlessProtocol").ToString();
-
-                    TextBoxTransmission.Text = "tcp";
-                    TextBoxCamouflageType.Text = "none";
-                    TextBoxEncryption.Text = "none";
-                    TextBoxTLS.Text = "tls";
-                    HideAlterId();
-                    ShowHostName();
-                    ShowPathV2ray();
-                    HideGroupBoxClientQRandURL();
-                }
-                else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb"))
-                {
-                    TextBlockVmessOrVless.Text = Application.Current.FindResource("TabItemHeaderV2RayVlessProtocol").ToString();
-
-                    TextBoxTransmission.Text = "tcp";
-                    TextBoxCamouflageType.Text = "none";
-                    TextBoxEncryption.Text = "none";
-                    TextBoxTLS.Text = "tls";
-                    HideAlterId();
-                    ShowHostName();
-                    ShowPathV2ray();
-                    HideGroupBoxClientQRandURL();
-                }
-                else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessWebSocketTlsWeb"))
-                {
-                    TextBlockVmessOrVless.Text = Application.Current.FindResource("TabItemHeaderV2RayVlessProtocol").ToString();
-
-                    TextBoxTransmission.Text = "ws";
-                    TextBoxCamouflageType.Text = "none";
-                    TextBoxEncryption.Text = "none";
-                    TextBoxTLS.Text = "tls";
-                    HideAlterId();
-                    ShowHostName();
-                    ShowPathV2ray();
-                    HideGroupBoxClientQRandURL();
-                }
-                else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessHttp2Web"))
-                {
-                    TextBlockVmessOrVless.Text = Application.Current.FindResource("TabItemHeaderV2RayVlessProtocol").ToString();
-
-                    TextBoxTransmission.Text = "h2";
-                    TextBoxCamouflageType.Text = "none";
-                    TextBoxEncryption.Text = "none";
-                    TextBoxTLS.Text = "tls";
-                    HideAlterId();
-                    ShowHostName();
-                    ShowPathV2ray();
-                    HideGroupBoxClientQRandURL();
-                }
-                else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "webSocket"))
-                {
-                    TextBoxTransmission.Text = "ws";
-                    TextBoxCamouflageType.Text = "none";
-                    TextBoxTLS.Text = "none";
-                    ShowHostName();
-                    ShowPathV2ray();
-                }
-                else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "WebSocketTLS"))
-                {
-                    TextBoxTransmission.Text = "ws";
-                    TextBoxCamouflageType.Text = "none";
-                    TextBoxTLS.Text = "tls";
-                    ShowHostName();
-                    ShowPathV2ray();
-                }
-                else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "WebSocketTLS2Web"))
-                {
-                    TextBoxTransmission.Text = "ws";
-                    TextBoxCamouflageType.Text = "none";
-                    TextBoxTLS.Text = "tls";
-                    ShowHostName();
-                    ShowPathV2ray();
-                }
-                else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "WebSocketTLSselfSigned"))
-                {
-                    TextBoxTransmission.Text = "ws";
-                    TextBoxCamouflageType.Text = "none";
-                    TextBoxTLS.Text = "tls";
-                    ShowHostName();
-                    ShowPathV2ray();
-                }
-                else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "Http2"))
-                {
-                    TextBoxTransmission.Text = "h2";
-                    TextBoxCamouflageType.Text = "none";
-                    TextBoxTLS.Text = "tls";
-                    ShowHostName();
-                    ShowPathV2ray();
-                }
-                else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "http2Web"))
-                {
-                    TextBoxTransmission.Text = "h2";
-                    TextBoxCamouflageType.Text = "none";
-                    TextBoxHostQuicEncryption.Text = MainWindow.ReceiveConfigurationParameters[4];//获取Host
-                    TextBoxTLS.Text = "tls";
-                    ShowHostName();
-                    ShowPathV2ray();
-                }
-                else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "http2selfSigned"))
-                {
-                    TextBoxTransmission.Text = "h2";
-                    TextBoxCamouflageType.Text = "none";
-                    TextBoxTLS.Text = "tls";
-                    ShowHostName();
-                    ShowPathV2ray();
-                }
-                else if (MainWindow.ReceiveConfigurationParameters[0].Contains("mKCP"))
-                {
-                    if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "mKCPNone"))
+                    #region 单模式方案
+                    if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "TCP") == true)
                     {
+                        TextBoxTransmission.Text = "tcp";
                         TextBoxCamouflageType.Text = "none";
-                    }
-                    else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "mKCP2SRTP"))
-                    {
-                        TextBoxCamouflageType.Text = "srtp";
-                    }
-                    else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "mKCPuTP"))
-                    {
-                        TextBoxCamouflageType.Text = "utp";
-                    }
-                    else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "mKCP2WechatVideo"))
-                    {
-                        TextBoxCamouflageType.Text = "wechat-video";
-                    }
-                    else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "mKCP2DTLS"))
-                    {
-                        TextBoxCamouflageType.Text = "dtls";
-                    }
-                    else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "mKCP2WireGuard"))
-                    {
-                        TextBoxCamouflageType.Text = "wireguard";
-                    }
+                        TextBoxTLS.Text = "none";
+                        ShowHostName();
+                        ShowPathV2ray();
 
-                    TextBoxTransmission.Text = "kcp";
-                    TextBoxQuicKeyMkcpSeedPath.Text = MainWindow.ReceiveConfigurationParameters[6];//获取mkcp Seed
-                    TextBoxTLS.Text = "none";
-                    ShowHostName();
-                    ShowMkcpSeed();
-                }
-                else if (MainWindow.ReceiveConfigurationParameters[0].Contains("Quic") == true)
-                {
-                    if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "QuicNone"))
+                    }
+                    else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "TCPhttp") == true)
                     {
+                        TextBoxTransmission.Text = "tcp";
+                        TextBoxCamouflageType.Text = "http";
+                        TextBoxTLS.Text = "none";
+                        ShowHostName();
+                        ShowPathV2ray();
+                    }
+                    else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "tcpTLS") == true)
+                    {
+                        TextBoxEncryption.Text = "none";
+                        TextBoxTransmission.Text = "tcp";
                         TextBoxCamouflageType.Text = "none";
+                        TextBoxTLS.Text = "tls";
+                        ShowHostName();
+                        ShowPathV2ray();
+                    }
+                    else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "tcpTLSselfSigned") == true)
+                    {
+                        TextBoxTransmission.Text = "tcp";
+                        TextBoxCamouflageType.Text = "none";
+                        TextBoxTLS.Text = "tls";
+                        ShowHostName();
+                        ShowPathV2ray();
+                    }
+                    else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessXtlsTcp") == true)
+                    {
+                        TextBlockVmessOrVless.Text = Application.Current.FindResource("TabItemHeaderV2RayVlessProtocol").ToString();
 
+                        TextBoxTransmission.Text = "tcp";
+                        TextBoxCamouflageType.Text = "none";
+                        TextBoxEncryption.Text = "none";
+                        TextBoxTLS.Text = "xtls";
+                        HideAlterId();
+                        ShowHostName();
+                        ShowPathV2ray();
+                        HideGroupBoxClientQRandURL();
                     }
-                    else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "QuicSRTP"))
+                    else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == true)
                     {
-                        TextBoxCamouflageType.Text = "srtp";
+                        TextBlockVmessOrVless.Text = Application.Current.FindResource("TabItemHeaderV2RayVlessProtocol").ToString();
+
+                        TextBoxTransmission.Text = "tcp";
+                        TextBoxCamouflageType.Text = "none";
+                        TextBoxEncryption.Text = "none";
+                        TextBoxTLS.Text = "tls";
+                        HideAlterId();
+                        ShowHostName();
+                        ShowPathV2ray();
+                        HideGroupBoxClientQRandURL();
                     }
-                    else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "Quic2uTP"))
+                    else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessWebSocketTlsWeb") == true)
                     {
-                        TextBoxCamouflageType.Text = "utp";
+                        TextBlockVmessOrVless.Text = Application.Current.FindResource("TabItemHeaderV2RayVlessProtocol").ToString();
+
+                        TextBoxTransmission.Text = "ws";
+                        TextBoxCamouflageType.Text = "none";
+                        TextBoxEncryption.Text = "none";
+                        TextBoxTLS.Text = "tls";
+                        HideAlterId();
+                        ShowHostName();
+                        ShowPathV2ray();
+                        HideGroupBoxClientQRandURL();
                     }
-                    else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "QuicWechatVideo"))
+                    else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessHttp2Web") == true)
                     {
-                        TextBoxCamouflageType.Text = "wechat-video";
+                        TextBlockVmessOrVless.Text = Application.Current.FindResource("TabItemHeaderV2RayVlessProtocol").ToString();
+
+                        TextBoxTransmission.Text = "h2";
+                        TextBoxCamouflageType.Text = "none";
+                        TextBoxEncryption.Text = "none";
+                        TextBoxTLS.Text = "tls";
+                        HideAlterId();
+                        ShowHostName();
+                        ShowPathV2ray();
+                        HideGroupBoxClientQRandURL();
                     }
-                    else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "QuicDTLS"))
+                    else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "webSocket") == true)
                     {
-                        TextBoxCamouflageType.Text = "dtls";
+                        TextBoxTransmission.Text = "ws";
+                        TextBoxCamouflageType.Text = "none";
+                        TextBoxTLS.Text = "none";
+                        ShowHostName();
+                        ShowPathV2ray();
                     }
-                    else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "QuicWireGuard"))
+                    else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "WebSocketTLS") == true)
                     {
-                        TextBoxCamouflageType.Text = "wireguard";
+                        TextBoxEncryption.Text = "none";
+                        TextBoxTransmission.Text = "ws";
+                        TextBoxCamouflageType.Text = "none";
+                        TextBoxTLS.Text = "tls";
+                        ShowHostName();
+                        ShowPathV2ray();
+                    }
+                    else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "WebSocketTLS2Web") == true)
+                    {
+                        TextBoxEncryption.Text = "none";
+                        TextBoxTransmission.Text = "ws";
+                        TextBoxCamouflageType.Text = "none";
+                        TextBoxTLS.Text = "tls";
+                        ShowHostName();
+                        ShowPathV2ray();
+                    }
+                    else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "WebSocketTLSselfSigned") == true)
+                    {
+                        TextBoxTransmission.Text = "ws";
+                        TextBoxCamouflageType.Text = "none";
+                        TextBoxTLS.Text = "tls";
+                        ShowHostName();
+                        ShowPathV2ray();
+                    }
+                    else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "Http2") == true)
+                    {
+                        TextBoxEncryption.Text = "none";
+                        TextBoxTransmission.Text = "h2";
+                        TextBoxCamouflageType.Text = "none";
+                        TextBoxTLS.Text = "tls";
+                        ShowHostName();
+                        ShowPathV2ray();
+                    }
+                    else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "http2Web") == true)
+                    {
+                        TextBoxEncryption.Text = "none";
+                        TextBoxTransmission.Text = "h2";
+                        TextBoxCamouflageType.Text = "none";
+                        TextBoxHostQuicEncryption.Text = MainWindow.ReceiveConfigurationParameters[4];//获取Host
+                        TextBoxTLS.Text = "tls";
+                        ShowHostName();
+                        ShowPathV2ray();
+                    }
+                    else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "http2selfSigned") == true)
+                    {
+                        TextBoxTransmission.Text = "h2";
+                        TextBoxCamouflageType.Text = "none";
+                        TextBoxTLS.Text = "tls";
+                        ShowHostName();
+                        ShowPathV2ray();
+                    }
+                    else if (MainWindow.ReceiveConfigurationParameters[0].Contains("mKCP") == true)
+                    {
+                        if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "mKCPNone") == true)
+                        {
+                            TextBoxCamouflageType.Text = "none";
+                        }
+                        else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "mKCP2SRTP") == true)
+                        {
+                            TextBoxCamouflageType.Text = "srtp";
+                        }
+                        else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "mKCPuTP") == true)
+                        {
+                            TextBoxCamouflageType.Text = "utp";
+                        }
+                        else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "mKCP2WechatVideo") == true)
+                        {
+                            TextBoxCamouflageType.Text = "wechat-video";
+                        }
+                        else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "mKCP2DTLS") == true)
+                        {
+                            TextBoxCamouflageType.Text = "dtls";
+                        }
+                        else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "mKCP2WireGuard") == true)
+                        {
+                            TextBoxCamouflageType.Text = "wireguard";
+                        }
+
+                        TextBoxTransmission.Text = "kcp";
+                        TextBoxQuicKeyMkcpSeedPath.Text = MainWindow.ReceiveConfigurationParameters[6];//获取mkcp Seed
+                        TextBoxTLS.Text = "none";
+                        ShowHostName();
+                        ShowMkcpSeed();
+                    }
+                    else if (MainWindow.ReceiveConfigurationParameters[0].Contains("Quic") == true)
+                    {
+                        if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "QuicNone") == true)
+                        {
+                            TextBoxCamouflageType.Text = "none";
+
+                        }
+                        else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "QuicSRTP") == true)
+                        {
+                            TextBoxCamouflageType.Text = "srtp";
+                        }
+                        else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "Quic2uTP") == true)
+                        {
+                            TextBoxCamouflageType.Text = "utp";
+                        }
+                        else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "QuicWechatVideo") == true)
+                        {
+                            TextBoxCamouflageType.Text = "wechat-video";
+                        }
+                        else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "QuicDTLS") == true)
+                        {
+                            TextBoxCamouflageType.Text = "dtls";
+                        }
+                        else if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "QuicWireGuard") == true)
+                        {
+                            TextBoxCamouflageType.Text = "wireguard";
+                        }
+
+                        TextBoxTransmission.Text = "quic";
+                        TextBoxHostQuicEncryption.Text = MainWindow.ReceiveConfigurationParameters[3];//获取Quic加密方式
+                        TextBoxQuicKeyMkcpSeedPath.Text = MainWindow.ReceiveConfigurationParameters[6];//获取Quic加密密钥
+                        TextBoxTLS.Text = "none";
+                        ShowQuicEncryption();
+                        ShowQuicKey();
                     }
 
-                    TextBoxTransmission.Text = "quic";
-                    TextBoxHostQuicEncryption.Text = MainWindow.ReceiveConfigurationParameters[3];//获取Quic加密方式
-                    TextBoxQuicKeyMkcpSeedPath.Text = MainWindow.ReceiveConfigurationParameters[6];//获取Quic加密密钥
-                    TextBoxTLS.Text = "none";
-                    ShowQuicEncryption();
-                    ShowQuicKey();
+                    else
+                    {
+                        TextBoxTransmission.Text = "tcp";
+                        TextBoxCamouflageType.Text = "none";
+                        TextBoxTLS.Text = "none";
+                        ShowHostName();
+                        ShowPathV2ray();
+                    }
+                    CheckDir("v2ray_config");
+
+                    GenerateV2rayShareQRcodeAndBase64Url();
+                    #endregion
                 }
-
                 else
                 {
-                    TextBoxTransmission.Text = "tcp";
-                    TextBoxCamouflageType.Text = "none";
-                    TextBoxTLS.Text = "none";
-                    ShowHostName();
-                    ShowPathV2ray();
-                }
-                CheckDir("v2ray_config");
+                    GroupBoxSelectVlessVmessXtlsTcpWs.Visibility = Visibility.Visible;
 
-                GenerateV2rayShareQRcodeAndBase64Url();
+                    string proxyfolder = CheckDir("v2ray_config");
+                    configDomainSavePath = CreateConfigSaveDir(proxyfolder, TextBoxHostAddress.Text);
+
+                    V2raySetVlessTcpXtls();
+                    GenerateV2rayVlessTcpXtlsShareQRcodeAndBase64Url();
+
+                    V2raySetVlessTcpTls();
+                    GenerateV2rayVlessTcpTlsShareQRcodeAndBase64Url();
+
+                    V2raySetVlessWsTls();
+                    GenerateV2rayVlessWsTlsShareQRcodeAndBase64Url();
+
+                    V2raySetVmessTcpTls();
+                    GenerateV2rayVmessTcpTlsShareQRcodeAndBase64Url();
+
+                    V2raySetVmessWsTls();
+                    GenerateV2rayVmessWsTlsShareQRcodeAndBase64Url();
+
+                    RadioButtonVlessTcpXtls.IsChecked = true;
+                }
+                
             }
             else if (String.Equals(MainWindow.proxyType, "TrojanGo"))
             {
@@ -499,8 +538,100 @@ namespace ProxySU
             }
 
         }
+
+        #region V2ray参数设置函数
+
+        //设置VLESS over TCP with XTLS
+        private void V2raySetVlessTcpXtls()
+        {
+            TextBlockVmessOrVless.Text = Application.Current.FindResource("TabItemHeaderV2RayVlessProtocol").ToString();
+            TextBlockVmessOrVless.Visibility = Visibility.Visible;
+            //隐藏下面的二维码显示
+            HideGroupBoxClientQRandURL();
+
+            TextBoxEncryption.Text = "none";
+            TextBoxTransmission.Text = "tcp";
+            TextBoxCamouflageType.Text = "none";
+            TextBoxTLS.Text = "xtls";
+            HideAlterId();
+            ShowHostName();
+            ShowPathV2ray();
+            TextBoxQuicKeyMkcpSeedPath.Text = "";
+
+        }
+
+        //设置VLESS over TCP with TLS
+        private void V2raySetVlessTcpTls()
+        {
+            TextBlockVmessOrVless.Text = Application.Current.FindResource("TabItemHeaderV2RayVlessProtocol").ToString();
+            TextBlockVmessOrVless.Visibility = Visibility.Visible;
+            //隐藏下面的二维码显示
+            HideGroupBoxClientQRandURL();
+
+            TextBoxEncryption.Text = "none";
+            TextBoxTransmission.Text = "tcp";
+            TextBoxCamouflageType.Text = "none";
+            TextBoxTLS.Text = "tls";
+            HideAlterId();
+            ShowHostName();
+            ShowPathV2ray();
+            TextBoxQuicKeyMkcpSeedPath.Text = "";
+        }
+
+        //设置VLESS over WS with TLS
+        private void V2raySetVlessWsTls()
+        {
+            TextBlockVmessOrVless.Text = Application.Current.FindResource("TabItemHeaderV2RayVlessProtocol").ToString();
+            TextBlockVmessOrVless.Visibility = Visibility.Visible;
+            //隐藏下面的二维码显示
+            HideGroupBoxClientQRandURL();
+
+            TextBoxEncryption.Text = "none";
+            TextBoxTransmission.Text = "ws";
+            TextBoxCamouflageType.Text = "none";
+            TextBoxTLS.Text = "tls";
+            HideAlterId();
+            ShowHostName();
+            ShowPathV2ray();
+            TextBoxQuicKeyMkcpSeedPath.Text = MainWindow.ReceiveConfigurationParameters[3];
+
+        }
+
+        //设置VMess over TCP with TLS
+        private void V2raySetVmessTcpTls()
+        {
+            TextBoxEncryption.Text = "none";
+            TextBoxTransmission.Text = "tcp";
+            TextBoxCamouflageType.Text = "none";
+            TextBoxTLS.Text = "tls";
+            ShowAlterId();
+            ShowHostName();
+            ShowPathV2ray();
+            TextBoxQuicKeyMkcpSeedPath.Text = MainWindow.ReceiveConfigurationParameters[9];
+            TextBlockVmessOrVless.Visibility = Visibility.Collapsed;
+            //隐藏下面的二维码显示,因为V2rayN还未支持TCP Path模式。
+            HideGroupBoxClientQRandURL();
+            //ShowGroupBoxClientQRandURL();
+        }
+
+        //设置VMess over WS with TLS
+        private void V2raySetVmessWsTls()
+        {
+            TextBoxEncryption.Text = "none";
+            TextBoxTransmission.Text = "ws";
+            TextBoxCamouflageType.Text = "none";
+            TextBoxTLS.Text = "tls";
+            ShowAlterId();
+            ShowHostName();
+            ShowPathV2ray();
+            TextBoxQuicKeyMkcpSeedPath.Text = MainWindow.ReceiveConfigurationParameters[6];
+            TextBlockVmessOrVless.Visibility = Visibility.Collapsed;
+            ShowGroupBoxClientQRandURL();
+        }
+        #endregion
+
         #region 界面控制相关
-        
+
         //显示Quic 加密方式
         private void ShowQuicEncryption()
         {
@@ -565,32 +696,34 @@ namespace ProxySU
         //隐藏二维码与链接分享
         private void HideGroupBoxClientQRandURL()
         {
-            GroupBoxClientQRandURL.Visibility = Visibility.Collapsed;
+            GroupBoxClientQRandURL.Visibility = Visibility.Hidden;
         }
 
-        
-        //private void HidePath()
-        //{
-        //    TextBlockPath.Visibility = Visibility.Collapsed;
-        //    TextBoxQuicKeyMkcpSeedPath.Visibility = Visibility.Collapsed;
-        //}
-        //private void ShowPath()
-        //{
-        //    TextBlockPath.Visibility = Visibility.Visible;
-        //    TextBoxQuicKeyMkcpSeedPath.Visibility = Visibility.Visible;
+        //以下几个为对RadioButton按钮的选中后，界面变化与参数显示
+        private void RadioButtonVlessTcpXtls_Checked(object sender, RoutedEventArgs e)
+        {
+            V2raySetVlessTcpXtls();
+        }
 
-        //}
-        //private void HideQuicKey()
-        //{
-        //    TextBlockQuicKey.Visibility = Visibility.Collapsed;
-        //    TextBoxQuicKeyMkcpSeedPath.Visibility = Visibility.Collapsed;
-        //}
+        private void RadioButtonVlessTcpTls_Checked(object sender, RoutedEventArgs e)
+        {
+            V2raySetVlessTcpTls();
+        }
 
-        //private void ShowQuicKey()
-        //{
-        //    TextBlockQuicKey.Visibility = Visibility.Visible;
-        //    TextBoxQuicKeyMkcpSeedPath.Visibility = Visibility.Visible;
-        //}
+        private void RadioButtonVlessWsTls_Checked(object sender, RoutedEventArgs e)
+        {
+            V2raySetVlessWsTls();
+        }
+
+        private void RadioButtonVmessTcpTls_Checked(object sender, RoutedEventArgs e)
+        {
+            V2raySetVmessTcpTls();
+        }
+
+        private void RadioButtonVmessWsTls_Checked(object sender, RoutedEventArgs e)
+        {
+            V2raySetVmessWsTls();
+        }
         #endregion
 
         #region 复制参数到剪贴板中
@@ -682,7 +815,8 @@ namespace ProxySU
 
         #endregion
 
-        //生成v2rayN客户端导入文件
+        #region V2Ray客户端生成
+        //生成单方案v2rayN客户端导入文件
         private void GenerateV2rayShareQRcodeAndBase64Url()
         {
             //生成v2rayN的json文件
@@ -729,39 +863,32 @@ namespace ProxySU
             v2rayNjsonObject["ps"] = v2rayNjsonObject["add"];  //设置备注
             //MessageBox.Show(v2rayNjsonObject["v"].ToString());
 
-            string saveFileFolderFirst = v2rayNjsonObject["ps"].ToString();
-            int num = 1;
-            saveFileFolder = saveFileFolderFirst;
-            CheckDir(@"v2ray_config");
-            while (Directory.Exists(@"v2ray_config\" + saveFileFolder))
-            {
-                saveFileFolder = saveFileFolderFirst + "_copy_" + num.ToString();
-                num++;
-            }
-            CheckDir(@"v2ray_config\" + saveFileFolder);
+            string proxyfolder = CheckDir("v2ray_config");
+            configDomainSavePath = CreateConfigSaveDir(proxyfolder, TextBoxHostAddress.Text);
+            string configSavePath = configDomainSavePath;
+
             //生成二维码与URL，跳过VlessTcpTlsWeb暂时未有URL标准
             string vmessUrl = "vmess://" + ToBase64Encode(v2rayNjsonObject.ToString());
             TextBoxURL.Text = vmessUrl;
-            using (StreamWriter sw = new StreamWriter($"v2ray_config\\{saveFileFolder}\\url.txt"))
+            if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessXtlsTcp") == false
+                && String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false
+                && String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessWebSocketTlsWeb") == false
+                && String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessHttp2Web") == false)
             {
-                if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false)
+                using (StreamWriter sw = new StreamWriter($"{configSavePath}\\url.txt"))
                 {
                     sw.WriteLine(vmessUrl);
                 }
+                ImageShareQRcode.Source = CreateQRCode(vmessUrl, $"{configSavePath}\\QR.bmp");
             }
-            if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false)
-            {
-                ImageShareQRcode.Source = CreateQRCode(vmessUrl, $"v2ray_config\\{saveFileFolder}\\QR.bmp");
-            }
-            
-
+    
             if (File.Exists(@"v2ray_config\config.json"))
             {
-                File.Move(@"v2ray_config\config.json", @"v2ray_config\" + saveFileFolder + @"\config.json");
+                File.Move(@"v2ray_config\config.json", $"{configSavePath}\\config.json");
                 //File.Delete(@"config\config.json");//删除该文件
             }
 
-            using (StreamWriter sw = new StreamWriter($"v2ray_config\\{saveFileFolder}\\readme.txt"))
+            using (StreamWriter sw = new StreamWriter($"{configSavePath}\\readme.txt"))
             {
                 sw.WriteLine("config.json");
                 //****** "此文件为v2ray官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080，http代理地址：127.0.0.1:1081" ******
@@ -802,62 +929,936 @@ namespace ProxySU
 
                 //****** "此文件为v2rayN、Trojan-QT5、v2rayNG(Android)、Shadowrocket(ios)复制粘贴导入节点的vmess网址" ******
                 sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine11").ToString());
-                sw.WriteLine("-----------------------------------------\n");
 
-                //****** "服务器通用连接配置参数" ******
-                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine12").ToString());
-                //sw.Write(Application.Current.FindResource("readmeTxtV2RayExplain").ToString());
-                sw.WriteLine(Application.Current.FindResource("TextBlockServerAddress").ToString() + $"{TextBoxHostAddress.Text}");
-                sw.WriteLine(Application.Current.FindResource("TextBlockServerPort").ToString() + $"{TextBoxPort.Text}");
-                sw.WriteLine(Application.Current.FindResource("TextBlockUserUUID").ToString() + $"{TextBoxUUID.Text}");
-                sw.WriteLine(Application.Current.FindResource("TextBlockV2RayAlterId").ToString() + $"{TextBoxUUIDextra.Text}");
-                sw.WriteLine(Application.Current.FindResource("TextBlockEncryption").ToString() + $"{TextBoxEncryption.Text}");
-                sw.WriteLine(Application.Current.FindResource("TextBlockTransferProtocol").ToString() + $"{TextBoxTransmission.Text}");
-                sw.WriteLine(Application.Current.FindResource("TextBlockCamouflageType").ToString() + $"{TextBoxCamouflageType.Text}");
-                sw.WriteLine(Application.Current.FindResource("TextBlockIsOrNotTLS").ToString() + $"{TextBoxTLS.Text}");
-                sw.WriteLine("host:" + $"{TextBoxHostAddress.Text}");
-                sw.WriteLine(Application.Current.FindResource("TextBlockClientPath").ToString() + $"{TextBoxQuicKeyMkcpSeedPath.Text}");
-                sw.WriteLine(Application.Current.FindResource("TextBlockClientMkcpQuicKey").ToString() + $"{TextBoxQuicKeyMkcpSeedPath.Text}");
-                
-            }
-
-
-
+                //写入通用配置参数
+                TxtWriteGeneralParameters(sw);
+}
         }
 
+        #region VLESS VMESS XTLS WS共存方案生成链接与说明文件
+
+        //生成VLESS Vmess Tcp Xtls Ws 配置保存（暂未有分享链接与二维码）
+        private void GenerateV2rayVlessVmessTcpXtlsWsShareQRcodeAndBase64Url(string plainSavePath)
+        {
+            #region 暂时不用内容
+            //            //生成v2rayN的json文件
+            //            string v2rayNjsonFile = @"
+            //{
+            //  ""v"": """",
+            //  ""ps"": """",
+            //  ""add"": """",
+            //  ""port"": """",
+            //  ""id"": """",
+            //  ""aid"": """",
+            //  ""net"": """",
+            //  ""type"": """",
+            //  ""host"": """",
+            //  ""path"": """",
+            //  ""tls"": """"
+            //}";
+            //            //MessageBox.Show(v2rayNjsonFile);
+            //            JObject v2rayNjsonObject = JObject.Parse(v2rayNjsonFile);
+            //            v2rayNjsonObject["v"] = "2";
+            //            v2rayNjsonObject["add"] = TextBoxHostAddress.Text; //设置域名
+            //            v2rayNjsonObject["port"] = TextBoxPort.Text; //设置端口
+            //            v2rayNjsonObject["id"] = TextBoxUUID.Text; //设置uuid
+            //            v2rayNjsonObject["aid"] = TextBoxUUIDextra.Text; //设置额外ID
+            //            v2rayNjsonObject["net"] = TextBoxTransmission.Text; //设置传输模式
+            //            v2rayNjsonObject["type"] = TextBoxCamouflageType.Text; //设置伪装类型
+
+            //            if (TextBoxTransmission.Text.Contains("kcp") == true)
+            //            {
+            //                v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPath.Text;//设置mKCP Seed
+            //            }
+            //            else if (TextBoxTransmission.Text.Contains("quic") == true)
+            //            {
+            //                v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPath.Text;//设置quic密钥
+            //                v2rayNjsonObject["host"] = TextBoxHostQuicEncryption.Text;//Quic加密方式
+            //            }
+            //            else
+            //            {
+            //                v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPath.Text; //设置路径
+            //                v2rayNjsonObject["host"] = TextBoxHostQuicEncryption.Text;//设置TLS的Host
+            //            }
+
+            //            v2rayNjsonObject["tls"] = TextBoxTLS.Text;  //设置是否启用TLS
+            //            v2rayNjsonObject["ps"] = v2rayNjsonObject["add"];  //设置备注
+            //            //MessageBox.Show(v2rayNjsonObject["v"].ToString());
+
+            //string saveFileFolderFirst = TextBoxHostAddress.Text;
+            //int num = 1;
+            //saveFileFolder = saveFileFolderFirst;
+            //CheckDir(@"v2ray_config");
+            //while (Directory.Exists(@"v2ray_config\" + saveFileFolder))
+            //{
+            //    saveFileFolder = saveFileFolderFirst + "_copy_" + num.ToString();
+            //    num++;
+            //}
+            //CheckDir(@"v2ray_config\" + saveFileFolder);
+
+            #endregion
+
+            //创建保存目录
+            //string plainSavePath = @"";
+
+            //v2ray_config\${域名IP}\vless_tcp_xtls_client_config
+            string configSavePath = CheckDir($"{configDomainSavePath}\\{plainSavePath}");
+
+
+            //生成二维码与URL，跳过VlessTcpTlsWeb暂时未有URL标准
+            //string vmessUrl = "vmess://" + ToBase64Encode(v2rayNjsonObject.ToString());
+            //TextBoxURL.Text = vmessUrl;
+            //using (StreamWriter sw = new StreamWriter($"{configSavePath}\\url.txt"))
+            //{
+            //    if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false)
+            //    {
+            //        sw.WriteLine(vmessUrl);
+            //    }
+            //}
+            //if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false)
+            //{
+            //    ImageShareQRcode.Source = CreateQRCode(vmessUrl, $"v2ray_config\\{saveFileFolder}\\QR.bmp");
+            //}
+
+
+            if (File.Exists($"v2ray_config\\{plainSavePath}\\config.json"))
+            {
+                File.Move($"v2ray_config\\{plainSavePath}\\config.json", $"{configSavePath}\\config.json");
+                Directory.Delete($"v2ray_config\\{plainSavePath}");
+            }
+
+            using (StreamWriter sw = new StreamWriter($"{configSavePath}\\readme.txt"))
+            {
+                sw.WriteLine("config.json");
+                //****** "此文件为v2ray官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080，http代理地址：127.0.0.1:1081" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine01").ToString());
+
+                //****** "v2ray官方网站：https://www.v2ray.com/" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine02").ToString());
+
+                //****** "v2ray官方程序下载地址：https://github.com/v2ray/v2ray-core/releases" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine03").ToString());
+
+                //****** "下载相应版本，Windows选择v2ray-windows-64.zip或者v2ray-windows-32.zip，解压后提取v2ctl.exe和v2ray.exe。与config.json放在同一目录，运行v2ray.exe即可。" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine04").ToString());
+
+                sw.WriteLine("-----------------------------------------");
+                //sw.WriteLine("QR.bmp");
+
+                //****** "此文件为v2rayN、Trojan-QT5、v2rayNG(Android)、Shadowrocket(ios)扫码导入节点" ******
+                //sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine05").ToString());
+
+                //****** "v2rayN下载网址：https://github.com/2dust/v2rayN/releases" ******
+                //sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine06").ToString());
+
+                //****** "Trojan-QT5：https://github.com/Trojan-Qt5/Trojan-Qt5" ******
+                //sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine07").ToString());
+
+                //****** "v2rayNG(Android)下载网址：https://github.com/2dust/v2rayNG/releases" ******
+                //sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine08").ToString());
+
+                //****** "v2rayNG(Android)在Google Play下载网址：https://play.google.com/store/apps/details?id=com.v2ray.ang" ******
+                //sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine09").ToString());
+
+                //****** "Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine10").ToString());
+
+                //sw.WriteLine("-----------------------------------------");
+                //sw.WriteLine("url.txt");
+
+                //****** "此文件为v2rayN、Trojan-QT5、v2rayNG(Android)、Shadowrocket(ios)复制粘贴导入节点的vmess网址" ******
+                //sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine11").ToString());
+                
+                //写入通用配置参数
+                TxtWriteGeneralParameters(sw);
+            }
+        }
+
+
+        //生成VLESS over TCP with XTLS的配置保存（暂未有分享链接与二维码）
+        private void GenerateV2rayVlessTcpXtlsShareQRcodeAndBase64Url()
+        {
+            #region 暂时不用内容
+            //            //生成v2rayN的json文件
+            //            string v2rayNjsonFile = @"
+            //{
+            //  ""v"": """",
+            //  ""ps"": """",
+            //  ""add"": """",
+            //  ""port"": """",
+            //  ""id"": """",
+            //  ""aid"": """",
+            //  ""net"": """",
+            //  ""type"": """",
+            //  ""host"": """",
+            //  ""path"": """",
+            //  ""tls"": """"
+            //}";
+            //            //MessageBox.Show(v2rayNjsonFile);
+            //            JObject v2rayNjsonObject = JObject.Parse(v2rayNjsonFile);
+            //            v2rayNjsonObject["v"] = "2";
+            //            v2rayNjsonObject["add"] = TextBoxHostAddress.Text; //设置域名
+            //            v2rayNjsonObject["port"] = TextBoxPort.Text; //设置端口
+            //            v2rayNjsonObject["id"] = TextBoxUUID.Text; //设置uuid
+            //            v2rayNjsonObject["aid"] = TextBoxUUIDextra.Text; //设置额外ID
+            //            v2rayNjsonObject["net"] = TextBoxTransmission.Text; //设置传输模式
+            //            v2rayNjsonObject["type"] = TextBoxCamouflageType.Text; //设置伪装类型
+
+            //            if (TextBoxTransmission.Text.Contains("kcp") == true)
+            //            {
+            //                v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPath.Text;//设置mKCP Seed
+            //            }
+            //            else if (TextBoxTransmission.Text.Contains("quic") == true)
+            //            {
+            //                v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPath.Text;//设置quic密钥
+            //                v2rayNjsonObject["host"] = TextBoxHostQuicEncryption.Text;//Quic加密方式
+            //            }
+            //            else
+            //            {
+            //                v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPath.Text; //设置路径
+            //                v2rayNjsonObject["host"] = TextBoxHostQuicEncryption.Text;//设置TLS的Host
+            //            }
+
+            //            v2rayNjsonObject["tls"] = TextBoxTLS.Text;  //设置是否启用TLS
+            //            v2rayNjsonObject["ps"] = v2rayNjsonObject["add"];  //设置备注
+            //            //MessageBox.Show(v2rayNjsonObject["v"].ToString());
+
+            //string saveFileFolderFirst = TextBoxHostAddress.Text;
+            //int num = 1;
+            //saveFileFolder = saveFileFolderFirst;
+            //CheckDir(@"v2ray_config");
+            //while (Directory.Exists(@"v2ray_config\" + saveFileFolder))
+            //{
+            //    saveFileFolder = saveFileFolderFirst + "_copy_" + num.ToString();
+            //    num++;
+            //}
+            //CheckDir(@"v2ray_config\" + saveFileFolder);
+
+            #endregion
+
+            //创建保存目录
+            string plainSavePath = @"vless_tcp_xtls_client_config";
+
+            //v2ray_config\${域名IP}\vless_tcp_xtls_client_config
+            string configSavePath = CheckDir($"{configDomainSavePath}\\{plainSavePath}");
+
+
+            //生成二维码与URL，跳过VlessTcpTlsWeb暂时未有URL标准
+            //string vmessUrl = "vmess://" + ToBase64Encode(v2rayNjsonObject.ToString());
+            //TextBoxURL.Text = vmessUrl;
+            //using (StreamWriter sw = new StreamWriter($"{configSavePath}\\url.txt"))
+            //{
+            //    if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false)
+            //    {
+            //        sw.WriteLine(vmessUrl);
+            //    }
+            //}
+            //if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false)
+            //{
+            //    ImageShareQRcode.Source = CreateQRCode(vmessUrl, $"v2ray_config\\{saveFileFolder}\\QR.bmp");
+            //}
+
+
+            if (File.Exists($"v2ray_config\\{plainSavePath}\\config.json"))
+            {
+                File.Move($"v2ray_config\\{plainSavePath}\\config.json", $"{configSavePath}\\config.json");
+                Directory.Delete($"v2ray_config\\{plainSavePath}");
+            }
+            
+            using (StreamWriter sw = new StreamWriter($"{configSavePath}\\readme.txt"))
+            {
+                sw.WriteLine("config.json");
+                //****** "此文件为v2ray官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080，http代理地址：127.0.0.1:1081" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine01").ToString());
+
+                //****** "v2ray官方网站：https://www.v2ray.com/" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine02").ToString());
+
+                //****** "v2ray官方程序下载地址：https://github.com/v2ray/v2ray-core/releases" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine03").ToString());
+
+                //****** "下载相应版本，Windows选择v2ray-windows-64.zip或者v2ray-windows-32.zip，解压后提取v2ctl.exe和v2ray.exe。与config.json放在同一目录，运行v2ray.exe即可。" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine04").ToString());
+
+                //sw.WriteLine("-----------------------------------------");
+                //sw.WriteLine("QR.bmp");
+
+                //****** "此文件为v2rayN、Trojan-QT5、v2rayNG(Android)、Shadowrocket(ios)扫码导入节点" ******
+                //sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine05").ToString());
+
+                //****** "v2rayN下载网址：https://github.com/2dust/v2rayN/releases" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine06").ToString());
+
+                //****** "Trojan-QT5：https://github.com/Trojan-Qt5/Trojan-Qt5" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine07").ToString());
+
+                //****** "v2rayNG(Android)下载网址：https://github.com/2dust/v2rayNG/releases" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine08").ToString());
+
+                //****** "v2rayNG(Android)在Google Play下载网址：https://play.google.com/store/apps/details?id=com.v2ray.ang" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine09").ToString());
+
+                //****** "Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine10").ToString());
+
+                //sw.WriteLine("-----------------------------------------");
+                //sw.WriteLine("url.txt");
+
+                //****** "此文件为v2rayN、Trojan-QT5、v2rayNG(Android)、Shadowrocket(ios)复制粘贴导入节点的vmess网址" ******
+                //sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine11").ToString());
+
+                //写入通用配置参数--
+                TxtWriteGeneralParameters(sw,false);
+
+            }
+        }
+
+        //生成VLESS over TCP with TLS的配置保存（暂未有分享链接与二维码）
+        private void GenerateV2rayVlessTcpTlsShareQRcodeAndBase64Url()
+        {
+            #region 暂时不用内容
+            //            //生成v2rayN的json文件
+            //            string v2rayNjsonFile = @"
+            //{
+            //  ""v"": """",
+            //  ""ps"": """",
+            //  ""add"": """",
+            //  ""port"": """",
+            //  ""id"": """",
+            //  ""aid"": """",
+            //  ""net"": """",
+            //  ""type"": """",
+            //  ""host"": """",
+            //  ""path"": """",
+            //  ""tls"": """"
+            //}";
+            //            //MessageBox.Show(v2rayNjsonFile);
+            //            JObject v2rayNjsonObject = JObject.Parse(v2rayNjsonFile);
+            //            v2rayNjsonObject["v"] = "2";
+            //            v2rayNjsonObject["add"] = TextBoxHostAddress.Text; //设置域名
+            //            v2rayNjsonObject["port"] = TextBoxPort.Text; //设置端口
+            //            v2rayNjsonObject["id"] = TextBoxUUID.Text; //设置uuid
+            //            v2rayNjsonObject["aid"] = TextBoxUUIDextra.Text; //设置额外ID
+            //            v2rayNjsonObject["net"] = TextBoxTransmission.Text; //设置传输模式
+            //            v2rayNjsonObject["type"] = TextBoxCamouflageType.Text; //设置伪装类型
+
+            //            if (TextBoxTransmission.Text.Contains("kcp") == true)
+            //            {
+            //                v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPath.Text;//设置mKCP Seed
+            //            }
+            //            else if (TextBoxTransmission.Text.Contains("quic") == true)
+            //            {
+            //                v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPath.Text;//设置quic密钥
+            //                v2rayNjsonObject["host"] = TextBoxHostQuicEncryption.Text;//Quic加密方式
+            //            }
+            //            else
+            //            {
+            //                v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPath.Text; //设置路径
+            //                v2rayNjsonObject["host"] = TextBoxHostQuicEncryption.Text;//设置TLS的Host
+            //            }
+
+            //            v2rayNjsonObject["tls"] = TextBoxTLS.Text;  //设置是否启用TLS
+            //            v2rayNjsonObject["ps"] = v2rayNjsonObject["add"];  //设置备注
+            //            //MessageBox.Show(v2rayNjsonObject["v"].ToString());
+
+            //string saveFileFolderFirst = TextBoxHostAddress.Text;
+            //int num = 1;
+            //saveFileFolder = saveFileFolderFirst;
+            //CheckDir(@"v2ray_config");
+            //while (Directory.Exists(@"v2ray_config\" + saveFileFolder))
+            //{
+            //    saveFileFolder = saveFileFolderFirst + "_copy_" + num.ToString();
+            //    num++;
+            //}
+            //CheckDir(@"v2ray_config\" + saveFileFolder);
+
+            #endregion
+
+            //创建保存目录
+            string plainSavePath = @"vless_tcp_tls_client_config";
+            //v2ray_config\${域名IP}
+            //string configDomainSavePath = CreateConfigSaveDir(@"v2ray_config", TextBoxHostAddressSS.Text);
+            //v2ray_config\${域名IP}\vless_tcp_xtls_client_config
+            string configSavePath = CheckDir($"{configDomainSavePath}\\{plainSavePath}");
+
+
+            //生成二维码与URL，跳过VlessTcpTlsWeb暂时未有URL标准
+            //string vmessUrl = "vmess://" + ToBase64Encode(v2rayNjsonObject.ToString());
+            //TextBoxURL.Text = vmessUrl;
+            //using (StreamWriter sw = new StreamWriter($"{configSavePath}\\url.txt"))
+            //{
+            //    if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false)
+            //    {
+            //        sw.WriteLine(vmessUrl);
+            //    }
+            //}
+            //if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false)
+            //{
+            //    ImageShareQRcode.Source = CreateQRCode(vmessUrl, $"v2ray_config\\{saveFileFolder}\\QR.bmp");
+            //}
+
+
+            if (File.Exists($"v2ray_config\\{plainSavePath}\\config.json"))
+            {
+                File.Move($"v2ray_config\\{plainSavePath}\\config.json", $"{configSavePath}\\config.json");
+                Directory.Delete($"v2ray_config\\{plainSavePath}");
+            }
+
+            using (StreamWriter sw = new StreamWriter($"{configSavePath}\\readme.txt"))
+            {
+                sw.WriteLine("config.json");
+                //****** "此文件为v2ray官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080，http代理地址：127.0.0.1:1081" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine01").ToString());
+
+                //****** "v2ray官方网站：https://www.v2ray.com/" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine02").ToString());
+
+                //****** "v2ray官方程序下载地址：https://github.com/v2ray/v2ray-core/releases" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine03").ToString());
+
+                //****** "下载相应版本，Windows选择v2ray-windows-64.zip或者v2ray-windows-32.zip，解压后提取v2ctl.exe和v2ray.exe。与config.json放在同一目录，运行v2ray.exe即可。" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine04").ToString());
+
+                //sw.WriteLine("-----------------------------------------");
+                //sw.WriteLine("QR.bmp");
+
+                //****** "此文件为v2rayN、Trojan-QT5、v2rayNG(Android)、Shadowrocket(ios)扫码导入节点" ******
+                //sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine05").ToString());
+
+                //****** "v2rayN下载网址：https://github.com/2dust/v2rayN/releases" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine06").ToString());
+
+                //****** "Trojan-QT5：https://github.com/Trojan-Qt5/Trojan-Qt5" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine07").ToString());
+
+                //****** "v2rayNG(Android)下载网址：https://github.com/2dust/v2rayNG/releases" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine08").ToString());
+
+                //****** "v2rayNG(Android)在Google Play下载网址：https://play.google.com/store/apps/details?id=com.v2ray.ang" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine09").ToString());
+
+                //****** "Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine10").ToString());
+
+                //sw.WriteLine("-----------------------------------------");
+                //sw.WriteLine("url.txt");
+
+                //****** "此文件为v2rayN、Trojan-QT5、v2rayNG(Android)、Shadowrocket(ios)复制粘贴导入节点的vmess网址" ******
+                //sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine11").ToString());
+
+                //写入通用配置参数--
+                TxtWriteGeneralParameters(sw,false);
+
+            }
+        }
+
+        //生成VLESS over WS with TLS的配置保存（暂未有分享链接与二维码）
+        private void GenerateV2rayVlessWsTlsShareQRcodeAndBase64Url()
+        {
+            #region 暂时不用内容
+            //            //生成v2rayN的json文件
+            //            string v2rayNjsonFile = @"
+            //{
+            //  ""v"": """",
+            //  ""ps"": """",
+            //  ""add"": """",
+            //  ""port"": """",
+            //  ""id"": """",
+            //  ""aid"": """",
+            //  ""net"": """",
+            //  ""type"": """",
+            //  ""host"": """",
+            //  ""path"": """",
+            //  ""tls"": """"
+            //}";
+            //            //MessageBox.Show(v2rayNjsonFile);
+            //            JObject v2rayNjsonObject = JObject.Parse(v2rayNjsonFile);
+            //            v2rayNjsonObject["v"] = "2";
+            //            v2rayNjsonObject["add"] = TextBoxHostAddress.Text; //设置域名
+            //            v2rayNjsonObject["port"] = TextBoxPort.Text; //设置端口
+            //            v2rayNjsonObject["id"] = TextBoxUUID.Text; //设置uuid
+            //            v2rayNjsonObject["aid"] = TextBoxUUIDextra.Text; //设置额外ID
+            //            v2rayNjsonObject["net"] = TextBoxTransmission.Text; //设置传输模式
+            //            v2rayNjsonObject["type"] = TextBoxCamouflageType.Text; //设置伪装类型
+
+            //            if (TextBoxTransmission.Text.Contains("kcp") == true)
+            //            {
+            //                v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPath.Text;//设置mKCP Seed
+            //            }
+            //            else if (TextBoxTransmission.Text.Contains("quic") == true)
+            //            {
+            //                v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPath.Text;//设置quic密钥
+            //                v2rayNjsonObject["host"] = TextBoxHostQuicEncryption.Text;//Quic加密方式
+            //            }
+            //            else
+            //            {
+            //                v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPath.Text; //设置路径
+            //                v2rayNjsonObject["host"] = TextBoxHostQuicEncryption.Text;//设置TLS的Host
+            //            }
+
+            //            v2rayNjsonObject["tls"] = TextBoxTLS.Text;  //设置是否启用TLS
+            //            v2rayNjsonObject["ps"] = v2rayNjsonObject["add"];  //设置备注
+            //            //MessageBox.Show(v2rayNjsonObject["v"].ToString());
+
+            //string saveFileFolderFirst = TextBoxHostAddress.Text;
+            //int num = 1;
+            //saveFileFolder = saveFileFolderFirst;
+            //CheckDir(@"v2ray_config");
+            //while (Directory.Exists(@"v2ray_config\" + saveFileFolder))
+            //{
+            //    saveFileFolder = saveFileFolderFirst + "_copy_" + num.ToString();
+            //    num++;
+            //}
+            //CheckDir(@"v2ray_config\" + saveFileFolder);
+
+            #endregion
+
+            //创建保存目录
+            string plainSavePath = @"vless_ws_tls_client_config";
+            //v2ray_config\${域名IP}
+            //string configDomainSavePath = CreateConfigSaveDir(@"v2ray_config", TextBoxHostAddressSS.Text);
+            //v2ray_config\${域名IP}\vless_tcp_xtls_client_config
+            string configSavePath = CheckDir($"{configDomainSavePath}\\{plainSavePath}");
+
+
+            //生成二维码与URL，跳过VlessTcpTlsWeb暂时未有URL标准
+            //string vmessUrl = "vmess://" + ToBase64Encode(v2rayNjsonObject.ToString());
+            //TextBoxURL.Text = vmessUrl;
+            //using (StreamWriter sw = new StreamWriter($"{configSavePath}\\url.txt"))
+            //{
+            //    if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false)
+            //    {
+            //        sw.WriteLine(vmessUrl);
+            //    }
+            //}
+            //if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false)
+            //{
+            //    ImageShareQRcode.Source = CreateQRCode(vmessUrl, $"v2ray_config\\{saveFileFolder}\\QR.bmp");
+            //}
+
+
+            if (File.Exists($"v2ray_config\\{plainSavePath}\\config.json"))
+            {
+                File.Move($"v2ray_config\\{plainSavePath}\\config.json", $"{configSavePath}\\config.json");
+                Directory.Delete($"v2ray_config\\{plainSavePath}");
+            }
+
+            using (StreamWriter sw = new StreamWriter($"{configSavePath}\\readme.txt"))
+            {
+                sw.WriteLine("config.json");
+                //****** "此文件为v2ray官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080，http代理地址：127.0.0.1:1081" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine01").ToString());
+
+                //****** "v2ray官方网站：https://www.v2ray.com/" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine02").ToString());
+
+                //****** "v2ray官方程序下载地址：https://github.com/v2ray/v2ray-core/releases" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine03").ToString());
+
+                //****** "下载相应版本，Windows选择v2ray-windows-64.zip或者v2ray-windows-32.zip，解压后提取v2ctl.exe和v2ray.exe。与config.json放在同一目录，运行v2ray.exe即可。" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine04").ToString());
+
+                //sw.WriteLine("-----------------------------------------");
+                //sw.WriteLine("QR.bmp");
+
+                //****** "此文件为v2rayN、Trojan-QT5、v2rayNG(Android)、Shadowrocket(ios)扫码导入节点" ******
+                //sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine05").ToString());
+
+                //****** "v2rayN下载网址：https://github.com/2dust/v2rayN/releases" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine06").ToString());
+
+                //****** "Trojan-QT5：https://github.com/Trojan-Qt5/Trojan-Qt5" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine07").ToString());
+
+                //****** "v2rayNG(Android)下载网址：https://github.com/2dust/v2rayNG/releases" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine08").ToString());
+
+                //****** "v2rayNG(Android)在Google Play下载网址：https://play.google.com/store/apps/details?id=com.v2ray.ang" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine09").ToString());
+
+                //****** "Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine10").ToString());
+
+                //sw.WriteLine("-----------------------------------------");
+                //sw.WriteLine("url.txt");
+
+                //****** "此文件为v2rayN、Trojan-QT5、v2rayNG(Android)、Shadowrocket(ios)复制粘贴导入节点的vmess网址" ******
+                //sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine11").ToString());
+
+                //写入通用配置参数--
+                TxtWriteGeneralParameters(sw,false);
+
+            }
+        }
+
+        //生成VMess over TCP with TLS的配置保存（暂未有分享链接与二维码）
+        private void GenerateV2rayVmessTcpTlsShareQRcodeAndBase64Url()
+        {
+            #region 暂时不用内容
+            //生成v2rayN的json文件
+//            string v2rayNjsonFile = @"
+//{
+//  ""v"": """",
+//  ""ps"": """",
+//  ""add"": """",
+//  ""port"": """",
+//  ""id"": """",
+//  ""aid"": """",
+//  ""net"": """",
+//  ""type"": """",
+//  ""host"": """",
+//  ""path"": """",
+//  ""tls"": """"
+//}";
+//            //MessageBox.Show(v2rayNjsonFile);
+//            JObject v2rayNjsonObject = JObject.Parse(v2rayNjsonFile);
+//            v2rayNjsonObject["v"] = "2";
+//            v2rayNjsonObject["add"] = TextBoxHostAddress.Text; //设置域名
+//            v2rayNjsonObject["port"] = TextBoxPort.Text; //设置端口
+//            v2rayNjsonObject["id"] = TextBoxUUID.Text; //设置uuid
+//            v2rayNjsonObject["aid"] = TextBoxUUIDextra.Text; //设置额外ID
+//            v2rayNjsonObject["net"] = TextBoxTransmission.Text; //设置传输模式
+//            v2rayNjsonObject["type"] = TextBoxCamouflageType.Text; //设置伪装类型
+
+//            if (TextBoxTransmission.Text.Contains("kcp") == true)
+//            {
+//                v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPath.Text;//设置mKCP Seed
+//            }
+//            else if (TextBoxTransmission.Text.Contains("quic") == true)
+//            {
+//                v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPath.Text;//设置quic密钥
+//                v2rayNjsonObject["host"] = TextBoxHostQuicEncryption.Text;//Quic加密方式
+//            }
+//            else
+//            {
+//                v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPath.Text; //设置路径
+//                v2rayNjsonObject["host"] = TextBoxHostQuicEncryption.Text;//设置TLS的Host
+//            }
+
+//            v2rayNjsonObject["tls"] = TextBoxTLS.Text;  //设置是否启用TLS
+//            v2rayNjsonObject["ps"] = v2rayNjsonObject["add"];  //设置备注
+
+
+            #endregion
+
+            //创建保存目录
+            string plainSavePath = @"vmess_tcp_tls_client_config";
+            //v2ray_config\${域名IP}
+            //string configDomainSavePath = CreateConfigSaveDir(@"v2ray_config", TextBoxHostAddressSS.Text);
+            //v2ray_config\${域名IP}\vless_tcp_xtls_client_config
+            string configSavePath = CheckDir($"{configDomainSavePath}\\{plainSavePath}");
+
+
+            //生成二维码与URL，跳过VlessTcpTlsWeb暂时未有URL标准
+            //string vmessUrl = "vmess://" + ToBase64Encode(v2rayNjsonObject.ToString());
+            //TextBoxURL.Text = vmessUrl;
+            //using (StreamWriter sw = new StreamWriter($"{configSavePath}\\url.txt"))
+            //{
+                //if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false)
+               //{
+                    //sw.WriteLine(vmessUrl);
+                //}
+            //}
+           //if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false)
+            //{
+                //ImageShareQRcode.Source = CreateQRCode(vmessUrl, $"{configSavePath}\\QR.bmp");
+            //}
+
+
+            if (File.Exists($"v2ray_config\\{plainSavePath}\\config.json"))
+            {
+                File.Move($"v2ray_config\\{plainSavePath}\\config.json", $"{configSavePath}\\config.json");
+                Directory.Delete($"v2ray_config\\{plainSavePath}");
+            }
+
+            using (StreamWriter sw = new StreamWriter($"{configSavePath}\\readme.txt"))
+            {
+                sw.WriteLine("config.json");
+                //****** "此文件为v2ray官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080，http代理地址：127.0.0.1:1081" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine01").ToString());
+
+                //****** "v2ray官方网站：https://www.v2ray.com/" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine02").ToString());
+
+                //****** "v2ray官方程序下载地址：https://github.com/v2ray/v2ray-core/releases" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine03").ToString());
+
+                //****** "下载相应版本，Windows选择v2ray-windows-64.zip或者v2ray-windows-32.zip，解压后提取v2ctl.exe和v2ray.exe。与config.json放在同一目录，运行v2ray.exe即可。" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine04").ToString());
+
+                //sw.WriteLine("-----------------------------------------");
+                //sw.WriteLine("QR.bmp");
+
+                //****** "此文件为v2rayN、Trojan-QT5、v2rayNG(Android)、Shadowrocket(ios)扫码导入节点" ******
+                //sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine05").ToString());
+
+                //****** "v2rayN下载网址：https://github.com/2dust/v2rayN/releases" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine06").ToString());
+
+                //****** "Trojan-QT5：https://github.com/Trojan-Qt5/Trojan-Qt5" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine07").ToString());
+
+                //****** "v2rayNG(Android)下载网址：https://github.com/2dust/v2rayNG/releases" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine08").ToString());
+
+                //****** "v2rayNG(Android)在Google Play下载网址：https://play.google.com/store/apps/details?id=com.v2ray.ang" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine09").ToString());
+
+                //****** "Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine10").ToString());
+
+                //sw.WriteLine("-----------------------------------------");
+                //sw.WriteLine("url.txt");
+
+                //****** "此文件为v2rayN、Trojan-QT5、v2rayNG(Android)、Shadowrocket(ios)复制粘贴导入节点的vmess网址" ******
+                //sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine11").ToString());
+
+                //写入通用配置参数--
+                TxtWriteGeneralParameters(sw);
+                
+            }
+        }
+
+        //生成VMess over WS with TLS的配置保存（暂未有分享链接与二维码）
+        private void GenerateV2rayVmessWsTlsShareQRcodeAndBase64Url()
+        {
+            #region 暂时不用内容
+            //生成v2rayN的json文件
+            string v2rayNjsonFile = @"
+{
+  ""v"": """",
+  ""ps"": """",
+  ""add"": """",
+  ""port"": """",
+  ""id"": """",
+  ""aid"": """",
+  ""net"": """",
+  ""type"": """",
+  ""host"": """",
+  ""path"": """",
+  ""tls"": """"
+}";
+            //MessageBox.Show(v2rayNjsonFile);
+            JObject v2rayNjsonObject = JObject.Parse(v2rayNjsonFile);
+            v2rayNjsonObject["v"] = "2";
+            v2rayNjsonObject["add"] = TextBoxHostAddress.Text; //设置域名
+            v2rayNjsonObject["port"] = TextBoxPort.Text; //设置端口
+            v2rayNjsonObject["id"] = TextBoxUUID.Text; //设置uuid
+            v2rayNjsonObject["aid"] = TextBoxUUIDextra.Text; //设置额外ID
+            v2rayNjsonObject["net"] = TextBoxTransmission.Text; //设置传输模式
+            v2rayNjsonObject["type"] = TextBoxCamouflageType.Text; //设置伪装类型
+
+            if (TextBoxTransmission.Text.Contains("kcp") == true)
+            {
+                v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPath.Text;//设置mKCP Seed
+            }
+            else if (TextBoxTransmission.Text.Contains("quic") == true)
+            {
+                v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPath.Text;//设置quic密钥
+                v2rayNjsonObject["host"] = TextBoxHostQuicEncryption.Text;//Quic加密方式
+            }
+            else
+            {
+                v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPath.Text; //设置路径
+                v2rayNjsonObject["host"] = TextBoxHostQuicEncryption.Text;//设置TLS的Host
+            }
+
+            v2rayNjsonObject["tls"] = "tls";  //设置是否启用TLS
+            v2rayNjsonObject["ps"] = v2rayNjsonObject["add"];  //设置备注
+
+            #endregion
+
+            //创建保存目录
+            string plainSavePath = @"vmess_ws_tls_client_config";
+            //v2ray_config\${域名IP}
+            //string configDomainSavePath = CreateConfigSaveDir(@"v2ray_config", TextBoxHostAddressSS.Text);
+            //v2ray_config\${域名IP}\vless_tcp_xtls_client_config
+            string configSavePath = CheckDir($"{configDomainSavePath}\\{plainSavePath}");
+
+
+            //生成二维码与URL，跳过VlessTcpTlsWeb暂时未有URL标准
+            string vmessUrl = "vmess://" + ToBase64Encode(v2rayNjsonObject.ToString());
+            TextBoxURL.Text = vmessUrl;
+            using (StreamWriter sw = new StreamWriter($"{configSavePath}\\url.txt"))
+            {
+                //if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false)
+               // {
+                    sw.WriteLine(vmessUrl);
+               // }
+            }
+           // if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false)
+           // {
+                ImageShareQRcode.Source = CreateQRCode(vmessUrl, $"{configSavePath}\\QR.bmp");
+            //}
+
+
+            if (File.Exists($"v2ray_config\\{plainSavePath}\\config.json"))
+            {
+                File.Move($"v2ray_config\\{plainSavePath}\\config.json", $"{configSavePath}\\config.json");
+                Directory.Delete($"v2ray_config\\{plainSavePath}");
+            }
+
+            using (StreamWriter sw = new StreamWriter($"{configSavePath}\\readme.txt"))
+            {
+                sw.WriteLine("config.json");
+                //****** "此文件为v2ray官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080，http代理地址：127.0.0.1:1081" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine01").ToString());
+
+                //****** "v2ray官方网站：https://www.v2ray.com/" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine02").ToString());
+
+                //****** "v2ray官方程序下载地址：https://github.com/v2ray/v2ray-core/releases" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine03").ToString());
+
+                //****** "下载相应版本，Windows选择v2ray-windows-64.zip或者v2ray-windows-32.zip，解压后提取v2ctl.exe和v2ray.exe。与config.json放在同一目录，运行v2ray.exe即可。" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine04").ToString());
+
+                sw.WriteLine("-----------------------------------------");
+                sw.WriteLine("QR.bmp");
+
+                //****** "此文件为v2rayN、Trojan-QT5、v2rayNG(Android)、Shadowrocket(ios)扫码导入节点" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine05").ToString());
+
+                //****** "v2rayN下载网址：https://github.com/2dust/v2rayN/releases" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine06").ToString());
+
+                //****** "Trojan-QT5：https://github.com/Trojan-Qt5/Trojan-Qt5" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine07").ToString());
+
+                //****** "v2rayNG(Android)下载网址：https://github.com/2dust/v2rayNG/releases" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine08").ToString());
+
+                //****** "v2rayNG(Android)在Google Play下载网址：https://play.google.com/store/apps/details?id=com.v2ray.ang" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine09").ToString());
+
+                //****** "Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine10").ToString());
+
+                sw.WriteLine("-----------------------------------------");
+                sw.WriteLine("url.txt");
+
+                //****** "此文件为v2rayN、Trojan-QT5、v2rayNG(Android)、Shadowrocket(ios)复制粘贴导入节点的vmess网址" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine11").ToString());
+
+                //写入通用配置参数--
+                TxtWriteGeneralParameters(sw);
+
+            }
+        }
+
+        //TXT文件中写入通用配置参数---
+        private void TxtWriteGeneralParameters(StreamWriter sw,bool alterId = true)
+        {
+            sw.WriteLine("-----------------------------------------\n");
+
+            string strApplicat = "";
+            string strParam = "";
+            int strLenth = 20;
+            //****** "服务器通用连接配置参数:" ******
+            sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine12").ToString());
+            sw.WriteLine("");
+
+            strApplicat = "TextBlockServerAddress";
+            strParam = TextBoxHostAddress.Text;
+            sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
+
+            strApplicat = "TextBlockServerPort";
+            strParam = TextBoxPort.Text;
+            sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
+
+            strApplicat = "TextBlockUserUUID";
+            strParam = TextBoxUUID.Text;
+            sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
+
+            if (alterId == true)
+            {
+                strApplicat = "TextBlockV2RayAlterId";
+                strParam = TextBoxUUIDextra.Text;
+                sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
+            }
+
+            strApplicat = "TextBlockEncryption";
+            strParam = TextBoxEncryption.Text;
+            sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
+
+            strApplicat = "TextBlockTransferProtocol";
+            strParam = TextBoxTransmission.Text;
+            sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
+
+            strApplicat = "TextBlockCamouflageType";
+            strParam = TextBoxCamouflageType.Text;
+            sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
+
+            strApplicat = "TextBlockIsOrNotTLS";
+            strParam = TextBoxTLS.Text;
+            sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
+
+            if (MainWindow.ReceiveConfigurationParameters[0].Contains("Quic") == true)
+            {
+                strParam = TextBoxHostQuicEncryption.Text;
+                sw.WriteLine(AlignmentStrFunc(TextBlockQuicEncryption.Text, strLenth) + strParam);
+
+                strParam = TextBoxQuicKeyMkcpSeedPath.Text;
+                sw.WriteLine(AlignmentStrFunc(TextBlockQuicKey.Text, strLenth) + strParam);
+
+            }
+            else if (MainWindow.ReceiveConfigurationParameters[0].Contains("mKCP") == true)
+            {
+                strParam = TextBoxHostQuicEncryption.Text;
+                sw.WriteLine(AlignmentStrFunc("host:", strLenth) + strParam);
+
+                strParam = TextBoxQuicKeyMkcpSeedPath.Text;
+                sw.WriteLine(AlignmentStrFunc(TextBlockMkcpSeed.Text, strLenth) + strParam);
+
+            }
+            else
+            {
+                strParam = TextBoxHostQuicEncryption.Text;
+                sw.WriteLine(AlignmentStrFunc("host:", strLenth) + strParam);
+
+                strParam = TextBoxQuicKeyMkcpSeedPath.Text;
+                sw.WriteLine(AlignmentStrFunc(TextBlockPath.Text, strLenth) + strParam);
+            }
+        }
+        #endregion
+
+        #endregion
+        
         //生成TrojanGo客户端资料
         private void GenerateTrojanGoShareQRcodeAndBase64Url()
         {
+            string proxyfolder = CheckDir("trojan-go_config");
+            configDomainSavePath = CreateConfigSaveDir(proxyfolder, TextBoxTrojanGoServerHost.Text);
+            string configSavePath = configDomainSavePath;
+            //string saveFileFolderFirst = TextBoxTrojanGoServerHost.Text;
+            //int num = 1;
+            //saveFileFolder = saveFileFolderFirst;
 
-            string saveFileFolderFirst = TextBoxTrojanGoServerHost.Text;
-            int num = 1;
-            saveFileFolder = saveFileFolderFirst;
-            CheckDir("trojan-go_config");
-            while (Directory.Exists(@"trojan-go_config\" + saveFileFolder))
-            {
-                saveFileFolder = saveFileFolderFirst + "_copy_" + num.ToString();
-                num++;
-            }
-            CheckDir(@"trojan-go_config\" + saveFileFolder);
+            //while (Directory.Exists(@"trojan-go_config\" + saveFileFolder))
+            //{
+            //    saveFileFolder = saveFileFolderFirst + "_copy_" + num.ToString();
+            //    num++;
+            //}
+            //CheckDir(@"trojan-go_config\" + saveFileFolder);
             string trojanUrl = $"trojan://{TextBoxTrojanGoServerPassword.Text}@{TextBoxTrojanGoServerHost.Text}:{TextBoxTrojanGoServerPort.Text}?allowinsecure=0&tfo=0&sni=&mux=0&ws=0&group=#{TextBoxTrojanGoServerHost.Text}";
             //MessageBox.Show(v2rayNjsonObject.ToString());
             //string trojanUrl = "trojan://" + ToBase64Encode(v2rayNjsonObject.ToString());
             TextBoxURL.Text = trojanUrl;
-            using (StreamWriter sw = new StreamWriter($"trojan-go_config\\{saveFileFolder}\\url.txt"))
+            using (StreamWriter sw = new StreamWriter($"{configSavePath}\\url.txt"))
             {
                 sw.WriteLine(trojanUrl);
 
             }
-            ImageShareQRcode.Source = CreateQRCode(trojanUrl, $"trojan-go_config\\{saveFileFolder}\\QR.bmp");
+            ImageShareQRcode.Source = CreateQRCode(trojanUrl, $"{configSavePath}\\QR.bmp");
 
             //移动Trojan官方程序配置文件到相应目录
             if (File.Exists(@"trojan-go_config\config.json"))
             {
-                File.Move(@"trojan-go_config\config.json", @"trojan-go_config\" + saveFileFolder + @"\config.json");
+                File.Move(@"trojan-go_config\config.json", $"{configSavePath}\\config.json");
                 //File.Delete(@"config\config.json");//删除该文件
             }
 
-            using (StreamWriter sw = new StreamWriter($"trojan-go_config\\{saveFileFolder}\\readme.txt"))
+            using (StreamWriter sw = new StreamWriter($"{configSavePath}\\readme.txt"))
             {
                 sw.WriteLine("config.json");
 
@@ -894,58 +1895,100 @@ namespace ProxySU
                 sw.WriteLine(Application.Current.FindResource("readmeTxtTrojan-goExplainLine09").ToString());
                 sw.WriteLine("-----------------------------------------\n");
 
+                string strApplicat = "";
+                string strParam = "";
+                int strLenth = 20;
+
                 //sw.WriteLine("服务器通用连接配置参数");
                 sw.WriteLine(Application.Current.FindResource("readmeTxtTrojan-goExplainLine10").ToString());
+                sw.WriteLine("");
 
                 //****** 服务器地址(address): ******
-                sw.WriteLine(Application.Current.FindResource("TextBlockServerAddress").ToString() + $"{TextBoxTrojanGoServerHost.Text}");
+                //sw.WriteLine(Application.Current.FindResource("TextBlockServerAddress").ToString() + $"{TextBoxTrojanGoServerHost.Text}");
+                strApplicat = "TextBlockServerAddress";
+                strParam = TextBoxTrojanGoServerHost.Text;
+                sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
 
                 //****** 端口(port): ******
-                sw.WriteLine(Application.Current.FindResource("TextBlockServerPort").ToString() + $"{TextBoxTrojanGoServerPort.Text}");
+                //sw.WriteLine(Application.Current.FindResource("TextBlockServerPort").ToString() + $"{TextBoxTrojanGoServerPort.Text}");
+                strApplicat = "TextBlockServerPort";
+                strParam = TextBoxTrojanGoServerPort.Text;
+                sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
 
                 //****** 密码: ******
-                sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoPassword").ToString() + $"{TextBoxTrojanGoServerPassword.Text}");
+                //sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoPassword").ToString() + $"{TextBoxTrojanGoServerPassword.Text}");
+                strApplicat = "TextBlockTrojanGoPassword";
+                strParam = TextBoxTrojanGoServerPassword.Text;
+                sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
 
                 //****** WebSocket路径: ******
-                sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoWebSocketPath").ToString() + $"{TextBoxTrojanGoWSPath.Text}");
+                //sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoWebSocketPath").ToString() + $"{TextBoxTrojanGoWSPath.Text}");
+                strApplicat = "TextBlockTrojanGoWebSocketPath";
+                strParam = TextBoxTrojanGoWSPath.Text;
+                sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
 
             }
 
         }
+        #region TrojanGo内容双击复制到剪贴板
+        private void TextBoxTrojanGoServerHost_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxTrojanGoServerHost.Text);
+        }
+
+        private void TextBoxTrojanGoServerPort_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxTrojanGoServerPort.Text);
+        }
+
+        private void TextBoxTrojanGoServerPassword_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxTrojanGoServerPassword.Text);
+        }
+
+        private void TextBoxTrojanGoWSPath_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxTrojanGoWSPath.Text);
+        }
+        #endregion
+
 
         //生成Trojan客户端资料
         private void GenerateTrojanShareQRcodeAndBase64Url()
         {
+            string proxyfolder = CheckDir("trojan_config");
+            configDomainSavePath = CreateConfigSaveDir(proxyfolder, TextBoxTrojanServerHost.Text);
+            string configSavePath = configDomainSavePath;
 
-            string saveFileFolderFirst = TextBoxTrojanServerHost.Text;
-            int num = 1;
-            saveFileFolder = saveFileFolderFirst;
-            CheckDir("trojan_config");
-            while (Directory.Exists(@"trojan_config\" + saveFileFolder))
-            {
-                saveFileFolder = saveFileFolderFirst + "_copy_" + num.ToString();
-                num++;
-            }
-            CheckDir(@"trojan_config\" + saveFileFolder);
+            //string saveFileFolderFirst = TextBoxTrojanServerHost.Text;
+            //int num = 1;
+            //saveFileFolder = saveFileFolderFirst;
+            //CheckDir("trojan_config");
+            //while (Directory.Exists(@"trojan_config\" + saveFileFolder))
+            //{
+            //    saveFileFolder = saveFileFolderFirst + "_copy_" + num.ToString();
+            //    num++;
+            //}
+            //CheckDir(@"trojan_config\" + saveFileFolder);
             string trojanUrl = $"trojan://{TextBoxTrojanServerPassword.Text}@{TextBoxTrojanServerHost.Text}:{TextBoxTrojanServerPort.Text}#{TextBoxTrojanServerHost.Text}";
             //MessageBox.Show(v2rayNjsonObject.ToString());
             //string trojanUrl = "trojan://" + ToBase64Encode(v2rayNjsonObject.ToString());
             TextBoxURL.Text = trojanUrl;
-            using (StreamWriter sw = new StreamWriter($"trojan_config\\{saveFileFolder}\\url.txt"))
+            using (StreamWriter sw = new StreamWriter($"{configSavePath}\\url.txt"))
             {
                 sw.WriteLine(trojanUrl);
 
             }
-            ImageShareQRcode.Source = CreateQRCode(trojanUrl, $"trojan_config\\{saveFileFolder}\\QR.bmp");
+            ImageShareQRcode.Source = CreateQRCode(trojanUrl, $"{configSavePath}\\QR.bmp");
 
             //移动Trojan官方程序配置文件到相应目录
             if (File.Exists(@"trojan_config\config.json"))
             {
-                File.Move(@"trojan_config\config.json", @"trojan_config\" + saveFileFolder + @"\config.json");
+                File.Move(@"trojan_config\config.json", $"{configSavePath}\\config.json");
                 //File.Delete(@"config\config.json");//删除该文件
             }
 
-            using (StreamWriter sw = new StreamWriter($"trojan_config\\{saveFileFolder}\\readme.txt"))
+            using (StreamWriter sw = new StreamWriter($"{configSavePath}\\readme.txt"))
             {
                 sw.WriteLine("config.json");
 
@@ -982,43 +2025,78 @@ namespace ProxySU
                 sw.WriteLine(Application.Current.FindResource("readmeTxtTrojanExplainLine09").ToString());
                 sw.WriteLine("-----------------------------------------\n");
 
+                string strApplicat = "";
+                string strParam = "";
+                int strLenth = 20;
+
                 //sw.WriteLine("服务器通用连接配置参数");
                 sw.WriteLine(Application.Current.FindResource("readmeTxtTrojanExplainLine10").ToString());
+                sw.WriteLine("");
 
                 //****** 服务器地址(address): ******
-                sw.WriteLine(Application.Current.FindResource("TextBlockServerAddress").ToString() + $"{TextBoxTrojanGoServerHost.Text}");
+                //sw.WriteLine(Application.Current.FindResource("TextBlockServerAddress").ToString() + $"{TextBoxTrojanGoServerHost.Text}");
+                strApplicat = "TextBlockServerAddress";
+                strParam = TextBoxTrojanServerHost.Text;
+                sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
 
                 //****** 端口(port): ******
-                sw.WriteLine(Application.Current.FindResource("TextBlockServerPort").ToString() + $"{TextBoxTrojanGoServerPort.Text}");
+                //sw.WriteLine(Application.Current.FindResource("TextBlockServerPort").ToString() + $"{TextBoxTrojanGoServerPort.Text}");
+                strApplicat = "TextBlockServerPort";
+                strParam = TextBoxTrojanServerPort.Text;
+                sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
 
                 //****** 密码: ******
-                sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoPassword").ToString() + $"{TextBoxTrojanGoServerPassword.Text}");
+                //sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoPassword").ToString() + $"{TextBoxTrojanGoServerPassword.Text}");
                 //sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoWebSocketPath").ToString() + $"{TextBoxTrojanGoWSPath.Text}");
+                strApplicat = "TextBlockTrojanGoPassword";
+                strParam = TextBoxTrojanServerPassword.Text;
+                sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
 
 
             }
 
         }
+        #region Trojan内容双击复制到剪贴板
+
+        private void TextBoxTrojanServerHost_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxTrojanServerHost.Text);
+        }
+
+        private void TextBoxTrojanServerPort_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxTrojanServerPort.Text);
+        }
+
+        private void TextBoxTrojanServerPassword_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxTrojanServerPassword.Text);
+        }
+
+        #endregion
 
         //生成NaiveProxy客户端资料
         private void GenerateNaivePrxoyShareQRcodeAndBase64Url()
         {
+            string proxyfolder = CheckDir("naive_config");
+            configDomainSavePath = CreateConfigSaveDir(proxyfolder, TextBoxNaiveServerHost.Text);
+            string configSavePath = configDomainSavePath;
 
-            string saveFileFolderFirst = TextBoxNaiveServerHost.Text;
-            int num = 1;
-            saveFileFolder = saveFileFolderFirst;
-            CheckDir("naive_config");
-            while (Directory.Exists(@"naive_config\" + saveFileFolder))
-            {
-                saveFileFolder = saveFileFolderFirst + "_copy_" + num.ToString();
-                num++;
-            }
-            CheckDir(@"naive_config\" + saveFileFolder);
+            //string saveFileFolderFirst = TextBoxNaiveServerHost.Text;
+            //int num = 1;
+            //saveFileFolder = saveFileFolderFirst;
+            //CheckDir("naive_config");
+            //while (Directory.Exists(@"naive_config\" + saveFileFolder))
+            //{
+            //    saveFileFolder = saveFileFolderFirst + "_copy_" + num.ToString();
+            //    num++;
+            //}
+            //CheckDir(@"naive_config\" + saveFileFolder);
             string naiveUrl = $"https://{TextBoxNaiveUser.Text}:{TextBoxNaivePassword.Text}@{TextBoxNaiveServerHost.Text}:443/?name={TextBoxNaiveServerHost.Text}&extra_headers=";
             //MessageBox.Show(v2rayNjsonObject.ToString());
             //string trojanUrl = "trojan://" + ToBase64Encode(v2rayNjsonObject.ToString());
             TextBoxURL.Text = naiveUrl;
-            using (StreamWriter sw = new StreamWriter($"naive_config\\{saveFileFolder}\\url.txt"))
+            using (StreamWriter sw = new StreamWriter($"{configSavePath}\\url.txt"))
             {
                 sw.WriteLine(naiveUrl);
 
@@ -1028,11 +2106,11 @@ namespace ProxySU
             //移动NaiveProxy官方程序配置文件到相应目录
             if (File.Exists(@"naive_config\config.json"))
             {
-                File.Move(@"naive_config\config.json", @"naive_config\" + saveFileFolder + @"\config.json");
+                File.Move(@"naive_config\config.json", $"{configSavePath}\\config.json");
                 //File.Delete(@"config\config.json");//删除该文件
             }
 
-            using (StreamWriter sw = new StreamWriter($"naive_config\\{saveFileFolder}\\readme.txt"))
+            using (StreamWriter sw = new StreamWriter($"{configSavePath}\\readme.txt"))
             {
                 sw.WriteLine("config.json");
 
@@ -1060,46 +2138,87 @@ namespace ProxySU
 
                 sw.WriteLine("-----------------------------------------\n");
 
+                string strApplicat = "";
+                string strParam = "";
+                int strLenth = 20;
+
                 //sw.WriteLine("服务器通用连接配置参数");
                 sw.WriteLine(Application.Current.FindResource("readmeTxtNaiveProxyExplainLine07").ToString());
+                sw.WriteLine("");
 
                 //****** 服务器地址(address): ******
-                sw.WriteLine(Application.Current.FindResource("TextBlockServerAddress").ToString() + $"{TextBoxNaiveServerHost.Text}");
+                //sw.WriteLine(Application.Current.FindResource("TextBlockServerAddress").ToString() + $"{TextBoxNaiveServerHost.Text}");
+                strApplicat = "TextBlockServerAddress";
+                strParam = TextBoxNaiveServerHost.Text;
+                sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
 
                 //****** 用户名:******
-                sw.WriteLine(Application.Current.FindResource("TextBlockHostUser").ToString() + $"{TextBoxNaiveUser.Text}");
+                //sw.WriteLine(Application.Current.FindResource("TextBlockHostUser").ToString() + $"{TextBoxNaiveUser.Text}");
+                strApplicat = "TextBlockHostUser";
+                strParam = TextBoxNaiveUser.Text;
+                sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
 
                 //****** 密码: ******
-                sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoPassword").ToString() + $"{TextBoxNaivePassword.Text}");
+                //sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoPassword").ToString() + $"{TextBoxNaivePassword.Text}");
+                strApplicat = "TextBlockTrojanGoPassword";
+                strParam = TextBoxNaivePassword.Text;
+                sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
 
             }
 
         }
+        #region NaiveProxy内容双击复制到剪贴板
+        private void TextBoxNaiveServerHost_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxNaiveServerHost.Text);
+        }
+
+        private void TextBoxNaivePort_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxNaivePort.Text);
+        }
+
+        private void TextBoxNaiveUser_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxNaiveUser.Text);
+        }
+
+        private void TextBoxNaivePassword_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxNaivePassword.Text);
+        }
+
+
+
+        #endregion
+
 
         //生成SSR客户端资料
         private void GenerateSSRShareQRcodeAndBase64Url()
         {
-
-            string saveFileFolderFirst = TextBoxSSRHostAddress.Text;
-            int num = 1;
-            saveFileFolder = saveFileFolderFirst;
-            CheckDir("ssr_config");
-            while (Directory.Exists(@"ssr_config\" + saveFileFolder))
-            {
-                saveFileFolder = saveFileFolderFirst + "_copy_" + num.ToString();
-                num++;
-            }
-            CheckDir(@"ssr_config\" + saveFileFolder);
+            string proxyfolder = CheckDir("ssr_config");
+            configDomainSavePath = CreateConfigSaveDir(proxyfolder, TextBoxSSRHostAddress.Text);
+            string configSavePath = configDomainSavePath;
+            //string saveFileFolderFirst = TextBoxSSRHostAddress.Text;
+            //int num = 1;
+            //saveFileFolder = saveFileFolderFirst;
+            //CheckDir("ssr_config");
+            //while (Directory.Exists(@"ssr_config\" + saveFileFolder))
+            //{
+            //    saveFileFolder = saveFileFolderFirst + "_copy_" + num.ToString();
+            //    num++;
+            //}
+            //CheckDir(@"ssr_config\" + saveFileFolder);
 
             string ssrUrl = GetSSRLinkForServer();
             TextBoxURL.Text = ssrUrl;
-            using (StreamWriter sw = new StreamWriter($"ssr_config\\{saveFileFolder}\\url.txt"))
+            using (StreamWriter sw = new StreamWriter($"{configSavePath}\\url.txt"))
             {
                 sw.WriteLine(ssrUrl);
             }
-            ImageShareQRcode.Source = CreateQRCode(ssrUrl, $"ssr_config\\{saveFileFolder}\\QR.bmp");
+            ImageShareQRcode.Source = CreateQRCode(ssrUrl, $"{configSavePath}\\QR.bmp");
 
-            using (StreamWriter sw = new StreamWriter($"ssr_config\\{saveFileFolder}\\readme.txt"))
+            using (StreamWriter sw = new StreamWriter($"{configSavePath}\\readme.txt"))
             {
                //sw.WriteLine("-----------------------------------------\n");
                 sw.WriteLine("QR.bmp");
@@ -1122,38 +2241,93 @@ namespace ProxySU
                 sw.WriteLine(Application.Current.FindResource("readmeTxtSSRExplainLine09").ToString());
                 sw.WriteLine("-----------------------------------------\n");
 
+                string strApplicat = "";
+                string strParam = "";
+                int strLenth = 20;
+
                 //***"服务器通用连接配置参数"***
                 sw.WriteLine(Application.Current.FindResource("readmeTxtTrojanExplainLine10").ToString());
+                sw.WriteLine("");
 
                 //****** 服务器地址(address): ******
-                sw.WriteLine(Application.Current.FindResource("TextBlockServerAddress").ToString() + $"{ TextBoxSSRHostAddress.Text}");
+                //sw.WriteLine(Application.Current.FindResource("TextBlockServerAddress").ToString() + $"{ TextBoxSSRHostAddress.Text}");
+                strApplicat = "TextBlockServerAddress";
+                strParam = TextBoxSSRHostAddress.Text;
+                sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
 
                 //****** 端口(port): ******
-                sw.WriteLine(Application.Current.FindResource("TextBlockServerPort").ToString() + $"{TextBoxSSRPort.Text}");
+                //sw.WriteLine(Application.Current.FindResource("TextBlockServerPort").ToString() + $"{TextBoxSSRPort.Text}");
+                strApplicat = "TextBlockServerPort";
+                strParam = TextBoxSSRPort.Text;
+                sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
 
                 //****** 密码: ******
-                sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoPassword").ToString() + $"{TextBoxSSRUUID.Text}");
+                //sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoPassword").ToString() + $"{TextBoxSSRUUID.Text}");
+                strApplicat = "TextBlockTrojanGoPassword";
+                strParam = TextBoxSSRUUID.Text;
+                sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
 
                 //****** 加密方式: ******
-                sw.WriteLine(Application.Current.FindResource("TextBlockEncryption").ToString() + $"{TextBoxSSREncryption.Text}");
+                //sw.WriteLine(Application.Current.FindResource("TextBlockEncryption").ToString() + $"{TextBoxSSREncryption.Text}");
+                strApplicat = "TextBlockEncryption";
+                strParam = TextBoxSSREncryption.Text;
+                sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
 
                 //****** 传输协议: ******
-                sw.WriteLine(Application.Current.FindResource("TextBlockTransferProtocol").ToString() + $"{TextBoxSSRTransmission.Text}");
+                //sw.WriteLine(Application.Current.FindResource("TextBlockTransferProtocol").ToString() + $"{TextBoxSSRTransmission.Text}");
+                strApplicat = "TextBlockTransferProtocol";
+                strParam = TextBoxSSRTransmission.Text;
+                sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
 
                 //****** 混淆: ******
-                sw.WriteLine(Application.Current.FindResource("TextBlockCamouflageType").ToString() + $"{TextBoxSSRCamouflageType.Text}");
-
-                //****** 密码: ******
-                //sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoWebSocketPath").ToString() + $"{TextBoxTrojanGoWSPath.Text}");
+                //sw.WriteLine(Application.Current.FindResource("TextBlockCamouflageType").ToString() + $"{TextBoxSSRCamouflageType.Text}");
+                strApplicat = "TextBlockCamouflageType";
+                strParam = TextBoxSSRCamouflageType.Text;
+                sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
 
             }
         }
+        #region SSR内容双击复制到剪贴板
 
+        private void TextBoxSSRHostAddress_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxSSRHostAddress.Text);
+        }
+
+        private void TextBoxSSRPort_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxSSRPort.Text);
+        }
+
+        private void TextBoxSSRUUID_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxSSRUUID.Text);
+        }
+
+        private void TextBoxSSREncryption_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxSSREncryption.Text);
+        }
+
+        private void TextBoxSSRTransmission_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxSSRTransmission.Text);
+        }
+
+        private void TextBoxSSRCamouflageType_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxSSRCamouflageType.Text);
+        }
+        #endregion
+        
         //生成SS客户端资料
         private void GenerateShareQRcodeAndBase64UrlSS()
         {
             //创建保存目录
-            string configSavePath = CreateConfigSaveDir(@"ss_config", TextBoxHostAddressSS.Text);
+            string proxyfolder = CheckDir("ss_config");
+            configDomainSavePath = CreateConfigSaveDir(proxyfolder, TextBoxHostAddressSS.Text);
+            string configSavePath = configDomainSavePath;
+            //string configSavePath = CreateConfigSaveDir(@"ss_config", TextBoxHostAddressSS.Text);
             string ssUrl;
 
             //生成手机端的URL(无插件时，为电脑手机通用)
@@ -1236,29 +2410,52 @@ namespace ProxySU
                 sw.WriteLine(Application.Current.FindResource("readmeTxtExplainLineSS06").ToString());
                 sw.WriteLine("-----------------------------------------\n");
 
+                string strApplicat = "";
+                string strParam = "";
+                int strLenth = 20;
+
                 //***"服务器通用连接配置参数"***
                 sw.WriteLine(Application.Current.FindResource("readmeTxtTrojanExplainLine10").ToString());
+                sw.WriteLine("");
 
                 //****** 服务器地址(address): ******
-                sw.WriteLine(Application.Current.FindResource("TextBlockServerAddress").ToString() + $"{TextBoxHostAddressSS.Text}");
+                //sw.WriteLine(Application.Current.FindResource("TextBlockServerAddress").ToString() + $"{TextBoxHostAddressSS.Text}");
+                strApplicat = "TextBlockServerAddress";
+                strParam = TextBoxHostAddressSS.Text;
+                sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
 
                 //****** 端口(port): ******
-                sw.WriteLine(Application.Current.FindResource("TextBlockServerPort").ToString() + $"{TextBoxPortSS.Text}");
+                //sw.WriteLine(Application.Current.FindResource("TextBlockServerPort").ToString() + $"{TextBoxPortSS.Text}");
+                strApplicat = "TextBlockServerPort";
+                strParam = TextBoxPortSS.Text;
+                sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
 
                 //****** 密码: ******
-                sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoPassword").ToString() + $"{TextBoxPasswordSS.Text}");
+                //sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoPassword").ToString() + $"{TextBoxPasswordSS.Text}");
+                strApplicat = "TextBlockTrojanGoPassword";
+                strParam = TextBoxPasswordSS.Text;
+                sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
 
                 //****** 加密方式: ******
-                sw.WriteLine(Application.Current.FindResource("TextBlockEncryption").ToString() + $"{TextBoxEncryptionSS.Text}");
+                //sw.WriteLine(Application.Current.FindResource("TextBlockEncryption").ToString() + $"{TextBoxEncryptionSS.Text}");
+                strApplicat = "TextBlockEncryption";
+                strParam = TextBoxEncryptionSS.Text;
+                sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
 
 
                 if (String.IsNullOrEmpty(TextBoxPluginNameExplainSS.Text) == false)
                 {
                     //****** 插件程序:: ******
-                    sw.WriteLine(Application.Current.FindResource("TextBlockPluginNameExplainSS").ToString() + $"{TextBoxPluginNameExplainSS.Text}");
+                    //sw.WriteLine(Application.Current.FindResource("TextBlockPluginNameExplainSS").ToString() + $"{TextBoxPluginNameExplainSS.Text}");
+                    strApplicat = "TextBlockPluginNameExplainSS";
+                    strParam = TextBoxPluginNameExplainSS.Text;
+                    sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
 
                     //****** 插件选项: ******
-                    sw.WriteLine(Application.Current.FindResource("TextBlockPluginOptionExplainSS").ToString() + $"{TextBoxPluginOptionExplainSS.Text}");
+                    //sw.WriteLine(Application.Current.FindResource("TextBlockPluginOptionExplainSS").ToString() + $"{TextBoxPluginOptionExplainSS.Text}");
+                    strApplicat = "TextBlockPluginOptionExplainSS";
+                    strParam = TextBoxPluginOptionExplainSS.Text;
+                    sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
 
                     sw.WriteLine("-----------------------------------------\n");
                     //****** 插件使用说明 ******
@@ -1322,6 +2519,37 @@ namespace ProxySU
             }
 
         }
+        #region SS内容双击复制到剪贴板
+        private void TextBoxHostAddressSS_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxHostAddressSS.Text);
+        }
+
+        private void TextBoxPortSS_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxPortSS.Text);
+        }
+
+        private void TextBoxPasswordSS_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxPasswordSS.Text);
+        }
+
+        private void TextBoxEncryptionSS_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxEncryptionSS.Text);
+        }
+
+        private void TextBoxPluginNameExplainSS_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxPluginNameExplainSS.Text);
+        }
+
+        private void TextBoxPluginOptionExplainSS_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxPluginOptionExplainSS.Text);
+        }
+        #endregion
 
         //生成base64
         private string ToBase64Encode(string text)
@@ -1352,17 +2580,17 @@ namespace ProxySU
         }
 
         //判断目录是否存在，不存在则创建
-        private bool CheckDir(string folder)
+        private string CheckDir(string folder)
         {
             try
             {
                 if (!Directory.Exists(folder))//如果不存在就创建file文件夹
                     Directory.CreateDirectory(folder);//创建该文件夹　　            
-                return true;
+                return folder;
             }
             catch (Exception)
             {
-                return false;
+                return "";
             }
         }
 
@@ -1375,7 +2603,7 @@ namespace ProxySU
                 int num = 1;
                 saveFileFolder = configDir;
                 CheckDir(upperDir);
-                while (Directory.Exists(upperDir + @"\" + saveFileFolder))
+                while (Directory.Exists(upperDir + @"\" + saveFileFolder) == true)
                 {
                     saveFileFolder = configDir + "_copy_" + num.ToString();
                     num++;
@@ -1581,7 +2809,46 @@ namespace ProxySU
             GroupBoxClientSSpc.Visibility = Visibility.Visible;
         }
 
-     
+        ///<summary>
+        ///生成固定长度的空格字符串
+        ///</summary>
+        ///<paramname="length"></param>
+        ///<returns></returns>
+
+        private string SpaceStrFunc(int length)
+        {
+            string strReturn = string.Empty;
+            if (length > 0)
+            {
+                for (int i = 0; i < length; i++)
+                {
+                    strReturn += " ";
+                }
+            }
+            return strReturn;
+        }
+
+        ///<summary>
+        ///将字符串生转化为固定长度左对齐，右补空格
+        ///</summary>
+        ///<paramname="strTemp"></param>需要补齐的字符串
+        ///<paramname="length"></param>补齐后的长度
+        ///<returns></returns>
+
+        private string AlignmentStrFunc(string strTemp, int length)
+        {
+            byte[] byteStr = System.Text.Encoding.Default.GetBytes(strTemp.Trim());
+            int iLength = byteStr.Length;
+            int iNeed = length - iLength;
+
+            byte[] spaceLen = Encoding.Default.GetBytes(" "); //一个空格的长度
+            iNeed = iNeed / spaceLen.Length;
+
+            string spaceString = SpaceStrFunc(iNeed);
+            //return strTemp + spaceString;
+            return spaceString + strTemp;
+        }
+
     }
 
 

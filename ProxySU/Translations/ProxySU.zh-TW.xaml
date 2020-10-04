@@ -115,6 +115,7 @@
     <!-- 以下V2Ray模板庫界面 -->
     <sys:String x:Key="GroupBoxHeaderV2RayTemplates">V2Ray 模板庫</sys:String>
     <sys:String x:Key="TabItemHeaderV2RayHotPlan">推薦方案</sys:String>
+    <sys:String x:Key="TabItemHeaderV2RayEarlyPlan">嚐鮮方案</sys:String>
     <sys:String x:Key="TabItemHeaderV2RayVlessProtocol">VLESS協議</sys:String>
     <sys:String x:Key="TextBlockVlessExplain">VLESS 是一個無狀態的輕量傳輸協議，與 VMess 不同，VLESS 不依賴於系統時間，認證方式同樣為 UUID，但不需要 alterId。目前 VLESS 沒有自帶加密，請用於可靠信道，如 TLS。優點：可以有效的降低主機資源消耗。目前 VLESS 不支持分享。 VLESS 處於公測階段，測試期間請確保客戶端與服務端的 v2ray-core 均為最新版本。</sys:String>
     <sys:String x:Key="TextBlockVlessXtlsTcpExplain">XTLS 在低性能或沒有AES 硬解的設備上效果出眾，如在硬路由上換用XTLS，同樣跑滿CPU 時實現網速翻倍，或是相同網速時CPU 佔用率減半,而對於移動設備，計算量減少意味著省電。服務端客戶端版本要求4.29+ (需域名)不支持CDN。</sys:String>
@@ -135,12 +136,16 @@
     <sys:String x:Key="TextBlockV2RayMkcpSeedUUID">mKCP Seed:</sys:String>
     <sys:String x:Key="TextBlockV2RayMkcpExplain">啟用mKCP Seed密鑰，可增強抗識別，留空則禁用,要求版本4.24.2+</sys:String>
     <sys:String x:Key="TextBlockV2RayPath">路徑：</sys:String>
-    <sys:String x:Key="TextBlockQuicEncryption">QUIC加密方式：</sys:String>
+    <sys:String x:Key="TextBlockV2RayVlessWsPath">VLESS ws路徑：</sys:String>
+    <sys:String x:Key="TextBlockV2RayVmessTcpPath">VMESS tcp路徑：</sys:String>
+    <sys:String x:Key="TextBlockV2RayVmessWsPath">VMESS ws路徑：</sys:String>
+    <sys:String x:Key="TextBlockQuicEncryption">QUIC加密方式:</sys:String>
     <sys:String x:Key="TextBlockV2RayDomain">域名：</sys:String>
     <sys:String x:Key="TextBlockV2RayMaskSites">偽裝網站：</sys:String>
     <sys:String x:Key="TextBoxV2RayMaskSitesTag">設置此項可增加代理的隱蔽(可為空)</sys:String>
     <sys:String x:Key="TextBlockV2RayWebSocketTlsWebExplain">穩定性強，Caddy2做前置，隱藏代理特徵，被識別為訪問網站的https流量，抗封鎖識別最強,需要域名,支持CDN</sys:String >
     <sys:String x:Key="TextBlockV2RayHttp2TlsWebExplain">基於 HTTP/2 傳輸。完整按 HTTP/2 標準實現，Caddy2做前置，隱藏代理特徵，H2C協議轉發到V2Ray，需要域名，暫不支持CloudFlare的CDN</sys:String>
+    <sys:String x:Key="TextBlockVlessVmessXtlsTcpWebSocketExplainHot">VLESS over TCP with XTLS + 回落and 分流to WHATEVER（終極配置），由rprx大佬(xtls作者)配置並推薦，在服務端同時配置以下五種方案，共用同一域名與443端口，其中 WS 都可以通過 CDN。方案4 配置特別，目前尚無圖形客戶端支持，可使用V2Ray官方客戶端。</sys:String>
     <sys:String x:Key="TextBlockV2RayTcpExplain">數據加密傳輸，會被識別為未知的tcp流量</sys:String>
     <sys:String x:Key="RadioButtonV2RayTcpHttp">TCP+Http偽裝</sys:String>
     <sys:String x:Key="TextBlockV2RayTcpHttpExplain">數據加密傳輸，並做http偽裝，會被識別為http流量，但並不是真正的http訪問</sys:String>
@@ -192,7 +197,7 @@
     <sys:String x:Key="TextBlockEncryption">加密方式:</sys:String>
     <sys:String x:Key="TextBlockTransferProtocol">傳輸協議:</sys:String>
     <sys:String x:Key="TextBlockCamouflageType">偽裝類型(混淆):</sys:String>
-    <sys:String x:Key="TextBlockIsOrNotTLS">是否使用TLS:</sys:String>
+    <sys:String x:Key="TextBlockIsOrNotTLS">TLS設置:</sys:String>
     <sys:String x:Key="TextBlockCopyToClipExplain">提示：雙擊以上內容窗，即可複製到剪貼板中。</sys:String>
     <sys:String x:Key="TextBlockClientPath">路徑(Path):</sys:String>
     <sys:String x:Key="TextBlockClientMkcpQuicKey">mKCP Seed/QUIC密鑰:</sys:String>

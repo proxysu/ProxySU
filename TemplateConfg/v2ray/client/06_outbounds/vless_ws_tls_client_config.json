@@ -10,8 +10,7 @@
                         "users": [
                             {
                                 "id": null,
-                                "encryption": "none",
-                                "level": 0
+                                "encryption": "none"
                             }
                         ]
                     }
@@ -20,11 +19,8 @@
             "streamSettings": {
                 "network": "ws",
                 "security": "tls",
-                "tlsSettings": {
-                    "serverName": ""
-                },
                 "wsSettings": {
-                    "path": ""
+                    "path": null
                 }
             }
         }

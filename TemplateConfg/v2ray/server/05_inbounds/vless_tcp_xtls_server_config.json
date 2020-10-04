@@ -6,7 +6,7 @@
             "settings": {
                 "clients": [
                     {
-                        "id": "",
+                        "id": null,
                         "flow": "xtls-rprx-origin"
                     }
                 ],

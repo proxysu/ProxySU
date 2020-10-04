@@ -6,27 +6,29 @@
                 "vnext": [
                     {
                         "address": null,
-                        "port": null,
+                        "port": 443,
                         "users": [
                             {
                                 "id": null,
                                 "alterId": 0,
-                                "security": "auto"
+                                "security": "none"
                             }
                         ]
                     }
                 ]
             },
             "streamSettings": {
-                "network": "kcp",
-                "kcpSettings": {
-                    "uplinkCapacity": 100,
-                    "downlinkCapacity": 100,
-                    "congestion": true,
+                "network": "tcp",
+                "security": "tls",
+                "tcpSettings": {
                     "header": {
-                        "type": null
-                    },
-                    "seed": null
+                        "type": "http",
+                        "request": {
+                            "path": [
+                                ""
+                            ]
+                        }
+                    }
                 }
             }
         }

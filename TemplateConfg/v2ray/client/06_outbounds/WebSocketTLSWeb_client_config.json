@@ -6,12 +6,12 @@
                 "vnext": [
                     {
                         "address": null,
-                        "port": null,
+                        "port": 443,
                         "users": [
                             {
                                 "id": null,
-                                "alterId": 16,
-                                "security": "auto"
+                                "alterId": 0,
+                                "security": "none"
                             }
                         ]
                     }

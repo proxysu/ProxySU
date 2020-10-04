@@ -118,6 +118,7 @@
     <!-- 以下V2Ray模板库界面 -->
     <sys:String x:Key="GroupBoxHeaderV2RayTemplates">V2Ray 模板库</sys:String>
     <sys:String x:Key="TabItemHeaderV2RayHotPlan">推荐方案</sys:String>
+    <sys:String x:Key="TabItemHeaderV2RayEarlyPlan">尝鲜方案</sys:String>
     <sys:String x:Key="TabItemHeaderV2RayVlessProtocol">VLESS协议</sys:String>
     <sys:String x:Key="TextBlockVlessExplain">VLESS 是一个无状态的轻量传输协议，与 VMess 不同，VLESS 不依赖于系统时间，认证方式同样为 UUID，但不需要 alterId。目前 VLESS 没有自带加密，请用于可靠信道，如 TLS。优点：可以有效的降低主机资源消耗。目前 VLESS 不支持分享。VLESS 处于公测阶段，测试期间请确保客户端与服务端的 v2ray-core 均为最新版本。</sys:String>
     <sys:String x:Key="TextBlockVlessXtlsTcpExplain">XTLS 在低性能或没有 AES 硬解的设备上效果出众，如在硬路由上换用 XTLS，同样跑满 CPU 时实现网速 翻倍，或是相同网速时 CPU 占用率减半,而对于移动设备，计算量减少意味着省电。服务端客户端版本要求4.29+ (需域名)不支持CDN。</sys:String>
@@ -139,15 +140,20 @@
     <sys:String x:Key="TextBlockV2RayMkcpSeedUUID">mKCP Seed:</sys:String>
     <sys:String x:Key="TextBlockV2RayMkcpExplain">启用mKCP Seed密钥，可增强抗识别，留空则禁用,要求版本4.24.2+</sys:String>
     <sys:String x:Key="TextBlockV2RayPath">路径：</sys:String>
-    <sys:String x:Key="TextBlockQuicEncryption">QUIC加密方式：</sys:String>
+    <sys:String x:Key="TextBlockV2RayVlessWsPath">VLESS ws路径：</sys:String>
+    <sys:String x:Key="TextBlockV2RayVmessTcpPath">VMESS tcp路径：</sys:String>
+    <sys:String x:Key="TextBlockV2RayVmessWsPath">VMESS ws路径：</sys:String>
+
+    <sys:String x:Key="TextBlockQuicEncryption">QUIC加密方式:</sys:String>
     <sys:String x:Key="TextBlockV2RayDomain">域名：</sys:String>
     <sys:String x:Key="TextBlockV2RayMaskSites">伪装网站：</sys:String>
     <sys:String x:Key="TextBoxV2RayMaskSitesTag">设置此项可增加代理的隐蔽(可为空)</sys:String>
     <sys:String x:Key="TextBlockV2RayWebSocketTlsWebExplain">稳定性强，Caddy2做前置，隐藏代理特征，被识别为访问网站的https流量，抗封锁识别最强,需要域名,支持CDN</sys:String>
     <sys:String x:Key="TextBlockV2RayHttp2TlsWebExplain">基于 HTTP/2 传输。完整按 HTTP/2 标准实现，Caddy2做前置，隐藏代理特征，H2C协议转发到V2Ray，需要域名，暂不支持CloudFlare的CDN</sys:String>
-    <sys:String x:Key="TextBlockV2RayTcpExplain">数据加密传输，会被识别为未知的tcp流量</sys:String>
+    <sys:String x:Key="TextBlockVlessVmessXtlsTcpWebSocketExplainHot">VLESS over TCP with XTLS + 回落 and 分流 to WHATEVER（终极配置），由rprx大佬 (xtls作者) 配置并推荐，在服务端同时配置以下五种方案，共用同一域名与443端口，其中 WS 都可以通过 CDN。方案4 配置特别，目前尚无图形客户端支持，可使用V2Ray官方客户端。</sys:String>
     <sys:String x:Key="RadioButtonV2RayTcpHttp">TCP+Http伪装</sys:String>
-    <sys:String x:Key="TextBlockV2RayTcpHttpExplain">数据加密传输，并做http伪装，会被识别为http流量，但并不是真正的http访问</sys:String>
+    <sys:String x:Key="TextBlockV2RayTcpExplain">数据加密传输，会被识别为未知的tcp流量</sys:String>
+   <sys:String x:Key="TextBlockV2RayTcpHttpExplain">数据加密传输，并做http伪装，会被识别为http流量，但并不是真正的http访问</sys:String>
     <sys:String x:Key="TextBlockV2RayTcpTlsExplain">数据加密传输，传输协议使用TLS，会被识别为TLS流量，不等同于https流量特征 (需域名)</sys:String>
     <sys:String x:Key="RadioButtonV2RayTcpTlsSelfSigned">TCP+TLS(自签证书)</sys:String>
     <sys:String x:Key="TextBlockV2RayTcpTlsSelfSignedExplain">数据加密传输，传输协议使用TLS，会被识别为TLS流量，不等同于https流量特征 (无需域名)</sys:String>
@@ -196,7 +202,7 @@
     <sys:String x:Key="TextBlockEncryption">加密方式:</sys:String>
     <sys:String x:Key="TextBlockTransferProtocol">传输协议:</sys:String>
     <sys:String x:Key="TextBlockCamouflageType">伪装类型(混淆):</sys:String>
-    <sys:String x:Key="TextBlockIsOrNotTLS">是否使用TLS:</sys:String>
+    <sys:String x:Key="TextBlockIsOrNotTLS">TLS设置:</sys:String>
     <sys:String x:Key="TextBlockCopyToClipExplain">提示：双击以上内容窗，即可复制到剪贴板中。</sys:String>
     <sys:String x:Key="TextBlockClientPath">路径(Path):</sys:String>
     <sys:String x:Key="TextBlockClientQuicKey">QUIC密钥:</sys:String>
@@ -350,7 +356,7 @@
     <sys:String x:Key="readmeTxtV2RayExplainLine09">v2rayNG(Android)在Google Play下载网址：https://play.google.com/store/apps/details?id=com.v2ray.ang</sys:String>
     <sys:String x:Key="readmeTxtV2RayExplainLine10">Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。</sys:String>
     <sys:String x:Key="readmeTxtV2RayExplainLine11">此文件为v2rayN、Trojan-QT5、v2rayNG(Android)、Shadowrocket(ios)复制粘贴导入节点的vmess网址</sys:String>
-    <sys:String x:Key="readmeTxtV2RayExplainLine12">服务器通用连接配置参数</sys:String>
+    <sys:String x:Key="readmeTxtV2RayExplainLine12">服务器通用连接配置参数:</sys:String>
     <!--以下为Trojan-go客户端说明文件-->
     <sys:String x:Key="readmeTxtTrojan-goExplainLine01">此文件为Trojan-go官方程序所使用的客户端配置文件，配置为全局模式，http与socks5地址：127.0.0.1:1080</sys:String>
     <sys:String x:Key="readmeTxtTrojan-goExplainLine02">Trojan-go官方网站：https://github.com/p4gefau1t/trojan-go</sys:String>

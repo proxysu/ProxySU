@@ -209,6 +209,28 @@ namespace ProxySU
                 DisguiseURLprocessing();
             }
 
+            //VLESS+VMESS+XTLS+TCP+WebSocket+Web模式被选中
+            else if (RadioButtonVlessVmessXtlsTcpWebSocketHot.IsChecked == true)
+            {
+                domainNotEmpty = TestDomainIsEmpty();
+                //传递模板类型
+                MainWindow.ReceiveConfigurationParameters[0] = "VlessVmessXtlsTcpWebSocketWeb";
+                //传递方案名称
+                MainWindow.ReceiveConfigurationParameters[8] = RadioButtonVlessVmessXtlsTcpWebSocketHot.Content.ToString();
+                //传递路径
+                MainWindow.ReceiveConfigurationParameters[3] = TextBoxPathVlessWS.Text.ToString();//VLESS ws Path
+                MainWindow.ReceiveConfigurationParameters[9] = TextBoxPathVmessTcp.Text.ToString();//VMESS tcp Path
+                MainWindow.ReceiveConfigurationParameters[6] = TextBoxPathVmessWS.Text.ToString();//VMESS ws Path
+
+                //传递域名
+                MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomain.Text.ToString();
+                //传递伪装网站
+                MainWindow.ReceiveConfigurationParameters[7] = TextBoxMaskSites.Text.ToString();
+                //处理伪装网站域名中的前缀
+                DisguiseURLprocessing();
+
+            }
+
             #endregion
 
             #region WebSocket传输协议(VMESS)
@@ -575,6 +597,7 @@ namespace ProxySU
          
             //隐藏Path
             HidePath();
+            HideVlessVmessMultiplePath();
 
             //隐藏域名
             HideDomain();
@@ -583,8 +606,8 @@ namespace ProxySU
             HideMaskSites();
 
 
-            Guid uuid = Guid.NewGuid();
-            TextBoxNewUUID.Text = uuid.ToString();
+            //Guid uuid = Guid.NewGuid();
+            TextBoxNewUUID.Text = GenerateRandomUUID();
             //Random random = new Random();
             int randomServerPort = GetRandomPort();
             TextBoxServerListenPort.Text = randomServerPort.ToString();
@@ -603,6 +626,7 @@ namespace ProxySU
 
             //隐藏Path
             HidePath();
+            HideVlessVmessMultiplePath();
 
             //隐藏域名
             HideDomain();
@@ -610,8 +634,8 @@ namespace ProxySU
             //隐藏伪装网站
             HideMaskSites();
 
-            Guid uuid = Guid.NewGuid();
-            TextBoxNewUUID.Text = uuid.ToString();
+            //Guid uuid = Guid.NewGuid();
+            TextBoxNewUUID.Text = GenerateRandomUUID();
             //清除其他选项卡中的选项
             UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
         }
@@ -627,6 +651,7 @@ namespace ProxySU
 
             //隐藏Path
             HidePath();
+            HideVlessVmessMultiplePath();
 
             //显示域名
             ShowDomain();
@@ -634,8 +659,8 @@ namespace ProxySU
             //隐藏伪装网站
             HideMaskSites();
 
-            Guid uuid = Guid.NewGuid();
-            TextBoxNewUUID.Text = uuid.ToString();
+            //Guid uuid = Guid.NewGuid();
+            TextBoxNewUUID.Text = GenerateRandomUUID();
             //清除其他选项卡中的选项
             UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
         }
@@ -651,6 +676,7 @@ namespace ProxySU
 
             //隐藏Path
             HidePath();
+            HideVlessVmessMultiplePath();
 
             //显示域名
             ShowDomain();
@@ -658,10 +684,40 @@ namespace ProxySU
             //显示伪装网站
             ShowMaskSites();
 
-            Guid uuid = Guid.NewGuid();
-            TextBoxNewUUID.Text = uuid.ToString();
+            //Guid uuid = Guid.NewGuid();
+            TextBoxNewUUID.Text = GenerateRandomUUID();
             //清除其他选项卡中的选项
             UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
+        }
+        private void RadioButtonVlessVmessXtlsTcpWebSocketHot_Checked(object sender, RoutedEventArgs e)
+        {
+            TextBoxServerListenPort.Text = "443";
+
+            //隐藏mKCP项
+            HideMkcpSeed();
+
+            //隐藏QUIC密钥
+            HideQuic();
+
+            //显示复合路径
+            ShowVlessVmessMultiplePath();
+
+            //显示域名
+            ShowDomain();
+
+            //显示伪装网站
+            ShowMaskSites();
+
+            //生成UUID
+            TextBoxNewUUID.Text = GenerateRandomUUID();
+
+            //清除其他选项卡中的选项
+            UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
+        }
+        //单击TextBlockVlessVmessXtlsTcpWebSocket标签则选中RadioButtonVlessVmessXtlsTcpWebSocketHot
+        private void TextBlockVlessVmessXtlsTcpWebSocket_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            RadioButtonVlessVmessXtlsTcpWebSocketHot.IsChecked = true;
         }
         private void RadioButtonTCP2TLSnoDomain_Checked(object sender, RoutedEventArgs e)
         {
@@ -675,6 +731,7 @@ namespace ProxySU
 
             //隐藏Path
             HidePath();
+            HideVlessVmessMultiplePath();
 
             //隐藏域名
             HideDomain();
@@ -682,8 +739,8 @@ namespace ProxySU
             //隐藏伪装网站
             HideMaskSites();
 
-            Guid uuid = Guid.NewGuid();
-            TextBoxNewUUID.Text = uuid.ToString();
+            //Guid uuid = Guid.NewGuid();
+            TextBoxNewUUID.Text = GenerateRandomUUID();
             //清除其他选项卡中的选项
             UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
         }
@@ -706,8 +763,8 @@ namespace ProxySU
             //显示伪装网站
             ShowMaskSites();
 
-            Guid uuid = Guid.NewGuid();
-            TextBoxNewUUID.Text = uuid.ToString();
+            //Guid uuid = Guid.NewGuid();
+            TextBoxNewUUID.Text = GenerateRandomUUID();
             //清除其他选项卡中的选项
             UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
         }
@@ -730,8 +787,8 @@ namespace ProxySU
             //隐藏伪装网站
             HideMaskSites();
 
-            Guid uuid = Guid.NewGuid();
-            TextBoxNewUUID.Text = uuid.ToString();
+            //Guid uuid = Guid.NewGuid();
+            TextBoxNewUUID.Text = GenerateRandomUUID();
             //清除其他选项卡中的选项
             UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
         }
@@ -754,8 +811,8 @@ namespace ProxySU
             //隐藏伪装网站
             HideMaskSites();
 
-            Guid uuid = Guid.NewGuid();
-            TextBoxNewUUID.Text = uuid.ToString();
+            //Guid uuid = Guid.NewGuid();
+            TextBoxNewUUID.Text = GenerateRandomUUID();
             //清除其他选项卡中的选项
             UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
         }
@@ -771,6 +828,7 @@ namespace ProxySU
 
             //隐藏Path
             HidePath();
+            HideVlessVmessMultiplePath();
 
             //隐藏域名
             HideDomain();
@@ -778,11 +836,11 @@ namespace ProxySU
             //隐藏伪装网站
             HideMaskSites();
 
-            Guid uuid = Guid.NewGuid();
-            TextBoxNewUUID.Text = uuid.ToString();
+            //Guid uuid = Guid.NewGuid();
+            TextBoxNewUUID.Text = GenerateRandomUUID();
 
-            uuid = Guid.NewGuid();
-            TextBoxQuicAndMkcpSeedUUID.Text = uuid.ToString();
+            //uuid = Guid.NewGuid();
+            TextBoxQuicAndMkcpSeedUUID.Text = GenerateRandomUUID();
 
             //Random random = new Random();
             int randomServerPort = GetRandomPort();
@@ -802,6 +860,7 @@ namespace ProxySU
 
             //隐藏Path
             HidePath();
+            HideVlessVmessMultiplePath();
 
             //隐藏域名
             HideDomain();
@@ -809,11 +868,11 @@ namespace ProxySU
             //隐藏伪装网站
             HideMaskSites();
 
-            Guid uuid = Guid.NewGuid();
-            TextBoxNewUUID.Text = uuid.ToString();
+            //Guid uuid = Guid.NewGuid();
+            TextBoxNewUUID.Text = GenerateRandomUUID();
 
-            uuid = Guid.NewGuid();
-            TextBoxQuicAndMkcpSeedUUID.Text = uuid.ToString();
+            //uuid = Guid.NewGuid();
+            TextBoxQuicAndMkcpSeedUUID.Text = GenerateRandomUUID();
 
             //Random random = new Random();
             int randomServerPort = GetRandomPort();
@@ -889,11 +948,42 @@ namespace ProxySU
         //显示路径相关项
         private void ShowPath()
         {
+            HideVlessVmessMultiplePath();//隐藏VLESS VMESS多种方案的路径Path
             //显示Path
             TextBlockPath.Visibility = Visibility.Visible;
             TextBoxPath.Visibility = Visibility.Visible;
             TextBoxPath.Text = "/ray";
             ButtonPath.Visibility = Visibility.Visible;
+        }
+        //隐藏VLESS VMESS复合方案路径
+        private void HideVlessVmessMultiplePath()
+        {
+            TextBlockPathVlessWs.Visibility = Visibility.Collapsed;
+            TextBoxPathVlessWS.Visibility = Visibility.Collapsed;
+            TextBlockPathVmessTcp.Visibility = Visibility.Collapsed;
+            TextBoxPathVmessTcp.Visibility = Visibility.Collapsed;
+            TextBlockPathVmessWs.Visibility = Visibility.Collapsed;
+            TextBoxPathVmessWS.Visibility = Visibility.Collapsed;
+            ButtonVlessVmessPath.Visibility = Visibility.Collapsed;
+
+        }
+        //显示VLESS VMESS复合方案路径
+        private void ShowVlessVmessMultiplePath()
+        {
+            HidePath();//隐藏普通路径Path
+            TextBlockPathVlessWs.Visibility = Visibility.Visible;
+            TextBoxPathVlessWS.Visibility = Visibility.Visible;
+            TextBoxPathVlessWS.Text = "/vlessws";
+
+            TextBlockPathVmessTcp.Visibility = Visibility.Visible;
+            TextBoxPathVmessTcp.Visibility = Visibility.Visible;
+            TextBoxPathVmessTcp.Text = "/vmesstcp";
+
+            TextBlockPathVmessWs.Visibility = Visibility.Visible;
+            TextBoxPathVmessWS.Visibility = Visibility.Visible;
+            TextBoxPathVmessWS.Text = "/vmessws";
+
+            ButtonVlessVmessPath.Visibility = Visibility.Visible;
         }
         //隐藏域名相关项
         private void HideDomain()
@@ -928,18 +1018,18 @@ namespace ProxySU
         //产生随机的uuid
         private void ButtonNewUUID_Click(object sender, RoutedEventArgs e)
         {
-            Guid uuid = Guid.NewGuid();
-            TextBoxNewUUID.Text = uuid.ToString();
+            //Guid uuid = Guid.NewGuid();
+            TextBoxNewUUID.Text = GenerateRandomUUID();
         }
        
         //产生QUIC密钥/mKCP Seed所用的UUID
         private void ButtonQuicAndMkcpSeedUUID_Click(object sender, RoutedEventArgs e)
         {
-            Guid uuid = Guid.NewGuid();
-            TextBoxQuicAndMkcpSeedUUID.Text = uuid.ToString();
+            //Guid uuid = Guid.NewGuid();
+            TextBoxQuicAndMkcpSeedUUID.Text = GenerateRandomUUID();
         }
         
-        //产生随机服务端口
+        //更新随机服务端口
         private void ButtonServerListenPort_Click(object sender, RoutedEventArgs e)
         {
             //Random random = new Random();
@@ -947,25 +1037,56 @@ namespace ProxySU
             TextBoxServerListenPort.Text = randomServerPort.ToString();
         }
         
-        //产生随机的Path
+        //更新单方案随机的Path
         private void ButtonPath_Click(object sender, RoutedEventArgs e)
         {
-            Random random = new Random();
-            int randomSerialNum = random.Next(0, 4);
-            Guid uuid = Guid.NewGuid();
-            string[] pathArray = uuid.ToString().Split('-');
-            string path = pathArray[randomSerialNum];
+            //Random random = new Random();
+            //int randomSerialNum = random.Next(0, 4);
+            //Guid uuid = Guid.NewGuid();
+            //string[] pathArray = uuid.ToString().Split('-');
+            string path = GenerateRandomPath();
             TextBoxPath.Text = $"/{path}";
             //MessageBox.Show(path);
         }
-        
-        //产生随机端口
+
+        //更新多方案共存的Path
+        private void ButtonVlessVmessPath_Click(object sender, RoutedEventArgs e)
+        {
+            string path = GenerateRandomPath();
+            TextBoxPathVlessWS.Text = $"/{path}";
+
+            path = GenerateRandomPath();
+            TextBoxPathVmessTcp.Text = $"/{path}";
+
+            path = GenerateRandomPath();
+            TextBoxPathVmessWS.Text = $"/{path}";
+        }
+
+        //生成随机端口
         private int GetRandomPort()
         {
             Random random = new Random();
             return random.Next(10001, 60000);
         }
 
+       //生成随机UUID
+       private string GenerateRandomUUID()
+        {
+            Guid uuid = Guid.NewGuid();
+            return uuid.ToString();
+        }
+        
+        //生成随机Path
+        private string GenerateRandomPath()
+        {
+            Random random = new Random();
+            int randomSerialNum = random.Next(0, 4);
+            //Guid uuid = Guid.NewGuid();
+            string uuid = GenerateRandomUUID();
+            string[] pathArray = uuid.Split('-');
+            string path = pathArray[randomSerialNum];
+            return path;
+        }
         //域名检测是否为空
         private bool TestDomainIsEmpty()
         {
@@ -1014,6 +1135,12 @@ namespace ProxySU
         }
 
       
+
+
+
+
+
+
 
         //private void ButtonTestChecked_Click(object sender, RoutedEventArgs e)
         //{

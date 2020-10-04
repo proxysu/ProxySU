@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProxySU"
         mc:Ignorable="d"
-        Title="V2RayTemplateConfiguration" Height="600" Width="850">
+        Title="V2RayTemplateConfiguration" Height="600" Width="950">
     <Window.Resources>
         <Style BasedOn="{StaticResource {x:Type TextBox}}"
            TargetType="TextBox"
@@ -42,7 +42,7 @@
         <GroupBox Header="{DynamicResource GroupBoxHeaderV2RayTemplates}" Grid.Row="0" Grid.RowSpan="3">
             <Grid>
                 <TabControl x:Name="TabControlTemplate">
-                    <TabItem Header="{DynamicResource TabItemHeaderV2RayHotPlan}" Width="110" Height="30">
+                    <TabItem Header="{DynamicResource TabItemHeaderV2RayHotPlan}" Width="100" Height="30">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.8*"></ColumnDefinition>
@@ -52,9 +52,7 @@
                                 <ColumnDefinition Width="0.3*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition Height="1.2*"></RowDefinition>
-                                <RowDefinition Height="1.2*"></RowDefinition>
+                                <RowDefinition Height="0.2*"></RowDefinition>
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
@@ -64,11 +62,58 @@
                             <TextBlock Text="{DynamicResource TextBlockV2RayWebSocketTlsWebExplain}" TextWrapping="Wrap" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                             <RadioButton x:Name="RadioButtonHTTP2WebHot" Content="HTTP2+TLS+Web"  GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="2" Checked="RadioButtonWebSocketTLS2Web_Checked" HorizontalAlignment="Left" VerticalAlignment="Center"></RadioButton>
                             <TextBlock Text="{DynamicResource TextBlockV2RayHttp2TlsWebExplain}" TextWrapping="Wrap" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-
+                            
                         </Grid>
                     </TabItem>
 
-                    <TabItem Header="{DynamicResource TabItemHeaderV2RayVlessProtocol}" Width="110" Height="30">
+                    <TabItem Header="{DynamicResource TabItemHeaderV2RayEarlyPlan}" Width="100" Height="30">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10"></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition Width="10"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="10"></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition Height="0.4*"></RowDefinition>
+                                <RowDefinition Height="10"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Column="1" Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="{DynamicResource TextBlockVlessVmessXtlsTcpWebSocketExplainHot}" TextWrapping="Wrap" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                                <TextBlock Text="1. VLESS over TCP with XTLS" Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom"></TextBlock>
+                                <TextBlock Text="2. VLESS over TCP with TLS" Grid.Column="1" Grid.Row="2" VerticalAlignment="Bottom"></TextBlock>
+                                <TextBlock Text="3. VLESS over WS with TLS" Grid.Column="1" Grid.Row="3" VerticalAlignment="Bottom"></TextBlock>
+                                <TextBlock Text="4. VMess over TCP with TLS" Grid.Column="1" Grid.Row="4" VerticalAlignment="Bottom"></TextBlock>
+                                <TextBlock Text="5. VMess over WS with TLS" Grid.Column="1" Grid.Row="5" VerticalAlignment="Bottom"></TextBlock>
+                            </Grid>
+                            <RadioButton x:Name="RadioButtonVlessVmessXtlsTcpWebSocketHot" Content="VLESS+VMESS+XTLS+TCP+WebSocket+Web" GroupName="TemplateGroup"  Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Checked="RadioButtonVlessVmessXtlsTcpWebSocketHot_Checked" HorizontalAlignment="Left" VerticalAlignment="Center"></RadioButton>
+
+                            <!--<Grid Grid.Column="0" Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.15*"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock x:Name="TextBlockVlessVmessXtlsTcpWebSocket" Text="VLESS+VMESS+XTLS+TCP+WebSocket+Web" TextWrapping="Wrap" Margin="0,0,8,0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" MouseDown="TextBlockVlessVmessXtlsTcpWebSocket_MouseDown"></TextBlock>
+                            </Grid>-->
+                            
+                        </Grid>
+                    </TabItem>
+
+
+                    <TabItem Header="{DynamicResource TabItemHeaderV2RayVlessProtocol}" Width="100" Height="30">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition></ColumnDefinition>
@@ -301,13 +346,20 @@
                 <Button x:Name="ButtonQuicAndmKcpSeedUUID"  Content="{DynamicResource ButtonTrojanChangePassword}" Grid.Column="4" Grid.Row="2" Margin="2" Click="ButtonQuicAndMkcpSeedUUID_Click"></Button>
                 <TextBlock x:Name="TextBlockMkcpUUID"  Text="{DynamicResource TextBlockV2RayMkcpExplain}" TextWrapping="Wrap" Grid.Column="5" Grid.Row="2" Grid.ColumnSpan="2"></TextBlock>
 
-                <TextBlock x:Name="TextBlockPath" Text="{DynamicResource TextBlockV2RayPath}" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
-                <TextBox x:Name="TextBoxPath" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" Margin="3"></TextBox>
-                <Button x:Name="ButtonPath" Content="{DynamicResource ButtonNaiveProxyChangeUser}" Grid.Column="4" Grid.Row="3" Margin="2" Click="ButtonPath_Click"></Button>
+                <TextBlock x:Name="TextBlockPath" Text="{DynamicResource TextBlockV2RayPath}" Visibility="Collapsed" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxPath" Visibility="Collapsed" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" Margin="3"></TextBox>
+                <Button x:Name="ButtonPath" Content="{DynamicResource ButtonNaiveProxyChangeUser}" Visibility="Collapsed" Grid.Column="4" Grid.Row="3" Margin="2" Click="ButtonPath_Click"></Button>
+
+                <TextBlock x:Name="TextBlockPathVlessWs" Text="{DynamicResource TextBlockV2RayVlessWsPath}"  Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxPathVlessWS" Grid.Column="1" Grid.Row="3" Margin="3"></TextBox>
+                <TextBlock x:Name="TextBlockPathVmessTcp" Text="{DynamicResource TextBlockV2RayVmessTcpPath}" Grid.Column="2" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxPathVmessTcp" Grid.Column="3" Grid.Row="3" Margin="3"></TextBox>
+                <TextBlock x:Name="TextBlockPathVmessWs" Text="{DynamicResource TextBlockV2RayVmessWsPath}" Grid.Column="4" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxPathVmessWS" Grid.Column="5" Grid.Row="3" Margin="3"></TextBox>
+                <Button x:Name="ButtonVlessVmessPath" Content="{DynamicResource ButtonNaiveProxyChangeUser}" Grid.Column="6" Grid.Row="3" Margin="2" Click="ButtonVlessVmessPath_Click"></Button>
 
                 <TextBlock x:Name="TextBlockQuicEncryption" Text="{DynamicResource TextBlockQuicEncryption}" Visibility="Collapsed" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <ComboBox x:Name="ComboBoxEncryptionMethodInfo" Visibility="Collapsed" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Height="25" Margin="3,0,0,0" SelectionChanged="ComboBoxEncryptionMethodInfo_SelectionChanged"></ComboBox>
-
 
                 <TextBlock x:Name="TextBlockDomain" Text="{DynamicResource TextBlockV2RayDomain}" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxDomain" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxDomainPrompt}" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" Margin="3"></TextBox>

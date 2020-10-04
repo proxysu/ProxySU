@@ -10,7 +10,8 @@
                         "users": [
                             {
                                 "id": null,
-                                "alterId": 16
+                                "alterId": 0,
+                                "security": "auto"
                             }
                         ]
                     }
