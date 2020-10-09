@@ -57,6 +57,13 @@
     <sys:String x:Key="TextBlockSSRTemplateExplanation">模式：SSR+TLS+Caddy</sys:String>
     <sys:String x:Key="ButtonSSRSetUp">SSR一键安装</sys:String>
 
+    <!-- 以下MTProto设置参数标签页界面 -->
+    <sys:String x:Key="TextBlockMtgTemplateExplanation">模式：MTProto+TLS</sys:String>
+    <sys:String x:Key="ButtonMtgSetUp">MTProto一键安装</sys:String>
+    <sys:String x:Key="TextBlockMtgFakeDomainExplanation">伪装域名:</sys:String>
+    <sys:String x:Key="TextBlockMtgPortExplanation">推荐用常见https端口443、2053、2083、2087、2096、8443</sys:String>
+    <sys:String x:Key="TextBlockMtgSecretExplanation">密钥将由服务端随机生成，这里无需设置。</sys:String>
+    
     <!-- 以下SS设置参数标签页界面 -->
     <sys:String x:Key="ButtonSetUpSS">SS 一键安装</sys:String>
     <sys:String x:Key="ButtonTemplateConfigurationSS">SS 插件库</sys:String>
@@ -150,7 +157,7 @@
     <sys:String x:Key="TextBoxV2RayMaskSitesTag">设置此项可增加代理的隐蔽(可为空)</sys:String>
     <sys:String x:Key="TextBlockV2RayWebSocketTlsWebExplain">稳定性强，Caddy2做前置，隐藏代理特征，被识别为访问网站的https流量，抗封锁识别最强,需要域名,支持CDN</sys:String>
     <sys:String x:Key="TextBlockV2RayHttp2TlsWebExplain">基于 HTTP/2 传输。完整按 HTTP/2 标准实现，Caddy2做前置，隐藏代理特征，H2C协议转发到V2Ray，需要域名，暂不支持CloudFlare的CDN</sys:String>
-    <sys:String x:Key="TextBlockVlessVmessXtlsTcpWebSocketExplainHot">VLESS over TCP with XTLS + 回落 and 分流 to WHATEVER（终极配置），由rprx大佬 (xtls作者) 配置并推荐，在服务端同时配置以下五种方案，共用同一域名与443端口，其中 WS 都可以通过 CDN。方案4 配置特别，目前尚无图形客户端支持，可使用V2Ray官方客户端。</sys:String>
+    <sys:String x:Key="TextBlockVlessVmessXtlsTcpWebSocketExplainHot">VLESS over TCP with XTLS + 回落 and 分流 to WHATEVER（终极配置），由rprx大佬 (xtls作者) 配置并推荐，在服务端同时配置以下五种方案，共用同一域名与443端口，其中 WS 都可以通过 CDN。</sys:String>
     <sys:String x:Key="RadioButtonV2RayTcpHttp">TCP+Http伪装</sys:String>
     <sys:String x:Key="TextBlockV2RayTcpExplain">数据加密传输，会被识别为未知的tcp流量</sys:String>
    <sys:String x:Key="TextBlockV2RayTcpHttpExplain">数据加密传输，并做http伪装，会被识别为http流量，但并不是真正的http访问</sys:String>
@@ -221,6 +228,10 @@
     <sys:String x:Key="TextBlockClientPromptSS">提醒: 电脑客户端Shadowsocks (windows)与手机客户端shadowsocks(android)、Shadowrocket(ios)的导入格式不兼容，请选择相应格式。</sys:String>
     <sys:String x:Key="RadioButtonMobileSS">手机端</sys:String>
     <sys:String x:Key="RadioButtonPCSS">电脑端</sys:String>
+    <sys:String x:Key="TextBlockShareQRcodeMtgTgIpv4">TG格式QR</sys:String>
+    <sys:String x:Key="TextBlockURLMtgTgIpv4">TG格式URL(双击复制到剪切板中)</sys:String>
+    <sys:String x:Key="TextBlockShareQRcodeMtgTmeIpv4">T.ME格式QR</sys:String>
+    <sys:String x:Key="TextBlockURLMtgTmeIpv4">T.ME格式URL(双击复制到剪切板中)</sys:String>
 
     <!--以下为程序内的-->
     <sys:String x:Key="MessageBoxShow_ErrorHostPortUserNotEmpty">主机地址、主机端口、用户名为必填项，不能为空!!</sys:String>

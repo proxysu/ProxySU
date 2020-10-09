@@ -1,13 +1,13 @@
 {
-    "server":"",
-    "server_port":null,
-    "password":"",
-    "timeout":300,
-    "user":"nobody",
-    "method":"",
-    "fast_open":false,
-    "nameserver":"1.0.0.1",
-    "mode":"tcp_and_udp",
-    "plugin":"",
-    "plugin_opts":""
+    "server": "",
+    "server_port": null,
+    "password": "",
+    "timeout": 300,
+    "user": "nobody",
+    "method": "",
+    "fast_open": false,
+    "nameserver": "1.0.0.1",
+    "mode": "tcp",
+    "plugin": "",
+    "plugin_opts": ""
 }

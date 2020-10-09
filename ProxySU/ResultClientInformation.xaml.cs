@@ -42,6 +42,9 @@ namespace ProxySU
             if (String.Equals(MainWindow.proxyType, "V2Ray"))
             {
                 //显示V2Ray参数，隐藏其他
+                GroupBoxClientMTProto.Visibility = Visibility.Collapsed;
+                GroupBoxClientQRandURL.Visibility = Visibility.Visible;
+                GroupBoxClientSSpc.Visibility = Visibility.Collapsed;
                 GroupBoxV2rayClient.Visibility = Visibility.Visible;
                 GroupBoxTrojanGoClient.Visibility = Visibility.Collapsed;
                 GroupBoxTrojanClient.Visibility = Visibility.Collapsed;
@@ -338,6 +341,9 @@ namespace ProxySU
             else if (String.Equals(MainWindow.proxyType, "TrojanGo"))
             {
                 //GroupBoxTrojanClient.Header = "Trojan-go 客户端配置参数";
+                GroupBoxClientMTProto.Visibility = Visibility.Collapsed;
+                GroupBoxClientQRandURL.Visibility = Visibility.Visible;
+                GroupBoxClientSSpc.Visibility = Visibility.Collapsed;
                 GroupBoxV2rayClient.Visibility = Visibility.Collapsed;
                 GroupBoxTrojanGoClient.Visibility = Visibility.Visible;
                 GroupBoxTrojanClient.Visibility = Visibility.Collapsed;
@@ -372,6 +378,9 @@ namespace ProxySU
             }
             else if (String.Equals(MainWindow.proxyType, "Trojan"))
             {
+                GroupBoxClientMTProto.Visibility = Visibility.Collapsed;
+                GroupBoxClientQRandURL.Visibility = Visibility.Visible;
+                GroupBoxClientSSpc.Visibility = Visibility.Collapsed;
                 GroupBoxV2rayClient.Visibility = Visibility.Collapsed;
                 GroupBoxTrojanGoClient.Visibility = Visibility.Collapsed;
                 GroupBoxTrojanClient.Visibility = Visibility.Visible;
@@ -393,6 +402,9 @@ namespace ProxySU
             }
             else if (String.Equals(MainWindow.proxyType, "NaiveProxy"))
             {
+                GroupBoxClientMTProto.Visibility = Visibility.Collapsed;
+                GroupBoxClientQRandURL.Visibility = Visibility.Visible;
+                GroupBoxClientSSpc.Visibility = Visibility.Collapsed;
                 GroupBoxV2rayClient.Visibility = Visibility.Collapsed;
                 GroupBoxTrojanGoClient.Visibility = Visibility.Collapsed;
                 GroupBoxTrojanClient.Visibility = Visibility.Collapsed;
@@ -409,6 +421,9 @@ namespace ProxySU
             }
             else if (String.Equals(MainWindow.proxyType, "SSR"))
             {
+                GroupBoxClientMTProto.Visibility = Visibility.Collapsed;
+                GroupBoxClientQRandURL.Visibility = Visibility.Visible;
+                GroupBoxClientSSpc.Visibility = Visibility.Collapsed;
                 GroupBoxV2rayClient.Visibility = Visibility.Collapsed;
                 GroupBoxTrojanGoClient.Visibility = Visibility.Collapsed;
                 GroupBoxTrojanClient.Visibility = Visibility.Collapsed;
@@ -436,6 +451,9 @@ namespace ProxySU
             }
             else if (String.Equals(MainWindow.proxyType, "SS"))
             {
+                GroupBoxClientMTProto.Visibility = Visibility.Collapsed;
+                GroupBoxClientQRandURL.Visibility = Visibility.Visible;
+                GroupBoxClientSSpc.Visibility = Visibility.Collapsed;
                 GroupBoxV2rayClient.Visibility = Visibility.Collapsed;
                 GroupBoxTrojanGoClient.Visibility = Visibility.Collapsed;
                 GroupBoxTrojanClient.Visibility = Visibility.Collapsed;
@@ -536,7 +554,72 @@ namespace ProxySU
                 }
                
             }
+            else if(String.Equals(MainWindow.proxyType, "MTProto"))
+            {
+                //显示MTProto参数，隐藏其他
+                GroupBoxClientMTProto.Visibility = Visibility.Visible;
+                GroupBoxClientQRandURL.Visibility = Visibility.Collapsed;
+                GroupBoxClientSSpc.Visibility = Visibility.Collapsed;
+                GroupBoxV2rayClient.Visibility = Visibility.Collapsed;
+                GroupBoxTrojanGoClient.Visibility = Visibility.Collapsed;
+                GroupBoxTrojanClient.Visibility = Visibility.Collapsed;
+                GroupBoxNaiveProxyClient.Visibility = Visibility.Collapsed;
+                GroupBoxSSRClient.Visibility = Visibility.Collapsed;
+                GroupBoxClientSS.Visibility = Visibility.Collapsed;
 
+                string proxyfolder = CheckDir("mtproto_config");
+                configDomainSavePath = CreateConfigSaveDir(proxyfolder,MainWindow.ReceiveConfigurationParameters[4]);
+                string configSavePath = configDomainSavePath;
+
+                string mtprotoJsonPath = @"mtproto_config\mtproto_info.json";
+                using (StreamReader readerJson = File.OpenText(mtprotoJsonPath))
+                {
+                    JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+
+                    TextBoxURLMtgTgIpv4.Text = jObjectJson["ipv4"]["tg_url"].ToString();
+                    ImageShareQRcodeMtgTgIpv4.Source = CreateQRCode(TextBoxURLMtgTgIpv4.Text, $"{configSavePath}\\QRIpv4Tg.bmp");
+                    using (StreamWriter sw = new StreamWriter($"{configSavePath}\\urlIpv4Tg.txt"))
+                    {
+                        sw.WriteLine(TextBoxURLMtgTgIpv4.Text);
+                    }
+
+                    TextBoxURLMtgTmeIpv4.Text = jObjectJson["ipv4"]["tme_url"].ToString();
+                    ImageShareQRcodeMtgTmeIpv4.Source = CreateQRCode(TextBoxURLMtgTmeIpv4.Text, $"{configSavePath}\\QRIpv4Tme.bmp");
+                    using (StreamWriter sw = new StreamWriter($"{configSavePath}\\urlIpv4Tme.txt"))
+                    {
+                        sw.WriteLine(TextBoxURLMtgTmeIpv4.Text);
+                    }
+
+                    if (jObjectJson["ipv6"]["tg_url"].ToString().Contains("nil")==false)
+                    {
+                        RadioButtonMtgIpv6.Visibility = Visibility.Visible;
+                        TextBoxURLMtgTgIpv6.Text = jObjectJson["ipv6"]["tg_url"].ToString();
+                        ImageShareQRcodeMtgTgIpv6.Source = CreateQRCode(TextBoxURLMtgTgIpv6.Text, $"{configSavePath}\\QRIpv6Tg.bmp");
+                        using (StreamWriter sw = new StreamWriter($"{configSavePath}\\urlIpv6Tg.txt"))
+                        {
+                            sw.WriteLine(TextBoxURLMtgTgIpv6.Text);
+                        }
+
+                        TextBoxURLMtgTmeIpv6.Text = jObjectJson["ipv6"]["tme_url"].ToString();
+                        ImageShareQRcodeMtgTmeIpv6.Source = CreateQRCode(TextBoxURLMtgTmeIpv6.Text, $"{configSavePath}\\QRIpv6Tme.bmp");
+                        using (StreamWriter sw = new StreamWriter($"{configSavePath}\\urlIpv6Tme.txt"))
+                        {
+                            sw.WriteLine(TextBoxURLMtgTmeIpv6.Text);
+                        }
+                    }
+                    else
+                    {
+                        RadioButtonMtgIpv6.Visibility = Visibility.Collapsed;
+                    }
+                    RadioButtonMtgIpv4.IsChecked = true;
+
+                }
+                if (File.Exists(@"mtproto_config\mtproto_info.json"))
+                {
+                    File.Move(@"mtproto_config\mtproto_info.json", $"{configSavePath}\\mtproto_info.json");
+                    //File.Delete(@"config\config.json");//删除该文件
+                }
+            }
         }
 
         #region V2ray参数设置函数
@@ -602,7 +685,7 @@ namespace ProxySU
         {
             TextBoxEncryption.Text = "none";
             TextBoxTransmission.Text = "tcp";
-            TextBoxCamouflageType.Text = "none";
+            TextBoxCamouflageType.Text = "http";
             TextBoxTLS.Text = "tls";
             ShowAlterId();
             ShowHostName();
@@ -1491,52 +1574,52 @@ namespace ProxySU
             }
         }
 
-        //生成VMess over TCP with TLS的配置保存（暂未有分享链接与二维码）
+        //生成VMess over TCP with TLS的配置保存
         private void GenerateV2rayVmessTcpTlsShareQRcodeAndBase64Url()
         {
             #region 暂时不用内容
             //生成v2rayN的json文件
-//            string v2rayNjsonFile = @"
-//{
-//  ""v"": """",
-//  ""ps"": """",
-//  ""add"": """",
-//  ""port"": """",
-//  ""id"": """",
-//  ""aid"": """",
-//  ""net"": """",
-//  ""type"": """",
-//  ""host"": """",
-//  ""path"": """",
-//  ""tls"": """"
-//}";
-//            //MessageBox.Show(v2rayNjsonFile);
-//            JObject v2rayNjsonObject = JObject.Parse(v2rayNjsonFile);
-//            v2rayNjsonObject["v"] = "2";
-//            v2rayNjsonObject["add"] = TextBoxHostAddress.Text; //设置域名
-//            v2rayNjsonObject["port"] = TextBoxPort.Text; //设置端口
-//            v2rayNjsonObject["id"] = TextBoxUUID.Text; //设置uuid
-//            v2rayNjsonObject["aid"] = TextBoxUUIDextra.Text; //设置额外ID
-//            v2rayNjsonObject["net"] = TextBoxTransmission.Text; //设置传输模式
-//            v2rayNjsonObject["type"] = TextBoxCamouflageType.Text; //设置伪装类型
+            string v2rayNjsonFile = @"
+{
+  ""v"": """",
+  ""ps"": """",
+  ""add"": """",
+  ""port"": """",
+  ""id"": """",
+  ""aid"": """",
+  ""net"": """",
+  ""type"": """",
+  ""host"": """",
+  ""path"": """",
+  ""tls"": """"
+}";
+            //MessageBox.Show(v2rayNjsonFile);
+            JObject v2rayNjsonObject = JObject.Parse(v2rayNjsonFile);
+            v2rayNjsonObject["v"] = "2";
+            v2rayNjsonObject["add"] = TextBoxHostAddress.Text; //设置域名
+            v2rayNjsonObject["port"] = TextBoxPort.Text; //设置端口
+            v2rayNjsonObject["id"] = TextBoxUUID.Text; //设置uuid
+            v2rayNjsonObject["aid"] = TextBoxUUIDextra.Text; //设置额外ID
+            v2rayNjsonObject["net"] = TextBoxTransmission.Text; //设置传输模式
+            v2rayNjsonObject["type"] = TextBoxCamouflageType.Text; //设置伪装类型
 
-//            if (TextBoxTransmission.Text.Contains("kcp") == true)
-//            {
-//                v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPath.Text;//设置mKCP Seed
-//            }
-//            else if (TextBoxTransmission.Text.Contains("quic") == true)
-//            {
-//                v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPath.Text;//设置quic密钥
-//                v2rayNjsonObject["host"] = TextBoxHostQuicEncryption.Text;//Quic加密方式
-//            }
-//            else
-//            {
-//                v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPath.Text; //设置路径
-//                v2rayNjsonObject["host"] = TextBoxHostQuicEncryption.Text;//设置TLS的Host
-//            }
+            if (TextBoxTransmission.Text.Contains("kcp") == true)
+            {
+                v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPath.Text;//设置mKCP Seed
+            }
+            else if (TextBoxTransmission.Text.Contains("quic") == true)
+            {
+                v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPath.Text;//设置quic密钥
+                v2rayNjsonObject["host"] = TextBoxHostQuicEncryption.Text;//Quic加密方式
+            }
+            else
+            {
+                v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPath.Text; //设置路径
+                v2rayNjsonObject["host"] = TextBoxHostQuicEncryption.Text;//设置TLS的Host
+            }
 
-//            v2rayNjsonObject["tls"] = TextBoxTLS.Text;  //设置是否启用TLS
-//            v2rayNjsonObject["ps"] = v2rayNjsonObject["add"];  //设置备注
+            v2rayNjsonObject["tls"] = TextBoxTLS.Text;  //设置是否启用TLS
+            v2rayNjsonObject["ps"] = v2rayNjsonObject["add"];  //设置备注
 
 
             #endregion
@@ -1550,25 +1633,21 @@ namespace ProxySU
 
 
             //生成二维码与URL，跳过VlessTcpTlsWeb暂时未有URL标准
-            //string vmessUrl = "vmess://" + ToBase64Encode(v2rayNjsonObject.ToString());
-            //TextBoxURL.Text = vmessUrl;
-            //using (StreamWriter sw = new StreamWriter($"{configSavePath}\\url.txt"))
-            //{
-                //if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false)
-               //{
-                    //sw.WriteLine(vmessUrl);
-                //}
-            //}
-           //if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false)
-            //{
-                //ImageShareQRcode.Source = CreateQRCode(vmessUrl, $"{configSavePath}\\QR.bmp");
-            //}
+            string vmessUrl = "vmess://" + ToBase64Encode(v2rayNjsonObject.ToString());
+            TextBoxURL.Text = vmessUrl;
+            using (StreamWriter sw = new StreamWriter($"{configSavePath}\\url.txt"))
+            {
+                sw.WriteLine(vmessUrl);
+            }
+
+            ImageShareQRcode.Source = CreateQRCode(vmessUrl, $"{configSavePath}\\QR.bmp");
+
 
 
             if (File.Exists($"v2ray_config\\{plainSavePath}\\config.json"))
             {
                 File.Move($"v2ray_config\\{plainSavePath}\\config.json", $"{configSavePath}\\config.json");
-                Directory.Delete($"v2ray_config\\{plainSavePath}");
+                //Directory.Delete($"v2ray_config\\{plainSavePath}");
             }
 
             using (StreamWriter sw = new StreamWriter($"{configSavePath}\\readme.txt"))
@@ -1586,11 +1665,11 @@ namespace ProxySU
                 //****** "下载相应版本，Windows选择v2ray-windows-64.zip或者v2ray-windows-32.zip，解压后提取v2ctl.exe和v2ray.exe。与config.json放在同一目录，运行v2ray.exe即可。" ******
                 sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine04").ToString());
 
-                //sw.WriteLine("-----------------------------------------");
-                //sw.WriteLine("QR.bmp");
+                sw.WriteLine("-----------------------------------------");
+                sw.WriteLine("QR.bmp");
 
-                //****** "此文件为v2rayN、Trojan-QT5、v2rayNG(Android)、Shadowrocket(ios)扫码导入节点" ******
-                //sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine05").ToString());
+                //******"此文件为v2rayN、Trojan-QT5、v2rayNG(Android)、Shadowrocket(ios)扫码导入节点" * *****
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine05").ToString());
 
                 //****** "v2rayN下载网址：https://github.com/2dust/v2rayN/releases" ******
                 sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine06").ToString());
@@ -1607,11 +1686,11 @@ namespace ProxySU
                 //****** "Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。" ******
                 sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine10").ToString());
 
-                //sw.WriteLine("-----------------------------------------");
-                //sw.WriteLine("url.txt");
+                sw.WriteLine("-----------------------------------------");
+                sw.WriteLine("url.txt");
 
-                //****** "此文件为v2rayN、Trojan-QT5、v2rayNG(Android)、Shadowrocket(ios)复制粘贴导入节点的vmess网址" ******
-                //sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine11").ToString());
+                //******"此文件为v2rayN、Trojan-QT5、v2rayNG(Android)、Shadowrocket(ios)复制粘贴导入节点的vmess网址" * *****
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine11").ToString());
 
                 //写入通用配置参数--
                 TxtWriteGeneralParameters(sw);
@@ -1619,7 +1698,7 @@ namespace ProxySU
             }
         }
 
-        //生成VMess over WS with TLS的配置保存（暂未有分享链接与二维码）
+        //生成VMess over WS with TLS的配置保存
         private void GenerateV2rayVmessWsTlsShareQRcodeAndBase64Url()
         {
             #region 暂时不用内容
@@ -2519,6 +2598,7 @@ namespace ProxySU
             }
 
         }
+        
         #region SS内容双击复制到剪贴板
         private void TextBoxHostAddressSS_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -2544,11 +2624,55 @@ namespace ProxySU
         {
             CopyToClipboard(TextBoxPluginNameExplainSS.Text);
         }
+        private void TextBoxPluginNameExplainSSpc_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxPluginNameExplainSSpc.Text);
+        }
 
         private void TextBoxPluginOptionExplainSS_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             CopyToClipboard(TextBoxPluginOptionExplainSS.Text);
         }
+        
+        private void TextBoxURLpcSS_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxURLpcSS.Text);
+        }
+        
+        #endregion
+
+        #region MTProto 界面控制
+        private void RadioButtonMtgIpv4_Checked(object sender, RoutedEventArgs e)
+        {
+            GridMtgIpv4.Visibility = Visibility.Visible;
+            GridMtgIpv6.Visibility = Visibility.Collapsed;
+        }
+
+        private void RadioButtonMtgIpv6_Checked(object sender, RoutedEventArgs e)
+        {
+            GridMtgIpv4.Visibility = Visibility.Collapsed;
+            GridMtgIpv6.Visibility = Visibility.Visible;
+        }
+        private void TextBoxURLMtgTgIpv4_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxURLMtgTgIpv4.Text);
+        }
+
+        private void TextBoxURLMtgTmeIpv4_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxURLMtgTmeIpv4.Text);
+        }
+
+        private void TextBoxURLMtgTgIpv6_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxURLMtgTgIpv6.Text);
+        }
+
+        private void TextBoxURLMtgTmeIpv6_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxURLMtgTmeIpv6.Text);
+        }
+
         #endregion
 
         //生成base64
@@ -2622,42 +2746,51 @@ namespace ProxySU
         //打开文件夹
         private void ButtonOpenSaveDir_Click(object sender, RoutedEventArgs e)
         {
-            if (String.Equals(MainWindow.proxyType, "V2Ray"))
-            {
-                string openFolderPath = @"v2ray_config\" + saveFileFolder;
-                System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
-                this.Close();
-            }
-            else if (String.Equals(MainWindow.proxyType, "TrojanGo"))
-            {
-                string openFolderPath = @"trojan-go_config\" + saveFileFolder;
-                System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
-                this.Close();
-            }
-            else if (String.Equals(MainWindow.proxyType, "Trojan"))
-            {
-                string openFolderPath = @"trojan_config\" + saveFileFolder;
-                System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
-                this.Close();
-            }
-            else if (String.Equals(MainWindow.proxyType, "NaiveProxy"))
-            {
-                string openFolderPath = @"naive_config\" + saveFileFolder;
-                System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
-                this.Close();
-            }
-            else if (String.Equals(MainWindow.proxyType, "SSR"))
-            {
-                string openFolderPath = @"ssr_config\" + saveFileFolder;
-                System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
-                this.Close();
-            }
-            else if (String.Equals(MainWindow.proxyType, "SS"))
-            {
-                string openFolderPath = @"ss_config\" + saveFileFolder;
-                System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
-                this.Close();
-            }
+            string openFolderPath = configDomainSavePath;
+            System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
+            this.Close();
+            //if (String.Equals(MainWindow.proxyType, "V2Ray"))
+            //{
+            //    string openFolderPath = configDomainSavePath;
+            //    System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
+            //    this.Close();
+            //}
+            //else if (String.Equals(MainWindow.proxyType, "TrojanGo"))
+            //{
+            //    string openFolderPath = configDomainSavePath;
+            //    System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
+            //    this.Close();
+            //}
+            //else if (String.Equals(MainWindow.proxyType, "Trojan"))
+            //{
+            //    string openFolderPath = configDomainSavePath;
+            //    System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
+            //    this.Close();
+            //}
+            //else if (String.Equals(MainWindow.proxyType, "NaiveProxy"))
+            //{
+            //    string openFolderPath = configDomainSavePath;
+            //    System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
+            //    this.Close();
+            //}
+            //else if (String.Equals(MainWindow.proxyType, "SSR"))
+            //{
+            //    string openFolderPath = configDomainSavePath;
+            //    System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
+            //    this.Close();
+            //}
+            //else if (String.Equals(MainWindow.proxyType, "SS"))
+            //{
+            //    string openFolderPath = configDomainSavePath;
+            //    System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
+            //    this.Close();
+            //}
+            //else if (String.Equals(MainWindow.proxyType, "MTProto"))
+            //{
+            //    string openFolderPath = configDomainSavePath;
+            //    System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
+            //    this.Close();
+            //}
         }
 
         //SSR生成URL链接
@@ -2849,6 +2982,7 @@ namespace ProxySU
             return spaceString + strTemp;
         }
 
+      
     }
 
 

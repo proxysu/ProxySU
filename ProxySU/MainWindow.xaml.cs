@@ -2757,7 +2757,7 @@ namespace ProxySU
                             JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
                             clientJson["reverse"] = jObjectJson["reverse"];
                         }
-
+                      
                         //根据不同的安装方案，选择相应的客户端模板
                         if (String.Equals(ReceiveConfigurationParameters[0], "VlessVmessXtlsTcpWebSocketWeb") == false)
                         {
@@ -2835,6 +2835,7 @@ namespace ProxySU
                                 outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\quic_client_config.json";
                             }
 
+                            
                             //读取"相应模板的outbounds"
                             using (StreamReader readerJson = File.OpenText(outboundsConfigJson))
                             {
@@ -2845,6 +2846,7 @@ namespace ProxySU
                                 jObjectJson["outbounds"][0]["settings"]["vnext"][0]["port"] = int.Parse(ReceiveConfigurationParameters[1]);
                                 jObjectJson["outbounds"][0]["settings"]["vnext"][0]["users"][0]["id"] = ReceiveConfigurationParameters[2];
 
+                                
                                 //设置WebSocket模式下的path
                                 if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS") == true
                                     || String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLSselfSigned") == true
@@ -2890,21 +2892,23 @@ namespace ProxySU
                                 if (ReceiveConfigurationParameters[0].Contains("Quic") == true)
                                 {
                                     jObjectJson["outbounds"][0]["streamSettings"]["quicSettings"]["header"]["type"] = ReceiveConfigurationParameters[5];
-                                    jObjectJson["inbounds"][0]["streamSettings"]["quicSettings"]["security"] = ReceiveConfigurationParameters[3];
+                                    jObjectJson["outbounds"][0]["streamSettings"]["quicSettings"]["security"] = ReceiveConfigurationParameters[3];
                                     if (String.Equals(ReceiveConfigurationParameters[3], "none") == true)
                                     {
                                         ReceiveConfigurationParameters[6] = "";
                                     }
                                     jObjectJson["outbounds"][0]["streamSettings"]["quicSettings"]["key"] = ReceiveConfigurationParameters[6];
                                 }
-
+                             
                                 clientJson["outbounds"] = jObjectJson["outbounds"];
 
                             }
+                          
                             using (StreamWriter sw = new StreamWriter(@"v2ray_config\config.json"))
                             {
                                 sw.Write(clientJson.ToString());
                             }
+                         
                             #endregion
 
                         }
@@ -9962,7 +9966,7 @@ namespace ProxySU
 
                         }
                     }
-                    if (String.IsNullOrEmpty(client.RunCommand("command -v ufw").Result) == false)
+                    else if (String.IsNullOrEmpty(client.RunCommand("command -v ufw").Result) == false)
                     {
                         if (String.Equals(openFireWallPort, "443"))
                         {
@@ -10104,8 +10108,8 @@ namespace ProxySU
 
                     //Thread.Sleep(1000);
 
-                    string getIpv4 = client.RunCommand(@"curl -4 ip.sb").Result;
-                    string getIpv6 = client.RunCommand(@"wget -qO- -t1 -T2 ipv6.icanhazip.com").Result;
+                    //string getIpv4 = client.RunCommand(@"curl -4 ip.sb").Result;
+                    //string getIpv6 = client.RunCommand(@"wget -qO- -t1 -T2 ipv6.icanhazip.com").Result;
 
                     //生成服务端配置
 
@@ -10116,15 +10120,16 @@ namespace ProxySU
                         JObject serverJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
 
                         //设置服务器监听地址
-                        if (String.IsNullOrEmpty(getIpv6) == true)
-                        {
-                            serverJson["server"] = "0.0.0.0";
-                        }
-                        else
-                        {
-                            JObject serverIp = JObject.Parse(@"[""[::0]"", ""0.0.0.0""]");
-                            serverJson["server"] = serverIp;
-                        }
+                        //if (String.IsNullOrEmpty(getIpv6) == true)
+                        //{
+                        serverJson["server"] = "0.0.0.0";
+                        //}
+                        //else
+                        //{
+                        //    JArray serverIp = JArray.Parse(@"[""[::0]"", ""0.0.0.0""]");
+                        //    serverJson["server"] = serverIp;
+                        //}
+
                         //设置密码
                         serverJson["password"] = ReceiveConfigurationParameters[2];
                         //设置监听端口
@@ -10133,7 +10138,7 @@ namespace ProxySU
                         serverJson["method"] = ReceiveConfigurationParameters[6];
                         //产生伪装Web的监听端口
                         randomCaddyListenPort = GetRandomPort();
-
+                        
                         string failoverPort = randomCaddyListenPort.ToString();
                         //obfs http模式
                         if (String.Equals(ReceiveConfigurationParameters[0], "ObfsPluginHttpWebSS") == true)
@@ -11152,6 +11157,1246 @@ namespace ProxySU
 
         #endregion
 
+        #region MTProto相关
+        //传递参数启动安装进程
+        private void ButtonMtgSetUp_Click(object sender, RoutedEventArgs e)
+        {
+            ConnectionInfo connectionInfo = GenerateConnectionInfo();
+            if (connectionInfo == null)
+            {
+                //****** "远程主机连接信息有误，请检查!" ******
+                MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorHostConnection").ToString());
+                return;
+            }
+            //清空参数空间
+            for (int i = 0; i != ReceiveConfigurationParameters.Length; i++)
+
+            {
+                ReceiveConfigurationParameters[i] = "";
+            }
+            //传递服务器地址
+            ReceiveConfigurationParameters[4] = TextBoxHost.Text.ToString();
+            //传递服务端口
+            ReceiveConfigurationParameters[1] = TextBoxMtgHostDomain.Text;
+            //传递伪装域名
+            if (String.IsNullOrEmpty(TextBoxMtgSites.Text) == true)
+            {
+                ReceiveConfigurationParameters[7] = "azure.microsoft.com";
+            }
+            else
+            {
+                ReceiveConfigurationParameters[7] = TextBoxMtgSites.Text;
+            }
+            installationDegree = 0;
+            Thread thread = new Thread(() => StartSetUpMtg(connectionInfo, TextBlockSetUpProcessing, ProgressBarSetUpProcessing));
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+        }
+
+        //Mtg安装进程
+        private void StartSetUpMtg(ConnectionInfo connectionInfo, TextBlock textBlockName, ProgressBar progressBar)
+        {
+            //******"正在登录远程主机......"******
+            SetUpProgressBarProcessing(1);
+            string currentStatus = Application.Current.FindResource("DisplayInstallInfo_Login").ToString();
+            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+            currentShellCommandResult = currentStatus;
+            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+            try
+            {
+                #region 主机指纹，暂未启用
+                //byte[] expectedFingerPrint = new byte[] {
+                //                                0x66, 0x31, 0xaf, 0x00, 0x54, 0xb9, 0x87, 0x31,
+                //                                0xff, 0x58, 0x1c, 0x31, 0xb1, 0xa2, 0x4c, 0x6b
+                //                            };
+                #endregion
+                using (var client = new SshClient(connectionInfo))
+
+                {
+                    #region ssh登录验证主机指纹代码块，暂未启用
+                    //    client.HostKeyReceived += (sender, e) =>
+                    //    {
+                    //        if (expectedFingerPrint.Length == e.FingerPrint.Length)
+                    //        {
+                    //            for (var i = 0; i < expectedFingerPrint.Length; i++)
+                    //            {
+                    //                if (expectedFingerPrint[i] != e.FingerPrint[i])
+                    //                {
+                    //                    e.CanTrust = false;
+                    //                    break;
+                    //                }
+                    //            }
+                    //        }
+                    //        else
+                    //        {
+                    //            e.CanTrust = false;
+                    //        }
+                    //    };
+                    #endregion
+
+                    client.Connect();
+                    if (client.IsConnected == true)
+                    {
+                        //******"主机登录成功"******
+                        SetUpProgressBarProcessing(3);
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_LoginSuccessful").ToString();
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果在监视窗口
+
+                        //Thread.Sleep(1000);
+                    }
+
+                    //******"检测是否运行在root权限下..."******
+                    SetUpProgressBarProcessing(5);
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_DetectionRootPermission").ToString();
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    currentShellCommandResult = currentStatus;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    sshShellCommand = @"id -u";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    string testRootAuthority = currentShellCommandResult;
+                    if (testRootAuthority.Equals("0\n") == false)
+                    {
+                        //******"请使用具有root权限的账户登录主机！！"******
+                        MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorRootPermission").ToString());
+                        client.Disconnect();
+                        return;
+                    }
+                    else
+                    {
+                        //******"检测结果：OK！"******
+                        SetUpProgressBarProcessing(8);
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_DetectionRootOK").ToString();
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    }
+
+                    //******"检测系统是否已经安装MTProto......"******
+                    SetUpProgressBarProcessing(10);
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_TestExistSoft").ToString() + "MTProto......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    currentShellCommandResult = currentStatus;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //Thread.Sleep(1000);
+
+                    sshShellCommand = @"if [ -f /usr/local/bin/mtg ];then echo '1';else echo '0'; fi";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    string resultCmdTestTrojanInstalled = currentShellCommandResult;
+
+                    if (resultCmdTestTrojanInstalled.Contains("1") == true)
+                    {
+                        MessageBoxResult messageBoxResult = MessageBox.Show(
+                                                //******"远程主机已安装"******
+                                                Application.Current.FindResource("MessageBoxShow_ExistedSoft").ToString() +
+                                                "MTProto" +
+                                                //******",是否强制重新安装？"******
+                                                Application.Current.FindResource("MessageBoxShow_ForceInstallSoft").ToString(), "", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        if (messageBoxResult == MessageBoxResult.No)
+                        {
+                            //******"安装取消，退出"******
+                            currentStatus = Application.Current.FindResource("DisplayInstallInfo_InstallationCanceledExit").ToString();
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            //Thread.Sleep(1000);
+                            client.Disconnect();
+                            return;
+                        }
+                        else
+                        {
+                            //******"已选择强制安装MTProto！"******
+                            SetUpProgressBarProcessing(11);
+                            currentStatus = Application.Current.FindResource("DisplayInstallInfo_ForceInstallSoft").ToString() + "MTProto!";
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                            //Thread.Sleep(1000);
+                        }
+                    }
+                    else
+                    {
+                        //******"检测结果：未安装MTProto！"******
+                        SetUpProgressBarProcessing(12);
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_NoInstalledSoft").ToString() + "MTProto!";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);//显示命令执行的结果
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    }
+
+                    //******"检测系统是否符合安装要求......"******
+                    SetUpProgressBarProcessing(14);
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_CheckSystemRequirements").ToString();
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    currentShellCommandResult = currentStatus;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //Thread.Sleep(1000);
+
+                    sshShellCommand = @"uname -m";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    string resultCmd = currentShellCommandResult;
+                    if (resultCmd.Contains("x86_64") == false)
+                    {
+                        //******"请在x86_64系统中安装MTProto" ******
+                        MessageBox.Show(Application.Current.FindResource("MessageBoxShow_PleaseInstallSoftAtX64").ToString() + "MTProto......");
+                        //****** "系统环境不满足要求，安装失败！！" ******
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_MissingSystemComponents").ToString();
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        //    Thread.Sleep(1000);
+                    }
+
+
+                    //检测系统是否支持yum 或 apt或zypper，且支持Systemd
+                    //如果不存在组件，则命令结果为空，string.IsNullOrEmpty值为真
+
+                    //bool getApt = String.IsNullOrEmpty(client.RunCommand("command -v apt").Result);
+                    //bool getDnf = String.IsNullOrEmpty(client.RunCommand("command -v dnf").Result);
+                    //bool getYum = String.IsNullOrEmpty(client.RunCommand("command -v yum").Result);
+                    //bool getZypper = String.IsNullOrEmpty(client.RunCommand("command -v zypper").Result);
+                    //bool getSystemd = String.IsNullOrEmpty(client.RunCommand("command -v systemctl").Result);
+                    //bool getGetenforce = String.IsNullOrEmpty(client.RunCommand("command -v getenforce").Result);
+
+                    sshShellCommand = @"command -v apt";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                    bool getApt = String.IsNullOrEmpty(currentShellCommandResult);
+
+                    sshShellCommand = @"command -v dnf";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                    bool getDnf = String.IsNullOrEmpty(currentShellCommandResult);
+
+                    sshShellCommand = @"command -v yum";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                    bool getYum = String.IsNullOrEmpty(currentShellCommandResult);
+
+                    SetUpProgressBarProcessing(16);
+
+                    sshShellCommand = @"command -v zypper";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                    bool getZypper = String.IsNullOrEmpty(currentShellCommandResult);
+
+                    sshShellCommand = @"command -v systemctl";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                    bool getSystemd = String.IsNullOrEmpty(currentShellCommandResult);
+
+                    sshShellCommand = @"command -v getenforce";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                    bool getGetenforce = String.IsNullOrEmpty(currentShellCommandResult);
+
+
+                    //没有安装apt，也没有安装dnf\yum，也没有安装zypper,或者没有安装systemd的，不满足安装条件
+                    //也就是apt ，dnf\yum, zypper必须安装其中之一，且必须安装Systemd的系统才能安装。
+                    if ((getApt && getDnf && getYum && getZypper) || getSystemd)
+                    {
+                        //******"系统缺乏必要的安装组件如:apt||dnf||yum||zypper||Syetemd，主机系统推荐使用：CentOS 7/8,Debian 8/9/10,Ubuntu 16.04及以上版本"******
+                        MessageBox.Show(Application.Current.FindResource("MessageBoxShow_MissingSystemComponents").ToString());
+
+                        //******"系统环境不满足要求，安装失败！！"******
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_MissingSystemComponents").ToString();
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        //Thread.Sleep(1000);
+                        client.Disconnect();
+                        return;
+                    }
+                    else
+                    {
+                        //******"检测结果：OK!"******
+                        SetUpProgressBarProcessing(18);
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_SystemRequirementsOK").ToString();
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    }
+                    //设置安装软件所用的命令格式
+                    //为假则表示系统有相应的组件。
+
+                    if (getApt == false)
+                    {
+                        sshCmdUpdate = @"apt -qq update";
+                        sshCmdInstall = @"apt -y -qq install ";
+                    }
+                    else if (getDnf == false)
+                    {
+                        sshCmdUpdate = @"dnf -q makecache";
+                        sshCmdInstall = @"dnf -y -q install ";
+                    }
+                    else if (getYum == false)
+                    {
+                        sshCmdUpdate = @"yum -q makecache";
+                        sshCmdInstall = @"yum -y -q install ";
+                    }
+                    else if (getZypper == false)
+                    {
+                        sshCmdUpdate = @"zypper ref";
+                        sshCmdInstall = @"zypper -y install ";
+                    }
+
+                    //判断是否启用了SELinux,如果启用了，并且工作在Enforcing模式下，则改为Permissive模式
+                    if (getGetenforce == false)
+                    {
+                        sshShellCommand = @"getenforce";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        string testSELinux = currentShellCommandResult;
+
+                        if (testSELinux.Contains("Enforcing") == true)
+                        {
+                            //******"检测到系统启用SELinux，且工作在严格模式下，需改为宽松模式！修改中......"******
+                            SetUpProgressBarProcessing(20);
+                            currentStatus = Application.Current.FindResource("DisplayInstallInfo_EnableSELinux").ToString();
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            sshShellCommand = @"setenforce  0";
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                            currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                            sshShellCommand = @"sed -i 's/SELINUX=enforcing/SELINUX=permissive/' /etc/selinux/config";
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                            currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            //******"修改完毕！"******
+                            SetUpProgressBarProcessing(22);
+                            currentStatus = Application.Current.FindResource("DisplayInstallInfo_SELinuxModifyOK").ToString();
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        }
+
+                    }
+
+                    //****** "正在检测域名是否解析到当前VPS的IP上......" ******
+                    //SetUpProgressBarProcessing(28);
+                    //currentStatus = Application.Current.FindResource("DisplayInstallInfo_TestDomainResolve").ToString();
+                    //textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    //currentShellCommandResult = currentStatus;
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //Thread.Sleep(1000);
+                    //在相应系统内安装curl(如果没有安装curl)
+                    if (string.IsNullOrEmpty(client.RunCommand("command -v curl").Result) == true)
+                    {
+                        sshShellCommand = $"{sshCmdUpdate}";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        sshShellCommand = $"{sshCmdInstall}curl";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    }
+                    //安装wget
+                    if (string.IsNullOrEmpty(client.RunCommand("command -v wget").Result) == true)
+                    {
+                        sshShellCommand = $"{sshCmdUpdate}";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        sshShellCommand = $"{sshCmdInstall}wget";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    }
+                    SetUpProgressBarProcessing(36);
+                    //检测域名是否解析正确
+                    //sshShellCommand = @"curl -4 ip.sb";
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    //currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //string nativeIp = currentShellCommandResult;
+
+                    //sshShellCommand = "ping " + ReceiveConfigurationParameters[4] + " -c 1 | grep -oE -m1 \"([0-9]{1,3}\\.){3}[0-9]{1,3}\"";
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    //currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //string resultTestDomainCmd = currentShellCommandResult;
+                    //if (String.Equals(nativeIp, resultTestDomainCmd) == true)
+                    //{
+                    //    //****** "解析正确！OK!" ******
+                    //    SetUpProgressBarProcessing(40);
+                    //    currentStatus = Application.Current.FindResource("DisplayInstallInfo_DomainResolveOK").ToString();
+                    //    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    //    currentShellCommandResult = currentStatus;
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //    //Thread.Sleep(1000);
+                    //}
+                    //else
+                    //{
+                    //    //****** "域名未能正确解析到当前VPS的IP上!安装失败！" ******
+                    //    currentStatus = Application.Current.FindResource("DisplayInstallInfo_ErrorDomainResolve").ToString();
+                    //    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    //    currentShellCommandResult = currentStatus;
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //    //Thread.Sleep(1000);
+                    //    //****** "域名未能正确解析到当前VPS的IP上，请检查！若解析设置正确，请等待生效后再重试安装。如果域名使用了CDN，请先关闭！" ******
+                    //    MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorDomainResolve").ToString());
+                    //    client.Disconnect();
+                    //    return;
+                    //}
+
+                    //检测是否安装lsof
+                    if (string.IsNullOrEmpty(client.RunCommand("command -v lsof").Result) == true)
+                    {
+                        sshShellCommand = $"{sshCmdUpdate}";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        sshShellCommand = $"{sshCmdInstall}lsof";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    }
+                    //****** "检测端口占用情况......" ******
+                    SetUpProgressBarProcessing(45);
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_TestPortUsed").ToString();
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    currentShellCommandResult = currentStatus;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //Thread.Sleep(1000);
+
+                    sshShellCommand = @"lsof -n -P -i :80 | grep LISTEN";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                    string testPort80 = currentShellCommandResult;
+
+                    sshShellCommand = @"lsof -n -P -i :443 | grep LISTEN";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                    string testPort443 = currentShellCommandResult;
+
+
+                    if (String.IsNullOrEmpty(testPort80) == false || String.IsNullOrEmpty(testPort443) == false)
+                    {
+                        //****** "80/443端口之一，或全部被占用，将强制停止占用80/443端口的程序?" ******
+                        MessageBoxResult dialogResult = MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorPortUsed").ToString(), "Stop application", MessageBoxButton.YesNo);
+                        if (dialogResult == MessageBoxResult.No)
+                        {
+                            //****** "端口被占用，安装失败......" ******
+                            currentStatus = Application.Current.FindResource("DisplayInstallInfo_ErrorPortUsedFail").ToString();
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            //Thread.Sleep(1000);
+                            client.Disconnect();
+                            return;
+                        }
+
+                        //****** "正在释放80/443端口......" ******
+                        SetUpProgressBarProcessing(48);
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_ReleasePort").ToString();
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        //Thread.Sleep(1000);
+
+                        if (String.IsNullOrEmpty(testPort443) == false)
+                        {
+                            string[] cmdResultArry443 = testPort443.Split(' ');
+
+                            sshShellCommand = $"systemctl stop {cmdResultArry443[0]}";
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                            currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            sshShellCommand = $"systemctl disable {cmdResultArry443[0]}";
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                            currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            sshShellCommand = $"kill -9 {cmdResultArry443[3]}";
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                            currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        }
+
+                        if (String.IsNullOrEmpty(testPort80) == false)
+                        {
+                            string[] cmdResultArry80 = testPort80.Split(' ');
+
+                            sshShellCommand = $"systemctl stop {cmdResultArry80[0]}";
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                            currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            sshShellCommand = $"systemctl disable {cmdResultArry80[0]}";
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                            currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            sshShellCommand = $"kill -9 {cmdResultArry80[3]}";
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                            currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        }
+                        //****** "80/443端口释放完毕！" ******
+                        SetUpProgressBarProcessing(51);
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_ReleasePortOK").ToString();
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        //Thread.Sleep(1000);
+                    }
+                    else
+                    {
+                        //****** "检测结果：未被占用！" ******
+                        SetUpProgressBarProcessing(52);
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_PortNotUsed").ToString();
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    }
+
+                    //****** "系统环境检测完毕，符合安装要求,开始布署......" ******
+                    SetUpProgressBarProcessing(53);
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstalling").ToString();
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    currentShellCommandResult = currentStatus;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //Thread.Sleep(1000);
+
+                    //****** "开启防火墙相应端口......" ******
+                    SetUpProgressBarProcessing(54);
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_OpenFireWallPort").ToString();
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    currentShellCommandResult = currentStatus;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    string openFireWallPort = ReceiveConfigurationParameters[1];
+                    if (String.IsNullOrEmpty(client.RunCommand("command -v firewall-cmd").Result) == false)
+                    {
+                        if (String.Equals(openFireWallPort, "443"))
+                        {
+                            sshShellCommand = @"firewall-cmd --zone=public --add-port=80/tcp --permanent";
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                            currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            sshShellCommand = @"firewall-cmd --zone=public --add-port=80/udp --permanent";
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                            currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            sshShellCommand = @"firewall-cmd --zone=public --add-port=443/tcp --permanent";
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                            currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            sshShellCommand = @"firewall-cmd --zone=public --add-port=443/udp --permanent";
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                            currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            sshShellCommand = @"yes | firewall-cmd --reload";
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                            currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                        }
+                        else
+                        {
+                            sshShellCommand = $"firewall-cmd --zone=public --add-port={openFireWallPort}/tcp --permanent";
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                            currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            sshShellCommand = $"firewall-cmd --zone=public --add-port={openFireWallPort}/udp --permanent";
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                            currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            sshShellCommand = @"yes | firewall-cmd --reload";
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                            currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        }
+                    }
+                    else if (String.IsNullOrEmpty(client.RunCommand("command -v ufw").Result) == false)
+                    {
+                        if (String.Equals(openFireWallPort, "443"))
+                        {
+                            sshShellCommand = @"ufw allow 80/tcp";
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                            currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            sshShellCommand = @"ufw allow 80/udp";
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                            currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            sshShellCommand = @"ufw allow 443/tcp";
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                            currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            sshShellCommand = @"ufw allow 443/udp";
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                            currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            sshShellCommand = @"yes | ufw reload";
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                            currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        }
+                        else
+                        {
+                            sshShellCommand = $"ufw allow {openFireWallPort}/tcp";
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                            currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            sshShellCommand = $"ufw allow {openFireWallPort}/udp";
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                            currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            sshShellCommand = @"yes | ufw reload";
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                            currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        }
+                    }
+                    //处理极其少见的xz-utils未安装的情况
+                    //SetUpProgressBarProcessing(56);
+                    //sshShellCommand = $"{sshCmdUpdate}";
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    //currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //sshShellCommand = $"{sshCmdInstall}xz-utils";
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    //currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //下载安装脚本安装
+                    //****** "正在安装MTProto......" ******
+                    SetUpProgressBarProcessing(58);
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstallSoft").ToString() + "MTProto......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    currentShellCommandResult = currentStatus;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //Thread.Sleep(1000);
+
+                    sshShellCommand = @"curl -o /tmp/mtg_install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/MTProto/mtg_install.sh";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    sshShellCommand = $"yes | bash /tmp/mtg_install.sh {ReceiveConfigurationParameters[1]} {ReceiveConfigurationParameters[7]}";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    sshShellCommand = @"rm -f /tmp/mtg_install.sh";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+
+                    sshShellCommand = @"if [ -f /usr/local/bin/mtg ];then echo '1';else echo '0'; fi";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    string installResult = currentShellCommandResult;
+
+                    if (!installResult.Contains("1"))
+                    {
+                        //****** "安装失败,官方脚本运行出错！" ******
+                        MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorInstallSoftFail").ToString());
+                        //****** "安装失败,官方脚本运行出错！" ******
+                        currentStatus = Application.Current.FindResource("MessageBoxShow_ErrorInstallSoftFail").ToString();
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        client.Disconnect();
+                        return;
+                    }
+                    else
+                    {
+                        //****** "MTProto安装成功！" ******
+                        SetUpProgressBarProcessing(61);
+                        currentStatus = "MTProto" + Application.Current.FindResource("DisplayInstallInfo_SoftInstallSuccess").ToString();
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        //Thread.Sleep(1000);
+
+                        //设置开机自启动
+                        sshShellCommand = @"systemctl enable mtg";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    }
+                    //sshShellCommand = @"mv /usr/local/etc/trojan/config.json /usr/local/etc/trojan/config.json.1";
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    //currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //****** "安装完毕，上传配置文件......" ******
+                    //SetUpProgressBarProcessing(62);
+                    //currentStatus = Application.Current.FindResource("DisplayInstallInfo_UploadSoftConfig").ToString();
+                    //textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    //currentShellCommandResult = currentStatus;
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    ////Thread.Sleep(1000);
+
+                    ////生成服务端配置
+                    ////serverConfig = @"/etc/shadowsocks.json";
+                    //string upLoadPath = @"/etc/shadowsocks.json";
+                    ////设置指向Caddy监听的随机端口
+                    ////Random random = new Random();
+                    //randomCaddyListenPort = GetRandomPort();
+                    //string randomSSRListenPortStr = randomCaddyListenPort.ToString();
+
+                    //sshShellCommand = $"sed -i 's/8800/{randomSSRListenPortStr}/' {upLoadPath}";
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    //currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    ////设置密码
+                    //sshShellCommand = $"sed -i 's/##password##/{ReceiveConfigurationParameters[2]}/' {upLoadPath}";
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    //currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    ////****** "安装Caddy......" ******
+                    //SetUpProgressBarProcessing(65);
+                    //currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstallCaddy").ToString();
+                    //textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    //currentShellCommandResult = currentStatus;
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    ////Thread.Sleep(1000);
+
+                    ////安装Caddy
+                    ////为假则表示系统有相应的组件。
+                    //if (getApt == false)
+                    //{
+                    //    sshShellCommand = @"echo ""deb [trusted=yes] https://apt.fury.io/caddy/ /"" | tee -a /etc/apt/sources.list.d/caddy-fury.list";
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    //    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //    sshShellCommand = @"apt install -y apt-transport-https";
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    //    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //    sshShellCommand = @"apt -qq update";
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    //    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //    sshShellCommand = @"apt -y -qq install caddy";
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    //    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                    //    SetUpProgressBarProcessing(74);
+                    //}
+                    //else if (getDnf == false)
+                    //{
+
+                    //    sshShellCommand = @"dnf install 'dnf-command(copr)' -y";
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    //    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //    sshShellCommand = @"dnf copr enable @caddy/caddy -y";
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    //    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //    //sshShellCommand = @"dnf -q makecache";
+                    //    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    //    //currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    //    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //    sshShellCommand = @"dnf -y -q install caddy";
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    //    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                    //    SetUpProgressBarProcessing(74);
+                    //}
+                    //else if (getYum == false)
+                    //{
+                    //    sshShellCommand = @"yum install yum-plugin-copr -y";
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    //    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //    sshShellCommand = @"yum copr enable @caddy/caddy -y";
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    //    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //    //sshShellCommand = @"yum -q makecache";
+                    //    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    //    //currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    //    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //    sshShellCommand = @"yum -y -q install caddy";
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    //    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                    //    SetUpProgressBarProcessing(74);
+                    //}
+
+                    //sshShellCommand = @"find / -name caddy";
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    //currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //installResult = currentShellCommandResult;
+
+                    //if (!installResult.Contains("/usr/bin/caddy"))
+                    //{
+                    //    //****** "安装Caddy失败！" ******
+                    //    MessageBox.Show(Application.Current.FindResource("DisplayInstallInfo_ErrorInstallCaddyFail").ToString());
+                    //    //****** "安装Caddy失败！" ******
+                    //    currentStatus = Application.Current.FindResource("DisplayInstallInfo_ErrorInstallCaddyFail").ToString();
+                    //    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    //    currentShellCommandResult = currentStatus;
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //    client.Disconnect();
+                    //    return;
+                    //}
+
+                    ////****** "Caddy安装成功！" ******
+                    //SetUpProgressBarProcessing(75);
+                    //currentStatus = Application.Current.FindResource("DisplayInstallInfo_InstalledCaddyOK").ToString();
+                    //textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    //currentShellCommandResult = currentStatus;
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    ////Thread.Sleep(1000);
+
+                    //sshShellCommand = @"systemctl enable caddy";
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    //currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    ////****** "上传Caddy配置文件......" ******
+                    //SetUpProgressBarProcessing(80);
+                    //currentStatus = Application.Current.FindResource("DisplayInstallInfo_UploadCaddyConfig").ToString();
+                    //textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    //currentShellCommandResult = currentStatus;
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    ////Thread.Sleep(1000);
+
+                    //sshShellCommand = @"mv /etc/caddy/Caddyfile /etc/caddy/Caddyfile.bak";
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    //currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //string caddyConfig = @"TemplateConfg\ssr\ssr_tls.caddyfile";
+                    //upLoadPath = @"/etc/caddy/Caddyfile";
+
+                    //UploadConfig(connectionInfo, caddyConfig, upLoadPath);
+
+                    ////设置Caddy监听的随机端口
+                    //string randomCaddyListenPortStr = randomCaddyListenPort.ToString();
+
+                    //sshShellCommand = $"sed -i 's/8800/{randomCaddyListenPortStr}/' {upLoadPath}";
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    //currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+
+                    ////设置域名
+
+                    //sshShellCommand = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/g' {upLoadPath}";
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    //currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    ////设置伪装网站
+                    //if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7]) == false)
+                    //{
+                    //    sshShellCommand = $"sed -i 's/##sites##/proxy \\/ {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    //    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //}
+                    ////****** "Caddy配置文件上传成功,OK!" ******
+                    //SetUpProgressBarProcessing(83);
+                    //currentStatus = Application.Current.FindResource("DisplayInstallInfo_UploadCaddyConfigOK").ToString();
+                    //textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    //currentShellCommandResult = currentStatus;
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    ////Thread.Sleep(1000);
+
+                    ////****** "正在启动Caddy......" ******
+                    //SetUpProgressBarProcessing(85);
+                    //currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartCaddyService").ToString();
+                    //textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    //currentShellCommandResult = currentStatus;
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    ////Thread.Sleep(1000);
+                    ////启动Caddy服务
+                    //sshShellCommand = @"systemctl restart caddy";
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    //currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //Thread.Sleep(3000);
+
+                    //sshShellCommand = @"ps aux | grep caddy";
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    //currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    //TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //if (currentShellCommandResult.Contains("/usr/bin/caddy") == true)
+                    //{
+                    //    //****** "Caddy启动成功！" ******
+                    //    SetUpProgressBarProcessing(89);
+                    //    currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartCaddyServiceOK").ToString();
+                    //    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    //    currentShellCommandResult = currentStatus;
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //    //Thread.Sleep(1000);
+                    //}
+                    //else
+                    //{
+                    //    //****** "Caddy启动失败！" ******
+                    //    currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartCaddyServiceFail").ToString();
+                    //    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    //    currentShellCommandResult = currentStatus;
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                    //    //Thread.Sleep(1000);
+
+                    //    //****** "正在启动Caddy（第二次尝试）！" ******
+                    //    currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartCaddyServiceSecond").ToString();
+                    //    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    //    currentShellCommandResult = currentStatus;
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                    //    //Thread.Sleep(1000);
+                    //    sshShellCommand = @"systemctl restart caddy";
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    //    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //    Thread.Sleep(3000);
+
+                    //    sshShellCommand = @"ps aux | grep caddy";
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    //    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    //    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                    //    if (currentShellCommandResult.Contains("/usr/bin/caddy") == true)
+                    //    {
+                    //        //****** "Caddy启动成功！" ******
+                    //        SetUpProgressBarProcessing(89);
+                    //        currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartCaddyServiceOK").ToString();
+                    //        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    //        currentShellCommandResult = currentStatus;
+                    //        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //        //Thread.Sleep(1000);
+                    //    }
+                    //    else
+                    //    {
+                    //        //****** "Caddy启动失败(第二次)！退出安装！" ******
+                    //        currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartCaddyServiceSecondFail").ToString();
+                    //        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    //        currentShellCommandResult = currentStatus;
+                    //        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                    //        //Thread.Sleep(1000);
+
+                    //        //****** "Caddy启动失败，原因未知！请向开发者问询！" ******
+                    //        MessageBox.Show(Application.Current.FindResource("DisplayInstallInfo_CaddyServiceFailedExit").ToString());
+                    //        return;
+                    //    }
+                    //}
+
+                    //****** "正在启动MTProto......" ******
+                    SetUpProgressBarProcessing(90);
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartSoft").ToString() + "MTProto......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    currentShellCommandResult = currentStatus;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //Thread.Sleep(1000);
+                    //启动MTProto服务
+                    sshShellCommand = @"systemctl restart mtg";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    Thread.Sleep(3000);
+
+                    sshShellCommand = @"ps aux | grep mtg";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                    if (currentShellCommandResult.Contains("/usr/local/bin/mtg") == true)
+                    {
+                        //****** "MTProto启动成功！" ******
+                        SetUpProgressBarProcessing(93);
+                        currentStatus = "MTProto" + Application.Current.FindResource("DisplayInstallInfo_StartSoftOK").ToString();
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        //Thread.Sleep(1000);
+                    }
+                    else
+                    {
+                        //****** "MTProto启动失败！" ******
+                        currentStatus = "MTProto" + Application.Current.FindResource("DisplayInstallInfo_StartSoftFail").ToString();
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                        Thread.Sleep(3000);
+
+                        //****** "正在第二次尝试启动MTProto！" ******
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartSoftSecond").ToString() + "MTProto！";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                        Thread.Sleep(3000);
+                        sshShellCommand = @"systemctl restart mtg";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        Thread.Sleep(3000);
+
+                        sshShellCommand = @"ps aux | grep mtg";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                        if (currentShellCommandResult.Contains("usr/bin/ssr") == true)
+                        {
+                            //****** "MTProto启动成功！" ******
+                            SetUpProgressBarProcessing(93);
+                            currentStatus = "MTProto" + Application.Current.FindResource("DisplayInstallInfo_StartSoftOK").ToString();
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                            //Thread.Sleep(1000);
+                        }
+                        else
+                        {
+                            //****** "MTProto启动失败(第二次)！退出安装！" ******
+                            currentStatus = "MTProto" + Application.Current.FindResource("DisplayInstallInfo_StartSoftSecondFail").ToString();
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                            //Thread.Sleep(1000);
+
+                            //****** "MTProto启动失败，原因未知！请向开发者问询！" ******
+                            MessageBox.Show("MTProto" + Application.Current.FindResource("DisplayInstallInfo_StartSoftFailedExit").ToString());
+                            return;
+                        }
+                    }
+
+
+                    //测试BBR条件，若满足则启用
+                    //****** "BBR测试......" ******
+                    SetUpProgressBarProcessing(94);
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_TestBBR").ToString();
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    currentShellCommandResult = currentStatus;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //Thread.Sleep(1000);
+
+                    sshShellCommand = @"uname -r";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    string[] linuxKernelVerStr = currentShellCommandResult.Split('-');
+
+                    bool detectResult = DetectKernelVersionBBR(linuxKernelVerStr[0]);
+
+                    sshShellCommand = @"sysctl net.ipv4.tcp_congestion_control | grep bbr";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+                    string resultCmdTestBBR = currentShellCommandResult;
+                    //如果内核满足大于等于4.9，且还未启用BBR，则启用BBR
+                    if (detectResult == true && resultCmdTestBBR.Contains("bbr") == false)
+                    {
+                        //****** "正在启用BBR......" ******
+                        SetUpProgressBarProcessing(95);
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_EnableBBR").ToString();
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        //Thread.Sleep(1000);
+
+                        sshShellCommand = @"bash -c 'echo ""net.core.default_qdisc=fq"" >> /etc/sysctl.conf'";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        sshShellCommand = @"bash -c 'echo ""net.ipv4.tcp_congestion_control=bbr"" >> /etc/sysctl.conf'";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        sshShellCommand = @"sysctl -p";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    }
+                    else if (resultCmdTestBBR.Contains("bbr") == true)
+                    {
+                        //******  "BBR已经启用了！" ******
+                        SetUpProgressBarProcessing(97);
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_BBRisEnabled").ToString();
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    }
+                    else
+                    {
+                        //****** "系统不满足启用BBR的条件，启用失败！" ******
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_BBRFailed").ToString();
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    }
+                    
+
+                    //****** "生成客户端配置......" ******
+                    SetUpProgressBarProcessing(98);
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_GenerateClientConfig").ToString();
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    currentShellCommandResult = currentStatus;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //读取生成的代理参数
+                    sshShellCommand = @"cat /usr/local/etc/mtg_info.json";
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+
+                    client.Disconnect();//断开服务器ssh连接
+
+                    //Thread.Sleep(1000);
+                    if (!Directory.Exists("mtproto_config"))//如果不存在就创建file文件夹　　             　　              
+                    {
+                        Directory.CreateDirectory("mtproto_config");//创建该文件夹　　   
+                    }
+                    using (StreamWriter sw = new StreamWriter(@"mtproto_config\mtproto_info.json"))
+                    {
+                        sw.Write(currentShellCommandResult.ToString());
+                    }
+
+                    //****** "MTProto+TLS安装成功,祝你玩的愉快！！" ******
+                    SetUpProgressBarProcessing(100);
+                    currentStatus = "MTProto+TLS" + Application.Current.FindResource("DisplayInstallInfo_ProxyInstalledOK").ToString();
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    currentShellCommandResult = currentStatus;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //Thread.Sleep(1000);
+
+                    //显示服务端连接参数
+                    proxyType = "MTProto";
+
+                    ResultClientInformation resultClientInformation = new ResultClientInformation();
+                    resultClientInformation.ShowDialog();
+                    return;
+                }
+            }
+            catch (Exception ex1)//例外处理   
+            #region 例外处理
+            {
+                ProcessException(ex1.Message);
+
+                //****** "主机登录失败!" ******
+                currentStatus = Application.Current.FindResource("DisplayInstallInfo_LoginFailed").ToString();
+                textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                currentShellCommandResult = currentStatus;
+                TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+            }
+            #endregion
+
+        }
+
+        #endregion
+
         #region 其他功能函数及系统工具相关
         //产生随机端口
         private int GetRandomPort()
@@ -12075,6 +13320,13 @@ namespace ProxySU
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
+                        //卸载插件
+                        sshShellCommand = @"rm -f /usr/local/bin/obfs-server /usr/local/bin/obfs-local /usr/local/bin/v2ray-plugin /usr/local/bin/kcptun-plugin-server /usr/local/bin/goquiet-plugin-server /usr/local/bin/cloak-plugin-server";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+
                         sshShellCommand = @"find / -name ss-server";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
@@ -12111,6 +13363,7 @@ namespace ProxySU
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                     }
+
 
                     #endregion
 
@@ -12218,6 +13471,11 @@ namespace ProxySU
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
                         sshShellCommand = @"systemctl stop caddy";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        sshShellCommand = @"systemctl disable caddy";
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
                         currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
                         TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
@@ -12360,7 +13618,95 @@ namespace ProxySU
 
                     #endregion
 
+                    #region 卸载MtProto
+                    //******"检测系统是否已经安装MtProto......"******03
+                    SetUpProgressBarProcessing(61);
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_TestExistSoft").ToString() + "MtProto......";
+                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                    currentShellCommandResult = currentStatus;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
+                    sshShellCommand = @"find / -name mtg";
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                    TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    //string resultCmdTestV2rayInstalled = currentShellCommandResult;
+                    if (currentShellCommandResult.Contains("/usr/local/bin/mtg") == true)
+                    {
+                        //******"检测到MtProto,开始卸载MtProto......"******
+                        SetUpProgressBarProcessing(63);
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_DiscoverProxySoft").ToString()
+                           + "MtProto!"
+                           + Application.Current.FindResource("DisplayInstallInfo_StartRemoveProxy").ToString()
+                           + "MtProto......";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        sshShellCommand = @"systemctl stop mtg";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        sshShellCommand = @"systemctl disable mtg";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        sshShellCommand = @"rm -rf /etc/systemd/system/mtg.service";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        sshShellCommand = @"rm -rf /usr/local/bin/mtg";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        sshShellCommand = @"rm -rf /usr/local/etc/mtg_info.json";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+
+                        sshShellCommand = @"find / -name mtg";
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
+                        currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        if (currentShellCommandResult.Contains("/usr/local/bin/mtg") == true)
+                        {
+                            //******"MtProto卸载失败！请向开发者问询！"******
+                            currentStatus = "MtProto" + Application.Current.FindResource("DisplayInstallInfo_RemoveProxySoftFailed").ToString();
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        }
+                        else
+                        {
+                            //******"MtProto卸载成功！"******
+                            SetUpProgressBarProcessing(65);
+                            currentStatus = "MtProto" + Application.Current.FindResource("DisplayInstallInfo_RemoveProxySoftSuccess").ToString();
+                            textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                            currentShellCommandResult = currentStatus;
+                            TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                        }
+
+                    }
+                    else
+                    {
+                        //******"检测结果：未安装MtProto！"******04
+                        SetUpProgressBarProcessing(65);
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_NoInstalledSoft").ToString() + "MtProto!";
+                        textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
+                        currentShellCommandResult = currentStatus;
+                        TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
+
+                    }
+                    #endregion
 
                     //******"卸载成功！"******04
                     SetUpProgressBarProcessing(100);
@@ -12444,7 +13790,7 @@ namespace ProxySU
             resultClientInformation.ShowDialog();
         }
 
-             #region 三合一安装过程
+        #region 三合一安装过程
 
         //        //生成三合一的v2ray路径
         //        private void ButtonV2rayPath3in1_Click(object sender, RoutedEventArgs e)
@@ -13427,8 +14773,9 @@ namespace ProxySU
         //        }
 
 
-              #endregion
+        #endregion
 
+       
     }
 
 }

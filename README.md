@@ -2,8 +2,8 @@
 [v2ray的TLS流量可被简单特征码匹配精准识别](https://github.com/v2ray/discussion/issues/704)  
 
 # ProxySU
-V2ray, Trojan, NaiveProxy, Trojan-Go, ShadowsocksR(SSR),Shadowsocks-libev and Plugins,BBR install tools for windows。  
-V2ray，Trojan，NaiveProxy, Trojan-Go, ShadowsocksR(SSR),Shadowsocks-libev及相关插件 一键安装工具。  
+V2ray, Trojan, NaiveProxy, Trojan-Go, ShadowsocksR(SSR),Shadowsocks-libev and Plugins,MTProto+TLS,BBR install tools for windows。  
+V2ray，Trojan，NaiveProxy, Trojan-Go, ShadowsocksR(SSR),Shadowsocks-libev及相关插件,MTProto+TLS 一键安装工具。  
 BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）,支持语言:English、简体中文、正体（繁体）中文。
 
 编译环境Visual Studio 2017  使用WPF界面。可一键安装V2ray、Trojan、NaiveProxy，Trojan-Go,ShadowsocksR(SSR),Shadowsocks-libev and Plugins 后续还会再添加其他。  
@@ -59,6 +59,9 @@ ProxySU在开发过程中，一般都是在vultr的vps中测试，测试系统�
 * SS+kcptun  
 * SS+obfs+http+Web  
 * SS+obfs+TLS+Web  
+
+##### MTProto+TLS电报代理一键安装：
+* MTProto+TLS
 
 ##### 支持的VPS系统为：  
 * CentOS 7/8   
@@ -140,6 +143,7 @@ Let's Encrypt证书申请频率的限制
   * 选择NaiveProxy，先安装Caddy2,方法源自[Caddy官方文档](https://caddyserver.com/docs/download)。再用自编译的Caddy2(带forward_proxy插件)替换原来的Caddy运行文件。自编译Caddy2文件方法源自[NaiveProxy官方文档](https://github.com/klzgrad/naiveproxy#setup)。  
   * 选择SSR+TLS+Caddy模式，则调用本项目内的ssr.sh安装， `curl -o /tmp/ssr.sh https://raw.githubusercontent.com/proxysu/shellscript/master/ssr/ssr.sh` `yes | bash /tmp/ssr.sh -f` 安装SSR。  
   * 选择Shadowsocks-libev与插件模式，则调用本项目内的ss-install.sh安装，`curl -o /tmp/install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/ss/ss-install.sh` `yes | bash /tmp/install.sh`  
+  * 先择MTProto+TLS模式，则调用本项目内的mtg_install.sh安装，`curl -o /tmp/mtg_install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/MTProto/mtg_install.sh` `yes | bash /tmp/mtg_install.sh`  
 3. 根据选择读取相应配置模板，调用[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)生成相应配置文件，并上传到服务器。所有模板及配置文件 [在这里](https://github.com/proxysu/windows/tree/master/TemplateConfg)  
 4. 如果使用WebSocket+TLS+Web/http2+TLS+Web/Trojan+TLS+Web/Trojan-go+TLS+Web/SSR+TLS+Caddy/SS+WebSocket+TLS+Caddy/SS+obfs+http+Web/SS+obfs+TLS+Web 模式，则安装Caddy2,方法源自[Caddy官方文档](https://caddyserver.com/docs/download)。  
 5. 如果使用Http2/tcp+TLS/WebSocket+TLS/Trojan+TLS+Web/Trojan-go+TLS+Web/SS+QUIC模式，则调用  `curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh` 安装acme.sh，使用acme.sh申请证书.  
@@ -166,6 +170,10 @@ Let's Encrypt证书申请频率的限制
 * 注：Shadowsocks-libev安装及配置文件主要参考自：  
 [Shadowsocks官方文档](https://shadowsocks.org/)  
 [teddysun大佬的shadowsocks-libev.sh一键脚本](https://github.com/teddysun/shadowsocks_install/blob/master/shadowsocks-libev.sh)
+
+* 注：MTProto+TLS安装与配置文件主要参考自：  
+[MTProto go语言版](https://github.com/9seconds/mtg/tree/master)  
+
 
 ## License
 

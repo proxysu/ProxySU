@@ -224,6 +224,8 @@ namespace ProxySU
 
                 //传递域名
                 MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomain.Text.ToString();
+                //传递混淆方式(VMESS TCP Path方式所用)
+                MainWindow.ReceiveConfigurationParameters[5] = "http";
                 //传递伪装网站
                 MainWindow.ReceiveConfigurationParameters[7] = TextBoxMaskSites.Text.ToString();
                 //处理伪装网站域名中的前缀

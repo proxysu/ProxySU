@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProxySU"
         mc:Ignorable="d"
-        Title="ProxySU - v2.3.1" Height="675" Width="620">
+        Title="ProxySU - v2.4.0" Height="675" Width="650">
     <!--以下样式参考自：https://yq.aliyun.com/articles/331878
 	https://docs.microsoft.com/en-us/dotnet/desktop-wpf/fundamentals/styles-templates-overview-->
     <Window.Resources>
@@ -415,6 +415,7 @@
                                         <Button x:Name="ButtonNaiveCancel" Content="{DynamicResource ButtonNaiveCancel}" Grid.ColumnSpan="1" Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
                                     </Grid>
                                 </TabItem>
+                               
                                 <TabItem Header="SSR" Width="60" Height="30">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
@@ -466,6 +467,7 @@
                                         <Button x:Name="ButtonSSRCancel" Content="{DynamicResource ButtonTrojanCancel}" Grid.Column="2" Grid.Row="2"  Margin="10" Click="Button_canel_Click"></Button>
                                     </Grid>
                                 </TabItem>
+                               
                                 <TabItem Header="SS" Width="60" Height="30">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
@@ -518,6 +520,61 @@
                                         <Button x:Name="Button_canelSS" Content="{DynamicResource Button_canel}"  Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
                                     </Grid>
                                 </TabItem>
+
+                                <TabItem Header="MTProto" Width="70" Height="30">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition Height="60"></RowDefinition>
+
+                                        </Grid.RowDefinitions>
+                                        <GroupBox Header="{DynamicResource GroupBoxHeaderParameterTrojan}" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="2">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Text="{DynamicResource TextBlockMtgTemplateExplanation}" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                                <TextBlock Text="{DynamicResource TextBlockHostPart}" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5"></TextBlock>
+                                                <TextBox x:Name="TextBoxMtgHostDomain" Text="443" Grid.Column="1" Grid.Row="1" Margin="3"></TextBox>
+                                                <TextBlock Text="{DynamicResource TextBlockMtgPortExplanation}" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                                                <TextBlock Text="{DynamicResource TextBlockHostCert}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5"></TextBlock>
+                                                <TextBlock Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Text="{DynamicResource TextBlockMtgSecretExplanation}" VerticalAlignment="Center"></TextBlock>
+                                                <!--<TextBox x:Name="TextBoxMtgPassword"  Grid.Column="1" Grid.Row="2" Margin="3"></TextBox>
+                                                <Button x:Name="ButtonMtgPassword" Content="{DynamicResource ButtonTrojanChangePassword}" Grid.Column="2" Grid.Row="2" Margin="2" Click="ButtonSSRPassword_Click" ></Button>-->
+
+                                                <TextBlock Text="{DynamicResource TextBlockMtgFakeDomainExplanation}" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Right"></TextBlock>
+                                                <TextBox x:Name="TextBoxMtgSites" Style="{StaticResource TitleText}" Tag="azure.microsoft.com"  Grid.Column="1" Grid.Row="3" Margin="3" ></TextBox>
+                                                <TextBlock Text="{DynamicResource TextBoxV2RayMaskSitesTag}" Grid.Column="2" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+
+                                                <TextBlock Text="TAG" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Right" Visibility="Collapsed"></TextBlock>
+                                                <TextBox x:Name="TextBoxMtgTag" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxV2RayMaskSitesTag}"  Grid.Column="1" Grid.Row="4" Margin="3" Visibility="Collapsed"></TextBox>
+
+                                            </Grid>
+                                        </GroupBox>
+
+                                        <Button x:Name="ButtonMtgSetUp" Content="{DynamicResource ButtonMtgSetUp}"  Grid.Column="0" Grid.Row="2"  Margin="10" Click="ButtonMtgSetUp_Click" />
+                                        <!--<Button x:Name="ButtonUpdateTrojan" Content="{DynamicResource ButtonUpdateTrojan}" Grid.Column="1" Grid.Row="2" Margin="10" Click="ButtonUpdateTrojan_Click"></Button>-->
+                                        <Button x:Name="ButtonMtgCancel" Content="{DynamicResource ButtonTrojanCancel}" Grid.Column="2" Grid.Row="2"  Margin="10" Click="Button_canel_Click"></Button>
+                                    </Grid>
+                                </TabItem>
+
                                 <!--<TabItem Header="三合一" Width="100" Height="30" Visibility="Collapsed">
                             <Grid>
                                 <Grid.ColumnDefinitions>

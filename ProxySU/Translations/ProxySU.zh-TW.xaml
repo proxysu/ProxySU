@@ -56,7 +56,14 @@
     <!-- 以下SSR设置参数标签页界面 -->
     <sys:String x:Key="TextBlockSSRTemplateExplanation">模式：SSR+TLS+Caddy</sys:String>
     <sys:String x:Key="ButtonSSRSetUp">SSR一鍵安裝</sys:String>
-    
+
+    <!-- 以下MTProto设置参数标签页界面 -->
+    <sys:String x:Key="TextBlockMtgTemplateExplanation">模式：MTProto+TLS</sys:String>
+    <sys:String x:Key="ButtonMtgSetUp">MTProto一鍵安裝</sys:String>
+    <sys:String x:Key="TextBlockMtgFakeDomainExplanation">偽裝域名:</sys:String>
+    <sys:String x:Key="TextBlockMtgPortExplanation">推薦用常見https端口443、2053、2083、2087、2096、8443</sys:String>
+    <sys:String x:Key="TextBlockMtgSecretExplanation">密鑰將由服務端隨機生成，這裡無需設置。</sys:String>
+
     <!-- 以下SS设置参数标签页界面 -->
     <sys:String x:Key="ButtonSetUpSS">SS 一鍵安裝</sys:String>
     <sys:String x:Key="ButtonTemplateConfigurationSS">SS 插件庫</sys:String>
@@ -145,7 +152,7 @@
     <sys:String x:Key="TextBoxV2RayMaskSitesTag">設置此項可增加代理的隱蔽(可為空)</sys:String>
     <sys:String x:Key="TextBlockV2RayWebSocketTlsWebExplain">穩定性強，Caddy2做前置，隱藏代理特徵，被識別為訪問網站的https流量，抗封鎖識別最強,需要域名,支持CDN</sys:String >
     <sys:String x:Key="TextBlockV2RayHttp2TlsWebExplain">基於 HTTP/2 傳輸。完整按 HTTP/2 標準實現，Caddy2做前置，隱藏代理特徵，H2C協議轉發到V2Ray，需要域名，暫不支持CloudFlare的CDN</sys:String>
-    <sys:String x:Key="TextBlockVlessVmessXtlsTcpWebSocketExplainHot">VLESS over TCP with XTLS + 回落and 分流to WHATEVER（終極配置），由rprx大佬(xtls作者)配置並推薦，在服務端同時配置以下五種方案，共用同一域名與443端口，其中 WS 都可以通過 CDN。方案4 配置特別，目前尚無圖形客戶端支持，可使用V2Ray官方客戶端。</sys:String>
+    <sys:String x:Key="TextBlockVlessVmessXtlsTcpWebSocketExplainHot">VLESS over TCP with XTLS + 回落and 分流to WHATEVER（終極配置），由rprx大佬(xtls作者)配置並推薦，在服務端同時配置以下五種方案，共用同一域名與443端口，其中 WS 都可以通過 CDN。</sys:String>
     <sys:String x:Key="TextBlockV2RayTcpExplain">數據加密傳輸，會被識別為未知的tcp流量</sys:String>
     <sys:String x:Key="RadioButtonV2RayTcpHttp">TCP+Http偽裝</sys:String>
     <sys:String x:Key="TextBlockV2RayTcpHttpExplain">數據加密傳輸，並做http偽裝，會被識別為http流量，但並不是真正的http訪問</sys:String>
@@ -209,6 +216,16 @@
     <sys:String x:Key="TextBlockQrURLexplainTrojan">"可用於ShadowRocket (ios)、igniter（Android）、Trojan-QT5 (windows) 掃碼和導入url。注意：有的客戶端可能不支持WebSocket模式。"</sys:String>
     <sys:String x:Key="TextBlockQrURLexplainNaiveProxy">用於NaiveGUI(windows)的URL導入鏈接</sys:String>
     <sys:String x:Key="TextBlockQrURLexplainSSR">用於ShadowsocksR(windows)、SSRR(android)、Shadowrocket(ios)的掃碼和導入URL導入鏈接</sys:String>
+    <sys:String x:Key="TextBlockQrURLexplainSSmobile">用於手機客戶端shadowsocks(android)、Shadowrocket(ios)的掃碼和URL導入鏈接</sys:String>
+    <sys:String x:Key="TextBlockQrURLexplainSSpc">用於電腦客戶端Shadowsocks (windows)的掃碼和URL導入鏈接</sys:String>
+    <sys:String x:Key="TextBlockQrURLexplainSS">用於Shadowsocks (windows)、shadowsocks(android)、Shadowrocket(ios)的掃碼和URL導入鏈接</sys:String>
+    <sys:String x:Key="TextBlockClientPromptSS">提醒: 電腦客戶端Shadowsocks (windows)與手機客戶端shadowsocks(android)、Shadowrocket(ios)的導入格式不兼容，請選擇相應格式。</sys:String>
+    <sys:String x:Key="RadioButtonMobileSS">手機端</sys:String>
+    <sys:String x:Key="RadioButtonPCSS">電腦端</sys:String>
+    <sys:String x:Key="TextBlockShareQRcodeMtgTgIpv4">TG格式QR</sys:String>
+    <sys:String x:Key="TextBlockURLMtgTgIpv4">TG格式URL(雙擊複製到剪切板中)</sys:String>
+    <sys:String x:Key="TextBlockShareQRcodeMtgTmeIpv4">T.ME格式QR</sys:String>
+    <sys:String x:Key="TextBlockURLMtgTmeIpv4">T.ME格式URL(雙擊複製到剪切板中)</sys:String>
     <!--以下為程序內的-->
     <sys:String x:Key="MessageBoxShow_ErrorHostPortUserNotEmpty">主機地址、主機端口、用戶名為必填項，不能為空!!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorHostPasswordNotEmpty">登錄密碼為必填項，不能為空!!</sys:String>
