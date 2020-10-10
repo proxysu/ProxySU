@@ -101,7 +101,6 @@ Let's Encrypt证书申请频率的限制
 ###### Trojan模式目前已支持生成用于  
 
 * [Trojan官方程序](https://github.com/trojan-gfw/trojan)配置文件（客户端配置）  
-* [Trojan-QT5 (windows)](https://github.com/TheWanderingCoel/Trojan-Qt5/releases)导入二维码和网址  
 * [Qv2ray (windows)](https://github.com/Qv2ray/Qv2ray)客户端导入二维码和网址  
 * [Shadowrocket (ios)](https://apps.apple.com/us/app/shadowrocket/id932747118)导入二维码和网址  
 * [igniter（Android）](https://github.com/trojan-gfw/igniter/releases)导入二维码和网址  
@@ -110,10 +109,10 @@ Let's Encrypt证书申请频率的限制
 ###### Trojan-Go模式目前已支持生成用于  
 
 * [Trojan-Go官方程序](https://github.com/p4gefau1t/trojan-go/releases)配置文件（客户端配置）  
-* [Trojan-QT5 (windows)](https://github.com/TheWanderingCoel/Trojan-Qt5/releases)导入二维码和网址(暂不支持WebSocket模式)  
 * [Qv2ray (windows)](https://github.com/Qv2ray/Qv2ray)客户端导入二维码和网址  
-* [Shadowrocket (ios)](https://apps.apple.com/us/app/shadowrocket/id932747118)导入二维码和网址(暂不支持WebSocket模式)  
 * [igniter-go（Android）](https://github.com/p4gefau1t/trojan-go-android/releases)导入二维码和网址  
+
+注：分享链接规范使用：https://github.com/p4gefau1t/trojan-go/issues/132
 
 ###### NaiveProxy支持生成用于：
 
