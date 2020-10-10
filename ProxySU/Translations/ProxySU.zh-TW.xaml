@@ -367,11 +367,11 @@
     <sys:String x:Key="readmeTxtTrojan-goExplainLine02">Trojan-go官方網站：https://github.com/p4gefau1t/trojan-go</sys:String>
     <sys:String x:Key="readmeTxtTrojan-goExplainLine03">Trojan-go官方程序下載地址：https://github.com/p4gefau1t/trojan-go/releases</sys:String>
     <sys:String x:Key="readmeTxtTrojan-goExplainLine04">下載相應版本，Windows選擇Trojan-go-x.xx-win.zip,解壓後提取trojan-go.exe。與config.json放在同一目錄，運行trojan-go.exe即可。</sys:String>
-    <sys:String x:Key="readmeTxtTrojan-goExplainLine05">此文件為Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)掃碼導入節點（Trojan-Go的WebSocket模式暫不支持）</sys:String>
-    <sys:String x:Key="readmeTxtTrojan-goExplainLine06">Trojan-QT5 (windows)下載網址：https://github.com/TheWanderingCoel/Trojan-Qt5/releases</sys:String>
+    <sys:String x:Key="readmeTxtTrojan-goExplainLine05">此文件為Qv2ray (windows)、igniter（Android）掃碼導入節點</sys:String>
+    <sys:String x:Key="readmeTxtTrojan-goExplainLine06">Qv2ray (windows)下載網址：https://github.com/Qv2ray/Qv2ray/releases</sys:String>
     <sys:String x:Key="readmeTxtTrojan-goExplainLine07">igniter（Android）下載網址：https://github.com/trojan-gfw/igniter/releases</sys:String>
     <sys:String x:Key="readmeTxtTrojan-goExplainLine08">Shadowrocket(ios)下載,需要使用國外區的AppleID。請自行谷歌方法。</sys:String>
-    <sys:String x:Key="readmeTxtTrojan-goExplainLine09">此文件為Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)複製粘貼導入節點的網址（Trojan-Go的WebSocket模式暫不支持）</sys:String>
+    <sys:String x:Key="readmeTxtTrojan-goExplainLine09">此文件為Qv2ray (windows)、igniter（Android）複製粘貼導入節點的網址</sys:String>
     <sys:String x:Key="readmeTxtTrojan-goExplainLine10">服務器通用連接配置參數</sys:String>
     <!--以下為Trojan客戶端說明文件-->
     <sys:String x:Key="readmeTxtTrojanExplainLine01">此文件為Trojan官方程序所使用的客戶端配置文件，配置為全局模式，http與socks5地址：127.0.0.1:1080</sys:String>

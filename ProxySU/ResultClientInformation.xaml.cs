@@ -364,10 +364,13 @@ namespace ProxySU
                 TextBoxTrojanGoServerPort.Text = "443";
                 //密钥（uuid）
                 TextBoxTrojanGoServerPassword.Text = MainWindow.ReceiveConfigurationParameters[2];
+                //TrojanGo 使用类型
+                TextBoxTrojanGoType.Text = "original";
                 //WebSocket路径
                 if (MainWindow.ReceiveConfigurationParameters[0].Equals("TrojanGoWebSocketTLS2Web"))
                 {
-                    TextBoxTrojanGoWSPath.Text = MainWindow.ReceiveConfigurationParameters[3];
+                    TextBoxTrojanGoType.Text = "ws";
+                    TextBoxTrojanGoWSPath.Text = MainWindow.ReceiveConfigurationParameters[6];
                     TextBoxTrojanGoWSPath.Visibility = Visibility.Visible;
                     TextBlockTrojanGoWebSocketPath.Visibility = Visibility.Visible;
                     TextBlockTrojanGoCaption.Visibility = Visibility.Visible;
@@ -468,7 +471,7 @@ namespace ProxySU
                 //密码（uuid）
                 TextBoxPasswordSS.Text = MainWindow.ReceiveConfigurationParameters[2];
                 //加密方式
-                TextBoxEncryptionSS.Text = MainWindow.ReceiveConfigurationParameters[6];
+                TextBoxEncryptionSS.Text = MainWindow.ReceiveConfigurationParameters[3];
                 //插件程序
                 TextBoxPluginNameExplainSS.Text = MainWindow.ReceiveConfigurationParameters[5];
                 //插件选项
@@ -692,9 +695,9 @@ namespace ProxySU
             ShowPathV2ray();
             TextBoxQuicKeyMkcpSeedPath.Text = MainWindow.ReceiveConfigurationParameters[9];
             TextBlockVmessOrVless.Visibility = Visibility.Collapsed;
-            //隐藏下面的二维码显示,因为V2rayN还未支持TCP Path模式。
-            HideGroupBoxClientQRandURL();
-            //ShowGroupBoxClientQRandURL();
+            //显示下面的二维码显示。
+            //HideGroupBoxClientQRandURL();
+            ShowGroupBoxClientQRandURL();
         }
 
         //设置VMess over WS with TLS
@@ -1909,26 +1912,16 @@ namespace ProxySU
             string proxyfolder = CheckDir("trojan-go_config");
             configDomainSavePath = CreateConfigSaveDir(proxyfolder, TextBoxTrojanGoServerHost.Text);
             string configSavePath = configDomainSavePath;
-            //string saveFileFolderFirst = TextBoxTrojanGoServerHost.Text;
-            //int num = 1;
-            //saveFileFolder = saveFileFolderFirst;
 
-            //while (Directory.Exists(@"trojan-go_config\" + saveFileFolder))
-            //{
-            //    saveFileFolder = saveFileFolderFirst + "_copy_" + num.ToString();
-            //    num++;
-            //}
-            //CheckDir(@"trojan-go_config\" + saveFileFolder);
-            string trojanUrl = $"trojan://{TextBoxTrojanGoServerPassword.Text}@{TextBoxTrojanGoServerHost.Text}:{TextBoxTrojanGoServerPort.Text}?allowinsecure=0&tfo=0&sni=&mux=0&ws=0&group=#{TextBoxTrojanGoServerHost.Text}";
-            //MessageBox.Show(v2rayNjsonObject.ToString());
-            //string trojanUrl = "trojan://" + ToBase64Encode(v2rayNjsonObject.ToString());
-            TextBoxURL.Text = trojanUrl;
+            string trojanGoUrl = GetTrojanGoUrl();
+
+            TextBoxURL.Text = trojanGoUrl;
             using (StreamWriter sw = new StreamWriter($"{configSavePath}\\url.txt"))
             {
-                sw.WriteLine(trojanUrl);
+                sw.WriteLine(trojanGoUrl);
 
             }
-            ImageShareQRcode.Source = CreateQRCode(trojanUrl, $"{configSavePath}\\QR.bmp");
+            ImageShareQRcode.Source = CreateQRCode(trojanGoUrl, $"{configSavePath}\\QR.bmp");
 
             //移动Trojan官方程序配置文件到相应目录
             if (File.Exists(@"trojan-go_config\config.json"))
@@ -1956,21 +1949,21 @@ namespace ProxySU
                 sw.WriteLine("-----------------------------------------\n");
                 sw.WriteLine("QR.bmp");
 
-                //sw.WriteLine("此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)扫码导入节点（Trojan-Go的WebSocket模式暂不支持）");
+                //sw.WriteLine("此文件为Qv2ray (windows)、igniter（Android）扫码导入节点");
                 sw.WriteLine(Application.Current.FindResource("readmeTxtTrojan-goExplainLine05").ToString());
 
-                //sw.WriteLine("Trojan-QT5 (windows)下载网址：https://github.com/TheWanderingCoel/Trojan-Qt5/releases");
+                //sw.WriteLine("Qv2ray (windows)下载网址：https://github.com/Qv2ray/Qv2ray/releases");
                 sw.WriteLine(Application.Current.FindResource("readmeTxtTrojan-goExplainLine06").ToString());
 
                 //sw.WriteLine("igniter（Android）下载网址：https://github.com/trojan-gfw/igniter/releases");
                 sw.WriteLine(Application.Current.FindResource("readmeTxtTrojan-goExplainLine07").ToString());
 
                 //sw.WriteLine("Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。");
-                sw.WriteLine(Application.Current.FindResource("readmeTxtTrojan-goExplainLine08").ToString());
+               // sw.WriteLine(Application.Current.FindResource("readmeTxtTrojan-goExplainLine08").ToString());
                 sw.WriteLine("-----------------------------------------\n");
                 sw.WriteLine("url.txt");
 
-                //sw.WriteLine("此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)复制粘贴导入节点的网址（Trojan-Go的WebSocket模式暂不支持）");
+                //sw.WriteLine("此文件为Qv2ray (windows)、igniter（Android）复制粘贴导入节点的网址");
                 sw.WriteLine(Application.Current.FindResource("readmeTxtTrojan-goExplainLine09").ToString());
                 sw.WriteLine("-----------------------------------------\n");
 
@@ -2000,6 +1993,13 @@ namespace ProxySU
                 strParam = TextBoxTrojanGoServerPassword.Text;
                 sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
 
+                //****** Type: ******
+                //sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoPassword").ToString() + $"{TextBoxTrojanGoServerPassword.Text}");
+                //strApplicat = "TextBlockTrojanGoPassword";
+                strParam = TextBoxTrojanGoType.Text;
+                sw.WriteLine(AlignmentStrFunc("Type", strLenth) + strParam);
+                //sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
+
                 //****** WebSocket路径: ******
                 //sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoWebSocketPath").ToString() + $"{TextBoxTrojanGoWSPath.Text}");
                 strApplicat = "TextBlockTrojanGoWebSocketPath";
@@ -2009,6 +2009,7 @@ namespace ProxySU
             }
 
         }
+        
         #region TrojanGo内容双击复制到剪贴板
         private void TextBoxTrojanGoServerHost_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -2024,13 +2025,63 @@ namespace ProxySU
         {
             CopyToClipboard(TextBoxTrojanGoServerPassword.Text);
         }
-
+        private void TextBoxTrojanGoType_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxTrojanGoType.Text);
+        }
         private void TextBoxTrojanGoWSPath_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             CopyToClipboard(TextBoxTrojanGoWSPath.Text);
         }
         #endregion
 
+        //生成TrojanGo的分享链接
+        private string GetTrojanGoUrl()
+        {
+            string trojanGoPassword = EncodeURIComponent(TextBoxTrojanGoServerPassword.Text);
+            string trojanGoHost = TextBoxTrojanGoServerHost.Text;
+            string trojanGoPort = TextBoxTrojanGoServerPort.Text;
+
+            string trojanGoSni = EncodeURIComponent(trojanGoHost);
+            string trojanGoType= EncodeURIComponent(TextBoxTrojanGoType.Text);
+            string trojanGohostName = EncodeURIComponent(trojanGoHost);
+
+            string trojanGoPath = EncodeURIComponent(TextBoxTrojanGoWSPath.Text);
+            string trojanGoEncryption = EncodeURIComponent("");
+            string trojanGoPlugin = EncodeURIComponent("");
+
+            string trojanGoRemarks = EncodeURIComponent(trojanGoHost);
+
+            //分享链接规范：https://github.com/p4gefau1t/trojan-go/issues/132
+            //trojan-go://$(trojan-password)@trojan-host:port/?sni=$(update.microsoft.com)&type=$(original|ws|h2|h2+ws)&host=$(update-01.microsoft.com)&path=$(/update/whatever)&encryption=$(ss;aes-256-gcm:ss-password)&plugin=$(...)#$(descriptive-text)
+            //string trojanGoUrl = $"trojan-go://{trojanGoPassword}@{trojanGoHost}:{trojanGoPort}/?sni={trojanGoSni}&type={trojanGoType}&host={trojanGohostName}&path={trojanGoPath}&encryption={trojanGoEncryption}&plugin={trojanGoPlugin}#{trojanGoRemarks}";
+
+            //&path={trojanGoPath}
+            //&encryption={trojanGoEncryption}
+            //&plugin={trojanGoPlugin}
+            //#{trojanGoRemarks}
+            string trojanGoUrl = $"trojan-go://{trojanGoPassword}@{trojanGoHost}:{trojanGoPort}/?sni={trojanGoSni}&type={trojanGoType}&host={trojanGohostName}";
+
+            if (String.IsNullOrEmpty(trojanGoPath) == false)
+            {
+                trojanGoUrl += $"&path={trojanGoPath}";
+            }
+            if (String.IsNullOrEmpty(trojanGoEncryption) == false)
+            {
+                trojanGoUrl += $"&encryption={trojanGoEncryption}";
+            }
+            if (String.IsNullOrEmpty(trojanGoPlugin) == false)
+            {
+                trojanGoUrl += $"&plugin={trojanGoPlugin}";
+            }
+
+            trojanGoUrl += $"#{trojanGoRemarks}";
+            return trojanGoUrl;
+        }
+        private string EncodeURIComponent(string initialUri)
+        {
+            return Uri.EscapeDataString(initialUri);
+        }
 
         //生成Trojan客户端资料
         private void GenerateTrojanShareQRcodeAndBase64Url()
@@ -2135,6 +2186,7 @@ namespace ProxySU
             }
 
         }
+       
         #region Trojan内容双击复制到剪贴板
 
         private void TextBoxTrojanServerHost_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -2246,6 +2298,7 @@ namespace ProxySU
             }
 
         }
+        
         #region NaiveProxy内容双击复制到剪贴板
         private void TextBoxNaiveServerHost_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -2366,6 +2419,7 @@ namespace ProxySU
 
             }
         }
+        
         #region SSR内容双击复制到剪贴板
 
         private void TextBoxSSRHostAddress_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -2982,7 +3036,7 @@ namespace ProxySU
             return spaceString + strTemp;
         }
 
-      
+       
     }
 
 

@@ -1020,21 +1020,18 @@ namespace ProxySU
         //产生随机的uuid
         private void ButtonNewUUID_Click(object sender, RoutedEventArgs e)
         {
-            //Guid uuid = Guid.NewGuid();
             TextBoxNewUUID.Text = GenerateRandomUUID();
         }
        
         //产生QUIC密钥/mKCP Seed所用的UUID
         private void ButtonQuicAndMkcpSeedUUID_Click(object sender, RoutedEventArgs e)
         {
-            //Guid uuid = Guid.NewGuid();
             TextBoxQuicAndMkcpSeedUUID.Text = GenerateRandomUUID();
         }
         
         //更新随机服务端口
         private void ButtonServerListenPort_Click(object sender, RoutedEventArgs e)
         {
-            //Random random = new Random();
             int randomServerPort = GetRandomPort();
             TextBoxServerListenPort.Text = randomServerPort.ToString();
         }
@@ -1042,13 +1039,8 @@ namespace ProxySU
         //更新单方案随机的Path
         private void ButtonPath_Click(object sender, RoutedEventArgs e)
         {
-            //Random random = new Random();
-            //int randomSerialNum = random.Next(0, 4);
-            //Guid uuid = Guid.NewGuid();
-            //string[] pathArray = uuid.ToString().Split('-');
             string path = GenerateRandomPath();
             TextBoxPath.Text = $"/{path}";
-            //MessageBox.Show(path);
         }
 
         //更新多方案共存的Path
@@ -1124,11 +1116,6 @@ namespace ProxySU
         //读取加密方式
         private string GetEncryptionMethodSS()
         {
-            //string methodName;
-            //object methodSelected;
-            //methodSelected = ComboBoxEncryptionMethodInfo.SelectedValue;
-            //methodName = methodSelected.ToString();
-            //return methodName;
             return ComboBoxEncryptionMethodInfo.SelectedValue.ToString();
         }
         private void ButtonDomain_Click(object sender, RoutedEventArgs e)

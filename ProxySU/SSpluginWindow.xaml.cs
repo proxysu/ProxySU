@@ -138,7 +138,7 @@ namespace ProxySU
                 //传递方案名称
                 MainWindow.ReceiveConfigurationParameters[8] = RadioButtonWebSocketSS.Content.ToString();
                 //传递路径
-                MainWindow.ReceiveConfigurationParameters[3] = TextBoxWebSocketPathSS.Text.ToString();
+                MainWindow.ReceiveConfigurationParameters[6] = TextBoxWebSocketPathSS.Text.ToString();
             }
  
             //V2Ray-Plugin SS+WebSocket+TLS+Web模式被选中
@@ -151,7 +151,7 @@ namespace ProxySU
                 MainWindow.ReceiveConfigurationParameters[8] = RadioButtonWebSocketTLSWebFrontSS.Content.ToString();
 
                 //传递路径
-                MainWindow.ReceiveConfigurationParameters[3] = TextBoxWebSocketPathSS.Text.ToString();
+                MainWindow.ReceiveConfigurationParameters[6] = TextBoxWebSocketPathSS.Text.ToString();
                 //传递域名
                 MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomainSS.Text.ToString();
                 //传递伪装网站
@@ -224,7 +224,7 @@ namespace ProxySU
             //传递uuid密码
             MainWindow.ReceiveConfigurationParameters[2] = TextBoxNewUUIDSS.Text.ToString();
             //传递加密方式
-            MainWindow.ReceiveConfigurationParameters[6] = GetEncryptionMethodSS();
+            MainWindow.ReceiveConfigurationParameters[3] = GetEncryptionMethodSS();
 
             if (testDomain)
             {
@@ -329,7 +329,7 @@ namespace ProxySU
         private void ComboBoxEncryptionMethodInfo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //传递加密方式
-            MainWindow.ReceiveConfigurationParameters[6] = GetEncryptionMethodSS();
+            MainWindow.ReceiveConfigurationParameters[3] = GetEncryptionMethodSS();
 
         }
 

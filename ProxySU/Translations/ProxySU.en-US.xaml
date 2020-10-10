@@ -364,11 +364,11 @@
     <sys:String x:Key="readmeTxtTrojan-goExplainLine02">Trojan-go official website: https://github.com/p4gefau1t/trojan-go</sys:String>
     <sys:String x:Key="readmeTxtTrojan-goExplainLine03">Trojan-go official program download address: https://github.com/p4gefau1t/trojan-go/releases</sys:String>
     <sys:String x:Key="readmeTxtTrojan-goExplainLine04">Download the corresponding version, select Trojan-go-x.xx-win.zip for Windows, extract trojan-go.exe after decompression. Put it in the same directory as config.json, just run trojan-go.exe.</sys:String>
-    <sys:String x:Key="readmeTxtTrojan-goExplainLine05">This file is for Trojan-QT5 (windows), ignore (Android), Shadowrocket (ios) scan code import node (Trojan-Go’s WebSocket mode is not currently supported)</sys:String>
-    <sys:String x:Key="readmeTxtTrojan-goExplainLine06">Trojan-QT5 (windows) download URL: https://github.com/TheWanderingCoel/Trojan-Qt5/releases</sys:String>
+    <sys:String x:Key="readmeTxtTrojan-goExplainLine05">This file is for Qv2ray (windows), ignore (Android) scan code import node</sys:String>
+    <sys:String x:Key="readmeTxtTrojan-goExplainLine06">Qv2ray (windows) download URL: https://github.com/Qv2ray/Qv2ray/releases</sys:String>
     <sys:String x:Key="readmeTxtTrojan-goExplainLine07">igniter (Android) download URL: https://github.com/trojan-gfw/igniter/releases</sys:String>
     <sys:String x:Key="readmeTxtTrojan-goExplainLine08">Shadowrocket(ios) download, you need to use the AppleID of the foreign region. Please Google method yourself.</sys:String>
-    <sys:String x:Key="readmeTxtTrojan-goExplainLine09">This file is Trojan-QT5 (windows), ignore (Android), Shadowrocket (ios) copy and paste the URL of the imported node (Trojan-Go’s WebSocket mode is not currently supported)</sys:String>
+    <sys:String x:Key="readmeTxtTrojan-goExplainLine09">This file is Qv2ray (windows), ignore (Android)copy and paste the URL of the imported node</sys:String>
     <sys:String x:Key="readmeTxtTrojan-goExplainLine10">Server general connection configuration parameters</sys:String>
     <!--The following is the documentation for the Trojan client-->
     <sys:String x:Key="readmeTxtTrojanExplainLine01">This file is the client configuration file used by the official Trojan program. It is configured in global mode, http and socks5 address: 127.0.0.1:1080</sys:String>

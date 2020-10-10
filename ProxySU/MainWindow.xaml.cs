@@ -45,10 +45,10 @@ namespace ProxySU
         //ReceiveConfigurationParameters[0]----模板类型
         //ReceiveConfigurationParameters[1]----服务端口
         //ReceiveConfigurationParameters[2]----V2Ray uuid/(naive/Trojan-go/Trojan/SSR/SS)' Password
-        //ReceiveConfigurationParameters[3]----QUIC加密方式/SSR 加密方法/naive'user/VLESS ws Path
+        //ReceiveConfigurationParameters[3]----QUIC加密方式/SSR 加密方法/SS 加密方式/naive'user/VLESS ws Path
         //ReceiveConfigurationParameters[4]----Domain
         //ReceiveConfigurationParameters[5]----伪装类型/插件名称
-        //ReceiveConfigurationParameters[6]----Websocket'Path/http2'Path/QUIC密钥/mKCP Seed/SS 加密方式/VMESS ws Path
+        //ReceiveConfigurationParameters[6]----V2Ray&Trojan-go&SS--Websocket'Path/http2'Path/QUIC密钥/mKCP Seed/VMESS ws Path
         //ReceiveConfigurationParameters[7]----伪装网站
         //ReceiveConfigurationParameters[8]----方案名称
         //ReceiveConfigurationParameters[9]----插件参数选项/VMESS tcp Path
@@ -3595,7 +3595,7 @@ namespace ProxySU
                 TextBlockTrojanGoCurrentlySelectedPlanPassword.Visibility = Visibility.Visible;
 
                 TextBlockTrojanGoShowPath.Text = "WebSocket Path:";
-                TextBlockTrojanGoCurrentlySelectedPlanPathSeedKey.Text = ReceiveConfigurationParameters[3]; //mKCP Seed\Quic Key\Path
+                TextBlockTrojanGoCurrentlySelectedPlanPathSeedKey.Text = ReceiveConfigurationParameters[6]; //mKCP Seed\Quic Key\Path
 
 
                 TextBlockTrojanGoShowPath.Visibility = Visibility.Visible;
@@ -4281,7 +4281,7 @@ namespace ProxySU
                         if (String.Equals(ReceiveConfigurationParameters[0], "TrojanGoWebSocketTLS2Web"))
                         {
                             serverJson["websocket"]["enabled"] = true;
-                            serverJson["websocket"]["path"] = ReceiveConfigurationParameters[3];
+                            serverJson["websocket"]["path"] = ReceiveConfigurationParameters[6];
                         }
 
                         using (StreamWriter sw = new StreamWriter(@"config.json"))
@@ -4880,7 +4880,7 @@ namespace ProxySU
                         if (String.Equals(ReceiveConfigurationParameters[0], "TrojanGoWebSocketTLS2Web"))
                         {
                             clientJson["websocket"]["enabled"] = true;
-                            clientJson["websocket"]["path"] = ReceiveConfigurationParameters[3];
+                            clientJson["websocket"]["path"] = ReceiveConfigurationParameters[6];
                         }
 
                         using (StreamWriter sw = new StreamWriter(@"trojan-go_config\config.json"))
@@ -9279,9 +9279,9 @@ namespace ProxySU
             TextBlockCurrentlySelectedPlanSS.Text = ReceiveConfigurationParameters[8];              //所选方案名称
             TextBlockCurrentlySelectedPlanPortSS.Text = ReceiveConfigurationParameters[1];          //服务器端口
             TextBlockCurrentlySelectedPlanUUIDSS.Text = ReceiveConfigurationParameters[2];          //密码
-            TextBlockCurrentlySelectedPlanMethodSS.Text = ReceiveConfigurationParameters[6];        //加密方法
+            TextBlockCurrentlySelectedPlanMethodSS.Text = ReceiveConfigurationParameters[3];        //加密方法
             TextBlockCurrentlySelectedPlanDomainSS.Text = ReceiveConfigurationParameters[4];        //域名
-            TextBlockCurrentlySelectedPlanPathSS.Text = ReceiveConfigurationParameters[3];          //WebSocket Path
+            TextBlockCurrentlySelectedPlanPathSS.Text = ReceiveConfigurationParameters[6];          //WebSocket Path
             TextBlockCurrentlySelectedPlanFakeWebsite.Text = ReceiveConfigurationParameters[7];     //伪装网站
 
             if (String.Equals(ReceiveConfigurationParameters[0], "NonePluginSS")
@@ -10135,7 +10135,7 @@ namespace ProxySU
                         //设置监听端口
                        serverJson["server_port"]= int.Parse(ReceiveConfigurationParameters[1]);
                         //设置加密方式
-                        serverJson["method"] = ReceiveConfigurationParameters[6];
+                        serverJson["method"] = ReceiveConfigurationParameters[3];
                         //产生伪装Web的监听端口
                         randomCaddyListenPort = GetRandomPort();
                         
@@ -10172,11 +10172,11 @@ namespace ProxySU
                         {
                             serverJson["server_port"] = 10000;
                             serverJson["plugin"] = @"v2ray-plugin";
-                            serverJson["plugin_opts"] = $"server;host={ReceiveConfigurationParameters[4]};path={ReceiveConfigurationParameters[3]}";
+                            serverJson["plugin_opts"] = $"server;host={ReceiveConfigurationParameters[4]};path={ReceiveConfigurationParameters[6]}";
                             
                             //客户端项
                             ReceiveConfigurationParameters[5] = @"v2ray-plugin";
-                            ReceiveConfigurationParameters[9] = $"tls;host={ReceiveConfigurationParameters[4]};path={ReceiveConfigurationParameters[3]}";
+                            ReceiveConfigurationParameters[9] = $"tls;host={ReceiveConfigurationParameters[4]};path={ReceiveConfigurationParameters[6]}";
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "QuicSS") == true)
                         {

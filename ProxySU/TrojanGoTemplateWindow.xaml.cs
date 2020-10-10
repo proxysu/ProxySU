@@ -68,7 +68,8 @@ namespace ProxySU
                 MainWindow.ReceiveConfigurationParameters[0] = "TrojanGoWebSocketTLS2Web";
                 //传递方案名称
                 MainWindow.ReceiveConfigurationParameters[8] = RadioButtonTrojanGoWebSocketTLS2Web.Content.ToString();
-                MainWindow.ReceiveConfigurationParameters[3] = TextBoxPath.Text;
+                //传递路径
+                MainWindow.ReceiveConfigurationParameters[6] = TextBoxPath.Text;
             }
 
             this.Close();
@@ -76,25 +77,19 @@ namespace ProxySU
         //更新密码
         private void ButtonNewUUID_Click(object sender, RoutedEventArgs e)
         {
-            Guid uuid = Guid.NewGuid();
-            TextBoxNewUUID.Text = uuid.ToString();
+            //Guid uuid = Guid.NewGuid();
+            TextBoxNewUUID.Text = GenerateRandomUUID();
         }
         //更新路径
         private void ButtonPath_Click(object sender, RoutedEventArgs e)
         {
-            Random random = new Random();
-            int randomSerialNum = random.Next(0, 4);
-            Guid uuid = Guid.NewGuid();
-            string[] pathArray = uuid.ToString().Split('-');
-            string path = pathArray[randomSerialNum];
+            string path = GenerateRandomPath();
             TextBoxPath.Text = $"/{path}";
             //MessageBox.Show(path);
         }
         //private void ButtonServerListenPort_Click(object sender, RoutedEventArgs e)
         //{
-        //    Random random = new Random();
-        //    int randomServerPort = random.Next(10000, 50000);
-        //    TextBoxServerListenPort.Text = randomServerPort.ToString();
+        //    TextBoxServerListenPort.Text = GetRandomPort();
         //}
         private void ButtondCancel_Click(object sender, RoutedEventArgs e) => Close();
 
@@ -118,8 +113,45 @@ namespace ProxySU
             ButtonPath.Visibility = Visibility.Visible;
             TextBoxPath.Text = "/trojan";
         }
-  
 
-      
+        //生成随机UUID
+        private string GenerateRandomUUID()
+        {
+            Guid uuid = Guid.NewGuid();
+            return uuid.ToString();
+        }
+
+        //生成随机端口
+        private int GetRandomPort()
+        {
+            Random random = new Random();
+            return random.Next(10001, 60000);
+        }
+        //生成随机Path
+        private string GenerateRandomPath()
+        {
+            Random random = new Random();
+            int randomSerialNum = random.Next(0, 4);
+            //Guid uuid = Guid.NewGuid();
+            string uuid = GenerateRandomUUID();
+            string[] pathArray = uuid.Split('-');
+            string path = pathArray[randomSerialNum];
+            return path;
+        }
+        //域名检测是否为空
+        private bool TestDomainIsEmpty()
+        {
+            if (string.IsNullOrEmpty(TextBoxDomain.Text.ToString()) == true)
+            {
+                //****** "域名不能为空，请检查相关参数设置！" ******
+                MessageBox.Show(Application.Current.FindResource("MessageBoxShow_DomainNotEmpty").ToString());
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
     }
 }

@@ -13,7 +13,7 @@
             <RowDefinition Height="0.12*"></RowDefinition>
         </Grid.RowDefinitions>
         <!-- V2Ray客户端配置参数 -->
-        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxV2rayClient" Visibility="Visible" Grid.Row="0">
+        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxV2rayClient" Visibility="Collapsed" Grid.Row="0">
             <Grid >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.5*"></ColumnDefinition>
@@ -93,7 +93,7 @@
             </Grid>
         </GroupBox>
         <!-- Trojan-Go客户端配置参数 -->
-        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxTrojanGoClient" Visibility="Collapsed" Grid.Row="0">
+        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxTrojanGoClient" Visibility="Visible" Grid.Row="0">
             <Grid >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.5*"></ColumnDefinition>
@@ -102,6 +102,7 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
+                    <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition Height="30"></RowDefinition>
@@ -116,11 +117,15 @@
                 <TextBlock Grid.Column="2" Grid.Row="2"></TextBlock>
                 <TextBlock Text="{DynamicResource TextBlockHostPassword}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxTrojanGoServerPassword" IsReadOnly="True" Grid.Column="1" Grid.Row="3" Margin="4" MouseDoubleClick="TextBoxTrojanGoServerPassword_MouseDoubleClick"></TextBox>
-                <TextBlock Grid.Column="2" Grid.Row="3"></TextBlock>
-                <TextBlock x:Name="TextBlockTrojanGoWebSocketPath" Text="{DynamicResource TextBlockTrojanGoWebSocketPath}" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
-                <TextBox x:Name="TextBoxTrojanGoWSPath" IsReadOnly="True" Grid.Column="1" Grid.Row="4" Margin="4" MouseDoubleClick="TextBoxTrojanGoWSPath_MouseDoubleClick"></TextBox>
+                
+                <TextBlock Text="Type:" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxTrojanGoType" IsReadOnly="True" Grid.Column="1" Grid.Row="4" Margin="4" MouseDoubleClick="TextBoxTrojanGoType_MouseDoubleClick"></TextBox>
+                
+                <TextBlock x:Name="TextBlockTrojanGoWebSocketPath" Text="{DynamicResource TextBlockTrojanGoWebSocketPath}" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxTrojanGoWSPath" IsReadOnly="True" Grid.Column="1" Grid.Row="5" Margin="4" MouseDoubleClick="TextBoxTrojanGoWSPath_MouseDoubleClick"></TextBox>
                 <TextBlock x:Name="TextBlockTrojanGoCaption" Grid.Column="2" Grid.Row="4"></TextBlock>
-                <TextBlock Text="{DynamicResource TextBlockCopyToClipExplain}" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" Margin="5" VerticalAlignment="Center"></TextBlock>
+                
+                <TextBlock Text="{DynamicResource TextBlockCopyToClipExplain}" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Margin="5" VerticalAlignment="Center"></TextBlock>
             </Grid>
         </GroupBox>
         <!-- Trojan客户端配置参数 -->
