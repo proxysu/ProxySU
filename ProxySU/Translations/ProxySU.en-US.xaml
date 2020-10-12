@@ -226,12 +226,14 @@
     <sys:String x:Key="TextBlockURLMtgTmeIpv4">T.ME format URL (double-click to copy to the clipboard)</sys:String>
     <!--The following is in the program-->
     <sys:String x:Key="MessageBoxShow_ErrorHostPortUserNotEmpty">Host address, host port, and user name are required and cannot be empty!!</sys:String>
+    <sys:String x:Key="MessageBoxShow_ErrorHostPortErr">The connection port contains non-numeric characters!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorHostPasswordNotEmpty">The login password is required and cannot be empty!!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorHostKeyNotEmpty">The key file is required and cannot be empty!!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorProxyAddressPortNotEmpty">If a proxy is selected, the proxy address and port cannot be empty!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorProxyUserPasswordNotEmpty">If the proxy needs to log in, the user name and password for proxy login cannot be empty!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorHostConnection">The remote host connection information is wrong, please check!</sys:String>
     <sys:String x:Key="MessageBoxShow_ChooseTemplate">Please select a configuration template first!</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_FunctionResultErr">An error occurred, the installation was interrupted...</sys:String>
     <sys:String x:Key="DisplayInstallInfo_Login">Logging in to the remote host...</sys:String>
     <sys:String x:Key="DisplayInstallInfo_LoginSuccessful">The host login is successful!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_DetectionRootPermission">Detect whether it is running under root permissions...</sys:String>
@@ -265,6 +267,9 @@
     <sys:String x:Key="DisplayInstallInfo_ErrorPortUsedFail">The port is occupied and the installation failed...</sys:String>
     <sys:String x:Key="DisplayInstallInfo_ReleasePort">is releasing port 80/443...</sys:String>
     <sys:String x:Key="DisplayInstallInfo_ReleasePortOK">The release of port 80/443 is complete!</sys:String>
+    <sys:String x:Key="MessageBoxShow_ErrorPortUsedOther">The port is occupied, will the program occupying this port be forcibly stopped?</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_ReleasePortOther">Release the port...</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_ReleasePortOKOther">The port is released!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_PortNotUsed">Test result: Not occupied!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_StartInstalling">The system environment has been tested and the installation requirements are met, and the deployment begins...</sys:String>
     <sys:String x:Key="DisplayInstallInfo_OpenFireWallPort">Open the corresponding port of the firewall...</sys:String>
@@ -301,7 +306,7 @@
     <sys:String x:Key="DisplayInstallInfo_StartSoftFail">Startup failed!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_StartSoftSecond">is trying to start the second time</sys:String>
     <sys:String x:Key="DisplayInstallInfo_StartSoftSecondFail">failed to start (second time)! Exit the installation!</sys:String>
-    <sys:String x:Key="DisplayInstallInfo_StartSoftFailedExit">Start failed, the reason is unknown! Please ask the developer!</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_StartSoftFailedExit">Startup failed, the reason is as above! Please troubleshoot the reason!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_TestBBR">BBR test...</sys:String>
     <sys:String x:Key="DisplayInstallInfo_EnableBBR">Enable BBR...</sys:String>
     <sys:String x:Key="DisplayInstallInfo_BBRisEnabled">BBR has been enabled!</sys:String>
@@ -309,7 +314,7 @@
     <sys:String x:Key="DisplayInstallInfo_BBREnabledSuccess">BBR is successfully activated!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_GenerateClientConfig">Generate client configuration...</sys:String>
     <sys:String x:Key="DisplayInstallInfo_ProxyInstalledOK">The installation is successful, Enjoy it!!</sys:String>
-    <sys:String x:Key="DisplayInstallInfo_LoginFailed">Host login failed!</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_LoginFailed">Installation Failed!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorLoginOccurred">An error occurred!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorLoginUserOrPassword">Wrong password or wrong username!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorLoginHostOrPort">Please check whether the host address and port are correct, if it passes the proxy, please check whether the proxy is working properly</sys:String>

@@ -235,12 +235,14 @@
 
     <!--以下为程序内的-->
     <sys:String x:Key="MessageBoxShow_ErrorHostPortUserNotEmpty">主机地址、主机端口、用户名为必填项，不能为空!!</sys:String>
+    <sys:String x:Key="MessageBoxShow_ErrorHostPortErr">连接端口含有非数字字符！</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorHostPasswordNotEmpty">登录密码为必填项，不能为空!!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorHostKeyNotEmpty">密钥文件为必填项，不能为空!!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorProxyAddressPortNotEmpty">如果选择了代理，则代理地址与端口不能为空!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorProxyUserPasswordNotEmpty">如果代理需要登录，则代理登录的用户名与密码不能为空!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorHostConnection">远程主机连接信息有误，请检查!</sys:String>
     <sys:String x:Key="MessageBoxShow_ChooseTemplate">请先选择配置模板！</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_FunctionResultErr">发生错误，安装中断......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_Login">正在登录远程主机......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_LoginSuccessful">主机登录成功!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_DetectionRootPermission">检测是否运行在root权限下...</sys:String>
@@ -274,6 +276,9 @@
     <sys:String x:Key="DisplayInstallInfo_ErrorPortUsedFail">端口被占用，安装失败......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_ReleasePort">正在释放80/443端口......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_ReleasePortOK">80/443端口释放完毕！</sys:String>
+    <sys:String x:Key="MessageBoxShow_ErrorPortUsedOther">端口被占用，将强制停止占用此端口的程序?</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_ReleasePortOther">正在释放端口......</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_ReleasePortOKOther">端口释放完毕！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_PortNotUsed">检测结果：未被占用！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_StartInstalling">系统环境检测完毕，符合安装要求,开始布署......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_OpenFireWallPort">开启防火墙相应端口......</sys:String>
@@ -310,7 +315,7 @@
     <sys:String x:Key="DisplayInstallInfo_StartSoftFail">启动失败！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_StartSoftSecond">正在第二次尝试启动</sys:String>
     <sys:String x:Key="DisplayInstallInfo_StartSoftSecondFail">启动失败(第二次)！退出安装！</sys:String>
-    <sys:String x:Key="DisplayInstallInfo_StartSoftFailedExit">启动失败，原因未知！请向开发者问询！</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_StartSoftFailedExit">启动失败，原因如上！请排查原因！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_TestBBR">BBR测试......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_EnableBBR">正在启用BBR......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_BBRisEnabled">BBR已经启用了！</sys:String>
@@ -318,7 +323,7 @@
     <sys:String x:Key="DisplayInstallInfo_BBREnabledSuccess">BBR 启用成功！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_GenerateClientConfig">生成客户端配置......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_ProxyInstalledOK">安装成功,祝你玩的愉快！！</sys:String>
-    <sys:String x:Key="DisplayInstallInfo_LoginFailed">主机登录失败!</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_LoginFailed">安装失败!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorLoginOccurred">发生错误!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorLoginUserOrPassword">密码错误或用户名错误!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorLoginHostOrPort">请检查主机地址及端口是否正确，如果通过代理，请检查代理是否正常工作</sys:String>

@@ -228,12 +228,14 @@
     <sys:String x:Key="TextBlockURLMtgTmeIpv4">T.ME格式URL(雙擊複製到剪切板中)</sys:String>
     <!--以下為程序內的-->
     <sys:String x:Key="MessageBoxShow_ErrorHostPortUserNotEmpty">主機地址、主機端口、用戶名為必填項，不能為空!!</sys:String>
+    <sys:String x:Key="MessageBoxShow_ErrorHostPortErr">連接端口含有非數字字符！</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorHostPasswordNotEmpty">登錄密碼為必填項，不能為空!!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorHostKeyNotEmpty">密鑰文件為必填項，不能為空!!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorProxyAddressPortNotEmpty">如果選擇了代理，則代理地址與端口不能為空!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorProxyUserPasswordNotEmpty">如果代理需要登錄，則代理登錄的用戶名與密碼不能為空!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorHostConnection">遠程主機連接信息有誤，請檢查!</sys:String>
     <sys:String x:Key="MessageBoxShow_ChooseTemplate">請先選擇配置模板！</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_FunctionResultErr">發生錯誤，安裝中斷......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_Login">正在登錄遠程主機......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_LoginSuccessful">主機登錄成功!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_DetectionRootPermission">檢測是否運行在root權限下...</sys:String>
@@ -267,6 +269,9 @@
     <sys:String x:Key="DisplayInstallInfo_ErrorPortUsedFail">端口被佔用，安裝失敗......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_ReleasePort">正在釋放80/443端口......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_ReleasePortOK">80/443端口釋放完畢！</sys:String>
+    <sys:String x:Key="MessageBoxShow_ErrorPortUsedOther">端口被佔用，將強制停止佔用此端口的程序?</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_ReleasePortOther">正在釋放端口......</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_ReleasePortOKOther">端口釋放完畢！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_PortNotUsed">檢測結果：未被佔用！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_StartInstalling">系統環境檢測完畢，符合安裝要求,開始佈署......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_OpenFireWallPort">開啟防火牆相應端口......</sys:String>
@@ -303,7 +308,7 @@
     <sys:String x:Key="DisplayInstallInfo_StartSoftFail">啟動失敗！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_StartSoftSecond">正在第二次嘗試啟動</sys:String>
     <sys:String x:Key="DisplayInstallInfo_StartSoftSecondFail">啟動失敗(第二次)！退出安裝！</sys:String>
-    <sys:String x:Key="DisplayInstallInfo_StartSoftFailedExit">啟動失敗，原因未知！請向開發者問詢！</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_StartSoftFailedExit">啟動失敗，原因如上！請排查原因！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_TestBBR">BBR測試......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_EnableBBR">正在啟用BBR......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_BBRisEnabled">BBR已經啟用了！</sys:String>
@@ -311,7 +316,7 @@
     <sys:String x:Key="DisplayInstallInfo_BBREnabledSuccess">BBR 啟用成功！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_GenerateClientConfig">生成客戶端配置......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_ProxyInstalledOK">安裝成功,祝你玩的愉快！ ！</sys:String>
-    <sys:String x:Key="DisplayInstallInfo_LoginFailed">主機登錄失敗!</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_LoginFailed">安裝失敗!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorLoginOccurred">發生錯誤!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorLoginUserOrPassword">密碼錯誤或用戶名錯誤!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorLoginHostOrPort">請檢查主機地址及端口是否正確，如果通過代理，請檢查代理是否正常工作</sys:String>
