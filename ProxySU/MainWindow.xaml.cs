@@ -55,7 +55,7 @@ namespace ProxySU
         //public static ConnectionInfo ConnectionInfo;
         public static string proxyType = "V2Ray";   //代理类型标识: V2Ray\TrojanGo\Trojan\NaiveProxy
         static bool testDomain = false;             //设置标识--域名是否需要检测解析，初始化为不需要
-        bool functionResult = true;                 //标示功能函数是否执行状态(true无错误发生/false有错误发生)
+        static bool functionResult = true;          //标示功能函数是否执行状态(true无错误发生/false有错误发生)
         static string sshShellCommand;              //定义保存执行的命令
         static string currentStatus;                //定议保存要显示的状态
         static string currentShellCommandResult;    //定义Shell命令执行结果保存变量
@@ -1636,7 +1636,7 @@ namespace ProxySU
 
             //设置私钥权限
             sshShellCommand = @"chmod 644 /usr/local/etc/v2ray/ssl/v2ray_ssl.key";
-            MainWindowsShowInfo(currentStatus);
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
             return true;
         }
 
@@ -11792,7 +11792,7 @@ namespace ProxySU
         }
 
         //检测关闭Selinux及系统组件是否齐全（apt/yum/dnf/systemctl）11--30
-        //安装依赖软件，检测端口，防火墙开启端口
+        //安装依赖软件，检测端口，防火墙开启端口,升级systemctl
         //functionResult = ShutDownSelinuxAndSysComponentsDetect(client);
         //if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
         private bool ShutDownSelinuxAndSysComponentsDetect(SshClient client)
@@ -11905,6 +11905,7 @@ namespace ProxySU
 
             }
 
+            
             //在相应系统内安装curl(如果没有安装curl)--此为依赖软件
             if (string.IsNullOrEmpty(client.RunCommand("command -v curl").Result) == true)
             {
@@ -12567,7 +12568,7 @@ namespace ProxySU
                     //****** "系统不满足启用BBR的条件，启用失败！" ******
                     currentStatus = Application.Current.FindResource("DisplayInstallInfo_BBRFailed").ToString();
                     MainWindowsShowInfo(currentStatus);
-                    return false;
+                    //return false;
                 }
             }
             else if (resultCmdTestBBR.Contains("bbr") == true)
@@ -12581,7 +12582,7 @@ namespace ProxySU
                 //****** "系统不满足启用BBR的条件，启用失败！" ******
                 currentStatus = Application.Current.FindResource("DisplayInstallInfo_BBRFailed").ToString();
                 MainWindowsShowInfo(currentStatus);
-                return false;
+                //return false;
             }
             SetUpProgressBarProcessing(95);
             return true;
