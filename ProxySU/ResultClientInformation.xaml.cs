@@ -67,10 +67,10 @@ namespace ProxySU
                 TextBoxTransmission.Text = "";
                 //伪装类型
                 TextBoxCamouflageType.Text = MainWindow.ReceiveConfigurationParameters[5];
-                
+
                 //TLS的Host /Quic 加密方式
                 TextBoxHostQuicEncryption.Text = "";
-               
+
                 //QUIC密钥/mKCP Seed/路径Path
                 TextBoxQuicKeyMkcpSeedPath.Text = MainWindow.ReceiveConfigurationParameters[6];
 
@@ -336,7 +336,7 @@ namespace ProxySU
 
                     RadioButtonVlessTcpXtls.IsChecked = true;
                 }
-                
+
             }
             else if (String.Equals(MainWindow.proxyType, "TrojanGo"))
             {
@@ -487,7 +487,7 @@ namespace ProxySU
                     //TextBoxPluginNameExplainSSpc.Visibility = Visibility.Collapsed;
                     TextBlockPluginOptionExplainSS.Visibility = Visibility.Collapsed;
                     TextBoxPluginOptionExplainSS.Visibility = Visibility.Collapsed;
-                    
+
                     TextBlockClientPromptSS.Visibility = Visibility.Collapsed;
                     RadioButtonMobile.Visibility = Visibility.Collapsed;
                     RadioButtonPC.Visibility = Visibility.Collapsed;
@@ -553,11 +553,11 @@ namespace ProxySU
                         //File.Delete($"ss_config\\{saveFileFolder}\\QR.bmp");
                         //File.Delete($"ss_config\\{saveFileFolder}\\url.txt");
                     }
-                    
+
                 }
-               
+
             }
-            else if(String.Equals(MainWindow.proxyType, "MTProto"))
+            else if (String.Equals(MainWindow.proxyType, "MTProto"))
             {
                 //显示MTProto参数，隐藏其他
                 GroupBoxClientMTProto.Visibility = Visibility.Visible;
@@ -571,57 +571,64 @@ namespace ProxySU
                 GroupBoxClientSS.Visibility = Visibility.Collapsed;
 
                 string proxyfolder = CheckDir("mtproto_config");
-                configDomainSavePath = CreateConfigSaveDir(proxyfolder,MainWindow.ReceiveConfigurationParameters[4]);
+                configDomainSavePath = CreateConfigSaveDir(proxyfolder, MainWindow.ReceiveConfigurationParameters[4]);
                 string configSavePath = configDomainSavePath;
 
-                string mtprotoJsonPath = @"mtproto_config\mtproto_info.json";
-                using (StreamReader readerJson = File.OpenText(mtprotoJsonPath))
+                //string mtprotoJsonPath = @"mtproto_config\mtproto_info.json";
+                //using (StreamReader readerJson = File.OpenText(mtprotoJsonPath))
+                //{
+                //JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+
+                JObject jObjectJson = JObject.Parse(MainWindow.ReceiveConfigurationParameters[9]);
+
+                TextBoxURLMtgTgIpv4.Text = jObjectJson["ipv4"]["tg_url"].ToString();
+                ImageShareQRcodeMtgTgIpv4.Source = CreateQRCode(TextBoxURLMtgTgIpv4.Text, $"{configSavePath}\\QRIpv4Tg.bmp");
+                using (StreamWriter sw = new StreamWriter($"{configSavePath}\\urlIpv4Tg.txt"))
                 {
-                    JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
-
-                    TextBoxURLMtgTgIpv4.Text = jObjectJson["ipv4"]["tg_url"].ToString();
-                    ImageShareQRcodeMtgTgIpv4.Source = CreateQRCode(TextBoxURLMtgTgIpv4.Text, $"{configSavePath}\\QRIpv4Tg.bmp");
-                    using (StreamWriter sw = new StreamWriter($"{configSavePath}\\urlIpv4Tg.txt"))
-                    {
-                        sw.WriteLine(TextBoxURLMtgTgIpv4.Text);
-                    }
-
-                    TextBoxURLMtgTmeIpv4.Text = jObjectJson["ipv4"]["tme_url"].ToString();
-                    ImageShareQRcodeMtgTmeIpv4.Source = CreateQRCode(TextBoxURLMtgTmeIpv4.Text, $"{configSavePath}\\QRIpv4Tme.bmp");
-                    using (StreamWriter sw = new StreamWriter($"{configSavePath}\\urlIpv4Tme.txt"))
-                    {
-                        sw.WriteLine(TextBoxURLMtgTmeIpv4.Text);
-                    }
-
-                    if (jObjectJson["ipv6"]["tg_url"].ToString().Contains("nil")==false)
-                    {
-                        RadioButtonMtgIpv6.Visibility = Visibility.Visible;
-                        TextBoxURLMtgTgIpv6.Text = jObjectJson["ipv6"]["tg_url"].ToString();
-                        ImageShareQRcodeMtgTgIpv6.Source = CreateQRCode(TextBoxURLMtgTgIpv6.Text, $"{configSavePath}\\QRIpv6Tg.bmp");
-                        using (StreamWriter sw = new StreamWriter($"{configSavePath}\\urlIpv6Tg.txt"))
-                        {
-                            sw.WriteLine(TextBoxURLMtgTgIpv6.Text);
-                        }
-
-                        TextBoxURLMtgTmeIpv6.Text = jObjectJson["ipv6"]["tme_url"].ToString();
-                        ImageShareQRcodeMtgTmeIpv6.Source = CreateQRCode(TextBoxURLMtgTmeIpv6.Text, $"{configSavePath}\\QRIpv6Tme.bmp");
-                        using (StreamWriter sw = new StreamWriter($"{configSavePath}\\urlIpv6Tme.txt"))
-                        {
-                            sw.WriteLine(TextBoxURLMtgTmeIpv6.Text);
-                        }
-                    }
-                    else
-                    {
-                        RadioButtonMtgIpv6.Visibility = Visibility.Collapsed;
-                    }
-                    RadioButtonMtgIpv4.IsChecked = true;
-
+                    sw.WriteLine(TextBoxURLMtgTgIpv4.Text);
                 }
-                if (File.Exists(@"mtproto_config\mtproto_info.json"))
+
+                TextBoxURLMtgTmeIpv4.Text = jObjectJson["ipv4"]["tme_url"].ToString();
+                ImageShareQRcodeMtgTmeIpv4.Source = CreateQRCode(TextBoxURLMtgTmeIpv4.Text, $"{configSavePath}\\QRIpv4Tme.bmp");
+                using (StreamWriter sw = new StreamWriter($"{configSavePath}\\urlIpv4Tme.txt"))
                 {
-                    File.Move(@"mtproto_config\mtproto_info.json", $"{configSavePath}\\mtproto_info.json");
-                    //File.Delete(@"config\config.json");//删除该文件
+                    sw.WriteLine(TextBoxURLMtgTmeIpv4.Text);
                 }
+
+                if (jObjectJson["ipv6"]["tg_url"].ToString().Contains("nil") == false)
+                {
+                    RadioButtonMtgIpv6.Visibility = Visibility.Visible;
+                    TextBoxURLMtgTgIpv6.Text = jObjectJson["ipv6"]["tg_url"].ToString();
+                    ImageShareQRcodeMtgTgIpv6.Source = CreateQRCode(TextBoxURLMtgTgIpv6.Text, $"{configSavePath}\\QRIpv6Tg.bmp");
+                    using (StreamWriter sw = new StreamWriter($"{configSavePath}\\urlIpv6Tg.txt"))
+                    {
+                        sw.WriteLine(TextBoxURLMtgTgIpv6.Text);
+                    }
+
+                    TextBoxURLMtgTmeIpv6.Text = jObjectJson["ipv6"]["tme_url"].ToString();
+                    ImageShareQRcodeMtgTmeIpv6.Source = CreateQRCode(TextBoxURLMtgTmeIpv6.Text, $"{configSavePath}\\QRIpv6Tme.bmp");
+                    using (StreamWriter sw = new StreamWriter($"{configSavePath}\\urlIpv6Tme.txt"))
+                    {
+                        sw.WriteLine(TextBoxURLMtgTmeIpv6.Text);
+                    }
+                }
+                else
+                {
+                    RadioButtonMtgIpv6.Visibility = Visibility.Collapsed;
+                }
+                RadioButtonMtgIpv4.IsChecked = true;
+
+                using (StreamWriter sw = new StreamWriter($"{configSavePath}\\mtproto_info.json"))
+                {
+                    sw.Write(MainWindow.ReceiveConfigurationParameters[9].ToString());
+                }
+
+                //}
+                //if (File.Exists(@"mtproto_config\mtproto_info.json"))
+                //{
+                //    File.Move(@"mtproto_config\mtproto_info.json", $"{configSavePath}\\mtproto_info.json");
+                //    //File.Delete(@"config\config.json");//删除该文件
+                //}
             }
         }
 

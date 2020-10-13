@@ -51,7 +51,7 @@ namespace ProxySU
         //ReceiveConfigurationParameters[6]----V2Ray&Trojan-go&SS--Websocket'Path/http2'Path/QUIC密钥/mKCP Seed/VMESS ws Path
         //ReceiveConfigurationParameters[7]----伪装网站
         //ReceiveConfigurationParameters[8]----方案名称
-        //ReceiveConfigurationParameters[9]----插件参数选项/VMESS tcp Path
+        //ReceiveConfigurationParameters[9]----插件参数选项/VMESS tcp Path/MTProto Parameters
         //public static ConnectionInfo ConnectionInfo;
         public static string proxyType = "V2Ray";   //代理类型标识: V2Ray\TrojanGo\Trojan\NaiveProxy
         static bool testDomain = false;             //设置标识--域名是否需要检测解析，初始化为不需要
@@ -9177,18 +9177,20 @@ namespace ProxySU
                     //读取生成的代理参数
                     sshShellCommand = @"cat /usr/local/etc/mtg_info.json";
                     currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
-
+                    
+                    //结果保存在ReceiveConfigurationParameters[9]中
+                    ReceiveConfigurationParameters[9] = currentShellCommandResult;
                     client.Disconnect();//断开服务器ssh连接
 
                     //Thread.Sleep(1000);
-                    if (!Directory.Exists("mtproto_config"))//如果不存在就创建file文件夹　　             　　              
-                    {
-                        Directory.CreateDirectory("mtproto_config");//创建该文件夹　　   
-                    }
-                    using (StreamWriter sw = new StreamWriter(@"mtproto_config\mtproto_info.json"))
-                    {
-                        sw.Write(currentShellCommandResult.ToString());
-                    }
+                    //if (!Directory.Exists("mtproto_config"))//如果不存在就创建file文件夹　　             　　              
+                    //{
+                    //    Directory.CreateDirectory("mtproto_config");//创建该文件夹　　   
+                    //}
+                    //using (StreamWriter sw = new StreamWriter(@"mtproto_config\mtproto_info.json"))
+                    //{
+                    //    sw.Write(currentShellCommandResult.ToString());
+                    //}
 
                     //****** "MTProto+TLS安装成功,祝你玩的愉快！！" ******
                     SetUpProgressBarProcessing(100);
@@ -9304,49 +9306,49 @@ namespace ProxySU
         }
 
         //检测系统内核是否符合安装要求
-        private static bool DetectKernelVersion(string kernelVer)
-        {
-            string[] linuxKernelCompared = kernelVer.Split('.');
-            if (int.Parse(linuxKernelCompared[0]) > 2)
-            {
-                //MessageBox.Show($"当前系统内核版本为{result.Result}，符合安装要求！");
-                return true;
-            }
-            else if (int.Parse(linuxKernelCompared[0]) < 2)
-            {
-                //MessageBox.Show($"当前系统内核版本为{result.Result}，V2ray要求内核为2.6.23及以上。请升级内核再安装！");
-                return false;
-            }
-            else if (int.Parse(linuxKernelCompared[0]) == 2)
-            {
-                if (int.Parse(linuxKernelCompared[1]) > 6)
-                {
-                    //MessageBox.Show($"当前系统内核版本为{result.Result}，符合安装要求！");
-                    return true;
-                }
-                else if (int.Parse(linuxKernelCompared[1]) < 6)
-                {
-                    //MessageBox.Show($"当前系统内核版本为{result.Result}，V2ray要求内核为2.6.23及以上。请升级内核再安装！");
-                    return false;
-                }
-                else if (int.Parse(linuxKernelCompared[1]) == 6)
-                {
-                    if (int.Parse(linuxKernelCompared[2]) < 23)
-                    {
-                        //MessageBox.Show($"当前系统内核版本为{result.Result}，V2ray要求内核为2.6.23及以上。请升级内核再安装！");
-                        return false;
-                    }
-                    else
-                    {
-                        //MessageBox.Show($"当前系统内核版本为{result.Result}，符合安装要求！");
-                        return true;
-                    }
+        //private static bool DetectKernelVersion(string kernelVer)
+        //{
+        //    string[] linuxKernelCompared = kernelVer.Split('.');
+        //    if (int.Parse(linuxKernelCompared[0]) > 2)
+        //    {
+        //        //MessageBox.Show($"当前系统内核版本为{result.Result}，符合安装要求！");
+        //        return true;
+        //    }
+        //    else if (int.Parse(linuxKernelCompared[0]) < 2)
+        //    {
+        //        //MessageBox.Show($"当前系统内核版本为{result.Result}，V2ray要求内核为2.6.23及以上。请升级内核再安装！");
+        //        return false;
+        //    }
+        //    else if (int.Parse(linuxKernelCompared[0]) == 2)
+        //    {
+        //        if (int.Parse(linuxKernelCompared[1]) > 6)
+        //        {
+        //            //MessageBox.Show($"当前系统内核版本为{result.Result}，符合安装要求！");
+        //            return true;
+        //        }
+        //        else if (int.Parse(linuxKernelCompared[1]) < 6)
+        //        {
+        //            //MessageBox.Show($"当前系统内核版本为{result.Result}，V2ray要求内核为2.6.23及以上。请升级内核再安装！");
+        //            return false;
+        //        }
+        //        else if (int.Parse(linuxKernelCompared[1]) == 6)
+        //        {
+        //            if (int.Parse(linuxKernelCompared[2]) < 23)
+        //            {
+        //                //MessageBox.Show($"当前系统内核版本为{result.Result}，V2ray要求内核为2.6.23及以上。请升级内核再安装！");
+        //                return false;
+        //            }
+        //            else
+        //            {
+        //                //MessageBox.Show($"当前系统内核版本为{result.Result}，符合安装要求！");
+        //                return true;
+        //            }
 
-                }
-            }
-            return false;
+        //        }
+        //    }
+        //    return false;
 
-        }
+        //}
 
 
         //打开系统工具中的校对时间窗口
@@ -11693,6 +11695,7 @@ namespace ProxySU
         //调用的函数返回false后的提示
         private string FunctionResultErr()
         {
+            //*****"发生错误，安装中断......"*****
             string currentStatus = Application.Current.FindResource("DisplayInstallInfo_FunctionResultErr").ToString();
             MainWindowsShowInfo(currentStatus);
             return "";
