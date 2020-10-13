@@ -12194,7 +12194,7 @@ namespace ProxySU
 
             string nativeIp = currentShellCommandResult;
 
-            sshShellCommand = "ping " + ReceiveConfigurationParameters[4] + " -c 1 | grep -oE -m1 \"([0-9]{1,3}\\.){3}[0-9]{1,3}\"";
+            sshShellCommand = "ping " + ReceiveConfigurationParameters[4] + " -c1 | grep -oE -m1 \"([0-9]{1,3}\\.){3}[0-9]{1,3}\"";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
             string resultTestDomainCmd = currentShellCommandResult;
