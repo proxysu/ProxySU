@@ -11634,7 +11634,28 @@ namespace ProxySU
             using (var client = new SshClient(connectionInfo))
             {
                 client.Connect();
-                SoftInstalledSuccessOrFail(client, "v2ray", @"/usr/local/bin/v2ray");
+                if (client.IsConnected == true)
+                {
+                    //******"主机登录成功"******
+                    SetUpProgressBarProcessing(3);
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_LoginSuccessful").ToString();
+                    MainWindowsShowInfo(currentStatus);
+
+                }
+                //string cmdErr = client.RunCommand(@"aaa ee").Error;
+                //MessageBox.Show(cmdErr);
+                SshCommand cmdResult = client.RunCommand(@"pwd");
+                string result = cmdResult.Result;
+                MessageBox.Show("result:"+result);
+                string error = cmdResult.Error;
+                MessageBox.Show("err:"+error);
+
+                SshCommand cmdResultCat = client.RunCommand(@"cat tt.t");
+                string resultCat = cmdResultCat.Result;
+                MessageBox.Show("resultCat:" + resultCat);
+                string errorCat = cmdResultCat.Error;
+                MessageBox.Show("errCat:" + errorCat);
+                //SoftInstalledSuccessOrFail(client, "v2ray", @"/usr/local/bin/v2ray");
                 //CaddyInstall(client);
                 //if (client.IsConnected == true)
                 //{
@@ -11686,7 +11707,10 @@ namespace ProxySU
         private string MainWindowsShowCmd(SshClient client,string sshShellCommand)
         {
             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
-            string currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
+            SshCommand cmdResult = client.RunCommand(sshShellCommand);
+            string currentShellCommandResult = cmdResult.Result;
+            string currentShellCommandError = cmdResult.Error;
+            if (String.IsNullOrEmpty(currentShellCommandResult) == true) { currentShellCommandResult = currentShellCommandError; }
             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
             return currentShellCommandResult;
@@ -11792,7 +11816,7 @@ namespace ProxySU
         }
 
         //检测关闭Selinux及系统组件是否齐全（apt/yum/dnf/systemctl）11--30
-        //安装依赖软件，检测端口，防火墙开启端口,升级systemctl
+        //安装依赖软件，检测端口，防火墙开启端口
         //functionResult = ShutDownSelinuxAndSysComponentsDetect(client);
         //if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
         private bool ShutDownSelinuxAndSysComponentsDetect(SshClient client)
@@ -12221,7 +12245,10 @@ namespace ProxySU
 
 
         //安装代理程序 37--40
-
+        private bool SoftInstall()
+        {
+            return true;
+        }
       
         //程序是否安装成功检测并设置开机启动 41--43
         //soft--要检测的程序
