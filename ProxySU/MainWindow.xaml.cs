@@ -4910,10 +4910,25 @@ namespace ProxySU
                     MainWindowsShowInfo(currentStatus);
                     //读取生成的代理参数
                     sshShellCommand = @"cat /usr/local/etc/mtg_info.json";
-                    currentShellCommandResult = client.RunCommand(sshShellCommand).Result;
-                    
-                    //结果保存在ReceiveConfigurationParameters[9]中
+                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
                     ReceiveConfigurationParameters[9] = currentShellCommandResult;
+                    if (currentShellCommandResult.Contains(@"No such file or directory"))
+                    {
+                        sshShellCommand = @"systemctl stop mtg";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                        sshShellCommand = @"cat /usr/local/etc/mtg.sh";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                        sshShellCommand = currentShellCommandResult;
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                        sshShellCommand = @"cat /usr/local/etc/mtg_info.json";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                        ReceiveConfigurationParameters[9] = currentShellCommandResult;
+                        sshShellCommand = @"pkill mtg";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                        sshShellCommand = @"systemctl restart mtg";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    }
+
                     client.Disconnect();//断开服务器ssh连接
 
                     //Thread.Sleep(1000);
@@ -5922,6 +5937,9 @@ namespace ProxySU
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                         sshShellCommand = @"rm -rf /usr/local/etc/mtg_info.json";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = @"rm -rf /usr/local/etc/mtg.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                         sshShellCommand = @"find / -name mtg";
