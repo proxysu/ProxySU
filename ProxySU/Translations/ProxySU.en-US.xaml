@@ -260,6 +260,7 @@
     <sys:String x:Key="DisplayInstallInfo_TimeOK">The time difference meets the requirements, OK!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_TestDomainResolve">is checking whether the domain name is resolved to the IP of the current VPS...</sys:String>
     <sys:String x:Key="DisplayInstallInfo_DomainResolveOK">The resolution is correct! OK!</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_OnlyIpv6">detects that the current host is a pure ipv6 host, it is not currently supported!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_ErrorDomainResolve">The domain name could not be correctly resolved to the IP of the current VPS! Installation failed!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorDomainResolve">The domain name cannot be correctly resolved to the IP of the current VPS, please check! If the resolution setting is correct, please wait for it to take effect before retrying the installation. If the domain name uses CDN, please close it first!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_TestPortUsed">Detect port occupancy...</sys:String>

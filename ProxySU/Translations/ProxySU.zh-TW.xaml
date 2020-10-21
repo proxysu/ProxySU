@@ -262,6 +262,7 @@
     <sys:String x:Key="DisplayInstallInfo_TimeOK">時間差符合要求，OK!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_TestDomainResolve">正在檢測域名是否解析到當前VPS的IP上......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_DomainResolveOK">解析正確！ OK!</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_OnlyIpv6">檢測當前主機為純ipv6主機，目前暫不支持！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_ErrorDomainResolve">域名未能正確解析到當前VPS的IP上!安裝失敗！</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorDomainResolve">域名未能正確解析到當前VPS的IP上，請檢查！若解析設置正確，請等待生效後再重試安裝。如果域名使用了CDN，請先關閉！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_TestPortUsed">檢測端口占用情況......</sys:String>
