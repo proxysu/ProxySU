@@ -11,6 +11,7 @@
     <sys:String x:Key="MainWindowsLanguage">Languages:</sys:String>
     <sys:String x:Key="TabItemHeaderAppDeployment">应用布署</sys:String>
     <sys:String x:Key="TabItemHeaderResourceTools">资源工具</sys:String>
+    <sys:String x:Key="TabItemHeaderFreeWallURL">免翻网址资源</sys:String>
     <sys:String x:Key="TextBlockHostName">主机:</sys:String>
     <sys:String x:Key="TextBoxHostNamePrompt">IP或域名(不可为空)</sys:String>
     <sys:String x:Key="TextBlockHostPart">端口:</sys:String>

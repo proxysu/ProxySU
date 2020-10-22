@@ -6047,6 +6047,18 @@ namespace ProxySU
         #endregion
 
         #region 资源工具标签页控制
+
+        private void ButtonWebBrowserHomePage_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                WebBrowserResourcesAndTools.Source = new Uri("https://github.com/proxysu/windows/wiki/ResourcesAndTools");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
         private void ButtonWebBrowserBack_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -6071,11 +6083,14 @@ namespace ProxySU
             }
         }
 
-        private void ButtonWebBrowserHomePage_Click(object sender, RoutedEventArgs e)
+        #endregion
+
+        #region 免翻网址资源标签
+        private void ButtonWebBrowserHomePageFreeWallURL_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                WebBrowserResourcesAndTools.Source = new Uri("https://github.com/proxysu/windows/wiki/ResourcesAndTools");
+                WebBrowserResourcesAndToolsFreeWallURL.Source = new Uri("https://github.com/proxysu/windows/wiki/FreeWallURL");
             }
             catch (Exception ex)
             {
@@ -6083,9 +6098,31 @@ namespace ProxySU
             }
         }
 
+        private void ButtonWebBrowserBackFreeWallURL_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                WebBrowserResourcesAndToolsFreeWallURL.GoBack();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void ButtonWebBrowserForwardFreeWallURL_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                WebBrowserResourcesAndToolsFreeWallURL.GoForward();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
         #endregion
-
 
         #region 三合一安装过程
 
@@ -8287,8 +8324,9 @@ namespace ProxySU
 
         //生成客户端配置 96--98
 
-       
+
         #endregion
+
 
     }
 

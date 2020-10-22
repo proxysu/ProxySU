@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProxySU"
         mc:Ignorable="d"
-        Title="ProxySU - v2.4.8" Height="675" Width="650">
+        Title="ProxySU - v2.4.9" Height="675" Width="650">
     <!--以下样式参考自：https://yq.aliyun.com/articles/331878
 	https://docs.microsoft.com/en-us/dotnet/desktop-wpf/fundamentals/styles-templates-overview-->
     <Window.Resources>
@@ -677,75 +677,43 @@
                 <TabItem Header="{DynamicResource TabItemHeaderResourceTools}" Width="110" Height="30">
                     <Grid>
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="70"></ColumnDefinition>
+                            <ColumnDefinition Width="70"></ColumnDefinition>
+                            <ColumnDefinition Width="70"></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
+                            <RowDefinition Height="40"></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
                         <Button x:Name="ButtonWebBrowserHomePage" Content="{DynamicResource ButtonWebBrowserHomePage}" Grid.Column="0" Grid.Row="0" Margin="5" Click="ButtonWebBrowserHomePage_Click"></Button>
                         <Button x:Name="ButtonWebBrowserForward" Content="{DynamicResource ButtonWebBrowserForward}" Grid.Column="2" Grid.Row="0" Margin="5" Click="ButtonWebBrowserForward_Click"></Button>
                         <Button x:Name="ButtonWebBrowserBack" Content="{DynamicResource ButtonWebBrowserBack}" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonWebBrowserBack_Click"/>
-                        <TextBlock Text="{DynamicResource TextBlockWebExplain}" TextWrapping="Wrap" Grid.Column="4" Grid.Row="0" Grid.ColumnSpan="4"></TextBlock>
+                        <TextBlock Text="{DynamicResource TextBlockWebExplain}" TextWrapping="Wrap" Grid.Column="4" Grid.Row="0" Margin="8"></TextBlock>
                         <!--<TextBox x:Name="TextBoxWebBrowserProxyUrl" Style="{StaticResource TitleText}" Tag="粘贴被墙的网址到这里点击 GO(下面被墙网址右击==复制快捷方式)" Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="5" Margin="5"></TextBox>
                     <Button x:Name="ButtonWebBrowserProxyGo" Content="Go" Grid.Column="8" Grid.Row="0" Margin="5" Click="ButtonWebBrowserProxyGo_Click"></Button>-->
-                        <WebBrowser x:Name="WebBrowserResourcesAndTools" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="9" Grid.RowSpan="13" Source="https://github.com/proxysu/windows/wiki/ResourcesAndTools" />
+                        <WebBrowser x:Name="WebBrowserResourcesAndTools" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Source="https://github.com/proxysu/windows/wiki/ResourcesAndTools" />
                     </Grid>
                 </TabItem>
-                <TabItem Header="关于" Width="110" Height="30" Visibility="Collapsed">
+                <TabItem Header="{DynamicResource TabItemHeaderFreeWallURL}" Width="110" Height="30">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.3*"></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="70"></ColumnDefinition>
+                            <ColumnDefinition Width="70"></ColumnDefinition>
+                            <ColumnDefinition Width="70"></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="0.3*"></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
+                            <RowDefinition Height="40"></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Grid Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition></ColumnDefinition>
-
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <TextBlock Text="程序版本：1.8.3" Grid.Column="0" Grid.Row="0"></TextBlock>
-
-                        </Grid>
-
+                        <Button x:Name="ButtonWebBrowserHomePageFreeWallURL" Content="{DynamicResource ButtonWebBrowserHomePage}" Grid.Column="0" Grid.Row="0" Margin="5" Click="ButtonWebBrowserHomePageFreeWallURL_Click"></Button>
+                        <Button x:Name="ButtonWebBrowserForwardFreeWallURL" Content="{DynamicResource ButtonWebBrowserForward}" Grid.Column="2" Grid.Row="0" Margin="5" Click="ButtonWebBrowserForwardFreeWallURL_Click"></Button>
+                        <Button x:Name="ButtonWebBrowserBackFreeWallURL" Content="{DynamicResource ButtonWebBrowserBack}" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonWebBrowserBackFreeWallURL_Click"></Button>
+                        <TextBlock Text="{DynamicResource TextBlockWebExplain}" TextWrapping="Wrap" Grid.Column="4" Grid.Row="0" Margin="8"></TextBlock>
+                        <!--<TextBox x:Name="TextBoxWebBrowserProxyUrl" Style="{StaticResource TitleText}" Tag="粘贴被墙的网址到这里点击 GO(下面被墙网址右击==复制快捷方式)" Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="5" Margin="5"></TextBox>
+                    <Button x:Name="ButtonWebBrowserProxyGo" Content="Go" Grid.Column="8" Grid.Row="0" Margin="5" Click="ButtonWebBrowserProxyGo_Click"></Button>-->
+                        <WebBrowser x:Name="WebBrowserResourcesAndToolsFreeWallURL" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Source="https://github.com/proxysu/windows/wiki/FreeWallURL" />
                     </Grid>
                 </TabItem>
 
