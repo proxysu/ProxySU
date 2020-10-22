@@ -259,6 +259,9 @@
     <sys:String x:Key="DisplayInstallInfo_TimeError">Time comparison failed...</sys:String>
     <sys:String x:Key="DisplayInstallInfo_TimeOK">The time difference meets the requirements, OK!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_TestDomainResolve">is checking whether the domain name is resolved to the IP of the current VPS...</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_OnlyIpv6HostDetect">is detecting whether it is a pure ipv6 host...</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_SetUpNat64">Nat64 gateway is being set up......</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_DeleteSetUpNat64">Nat64 gateway is being deleted...</sys:String>
     <sys:String x:Key="DisplayInstallInfo_DomainResolveOK">The resolution is correct! OK!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_OnlyIpv6">detects that the current host is a pure ipv6 host, it is not currently supported!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_ErrorDomainResolve">The domain name could not be correctly resolved to the IP of the current VPS! Installation failed!</sys:String>

@@ -268,6 +268,9 @@
     <sys:String x:Key="DisplayInstallInfo_TimeError">时间较对失败......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_TimeOK">时间差符合要求，OK!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_TestDomainResolve">正在检测域名是否解析到当前VPS的IP上......</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_OnlyIpv6HostDetect">正在检测是否为纯ipv6主机......</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_SetUpNat64">正在设置Nat64网关......</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_DeleteSetUpNat64">正在删除Nat64网关......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_DomainResolveOK">解析正确！OK!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_OnlyIpv6">检测当前主机为纯ipv6主机，目前暂不支持！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_ErrorDomainResolve">域名未能正确解析到当前VPS的IP上!安装失败！</sys:String>

@@ -58,8 +58,10 @@ namespace ProxySU
         static bool testDomain = false;                             //设置标识--域名是否需要检测解析，初始化为不需要
         static string ipv4 = String.Empty;                          //保存获取的ipv4地址
         static string ipv6 = String.Empty;                          //保存获取的ipv6地址
-        static bool onlyIpv6 = false;                               //acme.sh申请证书是否基于纯ipv6地址
-        static string scriptGithubUrl = "raw.githubusercontent.com";//安装脚本下载地址
+        static bool onlyIpv6 = false;                               //主机是否基于纯ipv6地址
+        //static string scriptGithubUrl = "raw.githubusercontent.com";//安装脚本下载地址
+        //static string apiGithubCom = "api.github.com";              //github api接口
+        //static string githubCom = "github.com";                     //github 主站网址
         static bool functionResult = true;                          //标示功能函数是否执行状态(true无错误发生/false有错误发生)
         static string sshShellCommand = String.Empty;               //定义保存执行的命令
         static string currentStatus = String.Empty;                 //定议保存要显示的状态
@@ -1294,7 +1296,7 @@ namespace ProxySU
             currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstallSoft").ToString() + "V2Ray......";
             MainWindowsShowInfo(currentStatus);
 
-            sshShellCommand = $"curl -o /tmp/go.sh https://{scriptGithubUrl}/v2fly/fhs-install-v2ray/master/install-release.sh";
+            sshShellCommand = $"curl -o /tmp/go.sh https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
             sshShellCommand = @"yes | bash /tmp/go.sh -f";
@@ -2144,8 +2146,8 @@ namespace ProxySU
                             currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartUpgradeNewVersion").ToString();
                             MainWindowsShowInfo(currentStatus);
 
-                            //client.RunCommand(@"bash <(curl -L -s https://{scriptGithubUrl}/v2fly/fhs-install-v2ray/master/install-release.sh)");
-                            sshShellCommand = $"bash <(curl -L -s https://{scriptGithubUrl}/v2fly/fhs-install-v2ray/master/install-release.sh)";
+                            //client.RunCommand(@"bash <(curl -L -s https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)");
+                            sshShellCommand = $"bash <(curl -L -s https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)";
                             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                             SetUpProgressBarProcessing(80);
@@ -2588,7 +2590,7 @@ namespace ProxySU
             currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstallSoft").ToString() + "Trojan-go......";
             MainWindowsShowInfo(currentStatus);
 
-            sshShellCommand = $"curl -o /tmp/trojan-go.sh https://{scriptGithubUrl}/proxysu/shellscript/master/trojan-go.sh";
+            sshShellCommand = $"curl -o /tmp/trojan-go.sh https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
             sshShellCommand = @"yes | bash /tmp/trojan-go.sh -f";
@@ -2788,9 +2790,9 @@ namespace ProxySU
                             //sshcmd = @"mv /usr/local/etc/trojan/config.json /usr/local/etc/trojan/config.json.bak";
                             //client.RunCommand(sshcmd);
                             //升级Trojan-Go主程序
-                            //client.RunCommand("curl -o /tmp/trojan-go.sh https://{scriptGithubUrl}/proxysu/shellscript/master/trojan-go.sh");
+                            //client.RunCommand("curl -o /tmp/trojan-go.sh https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh");
                             //client.RunCommand("yes | bash /tmp/trojan-go.sh -f");
-                            sshShellCommand = $"curl -o /tmp/trojan-go.sh https://{scriptGithubUrl}/proxysu/shellscript/master/trojan-go.sh";
+                            sshShellCommand = $"curl -o /tmp/trojan-go.sh https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh";
                             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                             sshShellCommand = @"yes | bash /tmp/trojan-go.sh -f";
@@ -3025,7 +3027,7 @@ namespace ProxySU
                     currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstallSoft").ToString() + "Trojan......";
                     MainWindowsShowInfo(currentStatus);
 
-                    sshShellCommand = $"curl -o /tmp/trojan-quickstart.sh https://{scriptGithubUrl}/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh";
+                    sshShellCommand = $"curl -o /tmp/trojan-quickstart.sh https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh";
                     currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                     sshShellCommand = @"yes | bash /tmp/trojan-quickstart.sh";
@@ -3359,9 +3361,9 @@ namespace ProxySU
                             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                             //升级Trojan主程序
-                            //client.RunCommand("curl -o /tmp/trojan-quickstart.sh https://{scriptGithubUrl}/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh");
+                            //client.RunCommand("curl -o /tmp/trojan-quickstart.sh https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh");
                             //client.RunCommand("yes | bash /tmp/trojan-quickstart.sh");
-                            sshShellCommand = $"curl -o /tmp/trojan-quickstart.sh https://{scriptGithubUrl}/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh";
+                            sshShellCommand = $"curl -o /tmp/trojan-quickstart.sh https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh";
                             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                             sshShellCommand = @"yes | bash /tmp/trojan-quickstart.sh";
@@ -3592,7 +3594,7 @@ namespace ProxySU
                     currentStatus = Application.Current.FindResource("DisplayInstallInfo_UpgradeNaiveProxy").ToString();
                     MainWindowsShowInfo(currentStatus);
 
-                    sshShellCommand = $"curl -o /tmp/caddy.zip https://{scriptGithubUrl}/proxysu/Resources/master/Caddy2/caddy20200816.zip";
+                    sshShellCommand = $"curl -o /tmp/caddy.zip https://raw.githubusercontent.com/proxysu/Resources/master/Caddy2/caddy20200816.zip";
                     currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                     sshShellCommand = @"yes | unzip -o /tmp/caddy.zip";
@@ -3964,7 +3966,7 @@ namespace ProxySU
                     currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstallSoft").ToString() + "SSR......";
                     MainWindowsShowInfo(currentStatus);
 
-                    sshShellCommand = $"curl -o /tmp/ssr.sh https://{scriptGithubUrl}/proxysu/shellscript/master/ssr/ssr.sh";
+                    sshShellCommand = $"curl -o /tmp/ssr.sh https://raw.githubusercontent.com/proxysu/shellscript/master/ssr/ssr.sh";
                     currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                     sshShellCommand = @"yes | bash /tmp/ssr.sh";
@@ -4358,7 +4360,7 @@ namespace ProxySU
                     currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstallSoft").ToString() + "SS，" + Application.Current.FindResource("DisplayInstallInfo_ExplainBuildSS").ToString();
                     MainWindowsShowInfo(currentStatus);
 
-                    sshShellCommand = $"curl -o /tmp/install.sh https://{scriptGithubUrl}/proxysu/shellscript/master/ss/ss-install.sh";
+                    sshShellCommand = $"curl -o /tmp/install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/ss/ss-install.sh";
                     currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                     sshShellCommand = @"yes | bash /tmp/install.sh";
@@ -4497,7 +4499,7 @@ namespace ProxySU
                             currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstallSoft").ToString() + " Cloak-Plugin......";
                             MainWindowsShowInfo(currentStatus);
 
-                            sshShellCommand = $"curl -o /tmp/install.sh https://{scriptGithubUrl}/proxysu/shellscript/master/ss/ss-plugins/cloak-plugin-install.sh";
+                            sshShellCommand = $"curl -o /tmp/install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/ss/ss-plugins/cloak-plugin-install.sh";
                             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                             sshShellCommand = @"yes | bash /tmp/install.sh";
@@ -4544,7 +4546,7 @@ namespace ProxySU
                         currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstallSoft").ToString() + " Simple-obfs Plugin......";
                         MainWindowsShowInfo(currentStatus);
 
-                        sshShellCommand = $"curl -o /tmp/install.sh https://{scriptGithubUrl}/proxysu/shellscript/master/ss/ss-plugins/obfs-install.sh";
+                        sshShellCommand = $"curl -o /tmp/install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/ss/ss-plugins/obfs-install.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                         sshShellCommand = @"yes | bash /tmp/install.sh";
@@ -4566,7 +4568,7 @@ namespace ProxySU
                         currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstallSoft").ToString() + " V2Ray-Plugin......";
                         MainWindowsShowInfo(currentStatus);
 
-                        sshShellCommand = $"curl -o /tmp/install.sh https://{scriptGithubUrl}/proxysu/shellscript/master/ss/ss-plugins/v2ray-plugin-install.sh";
+                        sshShellCommand = $"curl -o /tmp/install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/ss/ss-plugins/v2ray-plugin-install.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                         sshShellCommand = @"yes | bash /tmp/install.sh";
@@ -4587,7 +4589,7 @@ namespace ProxySU
                         currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstallSoft").ToString() + " Kcptun-Plugin......";
                         MainWindowsShowInfo(currentStatus);
 
-                        sshShellCommand = $"curl -o /tmp/install.sh https://{scriptGithubUrl}/proxysu/shellscript/master/ss/ss-plugins/kcptun-plugin-install.sh";
+                        sshShellCommand = $"curl -o /tmp/install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/ss/ss-plugins/kcptun-plugin-install.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                         sshShellCommand = @"yes | bash /tmp/install.sh";
@@ -4608,7 +4610,7 @@ namespace ProxySU
                         currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstallSoft").ToString() + " GoQuiet-Plugin......";
                         MainWindowsShowInfo(currentStatus);
 
-                        sshShellCommand = $"curl -o /tmp/install.sh https://{scriptGithubUrl}/proxysu/shellscript/master/ss/ss-plugins/goquiet-plugin-install.sh";
+                        sshShellCommand = $"curl -o /tmp/install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/ss/ss-plugins/goquiet-plugin-install.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                         sshShellCommand = @"yes | bash /tmp/install.sh";
@@ -4984,7 +4986,7 @@ namespace ProxySU
             currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstallSoft").ToString() + "MTProto......";
             MainWindowsShowInfo(currentStatus);
 
-            sshShellCommand = $"curl -o /tmp/mtg_install.sh https://{scriptGithubUrl}/proxysu/shellscript/master/MTProto/mtg_install.sh";
+            sshShellCommand = $"curl -o /tmp/mtg_install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/MTProto/mtg_install.sh";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
             sshShellCommand = $"yes | bash /tmp/mtg_install.sh {ReceiveConfigurationParameters[1]} {ReceiveConfigurationParameters[7]}";
@@ -5372,6 +5374,7 @@ namespace ProxySU
             getApt = false;
             getDnf = false;
             getYum = false;
+            onlyIpv6 = false;
 
             //******"正在登录远程主机......"******
             SetUpProgressBarProcessing(1);
@@ -5423,7 +5426,45 @@ namespace ProxySU
                     functionResult = RootAuthorityDetect(client);
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
+                    sshShellCommand = @"command -v apt";
+                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    getApt = !String.IsNullOrEmpty(currentShellCommandResult);
 
+                    sshShellCommand = @"command -v dnf";
+                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    getDnf = !String.IsNullOrEmpty(currentShellCommandResult);
+
+                    sshShellCommand = @"command -v yum";
+                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    getYum = !String.IsNullOrEmpty(currentShellCommandResult);
+
+                    //设置安装软件所用的命令格式
+                    if (getApt == true)
+                    {
+                        sshCmdUpdate = @"apt -qq update";
+                        //sshCmdInstall = @"apt -y -qq install ";
+                    }
+                    else if (getDnf == true)
+                    {
+                        sshCmdUpdate = @"dnf clean all;dnf -q makecache";
+                        //sshCmdInstall = @"dnf -y -q install ";
+                    }
+                    else if (getYum == true)
+                    {
+                        sshCmdUpdate = @"yum clean all; yum -q makecache";
+                        //sshCmdInstall = @"yum -y -q install ";
+                    }
+
+                    //检测主机是否为纯ipv6的主机
+                    onlyIpv6 = OnlyIpv6HostDetect(client);
+                    if (onlyIpv6 == true)
+                    {
+                        SetUpNat64(client, true);
+                        sshShellCommand = $"{sshCmdUpdate}";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    }
+
+                    
                     //******"开始卸载......"******
                     SetUpProgressBarProcessing(10);
                     currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartRemoveProxy").ToString() + "......";
@@ -5452,7 +5493,7 @@ namespace ProxySU
                         sshShellCommand = @"systemctl stop v2ray";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        sshShellCommand = $"curl -LROJ https://{scriptGithubUrl}/v2fly/fhs-install-v2ray/master/install-release.sh";
+                        sshShellCommand = $"curl -LROJ https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                         sshShellCommand = @"bash install-release.sh --remove";
@@ -5518,7 +5559,7 @@ namespace ProxySU
                         sshShellCommand = @"systemctl stop trojan-go";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        sshShellCommand = $"curl -LROJ https://{scriptGithubUrl}/proxysu/shellscript/master/trojan-go.sh";
+                        sshShellCommand = $"curl -LROJ https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                         sshShellCommand = @"bash trojan-go.sh --remove";
@@ -5641,7 +5682,7 @@ namespace ProxySU
                         sshShellCommand = @"systemctl stop ssr";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        sshShellCommand = $"curl -LROJ https://{scriptGithubUrl}/proxysu/shellscript/master/ssr/ssr.sh";
+                        sshShellCommand = $"curl -LROJ https://raw.githubusercontent.com/proxysu/shellscript/master/ssr/ssr.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                         sshShellCommand = @"bash ssr.sh uninstall";
@@ -5704,7 +5745,7 @@ namespace ProxySU
                         sshShellCommand = @"systemctl stop ss-server";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        sshShellCommand = $"curl -LROJ https://{scriptGithubUrl}/proxysu/shellscript/master/ss/ss-install.sh";
+                        sshShellCommand = $"curl -LROJ https://raw.githubusercontent.com/proxysu/shellscript/master/ss/ss-install.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                         sshShellCommand = @"bash ss-install.sh uninstall";
@@ -5970,6 +6011,15 @@ namespace ProxySU
                     }
                     #endregion
 
+                    //如果是纯ipv6主机，则需要删除前面设置的Nat64网关
+                    if (onlyIpv6 == true)
+                    {
+                        SetUpNat64(client, false);
+                        sshShellCommand = $"{sshCmdUpdate}";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    }
+
+                    
                     //******"卸载成功！"******04
                     SetUpProgressBarProcessing(100);
                     currentStatus = Application.Current.FindResource("DisplayInstallInfo_RemoveProxySoftSuccess").ToString();
@@ -6412,7 +6462,7 @@ namespace ProxySU
         //                    Thread.Sleep(1000);
 
         //                    //下载官方安装脚本安装V2ray
-        //                    client.RunCommand($"curl -o /tmp/go.sh https://{scriptGithubUrl}/v2fly/fhs-install-v2ray/master/install-release.sh");
+        //                    client.RunCommand($"curl -o /tmp/go.sh https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh");
         //                    client.RunCommand("yes | bash /tmp/go.sh -f");
         //                    string installResult = client.RunCommand("find / -name v2ray").Result.ToString();
 
@@ -6463,7 +6513,7 @@ namespace ProxySU
 
         //                    //下载官方安装脚本安装
 
-        //                    client.RunCommand($"curl -o /tmp/trojan-quickstart.sh https://{scriptGithubUrl}/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh");
+        //                    client.RunCommand($"curl -o /tmp/trojan-quickstart.sh https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh");
         //                    client.RunCommand("yes | bash /tmp/trojan-quickstart.sh");
 
         //                    installResult = client.RunCommand("find / -name trojan").Result.ToString();
@@ -6509,7 +6559,7 @@ namespace ProxySU
 
         //                    //下载安装脚本安装
 
-        //                    client.RunCommand($"curl -o /tmp/naive-quickstart.sh https://{scriptGithubUrl}/proxysu/shellscript/master/naive-quickstart.sh");
+        //                    client.RunCommand($"curl -o /tmp/naive-quickstart.sh https://raw.githubusercontent.com/proxysu/shellscript/master/naive-quickstart.sh");
         //                    client.RunCommand("yes | bash /tmp/naive-quickstart.sh");
 
         //                    installResult = client.RunCommand("find / -name naive").Result.ToString();
@@ -6555,7 +6605,7 @@ namespace ProxySU
         //                        // client.RunCommand("zypper ref");
         //                        client.RunCommand("zypper -y install socat");
         //                    }
-        //                    client.RunCommand($"curl https://{scriptGithubUrl}/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh");
+        //                    client.RunCommand($"curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh");
         //                    client.RunCommand("cd ~/.acme.sh/");
         //                    client.RunCommand("alias acme.sh=~/.acme.sh/acme.sh");
 
@@ -7092,6 +7142,90 @@ namespace ProxySU
 
         #region 布署代理所用到的步骤函数
 
+        //检测主机是否为纯ipv6的主机
+        private bool OnlyIpv6HostDetect(SshClient client)
+        {
+            //****** "正在检测是否为纯ipv6主机......." ******11
+            //SetUpProgressBarProcessing(34);
+            currentStatus = Application.Current.FindResource("DisplayInstallInfo_OnlyIpv6HostDetect").ToString();
+            MainWindowsShowInfo(currentStatus);
+
+            //再次初始化相关变量
+            ipv4 = String.Empty;
+            ipv6 = String.Empty;
+
+            //sshShellCommand = @"curl -4 ip.sb";
+            sshShellCommand = @"curl -s https://api.ip.sb/ip --ipv4";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+            ipv4 = currentShellCommandResult.TrimEnd('\r', '\n');
+
+            sshShellCommand = @"curl -s https://api.ip.sb/ip --ipv6";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+            ipv6 = currentShellCommandResult.TrimEnd('\r', '\n');
+
+            if (String.IsNullOrEmpty(ipv4) == false)
+            {
+                return false;
+            }
+            else
+            {
+                if (String.IsNullOrEmpty(ipv6) == false)
+                {
+                    //apiGithubCom = "api.githubipv6.ga";
+                    //scriptGithubUrl = "raw.githubipv6.ga";
+                    //githubCom = "github.githubipv6.ga";
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+        }
+
+        //设置Nat64与删除设置Nat64
+        private bool SetUpNat64(SshClient client,bool set)
+        {
+            if(set == true)
+            {
+                //****** "正在设置Nat64网关......" ******
+                currentStatus = Application.Current.FindResource("DisplayInstallInfo_SetUpNat64").ToString();
+                MainWindowsShowInfo(currentStatus);
+                sshShellCommand = @"mv /etc/resolv.conf /etc/resolv.conf.bak";
+                currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                sshShellCommand = @"echo ""nameserver   2a09:11c0:f1:bbf0::70"" >>/etc/resolv.conf";
+                currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                sshShellCommand = @"echo ""nameserver   2a03:7900:2:0:31:3:104:161"" >>/etc/resolv.conf";
+                currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+            }
+            else
+            {
+                //****** "正在删除Nat64网关......" ******
+                currentStatus = Application.Current.FindResource("DisplayInstallInfo_DeleteSetUpNat64").ToString();
+                MainWindowsShowInfo(currentStatus);
+                sshShellCommand = @"rm /etc/resolv.conf";
+                currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                sshShellCommand = @"mv /etc/resolv.conf.bak /etc/resolv.conf";
+                currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+            }
+           
+            return true;
+        }
+        //纯ipv6主机安装脚本处理
+        //private void Ipv6ScriptEdit(SshClient client,string scriptFile)
+        //{
+        //    sshShellCommand = $"sed -i 's/api.github.com/{apiGithubCom}/g' {scriptFile}";
+        //    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+        //    sshShellCommand = $"sed -i 's/raw.githubusercontent.com/raw.githubusercontent.com/g' {scriptFile}";
+        //    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+        //    sshShellCommand = $"sed -i 's/https:\\/\\/github.com/https:\\/\\/{githubCom}/g' {scriptFile}";
+        //    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+        //}
+
+
         #region 安装过程提示信息
 
         //安装过程提示信息
@@ -7213,11 +7347,12 @@ namespace ProxySU
         }
 
         //检测关闭Selinux及系统组件是否齐全（apt/yum/dnf/systemctl）11--30
-        //安装依赖软件，检测端口，防火墙开启端口
+        //安装依赖软件，检测端口，防火墙开启端口,检测是否为纯ipv6主机,若是则设置Nat64网关
         //functionResult = ShutDownSelinuxAndSysComponentsDetect(client);
         //if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
         private bool ShutDownSelinuxAndSysComponentsDetect(SshClient client)
         {
+
             //检测系统是否支持yum 或 apt或zypper，且支持Systemd
             //如果不存在组件，则命令结果为空，String.IsNullOrEmpty值为真
             //取反则getApt,getDnf,getYum,getSystem,getGetenforce为假
@@ -7311,12 +7446,12 @@ namespace ProxySU
             }
             else if (getDnf == true)
             {
-                sshCmdUpdate = @"dnf -q makecache";
+                sshCmdUpdate = @"dnf clean all;dnf -q makecache";
                 sshCmdInstall = @"dnf -y -q install ";
             }
             else if (getYum == true)
             {
-                sshCmdUpdate = @"yum -q makecache";
+                sshCmdUpdate = @"yum clean all; yum -q makecache";
                 sshCmdInstall = @"yum -y -q install ";
             }
             //else if (getZypper == true)
@@ -7405,7 +7540,14 @@ namespace ProxySU
 
             }
 
-            
+            //检测主机是否为纯ipv6的主机
+            onlyIpv6 = OnlyIpv6HostDetect(client);
+            if(onlyIpv6 == true)
+            {
+                SetUpNat64(client, true);
+                sshShellCommand = $"{sshCmdUpdate}";
+                currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+            }
 
             //****** "检测端口占用情况......" ******
             SetUpProgressBarProcessing(22);
@@ -7602,6 +7744,9 @@ namespace ProxySU
                     currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
                 }
             }
+
+           
+
             SetUpProgressBarProcessing(30);
             return true;
         }
@@ -7640,6 +7785,7 @@ namespace ProxySU
             return true;
         }
 
+       
         //检测域名是否解析到当前IP上 34---36
         //functionResult = DomainResolutionCurrentIPDetect(client);
         //if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
@@ -7710,13 +7856,15 @@ namespace ProxySU
                         SetUpProgressBarProcessing(36);
                         currentStatus = Application.Current.FindResource("DisplayInstallInfo_DomainResolveOK").ToString();
                         MainWindowsShowInfo(currentStatus);
-                        scriptGithubUrl = "ipv6.githubipv6.ga";
                         onlyIpv6 = true;
+                        //apiGithubCom = "api.githubipv6.ga";
+                        //scriptGithubUrl = "raw.githubipv6.ga";
+                        //githubCom = "github.githubipv6.ga";
                         //纯ipv6主机，目前暂不支持
-                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_OnlyIpv6").ToString();
-                        MainWindowsShowInfo(currentStatus);
-                        MessageBox.Show(currentStatus);
-                        return false;
+                        //currentStatus = Application.Current.FindResource("DisplayInstallInfo_OnlyIpv6").ToString();
+                        //MainWindowsShowInfo(currentStatus);
+                        //MessageBox.Show(currentStatus);
+                        return true;
                     }
                     else
                     {
@@ -7821,7 +7969,7 @@ namespace ProxySU
             sshShellCommand = $"{sshCmdInstall}automake autoconf libtool";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-            sshShellCommand = $"curl https://{scriptGithubUrl}/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh";
+            sshShellCommand = $"curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
             if (currentShellCommandResult.Contains("Install success") == true)
@@ -8123,6 +8271,15 @@ namespace ProxySU
                 MainWindowsShowInfo(currentStatus);
                 //return false;
             }
+
+            //如果是纯ipv6主机，则需要删除前面设置的Nat64网关
+            if (onlyIpv6 == true)
+            {
+                SetUpNat64(client, false);
+                sshShellCommand = $"{sshCmdUpdate}";
+                currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+            }
+
             SetUpProgressBarProcessing(95);
             return true;
         }

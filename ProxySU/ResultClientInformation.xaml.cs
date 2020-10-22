@@ -955,9 +955,11 @@ namespace ProxySU
             v2rayNjsonObject["tls"] = TextBoxTLS.Text;  //设置是否启用TLS
             v2rayNjsonObject["ps"] = v2rayNjsonObject["add"];  //设置备注
             //MessageBox.Show(v2rayNjsonObject["v"].ToString());
-
+            //MessageBox.Show("step1");
             string proxyfolder = CheckDir("v2ray_config");
+            //MessageBox.Show("step2");
             configDomainSavePath = CreateConfigSaveDir(proxyfolder, TextBoxHostAddress.Text);
+            //MessageBox.Show("step3");
             string configSavePath = configDomainSavePath;
 
             //生成二维码与URL，跳过VlessTcpTlsWeb暂时未有URL标准
@@ -2786,7 +2788,8 @@ namespace ProxySU
             {
                 //string saveFileFolderFirst = configDir;
                 int num = 1;
-                saveFileFolder = configDir;
+                //saveFileFolder = EncodeURIComponent(configDir);
+                saveFileFolder = configDir.Replace(":","_");
                 CheckDir(upperDir);
                 while (Directory.Exists(upperDir + @"\" + saveFileFolder) == true)
                 {
