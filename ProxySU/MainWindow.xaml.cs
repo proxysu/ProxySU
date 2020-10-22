@@ -54,6 +54,7 @@ namespace ProxySU
         //ReceiveConfigurationParameters[9]----插件参数选项/VMESS tcp Path/MTProto Parameters
         //public static ConnectionInfo ConnectionInfo;
         public static string proxyType = "V2Ray";                   //代理类型标识: V2Ray\TrojanGo\Trojan\NaiveProxy
+        public static readonly string pwdir = AppDomain.CurrentDomain.BaseDirectory; //执行文件所在目录
         static bool testDomain = false;                             //设置标识--域名是否需要检测解析，初始化为不需要
         static string ipv4 = String.Empty;                          //保存获取的ipv4地址
         static string ipv6 = String.Empty;                          //保存获取的ipv6地址
@@ -1186,17 +1187,17 @@ namespace ProxySU
                             || String.Equals(ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == true
                             || String.Equals(ReceiveConfigurationParameters[0], "VlessVmessXtlsTcpWebSocketWeb") == true)
                         {
-                            serverConfig = @"TemplateConfg\v2ray\caddy\vlessTcpTlsWeb.caddyfile";
+                            serverConfig = $"{pwdir}" + @"TemplateConfg\v2ray\caddy\vlessTcpTlsWeb.caddyfile";
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "VlessWebSocketTlsWeb") == true
                             || String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web") == true)
                         {
-                            serverConfig = @"TemplateConfg\v2ray\caddy\WebSocketTLSWeb.caddyfile";
+                            serverConfig = $"{pwdir}" + @"TemplateConfg\v2ray\caddy\WebSocketTLSWeb.caddyfile";
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "VlessHttp2Web") == true
                             || String.Equals(ReceiveConfigurationParameters[0], "http2Web") == true)
                         {
-                            serverConfig = @"TemplateConfg\v2ray\caddy\Http2Web.caddyfile";
+                            serverConfig = $"{pwdir}" + @"TemplateConfg\v2ray\caddy\Http2Web.caddyfile";
                         }
 
                         string upLoadPath = "/etc/caddy/Caddyfile";
@@ -1317,17 +1318,17 @@ namespace ProxySU
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
             //读取配置文件各个模块
-            string logConfigJson = @"TemplateConfg\v2ray\server\00_log\00_log.json";
-            string apiConfigJson = @"TemplateConfg\v2ray\server\01_api\01_api.json";
-            string dnsConfigJson = @"TemplateConfg\v2ray\server\02_dns\02_dns.json";
-            string routingConfigJson = @"TemplateConfg\v2ray\server\03_routing\03_routing.json";
-            string policyConfigJson = @"TemplateConfg\v2ray\server\04_policy\04_policy.json";
-            string inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\05_inbounds.json";
-            string outboundsConfigJson = @"TemplateConfg\v2ray\server\06_outbounds\06_outbounds.json";
-            string transportConfigJson = @"TemplateConfg\v2ray\server\07_transport\07_transport.json";
-            string statsConfigJson = @"TemplateConfg\v2ray\server\08_stats\08_stats.json";
-            string reverseConfigJson = @"TemplateConfg\v2ray\server\09_reverse\09_reverse.json";
-            string baseConfigJson = @"TemplateConfg\v2ray\base.json";
+            string logConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\00_log\00_log.json";
+            string apiConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\01_api\01_api.json";
+            string dnsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\02_dns\02_dns.json";
+            string routingConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\03_routing\03_routing.json";
+            string policyConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\04_policy\04_policy.json";
+            string inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\05_inbounds\05_inbounds.json";
+            string outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\06_outbounds\06_outbounds.json";
+            string transportConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\07_transport\07_transport.json";
+            string statsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\08_stats\08_stats.json";
+            string reverseConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\09_reverse\09_reverse.json";
+            string baseConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\base.json";
 
             //配置文件模块合成
             using (StreamReader reader = File.OpenText(baseConfigJson))
@@ -1397,78 +1398,78 @@ namespace ProxySU
                 //依据安装模式读取相应模板
                 if (String.Equals(ReceiveConfigurationParameters[0], "TCP") == true)
                 {
-                    inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\tcp_server_config.json";
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\05_inbounds\tcp_server_config.json";
                 }
                 else if (String.Equals(ReceiveConfigurationParameters[0], "TCPhttp") == true)
                 {
-                    inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\tcp_http_server_config.json";
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\05_inbounds\tcp_http_server_config.json";
                 }
                 else if (String.Equals(ReceiveConfigurationParameters[0], "tcpTLS") == true)
                 {
-                    inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\tcp_TLS_server_config.json";
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\05_inbounds\tcp_TLS_server_config.json";
                 }
                 else if (String.Equals(ReceiveConfigurationParameters[0], "tcpTLSselfSigned") == true)
                 {
-                    inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\tcpTLSselfSigned_server_config.json";
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\05_inbounds\tcpTLSselfSigned_server_config.json";
                 }
                 else if (String.Equals(ReceiveConfigurationParameters[0], "VlessXtlsTcp") == true)
                 {
-                    inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\vless_tcp_xtls_server_config.json";
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\05_inbounds\vless_tcp_xtls_server_config.json";
                 }
                 else if (String.Equals(ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == true)
                 {
-                    inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\vless_tcp_tls_server_config.json";
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\05_inbounds\vless_tcp_tls_server_config.json";
                 }
                 else if (String.Equals(ReceiveConfigurationParameters[0], "VlessWebSocketTlsWeb") == true)
                 {
-                    inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\vless_ws_tls_server_config.json";
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\05_inbounds\vless_ws_tls_server_config.json";
                 }
                 else if (String.Equals(ReceiveConfigurationParameters[0], "VlessHttp2Web") == true)
                 {
-                    inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\vless_http2_tls_server_config.json";
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\05_inbounds\vless_http2_tls_server_config.json";
                 }
                 else if (String.Equals(ReceiveConfigurationParameters[0], "VlessVmessXtlsTcpWebSocketWeb") == true)
                 {
-                    inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\vless_vmess_xtls_tcp_websocket_server_config.json";
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\05_inbounds\vless_vmess_xtls_tcp_websocket_server_config.json";
                 }
                 else if (String.Equals(ReceiveConfigurationParameters[0], "webSocket") == true)
                 {
-                    inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\webSocket_server_config.json";
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\05_inbounds\webSocket_server_config.json";
                 }
                 else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS") == true)
                 {
-                    inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\WebSocket_TLS_server_config.json";
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\05_inbounds\WebSocket_TLS_server_config.json";
                 }
                 else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLSselfSigned") == true)
                 {
-                    inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\WebSocketTLS_selfSigned_server_config.json";
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\05_inbounds\WebSocketTLS_selfSigned_server_config.json";
                 }
                 else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web") == true)
                 {
-                    inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\WebSocketTLSWeb_server_config.json";
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\05_inbounds\WebSocketTLSWeb_server_config.json";
                 }
                 else if (String.Equals(ReceiveConfigurationParameters[0], "Http2") == true)
                 {
-                    inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\http2_server_config.json";
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\05_inbounds\http2_server_config.json";
                 }
                 else if (String.Equals(ReceiveConfigurationParameters[0], "http2Web") == true)
                 {
-                    inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\Http2Web_server_config.json";
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\05_inbounds\Http2Web_server_config.json";
                 }
                 else if (String.Equals(ReceiveConfigurationParameters[0], "http2selfSigned") == true)
                 {
-                    inboundsConfigJson = @"TemplateConfg\v2ray\server\Http2selfSigned_server_config.json";
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\Http2selfSigned_server_config.json";
                 }
                 //else if (String.Equals(ReceiveConfigurationParameters[0], "MkcpNone")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2SRTP")||String.Equals(ReceiveConfigurationParameters[0], "mKCPuTP")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WechatVideo")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2DTLS")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WireGuard"))
                 else if (ReceiveConfigurationParameters[0].Contains("mKCP") == true)
                 {
-                    inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\mkcp_server_config.json";
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\05_inbounds\mkcp_server_config.json";
                 }
 
                 // else if (String.Equals(ReceiveConfigurationParameters[0], "QuicNone") || String.Equals(ReceiveConfigurationParameters[0], "QuicSRTP") || String.Equals(ReceiveConfigurationParameters[0], "Quic2uTP") || String.Equals(ReceiveConfigurationParameters[0], "QuicWechatVideo") || String.Equals(ReceiveConfigurationParameters[0], "QuicDTLS") || String.Equals(ReceiveConfigurationParameters[0], "QuicWireGuard"))
                 else if (ReceiveConfigurationParameters[0].Contains("Quic") == true)
                 {
-                    inboundsConfigJson = @"TemplateConfg\v2ray\server\05_inbounds\quic_server_config.json";
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\05_inbounds\quic_server_config.json";
                 }
 
                 //读取"inbounds"
@@ -1479,7 +1480,7 @@ namespace ProxySU
 
                     //Padavan路由固件服务端设置（因为客户端分流有问题所以在服务端弥补）加上后会影响一定的速度
 
-                    //string sniffingAddServer = @"TemplateConfg\v2ray\server\05_inbounds\00_padavan_router.json";
+                    //string sniffingAddServer = $"{pwdir}" + @"TemplateConfg\v2ray\server\05_inbounds\00_padavan_router.json";
                     //using (StreamReader readerSniffingJson = File.OpenText(sniffingAddServer))
                     //{
                     //    JObject jObjectSniffingJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerSniffingJson));
@@ -1654,17 +1655,17 @@ namespace ProxySU
             currentStatus = Application.Current.FindResource("DisplayInstallInfo_GenerateClientConfig").ToString();
             MainWindowsShowInfo(currentStatus);
 
-            string logConfigJson = @"TemplateConfg\v2ray\client\00_log\00_log.json";
-            string apiConfigJson = @"TemplateConfg\v2ray\client\01_api\01_api.json";
-            string dnsConfigJson = @"TemplateConfg\v2ray\client\02_dns\02_dns.json";
-            string routingConfigJson = @"TemplateConfg\v2ray\client\03_routing\03_routing.json";
-            string policyConfigJson = @"TemplateConfg\v2ray\client\04_policy\04_policy.json";
-            string inboundsConfigJson = @"TemplateConfg\v2ray\client\05_inbounds\05_inbounds.json";
-            string outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\06_outbounds.json";
-            string transportConfigJson = @"TemplateConfg\v2ray\client\07_transport\07_transport.json";
-            string statsConfigJson = @"TemplateConfg\v2ray\client\08_stats\08_stats.json";
-            string reverseConfigJson = @"TemplateConfg\v2ray\client\09_reverse\09_reverse.json";
-            string baseConfigJson = @"TemplateConfg\v2ray\base.json";
+            string logConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\00_log\00_log.json";
+            string apiConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\01_api\01_api.json";
+            string dnsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\02_dns\02_dns.json";
+            string routingConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\03_routing\03_routing.json";
+            string policyConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\04_policy\04_policy.json";
+            string inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\05_inbounds\05_inbounds.json";
+            string outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\06_outbounds.json";
+            string transportConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\07_transport\07_transport.json";
+            string statsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\08_stats\08_stats.json";
+            string reverseConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\09_reverse\09_reverse.json";
+            string baseConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\base.json";
             //Thread.Sleep(1000);
             if (!Directory.Exists("v2ray_config"))//如果不存在就创建file文件夹　　             　　              
             {
@@ -1742,74 +1743,74 @@ namespace ProxySU
                     //根据选择的不同模式，选择相应的配置文件
                     if (String.Equals(ReceiveConfigurationParameters[0], "TCP") == true)
                     {
-                        outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\tcp_client_config.json";
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\tcp_client_config.json";
                     }
                     else if (String.Equals(ReceiveConfigurationParameters[0], "TCPhttp") == true)
                     {
-                        outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\tcp_http_client_config.json";
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\tcp_http_client_config.json";
                     }
                     else if (String.Equals(ReceiveConfigurationParameters[0], "tcpTLS") == true)
                     {
-                        outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\tcp_TLS_client_config.json";
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\tcp_TLS_client_config.json";
                     }
                     else if (String.Equals(ReceiveConfigurationParameters[0], "tcpTLSselfSigned") == true)
                     {
-                        outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\tcpTLSselfSigned_client_config.json";
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\tcpTLSselfSigned_client_config.json";
                     }
                     else if (String.Equals(ReceiveConfigurationParameters[0], "VlessXtlsTcp") == true)
                     {
-                        outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\vless_tcp_xtls_client_config.json";
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\vless_tcp_xtls_client_config.json";
                     }
                     else if (String.Equals(ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == true)
                     {
-                        outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\vless_tcp_tls_caddy_cilent_config.json";
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\vless_tcp_tls_caddy_cilent_config.json";
                     }
                     else if (String.Equals(ReceiveConfigurationParameters[0], "VlessWebSocketTlsWeb") == true)
                     {
-                        outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\vless_ws_tls_client_config.json";
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\vless_ws_tls_client_config.json";
                     }
                     else if (String.Equals(ReceiveConfigurationParameters[0], "VlessHttp2Web") == true)
                     {
-                        outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\vless_http2_tls_server_config.json";
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\vless_http2_tls_server_config.json";
                     }
 
                     else if (String.Equals(ReceiveConfigurationParameters[0], "webSocket") == true)
                     {
-                        outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\webSocket_client_config.json";
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\webSocket_client_config.json";
                     }
                     else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS") == true)
                     {
-                        outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\WebSocket_TLS_client_config.json";
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\WebSocket_TLS_client_config.json";
                     }
                     else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLSselfSigned") == true)
                     {
-                        outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\WebSocketTLS_selfSigned_client_config.json";
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\WebSocketTLS_selfSigned_client_config.json";
                     }
                     else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web") == true)
                     {
-                        outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\WebSocketTLSWeb_client_config.json";
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\WebSocketTLSWeb_client_config.json";
                     }
                     else if (String.Equals(ReceiveConfigurationParameters[0], "Http2") == true)
                     {
-                        outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\http2_client_config.json";
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\http2_client_config.json";
                     }
                     else if (String.Equals(ReceiveConfigurationParameters[0], "http2Web") == true)
                     {
-                        outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\Http2Web_client_config.json";
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\Http2Web_client_config.json";
                     }
                     else if (String.Equals(ReceiveConfigurationParameters[0], "http2selfSigned") == true)
                     {
-                        outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\Http2selfSigned_client_config.json";
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\Http2selfSigned_client_config.json";
                     }
                     //else if (String.Equals(ReceiveConfigurationParameters[0], "MkcpNone")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2SRTP")||String.Equals(ReceiveConfigurationParameters[0], "mKCPuTP")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WechatVideo")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2DTLS")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WireGuard"))
                     else if (ReceiveConfigurationParameters[0].Contains("mKCP") == true)
                     {
-                        outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\mkcp_client_config.json";
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\mkcp_client_config.json";
                     }
                     // else if (String.Equals(ReceiveConfigurationParameters[0], "QuicNone") || String.Equals(ReceiveConfigurationParameters[0], "QuicSRTP") || String.Equals(ReceiveConfigurationParameters[0], "Quic2uTP") || String.Equals(ReceiveConfigurationParameters[0], "QuicWechatVideo") || String.Equals(ReceiveConfigurationParameters[0], "QuicDTLS") || String.Equals(ReceiveConfigurationParameters[0], "QuicWireGuard"))
                     else if (ReceiveConfigurationParameters[0].Contains("Quic") == true)
                     {
-                        outboundsConfigJson = @"TemplateConfg\v2ray\client\06_outbounds\quic_client_config.json";
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\quic_client_config.json";
                     }
 
 
@@ -1893,7 +1894,7 @@ namespace ProxySU
                 {
                     //复合方案所需要的配置文件
                     //VLESS over TCP with XTLS模式
-                    string outboundsConfigJsonVlessXtls = @"TemplateConfg\v2ray\client\06_outbounds\vless_tcp_xtls_client_config.json";
+                    string outboundsConfigJsonVlessXtls = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\vless_tcp_xtls_client_config.json";
                     using (StreamReader readerJson = File.OpenText(outboundsConfigJsonVlessXtls))
                     {
                         JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
@@ -1915,7 +1916,7 @@ namespace ProxySU
                     }
 
                     //VLESS over TCP with TLS模式
-                    string outboundsConfigJsonVlessTcpTls = @"TemplateConfg\v2ray\client\06_outbounds\vless_tcp_tls_caddy_cilent_config.json";
+                    string outboundsConfigJsonVlessTcpTls = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\vless_tcp_tls_caddy_cilent_config.json";
                     using (StreamReader readerJson = File.OpenText(outboundsConfigJsonVlessTcpTls))
                     {
                         JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
@@ -1937,7 +1938,7 @@ namespace ProxySU
                     }
 
                     //VLESS over WS with TLS 模式
-                    string outboundsConfigJsonVlessWsTls = @"TemplateConfg\v2ray\client\06_outbounds\vless_ws_tls_client_config.json";
+                    string outboundsConfigJsonVlessWsTls = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\vless_ws_tls_client_config.json";
                     using (StreamReader readerJson = File.OpenText(outboundsConfigJsonVlessWsTls))
                     {
                         JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
@@ -1960,7 +1961,7 @@ namespace ProxySU
                     }
 
                     //VMess over TCP with TLS模式
-                    string outboundsConfigJsonVmessTcpTls = @"TemplateConfg\v2ray\client\06_outbounds\vmess_tcp_tls_client_config.json";
+                    string outboundsConfigJsonVmessTcpTls = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\vmess_tcp_tls_client_config.json";
                     using (StreamReader readerJson = File.OpenText(outboundsConfigJsonVmessTcpTls))
                     {
                         JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
@@ -1983,7 +1984,7 @@ namespace ProxySU
                     }
 
                     //VMess over WS with TLS模式
-                    string outboundsConfigJsonVmessWsTls = @"TemplateConfg\v2ray\client\06_outbounds\WebSocketTLSWeb_client_config.json";
+                    string outboundsConfigJsonVmessWsTls = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\WebSocketTLSWeb_client_config.json";
                     using (StreamReader readerJson = File.OpenText(outboundsConfigJsonVmessWsTls))
                     {
                         JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
@@ -2468,7 +2469,7 @@ namespace ProxySU
                     sshShellCommand = @"mv /etc/caddy/Caddyfile /etc/caddy/Caddyfile.bak";
                     currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                    string caddyConfig = @"TemplateConfg\trojan-go\trojan-go.caddyfile";
+                    string caddyConfig = $"{pwdir}" + @"TemplateConfg\trojan-go\trojan-go.caddyfile";
 
                     upLoadPath = "/etc/caddy/Caddyfile";
                     UploadConfig(connectionInfo, caddyConfig, upLoadPath);
@@ -2521,7 +2522,7 @@ namespace ProxySU
                         Directory.CreateDirectory("trojan-go_config");//创建该文件夹　　   
                     }
 
-                    string clientConfig = @"TemplateConfg\trojan-go\trojan-go_all_config.json"; //生成的客户端配置文件
+                    string clientConfig = $"{pwdir}" + @"TemplateConfg\trojan-go\trojan-go_all_config.json"; //生成的客户端配置文件
 
                     using (StreamReader reader = File.OpenText(clientConfig))
                     {
@@ -2614,8 +2615,8 @@ namespace ProxySU
             currentStatus = Application.Current.FindResource("DisplayInstallInfo_UploadSoftConfig").ToString();
             MainWindowsShowInfo(currentStatus);
 
-            string serverConfig = @"TemplateConfg\trojan-go\trojan-go_all_config.json";  //服务端配置文件
-            string upLoadPath = @"/usr/local/etc/trojan-go/config.json"; //服务端文件位置
+            string serverConfig = $"{pwdir}" + @"TemplateConfg\trojan-go\trojan-go_all_config.json";  //服务端配置文件
+            //string upLoadPath = @"/usr/local/etc/trojan-go/config.json"; //服务端文件位置
 
             //生成服务端配置
             using (StreamReader reader = File.OpenText(serverConfig))
@@ -3045,7 +3046,7 @@ namespace ProxySU
                     sshShellCommand = @"mv /usr/local/etc/trojan/config.json /usr/local/etc/trojan/config.json.1";
                     currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                    string serverConfig = @"TemplateConfg\trojan\trojan_server_config.json";  //服务端配置文件
+                    string serverConfig = $"{pwdir}" + @"TemplateConfg\trojan\trojan_server_config.json";  //服务端配置文件
                     string upLoadPath = @"/usr/local/etc/trojan/config.json"; //服务端文件位置
 
                     //生成服务端配置
@@ -3119,7 +3120,7 @@ namespace ProxySU
                     sshShellCommand = @"mv /etc/caddy/Caddyfile /etc/caddy/Caddyfile.bak";
                     currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                    string caddyConfig = @"TemplateConfg\trojan\trojan.caddyfile";
+                    string caddyConfig = $"{pwdir}" + @"TemplateConfg\trojan\trojan.caddyfile";
                     upLoadPath = @"/etc/caddy/Caddyfile";
 
                     UploadConfig(connectionInfo, caddyConfig, upLoadPath);
@@ -3169,7 +3170,7 @@ namespace ProxySU
                         Directory.CreateDirectory("trojan_config");//创建该文件夹　　   
                     }
 
-                    string clientConfig = @"TemplateConfg\trojan\trojan_client_config.json";   //生成的客户端配置文件
+                    string clientConfig = $"{pwdir}" + @"TemplateConfg\trojan\trojan_client_config.json";   //生成的客户端配置文件
                     using (StreamReader reader = File.OpenText(clientConfig))
                     {
                         JObject clientJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
@@ -3620,7 +3621,7 @@ namespace ProxySU
                     MainWindowsShowInfo(currentStatus);
 
                     //生成服务端配置
-                    string caddyConfig = @"TemplateConfg\naive\naive_server_config.json";
+                    string caddyConfig = $"{pwdir}" + @"TemplateConfg\naive\naive_server_config.json";
                     using (StreamReader reader = File.OpenText(caddyConfig))
                     {
                         JObject serverJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
@@ -3751,7 +3752,7 @@ namespace ProxySU
                         Directory.CreateDirectory("naive_config");//创建该文件夹　　   
                     }
 
-                    string clientConfig = @"TemplateConfg\naive\naive_client_config.json";   //生成的客户端配置文件
+                    string clientConfig = $"{pwdir}" + @"TemplateConfg\naive\naive_client_config.json";   //生成的客户端配置文件
                     using (StreamReader reader = File.OpenText(clientConfig))
                     {
                         JObject clientJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
@@ -4008,7 +4009,7 @@ namespace ProxySU
                     sshShellCommand = @"mv /etc/caddy/Caddyfile /etc/caddy/Caddyfile.bak";
                     currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                    string caddyConfig = @"TemplateConfg\ssr\ssr_tls.caddyfile";
+                    string caddyConfig = $"{pwdir}" + @"TemplateConfg\ssr\ssr_tls.caddyfile";
                     upLoadPath = @"/etc/caddy/Caddyfile";
 
                     UploadConfig(connectionInfo, caddyConfig, upLoadPath);
@@ -4397,7 +4398,7 @@ namespace ProxySU
 
                     //生成服务端配置
 
-                    string serverConfig = @"TemplateConfg\ss\ss_server_config.json";
+                    string serverConfig = $"{pwdir}" + @"TemplateConfg\ss\ss_server_config.json";
                     string ssPluginType = "";
                     using (StreamReader reader = File.OpenText(serverConfig))
                     {
@@ -4658,17 +4659,17 @@ namespace ProxySU
 
                         if (String.Equals( ReceiveConfigurationParameters[0], "ObfsPluginHttpWebSS") == true)
                         {
-                            serverConfig = @"TemplateConfg\ss\ss_obfs_http_web_config.caddyfile";
+                            serverConfig = $"{pwdir}" + @"TemplateConfg\ss\ss_obfs_http_web_config.caddyfile";
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "ObfsPluginHttpsWebSS") == true
                             || String.Equals(ReceiveConfigurationParameters[0], "GoQuietPluginSS") == true
                             || String.Equals(ReceiveConfigurationParameters[0], "CloakPluginSS") == true)
                         {
-                            serverConfig = @"TemplateConfg\ss\ss_tls_caddy_config.caddyfile";
+                            serverConfig = $"{pwdir}" + @"TemplateConfg\ss\ss_tls_caddy_config.caddyfile";
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLSWebFrontSS") == true)
                         {
-                            serverConfig = @"TemplateConfg\ss\WebSocketTLSWeb.caddyfile";
+                            serverConfig = $"{pwdir}" + @"TemplateConfg\ss\WebSocketTLSWeb.caddyfile";
                         }
 
                         upLoadPath = @"/etc/caddy/Caddyfile";
@@ -6432,7 +6433,7 @@ namespace ProxySU
         //                    Thread.Sleep(1000);
 
         //                    //生成服务端配置
-        //                    serverConfig = @"TemplateConfg\WebSocketTLSWeb_server_config.json";
+        //                    serverConfig = $"{pwdir}" + @"TemplateConfg\WebSocketTLSWeb_server_config.json";
         //                    using (StreamReader reader = File.OpenText(serverConfig))
         //                    {
         //                        JObject serverJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
@@ -6484,7 +6485,7 @@ namespace ProxySU
         //                    Thread.Sleep(1000);
 
         //                    //生成服务端配置
-        //                    serverConfig = @"TemplateConfg\trojan_server_config.json";
+        //                    serverConfig = $"{pwdir}" + @"TemplateConfg\trojan_server_config.json";
         //                    using (StreamReader reader = File.OpenText(serverConfig))
         //                    {
         //                        JObject serverJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
@@ -6594,7 +6595,7 @@ namespace ProxySU
         //                    textBlockName.Dispatcher.BeginInvoke(updateAction, textBlockName, progressBar, currentStatus);
         //                    Thread.Sleep(1000);
 
-        //                    serverConfig = @"TemplateConfg\3in1_config.caddyfile";
+        //                    serverConfig = $"{pwdir}" + @"TemplateConfg\3in1_config.caddyfile";
 
         //                    upLoadPath = "/etc/caddy/Caddyfile";
         //                    UploadConfig(connectionInfo, serverConfig, upLoadPath);
@@ -6717,7 +6718,7 @@ namespace ProxySU
         //                        Directory.CreateDirectory("3in1_config");//创建该文件夹　　   
         //                    }
         //                    //生成v2ray官方客户端配置
-        //                    clientConfig = @"TemplateConfg\WebSocketTLSWeb_client_config.json";
+        //                    clientConfig = $"{pwdir}" + @"TemplateConfg\WebSocketTLSWeb_client_config.json";
         //                    using (StreamReader reader = File.OpenText(clientConfig))
         //                    {
         //                        JObject clientJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
@@ -6833,7 +6834,7 @@ namespace ProxySU
         //                    File.Move(@"3in1_config\v2ray_config\config.json", @"3in1_config\v2ray_config\" + saveFileFolder + @"\config.json");
 
         //                    //生成Trojan客户端文件
-        //                    clientConfig = @"TemplateConfg\trojan_client_config.json";
+        //                    clientConfig = $"{pwdir}" + @"TemplateConfg\trojan_client_config.json";
         //                    if (!Directory.Exists(@"3in1_config\trojan_config"))//如果不存在就创建file文件夹　　             　　              
         //                    {
         //                        Directory.CreateDirectory(@"3in1_config\trojan_config");//创建该文件夹　　   
@@ -6904,7 +6905,7 @@ namespace ProxySU
         //                    File.Move(@"3in1_config\trojan_config\config.json", @"3in1_config\trojan_config\" + saveFileFolder + @"\config.json");
 
         //                    //生成NaiveProxy的客户端配置
-        //                    clientConfig = @"TemplateConfg\Naiveproxy_client_config.json";
+        //                    clientConfig = $"{pwdir}" + @"TemplateConfg\Naiveproxy_client_config.json";
         //                    if (!Directory.Exists(@"3in1_config\naive_config"))//如果不存在就创建file文件夹　　             　　              
         //                    {
         //                        Directory.CreateDirectory(@"3in1_config\naive_config");//创建该文件夹　　   
@@ -7024,48 +7025,50 @@ namespace ProxySU
         #region 测试用代码
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ConnectionInfo connectionInfo = GenerateConnectionInfo();
-            if (connectionInfo == null)
-            {
-                //****** "远程主机连接信息有误，请检查!" ******
-                MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorHostConnection").ToString());
-                return;
-            }
-            using (var client = new SshClient(connectionInfo))
-            {
-                client.Connect();
-                if (client.IsConnected == true)
-                {
-                    //******"主机登录成功"******
-                    SetUpProgressBarProcessing(3);
-                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_LoginSuccessful").ToString();
-                    MainWindowsShowInfo(currentStatus);
+            string pwdir = AppDomain.CurrentDomain.BaseDirectory;
+            MessageBox.Show(pwdir);
+            //ConnectionInfo connectionInfo = GenerateConnectionInfo();
+            //if (connectionInfo == null)
+            //{
+            //    //****** "远程主机连接信息有误，请检查!" ******
+            //    MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorHostConnection").ToString());
+            //    return;
+            //}
+            //using (var client = new SshClient(connectionInfo))
+            //{
+            //    client.Connect();
+            //    if (client.IsConnected == true)
+            //    {
+            //        //******"主机登录成功"******
+            //        SetUpProgressBarProcessing(3);
+            //        currentStatus = Application.Current.FindResource("DisplayInstallInfo_LoginSuccessful").ToString();
+            //        MainWindowsShowInfo(currentStatus);
 
-                }
-                //string cmdErr = client.RunCommand(@"aaa ee").Error;
-                //MessageBox.Show(cmdErr);
-                SshCommand cmdResult = client.RunCommand(@"pwd");
-                string result = cmdResult.Result;
-                MessageBox.Show("result:"+result);
-                string error = cmdResult.Error;
-                MessageBox.Show("err:"+error);
+            //    }
+            //    //string cmdErr = client.RunCommand(@"aaa ee").Error;
+            //    //MessageBox.Show(cmdErr);
+            //    SshCommand cmdResult = client.RunCommand(@"pwd");
+            //    string result = cmdResult.Result;
+            //    MessageBox.Show("result:"+result);
+            //    string error = cmdResult.Error;
+            //    MessageBox.Show("err:"+error);
 
-                SshCommand cmdResultCat = client.RunCommand(@"cat tt.t");
-                string resultCat = cmdResultCat.Result;
-                MessageBox.Show("resultCat:" + resultCat);
-                string errorCat = cmdResultCat.Error;
-                MessageBox.Show("errCat:" + errorCat);
-                //SoftInstalledSuccessOrFail(client, "v2ray", @"/usr/local/bin/v2ray");
-                //CaddyInstall(client);
-                //if (client.IsConnected == true)
-                //{
-                //    MessageBox.Show("Connected");
-                //}
-                //if (client.IsConnected == false)
-                //{
-                //    MessageBox.Show("disConnected");
-                //}
-            }
+            //    SshCommand cmdResultCat = client.RunCommand(@"cat tt.t");
+            //    string resultCat = cmdResultCat.Result;
+            //    MessageBox.Show("resultCat:" + resultCat);
+            //    string errorCat = cmdResultCat.Error;
+            //    MessageBox.Show("errCat:" + errorCat);
+            //SoftInstalledSuccessOrFail(client, "v2ray", @"/usr/local/bin/v2ray");
+            //CaddyInstall(client);
+            //if (client.IsConnected == true)
+            //{
+            //    MessageBox.Show("Connected");
+            //}
+            //if (client.IsConnected == false)
+            //{
+            //    MessageBox.Show("disConnected");
+            //}
+        //}
         }
 
         private string CaddyInstallTest(SshClient client)
