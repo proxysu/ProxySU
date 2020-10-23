@@ -1,6 +1,6 @@
 ##  近期暂停更新说明
 近期业余时间少了，可能无暇顾及这个项目，所以暂时停一段时间，等事情忙过了，还会来再继续更新的。ProxySU还在发展完善中。肯定存在众多问题，如果最新版本无法成功安装，可以使用以前的旧版本试试，另外切换一下模式。或者更换一个linux版本，各个版本都试一下，应该会有可以成功的，如果是证书总是申请错误，可能是需要更换域名或者IP。本人只是一个业余的编程爱好者，还请多理解一下，谢谢各位网友对ProxySU的喜爱。过段时间，ProxySU会继续更新的。
-# ProxySU2.
+# ProxySU
 V2ray, Trojan, NaiveProxy, Trojan-Go, ShadowsocksR(SSR),Shadowsocks-libev and Plugins,MTProto+TLS,BBR install tools for windows。  
 V2ray，Trojan，NaiveProxy, Trojan-Go, ShadowsocksR(SSR),Shadowsocks-libev及相关插件,MTProto+TLS 一键安装工具。  
 BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）,支持语言:English、简体中文、正体（繁体）中文。
