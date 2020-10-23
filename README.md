@@ -5,7 +5,7 @@ V2ray, Trojan, NaiveProxy, Trojan-Go, ShadowsocksR(SSR),Shadowsocks-libev and Pl
 V2ray，Trojan，NaiveProxy, Trojan-Go, ShadowsocksR(SSR),Shadowsocks-libev及相关插件,MTProto+TLS 一键安装工具。  
 BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）,支持语言:English、简体中文、正体（繁体）中文。
 
-编译环境Visual Studio 2017  使用WPF界面。可一键安装V2ray、Trojan、NaiveProxy，Trojan-Go,ShadowsocksR(SSR),Shadowsocks-libev and Plugins 后续还会再添加其他。  
+编译环境Visual Studio 2017  使用WPF界面。可一键安装V2ray、Trojan、NaiveProxy，Trojan-Go,ShadowsocksR(SSR),Shadowsocks-libev and Plugins、MTProto+TLS 后续还会再添加其他。  
 
 ##### 使用提醒：  
 如果是纯IPV6主机，则在安装过程中，将临时设置NAT64网关。仅用于布署代理，布署完成后，则会删除。注意，纯IPV6 的主机无法直接访问纯IPV4的网络。  
