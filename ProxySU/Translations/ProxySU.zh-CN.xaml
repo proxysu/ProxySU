@@ -100,7 +100,13 @@
     <sys:String x:Key="ButtonClearOccupiedPorts">释放80/443端口</sys:String>
     <sys:String x:Key="ButtonTestAndEnableBBR">启用BBR</sys:String>
     <sys:String x:Key="ButtonRemoveAllSoft">卸载代理</sys:String>
+    <sys:String x:Key="ButtonEnableRootPassWord">启用Root密码登录</sys:String>
     <sys:String x:Key="MessageBoxShow_RemoveAllSoft">仅支持卸载由ProxySU安装的代理软件及相关配置，请确保重要配置已备份。不支持卸载使用其他方法或脚本安装的代理。确定要卸载远程主机上的代理软件吗？</sys:String>
+    <sys:String x:Key="MessageBoxShow_EnableRootPassword">本功能需要当前登录的账户具有sudo权限，是否为远程主机启用root账户并设置密码？</sys:String>
+    <sys:String x:Key="MessageBoxShow_AlreadyRoot">当前账户已经具有root权限，无需再设置！</sys:String>
+    <sys:String x:Key="MessageBoxShow_NoSudoToAccount">当前账户无法获取sudo权限，设置失败！</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_GenerateRandomPassword">生成20位随机密码！</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_EnableRootPasswordSuccess">远程主机Root账户密码登录已启用，密码保存在随后打开的文件夹中！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_StartRemoveProxy">开始卸载</sys:String>
     <sys:String x:Key="DisplayInstallInfo_DiscoverProxySoft">检测到已安装</sys:String>
     <sys:String x:Key="DisplayInstallInfo_RemoveProxySoftFailed">卸载失败！请向开发者问询！</sys:String>

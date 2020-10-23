@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProxySU"
         mc:Ignorable="d"
-        Title="ProxySU - v2.4.9" Height="675" Width="650">
+        Title="ProxySU - v2.4.10" Height="675" Width="650">
     <!--以下样式参考自：https://yq.aliyun.com/articles/331878
 	https://docs.microsoft.com/en-us/dotnet/desktop-wpf/fundamentals/styles-templates-overview-->
     <Window.Resources>
@@ -664,7 +664,8 @@
                                         <Button x:Name="ButtonClearOccupiedPorts" Content="{DynamicResource ButtonClearOccupiedPorts}" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonClearOccupiedPorts_Click"></Button>
                                         <Button x:Name="ButtonTestAndEnableBBR" Content="{DynamicResource ButtonTestAndEnableBBR}" Grid.Column="2" Grid.Row="0" Margin="5" Click="ButtonTestAndEnableBBR_Click"></Button>
                                         <Button x:Name="ButtonRemoveAllSoft" Content="{DynamicResource ButtonRemoveAllSoft}" Grid.Column="3" Grid.Row="0" Margin="5" Click="ButtonRemoveAllSoft_Click"></Button>
-                                        <Button Content="test" Grid.Column="0" Grid.Row="1" Margin="10" Click="Button_Click" Visibility="Collapsed"></Button>
+                                        <Button x:Name="ButtonEnableRootPassWord" Content="{DynamicResource ButtonEnableRootPassWord}" Grid.Column="0" Grid.Row="1" Margin="5" Click="ButtonEnableRootPassWord_Click"></Button>
+                                        <Button Content="test" Grid.Column="3" Grid.Row="2" Margin="10" Click="Button_Click" Visibility="Collapsed"></Button>
                                     </Grid>
                                 </TabItem>
 

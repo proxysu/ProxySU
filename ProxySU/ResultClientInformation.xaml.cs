@@ -2813,48 +2813,7 @@ namespace ProxySU
             string openFolderPath = configDomainSavePath;
             System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
             this.Close();
-            //if (String.Equals(MainWindow.proxyType, "V2Ray"))
-            //{
-            //    string openFolderPath = configDomainSavePath;
-            //    System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
-            //    this.Close();
-            //}
-            //else if (String.Equals(MainWindow.proxyType, "TrojanGo"))
-            //{
-            //    string openFolderPath = configDomainSavePath;
-            //    System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
-            //    this.Close();
-            //}
-            //else if (String.Equals(MainWindow.proxyType, "Trojan"))
-            //{
-            //    string openFolderPath = configDomainSavePath;
-            //    System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
-            //    this.Close();
-            //}
-            //else if (String.Equals(MainWindow.proxyType, "NaiveProxy"))
-            //{
-            //    string openFolderPath = configDomainSavePath;
-            //    System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
-            //    this.Close();
-            //}
-            //else if (String.Equals(MainWindow.proxyType, "SSR"))
-            //{
-            //    string openFolderPath = configDomainSavePath;
-            //    System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
-            //    this.Close();
-            //}
-            //else if (String.Equals(MainWindow.proxyType, "SS"))
-            //{
-            //    string openFolderPath = configDomainSavePath;
-            //    System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
-            //    this.Close();
-            //}
-            //else if (String.Equals(MainWindow.proxyType, "MTProto"))
-            //{
-            //    string openFolderPath = configDomainSavePath;
-            //    System.Diagnostics.Process.Start("explorer.exe", openFolderPath);
-            //    this.Close();
-            //}
+            
         }
 
         //SSR生成URL链接

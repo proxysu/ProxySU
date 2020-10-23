@@ -101,8 +101,15 @@
     <sys:String x:Key="ButtonTestAndEnableBBR">啟用BBR</sys:String>
     <sys:String x:Key="ButtonRemoveAllSoft">卸載代理</sys:String>
     <sys:String x:Key="MessageBoxShow_RemoveAllSoft">僅支持卸載由ProxySU安裝的代理軟件及相關配置，請確保重要配置已備份。不支持卸載使用其他方法或腳本安裝的代理。確定要卸載遠程主機上的代理軟件嗎？</sys:String>
+    <sys:String x:Key="MessageBoxShow_EnableRootPassword">本功能需要當前登錄的賬戶具有sudo權限，是否為遠程主機啟用root賬戶並設置密碼？</sys:String>
+    <sys:String x:Key="MessageBoxShow_AlreadyRoot">當前賬戶已經具有root權限，無需再設置！</sys:String>
+    <sys:String x:Key="MessageBoxShow_NoSudoToAccount">當前賬戶無法獲取sudo權限，設置失敗！</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_GenerateRandomPassword">生成20位隨機密碼！</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_EnableRootPasswordSuccess">遠程主機Root賬戶密碼登錄已啟用，密碼保存在隨後打開的文件夾中！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_StartRemoveProxy">開始卸載......</sys:String>
-
+    <sys:String x:Key="DisplayInstallInfo_DiscoverProxySoft">檢測到已安裝</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_RemoveProxySoftFailed">卸載失敗！請向開發者問詢！</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_RemoveProxySoftSuccess">卸載成功！</sys:String>
     <!-- 以下資源工具標籤頁界面 -->
     <sys:String x:Key="ButtonWebBrowserHomePage">主頁</sys:String>
     <sys:String x:Key="ButtonWebBrowserForward">前進</sys:String>

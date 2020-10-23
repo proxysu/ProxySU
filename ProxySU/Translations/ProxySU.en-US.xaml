@@ -99,8 +99,15 @@
     <sys:String x:Key="ButtonTestAndEnableBBR">Enable BBR</sys:String>
     <sys:String x:Key="ButtonRemoveAllSoft">Uninstall Proxy</sys:String>
     <sys:String x:Key="MessageBoxShow_RemoveAllSoft">Only the proxy software installed by ProxySU and related configurations are supported. Please make sure that important configurations have been backed up. Uninstalling agents installed using other methods or scripts is not supported. Are you sure you want to uninstall the agent software on the remote host?</sys:String>
+    <sys:String x:Key="MessageBoxShow_EnableRootPassword">This function requires that the currently logged-in account has sudo permissions. Is the root account enabled and password set for the remote host?</sys:String>
+    <sys:String x:Key="MessageBoxShow_AlreadyRoot">The current account already has root privileges, no need to set it up!</sys:String>
+    <sys:String x:Key="MessageBoxShow_NoSudoToAccount">The current account cannot obtain sudo permission, the setting failed!</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_GenerateRandomPassword">Generate a 20-digit random password!</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_EnableRootPasswordSuccess">The remote host Root account password login is enabled, and the password is saved in the folder opened afterwards!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_StartRemoveProxy">Start uninstall......</sys:String>
-
+    <sys:String x:Key="DisplayInstallInfo_DiscoverProxySoft">Detected installed</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_RemoveProxySoftFailed">Uninstallation failed! Please ask the developer!</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_RemoveProxySoftSuccess">Uninstall successfully!</sys:String>
     <!-- The following resource tool tab interface -->
     <sys:String x:Key="ButtonWebBrowserHomePage">Home</sys:String>
     <sys:String x:Key="ButtonWebBrowserForward">Forward</sys:String>
