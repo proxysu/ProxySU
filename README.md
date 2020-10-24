@@ -2,13 +2,13 @@
 近期业余时间少了，可能无暇顾及这个项目，所以暂时停一段时间，等事情忙过了，还会来再继续更新的。ProxySU还在发展完善中。肯定存在众多问题，如果最新版本无法成功安装，可以使用以前的旧版本试试，另外切换一下模式。或者更换一个linux版本，各个版本都试一下，应该会有可以成功的，如果是证书总是申请错误，可能是需要更换域名或者IP。本人只是一个业余的编程爱好者，还请多理解一下，谢谢各位网友对ProxySU的喜爱。过段时间，ProxySU会继续更新的。
 # ProxySU
 V2ray, Trojan, NaiveProxy, Trojan-Go, ShadowsocksR(SSR),Shadowsocks-libev and Plugins,MTProto+TLS,BBR install tools for windows。  
-V2ray，Trojan，NaiveProxy, Trojan-Go, ShadowsocksR(SSR),Shadowsocks-libev及相关插件,MTProto+TLS 一键安装工具。  
+V2ray，Trojan，NaiveProxy, Trojan-Go, ShadowsocksR(SSR),Shadowsocks-libev及相关插件,MTProto+TLS 一键安装工具。支持纯ipv6主机一键安装代理。  
 BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）,支持语言:English、简体中文、正体（繁体）中文。
 
 编译环境Visual Studio 2017  使用WPF界面。可一键安装V2ray、Trojan、NaiveProxy，Trojan-Go,ShadowsocksR(SSR),Shadowsocks-libev and Plugins、MTProto+TLS 后续还会再添加其他。  
 
 ##### 使用提醒：  
-如果是纯IPV6主机，则在安装过程中，将临时设置NAT64网关。仅用于布署代理，布署完成后，则会删除。注意，纯IPV6 的主机无法直接访问纯IPV4的网络。  
+纯IPV6主机，安装过程中，将临时设置NAT64网关。仅用于布署代理，布署完成后，则会删除。注意，纯IPV6 的主机无法直接访问纯IPV4的网络。  
 ProxySU的安装流程，是假设在全新系统下，没有装过以上代理软件，如果已经安装过，最好将系统重装一下，会减少很多的麻烦。  
 ProxySU将安装代理软件的最新版本，为了最好的兼容，请确保客户端也是当前最新版本。  
 ProxySU在开发过程中，一般都是在vultr的vps中测试，测试系统版本为：Centos7/8  Debian9/10 Ubuntu18.04/20.04。由于同一个版本的Linux系统，不同的VPS商,云服务商也不完全相同。实在没有精力去逐一测试。如果安装失败，可以先尝试以下方法解决：1.如果以前装过翻墙软件，请重装一下vps系统后，再试。2.更换为其他版本的linux发行版，再试。以上两种方法不能解决，请各位翻墙网友及时发[issues](https://github.com/proxysu/windows/issues)，或者到[TG群组](https://t.me/proxysuissues)，[推特](https://twitter.com/proxysu_true)下反馈，希望这个工具做的越来越好，让更多人喜欢。谢谢。
