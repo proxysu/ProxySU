@@ -81,6 +81,8 @@ ProxySU调用[SSH.NET](https://github.com/sshnet/SSH.NET)库登录远程主机�
 * ED25519 in OpenSSH key format  
 见官方说明：  
 https://github.com/sshnet/SSH.NET#public-key-authentication  
+如果当前拥有的密钥格式不是以上几种，可以下载[puttygen](https://www.puttygen.com/)工具，将其转换成上面的格式。  
+[puttygen](https://www.puttygen.com/)使用教程可以[看这里](https://github.com/proxysu/windows/wiki/PrivateKeyConversionFormat)
 
 ##### 关于Let's Encrypt证书  
 ProxySU所使用的acme.sh与Caddy，都是申请的Let's Encrypt免费证书。三个月需要续期，都是自动完成续期的，无需用户操作。但是Let's Encrypt证书有一些限制，请知晓，如下：  
