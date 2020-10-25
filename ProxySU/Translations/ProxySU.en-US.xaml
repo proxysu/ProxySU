@@ -231,10 +231,10 @@
     <sys:String x:Key="TextBlockEncryptionIsAuto">default auto</sys:String>
     <sys:String x:Key="GrouBoxHeaderUrlOrQR">QR/URL</sys:String>
     <sys:String x:Key="TextBlockUsedParameter">The above parameters can be entered into the client manually or by scanning. The configuration and related files used for the official client have been stored in the directory. Click the OK button to open</sys:String>
-    <sys:String x:Key="TextBlockQrURLexplainV2Ray">QR code and URL link can be used&#x0a;v2rayN(windows)&#x0a;Trojan-QT5(windows)&#x0a;Qv2ray(windows)&#x0a;Shadowrocket(ios)&#x0a;v2rayNG(Android)&#x0a;Import v2ray node&#x0a;&#x0a;Note: The Vless protocol requires manual input of configuration parameters, and the QR code and URL are invalid</sys:String>
-    <sys:String x:Key="TextBlockQrURLexplainTrojan-go">" can be used for ShadowRocket (ios), ignore (Android), Trojan-QT5 (windows) to scan codes and import URLs. Note: some clients may not support WebSocket mode ."</sys:String>
-    <sys:String x:Key="TextBlockQrURLexplainTrojan">"Can be used for ShadowRocket (ios), ignore (Android), Trojan-QT5 (windows) to scan codes and import URLs. Note: Some clients may not support WebSocket mode."</sys:String>
-    <sys:String x:Key="TextBlockQrURLexplainNaiveProxy">URL import link for NaiveGUI (windows)</sys:String>
+    <sys:String x:Key="TextBlockQrURLexplainV2Ray">QR code and URL link can be used&#x0a;v2rayN(windows)&#x0a;Qv2ray(windows)&#x0a;Qv2ray(windows)&#x0a;Shadowrocket(ios)&#x0a;v2rayNG(Android)&#x0a;Import v2ray node&#x0a;&#x0a;Note: The Vless protocol requires manual input of configuration parameters, and the QR code and URL are invalid</sys:String>
+    <sys:String x:Key="TextBlockQrURLexplainTrojan-go">" can be used for ShadowRocket (ios), ignore (Android), Qv2ray (windows) to scan codes and import URLs. Note: some clients may not support WebSocket mode ."</sys:String>
+    <sys:String x:Key="TextBlockQrURLexplainTrojan">"Can be used for ShadowRocket (ios), ignore (Android), Qv2ray (windows) to scan codes and import URLs. Note: Some clients may not support WebSocket mode."</sys:String>
+    <sys:String x:Key="TextBlockQrURLexplainNaiveProxy">URL import link for NaiveSharp (windows)</sys:String>
     <sys:String x:Key="TextBlockQrURLexplainSSR">Used to scan codes and import URL import links for ShadowsocksR (windows), SSRR (android), Shadowrocket (ios)</sys:String>
     <sys:String x:Key="TextBlockQrURLexplainSSmobile">For mobile phone client shadowsocks(android), Shadowrocket(ios) scan code and URL import link</sys:String>
     <sys:String x:Key="TextBlockQrURLexplainSSpc">For the computer client Shadowsocks (windows) scan code and URL import link</sys:String>
@@ -382,13 +382,13 @@
     <sys:String x:Key="readmeTxtV2RayExplainLine02">v2ray official website: https://www.v2ray.com/</sys:String>
     <sys:String x:Key="readmeTxtV2RayExplainLine03">v2ray official program download address: https://github.com/v2ray/v2ray-core/releases</sys:String>
     <sys:String x:Key="readmeTxtV2RayExplainLine04">download the corresponding version, Windows select v2ray-windows-64.zip or v2ray-windows-32.zip, extract v2ctl.exe and v2ray.exe after decompression. Put it in the same directory as config.json, just run v2ray.exe.</sys:String>
-    <sys:String x:Key="readmeTxtV2RayExplainLine05">This file is v2rayN, Trojan-QT5, v2rayNG(Android), Shadowrocket(ios) scan code import node</sys:String>
+    <sys:String x:Key="readmeTxtV2RayExplainLine05">This file is v2rayN, Qv2ray, v2rayNG(Android), Shadowrocket(ios) scan code import node</sys:String>
     <sys:String x:Key="readmeTxtV2RayExplainLine06">v2rayN download URL: https://github.com/2dust/v2rayN/releases</sys:String>
-    <sys:String x:Key="readmeTxtV2RayExplainLine07">Trojan-QT5: https://github.com/Trojan-Qt5/Trojan-Qt5</sys:String>
+    <sys:String x:Key="readmeTxtV2RayExplainLine07">Qv2ray download URL: https://github.com/Qv2ray/Qv2ray/releases</sys:String>
     <sys:String x:Key="readmeTxtV2RayExplainLine08">v2rayNG(Android) download URL: https://github.com/2dust/v2rayNG/releases</sys:String>
     <sys:String x:Key="readmeTxtV2RayExplainLine09">v2rayNG (Android) download URL on Google Play: https://play.google.com/store/apps/details?id=com.v2ray.ang</sys:String >
     <sys:String x:Key="readmeTxtV2RayExplainLine10">Shadowrocket(ios) download, you need to use the AppleID of the foreign region. Please Google method yourself.</sys:String>
-    <sys:String x:Key="readmeTxtV2RayExplainLine11">This file is v2rayN, Trojan-QT5, v2rayNG(Android), Shadowrocket(ios) copy and paste the vmess URL of the imported node</sys:String>
+    <sys:String x:Key="readmeTxtV2RayExplainLine11">This file is v2rayN, Qv2ray, v2rayNG(Android), Shadowrocket(ios) copy and paste the vmess URL of the imported node</sys:String>
     <sys:String x:Key="readmeTxtV2RayExplainLine12">Server general connection configuration parameters</sys:String>
     <!--The following is the Trojan-go client description file-->
     <sys:String x:Key="readmeTxtTrojan-goExplainLine01">This file is the client configuration file used by the official Trojan-go program, configured in global mode, http and socks5 address: 127.0.0.1:1080</sys:String >
@@ -406,19 +406,19 @@
     <sys:String x:Key="readmeTxtTrojanExplainLine02">Trojan official website: https://trojan-gfw.github.io/trojan/</sys:String>
     <sys:String x:Key="readmeTxtTrojanExplainLine03">Trojan official program download address: https://github.com/trojan-gfw/trojan/releases</sys:String>
     <sys:String x:Key="readmeTxtTrojanExplainLine04">Download the corresponding version, select Trojan-x.xx-win.zip for Windows, extract trojan.exe after decompression. Put it in the same directory as config.json, just run trojan.exe.</sys:String>
-    <sys:String x:Key="readmeTxtTrojanExplainLine05">This file is Trojan-QT5 (windows), ignore (Android), Shadowrocket (ios) scan code import node</sys:String>
-    <sys:String x:Key="readmeTxtTrojanExplainLine06">Trojan-QT5 (windows) download URL: https://github.com/TheWanderingCoel/Trojan-Qt5/releases</sys:String>
+    <sys:String x:Key="readmeTxtTrojanExplainLine05">This file is Qv2ray (windows), ignore (Android), Shadowrocket (ios) scan code import node</sys:String>
+    <sys:String x:Key="readmeTxtTrojanExplainLine06">Qv2ray (windows) download URL: https://github.com/Qv2ray/Qv2ray/releases</sys:String>
     <sys:String x:Key="readmeTxtTrojanExplainLine07">igniter (Android) download URL: https://github.com/trojan-gfw/igniter/releases</sys:String>
     <sys:String x:Key="readmeTxtTrojanExplainLine08">Shadowrocket(ios) download, you need to use the AppleID of the foreign region. Please Google method yourself.</sys:String>
-    <sys:String x:Key="readmeTxtTrojanExplainLine09">This file is Trojan-QT5 (windows), ignore (Android), Shadowrocket (ios) copy and paste the URL of the imported node</sys:String>
+    <sys:String x:Key="readmeTxtTrojanExplainLine09">This file is Qv2ray (windows), ignore (Android), Shadowrocket (ios) copy and paste the URL of the imported node</sys:String>
     <sys:String x:Key="readmeTxtTrojanExplainLine10">Server general connection configuration parameters</sys:String>
     <!--The following is the NaiveProxy client documentation-->
     <sys:String x:Key="readmeTxtNaiveProxyExplainLine01">This file is the client configuration file used by the official NaiveProxy program, configured in global mode, socks5 address: 127.0.0.1:1080</sys:String>
     <sys:String x:Key="readmeTxtNaiveProxyExplainLine02">NaiveProxy official website: https://github.com/klzgrad/naiveproxy</sys:String>
     <sys:String x:Key="readmeTxtNaiveProxyExplainLine03">NaiveProxy official program download address: https://github.com/klzgrad/naiveproxy/releases</sys:String>
     <sys:String x:Key="readmeTxtNaiveProxyExplainLine04">download the corresponding version, select naiveproxy-x.xx-win.zip for Windows, extract naive.exe after decompression. Put it in the same directory as config.json, just run naive.exe.</sys:String>
-    <sys:String x:Key="readmeTxtNaiveProxyExplainLine05">This file is NaiveGUI (windows) copy and paste the URL of the imported node</sys:String>
-    <sys:String x:Key="readmeTxtNaiveProxyExplainLine06">NaiveGUI(windows) download URL: https://github.com/ExcitedCodes/NaiveGUI/releases</sys:String>
+    <sys:String x:Key="readmeTxtNaiveProxyExplainLine05">This file is NaiveSharp (windows) copy and paste the URL of the imported node</sys:String>
+    <sys:String x:Key="readmeTxtNaiveProxyExplainLine06">NaiveSharp(windows) download URL: https://github.com/KevinZonda/NaiveSharp/releases</sys:String>
     <sys:String x:Key="readmeTxtNaiveProxyExplainLine07">Server general connection configuration parameters</sys:String>
     <!--The following is the SSR+TLS+Caddy client documentation-->
     <sys:String x:Key="readmeTxtSSRExplainLine05">This file is for ShadowsocksR (windows), SSRR (Android), Shadowrocket (ios) scan code import node</sys:String>

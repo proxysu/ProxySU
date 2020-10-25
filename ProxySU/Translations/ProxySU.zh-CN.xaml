@@ -235,10 +235,10 @@
     <sys:String x:Key="TextBlockEncryptionIsAuto">默认auto</sys:String>
     <sys:String x:Key="GrouBoxHeaderUrlOrQR">二维码/URL</sys:String>
     <sys:String x:Key="TextBlockUsedParameter">以上参数可以手动或扫描输入客户端，用于官方客户端的配置和相关文件已经存放入目录下，点击 确定 按扭可打开</sys:String>
-    <sys:String x:Key="TextBlockQrURLexplainV2Ray">二维码和URL链接可用于&#x0a;v2rayN(windows)&#x0a;Trojan-QT5(windows)&#x0a;Qv2ray(windows)&#x0a;Shadowrocket(ios)&#x0a;v2rayNG(Android)&#x0a;导入v2ray节点&#x0a;&#x0a;注意:Vless协议需要手动输入配置参数，二维码和URL无效</sys:String>
-    <sys:String x:Key="TextBlockQrURLexplainTrojan-go">"可用于ShadowRocket (ios)、igniter（Android）、Trojan-QT5 (windows) 扫码和导入url。注意：有的客户端可能不支持WebSocket模式。"</sys:String>
-    <sys:String x:Key="TextBlockQrURLexplainTrojan">"可用于ShadowRocket (ios)、igniter（Android）、Trojan-QT5 (windows) 扫码和导入url。注意：有的客户端可能不支持WebSocket模式。"</sys:String>
-    <sys:String x:Key="TextBlockQrURLexplainNaiveProxy">用于NaiveGUI(windows)的URL导入链接</sys:String>
+    <sys:String x:Key="TextBlockQrURLexplainV2Ray">二维码和URL链接可用于&#x0a;v2rayN(windows)&#x0a;Qv2ray(windows)&#x0a;Qv2ray(windows)&#x0a;Shadowrocket(ios)&#x0a;v2rayNG(Android)&#x0a;导入v2ray节点&#x0a;&#x0a;注意:Vless协议需要手动输入配置参数，二维码和URL无效</sys:String>
+    <sys:String x:Key="TextBlockQrURLexplainTrojan-go">"可用于ShadowRocket (ios)、igniter（Android）、Qv2ray (windows) 扫码和导入url。注意：有的客户端可能不支持WebSocket模式。"</sys:String>
+    <sys:String x:Key="TextBlockQrURLexplainTrojan">"可用于ShadowRocket (ios)、igniter（Android）、Qv2ray (windows) 扫码和导入url。注意：有的客户端可能不支持WebSocket模式。"</sys:String>
+    <sys:String x:Key="TextBlockQrURLexplainNaiveProxy">用于NaiveSharp(windows)的URL导入链接</sys:String>
     <sys:String x:Key="TextBlockQrURLexplainSSR">用于ShadowsocksR(windows)、SSRR(android)、Shadowrocket(ios)的扫码和URL导入链接</sys:String>
     <sys:String x:Key="TextBlockQrURLexplainSSmobile">用于手机客户端shadowsocks(android)、Shadowrocket(ios)的扫码和URL导入链接</sys:String>
     <sys:String x:Key="TextBlockQrURLexplainSSpc">用于电脑客户端Shadowsocks (windows)的扫码和URL导入链接</sys:String>
@@ -387,13 +387,13 @@
     <sys:String x:Key="readmeTxtV2RayExplainLine02">v2ray官方网站：https://www.v2ray.com/</sys:String>
     <sys:String x:Key="readmeTxtV2RayExplainLine03">v2ray官方程序下载地址：https://github.com/v2ray/v2ray-core/releases</sys:String>
     <sys:String x:Key="readmeTxtV2RayExplainLine04">下载相应版本，Windows选择v2ray-windows-64.zip或者v2ray-windows-32.zip，解压后提取v2ctl.exe和v2ray.exe。与config.json放在同一目录，运行v2ray.exe即可。</sys:String>
-    <sys:String x:Key="readmeTxtV2RayExplainLine05">此文件为v2rayN、Trojan-QT5、v2rayNG(Android)、Shadowrocket(ios)扫码导入节点</sys:String>
+    <sys:String x:Key="readmeTxtV2RayExplainLine05">此文件为v2rayN(windows)、Qv2ray(windows)、v2rayNG(Android)、Shadowrocket(ios)扫码导入节点</sys:String>
     <sys:String x:Key="readmeTxtV2RayExplainLine06">v2rayN下载网址：https://github.com/2dust/v2rayN/releases</sys:String>
-    <sys:String x:Key="readmeTxtV2RayExplainLine07">Trojan-QT5：https://github.com/Trojan-Qt5/Trojan-Qt5</sys:String>
+    <sys:String x:Key="readmeTxtV2RayExplainLine07">Qv2ray下载网址：https://github.com/Qv2ray/Qv2ray/releases</sys:String>
     <sys:String x:Key="readmeTxtV2RayExplainLine08">v2rayNG(Android)下载网址：https://github.com/2dust/v2rayNG/releases</sys:String>
     <sys:String x:Key="readmeTxtV2RayExplainLine09">v2rayNG(Android)在Google Play下载网址：https://play.google.com/store/apps/details?id=com.v2ray.ang</sys:String>
     <sys:String x:Key="readmeTxtV2RayExplainLine10">Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。</sys:String>
-    <sys:String x:Key="readmeTxtV2RayExplainLine11">此文件为v2rayN、Trojan-QT5、v2rayNG(Android)、Shadowrocket(ios)复制粘贴导入节点的vmess网址</sys:String>
+    <sys:String x:Key="readmeTxtV2RayExplainLine11">此文件为v2rayN、Qv2ray、v2rayNG(Android)、Shadowrocket(ios)复制粘贴导入节点的vmess网址</sys:String>
     <sys:String x:Key="readmeTxtV2RayExplainLine12">服务器通用连接配置参数:</sys:String>
     <!--以下为Trojan-go客户端说明文件-->
     <sys:String x:Key="readmeTxtTrojan-goExplainLine01">此文件为Trojan-go官方程序所使用的客户端配置文件，配置为全局模式，http与socks5地址：127.0.0.1:1080</sys:String>
@@ -411,19 +411,19 @@
     <sys:String x:Key="readmeTxtTrojanExplainLine02">Trojan官方网站：https://trojan-gfw.github.io/trojan/</sys:String>
     <sys:String x:Key="readmeTxtTrojanExplainLine03">Trojan官方程序下载地址：https://github.com/trojan-gfw/trojan/releases</sys:String>
     <sys:String x:Key="readmeTxtTrojanExplainLine04">下载相应版本，Windows选择Trojan-x.xx-win.zip,解压后提取trojan.exe。与config.json放在同一目录，运行trojan.exe即可。</sys:String>
-    <sys:String x:Key="readmeTxtTrojanExplainLine05">此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)扫码导入节点</sys:String>
-    <sys:String x:Key="readmeTxtTrojanExplainLine06">Trojan-QT5 (windows)下载网址：https://github.com/TheWanderingCoel/Trojan-Qt5/releases</sys:String>
+    <sys:String x:Key="readmeTxtTrojanExplainLine05">此文件为Qv2ray (windows)、igniter（Android）、Shadowrocket(ios)扫码导入节点</sys:String>
+    <sys:String x:Key="readmeTxtTrojanExplainLine06">Qv2ray (windows)下载网址：https://github.com/Qv2ray/Qv2ray/releases</sys:String>
     <sys:String x:Key="readmeTxtTrojanExplainLine07">igniter（Android）下载网址：https://github.com/trojan-gfw/igniter/releases</sys:String>
     <sys:String x:Key="readmeTxtTrojanExplainLine08">Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。</sys:String>
-    <sys:String x:Key="readmeTxtTrojanExplainLine09">此文件为Trojan-QT5 (windows)、igniter（Android）、Shadowrocket(ios)复制粘贴导入节点的网址</sys:String>
+    <sys:String x:Key="readmeTxtTrojanExplainLine09">此文件为Qv2ray (windows)、igniter（Android）、Shadowrocket(ios)复制粘贴导入节点的网址</sys:String>
     <sys:String x:Key="readmeTxtTrojanExplainLine10">服务器通用连接配置参数</sys:String>
     <!--以下为NaiveProxy客户端说明文件-->
     <sys:String x:Key="readmeTxtNaiveProxyExplainLine01">此文件为NaiveProxy官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080</sys:String>
     <sys:String x:Key="readmeTxtNaiveProxyExplainLine02">NaiveProxy官方网站：https://github.com/klzgrad/naiveproxy</sys:String>
     <sys:String x:Key="readmeTxtNaiveProxyExplainLine03">NaiveProxy官方程序下载地址：https://github.com/klzgrad/naiveproxy/releases</sys:String>
     <sys:String x:Key="readmeTxtNaiveProxyExplainLine04">下载相应版本，Windows选择naiveproxy-x.xx-win.zip,解压后提取naive.exe。与config.json放在同一目录，运行naive.exe即可。</sys:String>
-    <sys:String x:Key="readmeTxtNaiveProxyExplainLine05">此文件为NaiveGUI(windows)复制粘贴导入节点的网址</sys:String>
-    <sys:String x:Key="readmeTxtNaiveProxyExplainLine06">NaiveGUI(windows)下载网址：https://github.com/ExcitedCodes/NaiveGUI/releases</sys:String>
+    <sys:String x:Key="readmeTxtNaiveProxyExplainLine05">此文件为NaiveSharp(windows)复制粘贴导入节点的网址</sys:String>
+    <sys:String x:Key="readmeTxtNaiveProxyExplainLine06">NaiveSharp(windows)下载网址：https://github.com/KevinZonda/NaiveSharp/releases</sys:String>
     <sys:String x:Key="readmeTxtNaiveProxyExplainLine07">服务器通用连接配置参数</sys:String>
     <!--以下为SSR+TLS+Caddy客户端说明文件-->
     <sys:String x:Key="readmeTxtSSRExplainLine05">此文件为ShadowsocksR (windows)、SSRR（Android）、Shadowrocket(ios)扫码导入节点</sys:String>
