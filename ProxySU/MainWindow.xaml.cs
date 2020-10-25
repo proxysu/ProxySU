@@ -268,21 +268,7 @@ namespace ProxySU
             }
         }
 
-        //判断目录是否存在，不存在则创建
-        private static bool CheckDir(string folder)
-        {
-            try
-            {
-                if (!Directory.Exists(folder))//如果不存在就创建file文件夹
-                    Directory.CreateDirectory(folder);//创建该文件夹　　            
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
+       
         //更新新版本提醒显示
         Action<TextBlock, TextBlock, Button, string> updateNewVersionProxySUAction = new Action<TextBlock, TextBlock, Button, string>(UpdateNewVersionProxySU);
         private static void UpdateNewVersionProxySU(TextBlock TextBlockLastVersionProxySU, TextBlock TextBlockNewVersionReminder, Button ButtonUpgradeProxySU, string theLatestVersion)
@@ -5011,6 +4997,50 @@ namespace ProxySU
             return random.Next(10001, 60000);
         }
 
+        //判断目录是否存在，不存在则创建
+        private static bool CheckDir(string folder)
+        {
+            try
+            {
+                if (!Directory.Exists(folder))//如果不存在就创建file文件夹
+                    Directory.CreateDirectory(folder);//创建该文件夹　　            
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        //目录已存在则生成序号递增,并返回所创建的目录路径。
+        private string CreateConfigSaveDir(string upperDir, string configDir)
+        {
+            try
+            {
+                //string saveFileFolderFirst = configDir;
+                int num = 1;
+                //string saveFileFolder;
+                //saveFileFolder = EncodeURIComponent(configDir);
+                string saveFileFolder = configDir.Replace(":", "_");
+                CheckDir(upperDir);
+                while (Directory.Exists(upperDir + @"\" + saveFileFolder) == true)
+                {
+                    saveFileFolder = configDir + "_copy_" + num.ToString();
+                    num++;
+                }
+                CheckDir(upperDir + @"\" + saveFileFolder);
+                return upperDir + @"\" + saveFileFolder;
+            }
+            catch (Exception)
+            {
+                //string saveFileFolder = "";
+                //return upperDir + @"\" + saveFileFolder;
+                return upperDir;
+            }
+
+        }
+
+
         //上传配置文件
         private void UploadConfig(ConnectionInfo connectionInfo, string uploadConfig, string upLoadPath)
         {
@@ -5035,15 +5065,15 @@ namespace ProxySU
         }
 
         //下载配置文件
-        private void DownloadConfig(ConnectionInfo connectionInfo, string downloadConfig, string downloadPath)
+        private void DownloadConfig(ConnectionInfo connectionInfo, string localConfigSavePathAndFileName, string remoteConfigPathAndFileName)
         {
             try
             {
                 using (var sftpClient = new SftpClient(connectionInfo))
                 {
                     sftpClient.Connect();
-                    FileStream createDownloadConfig = File.Open(downloadConfig, FileMode.Create);
-                    sftpClient.DownloadFile(downloadPath, createDownloadConfig);
+                    FileStream createDownloadConfig = File.Open(localConfigSavePathAndFileName, FileMode.Create);
+                    sftpClient.DownloadFile(remoteConfigPathAndFileName, createDownloadConfig);
                     createDownloadConfig.Close();
                   
                     sftpClient.Disconnect();
@@ -8361,6 +8391,7 @@ namespace ProxySU
                 }
 
                 ReceiveConfigurationParameters[4] = TextBoxHost.Text;//传递主机地址
+                ReceiveConfigurationParameters[2] = PasswordBoxHostPassword.Password;//传递当前账户密码
 
                 installationDegree = 0;
                 TextBoxMonitorCommandResults.Text = "";
@@ -8443,7 +8474,7 @@ namespace ProxySU
                     }
 
                     SetUpProgressBarProcessing(10);
-                    string hostPassword = "'" + PasswordBoxHostPassword.Password + "'";
+                    string hostPassword = "'" + ReceiveConfigurationParameters[2] + "'";
                     //MessageBox.Show(hostPassword);
                     sshShellCommand = $"echo {hostPassword} | sudo -S id -u";
                     //MessageBox.Show(sshShellCommand);
@@ -8499,6 +8530,10 @@ namespace ProxySU
 
                     client.Disconnect();
 
+                    //***保存密码信息***
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_EnableRootPasswordSavePasswordInfo").ToString();
+                    MainWindowsShowInfo(currentStatus);
+
                     string filePath = ReceiveConfigurationParameters[4].Replace(':', '_');
                     CheckDir(filePath);
                     using (StreamWriter sw = new StreamWriter($"{filePath}\\host_password_info.txt"))
@@ -8531,6 +8566,482 @@ namespace ProxySU
         }
 
         #endregion
+
+        #region 启用Root证书密钥登录
+        private void ButtonEnableRootCert_Click(object sender, RoutedEventArgs e)
+        {
+            //******"本功能需要当前登录的账户具有root或者sudo权限，是否为远程主机启用root证书密钥登录？"******
+            string messageShow = Application.Current.FindResource("MessageBoxShow_ButtonEnableRootCert").ToString();
+            MessageBoxResult messageBoxResult = MessageBox.Show(messageShow, "", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (messageBoxResult == MessageBoxResult.Yes)
+            {
+                ConnectionInfo connectionInfo = GenerateConnectionInfo();
+                if (connectionInfo == null)
+                {
+                    //****** "远程主机连接信息有误，请检查!" ******
+                    MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorHostConnection").ToString());
+                    return;
+                }
+
+                ReceiveConfigurationParameters[4] = TextBoxHost.Text;//传递主机地址
+                ReceiveConfigurationParameters[2] = PasswordBoxHostPassword.Password;
+
+                installationDegree = 0;
+                TextBoxMonitorCommandResults.Text = "";
+                Thread thread = new Thread(() => EnableRootCert(connectionInfo));
+                thread.SetApartmentState(ApartmentState.STA);
+                thread.Start();
+            }
+        }
+
+        //启用Root证书密钥登录进程
+        private void EnableRootCert(ConnectionInfo connectionInfo)
+        {
+            functionResult = true;
+            getApt = false;
+            getDnf = false;
+            getYum = false;
+            onlyIpv6 = false;
+
+            string filePath = String.Empty;
+
+            //******"正在登录远程主机......"******
+            SetUpProgressBarProcessing(1);
+            string currentStatus = Application.Current.FindResource("DisplayInstallInfo_Login").ToString();
+            MainWindowsShowInfo(currentStatus);
+
+            try
+            {
+                #region 主机指纹，暂未启用
+                //byte[] expectedFingerPrint = new byte[] {
+                //                                0x66, 0x31, 0xaf, 0x00, 0x54, 0xb9, 0x87, 0x31,
+                //                                0xff, 0x58, 0x1c, 0x31, 0xb1, 0xa2, 0x4c, 0x6b
+                //                            };
+                #endregion
+                using (var client = new SshClient(connectionInfo))
+
+                {
+                    #region ssh登录验证主机指纹代码块，暂未启用
+                    //    client.HostKeyReceived += (sender, e) =>
+                    //    {
+                    //        if (expectedFingerPrint.Length == e.FingerPrint.Length)
+                    //        {
+                    //            for (var i = 0; i < expectedFingerPrint.Length; i++)
+                    //            {
+                    //                if (expectedFingerPrint[i] != e.FingerPrint[i])
+                    //                {
+                    //                    e.CanTrust = false;
+                    //                    break;
+                    //                }
+                    //            }
+                    //        }
+                    //        else
+                    //        {
+                    //            e.CanTrust = false;
+                    //        }
+                    //    };
+                    #endregion
+
+                    client.Connect();
+                    if (client.IsConnected == true)
+                    {
+                        //******"主机登录成功"******
+                        SetUpProgressBarProcessing(5);
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_LoginSuccessful").ToString();
+                        MainWindowsShowInfo(currentStatus);
+                    }
+
+                    //检测root权限 5--7
+                    //******"检测是否运行在root权限下..."******01
+                    SetUpProgressBarProcessing(5);
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_DetectionRootPermission").ToString();
+                    MainWindowsShowInfo(currentStatus);
+
+                    sshShellCommand = @"id -u";
+                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    if (currentShellCommandResult.TrimEnd('\r', '\n').Equals("0") == true)
+                    {
+                        SetUpProgressBarProcessing(20);
+
+                        //***正在生成密钥......***
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_EnableRootCertGenerateCert").ToString();
+                        MainWindowsShowInfo(currentStatus);
+
+                        sshShellCommand = @"rm -rf /tmp/rootuser.key /tmp/rootuser.key.pub";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = @"yes | ssh-keygen -b 2048 -t rsa -f /tmp/rootuser.key -q -N ''";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = @"yes | ssh-keygen -p -P '' -N '' -m PEM -f /tmp/rootuser.key";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = @"mkdir -p /root/.ssh";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = @"cat /tmp/rootuser.key.pub | tee -a /root/.ssh/authorized_keys";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = @"chmod 777 /tmp/rootuser.key";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        SetUpProgressBarProcessing(30);
+                        //***正在下载密钥......***
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_EnableRootCertDownloadCert").ToString();
+                        MainWindowsShowInfo(currentStatus);
+                       
+                        filePath = CreateConfigSaveDir(@"root_cert", ReceiveConfigurationParameters[4].Replace(':', '_'));
+                        string localConfigSavePathAndFileName = $"{filePath}\\rootuser.key";
+                        string remoteConfigPathAndFileName = @"/tmp/rootuser.key";
+                        DownloadConfig(connectionInfo, localConfigSavePathAndFileName, remoteConfigPathAndFileName);
+
+                        localConfigSavePathAndFileName = $"{filePath}\\rootuser.key.pub";
+                        remoteConfigPathAndFileName = @"/tmp/rootuser.key.pub";
+                        DownloadConfig(connectionInfo, localConfigSavePathAndFileName, remoteConfigPathAndFileName);
+
+                        sshShellCommand = @"rm -rf /tmp/rootuser.key /tmp/rootuser.key.pub";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        SetUpProgressBarProcessing(50);
+                        //***远程主机启用密钥登录......***
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_EnableRootCertSetCertEnable").ToString();
+                        MainWindowsShowInfo(currentStatus);
+                        
+                        sshShellCommand = @"sed -i 's/PermitRootLogin /#PermitRootLogin /g' /etc/ssh/sshd_config";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = @"sed -i 's/StrictModes /#StrictModes /g' /etc/ssh/sshd_config";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        SetUpProgressBarProcessing(70);
+                        sshShellCommand = @"sed -i 's/PubkeyAuthentication /#PubkeyAuthentication /g' /etc/ssh/sshd_config";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = @"sed -i 's/#AuthorizedKeysFile /AuthorizedKeysFile /g' /etc/ssh/sshd_config";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        SetUpProgressBarProcessing(80);
+                        sshShellCommand = @"sed -i 's/#RSAAuthentication /RSAAuthentication /g' /etc/ssh/sshd_config";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = @"echo 'PermitRootLogin yes' | tee -a /etc/ssh/sshd_config";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        SetUpProgressBarProcessing(90);
+                        sshShellCommand = @"echo 'StrictModes no' | tee -a /etc/ssh/sshd_config";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = @"echo 'PubkeyAuthentication yes' | tee -a /etc/ssh/sshd_config";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = @"systemctl restart sshd";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                    }
+                    else
+                    {
+                        SetUpProgressBarProcessing(10);
+                        string hostPassword = "'" + ReceiveConfigurationParameters[2] + "'";
+                        //MessageBox.Show(hostPassword);
+                        sshShellCommand = $"echo {hostPassword} | sudo -S id -u";
+                        //MessageBox.Show(sshShellCommand);
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                        //MessageBox.Show(currentShellCommandResult);
+                        if (currentShellCommandResult.TrimEnd('\r', '\n').Equals("0") == false)
+                        {
+                            //******"当前账户无法获取sudo权限，设置失败！"******
+                            currentStatus = Application.Current.FindResource("MessageBoxShow_NoSudoToAccount").ToString();
+                            MainWindowsShowInfo(currentStatus);
+                            MessageBox.Show(currentStatus);
+                            client.Disconnect();
+                            return;
+                        }
+
+                        SetUpProgressBarProcessing(20);
+                        string cmdPre = $"echo {hostPassword} | sudo -S id -u" + ';';
+                        //***正在生成密钥......***
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_EnableRootCertGenerateCert").ToString();
+                        MainWindowsShowInfo(currentStatus);
+
+                        sshShellCommand = cmdPre + @"sudo rm -rf /tmp/rootuser.key /tmp/rootuser.key.pub";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = cmdPre + @"yes | sudo ssh-keygen -b 2048 -t rsa -f /tmp/rootuser.key -q -N ''";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = cmdPre + @"yes | sudo ssh-keygen -p -P '' -N '' -m PEM -f /tmp/rootuser.key";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = cmdPre + @"sudo mkdir -p /root/.ssh";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = cmdPre + @"cat /tmp/rootuser.key.pub | sudo tee -a /root/.ssh/authorized_keys";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = cmdPre + @"sudo chmod 777 /tmp/rootuser.key";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        SetUpProgressBarProcessing(30);
+                        //***正在下载密钥......***
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_EnableRootCertDownloadCert").ToString();
+                        MainWindowsShowInfo(currentStatus);
+
+                        filePath = CreateConfigSaveDir(@"root_cert", ReceiveConfigurationParameters[4].Replace(':', '_'));
+                        string localConfigSavePathAndFileName = $"{filePath}\\rootuser.key";
+                        string remoteConfigPathAndFileName = @"/tmp/rootuser.key";
+                        DownloadConfig(connectionInfo, localConfigSavePathAndFileName, remoteConfigPathAndFileName);
+
+                        localConfigSavePathAndFileName = $"{filePath}\\rootuser.key.pub";
+                        remoteConfigPathAndFileName = @"/tmp/rootuser.key.pub";
+                        DownloadConfig(connectionInfo, localConfigSavePathAndFileName, remoteConfigPathAndFileName);
+
+                        sshShellCommand = cmdPre + @"sudo rm -rf /tmp/rootuser.key /tmp/rootuser.key.pub";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        SetUpProgressBarProcessing(50);
+                        //***远程主机启用密钥登录......***
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_EnableRootCertSetCertEnable").ToString();
+                        MainWindowsShowInfo(currentStatus);
+
+                        //string cmdPre = $"echo {hostPassword} | sudo -S id -u" + ';';
+                        sshShellCommand = cmdPre + @"sudo sed -i 's/PermitRootLogin /#PermitRootLogin /g' /etc/ssh/sshd_config";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = cmdPre + @"sudo sed -i 's/StrictModes /#StrictModes /g' /etc/ssh/sshd_config";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        SetUpProgressBarProcessing(70);
+                        sshShellCommand = cmdPre + @"sudo sed -i 's/PubkeyAuthentication /#PubkeyAuthentication /g' /etc/ssh/sshd_config";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = cmdPre + @"sudo sed -i 's/#AuthorizedKeysFile /AuthorizedKeysFile /g' /etc/ssh/sshd_config";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        SetUpProgressBarProcessing(80);
+                        sshShellCommand = cmdPre + @"sudo sed -i 's/#RSAAuthentication /RSAAuthentication /g' /etc/ssh/sshd_config";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = cmdPre + @"echo 'PermitRootLogin yes' | sudo tee -a /etc/ssh/sshd_config";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        SetUpProgressBarProcessing(90);
+                        sshShellCommand = cmdPre + @"echo 'StrictModes no' | sudo tee -a /etc/ssh/sshd_config";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = cmdPre + @"echo 'PubkeyAuthentication yes' | sudo tee -a /etc/ssh/sshd_config";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = cmdPre + @"sudo systemctl restart sshd";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                    }
+                    client.Disconnect();
+
+                    SetUpProgressBarProcessing(100);
+                    //******"远程主机root账户证书密钥登录已启用，密钥文件rootuser.key保存在随后打开的文件夹中！"******
+                    currentStatus = Application.Current.FindResource("MessageBoxShow_ButtonEnableRootCertSuccess").ToString();
+                    MainWindowsShowInfo(currentStatus);
+                    MessageBox.Show(currentStatus);
+                    System.Diagnostics.Process.Start("explorer.exe", filePath);
+
+                    return;
+                }
+            }
+            catch (Exception ex1)//例外处理   
+            #region 例外处理
+            {
+                ProcessException(ex1.Message);
+
+                //****** "主机登录失败!" ******
+                currentStatus = Application.Current.FindResource("DisplayInstallInfo_LoginFailed").ToString();
+                MainWindowsShowInfo(currentStatus);
+            }
+            #endregion
+
+        }
+
+
+        #endregion
+
+        //root禁止密码登录
+        private void ButtonRootProhibitsPasswordLogin_Click(object sender, RoutedEventArgs e)
+        {
+            //******"本功能需要远程主机已经开启了其他登录方式，如密钥方式等，否则将可能造成远程主机无法连接，是否禁止远程主机的root账户密码登录方式？"******
+            string messageShow = Application.Current.FindResource("MessageBoxShow_ButtonRootProhibitsPasswordLogin").ToString();
+            MessageBoxResult messageBoxResult = MessageBox.Show(messageShow, "", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (messageBoxResult == MessageBoxResult.Yes)
+            {
+                ConnectionInfo connectionInfo = GenerateConnectionInfo();
+                if (connectionInfo == null)
+                {
+                    //****** "远程主机连接信息有误，请检查!" ******
+                    MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorHostConnection").ToString());
+                    return;
+                }
+
+                ReceiveConfigurationParameters[4] = TextBoxHost.Text;//传递主机地址
+                ReceiveConfigurationParameters[2] = PasswordBoxHostPassword.Password;//传递主机密码
+
+                installationDegree = 0;
+                TextBoxMonitorCommandResults.Text = "";
+                Thread thread = new Thread(() => RootProhibitsPasswordLogin(connectionInfo));
+                thread.SetApartmentState(ApartmentState.STA);
+                thread.Start();
+            }
+        }
+
+        //禁止root密码登录进程
+        private void RootProhibitsPasswordLogin(ConnectionInfo connectionInfo)
+        {
+            functionResult = true;
+            getApt = false;
+            getDnf = false;
+            getYum = false;
+            onlyIpv6 = false;
+
+            string filePath = String.Empty;
+
+            //******"正在登录远程主机......"******
+            SetUpProgressBarProcessing(1);
+            string currentStatus = Application.Current.FindResource("DisplayInstallInfo_Login").ToString();
+            MainWindowsShowInfo(currentStatus);
+
+            try
+            {
+                #region 主机指纹，暂未启用
+                //byte[] expectedFingerPrint = new byte[] {
+                //                                0x66, 0x31, 0xaf, 0x00, 0x54, 0xb9, 0x87, 0x31,
+                //                                0xff, 0x58, 0x1c, 0x31, 0xb1, 0xa2, 0x4c, 0x6b
+                //                            };
+                #endregion
+                using (var client = new SshClient(connectionInfo))
+
+                {
+                    #region ssh登录验证主机指纹代码块，暂未启用
+                    //    client.HostKeyReceived += (sender, e) =>
+                    //    {
+                    //        if (expectedFingerPrint.Length == e.FingerPrint.Length)
+                    //        {
+                    //            for (var i = 0; i < expectedFingerPrint.Length; i++)
+                    //            {
+                    //                if (expectedFingerPrint[i] != e.FingerPrint[i])
+                    //                {
+                    //                    e.CanTrust = false;
+                    //                    break;
+                    //                }
+                    //            }
+                    //        }
+                    //        else
+                    //        {
+                    //            e.CanTrust = false;
+                    //        }
+                    //    };
+                    #endregion
+
+                    client.Connect();
+                    if (client.IsConnected == true)
+                    {
+                        //******"主机登录成功"******
+                        SetUpProgressBarProcessing(5);
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_LoginSuccessful").ToString();
+                        MainWindowsShowInfo(currentStatus);
+                    }
+
+                    //检测root权限 5--7
+                    //******"检测是否运行在root权限下..."******01
+                    SetUpProgressBarProcessing(5);
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_DetectionRootPermission").ToString();
+                    MainWindowsShowInfo(currentStatus);
+
+                    sshShellCommand = @"id -u";
+                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    if (currentShellCommandResult.TrimEnd('\r', '\n').Equals("0") == true)
+                    {
+                        SetUpProgressBarProcessing(20);
+
+                        //***正在关闭root账户密码登录方式......***
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_SetRootProhibitsPasswordLogin").ToString();
+                        MainWindowsShowInfo(currentStatus);
+
+                        sshShellCommand = @"sed -i 's/PasswordAuthentication /#PasswordAuthentication /g' /etc/ssh/sshd_config";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = @"sed -i 's/PermitEmptyPasswords /#PermitEmptyPasswords /g' /etc/ssh/sshd_config";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = @"echo 'PasswordAuthentication no' | tee -a /etc/ssh/sshd_config";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = @"echo 'PermitEmptyPasswords no' | tee -a /etc/ssh/sshd_config";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = @"systemctl restart sshd";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    }
+                    else
+                    {
+                        SetUpProgressBarProcessing(10);
+                        string hostPassword = "'" + ReceiveConfigurationParameters[2] + "'";
+                        //MessageBox.Show(hostPassword);
+                        sshShellCommand = $"echo {hostPassword} | sudo -S id -u";
+                        //MessageBox.Show(sshShellCommand);
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                        //MessageBox.Show(currentShellCommandResult);
+                        if (currentShellCommandResult.TrimEnd('\r', '\n').Equals("0") == false)
+                        {
+                            //******"当前账户无法获取sudo权限，设置失败！"******
+                            currentStatus = Application.Current.FindResource("MessageBoxShow_NoSudoToAccount").ToString();
+                            MainWindowsShowInfo(currentStatus);
+                            MessageBox.Show(currentStatus);
+                            client.Disconnect();
+                            return;
+                        }
+
+                        SetUpProgressBarProcessing(20);
+                        string cmdPre = $"echo {hostPassword} | sudo -S id -u" + ';';
+
+                        //***正在关闭root账户密码登录方式......***
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_SetRootProhibitsPasswordLogin").ToString();
+                        MainWindowsShowInfo(currentStatus);
+
+                        sshShellCommand = cmdPre + @"sudo sed -i 's/PasswordAuthentication /#PasswordAuthentication /g' /etc/ssh/sshd_config";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = cmdPre + @"sudo sed -i 's/PermitEmptyPasswords /#PermitEmptyPasswords /g' /etc/ssh/sshd_config";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = cmdPre + @"echo 'PasswordAuthentication no' | sudo tee -a /etc/ssh/sshd_config";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = cmdPre + @"echo 'PermitEmptyPasswords no' | sudo tee -a /etc/ssh/sshd_config";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = cmdPre + @"sudo systemctl restart sshd";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                    }
+                    client.Disconnect();
+
+                    SetUpProgressBarProcessing(100);
+                    //******"远程主机root账户密码登录方式已关闭！"******
+                    currentStatus = Application.Current.FindResource("MessageBoxShow_RootProhibitsPasswordLoginOK").ToString();
+                    MainWindowsShowInfo(currentStatus);
+                    MessageBox.Show(currentStatus);
+
+                    return;
+                }
+            }
+            catch (Exception ex1)//例外处理   
+            #region 例外处理
+            {
+                ProcessException(ex1.Message);
+
+                //****** "主机登录失败!" ******
+                currentStatus = Application.Current.FindResource("DisplayInstallInfo_LoginFailed").ToString();
+                MainWindowsShowInfo(currentStatus);
+            }
+            #endregion
+        }
     }
 
 }
