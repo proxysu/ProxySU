@@ -73,6 +73,15 @@ ProxySU在开发过程中，一般都是在vultr的vps中测试，测试系统�
 ##### 关于卸载功能  
 有网友要求，可以卸载其他方法安装的，经过考虑，还是不这样做。1，容易引起争议。2，不容易卸载干净，在用ProxySU安装时可能还会出错。所以第一次使用ProxySU建议使用全新系统，如果以前安装过代理程序，请尽可能将系统重装一下，可以减少很多安装的错误和冲突。  
 
+##### 关于兼容的密钥格式    
+ProxySU调用[SSH.NET](https://github.com/sshnet/SSH.NET)库登录远程主机，目前[SSH.NET](https://github.com/sshnet/SSH.NET)只支持以下格式的密钥：  
+* RSA in OpenSSL PEM and ssh.com format  
+* DSA in OpenSSL PEM and ssh.com format  
+* ECDSA 256/384/521 in OpenSSL PEM format  
+* ED25519 in OpenSSH key format  
+见官方说明：  
+https://github.com/sshnet/SSH.NET#public-key-authentication  
+
 ##### 关于Let's Encrypt证书  
 ProxySU所使用的acme.sh与Caddy，都是申请的Let's Encrypt免费证书。三个月需要续期，都是自动完成续期的，无需用户操作。但是Let's Encrypt证书有一些限制，请知晓，如下：  
 
