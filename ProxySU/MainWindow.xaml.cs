@@ -6844,50 +6844,57 @@ namespace ProxySU
         #region 测试用代码
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string pwdir = AppDomain.CurrentDomain.BaseDirectory;
-            MessageBox.Show(pwdir);
-            //ConnectionInfo connectionInfo = GenerateConnectionInfo();
-            //if (connectionInfo == null)
-            //{
-            //    //****** "远程主机连接信息有误，请检查!" ******
-            //    MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorHostConnection").ToString());
-            //    return;
-            //}
-            //using (var client = new SshClient(connectionInfo))
-            //{
-            //    client.Connect();
-            //    if (client.IsConnected == true)
-            //    {
-            //        //******"主机登录成功"******
-            //        SetUpProgressBarProcessing(3);
-            //        currentStatus = Application.Current.FindResource("DisplayInstallInfo_LoginSuccessful").ToString();
-            //        MainWindowsShowInfo(currentStatus);
+            //string pwdir = AppDomain.CurrentDomain.BaseDirectory;
+            //MessageBox.Show(pwdir);
+            ConnectionInfo connectionInfo = GenerateConnectionInfo();
+            if (connectionInfo == null)
+            {
+                //****** "远程主机连接信息有误，请检查!" ******
+                MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorHostConnection").ToString());
+                return;
+            }
+            using (var client = new SshClient(connectionInfo))
+            {
+                client.Connect();
+                if (client.IsConnected == true)
+                {
+                    //******"主机登录成功"******
+                    SetUpProgressBarProcessing(3);
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_LoginSuccessful").ToString();
+                    MainWindowsShowInfo(currentStatus);
 
-            //    }
-            //    //string cmdErr = client.RunCommand(@"aaa ee").Error;
-            //    //MessageBox.Show(cmdErr);
-            //    SshCommand cmdResult = client.RunCommand(@"pwd");
-            //    string result = cmdResult.Result;
-            //    MessageBox.Show("result:"+result);
-            //    string error = cmdResult.Error;
-            //    MessageBox.Show("err:"+error);
+                }
+                //string cmdErr = client.RunCommand(@"aaa ee").Error;
+                //MessageBox.Show(cmdErr);
+                SshCommand cmdResult = client.RunCommand(@"pwd");
+                string result = cmdResult.Result;
+                MessageBox.Show("result:" + result);
+                string error = cmdResult.Error;
+                MessageBox.Show("err:" + error);
 
-            //    SshCommand cmdResultCat = client.RunCommand(@"cat tt.t");
-            //    string resultCat = cmdResultCat.Result;
-            //    MessageBox.Show("resultCat:" + resultCat);
-            //    string errorCat = cmdResultCat.Error;
-            //    MessageBox.Show("errCat:" + errorCat);
-            //SoftInstalledSuccessOrFail(client, "v2ray", @"/usr/local/bin/v2ray");
-            //CaddyInstall(client);
-            //if (client.IsConnected == true)
-            //{
-            //    MessageBox.Show("Connected");
-            //}
-            //if (client.IsConnected == false)
-            //{
-            //    MessageBox.Show("disConnected");
-            //}
-        //}
+                int cmdExitStatus = cmdResult.ExitStatus;
+                MessageBox.Show("cmdExitStatus:" + cmdExitStatus.ToString());
+
+                SshCommand cmdResultCat = client.RunCommand(@"cat tt.t");
+                string resultCat = cmdResultCat.Result;
+                MessageBox.Show("resultCat:" + resultCat);
+                string errorCat = cmdResultCat.Error;
+                MessageBox.Show("errCat:" + errorCat);
+
+                cmdExitStatus = cmdResultCat.ExitStatus;
+                MessageBox.Show("cmdExitStatus:" + cmdExitStatus.ToString());
+
+                //SoftInstalledSuccessOrFail(client, "v2ray", @"/usr/local/bin/v2ray");
+                //CaddyInstall(client);
+                //if (client.IsConnected == true)
+                //{
+                //    MessageBox.Show("Connected");
+                //}
+                //if (client.IsConnected == false)
+                //{
+                //    MessageBox.Show("disConnected");
+                //}
+            }
         }
 
         private string CaddyInstallTest(SshClient client)
@@ -7014,9 +7021,15 @@ namespace ProxySU
         {
             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
             SshCommand cmdResult = client.RunCommand(sshShellCommand);
-            string currentShellCommandResult = cmdResult.Result;
-            string currentShellCommandError = cmdResult.Error;
-            if (String.IsNullOrEmpty(currentShellCommandResult) == true) { currentShellCommandResult = currentShellCommandError; }
+            string currentShellCommandResult = cmdResult.Result;        //命令执行成功的结果
+            string currentShellCommandError = cmdResult.Error;          //命令执行出错的提示
+            int cmdExitStatus = cmdResult.ExitStatus;
+            //if (String.IsNullOrEmpty(currentShellCommandResult) == true)
+            if(cmdExitStatus == 1)
+            {
+                //currentShellCommandResult = currentShellCommandError;
+                TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandError);//显示命令执行错误的提示
+            }
             TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
 
             return currentShellCommandResult;
