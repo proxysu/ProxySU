@@ -26,6 +26,7 @@
     <sys:String x:Key="RadioButtonProxyNoLogin">不需登錄</sys:String>
     <sys:String x:Key="RadiobuttonProxyYesLogin">需要登錄</sys:String>
     <sys:String x:Key="TextBlockProxyHost">代理地址:</sys:String>
+    <sys:String x:Key="ButtonSaveInstalledLog">安裝日誌另存為...</sys:String>
     <sys:String x:Key="TextBlockSetUpProcessing">等待安裝佈署</sys:String>
     <sys:String x:Key="TabItemHeaderSysTools">系統工具</sys:String>
     <sys:String x:Key="ButtonV2RayTemplateConfiguration">V2Ray模板庫</sys:String>

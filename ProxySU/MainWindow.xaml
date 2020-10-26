@@ -147,7 +147,7 @@
                                 <TextBlock x:Name="TextBlockProxyPassword" IsEnabled="False" Text="{DynamicResource TextBlockHostPassword}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5" Grid.Column="2"  Grid.Row="1" ></TextBlock>
                                 <TextBox x:Name="TextBoxProxyUserName" IsEnabled="False" Text="" Margin="3" Grid.Column="1"  Grid.Row="1" />
                                 <PasswordBox x:Name="PasswordBoxProxyPassword" IsEnabled="False" Password=""  Margin="3" Grid.Column="3"  Grid.Row="1"></PasswordBox>
-
+                                <Button x:Name="ButtonSaveInstalledLog" Content="{DynamicResource ButtonSaveInstalledLog}" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="2" Margin="10,3,10,3" Click="ButtonSaveInstalledLog_Click"></Button>
                             </Grid>
                         </Grid>
                         <Grid Grid.Row="1">

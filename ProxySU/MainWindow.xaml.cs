@@ -27,6 +27,7 @@ using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Runtime;
 using System.Globalization;
+using Microsoft.Win32;
 
 namespace ProxySU
 {
@@ -6988,6 +6989,7 @@ namespace ProxySU
            
             return true;
         }
+        
         //纯ipv6主机安装脚本处理
         //private void Ipv6ScriptEdit(SshClient client,string scriptFile)
         //{
@@ -8070,12 +8072,44 @@ namespace ProxySU
 
 
 
+
         //生成客户端配置 96--98
 
 
         #endregion
 
+        //安装日志另存为...
+        private void ButtonSaveInstalledLog_Click(object sender, RoutedEventArgs e)
+        {
+            string logSaveName = ChooseSaveFile("Log Save as...", $"{pwdir}");
+            if (String.IsNullOrEmpty(logSaveName) == false)
+            {
+                using (StreamWriter sw = new StreamWriter($"{logSaveName}"))
+                {
+                    sw.WriteLine($"{TextBoxMonitorCommandResults.Text}");
+                }
+            }
+        }
+        private string ChooseSaveFile(string title, string initFolder)
+        {
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.Title = title;
+            string localTime = DateTime.Now.ToLocalTime().ToString().Replace(' ','-').Replace(':','-').Replace('/','-').Replace('\\','-');
+            dlg.FileName = $"{TextBoxHost.Text.Replace(':','_')}_{localTime}.txt"; // Default file name
+            dlg.DefaultExt = ".txt"; // Default file extension
+            dlg.Filter = "Text documents|*.txt"; // Filter files by extension
+            dlg.InitialDirectory = initFolder;
 
+            // Process save file dialog box results
+            if (dlg.ShowDialog() == true)
+            {
+                return dlg.FileName;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 
 }

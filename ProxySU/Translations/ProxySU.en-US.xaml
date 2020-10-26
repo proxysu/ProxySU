@@ -26,6 +26,7 @@
     <sys:String x:Key="RadioButtonProxyNoLogin">Not Login</sys:String>
     <sys:String x:Key="RadiobuttonProxyYesLogin">Requires Login</sys:String>
     <sys:String x:Key="TextBlockProxyHost">Proxy Addr:</sys:String>
+    <sys:String x:Key="ButtonSaveInstalledLog">Save Installation Log...</sys:String>
     <sys:String x:Key="TextBlockSetUpProcessing">Waiting for installation and deployment</sys:String>
     <sys:String x:Key="TabItemHeaderSysTools">System Tools</sys:String>
     <sys:String x:Key="ButtonV2RayTemplateConfiguration">V2Ray Templates</sys:String>
