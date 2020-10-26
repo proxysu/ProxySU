@@ -57,7 +57,7 @@ ProxySU在开发过程中，一般都是在vultr的vps中测试，测试系统�
 ##### ShadowsocksR(SSR)一键安装：  
 * SSR+TLS+Caddy  
 
-##### Shadowsocks-libev及相关插件一键安装：  
+##### SS (Shadowsocks-libev) 及相关插件一键安装：  
 * SS 经典模式  
 * SS+WebSocket+TLS+Caddy(Web前置) (推荐)  
 * SS+WebSocket  
@@ -144,7 +144,7 @@ Let's Encrypt证书申请频率的限制
 * [SSRR（Android）](https://github.com/shadowsocksrr/shadowsocksr-android/releases)导入二维码和URL  
 * [Shadowrocket (ios)](https://apps.apple.com/us/app/shadowrocket/id932747118)导入二维码和URL  
 
-###### Shadowsocks-libev 目前已支持生成用于  
+###### SS (Shadowsocks-libev) 目前已支持生成用于  
 
 * [Shadowsocks (windows)](https://github.com/shadowsocks/shadowsocks-windows/releases)客户端导入二维码和URL  
 * [shadowsocks（Android）](https://github.com/shadowsocks/shadowsocks-android/releases)导入二维码和URL  
