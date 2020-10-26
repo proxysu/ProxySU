@@ -31,6 +31,29 @@ using Microsoft.Win32;
 
 namespace ProxySU
 {
+    class NatDns64
+    {
+        private string ipaddr { set; get; } //Dns64网关地址
+        private int avg { set; get; } //ping的平均值
+
+        public NatDns64(string IpAddr, int Avg)
+        {
+            this.ipaddr = IpAddr;
+            this.avg = Avg;
+        }
+
+        public string IpAddr
+        {
+            get { return ipaddr; }
+            set { this.ipaddr = IpAddr; }
+        }
+
+        public int Avg
+        {
+            get { return avg; }
+            set { this.avg = Avg; }
+        }
+    }
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
@@ -6761,6 +6784,38 @@ namespace ProxySU
         }
         #endregion
 
+        //安装日志另存为...
+        private void ButtonSaveInstalledLog_Click(object sender, RoutedEventArgs e)
+        {
+            string logSaveName = ChooseSaveFile("Log Save as...", $"{pwdir}");
+            if (String.IsNullOrEmpty(logSaveName) == false)
+            {
+                using (StreamWriter sw = new StreamWriter($"{logSaveName}"))
+                {
+                    sw.WriteLine($"{TextBoxMonitorCommandResults.Text}");
+                }
+            }
+        }
+        private string ChooseSaveFile(string title, string initFolder)
+        {
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.Title = title;
+            string localTime = DateTime.Now.ToLocalTime().ToString().Replace(' ', '-').Replace(':', '-').Replace('/', '-').Replace('\\', '-');
+            dlg.FileName = $"{TextBoxHost.Text.Replace(':', '_')}_{localTime}.txt"; // Default file name
+            dlg.DefaultExt = ".txt"; // Default file extension
+            dlg.Filter = "Text documents|*.txt"; // Filter files by extension
+            dlg.InitialDirectory = initFolder;
+
+            // Process save file dialog box results
+            if (dlg.ShowDialog() == true)
+            {
+                return dlg.FileName;
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         #endregion
 
@@ -6865,25 +6920,27 @@ namespace ProxySU
                     MainWindowsShowInfo(currentStatus);
 
                 }
+                SetUpNat64(client, true);
+                //FilterFastestIP(client);
                 //string cmdErr = client.RunCommand(@"aaa ee").Error;
                 //MessageBox.Show(cmdErr);
-                SshCommand cmdResult = client.RunCommand(@"pwd");
-                string result = cmdResult.Result;
-                MessageBox.Show("result:" + result);
-                string error = cmdResult.Error;
-                MessageBox.Show("err:" + error);
+                //SshCommand cmdResult = client.RunCommand(@"pwd");
+                //string result = cmdResult.Result;
+                //MessageBox.Show("result:" + result);
+                //string error = cmdResult.Error;
+                //MessageBox.Show("err:" + error);
 
-                int cmdExitStatus = cmdResult.ExitStatus;
-                MessageBox.Show("cmdExitStatus:" + cmdExitStatus.ToString());
+                //int cmdExitStatus = cmdResult.ExitStatus;
+                //MessageBox.Show("cmdExitStatus:" + cmdExitStatus.ToString());
 
-                SshCommand cmdResultCat = client.RunCommand(@"cat tt.t");
-                string resultCat = cmdResultCat.Result;
-                MessageBox.Show("resultCat:" + resultCat);
-                string errorCat = cmdResultCat.Error;
-                MessageBox.Show("errCat:" + errorCat);
+                //SshCommand cmdResultCat = client.RunCommand(@"cat tt.t");
+                //string resultCat = cmdResultCat.Result;
+                //MessageBox.Show("resultCat:" + resultCat);
+                //string errorCat = cmdResultCat.Error;
+                //MessageBox.Show("errCat:" + errorCat);
 
-                cmdExitStatus = cmdResultCat.ExitStatus;
-                MessageBox.Show("cmdExitStatus:" + cmdExitStatus.ToString());
+                //cmdExitStatus = cmdResultCat.ExitStatus;
+                //MessageBox.Show("cmdExitStatus:" + cmdExitStatus.ToString());
 
                 //SoftInstalledSuccessOrFail(client, "v2ray", @"/usr/local/bin/v2ray");
                 //CaddyInstall(client);
@@ -6966,14 +7023,29 @@ namespace ProxySU
         {
             if(set == true)
             {
+                //****** "正在查找最快的Nat64网关......" ******
+                currentStatus = Application.Current.FindResource("DisplayInstallInfo_FindFastestSetUpNat64").ToString();
+                MainWindowsShowInfo(currentStatus);
+                string[] dns64 = new string[2];
+                dns64 = FilterFastestIP(client);
+
+                //****** "当前主机最快的Nat64网关为:" ******
+                currentStatus = Application.Current.FindResource("DisplayInstallInfo_FindFastestNat64AsIs").ToString();
+                MainWindowsShowInfo(currentStatus);
+
+                currentStatus = dns64[0];
+                MainWindowsShowInfo(currentStatus);
+                currentStatus = dns64[1];
+                MainWindowsShowInfo(currentStatus);
+
                 //****** "正在设置Nat64网关......" ******
                 currentStatus = Application.Current.FindResource("DisplayInstallInfo_SetUpNat64").ToString();
                 MainWindowsShowInfo(currentStatus);
                 sshShellCommand = @"mv /etc/resolv.conf /etc/resolv.conf.bak";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-                sshShellCommand = @"echo ""nameserver   2a09:11c0:f1:bbf0::70"" >>/etc/resolv.conf";
+                sshShellCommand = $"echo \"nameserver   {dns64[0]}\" >>/etc/resolv.conf";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-                sshShellCommand = @"echo ""nameserver   2a03:7900:2:0:31:3:104:161"" >>/etc/resolv.conf";
+                sshShellCommand = $"echo \"nameserver   {dns64[1]}\" >>/etc/resolv.conf";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
             }
             else
@@ -6989,7 +7061,50 @@ namespace ProxySU
            
             return true;
         }
-        
+
+        //筛选最优的NAT64地址
+        private string[] FilterFastestIP(SshClient client)
+        {
+            string[] gateNat64 = {
+                "2a01:4f9:c010:3f02::1",
+                "2001:67c:2b0::4",
+                "2001:67c:2b0::6",
+                "2a09:11c0:f1:bbf0::70",
+                "2a01:4f8:c2c:123f::1",
+                "2001:67c:27e4:15::6411",
+                "2001:67c:27e4::64",
+                "2001:67c:27e4:15::64",
+                "2001:67c:27e4::60",
+                "2a00:1098:2b::1",
+                "2a03:7900:2:0:31:3:104:161",
+                "2a00:1098:2c::1",
+                "2a09:11c0:100::53",
+            };
+            string[] returnstr = new string[2];
+            List<NatDns64> NatDns64s = new List<NatDns64>();
+            foreach (string gateip in gateNat64)
+            {
+                sshShellCommand = $"ping -c4 {gateip} | grep avg | awk '{{print $4}}'|cut -d/ -f2";
+                currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                if (String.IsNullOrEmpty(currentShellCommandResult) != true)
+                {
+                    if (float.TryParse(currentShellCommandResult, out float delay) == true)
+                    {
+
+                        int delayInt = (int)(delay * 1000);
+                        NatDns64 ipaddr = new NatDns64($"{gateip}", delayInt);
+                        NatDns64s.Add(ipaddr);
+                    }
+                }
+
+            }
+            NatDns64s = NatDns64s.OrderBy(o => o.Avg).ToList();
+            returnstr[0] = NatDns64s[0].IpAddr;
+            returnstr[1] = NatDns64s[1].IpAddr;
+
+            return returnstr;
+        }
+
         //纯ipv6主机安装脚本处理
         //private void Ipv6ScriptEdit(SshClient client,string scriptFile)
         //{
@@ -8078,38 +8193,7 @@ namespace ProxySU
 
         #endregion
 
-        //安装日志另存为...
-        private void ButtonSaveInstalledLog_Click(object sender, RoutedEventArgs e)
-        {
-            string logSaveName = ChooseSaveFile("Log Save as...", $"{pwdir}");
-            if (String.IsNullOrEmpty(logSaveName) == false)
-            {
-                using (StreamWriter sw = new StreamWriter($"{logSaveName}"))
-                {
-                    sw.WriteLine($"{TextBoxMonitorCommandResults.Text}");
-                }
-            }
-        }
-        private string ChooseSaveFile(string title, string initFolder)
-        {
-            SaveFileDialog dlg = new SaveFileDialog();
-            dlg.Title = title;
-            string localTime = DateTime.Now.ToLocalTime().ToString().Replace(' ','-').Replace(':','-').Replace('/','-').Replace('\\','-');
-            dlg.FileName = $"{TextBoxHost.Text.Replace(':','_')}_{localTime}.txt"; // Default file name
-            dlg.DefaultExt = ".txt"; // Default file extension
-            dlg.Filter = "Text documents|*.txt"; // Filter files by extension
-            dlg.InitialDirectory = initFolder;
-
-            // Process save file dialog box results
-            if (dlg.ShowDialog() == true)
-            {
-                return dlg.FileName;
-            }
-            else
-            {
-                return null;
-            }
-        }
+        
     }
 
 }

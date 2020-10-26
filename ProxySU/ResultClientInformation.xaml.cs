@@ -574,25 +574,29 @@ namespace ProxySU
                 configDomainSavePath = CreateConfigSaveDir(proxyfolder, MainWindow.ReceiveConfigurationParameters[4]);
                 string configSavePath = configDomainSavePath;
 
-                //string mtprotoJsonPath = @"mtproto_config\mtproto_info.json";
-                //using (StreamReader readerJson = File.OpenText(mtprotoJsonPath))
-                //{
-                //JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
-
+                RadioButtonMtgIpv4.IsChecked = true;
                 JObject jObjectJson = JObject.Parse(MainWindow.ReceiveConfigurationParameters[9]);
-
-                TextBoxURLMtgTgIpv4.Text = jObjectJson["ipv4"]["tg_url"].ToString();
-                ImageShareQRcodeMtgTgIpv4.Source = CreateQRCode(TextBoxURLMtgTgIpv4.Text, $"{configSavePath}\\QRIpv4Tg.bmp");
-                using (StreamWriter sw = new StreamWriter($"{configSavePath}\\urlIpv4Tg.txt"))
+                if (jObjectJson["ipv4"]["tg_url"].ToString().Contains("nil") == false)
                 {
-                    sw.WriteLine(TextBoxURLMtgTgIpv4.Text);
+                    RadioButtonMtgIpv4.Visibility = Visibility.Visible;
+                    TextBoxURLMtgTgIpv4.Text = jObjectJson["ipv4"]["tg_url"].ToString();
+                    ImageShareQRcodeMtgTgIpv4.Source = CreateQRCode(TextBoxURLMtgTgIpv4.Text, $"{configSavePath}\\QRIpv4Tg.bmp");
+                    using (StreamWriter sw = new StreamWriter($"{configSavePath}\\urlIpv4Tg.txt"))
+                    {
+                        sw.WriteLine(TextBoxURLMtgTgIpv4.Text);
+                    }
+
+                    TextBoxURLMtgTmeIpv4.Text = jObjectJson["ipv4"]["tme_url"].ToString();
+                    ImageShareQRcodeMtgTmeIpv4.Source = CreateQRCode(TextBoxURLMtgTmeIpv4.Text, $"{configSavePath}\\QRIpv4Tme.bmp");
+                    using (StreamWriter sw = new StreamWriter($"{configSavePath}\\urlIpv4Tme.txt"))
+                    {
+                        sw.WriteLine(TextBoxURLMtgTmeIpv4.Text);
+                    }
+                    RadioButtonMtgIpv4.IsChecked = true;
                 }
-
-                TextBoxURLMtgTmeIpv4.Text = jObjectJson["ipv4"]["tme_url"].ToString();
-                ImageShareQRcodeMtgTmeIpv4.Source = CreateQRCode(TextBoxURLMtgTmeIpv4.Text, $"{configSavePath}\\QRIpv4Tme.bmp");
-                using (StreamWriter sw = new StreamWriter($"{configSavePath}\\urlIpv4Tme.txt"))
+                else
                 {
-                    sw.WriteLine(TextBoxURLMtgTmeIpv4.Text);
+                    RadioButtonMtgIpv4.Visibility = Visibility.Collapsed;
                 }
 
                 if (jObjectJson["ipv6"]["tg_url"].ToString().Contains("nil") == false)
@@ -611,24 +615,19 @@ namespace ProxySU
                     {
                         sw.WriteLine(TextBoxURLMtgTmeIpv6.Text);
                     }
+                    RadioButtonMtgIpv6.IsChecked = true;
                 }
                 else
                 {
                     RadioButtonMtgIpv6.Visibility = Visibility.Collapsed;
                 }
-                RadioButtonMtgIpv4.IsChecked = true;
+                
 
                 using (StreamWriter sw = new StreamWriter($"{configSavePath}\\mtproto_info.json"))
                 {
                     sw.Write(MainWindow.ReceiveConfigurationParameters[9].ToString());
                 }
 
-                //}
-                //if (File.Exists(@"mtproto_config\mtproto_info.json"))
-                //{
-                //    File.Move(@"mtproto_config\mtproto_info.json", $"{configSavePath}\\mtproto_info.json");
-                //    //File.Delete(@"config\config.json");//删除该文件
-                //}
             }
         }
 
