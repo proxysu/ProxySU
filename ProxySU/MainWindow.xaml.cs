@@ -85,9 +85,6 @@ namespace ProxySU
         static string ipv4 = String.Empty;                          //保存获取的ipv4地址
         static string ipv6 = String.Empty;                          //保存获取的ipv6地址
         static bool onlyIpv6 = false;                               //主机是否基于纯ipv6地址
-        //static string scriptGithubUrl = "raw.githubusercontent.com";//安装脚本下载地址
-        //static string apiGithubCom = "api.github.com";              //github api接口
-        //static string githubCom = "github.com";                     //github 主站网址
         static bool functionResult = true;                          //标示功能函数是否执行状态(true无错误发生/false有错误发生)
         static string sshShellCommand = String.Empty;               //定义保存执行的命令
         static string currentStatus = String.Empty;                 //定议保存要显示的状态
@@ -5323,6 +5320,7 @@ namespace ProxySU
                     functionResult = RootAuthorityDetect(client);
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
+                    SetUpProgressBarProcessing(30);
                     //****** "BBR测试......" ******
                     currentStatus = Application.Current.FindResource("DisplayInstallInfo_TestBBR").ToString();
                     MainWindowsShowInfo(currentStatus);
@@ -5340,6 +5338,7 @@ namespace ProxySU
                     //如果内核满足大于等于4.9，且还未启用BBR，则启用BBR
                     if (detectResultBBR == true && resultCmdTestBBR.Contains("bbr") == false)
                     {
+                        SetUpProgressBarProcessing(60);
                         //****** "正在启用BBR......" ******
                         currentStatus = Application.Current.FindResource("DisplayInstallInfo_EnableBBR").ToString();
                         MainWindowsShowInfo(currentStatus);
@@ -5355,9 +5354,11 @@ namespace ProxySU
                     }
                     else if (resultCmdTestBBR.Contains("bbr") == true)
                     {
+                        SetUpProgressBarProcessing(100);
                         //******  "BBR已经启用了！" ******
                         currentStatus = Application.Current.FindResource("DisplayInstallInfo_BBRisEnabled").ToString();
                         MainWindowsShowInfo(currentStatus);
+                        
                     }
                     else
                     {
@@ -5365,8 +5366,9 @@ namespace ProxySU
                         currentStatus = Application.Current.FindResource("DisplayInstallInfo_BBRFailed").ToString();
                         MainWindowsShowInfo(currentStatus);
                     }
-                    client.Disconnect();//断开服务器ssh连接
 
+                    client.Disconnect();//断开服务器ssh连接
+                    
                     return;
                 }
             }
