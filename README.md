@@ -26,21 +26,17 @@ ProxySU在开发过程中，一般都是在vultr的vps中测试，测试系统�
 * VLESS+WebSocket+TLS+Web  
 * VLESS+http2+TLS+Web  
 * VLESS+mKCP
-* 
 * tcp 
 * tcp+http伪装  
 * tcp+TLS 
 * tcp+TLS （自签证书）
-
 * WebSocket
 * WebSocket+TLS 
 * WebSocket+TLS+Web 
 * WebSocket+TLS（自签证书） 
-
 * http2  
 * http2+TLS+Web
 * http2（自签证书）  
-
 * mKCP及各种伪装 
 * QUIC及各种伪装。  
 注：mKCP和QUIC模式使用udp协议，可以有效减少网络延时，有加速的作用，但在网络管控严厉时期，会导致IP被封，遇到的一次，就是刚安装好，使用了3个小时后，IP被封（现已确认是mKCP的流量被识别导致，项目组正在维护中。2020.6.10维护完毕，升级到版本4.24.2及以上，启用mKCP密钥可增强抗识别）。以上模式最推荐的是WebSocket+TLS+Web 和http2+TLS+Web 需要有一个域名。如果能加上CDN则稳定性更好。加上CDN后，是加速还是减速，与线路有关。
