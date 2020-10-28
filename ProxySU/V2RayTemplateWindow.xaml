@@ -258,7 +258,15 @@
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <RadioButton x:Name="RadioButtonMkcpNone" Content="{DynamicResource RadioButtonV2RayMkcpNone}" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="1" Checked="RadioButtonMkcp_Checked" HorizontalAlignment="Left" VerticalAlignment="Center"></RadioButton>
+                            <Grid Grid.Column="1" Grid.ColumnSpan="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <RadioButton x:Name="RadioButtonVMESSmKCP" Content="VMESS" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"></RadioButton>
+                                <RadioButton x:Name="RadioButtonVLESSmKCP" Content="VLESS" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"></RadioButton>
+                            </Grid>
+                           <RadioButton x:Name="RadioButtonMkcpNone" Content="{DynamicResource RadioButtonV2RayMkcpNone}" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="1" Checked="RadioButtonMkcp_Checked" HorizontalAlignment="Left" VerticalAlignment="Center"></RadioButton>
                             <TextBlock Text="{DynamicResource TextBlockV2RayMkcpNoneExplain}" TextWrapping="Wrap" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
                             <RadioButton x:Name="RadioButton2mKCP2SRTP" Content="mKCP+SRTP" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="2" Checked="RadioButtonMkcp_Checked" HorizontalAlignment="Left" VerticalAlignment="Center"></RadioButton>
                             <TextBlock Text="{DynamicResource TextBlockV2RayMkcpSRTPExplain}" TextWrapping="Wrap"  Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>

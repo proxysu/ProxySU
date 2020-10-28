@@ -232,6 +232,13 @@ namespace ProxySU
                     }
                     else if (MainWindow.ReceiveConfigurationParameters[0].Contains("mKCP") == true)
                     {
+                        if(MainWindow.mKCPvlessIsSet == true)
+                        {
+                            TextBlockVmessOrVless.Text = Application.Current.FindResource("TabItemHeaderV2RayVlessProtocol").ToString();
+                            TextBoxEncryption.Text = "none";
+                            HideAlterId();
+                            HideGroupBoxClientQRandURL();
+                        }
                         if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "mKCPNone") == true)
                         {
                             TextBoxCamouflageType.Text = "none";
@@ -967,7 +974,8 @@ namespace ProxySU
             if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessXtlsTcp") == false
                 && String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false
                 && String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessWebSocketTlsWeb") == false
-                && String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessHttp2Web") == false)
+                && String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessHttp2Web") == false
+                && MainWindow.mKCPvlessIsSet == false)
             {
                 using (StreamWriter sw = new StreamWriter($"{configSavePath}\\url.txt"))
                 {

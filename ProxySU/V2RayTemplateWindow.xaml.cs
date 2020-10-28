@@ -48,6 +48,7 @@ namespace ProxySU
 
             //隐藏QUIC密钥
             FirstQuicHideEncryption();
+            RadioButtonVMESSmKCP.IsChecked = true;
         }
         //取消不在当前活动选项卡中的其他所有选项卡中的所有RadioBuuton的选中状态
         //代码参考网址：https://blog.csdn.net/weixin_42583999/article/details/103468857
@@ -557,6 +558,15 @@ namespace ProxySU
             //传递uuid
             MainWindow.ReceiveConfigurationParameters[2] = TextBoxNewUUID.Text.ToString();
 
+            if (RadioButtonVLESSmKCP.IsChecked == true)
+            {
+                MainWindow.mKCPvlessIsSet = true;
+            }
+            else
+            {
+                MainWindow.mKCPvlessIsSet = false;
+            }
+               
             if (domainNotEmpty)
             {
                 this.Close();

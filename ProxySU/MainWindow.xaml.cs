@@ -81,6 +81,7 @@ namespace ProxySU
 
         public static string proxyType = "V2Ray";                   //代理类型标识: V2Ray\TrojanGo\Trojan\NaiveProxy
         public static readonly string pwdir = AppDomain.CurrentDomain.BaseDirectory; //执行文件所在目录
+        public static bool mKCPvlessIsSet = false;                  //mKCP是否使用VLESS协议
         static bool testDomain = false;                             //设置标识--域名是否需要检测解析，初始化为不需要
         static string ipv4 = String.Empty;                          //保存获取的ipv4地址
         static string ipv6 = String.Empty;                          //保存获取的ipv6地址
@@ -1475,7 +1476,15 @@ namespace ProxySU
                 //else if (String.Equals(ReceiveConfigurationParameters[0], "MkcpNone")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2SRTP")||String.Equals(ReceiveConfigurationParameters[0], "mKCPuTP")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WechatVideo")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2DTLS")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WireGuard"))
                 else if (ReceiveConfigurationParameters[0].Contains("mKCP") == true)
                 {
-                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\05_inbounds\mkcp_server_config.json";
+                    if(mKCPvlessIsSet == true)
+                    {
+                        inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\05_inbounds\vless_mkcp_server_config.json";
+                    }
+                    else
+                    {
+                        inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\05_inbounds\mkcp_server_config.json";
+                    }
+
                 }
 
                 // else if (String.Equals(ReceiveConfigurationParameters[0], "QuicNone") || String.Equals(ReceiveConfigurationParameters[0], "QuicSRTP") || String.Equals(ReceiveConfigurationParameters[0], "Quic2uTP") || String.Equals(ReceiveConfigurationParameters[0], "QuicWechatVideo") || String.Equals(ReceiveConfigurationParameters[0], "QuicDTLS") || String.Equals(ReceiveConfigurationParameters[0], "QuicWireGuard"))
@@ -1817,7 +1826,15 @@ namespace ProxySU
                     //else if (String.Equals(ReceiveConfigurationParameters[0], "MkcpNone")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2SRTP")||String.Equals(ReceiveConfigurationParameters[0], "mKCPuTP")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WechatVideo")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2DTLS")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WireGuard"))
                     else if (ReceiveConfigurationParameters[0].Contains("mKCP") == true)
                     {
-                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\mkcp_client_config.json";
+                        if (mKCPvlessIsSet == true)
+                        {
+                            outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\vless_mkcp_client_config.json";
+                        }
+                        else
+                        {
+                            outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\mkcp_client_config.json";
+                        }
+                       
                     }
                     // else if (String.Equals(ReceiveConfigurationParameters[0], "QuicNone") || String.Equals(ReceiveConfigurationParameters[0], "QuicSRTP") || String.Equals(ReceiveConfigurationParameters[0], "Quic2uTP") || String.Equals(ReceiveConfigurationParameters[0], "QuicWechatVideo") || String.Equals(ReceiveConfigurationParameters[0], "QuicDTLS") || String.Equals(ReceiveConfigurationParameters[0], "QuicWireGuard"))
                     else if (ReceiveConfigurationParameters[0].Contains("Quic") == true)
@@ -6902,59 +6919,63 @@ namespace ProxySU
         #region 测试用代码
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            proxyType = "V2Ray";
+            ResultClientInformation resultClientInformation = new ResultClientInformation();
+            resultClientInformation.ShowDialog();
+            return;
             //string pwdir = AppDomain.CurrentDomain.BaseDirectory;
             //MessageBox.Show(pwdir);
-            ConnectionInfo connectionInfo = GenerateConnectionInfo();
-            if (connectionInfo == null)
-            {
-                //****** "远程主机连接信息有误，请检查!" ******
-                MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorHostConnection").ToString());
-                return;
-            }
-            using (var client = new SshClient(connectionInfo))
-            {
-                client.Connect();
-                if (client.IsConnected == true)
-                {
-                    //******"主机登录成功"******
-                    SetUpProgressBarProcessing(3);
-                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_LoginSuccessful").ToString();
-                    MainWindowsShowInfo(currentStatus);
+            //ConnectionInfo connectionInfo = GenerateConnectionInfo();
+            //if (connectionInfo == null)
+            //{
+            //    //****** "远程主机连接信息有误，请检查!" ******
+            //    MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorHostConnection").ToString());
+            //    return;
+            //}
+            //using (var client = new SshClient(connectionInfo))
+            //{
+            //    client.Connect();
+            //    if (client.IsConnected == true)
+            //    {
+            //        //******"主机登录成功"******
+            //        SetUpProgressBarProcessing(3);
+            //        currentStatus = Application.Current.FindResource("DisplayInstallInfo_LoginSuccessful").ToString();
+            //        MainWindowsShowInfo(currentStatus);
 
-                }
-                SetUpNat64(client, true);
-                //FilterFastestIP(client);
-                //string cmdErr = client.RunCommand(@"aaa ee").Error;
-                //MessageBox.Show(cmdErr);
-                //SshCommand cmdResult = client.RunCommand(@"pwd");
-                //string result = cmdResult.Result;
-                //MessageBox.Show("result:" + result);
-                //string error = cmdResult.Error;
-                //MessageBox.Show("err:" + error);
+            //    }
+            //    SetUpNat64(client, true);
+            //FilterFastestIP(client);
+            //string cmdErr = client.RunCommand(@"aaa ee").Error;
+            //MessageBox.Show(cmdErr);
+            //SshCommand cmdResult = client.RunCommand(@"pwd");
+            //string result = cmdResult.Result;
+            //MessageBox.Show("result:" + result);
+            //string error = cmdResult.Error;
+            //MessageBox.Show("err:" + error);
 
-                //int cmdExitStatus = cmdResult.ExitStatus;
-                //MessageBox.Show("cmdExitStatus:" + cmdExitStatus.ToString());
+            //int cmdExitStatus = cmdResult.ExitStatus;
+            //MessageBox.Show("cmdExitStatus:" + cmdExitStatus.ToString());
 
-                //SshCommand cmdResultCat = client.RunCommand(@"cat tt.t");
-                //string resultCat = cmdResultCat.Result;
-                //MessageBox.Show("resultCat:" + resultCat);
-                //string errorCat = cmdResultCat.Error;
-                //MessageBox.Show("errCat:" + errorCat);
+            //SshCommand cmdResultCat = client.RunCommand(@"cat tt.t");
+            //string resultCat = cmdResultCat.Result;
+            //MessageBox.Show("resultCat:" + resultCat);
+            //string errorCat = cmdResultCat.Error;
+            //MessageBox.Show("errCat:" + errorCat);
 
-                //cmdExitStatus = cmdResultCat.ExitStatus;
-                //MessageBox.Show("cmdExitStatus:" + cmdExitStatus.ToString());
+            //cmdExitStatus = cmdResultCat.ExitStatus;
+            //MessageBox.Show("cmdExitStatus:" + cmdExitStatus.ToString());
 
-                //SoftInstalledSuccessOrFail(client, "v2ray", @"/usr/local/bin/v2ray");
-                //CaddyInstall(client);
-                //if (client.IsConnected == true)
-                //{
-                //    MessageBox.Show("Connected");
-                //}
-                //if (client.IsConnected == false)
-                //{
-                //    MessageBox.Show("disConnected");
-                //}
-            }
+            //SoftInstalledSuccessOrFail(client, "v2ray", @"/usr/local/bin/v2ray");
+            //CaddyInstall(client);
+            //if (client.IsConnected == true)
+            //{
+            //    MessageBox.Show("Connected");
+            //}
+            //if (client.IsConnected == false)
+            //{
+            //    MessageBox.Show("disConnected");
+            //}
+            // }
         }
 
         private string CaddyInstallTest(SshClient client)
