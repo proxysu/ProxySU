@@ -12,5 +12,7 @@
         header Upgrade websocket
     }
     reverse_proxy @v2ray_websocket localhost:10000
-    ##sites##
+    ##reverse_Proxy1##
+    ##reverse_Proxy2##
+    ##reverse_Proxy3##
 }
