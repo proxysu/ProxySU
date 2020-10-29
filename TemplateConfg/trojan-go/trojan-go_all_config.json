@@ -14,5 +14,10 @@
     "websocket": {
         "enabled": false,
         "path": ""
+    },
+    "mux": {
+        "enabled": false,
+        "concurrency": 8,
+        "idle_timeout": 60
     }
 }

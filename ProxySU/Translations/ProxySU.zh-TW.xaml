@@ -138,6 +138,9 @@
     <sys:String x:Key="TextBlockTrojanGoPassword">密碼:</sys:String>
     <sys:String x:Key="TextBlockTrojanGoPasswordExplain">使用已有密碼，直接粘貼到框中</sys:String>
     <sys:String x:Key="TextBlockTrojanGoWebSocketPath">WebSocket路徑:</sys:String>
+    <sys:String x:Key="CheckBoxMuxSelect">Mux多路復用</sys:String>
+    <sys:String x:Key="TextBlockExplainCheckBoxMuxSelect">此處設置只對官方客戶端配置文件config.json有效，其他客戶端需手動設置，服務端自動適配。</sys:String>
+    <sys:String x:Key="TextBlockExplainCheckBoxMuxSelectResult">此字段不出現在QR碼及分享URL中，客戶端需自行設置，服務端默認啟用自動適配。</sys:String>
     <sys:String x:Key="ButtonTrojanGoTemplateOK">確定</sys:String>
     <sys:String x:Key="ButtonTrojanGoTemplateCancel">取消</sys:String>
     <!-- 以下V2Ray模板庫界面 -->

@@ -74,7 +74,7 @@
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
-                        
+                        <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <TextBlock x:Name="TextBlockDomain" Text="{DynamicResource TextBlockTrojanGoDomain}" Grid.Column="0" Grid.Row="0" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                     <TextBox x:Name="TextBoxDomain" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxDomainPrompt}" Grid.Column="1" Grid.Row="0" Margin="5"></TextBox>
@@ -92,10 +92,26 @@
                     <TextBlock x:Name="TextBlockPath" Text="{DynamicResource TextBlockTrojanGoWebSocketPath}" Grid.Column="0" Grid.Row="2"  HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                     <TextBox x:Name="TextBoxPath" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="1" Margin="5"></TextBox>
                     <Button x:Name="ButtonPath" Content="{DynamicResource ButtonNaiveProxyChangeUser}" Grid.Column="2" Grid.Row="2" Margin="2" Click="ButtonPath_Click"></Button>
-
+                    <CheckBox x:Name="CheckBoxMuxSelect" Content="{DynamicResource CheckBoxMuxSelect}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Checked="CheckBoxMuxSelect_Checked" Unchecked="CheckBoxMuxSelect_Unchecked"></CheckBox>
+                    <Grid x:Name="GridTrojanGoMuxSelected" Grid.Column="1" Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="90"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="concurrency:" Grid.Column="0" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                        <TextBox x:Name="TextBoxConcurrency" Text="8" Grid.Column="1" Margin="5"/>
+                        <TextBlock Text="idle_timeout:" Grid.Column="2" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                        <TextBox x:Name="TextBoxIdle_timeout" Text="60" Grid.Column="3" Margin="5"/>
+                        <TextBlock Grid.Column="4" Text="s" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                    </Grid>
+                    <TextBlock x:Name="TextBlockExplainCheckBoxMuxSelect" Text="{DynamicResource TextBlockExplainCheckBoxMuxSelect}" TextWrapping="Wrap" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2" Grid.RowSpan="2"></TextBlock>
+                    
                     <TextBlock x:Name="TextBlockMaskSites" Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Visibility="Hidden"></TextBlock>
                     <TextBox x:Name="TextBoxMaskSites" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxV2RayMaskSitesTag}" Grid.Column="1" Grid.Row="3" Margin="5" Visibility="Hidden"></TextBox>
-                    <Grid Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="4">
+                    <Grid Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="4">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
@@ -103,8 +119,8 @@
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Button x:Name="ButtondDecide" Content="{DynamicResource ButtonTrojanGoTemplateOK}" Grid.Column="1" Grid.Row="6" Margin="3" Click="ButtondDecide_Click"></Button>
-                        <Button x:Name="ButtondCancel" Content="{DynamicResource ButtonTrojanGoTemplateCancel}" Grid.Column="3" Grid.Row="6" Margin="3" Click="ButtondCancel_Click"></Button>
+                        <Button x:Name="ButtondDecide" Content="{DynamicResource ButtonTrojanGoTemplateOK}" Grid.Column="1"  Margin="3" Click="ButtondDecide_Click"></Button>
+                        <Button x:Name="ButtondCancel" Content="{DynamicResource ButtonTrojanGoTemplateCancel}" Grid.Column="3"  Margin="3" Click="ButtondCancel_Click"></Button>
 
                     </Grid>
                 </Grid>

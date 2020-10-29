@@ -138,6 +138,9 @@
     <sys:String x:Key="TextBlockTrojanGoPassword">Password:</sys:String>
     <sys:String x:Key="TextBlockTrojanGoPasswordExplain">Use the existing password and paste it directly into the box</sys:String>
     <sys:String x:Key="TextBlockTrojanGoWebSocketPath">WebSocket Path:</sys:String>
+    <sys:String x:Key="CheckBoxMuxSelect">Mux multiplexing</sys:String>
+    <sys:String x:Key="TextBlockExplainCheckBoxMuxSelect">The settings here are only valid for the official client configuration file config.json, other clients need to be set manually, and the server automatically adapts.</sys:String>
+    <sys:String x:Key="TextBlockExplainCheckBoxMuxSelectResult">This field does not appear in the QR code and sharing URL. The client needs to set it by itself, and the server enables automatic adaptation by default.</sys:String>
     <sys:String x:Key="ButtonTrojanGoTemplateOK">OK</sys:String>
     <sys:String x:Key="ButtonTrojanGoTemplateCancel">Cancel</sys:String>
     <!-- The following V2Ray template library interface -->

@@ -13,7 +13,7 @@
             <RowDefinition Height="0.12*"></RowDefinition>
         </Grid.RowDefinitions>
         <!-- V2Ray客户端配置参数 -->
-        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxV2rayClient" Visibility="Visible" Grid.Row="0">
+        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxV2rayClient" Visibility="Collapsed" Grid.Row="0">
             <Grid >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.5*"></ColumnDefinition>
@@ -93,15 +93,16 @@
             </Grid>
         </GroupBox>
         <!-- Trojan-Go客户端配置参数 -->
-        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxTrojanGoClient" Visibility="Collapsed" Grid.Row="0">
+        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxTrojanGoClient" Visibility="Visible" Grid.Row="0">
             <Grid >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.5*"></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="0.5*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
+                    <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition Height="30"></RowDefinition>
@@ -124,8 +125,25 @@
                 <TextBlock x:Name="TextBlockTrojanGoWebSocketPath" Text="{DynamicResource TextBlockTrojanGoWebSocketPath}" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxTrojanGoWSPath" IsReadOnly="True" Grid.Column="1" Grid.Row="5" Margin="4" MouseDoubleClick="TextBoxTrojanGoWSPath_MouseDoubleClick"></TextBox>
                 <TextBlock x:Name="TextBlockTrojanGoCaption" Grid.Column="2" Grid.Row="4"></TextBlock>
-                
-                <TextBlock Text="{DynamicResource TextBlockCopyToClipExplain}" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Margin="5" VerticalAlignment="Center"></TextBlock>
+
+                <TextBlock x:Name="TextBlockMuxSelect" Text="{DynamicResource CheckBoxMuxSelect}" Grid.Column="0" Grid.Row="6" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <Grid x:Name="GridMuxSelect" Grid.Column="1" Grid.Row="6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="85"></ColumnDefinition>
+                        <ColumnDefinition Width="50"></ColumnDefinition>
+                        <ColumnDefinition Width="85"></ColumnDefinition>
+                        <ColumnDefinition Width="50"></ColumnDefinition>
+                        <ColumnDefinition Width="10"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="concurrency:" Grid.Column="0" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                    <TextBox x:Name="TextBoxConcurrency" Grid.Column="1" Margin="5" MouseDoubleClick="TextBoxConcurrency_MouseDoubleClick"/>
+                    <TextBlock Text="idle_timeout:" Grid.Column="2" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                    <TextBox x:Name="TextBoxIdle_timeout" Grid.Column="3" Margin="5" MouseDoubleClick="TextBoxIdle_timeout_MouseDoubleClick"/>
+                    <TextBlock Grid.Column="4" Text="s" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+               </Grid>
+                <TextBlock x:Name="TextBlockExplainCheckBoxMuxSelectResult" Text="{DynamicResource TextBlockExplainCheckBoxMuxSelectResult}" TextWrapping="Wrap" Grid.Column="2" Grid.Row="6" Grid.RowSpan="2"></TextBlock>
+                <TextBlock Text="{DynamicResource TextBlockCopyToClipExplain}" Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" Margin="5" VerticalAlignment="Center"></TextBlock>
             </Grid>
         </GroupBox>
         <!-- Trojan客户端配置参数 -->

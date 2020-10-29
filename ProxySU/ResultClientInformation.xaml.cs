@@ -362,6 +362,10 @@ namespace ProxySU
                 TextBlockTrojanGoWebSocketPath.Visibility = Visibility.Hidden;
                 TextBlockTrojanGoCaption.Visibility = Visibility.Hidden;
 
+                TextBlockMuxSelect.Visibility = Visibility.Hidden;
+                GridMuxSelect.Visibility = Visibility.Hidden;
+                TextBlockExplainCheckBoxMuxSelectResult.Visibility = Visibility.Hidden;
+
                 //******"可用于ShadowRocket (ios)、igniter（Android）、Qv2ray (windows) 扫码和导入url。注意：有的客户端可能不支持WebSocket模式。" ******
                 TextBlockQrURLexplain.Text = Application.Current.FindResource("TextBlockQrURLexplainTrojan-go").ToString();
 
@@ -382,6 +386,14 @@ namespace ProxySU
                     TextBlockTrojanGoWebSocketPath.Visibility = Visibility.Visible;
                     TextBlockTrojanGoCaption.Visibility = Visibility.Visible;
 
+                }
+                if(String.Equals(MainWindow.ReceiveConfigurationParameters[9],"true") == true)
+                {
+                    TextBoxConcurrency.Text = MainWindow.ReceiveConfigurationParameters[3];
+                    TextBoxIdle_timeout.Text = MainWindow.ReceiveConfigurationParameters[5];
+                    TextBlockMuxSelect.Visibility = Visibility.Visible;
+                    GridMuxSelect.Visibility = Visibility.Visible;
+                    TextBlockExplainCheckBoxMuxSelectResult.Visibility = Visibility.Visible;
                 }
                 CheckDir("trojan-go_config");
                 GenerateTrojanGoShareQRcodeAndBase64Url();
@@ -2062,7 +2074,7 @@ namespace ProxySU
                 //sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoPassword").ToString() + $"{TextBoxTrojanGoServerPassword.Text}");
                 //strApplicat = "TextBlockTrojanGoPassword";
                 strParam = TextBoxTrojanGoType.Text;
-                sw.WriteLine(AlignmentStrFunc("Type", strLenth) + strParam);
+                sw.WriteLine(AlignmentStrFunc("Type:", strLenth) + strParam);
                 //sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
 
                 //****** WebSocket路径: ******
@@ -2070,6 +2082,24 @@ namespace ProxySU
                 strApplicat = "TextBlockTrojanGoWebSocketPath";
                 strParam = TextBoxTrojanGoWSPath.Text;
                 sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
+
+                //****** Mux多路复用 ******
+                //sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoWebSocketPath").ToString() + $"{TextBoxTrojanGoWSPath.Text}");
+                strApplicat = "CheckBoxMuxSelect";
+                strParam = ":";
+                sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
+
+                //****** concurrency: ******
+                //sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoWebSocketPath").ToString() + $"{TextBoxTrojanGoWSPath.Text}");
+                strApplicat = "concurrency:";
+                strParam = TextBoxConcurrency.Text;
+                sw.WriteLine(AlignmentStrFunc(strApplicat, strLenth) + strParam);
+
+                //****** idle_timeout: ******
+                //sw.WriteLine(Application.Current.FindResource("TextBlockTrojanGoWebSocketPath").ToString() + $"{TextBoxTrojanGoWSPath.Text}");
+                strApplicat = "idle_timeout:";
+                strParam = TextBoxIdle_timeout.Text;
+                sw.WriteLine(AlignmentStrFunc(strApplicat, strLenth) + strParam);
 
             }
 
@@ -2097,6 +2127,15 @@ namespace ProxySU
         private void TextBoxTrojanGoWSPath_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             CopyToClipboard(TextBoxTrojanGoWSPath.Text);
+        }
+        private void TextBoxConcurrency_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxConcurrency.Text);
+        }
+
+        private void TextBoxIdle_timeout_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxIdle_timeout.Text);
         }
         #endregion
 
@@ -3059,7 +3098,7 @@ namespace ProxySU
             return spaceString + strTemp;
         }
 
-       
+   
     }
 
 

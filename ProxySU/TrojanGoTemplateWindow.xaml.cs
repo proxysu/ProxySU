@@ -22,6 +22,9 @@ namespace ProxySU
         {
             InitializeComponent();
             RadioButtonTrojanGoTLS2Web.IsChecked = true;
+            CheckBoxMuxSelect.IsChecked = false;
+            GridTrojanGoMuxSelected.Visibility = Visibility.Collapsed;
+            TextBlockExplainCheckBoxMuxSelect.Visibility = Visibility.Collapsed;
         }
         private void ButtondDecide_Click(object sender, RoutedEventArgs e)
         {
@@ -71,7 +74,13 @@ namespace ProxySU
                 //传递路径
                 MainWindow.ReceiveConfigurationParameters[6] = TextBoxPath.Text;
             }
-
+            //传递Mux的concurrency与idle_timeout
+            if (CheckBoxMuxSelect.IsChecked == true)
+            {
+                MainWindow.ReceiveConfigurationParameters[9] = "true";
+                MainWindow.ReceiveConfigurationParameters[3] = TextBoxConcurrency.Text;
+                MainWindow.ReceiveConfigurationParameters[5] = TextBoxIdle_timeout.Text;
+            }
             this.Close();
         }
         //更新密码
@@ -153,5 +162,16 @@ namespace ProxySU
             }
         }
 
+        private void CheckBoxMuxSelect_Checked(object sender, RoutedEventArgs e)
+        {
+            GridTrojanGoMuxSelected.Visibility = Visibility.Visible;
+            TextBlockExplainCheckBoxMuxSelect.Visibility = Visibility.Visible;
+        }
+
+        private void CheckBoxMuxSelect_Unchecked(object sender, RoutedEventArgs e)
+        {
+            GridTrojanGoMuxSelected.Visibility = Visibility.Collapsed;
+            TextBlockExplainCheckBoxMuxSelect.Visibility = Visibility.Collapsed;
+        }
     }
 }

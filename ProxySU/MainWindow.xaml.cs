@@ -70,13 +70,13 @@ namespace ProxySU
         //ReceiveConfigurationParameters[0]----模板类型
         //ReceiveConfigurationParameters[1]----服务端口
         //ReceiveConfigurationParameters[2]----V2Ray uuid/(naive/Trojan-go/Trojan/SSR/SS)' Password
-        //ReceiveConfigurationParameters[3]----QUIC加密方式/SSR 加密方法/SS 加密方式/naive'user/VLESS ws Path
+        //ReceiveConfigurationParameters[3]----QUIC加密方式/SSR 加密方法/SS 加密方式/naive'user/VLESS ws Path/trojan-go mux concurrency
         //ReceiveConfigurationParameters[4]----Domain
-        //ReceiveConfigurationParameters[5]----伪装类型/插件名称
+        //ReceiveConfigurationParameters[5]----伪装类型/插件名称/trojan-go mux idle_timeout
         //ReceiveConfigurationParameters[6]----V2Ray&Trojan-go&SS--Websocket'Path/http2'Path/QUIC密钥/mKCP Seed/VMESS ws Path
         //ReceiveConfigurationParameters[7]----伪装网站
         //ReceiveConfigurationParameters[8]----方案名称
-        //ReceiveConfigurationParameters[9]----插件参数选项/VMESS tcp Path/MTProto Parameters
+        //ReceiveConfigurationParameters[9]----插件参数选项/VMESS tcp Path/MTProto Parameters/trojan-go是否启用Mux(true)
         //public static ConnectionInfo ConnectionInfo;
 
         public static string proxyType = "V2Ray";                   //代理类型标识: V2Ray\TrojanGo\Trojan\NaiveProxy
@@ -2568,6 +2568,23 @@ namespace ProxySU
                         {
                             clientJson["websocket"]["enabled"] = true;
                             clientJson["websocket"]["path"] = ReceiveConfigurationParameters[6];
+                        }
+                        //如果开启了mux，设置客户端配置文件参数
+                        if (String.Equals(ReceiveConfigurationParameters[9],"true") == true)
+                        {
+                            clientJson["mux"]["enabled"] = true;
+                            clientJson["mux"]["concurrency"] = int.Parse(ReceiveConfigurationParameters[3]);
+                            clientJson["mux"]["idle_timeout"] = int.Parse(ReceiveConfigurationParameters[5]);
+                            //if(int.TryParse(ReceiveConfigurationParameters[3],out int value) == true)
+                            //{
+                            //    clientJson["mux"]["concurrency"] = value;
+                            //}
+                            //if (int.TryParse(ReceiveConfigurationParameters[5], out int value2) == true)
+                            //{
+                            //    clientJson["mux"]["idle_timeout"] = value2;
+                            //}
+                            //clientJson["mux"]["idle_timeout"] = int.TryParse(ReceiveConfigurationParameters[5], out int value2);
+                            //clientJson["mux"]["idle_timeout"] = value2;
                         }
 
                         using (StreamWriter sw = new StreamWriter(@"trojan-go_config\config.json"))
@@ -6919,7 +6936,7 @@ namespace ProxySU
         #region 测试用代码
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            proxyType = "V2Ray";
+            proxyType = "TrojanGo";
             ResultClientInformation resultClientInformation = new ResultClientInformation();
             resultClientInformation.ShowDialog();
             return;
