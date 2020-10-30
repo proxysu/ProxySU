@@ -350,8 +350,8 @@
                                                 <TextBox x:Name="TextBoxTrojanPassword"  Grid.Column="1" Grid.Row="2" Margin="3"></TextBox>
                                                 <Button x:Name="ButtonTrojanPassword" Content="{DynamicResource ButtonTrojanChangePassword}" Grid.Column="2" Grid.Row="2" Margin="2" Click="ButtonTrojanPassword_Click" ></Button>
 
-                                                <TextBlock Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="3" Visibility="Collapsed"></TextBlock>
-                                                <TextBox x:Name="TextBoxTrojanSites" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxV2RayMaskSitesTag}"  Grid.Column="1" Grid.Row="3" Margin="3"  Visibility="Collapsed"></TextBox>
+                                                <TextBlock Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" ></TextBlock>
+                                                <TextBox x:Name="TextBoxTrojanSites" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxV2RayMaskSitesTag}"  Grid.Column="1" Grid.Row="3" Margin="3"></TextBox>
 
                                             </Grid>
                                         </GroupBox>
@@ -403,8 +403,8 @@
                                                 <TextBlock Text="{DynamicResource TextBlockTrojanHostPassword}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                                                 <TextBox x:Name="TextBoxNaivePassword"  Grid.Column="1" Grid.Row="3" Margin="3"></TextBox>
                                                 <Button x:Name="ButtonNaivePassword" Content="{DynamicResource ButtonTrojanChangePassword}" Grid.Column="2" Grid.Row="3" Margin="2" Click="ButtonNaivePassword_Click"></Button>
-                                                <TextBlock Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="4" Visibility="Collapsed"></TextBlock>
-                                                <TextBox x:Name="TextBoxNaiveSites" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxV2RayMaskSitesTag}"  Grid.Column="1" Grid.Row="4" Margin="3"  Visibility="Collapsed"></TextBox>
+                                                <TextBlock Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                                                <TextBox x:Name="TextBoxNaiveSites" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxV2RayMaskSitesTag}"  Grid.Column="1" Grid.Row="4" Margin="3"></TextBox>
 
                                             </Grid>
                                         </GroupBox>
@@ -456,8 +456,8 @@
                                                 <TextBox x:Name="TextBoxSSRPassword"  Grid.Column="1" Grid.Row="2" Margin="3"></TextBox>
                                                 <Button x:Name="ButtonSSRPassword" Content="{DynamicResource ButtonTrojanChangePassword}" Grid.Column="2" Grid.Row="2" Margin="2" Click="ButtonSSRPassword_Click" ></Button>
 
-                                                <TextBlock Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="3" Visibility="Collapsed"></TextBlock>
-                                                <TextBox x:Name="TextBoxSSRSites" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxV2RayMaskSitesTag}"  Grid.Column="1" Grid.Row="3" Margin="3"  Visibility="Collapsed"></TextBox>
+                                                <TextBlock Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                                                <TextBox x:Name="TextBoxSSRSites" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxV2RayMaskSitesTag}"  Grid.Column="1" Grid.Row="3" Margin="3"></TextBox>
 
                                             </Grid>
                                         </GroupBox>
@@ -511,7 +511,7 @@
                                             <TextBlock x:Name="TextBlockCurrentlySelectedPlanMethodSS" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Visible"></TextBlock>
                                             <TextBlock x:Name="TextBlockCurrentlySelectedPlanDomainSS" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Visible"></TextBlock>
                                             <TextBlock x:Name="TextBlockCurrentlySelectedPlanPathSS" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Visible"></TextBlock>
-                                            <TextBlock x:Name="TextBlockCurrentlySelectedPlanFakeWebsiteSS" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Center"  Visibility="Hidden"></TextBlock>
+                                            <TextBlock x:Name="TextBlockCurrentlySelectedPlanFakeWebsiteSS" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Center"  Visibility="Visible"></TextBlock>
 
                                         </Grid>
 
@@ -552,7 +552,7 @@
                                                 </Grid.RowDefinitions>
                                                 <TextBlock Text="{DynamicResource TextBlockMtgTemplateExplanation}" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
                                                 <TextBlock Text="{DynamicResource TextBlockHostPart}" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5"></TextBlock>
-                                                <TextBox x:Name="TextBoxMtgHostDomain" Text="443" Grid.Column="1" Grid.Row="1" Margin="3"></TextBox>
+                                                <TextBox x:Name="TextBoxMtgHostPort" Text="443" Grid.Column="1" Grid.Row="1" Margin="3"></TextBox>
                                                 <TextBlock Text="{DynamicResource TextBlockMtgPortExplanation}" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
                                                 <TextBlock Text="{DynamicResource TextBlockHostCert}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5"></TextBlock>
                                                 <TextBlock Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Text="{DynamicResource TextBlockMtgSecretExplanation}" VerticalAlignment="Center"></TextBlock>

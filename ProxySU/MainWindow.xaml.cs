@@ -571,19 +571,19 @@ namespace ProxySU
             ConnectionInfo connectionInfo;
 
             #region 检测输入的内容是否有错，并读取内容
-            if (string.IsNullOrEmpty(TextBoxHost.Text) == true || string.IsNullOrEmpty(TextBoxPort.Text) == true || string.IsNullOrEmpty(TextBoxUserName.Text) == true)
+            if (string.IsNullOrEmpty(PreTrim(TextBoxHost.Text)) == true || string.IsNullOrEmpty(PreTrim(TextBoxPort.Text)) == true || string.IsNullOrEmpty(PreTrim(TextBoxUserName.Text)) == true)
             {
                 //******"主机地址、主机端口、用户名为必填项，不能为空"******
                 MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorHostPortUserNotEmpty").ToString());
 
                 return connectionInfo = null;
             }
-            string sshHostName = TextBoxHost.Text.ToString();
+            string sshHostName = PreTrim(TextBoxHost.Text);
             int sshPort = 22;
 
-            if (IsOnlyNumber(TextBoxPort.Text) == true)
+            if (IsOnlyNumber(PreTrim(TextBoxPort.Text)) == true)
             {
-                TextBoxPort.Text = TextBoxPort.Text.Trim();
+                TextBoxPort.Text = PreTrim(TextBoxPort.Text);
                 sshPort = int.Parse(TextBoxPort.Text);
             }
             else
@@ -593,7 +593,7 @@ namespace ProxySU
                 return connectionInfo = null;
             }
 
-            string sshUser = TextBoxUserName.Text.ToString();
+            string sshUser = PreTrim(TextBoxUserName.Text);
 
             if (RadioButtonPasswordLogin.IsChecked == true && string.IsNullOrEmpty(PasswordBoxHostPassword.Password) == true)
             {
@@ -630,18 +630,18 @@ namespace ProxySU
             }
 
             //MessageBox.Show(proxyTypes.ToString());
-            if (RadioButtonNoProxy.IsChecked == false && (string.IsNullOrEmpty(TextBoxProxyHost.Text) == true || string.IsNullOrEmpty(TextBoxProxyPort.Text) == true))
+            if (RadioButtonNoProxy.IsChecked == false && (string.IsNullOrEmpty(PreTrim(TextBoxProxyHost.Text)) == true || string.IsNullOrEmpty(PreTrim(TextBoxProxyPort.Text)) == true))
             {
                 //****** "如果选择了代理，则代理地址与端口不能为空!" ******
                 MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorProxyAddressPortNotEmpty").ToString());
                 return connectionInfo = null;
             }
-            string sshProxyHost = TextBoxProxyHost.Text.ToString();
+            string sshProxyHost = PreTrim(TextBoxProxyHost.Text);
 
             int sshProxyPort = 1080;
-            if (IsOnlyNumber(TextBoxProxyPort.Text) == true)
+            if (IsOnlyNumber(PreTrim(TextBoxProxyPort.Text)) == true)
             {
-                TextBoxProxyPort.Text = TextBoxProxyPort.Text.Trim();
+                TextBoxProxyPort.Text = PreTrim(TextBoxProxyPort.Text);
                 sshProxyPort = int.Parse(TextBoxProxyPort.Text);
             }
             else
@@ -651,14 +651,14 @@ namespace ProxySU
                 return connectionInfo = null;
             }
 
-            if (RadioButtonNoProxy.IsChecked==false && RadiobuttonProxyYesLogin.IsChecked == true && (string.IsNullOrEmpty(TextBoxProxyUserName.Text) == true || string.IsNullOrEmpty(PasswordBoxProxyPassword.Password) == true))
+            if (RadioButtonNoProxy.IsChecked==false && RadiobuttonProxyYesLogin.IsChecked == true && (string.IsNullOrEmpty(PreTrim(TextBoxProxyUserName.Text)) == true || string.IsNullOrEmpty(PasswordBoxProxyPassword.Password) == true))
             {
                 //****** "如果代理需要登录，则代理登录的用户名与密码不能为空!" ******
                 MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorProxyUserPasswordNotEmpty").ToString());
                 return connectionInfo = null;
             }
-            string sshProxyUser = TextBoxProxyUserName.Text.ToString();
-            string sshProxyPassword = PasswordBoxProxyPassword.Password.ToString();
+            string sshProxyUser = PreTrim(TextBoxProxyUserName.Text);
+            string sshProxyPassword = PasswordBoxProxyPassword.Password;
 
             #endregion
 
@@ -971,11 +971,11 @@ namespace ProxySU
             TextBlockV2RayShowCurrentlySelectedPlanDomain.Visibility = Visibility.Hidden;
             TextBlockCurrentlySelectedPlanDomain.Visibility = Visibility.Hidden;
         }
-        //显示伪装网站(暂时不显示)
+        //显示伪装网站
         private void ShowV2RayMaskSites()
         {
-            TextBlockV2RayShowCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
-            TextBlockCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+            TextBlockV2RayShowCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Visible;
+            TextBlockCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Visible;
         }
 
         //隐藏伪装网站
@@ -1002,7 +1002,7 @@ namespace ProxySU
             //生成客户端配置时，连接的服务主机的IP或者域名
             if (String.IsNullOrEmpty(ReceiveConfigurationParameters[4])==true)
             {
-                ReceiveConfigurationParameters[4] = TextBoxHost.Text.ToString();
+                ReceiveConfigurationParameters[4] = PreTrim(TextBoxHost.Text);
                 testDomain = false;
             }
             //选择模板
@@ -1217,28 +1217,10 @@ namespace ProxySU
                         client.RunCommand("mv /etc/caddy/Caddyfile /etc/caddy/Caddyfile.bak");
                         UploadConfig(connectionInfo, serverConfig, upLoadPath);
 
-                        //设置Caddyfile文件中的tls 邮箱,在caddy2中已经不需要设置。
+                        //设置Caddy配置文件
+                        functionResult = SetCaddyfile(client, upLoadPath);
+                        if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
-                        //设置Caddy监听的随机端口
-                        string randomCaddyListenPortStr = randomCaddyListenPort.ToString();
-
-                        sshShellCommand = $"sed -i 's/8800/{randomCaddyListenPortStr}/' {upLoadPath}";
-                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-
-                        //设置域名
-                        sshShellCommand = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/g' {upLoadPath}";
-                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-
-                        //设置Path
-                        sshShellCommand = $"sed -i 's/##path##/\\{ReceiveConfigurationParameters[6]}/' {upLoadPath}";
-                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-
-                        //设置伪装网站
-                        if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7]) == false)
-                        {
-                            sshShellCommand = $"sed -i 's/##sites##/proxy \\/ {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
-                            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-                        }
                         //****** "Caddy配置文件上传成功,OK!" ******32
                         SetUpProgressBarProcessing(70);
                         currentStatus = Application.Current.FindResource("DisplayInstallInfo_UploadCaddyConfigOK").ToString();
@@ -2503,24 +2485,11 @@ namespace ProxySU
                     upLoadPath = "/etc/caddy/Caddyfile";
                     UploadConfig(connectionInfo, caddyConfig, upLoadPath);
 
-                    //设置Caddyfile文件中的tls 邮箱
+                    //设置Caddy配置文件
+                    functionResult = SetCaddyfile(client, upLoadPath);
+                    if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
-                    //设置Caddy监听的随机端口
-                    string randomCaddyListenPortStr = randomCaddyListenPort.ToString();
 
-                    sshShellCommand = $"sed -i 's/8800/{randomCaddyListenPortStr}/' {upLoadPath}";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-
-                    //设置域名
-                    sshShellCommand = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/g' {upLoadPath}";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-
-                    //设置伪装网站
-                    if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7]) == false)
-                    {
-                        sshShellCommand = $"sed -i 's/##sites##/proxy \\/ {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
-                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-                    }
                     //****** "Caddy配置文件上传成功,OK!" ******
                     SetUpProgressBarProcessing(70);
                     currentStatus = Application.Current.FindResource("DisplayInstallInfo_UploadCaddyConfigOK").ToString();
@@ -2939,7 +2908,7 @@ namespace ProxySU
             {
                 ReceiveConfigurationParameters[i] = "";
             }
-            if (string.IsNullOrEmpty(TextBoxTrojanHostDomain.Text.ToString()) == true)
+            if (string.IsNullOrEmpty(PreTrim(TextBoxTrojanHostDomain.Text)) == true)
             {
                 //****** "域名不能为空，请检查相关参数设置！" ******
                 MessageBox.Show(Application.Current.FindResource("MessageBoxShow_DomainNotEmpty").ToString());
@@ -2949,23 +2918,10 @@ namespace ProxySU
             ReceiveConfigurationParameters[0] = "TrojanTLS2Web";
 
             //传递域名
-            ReceiveConfigurationParameters[4] = TextBoxTrojanHostDomain.Text.ToString();
+            ReceiveConfigurationParameters[4] = PreTrim(TextBoxTrojanHostDomain.Text);
             //传递伪装网站
-            ReceiveConfigurationParameters[7] = TextBoxTrojanSites.Text.ToString();
-            //处理伪装网站域名中的前缀
-            if (TextBoxTrojanSites.Text.ToString().Length >= 7)
-            {
-                string testDomain = TextBoxTrojanSites.Text.Substring(0, 7);
-                if (String.Equals(testDomain, "https:/") || String.Equals(testDomain, "http://"))
-                {
-                    //MessageBox.Show(testDomain);
-                    ReceiveConfigurationParameters[7] = TextBoxTrojanSites.Text.Replace("/", "\\/");
-                }
-                else
-                {
-                    ReceiveConfigurationParameters[7] = "http:\\/\\/" + TextBoxTrojanSites.Text;
-                }
-            }
+            ReceiveConfigurationParameters[7] = DisguiseURLprocessing(PreTrim(TextBoxTrojanSites.Text));
+           
             //传递服务端口
             ReceiveConfigurationParameters[1] = "443";
             //传递密码(uuid)
@@ -3171,23 +3127,10 @@ namespace ProxySU
 
                     UploadConfig(connectionInfo, caddyConfig, upLoadPath);
 
-                    //设置Caddy监听的随机端口
-                    string randomCaddyListenPortStr = randomCaddyListenPort.ToString();
+                    //设置Caddy配置文件
+                    functionResult = SetCaddyfile(client, upLoadPath);
+                    if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
-                    sshShellCommand = $"sed -i 's/8800/{randomCaddyListenPortStr}/' {upLoadPath}";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-
-                    //设置域名
-
-                    sshShellCommand = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/g' {upLoadPath}";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-
-                    //设置伪装网站
-                    if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7]) == false)
-                    {
-                        sshShellCommand = $"sed -i 's/##sites##/proxy \\/ {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
-                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-                    }
                     //****** "Caddy配置文件上传成功,OK!" ******
                     SetUpProgressBarProcessing(70);
                     currentStatus = Application.Current.FindResource("DisplayInstallInfo_UploadCaddyConfigOK").ToString();
@@ -3507,7 +3450,7 @@ namespace ProxySU
         //NaiveProxy一键安装开始传递参数
         private void ButtonNavieSetUp_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(TextBoxNaiveHostDomain.Text) == true)
+            if (string.IsNullOrEmpty(PreTrim(TextBoxNaiveHostDomain.Text)) == true)
             {
                 //****** "域名不能为空，请检查相关参数设置！" ******
                 MessageBox.Show(Application.Current.FindResource("MessageBoxShow_DomainNotEmpty").ToString());
@@ -3523,24 +3466,12 @@ namespace ProxySU
             }
          
             //传递参数
-            ReceiveConfigurationParameters[4] = TextBoxNaiveHostDomain.Text;//传递域名
+            ReceiveConfigurationParameters[4] = PreTrim(TextBoxNaiveHostDomain.Text);//传递域名
             ReceiveConfigurationParameters[1] = "443";//传递端口
             ReceiveConfigurationParameters[3] = TextBoxNaiveUser.Text;//传递用户名
             ReceiveConfigurationParameters[2] = TextBoxNaivePassword.Text;//传递密码
-            ReceiveConfigurationParameters[7] = TextBoxNaiveSites.Text;//传递伪装网站
-            if (TextBoxNaiveSites.Text.ToString().Length >= 7)
-            {
-                string testDomain = TextBoxNaiveSites.Text.Substring(0, 7);
-                if (String.Equals(testDomain, "https:/") || String.Equals(testDomain, "http://"))
-                {
-                    //MessageBox.Show(testDomain);
-                    ReceiveConfigurationParameters[7] = TextBoxNaiveSites.Text.Replace("/", "\\/");
-                }
-                else
-                {
-                    ReceiveConfigurationParameters[7] = "http:\\/\\/" + TextBoxNaiveSites.Text;
-                }
-            }
+            ReceiveConfigurationParameters[7] = DisguiseURLprocessing(PreTrim(TextBoxNaiveSites.Text));//传递伪装网站
+            
             //启动布署进程
             installationDegree = 0;
             TextBoxMonitorCommandResults.Text = "";
@@ -3673,10 +3604,15 @@ namespace ProxySU
                     UploadConfig(connectionInfo, caddyConfig, upLoadPath);
                     //$"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/' {upLoadPath}"
                     //$"sed -i 's/##basicauth##/basicauth {ReceiveConfigurationParameters[3]} {ReceiveConfigurationParameters[2]}/' {upLoadPath}"
-                    sshShellCommand = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/' {upLoadPath}";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    
+                    //设置Caddy配置文件
+                    functionResult = SetCaddyfile(client, upLoadPath);
+                    if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
                     sshShellCommand = $"sed -i 's/##basicauth##/basic_auth {ReceiveConfigurationParameters[3]} {ReceiveConfigurationParameters[2]}/' {upLoadPath}";
+                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                    sshShellCommand = $"sed -i 's/file_server/#file_server/' {upLoadPath}";
                     currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                     //string caddyConfig = $"{pwdir}" + @"TemplateConfg\naive\naive_server_config.json";
@@ -3901,7 +3837,7 @@ namespace ProxySU
             {
                 ReceiveConfigurationParameters[i] = "";
             }
-            if (string.IsNullOrEmpty(TextBoxSSRHostDomain.Text.ToString()) == true)
+            if (string.IsNullOrEmpty(PreTrim(TextBoxSSRHostDomain.Text)) == true)
             {
                 //****** "域名不能为空，请检查相关参数设置！" ******
                 MessageBox.Show(Application.Current.FindResource("MessageBoxShow_DomainNotEmpty").ToString());
@@ -3909,23 +3845,10 @@ namespace ProxySU
             }
 
             //传递域名
-            ReceiveConfigurationParameters[4] = TextBoxSSRHostDomain.Text.ToString();
+            ReceiveConfigurationParameters[4] = PreTrim(TextBoxSSRHostDomain.Text);
             //传递伪装网站
-            ReceiveConfigurationParameters[7] = TextBoxSSRSites.Text.ToString();
-            //处理伪装网站域名中的前缀
-            if (TextBoxSSRSites.Text.ToString().Length >= 7)
-            {
-                string testDomain = TextBoxSSRSites.Text.Substring(0, 7);
-                if (String.Equals(testDomain, "https:/") || String.Equals(testDomain, "http://"))
-                {
-                    //MessageBox.Show(testDomain);
-                    ReceiveConfigurationParameters[7] = TextBoxSSRSites.Text.Replace("/", "\\/");
-                }
-                else
-                {
-                    ReceiveConfigurationParameters[7] = "http:\\/\\/" + TextBoxSSRSites.Text;
-                }
-            }
+            ReceiveConfigurationParameters[7] = DisguiseURLprocessing(PreTrim(TextBoxSSRSites.Text));
+
             //传递服务端口
             ReceiveConfigurationParameters[1] = "443";
             //传递密码(uuid)
@@ -4072,21 +3995,9 @@ namespace ProxySU
 
                     UploadConfig(connectionInfo, caddyConfig, upLoadPath);
 
-                    //设置Caddy监听的随机端口
-                    string randomCaddyListenPortStr = randomCaddyListenPort.ToString();
-
-                    sshShellCommand = $"sed -i 's/8800/{randomCaddyListenPortStr}/' {upLoadPath}";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-
-                    //设置域名
-                    sshShellCommand = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/g' {upLoadPath}";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-                    //设置伪装网站
-                    if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7]) == false)
-                    {
-                        sshShellCommand = $"sed -i 's/##sites##/proxy \\/ {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
-                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-                    }
+                    functionResult = SetCaddyfile(client, @"/etc/caddy/Caddyfile");
+                    if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+                    
                     //****** "Caddy配置文件上传成功,OK!" ******
                     SetUpProgressBarProcessing(70);
                     currentStatus = Application.Current.FindResource("DisplayInstallInfo_UploadCaddyConfigOK").ToString();
@@ -4249,9 +4160,9 @@ namespace ProxySU
                 //隐藏WebSocket路径
                 TextBlockShowPathSS.Visibility = Visibility.Hidden;
                 TextBlockCurrentlySelectedPlanPathSS.Visibility = Visibility.Hidden;
-                //隐藏伪装网站
-                TextBlockShowFakeWebsiteSS.Visibility = Visibility.Hidden;
-                TextBlockCurrentlySelectedPlanFakeWebsiteSS.Visibility = Visibility.Hidden;
+                //显示伪装网站
+                TextBlockShowFakeWebsiteSS.Visibility = Visibility.Visible;
+                TextBlockCurrentlySelectedPlanFakeWebsiteSS.Visibility = Visibility.Visible;
             }
             else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLSWebFrontSS"))
             {
@@ -4270,9 +4181,9 @@ namespace ProxySU
                 //隐藏WebSocket路径
                 TextBlockShowPathSS.Visibility = Visibility.Visible;
                 TextBlockCurrentlySelectedPlanPathSS.Visibility = Visibility.Visible;
-                //隐藏伪装网站
-                TextBlockShowFakeWebsiteSS.Visibility = Visibility.Hidden;
-                TextBlockCurrentlySelectedPlanFakeWebsiteSS.Visibility = Visibility.Hidden;
+                //显示伪装网站
+                TextBlockShowFakeWebsiteSS.Visibility = Visibility.Visible;
+                TextBlockCurrentlySelectedPlanFakeWebsiteSS.Visibility = Visibility.Visible;
             }
             
         }
@@ -4294,7 +4205,7 @@ namespace ProxySU
             //生成客户端配置时，连接的服务主机的IP或者域名
             if (String.IsNullOrEmpty(ReceiveConfigurationParameters[4]) == true)
             {
-                ReceiveConfigurationParameters[4] = TextBoxHost.Text.ToString();
+                ReceiveConfigurationParameters[4] = PreTrim(TextBoxHost.Text);
                 testDomain = false;
             }
             //选择模板
@@ -4734,28 +4645,10 @@ namespace ProxySU
                        
                         UploadConfig(connectionInfo, serverConfig, upLoadPath);
 
-                        //设置Caddyfile文件中的tls 邮箱,在caddy2中已经不需要设置。
-
-                        //设置Caddy监听的随机端口
-                        string randomCaddyListenPortStr = randomCaddyListenPort.ToString();
-
-                        sshShellCommand = $"sed -i 's/8800/{randomCaddyListenPortStr}/' {upLoadPath}";
-                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-
-                        //设置域名
-                        sshShellCommand = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/g' {upLoadPath}";
-                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-
-                        //设置Path
-                        sshShellCommand = $"sed -i 's/##path##/\\{ReceiveConfigurationParameters[3]}/' {upLoadPath}";
-                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-
-                        //设置伪装网站
-                        if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7]) == false)
-                        {
-                            sshShellCommand = $"sed -i 's/##sites##/proxy \\/ {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
-                            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-                        }
+                        //设置Caddy配置文件
+                        functionResult = SetCaddyfile(client, @"/etc/caddy/Caddyfile");
+                        if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+                        
                         //****** "Caddy配置文件上传成功,OK!" ******
                         SetUpProgressBarProcessing(70);
                         currentStatus = Application.Current.FindResource("DisplayInstallInfo_UploadCaddyConfigOK").ToString();
@@ -4840,17 +4733,17 @@ namespace ProxySU
                 ReceiveConfigurationParameters[i] = "";
             }
             //传递服务器地址
-            ReceiveConfigurationParameters[4] = TextBoxHost.Text.ToString();
+            ReceiveConfigurationParameters[4] = PreTrim(TextBoxHost.Text); ;
             //传递服务端口
-            ReceiveConfigurationParameters[1] = TextBoxMtgHostDomain.Text;
+            ReceiveConfigurationParameters[1] = PreTrim(TextBoxMtgHostPort.Text);
             //传递伪装域名
-            if (String.IsNullOrEmpty(TextBoxMtgSites.Text) == true)
+            if (String.IsNullOrEmpty(PreTrim(TextBoxMtgSites.Text)) == true)
             {
                 ReceiveConfigurationParameters[7] = "azure.microsoft.com";
             }
             else
             {
-                ReceiveConfigurationParameters[7] = TextBoxMtgSites.Text;
+                ReceiveConfigurationParameters[7] = PreTrim(TextBoxMtgSites.Text);
             }
             installationDegree = 0;
             TextBoxMonitorCommandResults.Text = "";
@@ -5059,6 +4952,11 @@ namespace ProxySU
         #endregion
 
         #region 其他功能函数及系统工具相关
+        //TextBox输入内容做预处理
+        private string PreTrim(string preString)
+        {
+            return preString.Trim();
+        }
         //产生随机端口
         private int GetRandomPort()
         {
@@ -5155,6 +5053,25 @@ namespace ProxySU
                 //MessageBox.Show("sftp出现未知错误,下载文件失败，请重试！");
                 return;
             }
+        }
+
+        //伪装网站处理
+        private string DisguiseURLprocessing(string fakeUrl)
+        {
+            //处理伪装网站域名中的前缀
+            if (fakeUrl.Length >= 7)
+            {
+                string testDomainMask = fakeUrl.Substring(0, 7);
+                if (String.Equals(testDomainMask, "https:/") || String.Equals(testDomainMask, "http://"))
+                {
+                    //MessageBox.Show(testDomain);
+                    string[] tmpUrl = fakeUrl.Split('/');
+                    //MainWindow.ReceiveConfigurationParameters[7] = TextBoxMaskSites.Text.Replace("/", "\\/");
+                    fakeUrl = tmpUrl[2];
+                }
+
+            }
+            return fakeUrl;
         }
 
         #region 检测系统内核是否符合安装要求
@@ -6165,7 +6082,7 @@ namespace ProxySU
                     return;
                 }
 
-                ReceiveConfigurationParameters[4] = TextBoxHost.Text;//传递主机地址
+                ReceiveConfigurationParameters[4] = PreTrim(TextBoxHost.Text); ;//传递主机地址
                 ReceiveConfigurationParameters[2] = PasswordBoxHostPassword.Password;//传递当前账户密码
 
                 installationDegree = 0;
@@ -6358,7 +6275,7 @@ namespace ProxySU
                     return;
                 }
 
-                ReceiveConfigurationParameters[4] = TextBoxHost.Text;//传递主机地址
+                ReceiveConfigurationParameters[4] = PreTrim(TextBoxHost.Text);//传递主机地址
                 ReceiveConfigurationParameters[2] = PasswordBoxHostPassword.Password;
 
                 installationDegree = 0;
@@ -6655,7 +6572,7 @@ namespace ProxySU
                     return;
                 }
 
-                ReceiveConfigurationParameters[4] = TextBoxHost.Text;//传递主机地址
+                ReceiveConfigurationParameters[4] = PreTrim(TextBoxHost.Text);//传递主机地址
                 ReceiveConfigurationParameters[2] = PasswordBoxHostPassword.Password;//传递主机密码
 
                 installationDegree = 0;
@@ -6837,7 +6754,7 @@ namespace ProxySU
             SaveFileDialog dlg = new SaveFileDialog();
             dlg.Title = title;
             string localTime = DateTime.Now.ToLocalTime().ToString().Replace(' ', '-').Replace(':', '-').Replace('/', '-').Replace('\\', '-');
-            dlg.FileName = $"{TextBoxHost.Text.Replace(':', '_')}_{localTime}.txt"; // Default file name
+            dlg.FileName = $"{PreTrim(TextBoxHost.Text).Replace(':', '_')}_{localTime}.txt"; // Default file name
             dlg.DefaultExt = ".txt"; // Default file extension
             dlg.Filter = "Text documents|*.txt"; // Filter files by extension
             dlg.InitialDirectory = initFolder;
@@ -7913,11 +7830,11 @@ namespace ProxySU
                 return false;
             }
 
-            sshShellCommand = @"cd ~/.acme.sh/";
-            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+            //sshShellCommand = @"cd ~/.acme.sh/";
+            //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-            sshShellCommand = @"alias acme.sh=~/.acme.sh/acme.sh";
-            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+            //sshShellCommand = @"alias acme.sh=~/.acme.sh/acme.sh";
+            //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
             //****** "申请域名证书......" ******24
             SetUpProgressBarProcessing(55);
@@ -8061,6 +7978,45 @@ namespace ProxySU
         //上传Caddy配置文件67--70
         private bool UpConfigCaddy(SshClient client)
         {
+            return true;
+        }
+
+        //设置Caddy配置文件
+        //functionResult = SetCaddyfile(client, @"/etc/caddy/Caddyfile");
+        //if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+        private bool SetCaddyfile(SshClient client,string upLoadPath)
+        {
+
+            //设置Caddyfile文件中的tls 邮箱,在caddy2中已经不需要设置。
+
+            //设置Caddy监听的随机端口
+            string randomCaddyListenPortStr = randomCaddyListenPort.ToString();
+
+            sshShellCommand = $"sed -i 's/8800/{randomCaddyListenPortStr}/' {upLoadPath}";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+            //设置域名
+            ReceiveConfigurationParameters[4] = ReceiveConfigurationParameters[4].TrimEnd(' ');
+            sshShellCommand = $"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/g' {upLoadPath}";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+            //设置Path
+            sshShellCommand = $"sed -i 's/##path##/\\{ReceiveConfigurationParameters[6]}/' {upLoadPath}";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+            //设置伪装网站
+            if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7]) == false)
+            {
+                sshShellCommand = $"sed -i 's/##reverse_Proxy1##/reverse_proxy http:\\/\\/{ReceiveConfigurationParameters[7]} {{/ ' {upLoadPath}";
+                currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                sshShellCommand = $"sed -i 's/##reverse_Proxy2##/header_up Host {ReceiveConfigurationParameters[7]}/' {upLoadPath}";
+                currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                sshShellCommand = $"sed -i 's/##reverse_Proxy3##/}}/' {upLoadPath}";
+                currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+            }
             return true;
         }
 

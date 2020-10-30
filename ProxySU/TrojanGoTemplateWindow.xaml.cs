@@ -28,35 +28,21 @@ namespace ProxySU
         }
         private void ButtondDecide_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(TextBoxDomain.Text.ToString()) == true)
+            if (string.IsNullOrEmpty(PreTrim(TextBoxDomain.Text)) == true)
             {
                 //****** "域名不能为空，请检查相关参数设置！" ******
                 MessageBox.Show(Application.Current.FindResource("MessageBoxShow_DomainNotEmpty").ToString());
                 return;
             }
             //传递域名
-            MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomain.Text.ToString();
-            //处理伪装网站域名中的前缀
-            MainWindow.ReceiveConfigurationParameters[7] = TextBoxMaskSites.Text.ToString();
-                     
-            if (TextBoxMaskSites.Text.ToString().Length >= 7)
-            {
-                string testDomain = TextBoxMaskSites.Text.Substring(0, 7);
-                if (String.Equals(testDomain, "https:/") || String.Equals(testDomain, "http://"))
-                {
-                    //MessageBox.Show(testDomain);
-                    MainWindow.ReceiveConfigurationParameters[7] = TextBoxMaskSites.Text.Replace("/", "\\/");
-                }
-                else
-                {
-                    MainWindow.ReceiveConfigurationParameters[7] = "http:\\/\\/" + TextBoxMaskSites.Text;
-                }
-            }
+            MainWindow.ReceiveConfigurationParameters[4] = PreTrim(TextBoxDomain.Text);
+            //传递伪装网站
+            MainWindow.ReceiveConfigurationParameters[7] = DisguiseURLprocessing(PreTrim(TextBoxMaskSites.Text));
 
             //传递服务端口
             MainWindow.ReceiveConfigurationParameters[1] = "443";
             //传递密码(uuid)
-            MainWindow.ReceiveConfigurationParameters[2] = TextBoxNewUUID.Text.ToString();
+            MainWindow.ReceiveConfigurationParameters[2] = PreTrim(TextBoxNewUUID.Text);
             if (RadioButtonTrojanGoTLS2Web.IsChecked == true)
             {
                 //传递模板类型
@@ -72,14 +58,14 @@ namespace ProxySU
                 //传递方案名称
                 MainWindow.ReceiveConfigurationParameters[8] = RadioButtonTrojanGoWebSocketTLS2Web.Content.ToString();
                 //传递路径
-                MainWindow.ReceiveConfigurationParameters[6] = TextBoxPath.Text;
+                MainWindow.ReceiveConfigurationParameters[6] = PreTrim(TextBoxPath.Text);
             }
             //传递Mux的concurrency与idle_timeout
             if (CheckBoxMuxSelect.IsChecked == true)
             {
                 MainWindow.ReceiveConfigurationParameters[9] = "true";
-                MainWindow.ReceiveConfigurationParameters[3] = TextBoxConcurrency.Text;
-                MainWindow.ReceiveConfigurationParameters[5] = TextBoxIdle_timeout.Text;
+                MainWindow.ReceiveConfigurationParameters[3] = PreTrim(TextBoxConcurrency.Text);
+                MainWindow.ReceiveConfigurationParameters[5] = PreTrim(TextBoxIdle_timeout.Text);
             }
             this.Close();
         }
@@ -150,7 +136,7 @@ namespace ProxySU
         //域名检测是否为空
         private bool TestDomainIsEmpty()
         {
-            if (string.IsNullOrEmpty(TextBoxDomain.Text.ToString()) == true)
+            if (string.IsNullOrEmpty(PreTrim(TextBoxDomain.Text)) == true)
             {
                 //****** "域名不能为空，请检查相关参数设置！" ******
                 MessageBox.Show(Application.Current.FindResource("MessageBoxShow_DomainNotEmpty").ToString());
@@ -172,6 +158,29 @@ namespace ProxySU
         {
             GridTrojanGoMuxSelected.Visibility = Visibility.Collapsed;
             TextBlockExplainCheckBoxMuxSelect.Visibility = Visibility.Collapsed;
+        }
+
+        //TextBox输入内容做预处理
+        private string PreTrim(string preString)
+        {
+            return preString.Trim();
+        }
+
+        //处理伪装网站域名中的前缀
+        private string DisguiseURLprocessing(string fakeUrl)
+        {
+           
+            if (fakeUrl.Length >= 7)
+            {
+                string testDomainMask = fakeUrl.Substring(0, 7);
+                if (String.Equals(testDomainMask, "https:/") || String.Equals(testDomainMask, "http://"))
+                {
+                    string[] tmpUrl = fakeUrl.Split('/');
+                    fakeUrl = tmpUrl[2];
+                }
+
+            }
+            return fakeUrl;
         }
     }
 }
