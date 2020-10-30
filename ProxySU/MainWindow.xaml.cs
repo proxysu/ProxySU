@@ -170,7 +170,7 @@ namespace ProxySU
         #region 检测新版本代码
 
         //检测ProxySU新版本
-        private void TestLatestVersionProxySU(TextBlock TextBlockLastVersionProxySU,TextBlock TextBlockNewVersionReminder,Button ButtonUpgradeProxySU)
+        private void TestLatestVersionProxySU(TextBlock TextBlockLastVersionProxySU, TextBlock TextBlockNewVersionReminder, Button ButtonUpgradeProxySU)
         {
             string strJson = GetLatestJson(@"https://api.github.com/repos/proxysu/windows/releases/latest");
             if (String.IsNullOrEmpty(strJson) == false)
@@ -247,7 +247,7 @@ namespace ProxySU
             }
             catch (Exception ex1)
             {
-               // MessageBox.Show(ex1.ToString());
+                // MessageBox.Show(ex1.ToString());
 
                 return;
             }
@@ -292,7 +292,7 @@ namespace ProxySU
             }
         }
 
-       
+
         //更新新版本提醒显示
         Action<TextBlock, TextBlock, Button, string> updateNewVersionProxySUAction = new Action<TextBlock, TextBlock, Button, string>(UpdateNewVersionProxySU);
         private static void UpdateNewVersionProxySU(TextBlock TextBlockLastVersionProxySU, TextBlock TextBlockNewVersionReminder, Button ButtonUpgradeProxySU, string theLatestVersion)
@@ -332,11 +332,11 @@ namespace ProxySU
 
 
         }
-        
+
         //进度条更新百分比
         private void SetUpProgressBarProcessing(int max)
         {
-           
+
             for (int i = installationDegree; i <= max; i++)
             {
                 Thread.Sleep(100);
@@ -345,7 +345,7 @@ namespace ProxySU
             installationDegree = max;
         }
 
-       
+
         //更新监视窗内的显示
         //结尾自动添加一个换行符
         Action<TextBox, string> updateMonitorAction = new Action<TextBox, string>(UpdateTextBox);
@@ -354,7 +354,7 @@ namespace ProxySU
             textBoxName.Text = textBoxName.Text + currentResult + Environment.NewLine;
             textBoxName.ScrollToEnd();
         }
-        
+
         //结尾不添加换行符
         Action<TextBox, string> updateMonitorActionNoWrap = new Action<TextBox, string>(UpdateTextBoxNoWrap);
         private static void UpdateTextBoxNoWrap(TextBox textBoxName, string currentResult)
@@ -368,7 +368,7 @@ namespace ProxySU
         {
             Application.Current.Shutdown();
         }
-        
+
         // private static readonly Regex _regex = new Regex("[^0-9]+");
 
         //检测数字输入
@@ -411,7 +411,7 @@ namespace ProxySU
         #endregion
 
         #region 主界面控件的有效无效控制代码块及界面语言
-   
+
         //加载语言资源文件
         private void ResourcesLoad(string Culture)
         {
@@ -651,7 +651,7 @@ namespace ProxySU
                 return connectionInfo = null;
             }
 
-            if (RadioButtonNoProxy.IsChecked==false && RadiobuttonProxyYesLogin.IsChecked == true && (string.IsNullOrEmpty(PreTrim(TextBoxProxyUserName.Text)) == true || string.IsNullOrEmpty(PasswordBoxProxyPassword.Password) == true))
+            if (RadioButtonNoProxy.IsChecked == false && RadiobuttonProxyYesLogin.IsChecked == true && (string.IsNullOrEmpty(PreTrim(TextBoxProxyUserName.Text)) == true || string.IsNullOrEmpty(PasswordBoxProxyPassword.Password) == true))
             {
                 //****** "如果代理需要登录，则代理登录的用户名与密码不能为空!" ******
                 MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorProxyUserPasswordNotEmpty").ToString());
@@ -734,9 +734,9 @@ namespace ProxySU
             //}
             //else
             //{
-                //****** "发生错误" ******
-                MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorLoginOccurred").ToString());
-                MessageBox.Show(exceptionMessage);
+            //****** "发生错误" ******
+            MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorLoginOccurred").ToString());
+            MessageBox.Show(exceptionMessage);
             //}
 
         }
@@ -756,7 +756,7 @@ namespace ProxySU
             windowTemplateConfiguration.Closed += windowTemplateConfigurationClosed;
             windowTemplateConfiguration.ShowDialog();
         }
-       
+
         //V2Ray模板设置窗口关闭后，触发事件，将所选的方案与其参数显示在UI上
         private void windowTemplateConfigurationClosed(object sender, System.EventArgs e)
         {
@@ -777,10 +777,10 @@ namespace ProxySU
             TextBlockCurrentlySelectedPlanPort.Text = ReceiveConfigurationParameters[1];        //服务器端口
             TextBlockCurrentlySelectedPlanUUID.Text = ReceiveConfigurationParameters[2];        //UUID
             TextBlockCurrentlySelectedPlanPathSeedKey.Text = ReceiveConfigurationParameters[6]; //mKCP Seed\Quic Key\Path
-            
+
             TextBlockCurrentlySelectedPlanFakeWebsite.Text = ReceiveConfigurationParameters[7]; //伪装网站
 
-            if (String.Equals(ReceiveConfigurationParameters[0],"TCP") == true
+            if (String.Equals(ReceiveConfigurationParameters[0], "TCP") == true
                 || String.Equals(ReceiveConfigurationParameters[0], "TCPhttp") == true
                 || String.Equals(ReceiveConfigurationParameters[0], "tcpTLSselfSigned") == true
                 || String.Equals(ReceiveConfigurationParameters[0], "webSocket") == true)
@@ -815,7 +815,7 @@ namespace ProxySU
 
                 //显示域名
                 ShowV2RayDomainQuicEncrypt();
-              
+
                 //显示伪装网站(暂时不显示)
                 ShowV2RayMaskSites();
 
@@ -829,7 +829,7 @@ namespace ProxySU
 
                 //显示域名
                 ShowV2RayDomainQuicEncrypt();
-               
+
                 //显示伪装网站(暂时不显示)
                 ShowV2RayMaskSites();
             }
@@ -844,7 +844,7 @@ namespace ProxySU
 
                 //显示域名
                 ShowV2RayDomainQuicEncrypt();
-            
+
                 //显示伪装网站(暂时不显示)
                 HideV2RayMaskSites();
             }
@@ -860,13 +860,13 @@ namespace ProxySU
 
                 //显示域名
                 ShowV2RayDomainQuicEncrypt();
-             
+
                 //显示伪装网站(暂时不显示)
                 ShowV2RayMaskSites();
             }
             else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLSselfSigned") == true
                 || String.Equals(ReceiveConfigurationParameters[0], "http2selfSigned") == true)
-            { 
+            {
                 //显示Path
                 ShowV2RayPathSeedKey();
                 TextBlockV2RayShowPathSeedKey.Text = "Path:";
@@ -902,7 +902,7 @@ namespace ProxySU
                 ShowV2RayDomainQuicEncrypt();
                 TextBlockV2RayShowCurrentlySelectedPlanDomain.Text = Application.Current.FindResource("TextBlockQuicEncryption").ToString();
                 TextBlockCurrentlySelectedPlanDomain.Text = ReceiveConfigurationParameters[3];      //Quic加密方式
-                if (String.Equals(TextBlockCurrentlySelectedPlanDomain.Text,"none")==true)
+                if (String.Equals(TextBlockCurrentlySelectedPlanDomain.Text, "none") == true)
                 {
                     HideV2RayPathSeedKey();
                 }
@@ -991,16 +991,16 @@ namespace ProxySU
 
         {
             ConnectionInfo connectionInfo = GenerateConnectionInfo();
-            if(connectionInfo==null)
+            if (connectionInfo == null)
             {
                 //****** "远程主机连接信息有误，请检查!" ******
-                MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorHostConnection").ToString());    
+                MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorHostConnection").ToString());
                 return;
             }
 
-            
+
             //生成客户端配置时，连接的服务主机的IP或者域名
-            if (String.IsNullOrEmpty(ReceiveConfigurationParameters[4])==true)
+            if (String.IsNullOrEmpty(ReceiveConfigurationParameters[4]) == true)
             {
                 ReceiveConfigurationParameters[4] = PreTrim(TextBoxHost.Text);
                 testDomain = false;
@@ -1049,14 +1049,14 @@ namespace ProxySU
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
 
-            
+
         }
 
         //登录远程主机布署V2ray程序
         private void StartSetUpV2ray(ConnectionInfo connectionInfo)
         {
             functionResult = true;
-            getApt = false;   
+            getApt = false;
             getDnf = false;
             getYum = false;
 
@@ -1131,8 +1131,10 @@ namespace ProxySU
                     }
 
                     //下载安装脚本安装 37--40
-                    functionResult = V2RayInstallScript(client);
+                    functionResult = ProxySoftInstall(client, @"V2Ray", @"https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh");
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+                    //functionResult = V2RayInstallScript(client);
+                    //if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
                     //程序是否安装成功检测 41--43
                     functionResult = SoftInstalledSuccessOrFail(client, "v2ray", @"/usr/local/bin/v2ray");
@@ -1277,30 +1279,41 @@ namespace ProxySU
         //下载安装脚本安装V2Ray 37--40
         //functionResult = V2RayInstallScript(client);
         //if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
-        private bool V2RayInstallScript(SshClient client)
-        {
-            //****** "系统环境检测完毕，符合安装要求,开始布署......" ******17
-            currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstalling").ToString();
-            MainWindowsShowInfo(currentStatus);
+        //private bool V2RayInstallScript(SshClient client)
+        //{
+        //    //****** "系统环境检测完毕，符合安装要求,开始布署......" ******17
+        //    currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstalling").ToString();
+        //    MainWindowsShowInfo(currentStatus);
 
-            //下载官方安装脚本安装
-            //****** "正在安装V2Ray......" ******19
-            SetUpProgressBarProcessing(37);
-            currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstallSoft").ToString() + "V2Ray......";
-            MainWindowsShowInfo(currentStatus);
+        //    //下载官方安装脚本安装
+        //    //****** "正在安装V2Ray......" ******19
+        //    SetUpProgressBarProcessing(37);
+        //    currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstallSoft").ToString() + "V2Ray......";
+        //    MainWindowsShowInfo(currentStatus);
 
-            sshShellCommand = $"curl -o /tmp/go.sh https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh";
-            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+        //    sshShellCommand = $"curl -o /tmp/go.sh https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh";
+        //    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-            sshShellCommand = @"yes | bash /tmp/go.sh -f";
-            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+        //    functionResult = FileCheckExists(client, @"/tmp/go.sh");
+        //    if (functionResult == true)
+        //    {
+        //        sshShellCommand = @"yes | bash /tmp/go.sh -f";
+        //        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-            sshShellCommand = @"rm -f /tmp/go.sh";
-            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+        //        sshShellCommand = @"rm -f /tmp/go.sh";
+        //        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+        //    }
+        //    else
+        //    {
+        //        //***安装脚本下载失败！***
+        //        currentStatus = Application.Current.FindResource("DisplayInstallInfo_DownloadScriptFailed").ToString();
+        //        MainWindowsShowInfo(currentStatus);
+        //        return false;
+        //    }
 
-            SetUpProgressBarProcessing(40);
-            return true;
-        }
+        //    SetUpProgressBarProcessing(40);
+        //    return true;
+        //}
 
         //生成V2Ray服务端配置 44--46
         //functionResult = GenerateServerConfiguration(client);
@@ -1458,7 +1471,7 @@ namespace ProxySU
                 //else if (String.Equals(ReceiveConfigurationParameters[0], "MkcpNone")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2SRTP")||String.Equals(ReceiveConfigurationParameters[0], "mKCPuTP")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WechatVideo")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2DTLS")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WireGuard"))
                 else if (ReceiveConfigurationParameters[0].Contains("mKCP") == true)
                 {
-                    if(mKCPvlessIsSet == true)
+                    if (mKCPvlessIsSet == true)
                     {
                         inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\05_inbounds\vless_mkcp_server_config.json";
                     }
@@ -1816,7 +1829,7 @@ namespace ProxySU
                         {
                             outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\mkcp_client_config.json";
                         }
-                       
+
                     }
                     // else if (String.Equals(ReceiveConfigurationParameters[0], "QuicNone") || String.Equals(ReceiveConfigurationParameters[0], "QuicSRTP") || String.Equals(ReceiveConfigurationParameters[0], "Quic2uTP") || String.Equals(ReceiveConfigurationParameters[0], "QuicWechatVideo") || String.Equals(ReceiveConfigurationParameters[0], "QuicDTLS") || String.Equals(ReceiveConfigurationParameters[0], "QuicWireGuard"))
                     else if (ReceiveConfigurationParameters[0].Contains("Quic") == true)
@@ -2109,10 +2122,14 @@ namespace ProxySU
 
                     //Thread.Sleep(1000);
                     //检测是否安装V2Ray
-                    sshShellCommand = @"find / -name v2ray";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    //sshShellCommand = @"find / -name v2ray";
+                    //sshShellCommand = @"if [[ -f /usr/local/bin/v2ray ]];then echo '1';else echo '0'; fi";
+                    //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                    if (currentShellCommandResult.Contains("/usr/local/bin/v2ray") == false)
+                    //if (currentShellCommandResult.Contains("/usr/local/bin/v2ray") == false)
+                    //if (currentShellCommandResult.Trim().Equals("0") == true)
+                    functionResult = FileCheckExists(client, @"/usr/local/bin/v2ray");
+                    if (functionResult == false)
                     {
                         //******"退出！原因：远程主机未安装V2ray"******
                         MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorUpgradeSoftNotInstall").ToString() + "V2Ray!");
@@ -2124,7 +2141,7 @@ namespace ProxySU
                         return;
 
                     }
-                    
+
                     //sshcmd = @"/usr/local/bin/v2ray -version | head -n 1 | cut -d "" "" -f2";
                     sshShellCommand = @"/usr/local/bin/v2ray -version | head -n 1 | cut -d "" "" -f2";
                     currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
@@ -2141,10 +2158,10 @@ namespace ProxySU
                     {
                         MessageBoxResult messageBoxResult = MessageBox.Show(
                             //****** "远程主机当前版本为：v" ******
-                            Application.Current.FindResource("DisplayInstallInfo_CurrentVersion").ToString() + 
+                            Application.Current.FindResource("DisplayInstallInfo_CurrentVersion").ToString() +
                             $"{v2rayCurrentVersion}\n" +
                             //****** "最新版本为：" ******
-                            Application.Current.FindResource("DisplayInstallInfo_NewVersion").ToString() + 
+                            Application.Current.FindResource("DisplayInstallInfo_NewVersion").ToString() +
                             $"{v2rayNewVersion}\n" +
                             //****** "是否升级为最新版本？" ******
                             Application.Current.FindResource("DisplayInstallInfo_IsOrNoUpgradeNewVersion").ToString(), "", MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -2213,7 +2230,7 @@ namespace ProxySU
             #region 例外处理
             {
                 ProcessException(ex1.Message);
-   
+
                 //****** "主机登录失败!" ******
                 currentStatus = Application.Current.FindResource("DisplayInstallInfo_LoginFailed").ToString();
                 MainWindowsShowInfo(currentStatus);
@@ -2307,7 +2324,7 @@ namespace ProxySU
                 TextBlockTrojanGoShowCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
                 TextBlockTrojanGoCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
             }
-           
+
         }
 
         //传递TrojanGo参数
@@ -2413,8 +2430,10 @@ namespace ProxySU
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
                     //下载脚本安装Trojan-go 37--40
-                    functionResult = TrojanGoInstall(client);
+                    functionResult = ProxySoftInstall(client, @"Trojan-go", @"https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh");
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+                    //functionResult = TrojanGoInstall(client);
+                    //if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
                     //程序是否安装成功检测并设置开机启动 41--43
                     functionResult = SoftInstalledSuccessOrFail(client, "trojan-go", @"/usr/local/bin/trojan-go");
@@ -2433,7 +2452,7 @@ namespace ProxySU
                     functionResult = AcmeShInstall(client);
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
-                    
+
                     //****** "安装证书到Trojan-go......" ******
                     SetUpProgressBarProcessing(58);
                     currentStatus = Application.Current.FindResource("DisplayInstallInfo_IntallCertToSoft").ToString() + "Trojan-go......";
@@ -2471,7 +2490,7 @@ namespace ProxySU
                     functionResult = CaddyInstall(client);
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
-                   
+
                     //****** "上传Caddy配置文件......" ******
                     SetUpProgressBarProcessing(67);
                     currentStatus = Application.Current.FindResource("DisplayInstallInfo_UploadCaddyConfig").ToString();
@@ -2539,7 +2558,7 @@ namespace ProxySU
                             clientJson["websocket"]["path"] = ReceiveConfigurationParameters[6];
                         }
                         //如果开启了mux，设置客户端配置文件参数
-                        if (String.Equals(ReceiveConfigurationParameters[9],"true") == true)
+                        if (String.Equals(ReceiveConfigurationParameters[9], "true") == true)
                         {
                             clientJson["mux"]["enabled"] = true;
                             clientJson["mux"]["concurrency"] = int.Parse(ReceiveConfigurationParameters[3]);
@@ -2591,30 +2610,42 @@ namespace ProxySU
         //下载脚本安装Trojan-go 37--40
         //functionResult = TrojanGoInstall(client);
         //if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
-        private bool TrojanGoInstall(SshClient client)
-        {
-            //****** "系统环境检测完毕，符合安装要求,开始布署......" ******
-            SetUpProgressBarProcessing(37);
-            currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstalling").ToString();
-            MainWindowsShowInfo(currentStatus);
+        //private bool TrojanGoInstall(SshClient client)
+        //{
+        //    //****** "系统环境检测完毕，符合安装要求,开始布署......" ******
+        //    SetUpProgressBarProcessing(37);
+        //    currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstalling").ToString();
+        //    MainWindowsShowInfo(currentStatus);
 
-            //****** "正在安装Trojan-go......" ******
-            SetUpProgressBarProcessing(38);
-            currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstallSoft").ToString() + "Trojan-go......";
-            MainWindowsShowInfo(currentStatus);
+        //    //****** "正在安装Trojan-go......" ******
+        //    SetUpProgressBarProcessing(38);
+        //    currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstallSoft").ToString() + "Trojan-go......";
+        //    MainWindowsShowInfo(currentStatus);
 
-            sshShellCommand = $"curl -o /tmp/trojan-go.sh https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh";
-            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+        //    sshShellCommand = $"curl -o /tmp/trojan-go.sh https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh";
+        //    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-            sshShellCommand = @"yes | bash /tmp/trojan-go.sh -f";
-            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+        //    functionResult = FileCheckExists(client, @"/tmp/trojan-go.sh");
+        //    if (functionResult == true)
+        //    {
+        //        sshShellCommand = @"yes | bash /tmp/trojan-go.sh -f";
+        //        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-            sshShellCommand = @"rm -f /tmp/trojan-go.sh";
-            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+        //        sshShellCommand = @"rm -f /tmp/trojan-go.sh";
+        //        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+        //    }
+        //    else
+        //    {
+        //        //***安装脚本下载失败！***
+        //        currentStatus = Application.Current.FindResource("DisplayInstallInfo_DownloadScriptFailed").ToString();
+        //        MainWindowsShowInfo(currentStatus);
+        //        return false;
+        //    }
 
-            SetUpProgressBarProcessing(40);
-            return true;
-        }
+
+        //    SetUpProgressBarProcessing(40);
+        //    return true;
+        //}
 
         //生成Trojan-go服务端配置 44--46
         //functionResult = GenerateServerConfigurationTrojanGo(client);
@@ -2753,10 +2784,14 @@ namespace ProxySU
 
                     //string cmdTestTrojanInstalled = @"find / -name trojan-go";
 
-                    sshShellCommand = @"find / -name trojan-go";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    //sshShellCommand = @"find / -name trojan-go";
+                    //sshShellCommand = @"if [[ -f /usr/local/bin/trojan-go ]];then echo '1';else echo '0'; fi";
+                    //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                    if (currentShellCommandResult.Contains("/usr/local/bin/trojan-go") == false)
+                    //if (currentShellCommandResult.Contains("/usr/local/bin/trojan-go") == false)
+                    //if (currentShellCommandResult.Trim().Equals("0") == true)
+                    functionResult = FileCheckExists(client, @"/usr/local/bin/trojan-go");
+                    if (functionResult == false)
                     {
                         //******"退出！原因：远程主机未安装Trojan-go"******
                         MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorUpgradeSoftNotInstall").ToString() + "Trojan-go!");
@@ -2808,7 +2843,16 @@ namespace ProxySU
                             sshShellCommand = $"curl -o /tmp/trojan-go.sh https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh";
                             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                            sshShellCommand = @"yes | bash /tmp/trojan-go.sh -f";
+                            functionResult = FileCheckExists(client, @"/tmp/trojan-go.sh");
+                            if (functionResult == false)
+                            {
+                                //***文件下载失败！***
+                                currentStatus = Application.Current.FindResource("DisplayInstallInfo_DownloadScriptFailed").ToString();
+                                MainWindowsShowInfo(currentStatus);
+                                return;
+                            }
+
+                            sshShellCommand = @"yes | bash /tmp/trojan-go.sh";
                             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                             sshShellCommand = @"rm -f /tmp/trojan-go.sh";
@@ -2921,7 +2965,7 @@ namespace ProxySU
             ReceiveConfigurationParameters[4] = PreTrim(TextBoxTrojanHostDomain.Text);
             //传递伪装网站
             ReceiveConfigurationParameters[7] = DisguiseURLprocessing(PreTrim(TextBoxTrojanSites.Text));
-           
+
             //传递服务端口
             ReceiveConfigurationParameters[1] = "443";
             //传递密码(uuid)
@@ -2934,7 +2978,7 @@ namespace ProxySU
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
         }
-        
+
         //登录远程主机布署Trojan程序
         private void StartSetUpTrojan(ConnectionInfo connectionInfo)
         {
@@ -3021,20 +3065,23 @@ namespace ProxySU
                     functionResult = DomainResolutionCurrentIPDetect(client);
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
-                    //下载安装脚本安装
-                    //****** "正在安装Trojan......" ******
-                    SetUpProgressBarProcessing(37);
-                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstallSoft").ToString() + "Trojan......";
-                    MainWindowsShowInfo(currentStatus);
+                    //下载安装脚本安装 37-40
+                    functionResult = ProxySoftInstall(client, @"Trojan", @"https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh");
+                    if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
-                    sshShellCommand = $"curl -o /tmp/trojan-quickstart.sh https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    ////****** "正在安装Trojan......" ******
+                    //SetUpProgressBarProcessing(37);
+                    //currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstallSoft").ToString() + "Trojan......";
+                    //MainWindowsShowInfo(currentStatus);
 
-                    sshShellCommand = @"yes | bash /tmp/trojan-quickstart.sh";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    //sshShellCommand = $"curl -o /tmp/trojan-quickstart.sh https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh";
+                    //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                    sshShellCommand = @"rm -f /tmp/trojan-quickstart.sh";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    //sshShellCommand = @"yes | bash /tmp/trojan-quickstart.sh";
+                    //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                    //sshShellCommand = @"rm -f /tmp/trojan-quickstart.sh";
+                    //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                     //程序是否安装成功检测并设置开机启动 41--43
                     functionResult = SoftInstalledSuccessOrFail(client, "trojan", @"/usr/local/bin/trojan");
@@ -3167,7 +3214,7 @@ namespace ProxySU
                         clientJson["remote_addr"] = ReceiveConfigurationParameters[4];
                         clientJson["remote_port"] = int.Parse(ReceiveConfigurationParameters[1]);
                         clientJson["password"][0] = ReceiveConfigurationParameters[2];
-                       
+
                         using (StreamWriter sw = new StreamWriter(@"trojan_config\config.json"))
                         {
                             sw.Write(clientJson.ToString());
@@ -3199,7 +3246,7 @@ namespace ProxySU
             #endregion
 
         }
-        
+
         //检测升级远程主机Trojan版本传递参数
         private void ButtonUpdateTrojan_Click(object sender, RoutedEventArgs e)
         {
@@ -3216,7 +3263,7 @@ namespace ProxySU
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
         }
-        
+
         //升级Trojan主程序
         private void UpdateTojan(ConnectionInfo connectionInfo)
         {
@@ -3284,10 +3331,14 @@ namespace ProxySU
 
                     //string cmdTestTrojanInstalled = @"find / -name trojan";
                     //string resultCmdTestTrojanInstalled = client.RunCommand(cmdTestTrojanInstalled).Result;
-                    sshShellCommand = @"find / -name trojan";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    //sshShellCommand = @"find / -name trojan";
+                    //sshShellCommand = @"if [[ -f /usr/local/bin/trojan ]];then echo '1';else echo '0'; fi";
+                    //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                    if (currentShellCommandResult.Contains("/usr/local/bin/trojan") == false)
+                    //if (currentShellCommandResult.Contains("/usr/local/bin/trojan") == false)
+                    //if (currentShellCommandResult.Trim().Equals("0") == true)
+                    functionResult = FileCheckExists(client, @"/usr/local/bin/trojan");
+                    if (functionResult == false)
                     {
                         //******"退出！原因：远程主机未安装Trojan"******
                         MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorUpgradeSoftNotInstall").ToString() + "Trojan!");
@@ -3309,7 +3360,7 @@ namespace ProxySU
                     currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                     string trojanCurrentVersion = currentShellCommandResult;//不含字母v
-              
+
 
                     //sshcmd = @"curl -fsSL https://api.github.com/repos/trojan-gfw/trojan/releases/latest | grep tag_name | sed -E 's/.*""v(.*)"".*/\1/'";
                     //获取最新版本
@@ -3352,6 +3403,15 @@ namespace ProxySU
                             //client.RunCommand("yes | bash /tmp/trojan-quickstart.sh");
                             sshShellCommand = $"curl -o /tmp/trojan-quickstart.sh https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh";
                             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                            functionResult = FileCheckExists(client, @"/tmp/trojan-quickstart.sh");
+                            if (functionResult == false)
+                            {
+                                //***文件下载失败！***
+                                currentStatus = Application.Current.FindResource("DisplayInstallInfo_DownloadScriptFailed").ToString();
+                                MainWindowsShowInfo(currentStatus);
+                                return;
+                            }
 
                             sshShellCommand = @"yes | bash /tmp/trojan-quickstart.sh";
                             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
@@ -3464,14 +3524,14 @@ namespace ProxySU
                 MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorHostConnection").ToString());
                 return;
             }
-         
+
             //传递参数
             ReceiveConfigurationParameters[4] = PreTrim(TextBoxNaiveHostDomain.Text);//传递域名
             ReceiveConfigurationParameters[1] = "443";//传递端口
             ReceiveConfigurationParameters[3] = TextBoxNaiveUser.Text;//传递用户名
             ReceiveConfigurationParameters[2] = TextBoxNaivePassword.Text;//传递密码
             ReceiveConfigurationParameters[7] = DisguiseURLprocessing(PreTrim(TextBoxNaiveSites.Text));//传递伪装网站
-            
+
             //启动布署进程
             installationDegree = 0;
             TextBoxMonitorCommandResults.Text = "";
@@ -3552,7 +3612,7 @@ namespace ProxySU
                     functionResult = DomainResolutionCurrentIPDetect(client);
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
-                    
+
 
                     //****** "系统环境检测完毕，符合安装要求,开始布署......" ******
                     SetUpProgressBarProcessing(60);
@@ -3573,6 +3633,14 @@ namespace ProxySU
                     sshShellCommand = $"curl -o /tmp/caddy.zip https://raw.githubusercontent.com/proxysu/Resources/master/Caddy2/caddy2.zip";
                     currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
+                    functionResult = FileCheckExists(client, @"/tmp/caddy.zip");
+                    if (functionResult == false)
+                    {
+                        //***文件下载失败！***
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_DownloadScriptFailed").ToString();
+                        MainWindowsShowInfo(currentStatus);
+                        return;
+                    }
                     sshShellCommand = @"yes | unzip -o /tmp/caddy.zip";
                     currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
@@ -3604,7 +3672,7 @@ namespace ProxySU
                     UploadConfig(connectionInfo, caddyConfig, upLoadPath);
                     //$"sed -i 's/##domain##/{ReceiveConfigurationParameters[4]}/' {upLoadPath}"
                     //$"sed -i 's/##basicauth##/basicauth {ReceiveConfigurationParameters[3]} {ReceiveConfigurationParameters[2]}/' {upLoadPath}"
-                    
+
                     //设置Caddy配置文件
                     functionResult = SetCaddyfile(client, upLoadPath);
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
@@ -3757,7 +3825,7 @@ namespace ProxySU
                             sw.Write(clientJson.ToString());
                         }
                     }
-                    
+
 
                     //****** "NaiveProxy安装成功,祝你玩的愉快！！" ******
                     SetUpProgressBarProcessing(100);
@@ -3789,7 +3857,7 @@ namespace ProxySU
         {
             TextBoxNaivePassword.Text = RandomUUID();
         }
-        
+
         //生成随机UUID
         private string RandomUUID()
         {
@@ -3797,7 +3865,7 @@ namespace ProxySU
             //TextBoxNaivePassword.Text = uuid.ToString();
             return uuid.ToString();
         }
-        
+
         //NaiveProxy产生随机用户名
         private string RandomUserName()
         {
@@ -3810,7 +3878,7 @@ namespace ProxySU
             // TextBoxPath.Text = $"/{path}";
             //MessageBox.Show(path);
         }
-        
+
         //NaiveProxy更改用户名，随机方式
         private void ButtonNaiveUser_Click(object sender, RoutedEventArgs e)
         {
@@ -3933,32 +4001,35 @@ namespace ProxySU
                     functionResult = DomainResolutionCurrentIPDetect(client);
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
+                    //下载脚本安装SSR 37--40
+                    functionResult = ProxySoftInstall(client, @"SSR", @"https://raw.githubusercontent.com/proxysu/shellscript/master/ssr/ssr.sh");
+                    if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
-                    //****** "系统环境检测完毕，符合安装要求,开始布署......" ******
-                    SetUpProgressBarProcessing(37);
-                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstalling").ToString();
-                    MainWindowsShowInfo(currentStatus);
+                    ////****** "系统环境检测完毕，符合安装要求,开始布署......" ******
+                    //SetUpProgressBarProcessing(37);
+                    //currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstalling").ToString();
+                    //MainWindowsShowInfo(currentStatus);
 
-                    //下载安装脚本安装
-                    //****** "正在安装SSR......" ******
-                    SetUpProgressBarProcessing(38);
-                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstallSoft").ToString() + "SSR......";
-                    MainWindowsShowInfo(currentStatus);
+                    ////下载安装脚本安装
+                    ////****** "正在安装SSR......" ******
+                    //SetUpProgressBarProcessing(38);
+                    //currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstallSoft").ToString() + "SSR......";
+                    //MainWindowsShowInfo(currentStatus);
 
-                    sshShellCommand = $"curl -o /tmp/ssr.sh https://raw.githubusercontent.com/proxysu/shellscript/master/ssr/ssr.sh";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    //sshShellCommand = $"curl -o /tmp/ssr.sh https://raw.githubusercontent.com/proxysu/shellscript/master/ssr/ssr.sh";
+                    //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                    sshShellCommand = @"yes | bash /tmp/ssr.sh";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    //sshShellCommand = @"yes | bash /tmp/ssr.sh";
+                    //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                    sshShellCommand = @"rm -f /tmp/ssr.sh";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    //sshShellCommand = @"rm -f /tmp/ssr.sh";
+                    //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                     //程序是否安装成功检测并设置开机启动 41--43
                     functionResult = SoftInstalledSuccessOrFail(client, "server.py", @"/usr/local/shadowsocks/server.py");
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
-                    
+
                     //****** "安装完毕，上传配置文件......" ******
                     SetUpProgressBarProcessing(44);
                     currentStatus = Application.Current.FindResource("DisplayInstallInfo_UploadSoftConfig").ToString();
@@ -3997,7 +4068,7 @@ namespace ProxySU
 
                     functionResult = SetCaddyfile(client, @"/etc/caddy/Caddyfile");
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
-                    
+
                     //****** "Caddy配置文件上传成功,OK!" ******
                     SetUpProgressBarProcessing(70);
                     currentStatus = Application.Current.FindResource("DisplayInstallInfo_UploadCaddyConfigOK").ToString();
@@ -4185,7 +4256,7 @@ namespace ProxySU
                 TextBlockShowFakeWebsiteSS.Visibility = Visibility.Visible;
                 TextBlockCurrentlySelectedPlanFakeWebsiteSS.Visibility = Visibility.Visible;
             }
-            
+
         }
 
         //传送SS参数,启动SS安装进程
@@ -4330,6 +4401,15 @@ namespace ProxySU
                     sshShellCommand = $"curl -o /tmp/install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/ss/ss-install.sh";
                     currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
+                    functionResult = FileCheckExists(client, @"/tmp/install.sh");
+                    if (functionResult == false)
+                    {
+                        //***文件下载失败！***
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_DownloadScriptFailed").ToString();
+                        MainWindowsShowInfo(currentStatus);
+                        return;
+                    }
+
                     sshShellCommand = @"yes | bash /tmp/install.sh";
                     TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorAction, TextBoxMonitorCommandResults, sshShellCommand);//显示执行的命令
 
@@ -4387,12 +4467,12 @@ namespace ProxySU
                         //设置密码
                         serverJson["password"] = ReceiveConfigurationParameters[2];
                         //设置监听端口
-                       serverJson["server_port"]= int.Parse(ReceiveConfigurationParameters[1]);
+                        serverJson["server_port"] = int.Parse(ReceiveConfigurationParameters[1]);
                         //设置加密方式
                         serverJson["method"] = ReceiveConfigurationParameters[3];
                         //产生伪装Web的监听端口
                         randomCaddyListenPort = GetRandomPort();
-                        
+
                         string failoverPort = randomCaddyListenPort.ToString();
                         //obfs http模式
                         if (String.Equals(ReceiveConfigurationParameters[0], "ObfsPluginHttpWebSS") == true)
@@ -4411,7 +4491,7 @@ namespace ProxySU
                             //客户端项
                             ReceiveConfigurationParameters[5] = @"obfs-local";
                             ReceiveConfigurationParameters[9] = $"obfs=tls;obfs-host={ReceiveConfigurationParameters[4]}";
-                            
+
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketSS") == true)
                         {
@@ -4420,14 +4500,14 @@ namespace ProxySU
                             //客户端项
                             ReceiveConfigurationParameters[5] = @"v2ray-plugin";
                             ReceiveConfigurationParameters[9] = "";
-                            
+
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLSWebFrontSS") == true)
                         {
                             serverJson["server_port"] = 10000;
                             serverJson["plugin"] = @"v2ray-plugin";
                             serverJson["plugin_opts"] = $"server;host={ReceiveConfigurationParameters[4]};path={ReceiveConfigurationParameters[6]}";
-                            
+
                             //客户端项
                             ReceiveConfigurationParameters[5] = @"v2ray-plugin";
                             ReceiveConfigurationParameters[9] = $"tls;host={ReceiveConfigurationParameters[4]};path={ReceiveConfigurationParameters[6]}";
@@ -4457,7 +4537,7 @@ namespace ProxySU
                             //客户端项
                             ReceiveConfigurationParameters[5] = @"goquiet";
                             ReceiveConfigurationParameters[9] = $"ServerName={ReceiveConfigurationParameters[4]};Key={ReceiveConfigurationParameters[2]};Browser=chrome";
-                           
+
                         }
                         else if (String.Equals(ReceiveConfigurationParameters[0], "CloakPluginSS") == true)
                         {
@@ -4468,6 +4548,15 @@ namespace ProxySU
 
                             sshShellCommand = $"curl -o /tmp/install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/ss/ss-plugins/cloak-plugin-install.sh";
                             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                            functionResult = FileCheckExists(client, @"/tmp/install.sh");
+                            if (functionResult == false)
+                            {
+                                //***文件下载失败！***
+                                currentStatus = Application.Current.FindResource("DisplayInstallInfo_DownloadScriptFailed").ToString();
+                                MainWindowsShowInfo(currentStatus);
+                                return;
+                            }
 
                             sshShellCommand = @"yes | bash /tmp/install.sh";
                             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
@@ -4483,7 +4572,7 @@ namespace ProxySU
                             string bypassUID = client.RunCommand(@"/usr/local/bin/cloak-plugin-server -u").Result.TrimEnd('\r', '\n');
                             string generateKey = client.RunCommand(@"/usr/local/bin/cloak-plugin-server -k").Result.TrimEnd('\r', '\n');
                             string[] keyCloak = generateKey.Split(new char[] { ',' });
-                            string publicKey  = keyCloak[0];
+                            string publicKey = keyCloak[0];
                             string privateKey = keyCloak[1];
 
                             serverJson["plugin"] = @"cloak-plugin-server";
@@ -4516,6 +4605,15 @@ namespace ProxySU
                         sshShellCommand = $"curl -o /tmp/install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/ss/ss-plugins/obfs-install.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
+                        functionResult = FileCheckExists(client, @"/tmp/install.sh");
+                        if (functionResult == false)
+                        {
+                            //***文件下载失败！***
+                            currentStatus = Application.Current.FindResource("DisplayInstallInfo_DownloadScriptFailed").ToString();
+                            MainWindowsShowInfo(currentStatus);
+                            return;
+                        }
+
                         sshShellCommand = @"yes | bash /tmp/install.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
@@ -4526,7 +4624,7 @@ namespace ProxySU
                         functionResult = SoftInstalledSuccessOrFail(client, "obfs-server", @"/usr/local/bin/obfs-server");
                         if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
-                       
+
                     }
                     else if (String.Equals(ssPluginType, "v2ray-plugin"))
                     {
@@ -4537,6 +4635,15 @@ namespace ProxySU
 
                         sshShellCommand = $"curl -o /tmp/install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/ss/ss-plugins/v2ray-plugin-install.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        functionResult = FileCheckExists(client, @"/tmp/install.sh");
+                        if (functionResult == false)
+                        {
+                            //***文件下载失败！***
+                            currentStatus = Application.Current.FindResource("DisplayInstallInfo_DownloadScriptFailed").ToString();
+                            MainWindowsShowInfo(currentStatus);
+                            return;
+                        }
 
                         sshShellCommand = @"yes | bash /tmp/install.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
@@ -4559,6 +4666,15 @@ namespace ProxySU
                         sshShellCommand = $"curl -o /tmp/install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/ss/ss-plugins/kcptun-plugin-install.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
+                        functionResult = FileCheckExists(client, @"/tmp/install.sh");
+                        if (functionResult == false)
+                        {
+                            //***文件下载失败！***
+                            currentStatus = Application.Current.FindResource("DisplayInstallInfo_DownloadScriptFailed").ToString();
+                            MainWindowsShowInfo(currentStatus);
+                            return;
+                        }
+
                         sshShellCommand = @"yes | bash /tmp/install.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
@@ -4580,6 +4696,15 @@ namespace ProxySU
                         sshShellCommand = $"curl -o /tmp/install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/ss/ss-plugins/goquiet-plugin-install.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
+                        functionResult = FileCheckExists(client, @"/tmp/install.sh");
+                        if (functionResult == false)
+                        {
+                            //***文件下载失败！***
+                            currentStatus = Application.Current.FindResource("DisplayInstallInfo_DownloadScriptFailed").ToString();
+                            MainWindowsShowInfo(currentStatus);
+                            return;
+                        }
+
                         sshShellCommand = @"yes | bash /tmp/install.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
@@ -4593,12 +4718,12 @@ namespace ProxySU
                     }
                     else if (String.Equals(ssPluginType, "cloak-plugin-server"))
                     {
-                        
+
                     }
-                
+
 
                     //如果使用v2ray-plugin Quic模式，先要安装acme.sh,申请证书
-                    if (String.Equals(ReceiveConfigurationParameters[0], "QuicSS") == true )
+                    if (String.Equals(ReceiveConfigurationParameters[0], "QuicSS") == true)
                     {
                         //acme.sh安装与申请证书 51--57
                         functionResult = AcmeShInstall(client);
@@ -4626,7 +4751,7 @@ namespace ProxySU
                         sshShellCommand = @"mv /etc/caddy/Caddyfile /etc/caddy/Caddyfile.bak";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        if (String.Equals( ReceiveConfigurationParameters[0], "ObfsPluginHttpWebSS") == true)
+                        if (String.Equals(ReceiveConfigurationParameters[0], "ObfsPluginHttpWebSS") == true)
                         {
                             serverConfig = $"{pwdir}" + @"TemplateConfg\ss\ss_obfs_http_web_config.caddyfile";
                         }
@@ -4642,13 +4767,13 @@ namespace ProxySU
                         }
 
                         upLoadPath = @"/etc/caddy/Caddyfile";
-                       
+
                         UploadConfig(connectionInfo, serverConfig, upLoadPath);
 
                         //设置Caddy配置文件
                         functionResult = SetCaddyfile(client, @"/etc/caddy/Caddyfile");
                         if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
-                        
+
                         //****** "Caddy配置文件上传成功,OK!" ******
                         SetUpProgressBarProcessing(70);
                         currentStatus = Application.Current.FindResource("DisplayInstallInfo_UploadCaddyConfigOK").ToString();
@@ -4668,7 +4793,7 @@ namespace ProxySU
                     functionResult = DetectBBRandEnable(client);
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
-                    
+
                     client.Disconnect();//断开服务器ssh连接
 
                     //****** "生成客户端配置......" ******
@@ -4706,7 +4831,7 @@ namespace ProxySU
         private void MonitorCompileSSprocess()
         {
             currentShellCommandResult = "**";
-            while (compileSSend==false)
+            while (compileSSend == false)
             {
                 TextBoxMonitorCommandResults.Dispatcher.BeginInvoke(updateMonitorActionNoWrap, TextBoxMonitorCommandResults, currentShellCommandResult);//显示命令执行的结果
                 Thread.Sleep(1000);
@@ -4756,7 +4881,7 @@ namespace ProxySU
         private void StartSetUpMtg(ConnectionInfo connectionInfo)
         {
             functionResult = true;
-            getApt = false;   
+            getApt = false;
             getDnf = false;
             getYum = false;
 
@@ -4834,6 +4959,7 @@ namespace ProxySU
                     }
 
                     //下载安装脚本安装MTProto 37--40
+
                     functionResult = MTProtoInstall(client);
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
@@ -4928,7 +5054,7 @@ namespace ProxySU
             #endregion
 
         }
-        
+
         //下载安装脚本安装MTProto 37--40
         //functionResult = MTProtoInstall(client);
         //if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
@@ -4948,6 +5074,15 @@ namespace ProxySU
             sshShellCommand = $"curl -o /tmp/mtg_install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/MTProto/mtg_install.sh";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
+            functionResult = FileCheckExists(client, @"/tmp/installproxy.sh");
+            if (functionResult == false)
+            {
+                //***文件下载失败！***
+                currentStatus = Application.Current.FindResource("DisplayInstallInfo_DownloadScriptFailed").ToString();
+                MainWindowsShowInfo(currentStatus);
+                return false;
+            }
+
             sshShellCommand = $"yes | bash /tmp/mtg_install.sh {ReceiveConfigurationParameters[1]} {ReceiveConfigurationParameters[7]}";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
@@ -4955,10 +5090,8 @@ namespace ProxySU
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
             SetUpProgressBarProcessing(40);
-
             return true;
         }
-
         #endregion
 
         #region 其他功能函数及系统工具相关
@@ -5509,10 +5642,10 @@ namespace ProxySU
                     currentStatus = Application.Current.FindResource("DisplayInstallInfo_TestExistSoft").ToString() + "V2ray......";
                     MainWindowsShowInfo(currentStatus);
 
-                    sshShellCommand = @"find / -name v2ray";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-
-                    if (currentShellCommandResult.Contains("/usr/local/bin/v2ray") == true)
+                    //sshShellCommand = @"find / -name v2ray";
+                    //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    functionResult = FileCheckExists(client, @"/usr/local/bin/v2ray");
+                    if (functionResult == true)
                     {
                         //******"检测到已安装V2Ray!开始卸载V2Ray......"******
                         SetUpProgressBarProcessing(12);
@@ -5540,10 +5673,12 @@ namespace ProxySU
                         sshShellCommand = @"rm -f install-release.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        sshShellCommand = @"find / -name v2ray";
-                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                        //sshShellCommand = @"find / -name v2ray";
+                        //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        if (currentShellCommandResult.Contains("/usr/local/bin/v2ray") == true)
+                        functionResult = FileCheckExists(client, @"/usr/local/bin/v2ray");
+                        if (functionResult == true)
+                         //if (currentShellCommandResult.Contains("/usr/local/bin/v2ray") == true)
                         {
                             //******"V2Ray卸载失败！请向开发者问询！"******
                             currentStatus = "V2Ray" + Application.Current.FindResource("DisplayInstallInfo_RemoveProxySoftFailed").ToString();
@@ -5575,10 +5710,12 @@ namespace ProxySU
                     currentStatus = Application.Current.FindResource("DisplayInstallInfo_TestExistSoft").ToString() + "Trojan-go......";
                     MainWindowsShowInfo(currentStatus);
 
-                    sshShellCommand = @"find / -name trojan-go";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    //sshShellCommand = @"find / -name trojan-go";
+                    //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                    if (currentShellCommandResult.Contains("/usr/local/bin/trojan-go") == true)
+                    //if (currentShellCommandResult.Contains("/usr/local/bin/trojan-go") == true)
+                    functionResult = FileCheckExists(client, @"/usr/local/bin/trojan-go");
+                    if (functionResult == true)
                     {
                         //******"检测到已安装Trojan-go,开始卸载Trojan-go......"******
                         SetUpProgressBarProcessing(18);
@@ -5606,10 +5743,12 @@ namespace ProxySU
                         sshShellCommand = @"rm -f trojan-go.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        sshShellCommand = @"find / -name trojan-go";
-                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                        //sshShellCommand = @"find / -name trojan-go";
+                        //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        if (currentShellCommandResult.Contains("/usr/local/bin/trojan-go") == true)
+                        //if (currentShellCommandResult.Contains("/usr/local/bin/trojan-go") == true)
+                        functionResult = FileCheckExists(client, @"/usr/local/bin/trojan-go");
+                        if (functionResult == true)
                         {
                             //******"Trojan-go卸载失败！请向开发者问询！"******
                             currentStatus = "Trojan-go" + Application.Current.FindResource("DisplayInstallInfo_RemoveProxySoftFailed").ToString();
@@ -5641,10 +5780,12 @@ namespace ProxySU
                     currentStatus = Application.Current.FindResource("DisplayInstallInfo_TestExistSoft").ToString() + "Trojan......";
                     MainWindowsShowInfo(currentStatus);
 
-                    sshShellCommand = @"find / -name trojan";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    //sshShellCommand = @"find / -name trojan";
+                    //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                    if (currentShellCommandResult.Contains("/usr/local/bin/trojan") == true)
+                    //if (currentShellCommandResult.Contains("/usr/local/bin/trojan") == true)
+                    functionResult = FileCheckExists(client, @"/usr/local/bin/trojan");
+                    if (functionResult == true)
                     {
                         //******"检测到已安装Trojan,开始卸载Trojan......"******
                         SetUpProgressBarProcessing(24);
@@ -5663,10 +5804,12 @@ namespace ProxySU
                         sshShellCommand = @"rm -rf /usr/local/bin/trojan /etc/systemd/system/trojan.service /usr/local/etc/trojan";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        sshShellCommand = @"find / -name trojan";
-                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                        //sshShellCommand = @"find / -name trojan";
+                        //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        if (currentShellCommandResult.Contains("/usr/local/bin/trojan") == true)
+                        //if (currentShellCommandResult.Contains("/usr/local/bin/trojan") == true)
+                        functionResult = FileCheckExists(client, @"/usr/local/bin/trojan");
+                        if (functionResult == true)
                         {
                             //******"Trojan卸载失败！请向开发者问询！"******
                             currentStatus = "Trojan" + Application.Current.FindResource("DisplayInstallInfo_RemoveProxySoftFailed").ToString();
@@ -5698,10 +5841,12 @@ namespace ProxySU
                     currentStatus = Application.Current.FindResource("DisplayInstallInfo_TestExistSoft").ToString() + "SSR......";
                     MainWindowsShowInfo(currentStatus);
 
-                    sshShellCommand = @"if [ -f /usr/local/shadowsocks/server.py ];then echo '1';else echo '0'; fi";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    //sshShellCommand = @"if [ -f /usr/local/shadowsocks/server.py ];then echo '1';else echo '0'; fi";
+                    //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                    if (currentShellCommandResult.Contains("1") == true)
+                    //if (currentShellCommandResult.Contains("1") == true)
+                    functionResult = FileCheckExists(client, @"/usr/local/shadowsocks/server.py");
+                    if (functionResult == true)
                     {
                         //******"检测到已安装SSR,开始卸载SSR......"******
                         SetUpProgressBarProcessing(32);
@@ -5726,10 +5871,12 @@ namespace ProxySU
                         sshShellCommand = @"rm -f ssr.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        sshShellCommand = @"if [ -f /usr/local/shadowsocks/server.py ];then echo '1';else echo '0'; fi";
-                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                        //sshShellCommand = @"if [ -f /usr/local/shadowsocks/server.py ];then echo '1';else echo '0'; fi";
+                        //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        if (currentShellCommandResult.Contains("1") == true)
+                        //if (currentShellCommandResult.Contains("1") == true)
+                        functionResult = FileCheckExists(client, @"/usr/local/shadowsocks/server.py");
+                        if (functionResult == true)
                         {
                             //******"SSR卸载失败！请向开发者问询！"******
                             currentStatus = "SSR" + Application.Current.FindResource("DisplayInstallInfo_RemoveProxySoftFailed").ToString();
@@ -5761,10 +5908,12 @@ namespace ProxySU
                     currentStatus = Application.Current.FindResource("DisplayInstallInfo_TestExistSoft").ToString() + "SS (Shadowsoks-libev)......";
                     MainWindowsShowInfo(currentStatus);
 
-                    sshShellCommand = @"find / -name ss-server";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    //sshShellCommand = @"find / -name ss-server";
+                    //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                    if (currentShellCommandResult.Contains("/usr/local/bin/ss-server") == true)
+                    //if (currentShellCommandResult.Contains("/usr/local/bin/ss-server") == true)
+                    functionResult = FileCheckExists(client, @"/usr/local/bin/ss-server");
+                    if (functionResult == true)
                     {
                         //******"检测到SS(Shadowsoks-libev),开始卸载SS(Shadowsoks-libev)......"******
                         SetUpProgressBarProcessing(38);
@@ -5793,10 +5942,12 @@ namespace ProxySU
                         sshShellCommand = @"rm -f /usr/local/bin/obfs-server /usr/local/bin/obfs-local /usr/local/bin/v2ray-plugin /usr/local/bin/kcptun-plugin-server /usr/local/bin/goquiet-plugin-server /usr/local/bin/cloak-plugin-server";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        sshShellCommand = @"find / -name ss-server";
-                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                        //sshShellCommand = @"find / -name ss-server";
+                        //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        if (currentShellCommandResult.Contains("/usr/local/bin/ss-server") == true)
+                        //if (currentShellCommandResult.Contains("/usr/local/bin/ss-server") == true)
+                        functionResult = FileCheckExists(client, @"/usr/local/bin/ss-server");
+                        if (functionResult == true)
                         {
                             //******"SS(Shadowsoks-libev)卸载失败！请向开发者问询！"******
                             currentStatus = "SS (Shadowsoks-libev)" + Application.Current.FindResource("DisplayInstallInfo_RemoveProxySoftFailed").ToString();
@@ -5829,7 +5980,7 @@ namespace ProxySU
                     currentStatus = Application.Current.FindResource("DisplayInstallInfo_TestExistSoft").ToString() + "acme.sh......";
                     MainWindowsShowInfo(currentStatus);
 
-                    sshShellCommand = @"if [ -d ~/.acme.sh ];then echo '1';else echo '0'; fi";
+                    sshShellCommand = @"if [[ -d ~/.acme.sh ]];then echo '1';else echo '0'; fi";
                     currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                     if (currentShellCommandResult.Contains("1") == true)
@@ -5848,7 +5999,7 @@ namespace ProxySU
                         sshShellCommand = @"rm -r  ~/.acme.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        sshShellCommand = @"if [ -d ~/.acme.sh ];then echo '1';else echo '0'; fi";
+                        sshShellCommand = @"if [[ -d ~/.acme.sh ]];then echo '1';else echo '0'; fi";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                         if (currentShellCommandResult.Contains("1") == true)
@@ -5883,10 +6034,12 @@ namespace ProxySU
                     currentStatus = Application.Current.FindResource("DisplayInstallInfo_TestExistSoft").ToString() + "Caddy/NaiveProxy......";
                     MainWindowsShowInfo(currentStatus);
 
-                    sshShellCommand = @"find / -name caddy";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    //sshShellCommand = @"find / -name caddy";
+                    //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                    if (currentShellCommandResult.Contains("/usr/bin/caddy") == true)
+                    //if (currentShellCommandResult.Contains("/usr/bin/caddy") == true)
+                    functionResult = FileCheckExists(client, @"/usr/bin/caddy");
+                    if (functionResult == true)
                     {
                         //******"检测到Caddy/NaiveProxy,开始卸载Caddy/NaiveProxy......"******
                         SetUpProgressBarProcessing(49);
@@ -5951,10 +6104,12 @@ namespace ProxySU
                         sshShellCommand = $"{sshCmdRemove}caddy";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        sshShellCommand = @"find / -name caddy";
-                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                        //sshShellCommand = @"find / -name caddy";
+                        //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        if (currentShellCommandResult.Contains("/usr/local/bin/caddy") == true)
+                        //if (currentShellCommandResult.Contains("/usr/local/bin/caddy") == true)
+                        functionResult = FileCheckExists(client, @"/usr/bin/caddy");
+                        if (functionResult == true)
                         {
                             //******"Caddy/NaiveProxy卸载失败！请向开发者问询！"******
                             currentStatus = "Caddy/NaiveProxy" + Application.Current.FindResource("DisplayInstallInfo_RemoveProxySoftFailed").ToString();
@@ -5985,10 +6140,12 @@ namespace ProxySU
                     currentStatus = Application.Current.FindResource("DisplayInstallInfo_TestExistSoft").ToString() + "MtProto......";
                     MainWindowsShowInfo(currentStatus);
 
-                    sshShellCommand = @"find / -name mtg";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    //sshShellCommand = @"find / -name mtg";
+                    //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                    if (currentShellCommandResult.Contains("/usr/local/bin/mtg") == true)
+                    //if (currentShellCommandResult.Contains("/usr/local/bin/mtg") == true)
+                    functionResult = FileCheckExists(client, @"/usr/local/bin/mtg");
+                    if (functionResult == true)
                     {
                         //******"检测到MtProto,开始卸载MtProto......"******
                         SetUpProgressBarProcessing(63);
@@ -6016,10 +6173,12 @@ namespace ProxySU
                         sshShellCommand = @"rm -rf /usr/local/etc/mtg.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        sshShellCommand = @"find / -name mtg";
-                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                        //sshShellCommand = @"find / -name mtg";
+                        //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        if (currentShellCommandResult.Contains("/usr/local/bin/mtg") == true)
+                        //if (currentShellCommandResult.Contains("/usr/local/bin/mtg") == true)
+                        functionResult = FileCheckExists(client, @"/usr/local/bin/mtg");
+                        if (functionResult == true)
                         {
                             //******"MtProto卸载失败！请向开发者问询！"******
                             currentStatus = "MtProto" + Application.Current.FindResource("DisplayInstallInfo_RemoveProxySoftFailed").ToString();
@@ -6863,63 +7022,75 @@ namespace ProxySU
         #region 测试用代码
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            proxyType = "TrojanGo";
-            ResultClientInformation resultClientInformation = new ResultClientInformation();
-            resultClientInformation.ShowDialog();
-            return;
+            //proxyType = "TrojanGo";
+            //ResultClientInformation resultClientInformation = new ResultClientInformation();
+            //resultClientInformation.ShowDialog();
+            //return;
             //string pwdir = AppDomain.CurrentDomain.BaseDirectory;
             //MessageBox.Show(pwdir);
-            //ConnectionInfo connectionInfo = GenerateConnectionInfo();
-            //if (connectionInfo == null)
-            //{
-            //    //****** "远程主机连接信息有误，请检查!" ******
-            //    MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorHostConnection").ToString());
-            //    return;
-            //}
-            //using (var client = new SshClient(connectionInfo))
-            //{
-            //    client.Connect();
-            //    if (client.IsConnected == true)
-            //    {
-            //        //******"主机登录成功"******
-            //        SetUpProgressBarProcessing(3);
-            //        currentStatus = Application.Current.FindResource("DisplayInstallInfo_LoginSuccessful").ToString();
-            //        MainWindowsShowInfo(currentStatus);
+            ConnectionInfo connectionInfo = GenerateConnectionInfo();
+            if (connectionInfo == null)
+            {
+                //****** "远程主机连接信息有误，请检查!" ******
+                MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorHostConnection").ToString());
+                return;
+            }
+            using (var client = new SshClient(connectionInfo))
+            {
+                client.Connect();
+                if (client.IsConnected == true)
+                {
+                    //******"主机登录成功"******
+                    SetUpProgressBarProcessing(3);
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_LoginSuccessful").ToString();
+                    MainWindowsShowInfo(currentStatus);
 
-            //    }
-            //    SetUpNat64(client, true);
-            //FilterFastestIP(client);
-            //string cmdErr = client.RunCommand(@"aaa ee").Error;
-            //MessageBox.Show(cmdErr);
-            //SshCommand cmdResult = client.RunCommand(@"pwd");
-            //string result = cmdResult.Result;
-            //MessageBox.Show("result:" + result);
-            //string error = cmdResult.Error;
-            //MessageBox.Show("err:" + error);
+                }
+                string fileProxy = @"/usr/local/bin/v2ray";
+                sshShellCommand = $"if [[ -f {fileProxy} ]];then echo '1';else echo '0'; fi";
+                //sshShellCommand = @"if [[ -f /usr/local/bin/v2ray ]];then echo '1';else echo '0'; fi";
+                currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                if (currentShellCommandResult.Trim().Equals("0") == true)
+                {
+                    MessageBox.Show("0");
+                }
+                else
+                {
+                    MessageBox.Show("1");
+                }
+                //    SetUpNat64(client, true);
+                //FilterFastestIP(client);
+                //string cmdErr = client.RunCommand(@"aaa ee").Error;
+                //MessageBox.Show(cmdErr);
+                //SshCommand cmdResult = client.RunCommand(@"pwd");
+                //string result = cmdResult.Result;
+                //MessageBox.Show("result:" + result);
+                //string error = cmdResult.Error;
+                //MessageBox.Show("err:" + error);
 
-            //int cmdExitStatus = cmdResult.ExitStatus;
-            //MessageBox.Show("cmdExitStatus:" + cmdExitStatus.ToString());
+                //int cmdExitStatus = cmdResult.ExitStatus;
+                //MessageBox.Show("cmdExitStatus:" + cmdExitStatus.ToString());
 
-            //SshCommand cmdResultCat = client.RunCommand(@"cat tt.t");
-            //string resultCat = cmdResultCat.Result;
-            //MessageBox.Show("resultCat:" + resultCat);
-            //string errorCat = cmdResultCat.Error;
-            //MessageBox.Show("errCat:" + errorCat);
+                //SshCommand cmdResultCat = client.RunCommand(@"cat tt.t");
+                //string resultCat = cmdResultCat.Result;
+                //MessageBox.Show("resultCat:" + resultCat);
+                //string errorCat = cmdResultCat.Error;
+                //MessageBox.Show("errCat:" + errorCat);
 
-            //cmdExitStatus = cmdResultCat.ExitStatus;
-            //MessageBox.Show("cmdExitStatus:" + cmdExitStatus.ToString());
+                //cmdExitStatus = cmdResultCat.ExitStatus;
+                //MessageBox.Show("cmdExitStatus:" + cmdExitStatus.ToString());
 
-            //SoftInstalledSuccessOrFail(client, "v2ray", @"/usr/local/bin/v2ray");
-            //CaddyInstall(client);
-            //if (client.IsConnected == true)
-            //{
-            //    MessageBox.Show("Connected");
-            //}
-            //if (client.IsConnected == false)
-            //{
-            //    MessageBox.Show("disConnected");
-            //}
-            // }
+                //SoftInstalledSuccessOrFail(client, "v2ray", @"/usr/local/bin/v2ray");
+                //CaddyInstall(client);
+                //if (client.IsConnected == true)
+                //{
+                //    MessageBox.Show("Connected");
+                //}
+                //if (client.IsConnected == false)
+                //{
+                //    MessageBox.Show("disConnected");
+                //}
+            }
         }
 
         private string CaddyInstallTest(SshClient client)
@@ -6993,27 +7164,44 @@ namespace ProxySU
                 //****** "正在查找最快的Nat64网关......" ******
                 currentStatus = Application.Current.FindResource("DisplayInstallInfo_FindFastestSetUpNat64").ToString();
                 MainWindowsShowInfo(currentStatus);
-                string[] dns64 = new string[2];
-                dns64 = FilterFastestIP(client);
+                //string[] dns64 = new string[2];
+                var dns64 = FilterFastestIP(client);
 
                 //****** "当前主机最快的Nat64网关为:" ******
-                currentStatus = Application.Current.FindResource("DisplayInstallInfo_FindFastestNat64AsIs").ToString();
-                MainWindowsShowInfo(currentStatus);
+                //currentStatus = Application.Current.FindResource("DisplayInstallInfo_FindFastestNat64AsIs").ToString();
+                //MainWindowsShowInfo(currentStatus);
 
-                currentStatus = dns64[0];
-                MainWindowsShowInfo(currentStatus);
-                currentStatus = dns64[1];
-                MainWindowsShowInfo(currentStatus);
+                //currentStatus = dns64[0];
+                //MainWindowsShowInfo(currentStatus);
+                //currentStatus = dns64[1];
+                //MainWindowsShowInfo(currentStatus);
 
                 //****** "正在设置Nat64网关......" ******
                 currentStatus = Application.Current.FindResource("DisplayInstallInfo_SetUpNat64").ToString();
                 MainWindowsShowInfo(currentStatus);
+
                 sshShellCommand = @"mv /etc/resolv.conf /etc/resolv.conf.bak";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-                sshShellCommand = $"echo \"nameserver   {dns64[0]}\" >>/etc/resolv.conf";
-                currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-                sshShellCommand = $"echo \"nameserver   {dns64[1]}\" >>/etc/resolv.conf";
-                currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                foreach (string gateip in dns64)
+                {
+                    sshShellCommand = $"echo \"nameserver   {gateip}\" > /etc/resolv.conf";
+                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                    sshShellCommand = @"curl -fsSL https://api.github.com/repos/proxysu/windows/releases/latest";
+                    //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    SshCommand currentShellCommand = client.RunCommand(sshShellCommand);
+                    int cmdExitStatus = currentShellCommand.ExitStatus;
+                    if (cmdExitStatus == 0)
+                    {
+                        return true;
+                    }
+
+                }
+                
+                
+                //sshShellCommand = $"echo \"nameserver   {dns64[1]}\" >>/etc/resolv.conf";
+                //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
             }
             else
             {
@@ -7047,7 +7235,7 @@ namespace ProxySU
                 "2a00:1098:2c::1",
                 "2a09:11c0:100::53",
             };
-            string[] returnstr = new string[2];
+            
             List<NatDns64> NatDns64s = new List<NatDns64>();
             foreach (string gateip in gateNat64)
             {
@@ -7066,9 +7254,14 @@ namespace ProxySU
 
             }
             NatDns64s = NatDns64s.OrderBy(o => o.Avg).ToList();
-            returnstr[0] = NatDns64s[0].IpAddr;
-            returnstr[1] = NatDns64s[1].IpAddr;
-
+            int listCount = NatDns64s.Count;
+            string[] returnstr = new string[listCount];
+            for(int i=0;i<listCount;i++)
+            {
+                returnstr[i] = NatDns64s[i].IpAddr;
+            }
+            //returnstr[0] = NatDns64s[0].IpAddr;
+            //returnstr[1] = NatDns64s[1].IpAddr;
             return returnstr;
         }
 
@@ -7127,6 +7320,23 @@ namespace ProxySU
             MainWindowsShowInfo(currentStatus);
             return "";
         }
+
+        //判断某个文件是否存在
+        //functionResult = FileCheckExists(client, @"/usr/local/bin/mtg");
+        private bool FileCheckExists(SshClient client, string pathFile)
+        {
+            sshShellCommand = $"if [[ -f {pathFile} ]];then echo '1';else echo '0'; fi";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+            if (currentShellCommandResult.Trim().Equals("1") == true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+                
+        }
         #endregion
 
         //检测root权限 5--7
@@ -7174,11 +7384,13 @@ namespace ProxySU
             MainWindowsShowInfo(currentStatus);
 
 
-            sshShellCommand = $"find / -name {soft}";
-            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+            //sshShellCommand = $"find / -name {soft}";
+            //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
             //string resultCmdTestV2rayInstalled = currentShellCommandResult;
-            if (currentShellCommandResult.Contains($"{condition}") == true)
+            //if (currentShellCommandResult.Contains($"{condition}") == true)
+            functionResult = FileCheckExists(client, condition);
+            if (functionResult == true)
             {
                 //******"远程主机已安装V2ray,是否强制重新安装？"******
                 string messageShow = Application.Current.FindResource("MessageBoxShow_ExistedSoft").ToString() +
@@ -7750,8 +7962,39 @@ namespace ProxySU
 
 
         //安装代理程序 37--40
-        private bool SoftInstall()
+        //functionResult = ProxySoftInstall(client,@"",@"");
+        //if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+        private bool ProxySoftInstall(SshClient client,string proxyName,string downloadUrl)
         {
+            //****** "系统环境检测完毕，符合安装要求,开始布署......" ******
+            SetUpProgressBarProcessing(37);
+            currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstalling").ToString();
+            MainWindowsShowInfo(currentStatus);
+
+            //****** "正在安装{proxyName}......" ******
+            SetUpProgressBarProcessing(38);
+            currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstallSoft").ToString() + $"{proxyName}......";
+            MainWindowsShowInfo(currentStatus);
+
+            sshShellCommand = $"curl -o /tmp/installproxy.sh {downloadUrl}";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+            functionResult = FileCheckExists(client, @"/tmp/installproxy.sh");
+            if (functionResult == false)
+            {
+                //***文件下载失败！***
+                currentStatus = Application.Current.FindResource("DisplayInstallInfo_DownloadScriptFailed").ToString();
+                MainWindowsShowInfo(currentStatus);
+                return false;
+               
+            }
+            sshShellCommand = @"yes | bash /tmp/installproxy.sh";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+            sshShellCommand = @"rm -f /tmp/installproxy.sh";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+            SetUpProgressBarProcessing(40);
             return true;
         }
       
@@ -7763,10 +8006,14 @@ namespace ProxySU
         private bool SoftInstalledSuccessOrFail(SshClient client,string soft,string condition)
         {
             SetUpProgressBarProcessing(41);
-            sshShellCommand = $"find / -name {soft}";
-            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+            //sshShellCommand = $"find / -name {soft}";
+            //sshShellCommand = $"if [[ -f {condition} ]];then echo '1';else echo '0'; fi";
+            //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-            if (!currentShellCommandResult.Contains($"{condition}"))
+            bool functionResult = FileCheckExists(client, condition);
+
+            //if (!currentShellCommandResult.Contains($"{condition}"))
+            if (functionResult == false)
             {
                 //****** "安装失败,官方脚本运行出错！" ******
                 MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorInstallSoftFail").ToString());
@@ -7958,10 +8205,14 @@ namespace ProxySU
 
             }
 
-            sshShellCommand = @"find / -name caddy";
-            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+            //sshShellCommand = @"find / -name caddy"; 
+            //sshShellCommand = @"if [[ -f /usr/bin/caddy ]];then echo '1';else echo '0'; fi";
+            //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-            if (!currentShellCommandResult.Contains("/usr/bin/caddy"))
+            //if (!currentShellCommandResult.Contains("/usr/bin/caddy"))
+            //if (currentShellCommandResult.Trim().Equals("0") == true)
+            functionResult = FileCheckExists(client, @"/usr/bin/caddy");
+            if (functionResult == false)
             {
                 //****** "安装Caddy失败！" ******
                 MessageBox.Show(Application.Current.FindResource("DisplayInstallInfo_ErrorInstallCaddyFail").ToString());

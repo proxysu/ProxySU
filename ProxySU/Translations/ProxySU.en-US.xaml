@@ -306,6 +306,7 @@
     <sys:String x:Key="DisplayInstallInfo_StartInstalling">The system environment has been tested and the installation requirements are met, and the deployment begins...</sys:String>
     <sys:String x:Key="DisplayInstallInfo_OpenFireWallPort">Open the corresponding port of the firewall...</sys:String>
     <sys:String x:Key="DisplayInstallInfo_StartInstallSoft">Installing</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_DownloadScriptFailed">File download failed!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_CompilingSS">Compiling, please wait patiently.............</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorInstallSoftFail">The installation failed, the script runs incorrectly!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_SoftInstallSuccess">The installation is successful!</sys:String>

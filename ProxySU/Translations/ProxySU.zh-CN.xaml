@@ -311,6 +311,7 @@
     <sys:String x:Key="DisplayInstallInfo_StartInstalling">系统环境检测完毕，符合安装要求,开始布署......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_OpenFireWallPort">开启防火墙相应端口......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_StartInstallSoft">正在安装</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_DownloadScriptFailed">文件下载失败！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_CompilingSS">编译中,请耐心等待.............</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorInstallSoftFail">安装失败,脚本运行出错！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_SoftInstallSuccess">安装成功！</sys:String>
