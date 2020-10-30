@@ -594,7 +594,9 @@ namespace ProxySU
                 string configSavePath = configDomainSavePath;
 
                 RadioButtonMtgIpv4.IsChecked = true;
+                //MessageBox.Show(MainWindow.ReceiveConfigurationParameters[9]);
                 JObject jObjectJson = JObject.Parse(MainWindow.ReceiveConfigurationParameters[9]);
+                //MessageBox.Show(jObjectJson.ToString());
                 if (jObjectJson["ipv4"]["tg_url"].ToString().Contains("nil") == false)
                 {
                     RadioButtonMtgIpv4.Visibility = Visibility.Visible;

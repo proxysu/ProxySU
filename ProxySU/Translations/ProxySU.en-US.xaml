@@ -345,6 +345,7 @@
     <sys:String x:Key="DisplayInstallInfo_BBRFailed">The system does not meet the conditions for enabling BBR, and the enabling failed!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_BBREnabledSuccess">BBR is successfully activated!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_GenerateClientConfig">Generate client configuration...</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_GetClientConfigFailed">Failed to obtain client configuration!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_ProxyInstalledOK">The installation is successful, Enjoy it!!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_LoginFailed">Installation Failed!</sys:String>
     <sys:String x:Key="MessageBoxShow_ErrorLoginOccurred">An error occurred!</sys:String>

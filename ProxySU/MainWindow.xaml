@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProxySU"
         mc:Ignorable="d"
-        Title="ProxySU - v2.4.16" Height="675" Width="650">
+        Title="ProxySU - v2.4.17" Height="675" Width="650">
     <!--以下样式参考自：https://yq.aliyun.com/articles/331878
 	https://docs.microsoft.com/en-us/dotnet/desktop-wpf/fundamentals/styles-templates-overview-->
     <Window.Resources>
@@ -32,11 +32,15 @@
         </Style>
     </Window.Resources>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="274*"/>
+            <ColumnDefinition Width="369*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0.333,0.333">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.5*"></ColumnDefinition>
                 <ColumnDefinition Width="1.6*"></ColumnDefinition>
@@ -51,7 +55,7 @@
             <TextBlock Grid.Column="3" Text="{DynamicResource MainWindowsLanguage}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5"></TextBlock>
             <ComboBox x:Name="ComboBoxLanguage" Grid.Column="4" Height="20" Width="80" SelectionChanged="ComboBoxLanguage_SelectionChanged"></ComboBox>
         </Grid>
-        <Grid Grid.Row="1">
+        <Grid Grid.ColumnSpan="2" Margin="0,25,0.333,0.333" Grid.RowSpan="2">
             <TabControl>
                 <TabItem Header="{DynamicResource TabItemHeaderAppDeployment}" Width="110" Height="30">
                     <Grid>
@@ -219,10 +223,10 @@
                                                 </Grid.RowDefinitions>
                                                 <TextBlock x:Name="TextBlockV2RayShowPort" Text="{DynamicResource TextBlockV2RayServerPort}" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
                                                 <TextBlock x:Name="TextBlockCurrentlySelectedPlanPort" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
-                                                
+
                                                 <TextBlock x:Name="TextBlockV2RayShowUUID" Text="UUID:" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
                                                 <TextBlock x:Name="TextBlockCurrentlySelectedPlanUUID" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
-                                                
+
                                                 <TextBlock x:Name="TextBlockV2RayShowPathSeedKey" Text="Path/mKCP Seed/Quic Key" Visibility="Collapsed" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
                                                 <TextBlock x:Name="TextBlockCurrentlySelectedPlanPathSeedKey" Visibility="Collapsed" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
 
@@ -243,10 +247,10 @@
                                                     <TextBlock x:Name="TextBlockBoxPathVmessWS" Grid.Column="5" Grid.Row="3" Margin="0"></TextBlock>
 
                                                 </Grid>
-                                                
+
                                                 <TextBlock x:Name="TextBlockV2RayShowCurrentlySelectedPlanDomain" Text="Domain/Quic Encrypt" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
                                                 <TextBlock x:Name="TextBlockCurrentlySelectedPlanDomain" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
-                                                
+
                                                 <TextBlock x:Name="TextBlockV2RayShowCurrentlySelectedPlanFakeWebsite" Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
                                                 <TextBlock x:Name="TextBlockCurrentlySelectedPlanFakeWebsite" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
                                             </Grid>
@@ -415,7 +419,7 @@
                                         <Button x:Name="ButtonNaiveCancel" Content="{DynamicResource ButtonNaiveCancel}" Grid.ColumnSpan="1" Margin="10" Grid.Column="2" Grid.Row="2" Click="Button_canel_Click"></Button>
                                     </Grid>
                                 </TabItem>
-                               
+
                                 <TabItem Header="SSR" Width="60" Height="30">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
@@ -467,7 +471,7 @@
                                         <Button x:Name="ButtonSSRCancel" Content="{DynamicResource ButtonTrojanCancel}" Grid.Column="2" Grid.Row="2"  Margin="10" Click="Button_canel_Click"></Button>
                                     </Grid>
                                 </TabItem>
-                               
+
                                 <TabItem Header="SS" Width="60" Height="30">
                                     <Grid>
                                         <Grid.ColumnDefinitions>

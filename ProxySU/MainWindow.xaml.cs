@@ -4842,44 +4842,54 @@ namespace ProxySU
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
                     //****** "正在启动MTProto......" ******
-                    SetUpProgressBarProcessing(80);
-                    //currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartSoft").ToString() + "MTProto......";
-                    //MainWindowsShowInfo(currentStatus);
+                    SetUpProgressBarProcessing(70);
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartSoft").ToString() + "MTProto......";
+                    MainWindowsShowInfo(currentStatus);
 
                     //启动MTProto服务
                     functionResult = SoftStartDetect(client, "mtg", @"/usr/local/bin/mtg");
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
+                    //****** "生成客户端配置......" ******
+                    SetUpProgressBarProcessing(80);
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_GenerateClientConfig").ToString();
+                    MainWindowsShowInfo(currentStatus);
+
+                    sshShellCommand = @"systemctl stop mtg";
+                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    sshShellCommand = @"cat /usr/local/etc/mtg.sh";
+                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    sshShellCommand = currentShellCommandResult;
+                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    Thread.Sleep(3000);
+                    sshShellCommand = @"cat /usr/local/etc/mtg_info.json";
+                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    ReceiveConfigurationParameters[9] = currentShellCommandResult;
+                    if (String.IsNullOrEmpty(ReceiveConfigurationParameters[9]) == true)
+                    {
+                        Thread.Sleep(3000);
+                        sshShellCommand = @"cat /usr/local/etc/mtg_info.json";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                        ReceiveConfigurationParameters[9] = currentShellCommandResult;
+                    }
+                    sshShellCommand = @"pkill mtg";
+                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    sshShellCommand = @"systemctl restart mtg";
+                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                    if (String.IsNullOrEmpty(ReceiveConfigurationParameters[9]) == true)
+                    {
+                        //***客户端配置获取失败！***
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_GetClientConfigFailed").ToString();
+                        MainWindowsShowInfo(currentStatus);
+                        FunctionResultErr();
+                        client.Disconnect();
+                        return;
+                    }
 
                     //检测BBR，满足条件并启动 90--95
                     functionResult = DetectBBRandEnable(client);
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
-                                       
-
-                    //****** "生成客户端配置......" ******
-                    SetUpProgressBarProcessing(96);
-                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_GenerateClientConfig").ToString();
-                    MainWindowsShowInfo(currentStatus);
-                    //读取生成的代理参数
-                    sshShellCommand = @"cat /usr/local/etc/mtg_info.json";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-                    ReceiveConfigurationParameters[9] = currentShellCommandResult;
-                    if (currentShellCommandResult.Contains(@"No such file or directory"))
-                    {
-                        sshShellCommand = @"systemctl stop mtg";
-                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-                        sshShellCommand = @"cat /usr/local/etc/mtg.sh";
-                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-                        sshShellCommand = currentShellCommandResult;
-                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-                        sshShellCommand = @"cat /usr/local/etc/mtg_info.json";
-                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-                        ReceiveConfigurationParameters[9] = currentShellCommandResult;
-                        sshShellCommand = @"pkill mtg";
-                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-                        sshShellCommand = @"systemctl restart mtg";
-                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-                    }
 
                     client.Disconnect();//断开服务器ssh连接
 
