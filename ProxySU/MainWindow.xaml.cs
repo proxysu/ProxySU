@@ -8336,27 +8336,46 @@ namespace ProxySU
             //if (!currentShellCommandResult.Contains("/usr/bin/caddy"))
             //if (currentShellCommandResult.Trim().Equals("0") == true)
             functionResult = FileCheckExists(client, @"/usr/bin/caddy");
-            if (functionResult == false)
+            if (functionResult == true)
             {
-                //****** "安装Caddy失败！" ******
-                MessageBox.Show(Application.Current.FindResource("DisplayInstallInfo_ErrorInstallCaddyFail").ToString());
-                //****** "安装Caddy失败！" ******
-                currentStatus = Application.Current.FindResource("DisplayInstallInfo_ErrorInstallCaddyFail").ToString();
+                //****** "Caddy安装成功！" ******29
+                SetUpProgressBarProcessing(66);
+                currentStatus = Application.Current.FindResource("DisplayInstallInfo_InstalledCaddyOK").ToString();
                 MainWindowsShowInfo(currentStatus);
 
-                //client.Disconnect();
-                return false;
+
+                sshShellCommand = @"systemctl enable caddy";
+                currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                return true;
+               
             }
-            //****** "Caddy安装成功！" ******29
-            SetUpProgressBarProcessing(66);
-            currentStatus = Application.Current.FindResource("DisplayInstallInfo_InstalledCaddyOK").ToString();
+            functionResult = ProxySoftInstall(client, @"Caddy", @"https://raw.githubusercontent.com/proxysu/shellscript/master/Caddy-Naive/caddy-naive-install.sh");
+            //if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return false; }
+
+            functionResult = FileCheckExists(client, @"/usr/bin/caddy");
+            if (functionResult == true)
+            {
+                //****** "Caddy安装成功！" ******29
+                SetUpProgressBarProcessing(66);
+                currentStatus = Application.Current.FindResource("DisplayInstallInfo_InstalledCaddyOK").ToString();
+                MainWindowsShowInfo(currentStatus);
+
+
+                sshShellCommand = @"systemctl enable caddy";
+                currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                return true;
+            }
+
+            //****** "安装Caddy失败！" ******
+            MessageBox.Show(Application.Current.FindResource("DisplayInstallInfo_ErrorInstallCaddyFail").ToString());
+            //****** "安装Caddy失败！" ******
+            currentStatus = Application.Current.FindResource("DisplayInstallInfo_ErrorInstallCaddyFail").ToString();
             MainWindowsShowInfo(currentStatus);
 
-
-            sshShellCommand = @"systemctl enable caddy";
-            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-
-            return true;
+            //client.Disconnect();
+            return false;
         }
 
 
