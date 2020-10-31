@@ -108,6 +108,8 @@
                     <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition Height="30"></RowDefinition>
+                    <RowDefinition Height="30"></RowDefinition>
+                    <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <TextBlock Text="{DynamicResource TextBlockServerAddress}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" ></TextBlock>
@@ -118,16 +120,20 @@
                 <TextBlock Grid.Column="2" Grid.Row="2"></TextBlock>
                 <TextBlock Text="{DynamicResource TextBlockHostPassword}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                 <TextBox x:Name="TextBoxTrojanGoServerPassword" IsReadOnly="True" Grid.Column="1" Grid.Row="3" Margin="4" MouseDoubleClick="TextBoxTrojanGoServerPassword_MouseDoubleClick"></TextBox>
-                
-                <TextBlock Text="Type:" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
-                <TextBox x:Name="TextBoxTrojanGoType" IsReadOnly="True" Grid.Column="1" Grid.Row="4" Margin="4" MouseDoubleClick="TextBoxTrojanGoType_MouseDoubleClick"></TextBox>
-                
-                <TextBlock x:Name="TextBlockTrojanGoWebSocketPath" Text="{DynamicResource TextBlockTrojanGoWebSocketPath}" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
-                <TextBox x:Name="TextBoxTrojanGoWSPath" IsReadOnly="True" Grid.Column="1" Grid.Row="5" Margin="4" MouseDoubleClick="TextBoxTrojanGoWSPath_MouseDoubleClick"></TextBox>
-                <TextBlock x:Name="TextBlockTrojanGoCaption" Grid.Column="2" Grid.Row="4"></TextBlock>
+                <TextBlock Text="SNI:" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxTrojanGoSNI" IsReadOnly="True" Grid.Column="1" Grid.Row="4" Margin="4" MouseDoubleClick="TextBoxTrojanGoSNI_MouseDoubleClick" ></TextBox>
 
-                <TextBlock x:Name="TextBlockMuxSelect" Text="{DynamicResource CheckBoxMuxSelect}" Grid.Column="0" Grid.Row="6" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
-                <Grid x:Name="GridMuxSelect" Grid.Column="1" Grid.Row="6">
+                <TextBlock Text="Type:" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxTrojanGoType" IsReadOnly="True" Grid.Column="1" Grid.Row="5" Margin="4" MouseDoubleClick="TextBoxTrojanGoType_MouseDoubleClick"></TextBox>
+                <TextBlock x:Name="TextBlockTrojanGoHost" Text="Host:" Grid.Column="0" Grid.Row="6" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxTrojanGoHost" IsReadOnly="True" Grid.Column="1" Grid.Row="6" Margin="4" MouseDoubleClick="TextBoxTrojanGoHost_MouseDoubleClick"></TextBox>
+
+                <TextBlock x:Name="TextBlockTrojanGoWebSocketPath" Text="{DynamicResource TextBlockTrojanGoWebSocketPath}" Grid.Column="0" Grid.Row="7" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxTrojanGoWSPath" IsReadOnly="True" Grid.Column="1" Grid.Row="7" Margin="4" MouseDoubleClick="TextBoxTrojanGoWSPath_MouseDoubleClick"></TextBox>
+                <TextBlock x:Name="TextBlockTrojanGoCaption" Grid.Column="2" Grid.Row="7"></TextBlock>
+
+                <TextBlock x:Name="TextBlockMuxSelect" Text="{DynamicResource CheckBoxMuxSelect}" Grid.Column="0" Grid.Row="8" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <Grid x:Name="GridMuxSelect" Grid.Column="1" Grid.Row="8">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="85"></ColumnDefinition>
                         <ColumnDefinition Width="50"></ColumnDefinition>
@@ -142,8 +148,8 @@
                     <TextBox x:Name="TextBoxIdle_timeout" Grid.Column="3" Margin="5" MouseDoubleClick="TextBoxIdle_timeout_MouseDoubleClick"/>
                     <TextBlock Grid.Column="4" Text="s" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
                </Grid>
-                <TextBlock x:Name="TextBlockExplainCheckBoxMuxSelectResult" Text="{DynamicResource TextBlockExplainCheckBoxMuxSelectResult}" TextWrapping="Wrap" Grid.Column="2" Grid.Row="6" Grid.RowSpan="2"></TextBlock>
-                <TextBlock Text="{DynamicResource TextBlockCopyToClipExplain}" Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" Margin="5" VerticalAlignment="Center"></TextBlock>
+                <TextBlock x:Name="TextBlockExplainCheckBoxMuxSelectResult" Text="{DynamicResource TextBlockExplainCheckBoxMuxSelectResult}" TextWrapping="Wrap" Grid.Column="2" Grid.Row="8" Grid.RowSpan="2"></TextBlock>
+                <TextBlock Text="{DynamicResource TextBlockCopyToClipExplain}" Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="2" Margin="5" VerticalAlignment="Center"></TextBlock>
             </Grid>
         </GroupBox>
         <!-- Trojan客户端配置参数 -->

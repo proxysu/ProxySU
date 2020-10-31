@@ -358,6 +358,8 @@ namespace ProxySU
                 GroupBoxSSRClient.Visibility = Visibility.Collapsed;
                 GroupBoxClientSS.Visibility = Visibility.Collapsed;
 
+                TextBlockTrojanGoHost.Visibility = Visibility.Hidden;
+                TextBoxTrojanGoHost.Visibility = Visibility.Hidden;
                 TextBoxTrojanGoWSPath.Visibility = Visibility.Hidden;
                 TextBlockTrojanGoWebSocketPath.Visibility = Visibility.Hidden;
                 TextBlockTrojanGoCaption.Visibility = Visibility.Hidden;
@@ -375,12 +377,20 @@ namespace ProxySU
                 TextBoxTrojanGoServerPort.Text = "443";
                 //密钥（uuid）
                 TextBoxTrojanGoServerPassword.Text = MainWindow.ReceiveConfigurationParameters[2];
+                //SNI
+                TextBoxTrojanGoSNI.Text = MainWindow.ReceiveConfigurationParameters[4];
                 //TrojanGo 使用类型
                 TextBoxTrojanGoType.Text = "original";
-                //WebSocket路径
+                
+                //WebSocket设置
                 if (MainWindow.ReceiveConfigurationParameters[0].Equals("TrojanGoWebSocketTLS2Web"))
                 {
                     TextBoxTrojanGoType.Text = "ws";
+                    //Host
+                    TextBoxTrojanGoHost.Text = MainWindow.ReceiveConfigurationParameters[4];
+                    TextBlockTrojanGoHost.Visibility = Visibility.Visible;
+                    TextBoxTrojanGoHost.Visibility = Visibility.Visible;
+                    //Path
                     TextBoxTrojanGoWSPath.Text = MainWindow.ReceiveConfigurationParameters[6];
                     TextBoxTrojanGoWSPath.Visibility = Visibility.Visible;
                     TextBlockTrojanGoWebSocketPath.Visibility = Visibility.Visible;
@@ -2122,9 +2132,17 @@ namespace ProxySU
         {
             CopyToClipboard(TextBoxTrojanGoServerPassword.Text);
         }
+        private void TextBoxTrojanGoSNI_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxTrojanGoSNI.Text);
+        }
         private void TextBoxTrojanGoType_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             CopyToClipboard(TextBoxTrojanGoType.Text);
+        }
+        private void TextBoxTrojanGoHost_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboard(TextBoxTrojanGoHost.Text);
         }
         private void TextBoxTrojanGoWSPath_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -2148,9 +2166,9 @@ namespace ProxySU
             string trojanGoHost = TextBoxTrojanGoServerHost.Text;
             string trojanGoPort = TextBoxTrojanGoServerPort.Text;
 
-            string trojanGoSni = EncodeURIComponent(trojanGoHost);
+            string trojanGoSni = EncodeURIComponent(TextBoxTrojanGoSNI.Text);
             string trojanGoType= EncodeURIComponent(TextBoxTrojanGoType.Text);
-            string trojanGohostName = EncodeURIComponent(trojanGoHost);
+            string trojanGohostName = EncodeURIComponent(TextBoxTrojanGoHost.Text);
 
             string trojanGoPath = EncodeURIComponent(TextBoxTrojanGoWSPath.Text);
             string trojanGoEncryption = EncodeURIComponent("");
@@ -3100,7 +3118,9 @@ namespace ProxySU
             return spaceString + strTemp;
         }
 
-   
+    
+
+      
     }
 
 

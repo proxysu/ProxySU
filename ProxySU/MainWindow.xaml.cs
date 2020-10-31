@@ -2551,11 +2551,13 @@ namespace ProxySU
                         clientJson["remote_port"] = 443;
                         //设置密码
                         clientJson["password"][0] = ReceiveConfigurationParameters[2];
+                        clientJson["ssl"]["sni"] = ReceiveConfigurationParameters[4];
                         //如果是WebSocket协议则设置路径
                         if (String.Equals(ReceiveConfigurationParameters[0], "TrojanGoWebSocketTLS2Web"))
                         {
                             clientJson["websocket"]["enabled"] = true;
                             clientJson["websocket"]["path"] = ReceiveConfigurationParameters[6];
+                            clientJson["websocket"]["host"] = ReceiveConfigurationParameters[4];
                         }
                         //如果开启了mux，设置客户端配置文件参数
                         if (String.Equals(ReceiveConfigurationParameters[9], "true") == true)
@@ -2682,12 +2684,13 @@ namespace ProxySU
                 //设置证书
                 serverJson["ssl"]["cert"] = "/usr/local/etc/trojan-go/trojan-go.crt";
                 serverJson["ssl"]["key"] = "/usr/local/etc/trojan-go/trojan-go.key";
-                //serverJson["ssl"]["sni"] = ReceiveConfigurationParameters[4];
+                serverJson["ssl"]["sni"] = ReceiveConfigurationParameters[4];
 
                 if (String.Equals(ReceiveConfigurationParameters[0], "TrojanGoWebSocketTLS2Web"))
                 {
                     serverJson["websocket"]["enabled"] = true;
                     serverJson["websocket"]["path"] = ReceiveConfigurationParameters[6];
+                    serverJson["websocket"]["host"] = ReceiveConfigurationParameters[4];
                 }
 
                 using (StreamWriter sw = new StreamWriter(@"config.json"))
@@ -3612,54 +3615,56 @@ namespace ProxySU
                     functionResult = DomainResolutionCurrentIPDetect(client);
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
-
-
-                    //****** "系统环境检测完毕，符合安装要求,开始布署......" ******
-                    SetUpProgressBarProcessing(60);
-                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstalling").ToString();
-                    MainWindowsShowInfo(currentStatus);
-
-                    //Caddy安装与检测安装是否成功 61--66
-                    functionResult = CaddyInstall(client);
+                    //安装代理程序 37--40
+                    functionResult = ProxySoftInstall(client,@"NaiveProxy", @"https://raw.githubusercontent.com/proxysu/shellscript/master/Caddy-Naive/caddy-naive-install.sh");
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
+                    ////****** "系统环境检测完毕，符合安装要求,开始布署......" ******
+                    //SetUpProgressBarProcessing(60);
+                    //currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstalling").ToString();
+                    //MainWindowsShowInfo(currentStatus);
 
-                    //使用带插件的Caddy替换
-                    //****** "正在为NaiveProxy升级服务端！" ******
-                    //SetUpProgressBarProcessing(76);
-                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_UpgradeNaiveProxy").ToString();
-                    MainWindowsShowInfo(currentStatus);
+                    ////Caddy安装与检测安装是否成功 61--66
+                    //functionResult = CaddyInstall(client);
+                    //if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
-                    sshShellCommand = $"curl -o /tmp/caddy.zip https://raw.githubusercontent.com/proxysu/Resources/master/Caddy2/caddy2.zip";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                    functionResult = FileCheckExists(client, @"/tmp/caddy.zip");
-                    if (functionResult == false)
-                    {
-                        //***文件下载失败！***
-                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_DownloadScriptFailed").ToString();
-                        MainWindowsShowInfo(currentStatus);
-                        return;
-                    }
-                    sshShellCommand = @"yes | unzip -o /tmp/caddy.zip";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    ////使用带插件的Caddy替换
+                    ////****** "正在为NaiveProxy升级服务端！" ******
+                    ////SetUpProgressBarProcessing(76);
+                    //currentStatus = Application.Current.FindResource("DisplayInstallInfo_UpgradeNaiveProxy").ToString();
+                    //MainWindowsShowInfo(currentStatus);
 
-                    sshShellCommand = @"chmod +x ./caddy";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    //sshShellCommand = $"curl -o /tmp/caddy.zip https://raw.githubusercontent.com/proxysu/Resources/master/Caddy2/caddy2.zip";
+                    //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                    sshShellCommand = @"systemctl stop caddy;rm -f /usr/bin/caddy";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    //functionResult = FileCheckExists(client, @"/tmp/caddy.zip");
+                    //if (functionResult == false)
+                    //{
+                    //    //***文件下载失败！***
+                    //    currentStatus = Application.Current.FindResource("DisplayInstallInfo_DownloadScriptFailed").ToString();
+                    //    MainWindowsShowInfo(currentStatus);
+                    //    return;
+                    //}
+                    //sshShellCommand = @"yes | unzip -o /tmp/caddy.zip";
+                    //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                    sshShellCommand = @"cp caddy /usr/bin/";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    //sshShellCommand = @"chmod +x ./caddy";
+                    //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                    sshShellCommand = @"rm -f  /tmp/caddy.zip caddy";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    //sshShellCommand = @"systemctl stop caddy;rm -f /usr/bin/caddy";
+                    //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                    //****** "升级完毕，OK！" ******
-                    //SetUpProgressBarProcessing(79);
-                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_UpgradeNaiveProxyOK").ToString();
-                    MainWindowsShowInfo(currentStatus);
+                    //sshShellCommand = @"cp caddy /usr/bin/";
+                    //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                    //sshShellCommand = @"rm -f  /tmp/caddy.zip caddy";
+                    //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                    ////****** "升级完毕，OK！" ******
+                    ////SetUpProgressBarProcessing(79);
+                    //currentStatus = Application.Current.FindResource("DisplayInstallInfo_UpgradeNaiveProxyOK").ToString();
+                    //MainWindowsShowInfo(currentStatus);
 
                     //****** "上传Caddy配置文件......" ******
                     SetUpProgressBarProcessing(67);
@@ -5658,10 +5663,19 @@ namespace ProxySU
                         sshShellCommand = @"systemctl stop v2ray";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        sshShellCommand = $"curl -LROJ https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh";
+                        sshShellCommand = $"curl -o /tmp/install.sh https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        sshShellCommand = @"bash install-release.sh --remove";
+                        functionResult = FileCheckExists(client, @"/tmp/install.sh");
+                        if (functionResult == false)
+                        {
+                            //***文件下载失败！***
+                            currentStatus = Application.Current.FindResource("DisplayInstallInfo_DownloadScriptFailed").ToString();
+                            MainWindowsShowInfo(currentStatus);
+                            return;
+                        }
+
+                        sshShellCommand = @"bash /tmp/install.sh --remove";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                         sshShellCommand = @"systemctl disable v2ray";
@@ -5670,7 +5684,7 @@ namespace ProxySU
                         sshShellCommand = @"rm -rf /usr/local/etc/v2ray /var/log/v2ray";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        sshShellCommand = @"rm -f install-release.sh";
+                        sshShellCommand = @"rm -f /tmp/install.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                         //sshShellCommand = @"find / -name v2ray";
@@ -5728,10 +5742,19 @@ namespace ProxySU
                         sshShellCommand = @"systemctl stop trojan-go";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        sshShellCommand = $"curl -LROJ https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh";
+                        sshShellCommand = $"curl -o /tmp/install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        sshShellCommand = @"bash trojan-go.sh --remove";
+                        functionResult = FileCheckExists(client, @"/tmp/install.sh");
+                        if (functionResult == false)
+                        {
+                            //***文件下载失败！***
+                            currentStatus = Application.Current.FindResource("DisplayInstallInfo_DownloadScriptFailed").ToString();
+                            MainWindowsShowInfo(currentStatus);
+                            return;
+                        }
+
+                        sshShellCommand = @"bash /tmp/install.sh --remove";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                         sshShellCommand = @"systemctl disable trojan-go";
@@ -5740,7 +5763,7 @@ namespace ProxySU
                         sshShellCommand = @"rm -rf /usr/local/etc/trojan-go /var/log/trojan-go";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        sshShellCommand = @"rm -f trojan-go.sh";
+                        sshShellCommand = @"rm -f /tmp/install.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                         //sshShellCommand = @"find / -name trojan-go";
@@ -5859,16 +5882,25 @@ namespace ProxySU
                         sshShellCommand = @"systemctl stop ssr";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        sshShellCommand = $"curl -LROJ https://raw.githubusercontent.com/proxysu/shellscript/master/ssr/ssr.sh";
+                        sshShellCommand = $"curl -o /tmp/install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/ssr/ssr.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        sshShellCommand = @"bash ssr.sh uninstall";
+                        functionResult = FileCheckExists(client, @"/tmp/install.sh");
+                        if (functionResult == false)
+                        {
+                            //***文件下载失败！***
+                            currentStatus = Application.Current.FindResource("DisplayInstallInfo_DownloadScriptFailed").ToString();
+                            MainWindowsShowInfo(currentStatus);
+                            return;
+                        }
+
+                        sshShellCommand = @"bash /tmp/install.sh uninstall";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                         sshShellCommand = @"systemctl disable ssr";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        sshShellCommand = @"rm -f ssr.sh";
+                        sshShellCommand = @"rm -f /tmp/install.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                         //sshShellCommand = @"if [ -f /usr/local/shadowsocks/server.py ];then echo '1';else echo '0'; fi";
@@ -5926,16 +5958,25 @@ namespace ProxySU
                         sshShellCommand = @"systemctl stop ss-server";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        sshShellCommand = $"curl -LROJ https://raw.githubusercontent.com/proxysu/shellscript/master/ss/ss-install.sh";
+                        sshShellCommand = $"curl -o /tmp/install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/ss/ss-install.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        sshShellCommand = @"bash ss-install.sh uninstall";
+                        functionResult = FileCheckExists(client, @"/tmp/install.sh");
+                        if (functionResult == false)
+                        {
+                            //***文件下载失败！***
+                            currentStatus = Application.Current.FindResource("DisplayInstallInfo_DownloadScriptFailed").ToString();
+                            MainWindowsShowInfo(currentStatus);
+                            return;
+                        }
+
+                        sshShellCommand = @"bash /tmp/install.sh uninstall";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                         sshShellCommand = @"systemctl disable ss-server";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        sshShellCommand = @"rm -f ss-install.sh";
+                        sshShellCommand = @"rm -f /tmp/install.sh";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                         //卸载插件
@@ -5956,7 +5997,7 @@ namespace ProxySU
                         else
                         {
                             //******"SS (Shadowsoks-libev)卸载成功！"******
-                            SetUpProgressBarProcessing(46);
+                            SetUpProgressBarProcessing(40);
                             currentStatus = "SS (Shadowsoks-libev)" + Application.Current.FindResource("DisplayInstallInfo_RemoveProxySoftSuccess").ToString();
                             MainWindowsShowInfo(currentStatus);
                         }
@@ -5965,7 +6006,7 @@ namespace ProxySU
                     else
                     {
                         //******"检测结果：未安装SS(Shadowsoks-libev)！"******04
-                        SetUpProgressBarProcessing(47);
+                        SetUpProgressBarProcessing(40);
                         currentStatus = Application.Current.FindResource("DisplayInstallInfo_NoInstalledSoft").ToString() + "SS (Shadowsoks-libev)!";
                         MainWindowsShowInfo(currentStatus);
                     }
@@ -5976,7 +6017,7 @@ namespace ProxySU
                     #region 卸载acme.sh
 
                     //******"检测系统是否已经安装acme.sh......"******03
-                    SetUpProgressBarProcessing(48);
+                    SetUpProgressBarProcessing(41);
                     currentStatus = Application.Current.FindResource("DisplayInstallInfo_TestExistSoft").ToString() + "acme.sh......";
                     MainWindowsShowInfo(currentStatus);
 
@@ -5986,7 +6027,7 @@ namespace ProxySU
                     if (currentShellCommandResult.Contains("1") == true)
                     {
                         //******"检测到acme.sh,开始卸载acme.sh......"******
-                        SetUpProgressBarProcessing(49);
+                        SetUpProgressBarProcessing(42);
                         currentStatus = Application.Current.FindResource("DisplayInstallInfo_DiscoverProxySoft").ToString()
                            + "acme.sh!"
                            + Application.Current.FindResource("DisplayInstallInfo_StartRemoveProxy").ToString()
@@ -6029,6 +6070,86 @@ namespace ProxySU
                     }
 
                     #endregion
+
+
+                    #region 卸载NaiveProxy
+
+                    //******"检测系统是否已经安装Caddy/NaiveProxy......"******03
+                    SetUpProgressBarProcessing(48);
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_TestExistSoft").ToString() + "Caddy/NaiveProxy......";
+                    MainWindowsShowInfo(currentStatus);
+
+                    //sshShellCommand = @"find / -name caddy";
+                    //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                    //if (currentShellCommandResult.Contains("/usr/bin/caddy") == true)
+                    functionResult = FileCheckExists(client, @"/etc/caddy/naive");
+                    if (functionResult == true)
+                    {
+                        //******"检测到Caddy/NaiveProxy,开始卸载Caddy/NaiveProxy......"******
+                        SetUpProgressBarProcessing(49);
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_DiscoverProxySoft").ToString()
+                           + "Caddy/NaiveProxy!"
+                           + Application.Current.FindResource("DisplayInstallInfo_StartRemoveProxy").ToString()
+                           + "Caddy/NaiveProxy......";
+                        MainWindowsShowInfo(currentStatus);
+
+                        sshShellCommand = @"systemctl stop caddy";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = @"systemctl disable caddy";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = $"curl -o /tmp/install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/Caddy-Naive/caddy-naive-install.sh";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        functionResult = FileCheckExists(client, @"/tmp/install.sh");
+                        if (functionResult == false)
+                        {
+                            //***文件下载失败！***
+                            currentStatus = Application.Current.FindResource("DisplayInstallInfo_DownloadScriptFailed").ToString();
+                            MainWindowsShowInfo(currentStatus);
+                            return;
+                        }
+
+                        sshShellCommand = @"bash /tmp/install.sh uninstall";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = @"rm -f /tmp/install.sh";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+
+
+                        //sshShellCommand = @"find / -name caddy";
+                        //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        //if (currentShellCommandResult.Contains("/usr/local/bin/caddy") == true)
+                        functionResult = FileCheckExists(client, @"/usr/bin/caddy");
+                        if (functionResult == true)
+                        {
+                            //******"Caddy/NaiveProxy卸载失败！请向开发者问询！"******
+                            currentStatus = "Caddy/NaiveProxy" + Application.Current.FindResource("DisplayInstallInfo_RemoveProxySoftFailed").ToString();
+                            MainWindowsShowInfo(currentStatus);
+                        }
+                        else
+                        {
+                            //******"Caddy/NaiveProxy卸载成功！"******
+                            SetUpProgressBarProcessing(60);
+                            currentStatus = "Caddy/NaiveProxy" + Application.Current.FindResource("DisplayInstallInfo_RemoveProxySoftSuccess").ToString();
+                            MainWindowsShowInfo(currentStatus);
+                        }
+
+                    }
+                    else
+                    {
+                        //******"检测结果：未安装Caddy/NaiveProxy！"******04
+                        SetUpProgressBarProcessing(60);
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_NoInstalledSoft").ToString() + "Caddy/NaiveProxy!";
+                        MainWindowsShowInfo(currentStatus);
+                    }
+
+                    #endregion
+
 
                     #region 卸载Caddy/NaiveProxy
 
@@ -8149,14 +8270,6 @@ namespace ProxySU
             currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstallCaddy").ToString();
             MainWindowsShowInfo(currentStatus);
 
-            //如果是纯ipv6主机，则需要删除前面设置的Nat64网关
-            if (onlyIpv6 == true)
-            {
-                SetUpNat64(client, false);
-                sshShellCommand = $"{sshCmdUpdate}";
-                currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-            }
-
             //为真则表示系统有相应的组件。
             if (getApt == true)
             {
@@ -8441,7 +8554,13 @@ namespace ProxySU
                 //return false;
             }
 
-            
+            //如果是纯ipv6主机，则需要删除前面设置的Nat64网关
+            if (onlyIpv6 == true)
+            {
+                SetUpNat64(client, false);
+                sshShellCommand = $"{sshCmdUpdate}";
+                currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+            }
 
             SetUpProgressBarProcessing(95);
             return true;

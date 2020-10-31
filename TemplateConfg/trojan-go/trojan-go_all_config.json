@@ -9,12 +9,14 @@
     ],
     "disable_http_check": true,
     "ssl": {
+        "sni": "",
         "cert": "",
         "key": ""
     },
     "websocket": {
         "enabled": false,
-        "path": ""
+        "path": "",
+        "host": ""
     },
     "mux": {
         "enabled": false,
