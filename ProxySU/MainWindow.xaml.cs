@@ -5993,7 +5993,7 @@ namespace ProxySU
                            + "acme.sh......";
                         MainWindowsShowInfo(currentStatus);
 
-                        sshShellCommand = @"acme.sh --uninstall";
+                        sshShellCommand = @"/root/.acme.sh/acme.sh --uninstall";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                         sshShellCommand = @"rm -r  ~/.acme.sh";
@@ -6010,6 +6010,9 @@ namespace ProxySU
                         }
                         else
                         {
+                            sshShellCommand = @"sed -i 's/. ""/root/.acme.sh/acme.sh.env""//g' /root/.bashrc";
+                            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
                             //******"acme.sh卸载成功！"******
                             SetUpProgressBarProcessing(46);
                             currentStatus = "acme.sh" + Application.Current.FindResource("DisplayInstallInfo_RemoveProxySoftSuccess").ToString();
@@ -8087,11 +8090,11 @@ namespace ProxySU
                 return false;
             }
 
-            //sshShellCommand = @"cd ~/.acme.sh/";
-            //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+            sshShellCommand = @"cd ~/.acme.sh/";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-            //sshShellCommand = @"alias acme.sh=~/.acme.sh/acme.sh";
-            //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+            sshShellCommand = @"alias acme.sh=~/.acme.sh/acme.sh";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
             //****** "申请域名证书......" ******24
             SetUpProgressBarProcessing(55);
