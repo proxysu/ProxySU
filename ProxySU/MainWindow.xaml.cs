@@ -5606,18 +5606,18 @@ namespace ProxySU
                     //设置安装软件所用的命令格式
                     if (getApt == true)
                     {
-                        sshCmdUpdate = @"apt -qq update";
-                        //sshCmdInstall = @"apt -y -qq install ";
+                        sshCmdUpdate = @"apt update";
+                        //sshCmdInstall = @"apt -y install ";
                     }
                     else if (getDnf == true)
                     {
-                        sshCmdUpdate = @"dnf clean all;dnf -q makecache";
-                        //sshCmdInstall = @"dnf -y -q install ";
+                        sshCmdUpdate = @"dnf clean all;dnf makecache";
+                        //sshCmdInstall = @"dnf -y install ";
                     }
                     else if (getYum == true)
                     {
-                        sshCmdUpdate = @"yum clean all; yum -q makecache";
-                        //sshCmdInstall = @"yum -y -q install ";
+                        sshCmdUpdate = @"yum clean all; yum makecache";
+                        //sshCmdInstall = @"yum -y install ";
                     }
 
                     //检测主机是否为纯ipv6的主机
@@ -6082,7 +6082,7 @@ namespace ProxySU
                         //设置安装软件所用的命令格式
                         if (getApt == true)
                         {
-                            //sshCmdUpdate = @"apt -qq update";
+                            //sshCmdUpdate = @"apt update";
                             sshCmdRemove = @"apt -y autoremove --purge ";
                         }
                         else if (getDnf == true)
@@ -7495,18 +7495,18 @@ namespace ProxySU
                 //设置安装软件所用的命令格式
                 if (getApt == true)
                 {
-                    sshCmdUpdate = @"apt -qq update";
-                    sshCmdInstall = @"apt -y -qq install dnsutils";
+                    sshCmdUpdate = @"apt update";
+                    sshCmdInstall = @"apt -y install dnsutils";
                 }
                 else if (getDnf == true)
                 {
-                    sshCmdUpdate = @"dnf -q makecache";
-                    sshCmdInstall = @"dnf -y -q install bind-utils";
+                    sshCmdUpdate = @"dnf makecache";
+                    sshCmdInstall = @"dnf -y install bind-utils";
                 }
                 else if (getYum == true)
                 {
-                    sshCmdUpdate = @"yum -q makecache";
-                    sshCmdInstall = @"yum -y -q install bind-utils";
+                    sshCmdUpdate = @"yum makecache";
+                    sshCmdInstall = @"yum -y install bind-utils";
                 }
                 sshShellCommand = sshCmdUpdate;
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
@@ -7519,18 +7519,18 @@ namespace ProxySU
             //设置安装软件所用的命令格式
             if (getApt == true)
             {
-                sshCmdUpdate = @"apt -qq update";
-                sshCmdInstall = @"apt -y -qq install ";
+                sshCmdUpdate = @"apt update";
+                sshCmdInstall = @"apt -y install ";
             }
             else if (getDnf == true)
             {
-                sshCmdUpdate = @"dnf clean all;dnf -q makecache";
-                sshCmdInstall = @"dnf -y -q install ";
+                sshCmdUpdate = @"dnf clean all;dnf makecache";
+                sshCmdInstall = @"dnf -y install ";
             }
             else if (getYum == true)
             {
-                sshCmdUpdate = @"yum clean all; yum -q makecache";
-                sshCmdInstall = @"yum -y -q install ";
+                sshCmdUpdate = @"yum clean all; yum makecache";
+                sshCmdInstall = @"yum -y install ";
             }
             //else if (getZypper == true)
             //{
@@ -8156,10 +8156,10 @@ namespace ProxySU
                 sshShellCommand = @"apt install -y apt-transport-https";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                sshShellCommand = @"apt -qq update";
+                sshShellCommand = @"apt update";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                sshShellCommand = @"apt -y -qq install caddy";
+                sshShellCommand = @"apt -y install caddy";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
             }
