@@ -8146,6 +8146,14 @@ namespace ProxySU
             currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstallCaddy").ToString();
             MainWindowsShowInfo(currentStatus);
 
+            //如果是纯ipv6主机，则需要删除前面设置的Nat64网关
+            if (onlyIpv6 == true)
+            {
+                SetUpNat64(client, false);
+                sshShellCommand = $"{sshCmdUpdate}";
+                currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+            }
+
             //为真则表示系统有相应的组件。
             if (getApt == true)
             {
@@ -8172,10 +8180,10 @@ namespace ProxySU
                 sshShellCommand = @"dnf copr enable @caddy/caddy -y";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                //sshShellCommand = @"dnf -q makecache";
+                //sshShellCommand = @"dnf makecache";
                 //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                sshShellCommand = @"dnf -y -q install caddy";
+                sshShellCommand = @"dnf -y install caddy";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
             }
@@ -8188,10 +8196,10 @@ namespace ProxySU
                 sshShellCommand = @"yum copr enable @caddy/caddy -y";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                //sshShellCommand = @"yum -q makecache";
+                //sshShellCommand = @"yum makecache";
                 //currentShellCommandResult = MainWindowsShowCmd(client,sshShellCommand);
 
-                sshShellCommand = @"yum -y -q install caddy";
+                sshShellCommand = @"yum -y install caddy";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                 sshShellCommand = @"sed -i 's/AmbientCapabilities/#AmbientCapabilities/g' /usr/lib/systemd/system/caddy.service";
@@ -8430,13 +8438,7 @@ namespace ProxySU
                 //return false;
             }
 
-            //如果是纯ipv6主机，则需要删除前面设置的Nat64网关
-            if (onlyIpv6 == true)
-            {
-                SetUpNat64(client, false);
-                sshShellCommand = $"{sshCmdUpdate}";
-                currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-            }
+            
 
             SetUpProgressBarProcessing(95);
             return true;
