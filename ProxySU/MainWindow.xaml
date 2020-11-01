@@ -724,6 +724,28 @@
                     </Grid>
                 </TabItem>
 
+                <TabItem Header="{DynamicResource TabItemHeaderCommonError}" Width="110" Height="30">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="70"></ColumnDefinition>
+                            <ColumnDefinition Width="70"></ColumnDefinition>
+                            <ColumnDefinition Width="70"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Button x:Name="ButtonWebBrowserHomePageCommonError" Content="{DynamicResource ButtonWebBrowserHomePage}" Grid.Column="0" Grid.Row="0" Margin="5" Click="ButtonWebBrowserHomePageCommonError_Click"></Button>
+                        <Button x:Name="ButtonWebBrowserForwardCommonError" Content="{DynamicResource ButtonWebBrowserForward}" Grid.Column="2" Grid.Row="0" Margin="5" Click="ButtonWebBrowserForwardCommonError_Click"></Button>
+                        <Button x:Name="ButtonWebBrowserBackCommonError" Content="{DynamicResource ButtonWebBrowserBack}" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonWebBrowserBackCommonError_Click"></Button>
+                        <TextBlock Text="{DynamicResource TextBlockWebExplain}" TextWrapping="Wrap" Grid.Column="4" Grid.Row="0" Margin="8"></TextBlock>
+                        <!--<TextBox x:Name="TextBoxWebBrowserProxyUrl" Style="{StaticResource TitleText}" Tag="粘贴被墙的网址到这里点击 GO(下面被墙网址右击==复制快捷方式)" Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="5" Margin="5"></TextBox>
+                    <Button x:Name="ButtonWebBrowserProxyGo" Content="Go" Grid.Column="8" Grid.Row="0" Margin="5" Click="ButtonWebBrowserProxyGo_Click"></Button>-->
+                        <WebBrowser x:Name="WebBrowserCommonError" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Source="https://github.com/proxysu/windows/wiki/CommonError" />
+                    </Grid>
+                </TabItem>
+
             </TabControl>
         </Grid>
     </Grid>

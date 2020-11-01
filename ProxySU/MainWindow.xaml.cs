@@ -7143,6 +7143,46 @@ namespace ProxySU
 
         #endregion
 
+        #region 常见问题标签
+        private void ButtonWebBrowserHomePageCommonError_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                WebBrowserCommonError.Source = new Uri("https://github.com/proxysu/windows/wiki/CommonError");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void ButtonWebBrowserBackCommonError_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                WebBrowserCommonError.GoBack();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void ButtonWebBrowserForwardCommonError_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                WebBrowserCommonError.GoForward();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+
+        #endregion
+
         #region 测试用代码
         private void Button_Click(object sender, RoutedEventArgs e)
         {
