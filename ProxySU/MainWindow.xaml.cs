@@ -6074,9 +6074,9 @@ namespace ProxySU
 
                     #region 卸载NaiveProxy
 
-                    //******"检测系统是否已经安装Caddy/NaiveProxy......"******03
+                    //******"检测系统是否已经安装NaiveProxy......"******03
                     SetUpProgressBarProcessing(48);
-                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_TestExistSoft").ToString() + "Caddy/NaiveProxy......";
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_TestExistSoft").ToString() + "NaiveProxy......";
                     MainWindowsShowInfo(currentStatus);
 
                     //sshShellCommand = @"find / -name caddy";
@@ -6086,12 +6086,12 @@ namespace ProxySU
                     functionResult = FileCheckExists(client, @"/etc/caddy/naive");
                     if (functionResult == true)
                     {
-                        //******"检测到Caddy/NaiveProxy,开始卸载Caddy/NaiveProxy......"******
+                        //******"检测到Caddy/NaiveProxy,开始卸载NaiveProxy......"******
                         SetUpProgressBarProcessing(49);
                         currentStatus = Application.Current.FindResource("DisplayInstallInfo_DiscoverProxySoft").ToString()
-                           + "Caddy/NaiveProxy!"
+                           + "NaiveProxy!"
                            + Application.Current.FindResource("DisplayInstallInfo_StartRemoveProxy").ToString()
-                           + "Caddy/NaiveProxy......";
+                           + "NaiveProxy......";
                         MainWindowsShowInfo(currentStatus);
 
                         sshShellCommand = @"systemctl stop caddy";
@@ -6124,38 +6124,38 @@ namespace ProxySU
                         //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                         //if (currentShellCommandResult.Contains("/usr/local/bin/caddy") == true)
-                        functionResult = FileCheckExists(client, @"/usr/bin/caddy");
+                        functionResult = FileCheckExists(client, @"/usr/bin/naive");
                         if (functionResult == true)
                         {
                             //******"Caddy/NaiveProxy卸载失败！请向开发者问询！"******
-                            currentStatus = "Caddy/NaiveProxy" + Application.Current.FindResource("DisplayInstallInfo_RemoveProxySoftFailed").ToString();
+                            currentStatus = "NaiveProxy" + Application.Current.FindResource("DisplayInstallInfo_RemoveProxySoftFailed").ToString();
                             MainWindowsShowInfo(currentStatus);
                         }
                         else
                         {
                             //******"Caddy/NaiveProxy卸载成功！"******
                             SetUpProgressBarProcessing(60);
-                            currentStatus = "Caddy/NaiveProxy" + Application.Current.FindResource("DisplayInstallInfo_RemoveProxySoftSuccess").ToString();
+                            currentStatus = "NaiveProxy" + Application.Current.FindResource("DisplayInstallInfo_RemoveProxySoftSuccess").ToString();
                             MainWindowsShowInfo(currentStatus);
                         }
 
                     }
                     else
                     {
-                        //******"检测结果：未安装Caddy/NaiveProxy！"******04
+                        //******"检测结果：未安装NaiveProxy！"******04
                         SetUpProgressBarProcessing(60);
-                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_NoInstalledSoft").ToString() + "Caddy/NaiveProxy!";
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_NoInstalledSoft").ToString() + "NaiveProxy!";
                         MainWindowsShowInfo(currentStatus);
                     }
 
                     #endregion
 
 
-                    #region 卸载Caddy/NaiveProxy
+                    #region 卸载Caddy
 
-                    //******"检测系统是否已经安装Caddy/NaiveProxy......"******03
+                    //******"检测系统是否已经安装Caddy......"******03
                     SetUpProgressBarProcessing(48);
-                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_TestExistSoft").ToString() + "Caddy/NaiveProxy......";
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_TestExistSoft").ToString() + "Caddy......";
                     MainWindowsShowInfo(currentStatus);
 
                     //sshShellCommand = @"find / -name caddy";
@@ -6165,12 +6165,12 @@ namespace ProxySU
                     functionResult = FileCheckExists(client, @"/usr/bin/caddy");
                     if (functionResult == true)
                     {
-                        //******"检测到Caddy/NaiveProxy,开始卸载Caddy/NaiveProxy......"******
+                        //******"检测到Caddy,开始卸载Caddy......"******
                         SetUpProgressBarProcessing(49);
                         currentStatus = Application.Current.FindResource("DisplayInstallInfo_DiscoverProxySoft").ToString()
-                           + "Caddy/NaiveProxy!"
+                           + "Caddy!"
                            + Application.Current.FindResource("DisplayInstallInfo_StartRemoveProxy").ToString()
-                           + "Caddy/NaiveProxy......";
+                           + "Caddy......";
                         MainWindowsShowInfo(currentStatus);
 
                         sshShellCommand = @"systemctl stop caddy";
@@ -6235,24 +6235,24 @@ namespace ProxySU
                         functionResult = FileCheckExists(client, @"/usr/bin/caddy");
                         if (functionResult == true)
                         {
-                            //******"Caddy/NaiveProxy卸载失败！请向开发者问询！"******
-                            currentStatus = "Caddy/NaiveProxy" + Application.Current.FindResource("DisplayInstallInfo_RemoveProxySoftFailed").ToString();
+                            //******"Caddy卸载失败！请向开发者问询！"******
+                            currentStatus = "Caddy" + Application.Current.FindResource("DisplayInstallInfo_RemoveProxySoftFailed").ToString();
                             MainWindowsShowInfo(currentStatus);
                         }
                         else
                         {
-                            //******"Caddy/NaiveProxy卸载成功！"******
+                            //******"Caddy卸载成功！"******
                             SetUpProgressBarProcessing(60);
-                            currentStatus = "Caddy/NaiveProxy" + Application.Current.FindResource("DisplayInstallInfo_RemoveProxySoftSuccess").ToString();
+                            currentStatus = "Caddy" + Application.Current.FindResource("DisplayInstallInfo_RemoveProxySoftSuccess").ToString();
                             MainWindowsShowInfo(currentStatus);
                         }
 
                     }
                     else
                     {
-                        //******"检测结果：未安装Caddy/NaiveProxy！"******04
+                        //******"检测结果：未安装Caddy！"******04
                         SetUpProgressBarProcessing(60);
-                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_NoInstalledSoft").ToString() + "Caddy/NaiveProxy!";
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_NoInstalledSoft").ToString() + "Caddy!";
                         MainWindowsShowInfo(currentStatus);
                     }
 
