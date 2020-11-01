@@ -12,6 +12,7 @@
     <sys:String x:Key="TabItemHeaderAppDeployment">應用佈署</sys:String>
     <sys:String x:Key="TabItemHeaderResourceTools">資源工具</sys:String>
     <sys:String x:Key="TabItemHeaderFreeWallURL">免翻網址資源</sys:String>
+    <sys:String x:Key="TabItemHeaderCommonError">常見問題</sys:String>
     <sys:String x:Key="TextBlockHostName">主機:</sys:String>
     <sys:String x:Key="TextBoxHostNamePrompt">IP或域名(不可為空)</sys:String>
     <sys:String x:Key="TextBlockHostPart">端口:</sys:String>

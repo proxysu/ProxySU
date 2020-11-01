@@ -6086,7 +6086,7 @@ namespace ProxySU
                     functionResult = FileCheckExists(client, @"/etc/caddy/naive");
                     if (functionResult == true)
                     {
-                        //******"检测到Caddy/NaiveProxy,开始卸载NaiveProxy......"******
+                        //******"检测到NaiveProxy,开始卸载NaiveProxy......"******
                         SetUpProgressBarProcessing(49);
                         currentStatus = Application.Current.FindResource("DisplayInstallInfo_DiscoverProxySoft").ToString()
                            + "NaiveProxy!"
