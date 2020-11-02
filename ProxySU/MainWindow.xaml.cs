@@ -2843,10 +2843,10 @@ namespace ProxySU
                             //升级Trojan-Go主程序
                             //client.RunCommand("curl -o /tmp/trojan-go.sh https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh");
                             //client.RunCommand("yes | bash /tmp/trojan-go.sh -f");
-                            sshShellCommand = $"curl -o /tmp/trojan-go.sh https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh";
+                            sshShellCommand = $"curl -o /tmp/install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh";
                             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                            functionResult = FileCheckExists(client, @"/tmp/trojan-go.sh");
+                            functionResult = FileCheckExists(client, @"/tmp/install.sh");
                             if (functionResult == false)
                             {
                                 //***文件下载失败！***
@@ -3404,10 +3404,10 @@ namespace ProxySU
                             //升级Trojan主程序
                             //client.RunCommand("curl -o /tmp/trojan-quickstart.sh https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh");
                             //client.RunCommand("yes | bash /tmp/trojan-quickstart.sh");
-                            sshShellCommand = $"curl -o /tmp/trojan-quickstart.sh https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh";
+                            sshShellCommand = $"curl -o /tmp/install.sh https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh";
                             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                            functionResult = FileCheckExists(client, @"/tmp/trojan-quickstart.sh");
+                            functionResult = FileCheckExists(client, @"/tmp/install.sh");
                             if (functionResult == false)
                             {
                                 //***文件下载失败！***
@@ -5076,10 +5076,10 @@ namespace ProxySU
             currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstallSoft").ToString() + "MTProto......";
             MainWindowsShowInfo(currentStatus);
 
-            sshShellCommand = $"curl -o /tmp/mtg_install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/MTProto/mtg_install.sh";
+            sshShellCommand = $"curl -o /tmp/install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/MTProto/mtg_install.sh";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-            functionResult = FileCheckExists(client, @"/tmp/installproxy.sh");
+            functionResult = FileCheckExists(client, @"/tmp/install.sh");
             if (functionResult == false)
             {
                 //***文件下载失败！***
@@ -8140,10 +8140,10 @@ namespace ProxySU
             currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstallSoft").ToString() + $"{proxyName}......";
             MainWindowsShowInfo(currentStatus);
 
-            sshShellCommand = $"curl -o /tmp/installproxy.sh {downloadUrl}";
+            sshShellCommand = $"curl -o /tmp/install.sh {downloadUrl}";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-            functionResult = FileCheckExists(client, @"/tmp/installproxy.sh");
+            functionResult = FileCheckExists(client, @"/tmp/install.sh");
             if (functionResult == false)
             {
                 //***文件下载失败！***
