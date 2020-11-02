@@ -2855,10 +2855,10 @@ namespace ProxySU
                                 return;
                             }
 
-                            sshShellCommand = @"yes | bash /tmp/trojan-go.sh";
+                            sshShellCommand = @"yes | bash /tmp/install.sh";
                             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                            sshShellCommand = @"rm -f /tmp/trojan-go.sh";
+                            sshShellCommand = @"rm -f /tmp/install.sh";
                             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                             SetUpProgressBarProcessing(80);
@@ -3416,10 +3416,10 @@ namespace ProxySU
                                 return;
                             }
 
-                            sshShellCommand = @"yes | bash /tmp/trojan-quickstart.sh";
+                            sshShellCommand = @"yes | bash /tmp/install.sh";
                             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                            sshShellCommand = @"rm -f /tmp/trojan-quickstart.sh";
+                            sshShellCommand = @"rm -f /tmp/install.sh";
                             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                             //sshcmd = @"echo ""$(/usr/local/bin/trojan -v 2>&1)"" | head -n 1 | cut -d "" "" -f4";
@@ -5088,10 +5088,10 @@ namespace ProxySU
                 return false;
             }
 
-            sshShellCommand = $"yes | bash /tmp/mtg_install.sh {ReceiveConfigurationParameters[1]} {ReceiveConfigurationParameters[7]}";
+            sshShellCommand = $"yes | bash /tmp/install.sh {ReceiveConfigurationParameters[1]} {ReceiveConfigurationParameters[7]}";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-            sshShellCommand = @"rm -f /tmp/mtg_install.sh";
+            sshShellCommand = @"rm -f /tmp/install.sh";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
             SetUpProgressBarProcessing(40);
@@ -8152,10 +8152,10 @@ namespace ProxySU
                 return false;
                
             }
-            sshShellCommand = @"yes | bash /tmp/installproxy.sh";
+            sshShellCommand = @"yes | bash /tmp/install.sh";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-            sshShellCommand = @"rm -f /tmp/installproxy.sh";
+            sshShellCommand = @"rm -f /tmp/install.sh";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
             SetUpProgressBarProcessing(40);
