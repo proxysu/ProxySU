@@ -24,8 +24,8 @@
                     <ColumnDefinition Width="0.4*"></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <RadioButton x:Name="RadioButtonNetworkTime" IsChecked="True" Content="" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center"></RadioButton>
-                <TextBlock Text="{DynamicResource RadioButtonNetworkTime}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                <RadioButton x:Name="RadioButtonNetworkTime" IsChecked="True" Content="" GroupName="FreadTimeGroup" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center"></RadioButton>
+                <TextBlock Text="{DynamicResource RadioButtonNetworkTime}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" MouseDown="TextBlock_MouseDown"></TextBlock>
             </Grid>
             <TextBlock Text="{DynamicResource TextBlockNetworkTime}" TextWrapping="Wrap" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" Margin="20"></TextBlock>
 
@@ -34,8 +34,8 @@
                     <ColumnDefinition Width="0.4*"></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <RadioButton x:Name="RadioButtonLocalTime" Content="" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center"></RadioButton>
-                <TextBlock Text="{DynamicResource RadioButtonLocalTime}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                <RadioButton x:Name="RadioButtonLocalTime" Content="" GroupName="FreadTimeGroup" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center"></RadioButton>
+                <TextBlock Text="{DynamicResource RadioButtonLocalTime}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" MouseDown="TextBlock_MouseDown_1"></TextBlock>
             </Grid>
             <TextBlock Text="{DynamicResource TextBlockLocalTime}" TextWrapping="Wrap" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Margin="20"></TextBlock>
            
@@ -44,8 +44,8 @@
                     <ColumnDefinition Width="0.4*"></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <RadioButton x:Name="RadioButtonUpDateLocalTime" Content="" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center"></RadioButton>
-                <TextBlock Text="{DynamicResource RadioButtonUpDateLocalTime}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                <RadioButton x:Name="RadioButtonUpDateLocalTime" Content="" GroupName="FreadTimeGroup" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center"></RadioButton>
+                <TextBlock Text="{DynamicResource RadioButtonUpDateLocalTime}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" MouseDown="TextBlock_MouseDown_2"></TextBlock>
             </Grid>
             
             <TextBlock Text="{DynamicResource TextBlockUpDateLocalTime}" TextWrapping="Wrap" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" Margin="20"></TextBlock>

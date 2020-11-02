@@ -133,6 +133,21 @@ namespace ProxySU
 
         }
 
+        private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            RadioButtonNetworkTime.IsChecked = true;
+        }
+
+        private void TextBlock_MouseDown_1(object sender, MouseButtonEventArgs e)
+        {
+            RadioButtonLocalTime.IsChecked = true;
+        }
+
+        private void TextBlock_MouseDown_2(object sender, MouseButtonEventArgs e)
+        {
+            RadioButtonUpDateLocalTime.IsChecked = true;
+        }
+
         //private void ButtonTEST_Click(object sender, RoutedEventArgs e)
         //{
         //    //NetTime netTime = new NetTime();
