@@ -604,31 +604,8 @@ namespace ProxySU
                 string configSavePath = configDomainSavePath;
 
                 RadioButtonMtgIpv4.IsChecked = true;
-                //MessageBox.Show(MainWindow.ReceiveConfigurationParameters[9]);
-                JObject jObjectJson = JObject.Parse(MainWindow.ReceiveConfigurationParameters[9]);
-                //MessageBox.Show(jObjectJson.ToString());
-                if (jObjectJson["ipv4"]["tg_url"].ToString().Contains("nil") == false)
-                {
-                    RadioButtonMtgIpv4.Visibility = Visibility.Visible;
-                    TextBoxURLMtgTgIpv4.Text = jObjectJson["ipv4"]["tg_url"].ToString();
-                    ImageShareQRcodeMtgTgIpv4.Source = CreateQRCode(TextBoxURLMtgTgIpv4.Text, $"{configSavePath}\\QRIpv4Tg.bmp");
-                    using (StreamWriter sw = new StreamWriter($"{configSavePath}\\urlIpv4Tg.txt"))
-                    {
-                        sw.WriteLine(TextBoxURLMtgTgIpv4.Text);
-                    }
 
-                    TextBoxURLMtgTmeIpv4.Text = jObjectJson["ipv4"]["tme_url"].ToString();
-                    ImageShareQRcodeMtgTmeIpv4.Source = CreateQRCode(TextBoxURLMtgTmeIpv4.Text, $"{configSavePath}\\QRIpv4Tme.bmp");
-                    using (StreamWriter sw = new StreamWriter($"{configSavePath}\\urlIpv4Tme.txt"))
-                    {
-                        sw.WriteLine(TextBoxURLMtgTmeIpv4.Text);
-                    }
-                    RadioButtonMtgIpv4.IsChecked = true;
-                }
-                else
-                {
-                    RadioButtonMtgIpv4.Visibility = Visibility.Collapsed;
-                }
+                JObject jObjectJson = JObject.Parse(MainWindow.ReceiveConfigurationParameters[9]);
 
                 if (jObjectJson["ipv6"]["tg_url"].ToString().Contains("nil") == false)
                 {
@@ -652,7 +629,29 @@ namespace ProxySU
                 {
                     RadioButtonMtgIpv6.Visibility = Visibility.Collapsed;
                 }
-                
+
+                if (jObjectJson["ipv4"]["tg_url"].ToString().Contains("nil") == false)
+                {
+                    RadioButtonMtgIpv4.Visibility = Visibility.Visible;
+                    TextBoxURLMtgTgIpv4.Text = jObjectJson["ipv4"]["tg_url"].ToString();
+                    ImageShareQRcodeMtgTgIpv4.Source = CreateQRCode(TextBoxURLMtgTgIpv4.Text, $"{configSavePath}\\QRIpv4Tg.bmp");
+                    using (StreamWriter sw = new StreamWriter($"{configSavePath}\\urlIpv4Tg.txt"))
+                    {
+                        sw.WriteLine(TextBoxURLMtgTgIpv4.Text);
+                    }
+
+                    TextBoxURLMtgTmeIpv4.Text = jObjectJson["ipv4"]["tme_url"].ToString();
+                    ImageShareQRcodeMtgTmeIpv4.Source = CreateQRCode(TextBoxURLMtgTmeIpv4.Text, $"{configSavePath}\\QRIpv4Tme.bmp");
+                    using (StreamWriter sw = new StreamWriter($"{configSavePath}\\urlIpv4Tme.txt"))
+                    {
+                        sw.WriteLine(TextBoxURLMtgTmeIpv4.Text);
+                    }
+                    RadioButtonMtgIpv4.IsChecked = true;
+                }
+                else
+                {
+                    RadioButtonMtgIpv4.Visibility = Visibility.Collapsed;
+                }
 
                 using (StreamWriter sw = new StreamWriter($"{configSavePath}\\mtproto_info.json"))
                 {
