@@ -268,7 +268,7 @@
     <sys:String x:Key="DisplayInstallInfo_DetectionRootOK">檢測結果：OK！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_TestExistSoft">檢測系統是否已經安裝</sys:String>
     <sys:String x:Key="MessageBoxShow_ExistedSoft">遠程主機已安裝</sys:String>
-    <sys:String x:Key="MessageBoxShow_ForceInstallSoft">,是否強制重新安裝？</sys:String>
+    <sys:String x:Key="MessageBoxShow_ForceInstallSoft">,建議先執行卸載，或者重裝系統，若強制安裝有一定機率失敗。是否強制重新安裝？</sys:String>
     <sys:String x:Key="DisplayInstallInfo_InstallationCanceledExit">安裝取消，退出</sys:String>
     <sys:String x:Key="DisplayInstallInfo_ForceInstallSoft">已選擇強制安裝</sys:String>
     <sys:String x:Key="DisplayInstallInfo_NoInstalledSoft">檢測結果：未安裝</sys:String>

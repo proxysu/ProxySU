@@ -268,7 +268,7 @@
     <sys:String x:Key="DisplayInstallInfo_DetectionRootOK">Detection result: OK!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_TestExistSoft">Check whether the system has been installed</sys:String>
     <sys:String x:Key="MessageBoxShow_ExistedSoft">The remote host has been installed</sys:String>
-    <sys:String x:Key="MessageBoxShow_ForceInstallSoft">, is it mandatory to reinstall?</sys:String>
+    <sys:String x:Key="MessageBoxShow_ForceInstallSoft">, it is recommended to uninstall first, or reinstall the system, if the forced installation may fail. Do you force a reinstallation?</sys:String>
     <sys:String x:Key="DisplayInstallInfo_InstallationCanceledExit">installation canceled, exit</sys:String>
     <sys:String x:Key="DisplayInstallInfo_ForceInstallSoft">Selected mandatory installation</sys:String>
     <sys:String x:Key="DisplayInstallInfo_NoInstalledSoft">Test result: not installed</sys:String>

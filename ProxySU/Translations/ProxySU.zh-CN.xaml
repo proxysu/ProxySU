@@ -273,7 +273,7 @@
     <sys:String x:Key="DisplayInstallInfo_DetectionRootOK">检测结果：OK！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_TestExistSoft">检测系统是否已经安装</sys:String>
     <sys:String x:Key="MessageBoxShow_ExistedSoft">远程主机已安装</sys:String>
-    <sys:String x:Key="MessageBoxShow_ForceInstallSoft">,是否强制重新安装？</sys:String>
+    <sys:String x:Key="MessageBoxShow_ForceInstallSoft">,建议先执行卸载，或者重装系统，若强制安装有一定机率失败。是否强制重新安装？</sys:String>
     <sys:String x:Key="DisplayInstallInfo_InstallationCanceledExit">安装取消，退出</sys:String>
     <sys:String x:Key="DisplayInstallInfo_ForceInstallSoft">已选择强制安装</sys:String>
     <sys:String x:Key="DisplayInstallInfo_NoInstalledSoft">检测结果：未安装</sys:String>
