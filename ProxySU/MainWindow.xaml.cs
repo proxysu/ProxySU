@@ -7348,11 +7348,11 @@ namespace ProxySU
             ipv6 = String.Empty;
 
             //sshShellCommand = @"curl -4 ip.sb";
-            sshShellCommand = @"curl -s https://api.ip.sb/ip --ipv4";
+            sshShellCommand = @"curl -s https://api.ip.sb/ip --ipv4 --max-time 8";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
             ipv4 = currentShellCommandResult.TrimEnd('\r', '\n');
 
-            sshShellCommand = @"curl -s https://api.ip.sb/ip --ipv6";
+            sshShellCommand = @"curl -s https://api.ip.sb/ip --ipv6 --max-time 8";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
             ipv6 = currentShellCommandResult.TrimEnd('\r', '\n');
 
@@ -8088,11 +8088,11 @@ namespace ProxySU
             onlyIpv6 = false;
 
             //sshShellCommand = @"curl -4 ip.sb";
-            sshShellCommand = @"curl -s https://api.ip.sb/ip --ipv4";
+            sshShellCommand = @"curl -s https://api.ip.sb/ip --ipv4 --max-time 8";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
             ipv4 = currentShellCommandResult.TrimEnd('\r', '\n');
 
-            sshShellCommand = @"curl -s https://api.ip.sb/ip --ipv6";
+            sshShellCommand = @"curl -s https://api.ip.sb/ip --ipv6 --max-time 8";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
             ipv6 = currentShellCommandResult.TrimEnd('\r', '\n');
 
