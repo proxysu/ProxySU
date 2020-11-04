@@ -1116,7 +1116,7 @@ namespace ProxySU
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
                     //检测系统是否符合安装要求 11--30
-                    //检测关闭Selinux及系统组件是否齐全（apt/yum/dnf/systemctl）
+                    //检测关闭Selinux及系统组件是否齐全（apt-get/yum/dnf/systemctl）
                     //安装依赖软件，检测端口，防火墙开启端口
                     functionResult = ShutDownSelinuxAndSysComponentsDetect(client);
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
@@ -2422,7 +2422,7 @@ namespace ProxySU
                     functionResult = SoftInstalledIsNoYes(client, "trojan-go", @"/usr/local/bin/trojan-go");
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
-                    //检测关闭Selinux及系统组件是否齐全（apt/yum/dnf/systemctl）11--30
+                    //检测关闭Selinux及系统组件是否齐全（apt-get/yum/dnf/systemctl）11--30
                     //安装依赖软件，检测端口，防火墙开启端口
                     functionResult = ShutDownSelinuxAndSysComponentsDetect(client);
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
@@ -3049,7 +3049,7 @@ namespace ProxySU
                     functionResult = SoftInstalledIsNoYes(client, "trojan", @"/usr/local/bin/trojan");
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
-                    //检测关闭Selinux及系统组件是否齐全（apt/yum/dnf/systemctl）11--30
+                    //检测关闭Selinux及系统组件是否齐全（apt-get/yum/dnf/systemctl）11--30
                     //安装依赖软件，检测端口，防火墙开启端口
                     functionResult = ShutDownSelinuxAndSysComponentsDetect(client);
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
@@ -3614,7 +3614,7 @@ namespace ProxySU
                     functionResult = SoftInstalledIsNoYes(client, "caddy", @"/usr/bin/caddy");
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
-                    //检测关闭Selinux及系统组件是否齐全（apt/yum/dnf/systemctl）11--30
+                    //检测关闭Selinux及系统组件是否齐全（apt-get/yum/dnf/systemctl）11--30
                     //安装依赖软件，检测端口，防火墙开启端口
                     functionResult = ShutDownSelinuxAndSysComponentsDetect(client);
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
@@ -4005,7 +4005,7 @@ namespace ProxySU
                     functionResult = SoftInstalledIsNoYes(client, "server.py", @"/usr/local/shadowsocks/server.py");
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
-                    //检测关闭Selinux及系统组件是否齐全（apt/yum/dnf/systemctl）11--30
+                    //检测关闭Selinux及系统组件是否齐全（apt-get/yum/dnf/systemctl）11--30
                     //安装依赖软件，检测端口，防火墙开启端口
                     functionResult = ShutDownSelinuxAndSysComponentsDetect(client);
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
@@ -4387,7 +4387,7 @@ namespace ProxySU
                     functionResult = SoftInstalledIsNoYes(client, "ss-server", @"/usr/local/bin/ss-server");
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
-                    //检测关闭Selinux及系统组件是否齐全（apt/yum/dnf/systemctl）11--30
+                    //检测关闭Selinux及系统组件是否齐全（apt-get/yum/dnf/systemctl）11--30
                     //安装依赖软件，检测端口，防火墙开启端口
                     functionResult = ShutDownSelinuxAndSysComponentsDetect(client);
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
@@ -4964,7 +4964,7 @@ namespace ProxySU
                     functionResult = SoftInstalledIsNoYes(client, "mtg", @"/usr/local/bin/mtg");
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
-                    //检测关闭Selinux及系统组件是否齐全（apt/yum/dnf/systemctl）11--30
+                    //检测关闭Selinux及系统组件是否齐全（apt-get/yum/dnf/systemctl）11--30
                     //安装依赖软件，检测端口，防火墙开启端口
                     functionResult = ShutDownSelinuxAndSysComponentsDetect(client);
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
@@ -5634,7 +5634,7 @@ namespace ProxySU
                     functionResult = RootAuthorityDetect(client);
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
-                    sshShellCommand = @"command -v apt";
+                    sshShellCommand = @"command -v apt-get";
                     currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
                     getApt = !String.IsNullOrEmpty(currentShellCommandResult);
 
@@ -5649,8 +5649,8 @@ namespace ProxySU
                     //设置安装软件所用的命令格式
                     if (getApt == true)
                     {
-                        sshCmdUpdate = @"apt update";
-                        //sshCmdInstall = @"apt -y install ";
+                        sshCmdUpdate = @"apt-get update";
+                        //sshCmdInstall = @"apt-get -y install ";
                     }
                     else if (getDnf == true)
                     {
@@ -6227,10 +6227,10 @@ namespace ProxySU
                         sshShellCommand = @"systemctl disable caddy";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        //检测系统是否支持yum 或 apt或zypper
+                        //检测系统是否支持yum 或 apt-get或zypper
                         //如果不存在组件，则命令结果为空，string.IsNullOrEmpty值为真，
 
-                        sshShellCommand = @"command -v apt";
+                        sshShellCommand = @"command -v apt-get";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
                         bool getApt = ! String.IsNullOrEmpty(currentShellCommandResult);
 
@@ -6254,8 +6254,8 @@ namespace ProxySU
                         //设置安装软件所用的命令格式
                         if (getApt == true)
                         {
-                            //sshCmdUpdate = @"apt update";
-                            sshCmdRemove = @"apt -y autoremove --purge ";
+                            //sshCmdUpdate = @"apt-get update";
+                            sshCmdRemove = @"apt-get -y autoremove --purge ";
                         }
                         else if (getDnf == true)
                         {
@@ -7645,14 +7645,14 @@ namespace ProxySU
             return true;
         }
 
-        //检测关闭Selinux及系统组件是否齐全（apt/yum/dnf/systemctl）11--30
+        //检测关闭Selinux及系统组件是否齐全（apt-get/yum/dnf/systemctl）11--30
         //安装依赖软件，检测端口，防火墙开启端口,检测是否为纯ipv6主机,若是则设置Nat64网关
         //functionResult = ShutDownSelinuxAndSysComponentsDetect(client);
         //if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
         private bool ShutDownSelinuxAndSysComponentsDetect(SshClient client)
         {
 
-            //检测系统是否支持yum 或 apt或zypper，且支持Systemd
+            //检测系统是否支持yum 或 apt-get或zypper，且支持Systemd
             //如果不存在组件，则命令结果为空，String.IsNullOrEmpty值为真
             //取反则getApt,getDnf,getYum,getSystem,getGetenforce为假
             //不存在组件，则为假
@@ -7662,7 +7662,7 @@ namespace ProxySU
             currentStatus = Application.Current.FindResource("DisplayInstallInfo_CheckSystemRequirements").ToString();
             MainWindowsShowInfo(currentStatus);
 
-            sshShellCommand = @"command -v apt";
+            sshShellCommand = @"command -v apt-get";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
             getApt = ! String.IsNullOrEmpty(currentShellCommandResult);
 
@@ -7689,11 +7689,11 @@ namespace ProxySU
             bool getGetenforce = ! String.IsNullOrEmpty(currentShellCommandResult);
 
 
-            //没有安装apt，也没有安装dnf\yum，也没有安装zypper,或者没有安装systemd的，不满足安装条件
-            //也就是apt ，dnf\yum, zypper必须安装其中之一，且必须安装Systemd的系统才能安装。
+            //没有安装apt-get，也没有安装dnf\yum，也没有安装zypper,或者没有安装systemd的，不满足安装条件
+            //也就是apt-get ，dnf\yum, zypper必须安装其中之一，且必须安装Systemd的系统才能安装。
             if ((getApt == false && getDnf == false && getYum == false) || getSystemd == false)
             {
-                //******"系统缺乏必要的安装组件如:apt||dnf||yum||zypper||Syetemd，主机系统推荐使用：CentOS 7/8,Debian 8/9/10,Ubuntu 16.04及以上版本"******
+                //******"系统缺乏必要的安装组件如:apt-get||dnf||yum||zypper||Syetemd，主机系统推荐使用：CentOS 7/8,Debian 8/9/10,Ubuntu 16.04及以上版本"******
                 MessageBox.Show(Application.Current.FindResource("MessageBoxShow_MissingSystemComponents").ToString());
 
                 //******"系统环境不满足要求，安装失败！！"******
@@ -7716,8 +7716,8 @@ namespace ProxySU
                 //设置安装软件所用的命令格式
                 if (getApt == true)
                 {
-                    sshCmdUpdate = @"apt update";
-                    sshCmdInstall = @"apt -y install dnsutils";
+                    sshCmdUpdate = @"apt-get update";
+                    sshCmdInstall = @"apt-get -y install dnsutils";
                 }
                 else if (getDnf == true)
                 {
@@ -7740,8 +7740,8 @@ namespace ProxySU
             //设置安装软件所用的命令格式
             if (getApt == true)
             {
-                sshCmdUpdate = @"apt update";
-                sshCmdInstall = @"apt -y install ";
+                sshCmdUpdate = @"apt-get update";
+                sshCmdInstall = @"apt-get -y install ";
             }
             else if (getDnf == true)
             {
@@ -7882,7 +7882,7 @@ namespace ProxySU
                         sshShellCommand = $"systemctl disable {cmdResultArry443[0]}";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        sshShellCommand = $"kill -9 {cmdResultArry443[3]}";
+                        sshShellCommand = $"pkill {cmdResultArry443[0]}";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
                     }
 
@@ -7896,8 +7896,28 @@ namespace ProxySU
                         sshShellCommand = $"systemctl disable {cmdResultArry80[0]}";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                        sshShellCommand = $"kill -9 {cmdResultArry80[3]}";
+                        sshShellCommand = $"pkill {cmdResultArry80[0]}";
                         currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    }
+                    testPort80 = string.Empty;
+                    testPort443 = string.Empty;
+
+                    sshShellCommand = @"lsof -n -P -i :80 | grep LISTEN";
+                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    testPort80 = currentShellCommandResult;
+
+                    sshShellCommand = @"lsof -n -P -i :443 | grep LISTEN";
+                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    testPort443 = currentShellCommandResult;
+
+
+                    if (String.IsNullOrEmpty(testPort80) == false || String.IsNullOrEmpty(testPort443) == false)
+                    {
+                        //****** "端口被占用，安装失败......" ******
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_ErrorPortUsedFail").ToString();
+                        MainWindowsShowInfo(currentStatus);
+                        //client.Disconnect();
+                        return false;
                     }
                     //****** "80/443端口释放完毕！" ******
                     SetUpProgressBarProcessing(26);
@@ -7946,8 +7966,23 @@ namespace ProxySU
                     sshShellCommand = $"systemctl disable {cmdResultArry[0]}";
                     currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                    sshShellCommand = $"kill -9 {cmdResultArry[3]}";
+                    sshShellCommand = $"pkill {cmdResultArry[0]}";
                     currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                    testPort = string.Empty;
+
+                    sshShellCommand = $"lsof -n -P -i :{ReceiveConfigurationParameters[1]} | grep LISTEN";
+                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    testPort = currentShellCommandResult;
+
+                    if (String.IsNullOrEmpty(testPort) == false)
+                    {
+                        //****** "端口被占用，安装失败......" ******
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_ErrorPortUsedFail").ToString();
+                        MainWindowsShowInfo(currentStatus);
+                        //client.Disconnect();
+                        return false;
+                    }
 
                     //****** "端口释放完毕！" ******
                     SetUpProgressBarProcessing(26);
@@ -8376,13 +8411,13 @@ namespace ProxySU
                 sshShellCommand = @"echo ""deb [trusted=yes] https://apt.fury.io/caddy/ /"" | tee -a /etc/apt/sources.list.d/caddy-fury.list";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                sshShellCommand = @"apt install -y apt-transport-https";
+                sshShellCommand = @"apt-get install -y apt-transport-https";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                sshShellCommand = @"apt update";
+                sshShellCommand = @"apt-get update";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                sshShellCommand = @"apt -y install caddy";
+                sshShellCommand = @"apt-get -y install caddy";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
             }
@@ -8417,16 +8452,24 @@ namespace ProxySU
                 sshShellCommand = @"yum -y install caddy";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-                sshShellCommand = @"sed -i 's/AmbientCapabilities/#AmbientCapabilities/g' /usr/lib/systemd/system/caddy.service";
-                currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-
-                sshShellCommand = @"sed -i 's/=caddy/=root/g' /usr/lib/systemd/system/caddy.service";
-                currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-
-                sshShellCommand = @"systemctl daemon-reload";
-                currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+               
 
             }
+
+            string caddyService = @"/lib/systemd/system/caddy.service";
+            functionResult = FileCheckExists(client, $"{caddyService}");
+            if (functionResult == false)
+            {
+                caddyService = @"/usr/lib/systemd/system/caddy.service";
+            }
+            sshShellCommand = $"sed -i 's/AmbientCapabilities/#AmbientCapabilities/g' {caddyService}";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+            sshShellCommand = $"sed -i 's/=caddy/=root/g' {caddyService}";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+            sshShellCommand = @"systemctl daemon-reload";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
             //sshShellCommand = @"find / -name caddy"; 
             //sshShellCommand = @"if [[ -f /usr/bin/caddy ]];then echo '1';else echo '0'; fi";

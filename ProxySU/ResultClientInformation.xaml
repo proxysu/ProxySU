@@ -13,7 +13,7 @@
             <RowDefinition Height="0.12*"></RowDefinition>
         </Grid.RowDefinitions>
         <!-- V2Ray客户端配置参数 -->
-        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxV2rayClient" Visibility="Collapsed" Grid.Row="0">
+        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxV2rayClient" Visibility="Visible" Grid.Row="0">
             <Grid >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.5*"></ColumnDefinition>
@@ -93,7 +93,7 @@
             </Grid>
         </GroupBox>
         <!-- Trojan-Go客户端配置参数 -->
-        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxTrojanGoClient" Visibility="Visible" Grid.Row="0">
+        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxTrojanGoClient" Visibility="Collapsed" Grid.Row="0">
             <Grid >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.5*"></ColumnDefinition>

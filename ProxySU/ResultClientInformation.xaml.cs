@@ -105,6 +105,8 @@ namespace ProxySU
                         TextBoxEncryption.Text = "none";
                         TextBoxTransmission.Text = "tcp";
                         TextBoxCamouflageType.Text = "none";
+                        //TLS的Host /Quic 加密方式
+                        TextBoxHostQuicEncryption.Text = MainWindow.ReceiveConfigurationParameters[4];
                         TextBoxTLS.Text = "tls";
                         ShowHostName();
                         ShowPathV2ray();
@@ -113,6 +115,8 @@ namespace ProxySU
                     {
                         TextBoxTransmission.Text = "tcp";
                         TextBoxCamouflageType.Text = "none";
+                        //TLS的Host /Quic 加密方式
+                        TextBoxHostQuicEncryption.Text = MainWindow.ReceiveConfigurationParameters[4];
                         TextBoxTLS.Text = "tls";
                         ShowHostName();
                         ShowPathV2ray();
@@ -123,6 +127,8 @@ namespace ProxySU
 
                         TextBoxTransmission.Text = "tcp";
                         TextBoxCamouflageType.Text = "none";
+                        //TLS的Host /Quic 加密方式
+                        TextBoxHostQuicEncryption.Text = MainWindow.ReceiveConfigurationParameters[4];
                         TextBoxEncryption.Text = "none";
                         TextBoxTLS.Text = "xtls";
                         HideAlterId();
@@ -136,6 +142,8 @@ namespace ProxySU
 
                         TextBoxTransmission.Text = "tcp";
                         TextBoxCamouflageType.Text = "none";
+                        //TLS的Host /Quic 加密方式
+                        TextBoxHostQuicEncryption.Text = MainWindow.ReceiveConfigurationParameters[4];
                         TextBoxEncryption.Text = "none";
                         TextBoxTLS.Text = "tls";
                         HideAlterId();
@@ -149,6 +157,8 @@ namespace ProxySU
 
                         TextBoxTransmission.Text = "ws";
                         TextBoxCamouflageType.Text = "none";
+                        //TLS的Host /Quic 加密方式
+                        TextBoxHostQuicEncryption.Text = MainWindow.ReceiveConfigurationParameters[4];
                         TextBoxEncryption.Text = "none";
                         TextBoxTLS.Text = "tls";
                         HideAlterId();
@@ -162,6 +172,8 @@ namespace ProxySU
 
                         TextBoxTransmission.Text = "h2";
                         TextBoxCamouflageType.Text = "none";
+                        //TLS的Host /Quic 加密方式
+                        TextBoxHostQuicEncryption.Text = MainWindow.ReceiveConfigurationParameters[4];
                         TextBoxEncryption.Text = "none";
                         TextBoxTLS.Text = "tls";
                         HideAlterId();
@@ -182,6 +194,8 @@ namespace ProxySU
                         TextBoxEncryption.Text = "none";
                         TextBoxTransmission.Text = "ws";
                         TextBoxCamouflageType.Text = "none";
+                        //TLS的Host /Quic 加密方式
+                        TextBoxHostQuicEncryption.Text = MainWindow.ReceiveConfigurationParameters[4];
                         TextBoxTLS.Text = "tls";
                         ShowHostName();
                         ShowPathV2ray();
@@ -191,6 +205,8 @@ namespace ProxySU
                         TextBoxEncryption.Text = "none";
                         TextBoxTransmission.Text = "ws";
                         TextBoxCamouflageType.Text = "none";
+                        //TLS的Host /Quic 加密方式
+                        TextBoxHostQuicEncryption.Text = MainWindow.ReceiveConfigurationParameters[4];
                         TextBoxTLS.Text = "tls";
                         ShowHostName();
                         ShowPathV2ray();
@@ -199,6 +215,8 @@ namespace ProxySU
                     {
                         TextBoxTransmission.Text = "ws";
                         TextBoxCamouflageType.Text = "none";
+                        //TLS的Host /Quic 加密方式
+                        TextBoxHostQuicEncryption.Text = MainWindow.ReceiveConfigurationParameters[4];
                         TextBoxTLS.Text = "tls";
                         ShowHostName();
                         ShowPathV2ray();
@@ -208,6 +226,8 @@ namespace ProxySU
                         TextBoxEncryption.Text = "none";
                         TextBoxTransmission.Text = "h2";
                         TextBoxCamouflageType.Text = "none";
+                        //TLS的Host /Quic 加密方式
+                        TextBoxHostQuicEncryption.Text = MainWindow.ReceiveConfigurationParameters[4];
                         TextBoxTLS.Text = "tls";
                         ShowHostName();
                         ShowPathV2ray();
@@ -226,6 +246,8 @@ namespace ProxySU
                     {
                         TextBoxTransmission.Text = "h2";
                         TextBoxCamouflageType.Text = "none";
+                        //TLS的Host /Quic 加密方式
+                        TextBoxHostQuicEncryption.Text = MainWindow.ReceiveConfigurationParameters[4];
                         TextBoxTLS.Text = "tls";
                         ShowHostName();
                         ShowPathV2ray();
@@ -674,6 +696,8 @@ namespace ProxySU
             TextBoxEncryption.Text = "none";
             TextBoxTransmission.Text = "tcp";
             TextBoxCamouflageType.Text = "none";
+            //TLS的Host /Quic 加密方式
+            TextBoxHostQuicEncryption.Text = MainWindow.ReceiveConfigurationParameters[4];
             TextBoxTLS.Text = "xtls";
             HideAlterId();
             ShowHostName();
@@ -693,6 +717,8 @@ namespace ProxySU
             TextBoxEncryption.Text = "none";
             TextBoxTransmission.Text = "tcp";
             TextBoxCamouflageType.Text = "none";
+            //TLS的Host /Quic 加密方式
+            TextBoxHostQuicEncryption.Text = MainWindow.ReceiveConfigurationParameters[4];
             TextBoxTLS.Text = "tls";
             HideAlterId();
             ShowHostName();
@@ -711,6 +737,8 @@ namespace ProxySU
             TextBoxEncryption.Text = "none";
             TextBoxTransmission.Text = "ws";
             TextBoxCamouflageType.Text = "none";
+            //TLS的Host /Quic 加密方式
+            TextBoxHostQuicEncryption.Text = MainWindow.ReceiveConfigurationParameters[4];
             TextBoxTLS.Text = "tls";
             HideAlterId();
             ShowHostName();
@@ -725,6 +753,8 @@ namespace ProxySU
             TextBoxEncryption.Text = "none";
             TextBoxTransmission.Text = "tcp";
             TextBoxCamouflageType.Text = "http";
+            //TLS的Host /Quic 加密方式
+            TextBoxHostQuicEncryption.Text = MainWindow.ReceiveConfigurationParameters[4];
             TextBoxTLS.Text = "tls";
             ShowAlterId();
             ShowHostName();
@@ -742,6 +772,8 @@ namespace ProxySU
             TextBoxEncryption.Text = "none";
             TextBoxTransmission.Text = "ws";
             TextBoxCamouflageType.Text = "none";
+            //TLS的Host /Quic 加密方式
+            TextBoxHostQuicEncryption.Text = MainWindow.ReceiveConfigurationParameters[4];
             TextBoxTLS.Text = "tls";
             ShowAlterId();
             ShowHostName();
@@ -965,10 +997,11 @@ namespace ProxySU
             v2rayNjsonObject["aid"] = TextBoxUUIDextra.Text; //设置额外ID
             v2rayNjsonObject["net"] = TextBoxTransmission.Text; //设置传输模式
             v2rayNjsonObject["type"] = TextBoxCamouflageType.Text; //设置伪装类型
-
+            
             if (TextBoxTransmission.Text.Contains("kcp") == true)
             {
                 v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPath.Text;//设置mKCP Seed
+                v2rayNjsonObject["host"] = "";//设置Host
             }
             else if (TextBoxTransmission.Text.Contains("quic")==true)
             {
@@ -1649,6 +1682,7 @@ namespace ProxySU
             if (TextBoxTransmission.Text.Contains("kcp") == true)
             {
                 v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPath.Text;//设置mKCP Seed
+                v2rayNjsonObject["host"] = "";//设置Host
             }
             else if (TextBoxTransmission.Text.Contains("quic") == true)
             {
