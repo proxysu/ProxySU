@@ -69,6 +69,8 @@ BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）,支持语�
 [Youtube视频教程](https://www.youtube.com/watch?v=ipFZDE1Aqoo)---------------------------网友 [jc-nf那坨](https://www.youtube.com/channel/UC52iA9wBGGN7LBWSdyI-yfg) 制作，需要先翻墙后观看。  
 
 ##### 使用提醒及常见问题：  
+vps主机配置推荐内存在256M及以上，过低的内存配置，可能导致某些代理方案不能成功运行。
+
 纯IPV6主机，安装过程中，将临时设置NAT64网关。仅用于布署代理，布署完成后，则会删除。注意，纯IPV6 的主机无法直接访问纯IPV4的网络。(不推荐使用纯ipv6主机做为代理节点)  
 
 ProxySU的安装流程，是假设在全新系统下，没有装过以上代理软件，如果已经安装过，最好将系统重装一下，会减少很多的麻烦。  
