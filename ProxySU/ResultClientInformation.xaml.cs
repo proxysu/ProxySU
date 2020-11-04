@@ -2217,8 +2217,12 @@ namespace ProxySU
             //&encryption={trojanGoEncryption}
             //&plugin={trojanGoPlugin}
             //#{trojanGoRemarks}
-            string trojanGoUrl = $"trojan-go://{trojanGoPassword}@{trojanGoHost}:{trojanGoPort}/?sni={trojanGoSni}&type={trojanGoType}&host={trojanGohostName}";
+            string trojanGoUrl = $"trojan-go://{trojanGoPassword}@{trojanGoHost}:{trojanGoPort}/?sni={trojanGoSni}&type={trojanGoType}";
 
+            if (String.IsNullOrEmpty(trojanGohostName) == false)
+            {
+                trojanGoUrl += $"&host={trojanGohostName}";
+            }
             if (String.IsNullOrEmpty(trojanGoPath) == false)
             {
                 trojanGoUrl += $"&path={trojanGoPath}";
