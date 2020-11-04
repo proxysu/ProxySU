@@ -7132,7 +7132,7 @@ namespace ProxySU
 
         #endregion
 
-        #region 资源工具标签页控制
+        #region 标签页控制
 
         private void ButtonWebBrowserHomePage_Click(object sender, RoutedEventArgs e)
         {
@@ -7169,7 +7169,7 @@ namespace ProxySU
             }
         }
 
-        #endregion
+        
 
         #region 免翻网址资源标签
         private void ButtonWebBrowserHomePageFreeWallURL_Click(object sender, RoutedEventArgs e)
@@ -7249,7 +7249,8 @@ namespace ProxySU
 
 
         #endregion
-
+        #endregion
+        
         #region 测试用代码
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -8025,8 +8026,17 @@ namespace ProxySU
             if (String.IsNullOrEmpty(client.RunCommand("command -v firewall-cmd").Result) == false)
             {
                 //有很奇怪的vps主机，在firewalld未运行时，端口是关闭的，无法访问。所以要先启动firewalld
-                sshShellCommand = @"systemctl restart firewalld";
+                //用于保证acme.sh申请证书成功
+                sshShellCommand = @"firewall-cmd --state";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                if(String.Equals(currentShellCommandResult.Trim(), "running") == false)
+                {
+                    sshShellCommand = @"systemctl restart firewalld";
+                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                }
+
+                
                 if (String.Equals(openFireWallPort, "443"))
                 {
                     sshShellCommand = @"firewall-cmd --zone=public --add-port=80/tcp --permanent";
