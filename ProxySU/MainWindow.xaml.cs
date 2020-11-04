@@ -1323,6 +1323,25 @@ namespace ProxySU
         private bool GenerateServerConfigurationV2Ray(SshClient client)
         {
             SetUpProgressBarProcessing(44);
+            //修改v2ray.service
+
+            sshShellCommand = $"sed -i 's/User=nobody/User=root/g' /etc/systemd/system/v2ray.service";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+            sshShellCommand = $"sed -i 's/CapabilityBoundingSet=/#CapabilityBoundingSet=/g' /etc/systemd/system/v2ray.service";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+            sshShellCommand = $"sed -i 's/AmbientCapabilities=/#AmbientCapabilities=/g' /etc/systemd/system/v2ray.service";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+            sshShellCommand = $"systemctl daemon-reload";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+            //备用下载地址：https://raw.githubusercontent.com/proxysu/Resources/master/v2ray/v2ray.service
+
+            //sshShellCommand = $"yes | curl -o /etc/systemd/system/v2ray.service https://raw.githubusercontent.com/proxysu/Resources/master/v2ray/v2ray.service";
+            //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
             //备份原来的文件
             sshShellCommand = @"mv /usr/local/etc/v2ray/config.json /usr/local/etc/v2ray/config.json.1";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
