@@ -10,16 +10,17 @@ BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）,支持语�
 [一键搭建科学上网工具ProxySU](https://github.com/Alvin9999/new-pac/wiki/%E4%B8%80%E9%94%AE%E6%90%AD%E5%BB%BA%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E5%B7%A5%E5%85%B7ProxySU)------------网友 [Alvin9999](https://github.com/Alvin9999) 制作。    
 [Youtube视频教程](https://www.youtube.com/watch?v=ipFZDE1Aqoo)---------------------------网友 [jc-nf那坨](https://www.youtube.com/channel/UC52iA9wBGGN7LBWSdyI-yfg) 制作，需要先翻墙后观看。  
 
-##### 使用提醒：  
+##### 使用提醒及常见问题：  
 纯IPV6主机，安装过程中，将临时设置NAT64网关。仅用于布署代理，布署完成后，则会删除。注意，纯IPV6 的主机无法直接访问纯IPV4的网络。(不推荐使用纯ipv6主机做为代理节点)  
 
 ProxySU的安装流程，是假设在全新系统下，没有装过以上代理软件，如果已经安装过，最好将系统重装一下，会减少很多的麻烦。  
 ProxySU将安装代理软件的最新版本，为了最好的兼容，请确保客户端也是当前最新版本。  
 
-ProxySU在开发过程中，一般都是在vultr的vps中测试，测试系统版本为：Centos7/8  Debian9/10 Ubuntu18.04/20.04。由于同一个版本的Linux系统，不同的VPS商,云服务商也不完全相同。实在没有精力去逐一测试。如果安装失败，可以先尝试以下方法解决：  
+ProxySU在开发过程中，一般都是在vultr的vps中测试，测试系统版本为：Debian 10。由于同一个版本的Linux系统，不同的VPS商,云服务商也不完全相同。实在没有精力去逐一测试。如果安装失败，可以先尝试以下方法解决：  
 
 1.如果以前装过翻墙软件，请重装一下vps系统后，再试。  
-2.更换为其他版本的linux发行版，推荐使用 Debian 9与Debian 10系统，再试。  
+2.更换为其他版本的linux发行版，推荐使用 Debian 9与Debian 10系统，再试。 
+3.在实际使用中，发现Centos7,debian8,ubunutu16.04等版本，安装出错的机率很大，不建议使用以上版本。低于以上版本的，无法使用ProxySU.  
 
 以上两种方法不能解决，请各位翻墙网友及时发[issues](https://github.com/proxysu/windows/issues)，或者到[TG群组](https://t.me/proxysuissues)，[推特](https://twitter.com/proxysu_true)下反馈，希望这个工具做的越来越好，让更多人喜欢。谢谢。  
 
