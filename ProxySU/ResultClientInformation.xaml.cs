@@ -1724,7 +1724,7 @@ namespace ProxySU
             if (File.Exists($"v2ray_config\\{plainSavePath}\\config.json"))
             {
                 File.Move($"v2ray_config\\{plainSavePath}\\config.json", $"{configSavePath}\\config.json");
-                //Directory.Delete($"v2ray_config\\{plainSavePath}");
+                Directory.Delete($"v2ray_config\\{plainSavePath}");
             }
 
             using (StreamWriter sw = new StreamWriter($"{configSavePath}\\readme.txt"))

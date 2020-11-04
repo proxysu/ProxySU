@@ -8024,6 +8024,9 @@ namespace ProxySU
             string openFireWallPort = ReceiveConfigurationParameters[1];
             if (String.IsNullOrEmpty(client.RunCommand("command -v firewall-cmd").Result) == false)
             {
+                //有很奇怪的vps主机，在firewalld未运行时，端口是关闭的，无法访问。所以要先启动firewalld
+                sshShellCommand = @"systemctl restart firewalld";
+                currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
                 if (String.Equals(openFireWallPort, "443"))
                 {
                     sshShellCommand = @"firewall-cmd --zone=public --add-port=80/tcp --permanent";
