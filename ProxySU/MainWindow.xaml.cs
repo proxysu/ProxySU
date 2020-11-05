@@ -2991,7 +2991,7 @@ namespace ProxySU
             //传递域名
             ReceiveConfigurationParameters[4] = PreTrim(TextBoxTrojanHostDomain.Text);
             //传递伪装网站
-            ReceiveConfigurationParameters[7] = DisguiseURLprocessing(PreTrim(TextBoxTrojanSites.Text));
+            ReceiveConfigurationParameters[7] = ClassModel.DisguiseURLprocessing(PreTrim(TextBoxTrojanSites.Text));
 
             //传递服务端口
             ReceiveConfigurationParameters[1] = "443";
@@ -3560,7 +3560,7 @@ namespace ProxySU
             ReceiveConfigurationParameters[1] = "443";//传递端口
             ReceiveConfigurationParameters[3] = TextBoxNaiveUser.Text;//传递用户名
             ReceiveConfigurationParameters[2] = TextBoxNaivePassword.Text;//传递密码
-            ReceiveConfigurationParameters[7] = DisguiseURLprocessing(PreTrim(TextBoxNaiveSites.Text));//传递伪装网站
+            ReceiveConfigurationParameters[7] = ClassModel.DisguiseURLprocessing(PreTrim(TextBoxNaiveSites.Text));//传递伪装网站
 
             //启动布署进程
             installationDegree = 0;
@@ -3947,7 +3947,7 @@ namespace ProxySU
             //传递域名
             ReceiveConfigurationParameters[4] = PreTrim(TextBoxSSRHostDomain.Text);
             //传递伪装网站
-            ReceiveConfigurationParameters[7] = DisguiseURLprocessing(PreTrim(TextBoxSSRSites.Text));
+            ReceiveConfigurationParameters[7] = ClassModel.DisguiseURLprocessing(PreTrim(TextBoxSSRSites.Text));
 
             //传递服务端口
             ReceiveConfigurationParameters[1] = "443";
@@ -5261,23 +5261,26 @@ namespace ProxySU
         }
 
         //伪装网站处理
-        private string DisguiseURLprocessing(string fakeUrl)
-        {
-            //处理伪装网站域名中的前缀
-            if (fakeUrl.Length >= 7)
-            {
-                string testDomainMask = fakeUrl.Substring(0, 7);
-                if (String.Equals(testDomainMask, "https:/") || String.Equals(testDomainMask, "http://"))
-                {
-                    //MessageBox.Show(testDomain);
-                    string[] tmpUrl = fakeUrl.Split('/');
-                    //MainWindow.ReceiveConfigurationParameters[7] = TextBoxMaskSites.Text.Replace("/", "\\/");
-                    fakeUrl = tmpUrl[2];
-                }
+        //private string DisguiseURLprocessing(string fakeUrl)
+        //{
+            //var uri = new Uri(fakeUrl);
+            //return uri.Host;
 
-            }
-            return fakeUrl;
-        }
+            ////处理伪装网站域名中的前缀
+            //if (fakeUrl.Length >= 7)
+            //{
+            //    string testDomainMask = fakeUrl.Substring(0, 7);
+            //    if (String.Equals(testDomainMask, "https:/") || String.Equals(testDomainMask, "http://"))
+            //    {
+            //        //MessageBox.Show(testDomain);
+            //        string[] tmpUrl = fakeUrl.Split('/');
+            //        //MainWindow.ReceiveConfigurationParameters[7] = TextBoxMaskSites.Text.Replace("/", "\\/");
+            //        fakeUrl = tmpUrl[2];
+            //    }
+
+            //}
+            //return fakeUrl;
+       // }
 
         #region 检测系统内核是否符合安装要求
         //private static bool DetectKernelVersion(string kernelVer)

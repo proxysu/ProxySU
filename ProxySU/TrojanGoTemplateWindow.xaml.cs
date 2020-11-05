@@ -37,7 +37,7 @@ namespace ProxySU
             //传递域名
             MainWindow.ReceiveConfigurationParameters[4] = PreTrim(TextBoxDomain.Text);
             //传递伪装网站
-            MainWindow.ReceiveConfigurationParameters[7] = DisguiseURLprocessing(PreTrim(TextBoxMaskSites.Text));
+            MainWindow.ReceiveConfigurationParameters[7] = ClassModel.DisguiseURLprocessing(PreTrim(TextBoxMaskSites.Text));
 
             //传递服务端口
             MainWindow.ReceiveConfigurationParameters[1] = "443";
@@ -167,20 +167,21 @@ namespace ProxySU
         }
 
         //处理伪装网站域名中的前缀
-        private string DisguiseURLprocessing(string fakeUrl)
-        {
-           
-            if (fakeUrl.Length >= 7)
-            {
-                string testDomainMask = fakeUrl.Substring(0, 7);
-                if (String.Equals(testDomainMask, "https:/") || String.Equals(testDomainMask, "http://"))
-                {
-                    string[] tmpUrl = fakeUrl.Split('/');
-                    fakeUrl = tmpUrl[2];
-                }
+        //private string DisguiseURLprocessing(string fakeUrl)
+        //{
+            //var uri = new Uri(fakeUrl);
+            //return uri.Host;
+            //if (fakeUrl.Length >= 7)
+            //{
+            //    string testDomainMask = fakeUrl.Substring(0, 7);
+            //    if (String.Equals(testDomainMask, "https:/") || String.Equals(testDomainMask, "http://"))
+            //    {
+            //        string[] tmpUrl = fakeUrl.Split('/');
+            //        fakeUrl = tmpUrl[2];
+            //    }
 
-            }
-            return fakeUrl;
-        }
+            //}
+            //return fakeUrl;
+       // }
     }
 }

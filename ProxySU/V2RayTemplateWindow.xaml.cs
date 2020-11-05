@@ -145,7 +145,7 @@ namespace ProxySU
                 //传递域名
                 MainWindow.ReceiveConfigurationParameters[4] = PreTrim(TextBoxDomain.Text);
                 //传递伪装网站
-                MainWindow.ReceiveConfigurationParameters[7] = DisguiseURLprocessing(PreTrim(TextBoxMaskSites.Text));
+                MainWindow.ReceiveConfigurationParameters[7] = ClassModel.DisguiseURLprocessing(PreTrim(TextBoxMaskSites.Text));
 
             }
 
@@ -162,7 +162,7 @@ namespace ProxySU
                 //传递域名
                 MainWindow.ReceiveConfigurationParameters[4] = PreTrim(TextBoxDomain.Text);
                 //传递伪装网站
-                MainWindow.ReceiveConfigurationParameters[7] = DisguiseURLprocessing(PreTrim(TextBoxMaskSites.Text));
+                MainWindow.ReceiveConfigurationParameters[7] = ClassModel.DisguiseURLprocessing(PreTrim(TextBoxMaskSites.Text));
 
             }
 
@@ -181,7 +181,7 @@ namespace ProxySU
                 //传递域名
                 MainWindow.ReceiveConfigurationParameters[4] = PreTrim(TextBoxDomain.Text);
                 //传递伪装网站
-                MainWindow.ReceiveConfigurationParameters[7] = DisguiseURLprocessing(PreTrim(TextBoxMaskSites.Text));
+                MainWindow.ReceiveConfigurationParameters[7] = ClassModel.DisguiseURLprocessing(PreTrim(TextBoxMaskSites.Text));
             }
 
             //VLESS+http2+TLS+Web模式选中
@@ -199,7 +199,7 @@ namespace ProxySU
                 //传递域名
                 MainWindow.ReceiveConfigurationParameters[4] = PreTrim(TextBoxDomain.Text);
                 //传递伪装网站
-                MainWindow.ReceiveConfigurationParameters[7] = DisguiseURLprocessing(PreTrim(TextBoxMaskSites.Text));
+                MainWindow.ReceiveConfigurationParameters[7] = ClassModel.DisguiseURLprocessing(PreTrim(TextBoxMaskSites.Text));
             }
 
             //VLESS+VMESS+XTLS+TCP+WebSocket+Web模式被选中
@@ -220,7 +220,7 @@ namespace ProxySU
                 //传递混淆方式(VMESS TCP Path方式所用)
                 MainWindow.ReceiveConfigurationParameters[5] = "http";
                 //传递伪装网站
-                MainWindow.ReceiveConfigurationParameters[7] = DisguiseURLprocessing(PreTrim(TextBoxMaskSites.Text));
+                MainWindow.ReceiveConfigurationParameters[7] = ClassModel.DisguiseURLprocessing(PreTrim(TextBoxMaskSites.Text));
 
             }
 
@@ -269,7 +269,7 @@ namespace ProxySU
                 //传递域名
                 MainWindow.ReceiveConfigurationParameters[4] = PreTrim(TextBoxDomain.Text);
                 //传递伪装网站
-                MainWindow.ReceiveConfigurationParameters[7] = DisguiseURLprocessing(PreTrim(TextBoxMaskSites.Text));
+                MainWindow.ReceiveConfigurationParameters[7] = ClassModel.DisguiseURLprocessing(PreTrim(TextBoxMaskSites.Text));
 
             }
             
@@ -324,7 +324,7 @@ namespace ProxySU
                 //传递域名
                 MainWindow.ReceiveConfigurationParameters[4] = PreTrim(TextBoxDomain.Text);
                 //传递伪装网站
-                MainWindow.ReceiveConfigurationParameters[7] = DisguiseURLprocessing(PreTrim(TextBoxMaskSites.Text));
+                MainWindow.ReceiveConfigurationParameters[7] = ClassModel.DisguiseURLprocessing(PreTrim(TextBoxMaskSites.Text));
 
             }
             
@@ -566,21 +566,25 @@ namespace ProxySU
 
         //伪装网站处理
         //DisguiseURLprocessing(string fakeUrl);
-        private string DisguiseURLprocessing(string fakeUrl)
-        {
-            //处理伪装网站域名中的前缀
-            if (fakeUrl.Length >= 7)
-            {
-                string testDomainMask = fakeUrl.Substring(0, 7);
-                if (String.Equals(testDomainMask, "https:/") || String.Equals(testDomainMask, "http://"))
-                {
-                    string[] tmpUrl = fakeUrl.Split('/');
-                    fakeUrl = tmpUrl[2];
-                }
+       // private string DisguiseURLprocessing(string fakeUrl)
+        //{
+            //var uri = new Uri(fakeUrl);
+            //return uri.Host;
+            //Console.WriteLine(uri.Host);
 
-            }
-            return fakeUrl;
-        }
+            ////处理伪装网站域名中的前缀
+            //if (fakeUrl.Length >= 7)
+            //{
+            //    string testDomainMask = fakeUrl.Substring(0, 7);
+            //    if (String.Equals(testDomainMask, "https:/") || String.Equals(testDomainMask, "http://"))
+            //    {
+            //        string[] tmpUrl = fakeUrl.Split('/');
+            //        fakeUrl = tmpUrl[2];
+            //    }
+
+            //}
+
+        //}
 
         #region 其他设置中的界面控制
 
