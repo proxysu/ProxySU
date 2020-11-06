@@ -176,6 +176,9 @@
     <sys:String x:Key="TextBlockV2RayMaskSites">偽裝網站：</sys:String>
     <sys:String x:Key="TextBoxV2RayMaskSitesTag">設置此項可增加代理的隱蔽(可為空)</sys:String>
     <sys:String x:Key="TextBoxV2RayMaskSitesToolTip">僅僅輸入域名，不包括"http"及"/"等</sys:String>
+    <sys:String x:Key="ButtonRootProhibitsPasswordLoginToolTip">僅僅禁止root賬戶使用密碼登錄，請確保root賬戶其他登錄方式已生效</sys:String>
+    <sys:String x:Key="ButtonEnableRootPassWordToolTip">將啟用root賬戶，並設置為密碼登錄</sys:String>
+    <sys:String x:Key="ButtonEnableRootCertToolTip">將啟用或設置root賬戶為密鑰證書登錄</sys:String>
     <sys:String x:Key="MessageBoxShow_MaskSitesToolTip">偽裝網址輸入格式錯誤！請重新輸入！</sys:String>
     <sys:String x:Key="TextBlockV2RayWebSocketTlsWebExplain">穩定性強，Caddy2做前置，隱藏代理特徵，被識別為訪問網站的https流量，抗封鎖識別最強,需要域名,支持CDN</sys:String >
     <sys:String x:Key="TextBlockV2RayHttp2TlsWebExplain">基於 HTTP/2 傳輸。完整按 HTTP/2 標準實現，Caddy2做前置，隱藏代理特徵，H2C協議轉發到V2Ray，需要域名，暫不支持CloudFlare的CDN</sys:String>

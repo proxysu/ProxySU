@@ -176,6 +176,9 @@
     <sys:String x:Key="TextBlockV2RayMaskSites">Mask a website:</sys:String>
     <sys:String x:Key="TextBoxV2RayMaskSitesTag">Set this option to increase proxy concealment (can be empty)</sys:String>
     <sys:String x:Key="TextBoxV2RayMaskSitesToolTip">Enter only the domain name, excluding "http" and "/" etc.</sys:String>
+    <sys:String x:Key="ButtonRootProhibitsPasswordLoginToolTip">Only forbid root account to log in with password, please make sure that other login methods of root account have taken effect</sys:String>
+    <sys:String x:Key="ButtonEnableRootPassWordToolTip">The root account will be enabled and set to password login</sys:String>
+    <sys:String x:Key="ButtonEnableRootCertToolTip">will enable or set the root account as the key certificate login</sys:String>
     <sys:String x:Key="MessageBoxShow_MaskSitesToolTip">The input format of the fake URL is wrong! please enter again!</sys:String>
     <sys:String x:Key="TextBlockV2RayWebSocketTlsWebExplain">Strong stability, Caddy2 as the front, hidden proxy feature, recognized as https traffic to the website, the strongest anti-blocking recognition, domain name is required, CDN support</sys:String >
     <sys:String x:Key="TextBlockV2RayHttp2TlsWebExplain">based on HTTP/2 transmission. Completely implemented in accordance with the HTTP/2 standard, with Caddy2 as the front, hidden proxy features, H2C protocol forwarding to V2Ray, domain name is required, and CloudFlare CDN is not currently supported</sys:String>

@@ -179,6 +179,9 @@
     <sys:String x:Key="TextBlockV2RayMaskSites">伪装网站：</sys:String>
     <sys:String x:Key="TextBoxV2RayMaskSitesTag">设置此项可增加代理的隐蔽(可为空)</sys:String>
     <sys:String x:Key="TextBoxV2RayMaskSitesToolTip">仅仅输入域名，不包括"http"及"/"等</sys:String>
+    <sys:String x:Key="ButtonRootProhibitsPasswordLoginToolTip">仅仅禁止root账户使用密码登录，请确保root账户其他登录方式已生效</sys:String>
+    <sys:String x:Key="ButtonEnableRootPassWordToolTip">将启用root账户，并设置为密码登录</sys:String>
+    <sys:String x:Key="ButtonEnableRootCertToolTip">将启用或设置root账户为密钥证书登录</sys:String>
     <sys:String x:Key="MessageBoxShow_MaskSitesToolTip">伪装网址输入格式错误！请重新输入！</sys:String>
     <sys:String x:Key="TextBlockV2RayWebSocketTlsWebExplain">稳定性强，Caddy2做前置，隐藏代理特征，被识别为访问网站的https流量，抗封锁识别最强,需要域名,支持CDN</sys:String>
     <sys:String x:Key="TextBlockV2RayHttp2TlsWebExplain">基于 HTTP/2 传输。完整按 HTTP/2 标准实现，Caddy2做前置，隐藏代理特征，H2C协议转发到V2Ray，需要域名，暂不支持CloudFlare的CDN</sys:String>

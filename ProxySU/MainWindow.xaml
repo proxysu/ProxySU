@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProxySU"
         mc:Ignorable="d"
-        Title="ProxySU - v2.4.20 beta1" Height="675" Width="650">
+        Title="ProxySU - v2.4.20 beta2" Height="675" Width="650">
     <!--以下样式参考自：https://yq.aliyun.com/articles/331878
 	https://docs.microsoft.co/en-us/dotnet/desktop-wpf/fundamentals/styles-templates-overview-->
     <Window.Resources>
@@ -668,10 +668,10 @@
                                         <Button x:Name="ButtonClearOccupiedPorts" Content="{DynamicResource ButtonClearOccupiedPorts}" Grid.Column="1" Grid.Row="0" Margin="5" Click="ButtonClearOccupiedPorts_Click"></Button>
                                         <Button x:Name="ButtonTestAndEnableBBR" Content="{DynamicResource ButtonTestAndEnableBBR}" Grid.Column="2" Grid.Row="0" Margin="5" Click="ButtonTestAndEnableBBR_Click"></Button>
                                         <Button x:Name="ButtonRemoveAllSoft" Content="{DynamicResource ButtonRemoveAllSoft}" Grid.Column="3" Grid.Row="0" Margin="5" Click="ButtonRemoveAllSoft_Click"></Button>
-                                        <Button x:Name="ButtonEnableRootPassWord" Content="{DynamicResource ButtonEnableRootPassWord}" Grid.Column="0" Grid.Row="1" Margin="5" Click="ButtonEnableRootPassWord_Click"></Button>
-                                        <Button x:Name="ButtonEnableRootCert" Content="{DynamicResource ButtonEnableRootCert}" Grid.Column="1" Grid.Row="1" Margin="5" Click="ButtonEnableRootCert_Click"></Button>
-                                        <Button x:Name="ButtonRootProhibitsPasswordLogin" Content="{DynamicResource ButtonRootProhibitsPasswordLogin}" Grid.Column="2" Grid.Row="1" Margin="5" Click="ButtonRootProhibitsPasswordLogin_Click"></Button>
-                                        <Button Content="test" Grid.Column="3" Grid.Row="2" Margin="10" Click="Button_Click" Visibility="Visible"></Button>
+                                        <Button x:Name="ButtonEnableRootPassWord" Content="{DynamicResource ButtonEnableRootPassWord}" ToolTip="{DynamicResource ButtonEnableRootPassWordToolTip}"  Grid.Column="0" Grid.Row="1" Margin="5" Click="ButtonEnableRootPassWord_Click"></Button>
+                                        <Button x:Name="ButtonEnableRootCert" Content="{DynamicResource ButtonEnableRootCert}" ToolTip="{DynamicResource ButtonEnableRootCertToolTip}"  Grid.Column="1" Grid.Row="1" Margin="5" Click="ButtonEnableRootCert_Click"></Button>
+                                        <Button x:Name="ButtonRootProhibitsPasswordLogin" Content="{DynamicResource ButtonRootProhibitsPasswordLogin}"  ToolTip="{DynamicResource ButtonRootProhibitsPasswordLoginToolTip}"  Grid.Column="2" Grid.Row="1" Margin="5" Click="ButtonRootProhibitsPasswordLogin_Click"></Button>
+                                        <Button Content="test" Grid.Column="3" Grid.Row="2" Margin="10" Click="Button_Click" Visibility="Collapsed"></Button>
                                     </Grid>
                                 </TabItem>
 
