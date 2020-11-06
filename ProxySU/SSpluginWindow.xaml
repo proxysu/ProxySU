@@ -266,7 +266,7 @@
                 
                 <Button x:Name="ButtonDomain" Content="检测" Visibility="Collapsed" Grid.Column="4" Grid.Row="4" Margin="2" ></Button>
                 <TextBlock x:Name="TextBlockMaskSites" Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="1" VerticalAlignment="Center" HorizontalAlignment="Right"></TextBlock>
-                <TextBox x:Name="TextBoxMaskSites" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxV2RayMaskSitesTag}" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3" Margin="3"></TextBox>
+                <TextBox x:Name="TextBoxMaskSites" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxV2RayMaskSitesTag}" ToolTip="{DynamicResource TextBoxV2RayMaskSitesToolTip}" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3" Margin="3"></TextBox>
 
 
                 <Button x:Name="ButtondDecide" Content="{DynamicResource ButtonTrojanGoTemplateOK}" Grid.Column="1" Grid.Row="6" Margin="0" Click="ButtondDecide_Click"></Button>

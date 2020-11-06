@@ -355,7 +355,7 @@
                                                 <Button x:Name="ButtonTrojanPassword" Content="{DynamicResource ButtonTrojanChangePassword}" Grid.Column="2" Grid.Row="2" Margin="2" Click="ButtonTrojanPassword_Click" ></Button>
 
                                                 <TextBlock Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" ></TextBlock>
-                                                <TextBox x:Name="TextBoxTrojanSites" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxV2RayMaskSitesTag}"  Grid.Column="1" Grid.Row="3" Margin="3"></TextBox>
+                                                <TextBox x:Name="TextBoxTrojanSites" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxV2RayMaskSitesTag}" ToolTip="{DynamicResource TextBoxV2RayMaskSitesToolTip}" Grid.Column="1" Grid.Row="3" Margin="3"></TextBox>
 
                                             </Grid>
                                         </GroupBox>
@@ -408,7 +408,7 @@
                                                 <TextBox x:Name="TextBoxNaivePassword"  Grid.Column="1" Grid.Row="3" Margin="3"></TextBox>
                                                 <Button x:Name="ButtonNaivePassword" Content="{DynamicResource ButtonTrojanChangePassword}" Grid.Column="2" Grid.Row="3" Margin="2" Click="ButtonNaivePassword_Click"></Button>
                                                 <TextBlock Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
-                                                <TextBox x:Name="TextBoxNaiveSites" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxV2RayMaskSitesTag}"  Grid.Column="1" Grid.Row="4" Margin="3"></TextBox>
+                                                <TextBox x:Name="TextBoxNaiveSites" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxV2RayMaskSitesTag}" ToolTip="{DynamicResource TextBoxV2RayMaskSitesToolTip}" Grid.Column="1" Grid.Row="4" Margin="3"></TextBox>
 
                                             </Grid>
                                         </GroupBox>
@@ -461,7 +461,7 @@
                                                 <Button x:Name="ButtonSSRPassword" Content="{DynamicResource ButtonTrojanChangePassword}" Grid.Column="2" Grid.Row="2" Margin="2" Click="ButtonSSRPassword_Click" ></Button>
 
                                                 <TextBlock Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
-                                                <TextBox x:Name="TextBoxSSRSites" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxV2RayMaskSitesTag}"  Grid.Column="1" Grid.Row="3" Margin="3"></TextBox>
+                                                <TextBox x:Name="TextBoxSSRSites" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxV2RayMaskSitesTag}" ToolTip="{DynamicResource TextBoxV2RayMaskSitesToolTip}" Grid.Column="1" Grid.Row="3" Margin="3"></TextBox>
 
                                             </Grid>
                                         </GroupBox>
@@ -564,7 +564,7 @@
                                                 <Button x:Name="ButtonMtgPassword" Content="{DynamicResource ButtonTrojanChangePassword}" Grid.Column="2" Grid.Row="2" Margin="2" Click="ButtonSSRPassword_Click" ></Button>-->
 
                                                 <TextBlock Text="{DynamicResource TextBlockMtgFakeDomainExplanation}" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Right"></TextBlock>
-                                                <TextBox x:Name="TextBoxMtgSites" Style="{StaticResource TitleText}" Tag="azure.microsoft.com"  Grid.Column="1" Grid.Row="3" Margin="3" ></TextBox>
+                                                <TextBox x:Name="TextBoxMtgSites" Style="{StaticResource TitleText}" Tag="azure.microsoft.com" ToolTip="{DynamicResource TextBoxV2RayMaskSitesToolTip}" Grid.Column="1" Grid.Row="3" Margin="3" ></TextBox>
                                                 <TextBlock Text="{DynamicResource TextBoxV2RayMaskSitesTag}" Grid.Column="2" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
 
                                                 <TextBlock Text="TAG" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Right" Visibility="Collapsed"></TextBlock>
@@ -671,7 +671,7 @@
                                         <Button x:Name="ButtonEnableRootPassWord" Content="{DynamicResource ButtonEnableRootPassWord}" Grid.Column="0" Grid.Row="1" Margin="5" Click="ButtonEnableRootPassWord_Click"></Button>
                                         <Button x:Name="ButtonEnableRootCert" Content="{DynamicResource ButtonEnableRootCert}" Grid.Column="1" Grid.Row="1" Margin="5" Click="ButtonEnableRootCert_Click"></Button>
                                         <Button x:Name="ButtonRootProhibitsPasswordLogin" Content="{DynamicResource ButtonRootProhibitsPasswordLogin}" Grid.Column="2" Grid.Row="1" Margin="5" Click="ButtonRootProhibitsPasswordLogin_Click"></Button>
-                                        <Button Content="test" Grid.Column="3" Grid.Row="2" Margin="10" Click="Button_Click" Visibility="Collapsed"></Button>
+                                        <Button Content="test" Grid.Column="3" Grid.Row="2" Margin="10" Click="Button_Click" Visibility="Visible"></Button>
                                     </Grid>
                                 </TabItem>
 

@@ -110,7 +110,7 @@
                     <TextBlock x:Name="TextBlockExplainCheckBoxMuxSelect" Text="{DynamicResource TextBlockExplainCheckBoxMuxSelect}" TextWrapping="Wrap" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2" Grid.RowSpan="2"></TextBlock>
                     
                     <TextBlock x:Name="TextBlockMaskSites" Text="{DynamicResource TextBlockV2RayMaskSites}" Grid.Column="0" Grid.Row="4"  HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
-                    <TextBox x:Name="TextBoxMaskSites" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxV2RayMaskSitesTag}" Grid.Column="1" Grid.Row="4" Margin="5"></TextBox>
+                    <TextBox x:Name="TextBoxMaskSites" Style="{StaticResource TitleText}" Tag="{DynamicResource TextBoxV2RayMaskSitesTag}" ToolTip="{DynamicResource TextBoxV2RayMaskSitesToolTip}" Grid.Column="1" Grid.Row="4" Margin="5"></TextBox>
                     <Grid Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="4">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>

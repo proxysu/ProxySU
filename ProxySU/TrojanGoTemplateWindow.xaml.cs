@@ -28,12 +28,15 @@ namespace ProxySU
         }
         private void ButtondDecide_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(PreTrim(TextBoxDomain.Text)) == true)
-            {
-                //****** "域名不能为空，请检查相关参数设置！" ******
-                MessageBox.Show(Application.Current.FindResource("MessageBoxShow_DomainNotEmpty").ToString());
-                return;
-            }
+            bool preDomainMask = ClassModel.PreDomainMask(TextBoxMaskSites.Text);
+            bool domainNotEmpty = ClassModel.TestDomainIsEmpty(TextBoxDomain.Text);
+
+            //if (string.IsNullOrEmpty(PreTrim(TextBoxDomain.Text)) == true)
+            //{
+            //    //****** "域名不能为空，请检查相关参数设置！" ******
+            //    MessageBox.Show(Application.Current.FindResource("MessageBoxShow_DomainNotEmpty").ToString());
+            //    return;
+            //}
             //传递域名
             MainWindow.ReceiveConfigurationParameters[4] = PreTrim(TextBoxDomain.Text);
             //传递伪装网站
@@ -67,7 +70,11 @@ namespace ProxySU
                 MainWindow.ReceiveConfigurationParameters[3] = PreTrim(TextBoxConcurrency.Text);
                 MainWindow.ReceiveConfigurationParameters[5] = PreTrim(TextBoxIdle_timeout.Text);
             }
-            this.Close();
+            if (domainNotEmpty == true && preDomainMask == true)
+            {
+                this.Close();
+            }
+
         }
         //更新密码
         private void ButtonNewUUID_Click(object sender, RoutedEventArgs e)
@@ -134,19 +141,19 @@ namespace ProxySU
             return path;
         }
         //域名检测是否为空
-        private bool TestDomainIsEmpty()
-        {
-            if (string.IsNullOrEmpty(PreTrim(TextBoxDomain.Text)) == true)
-            {
-                //****** "域名不能为空，请检查相关参数设置！" ******
-                MessageBox.Show(Application.Current.FindResource("MessageBoxShow_DomainNotEmpty").ToString());
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
+        //private bool TestDomainIsEmpty()
+        //{
+        //    if (string.IsNullOrEmpty(PreTrim(TextBoxDomain.Text)) == true)
+        //    {
+        //        //****** "域名不能为空，请检查相关参数设置！" ******
+        //        MessageBox.Show(Application.Current.FindResource("MessageBoxShow_DomainNotEmpty").ToString());
+        //        return false;
+        //    }
+        //    else
+        //    {
+        //        return true;
+        //    }
+        //}
 
         private void CheckBoxMuxSelect_Checked(object sender, RoutedEventArgs e)
         {
