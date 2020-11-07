@@ -7,7 +7,7 @@
                 "clients": [
                     {
                         "id": null,
-                        "flow": "xtls-rprx-origin"
+                        "flow": "xtls-rprx-direct"
                     }
                 ],
                 "decryption": "none",

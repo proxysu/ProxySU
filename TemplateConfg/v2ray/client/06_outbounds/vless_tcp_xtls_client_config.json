@@ -10,7 +10,7 @@
                         "users": [
                             {
                                 "id": null,
-                                "flow": "xtls-rprx-origin",
+                                "flow": "xtls-rprx-direct",
                                 "encryption": "none"
                             }
                         ]
