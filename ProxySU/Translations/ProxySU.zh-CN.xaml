@@ -176,6 +176,7 @@
 
     <sys:String x:Key="TextBlockQuicEncryption">QUIC加密方式:</sys:String>
     <sys:String x:Key="TextBlockV2RayDomain">域名：</sys:String>
+    <sys:String x:Key="TextBlockTrojanPassword">Trojan密码与V2ray的UUID相同。</sys:String>
     <sys:String x:Key="TextBlockV2RayMaskSites">伪装网站：</sys:String>
     <sys:String x:Key="TextBoxV2RayMaskSitesTag">设置此项可增加代理的隐蔽(可为空)</sys:String>
     <sys:String x:Key="TextBoxV2RayMaskSitesToolTip">仅仅输入域名，不包括"http"及"/"等</sys:String>
@@ -228,7 +229,7 @@
     <sys:String x:Key="GroupBoxHeaderClientParameter">客户端配置参数</sys:String>
     <sys:String x:Key="TextBlockServerAddress">服务器地址(address):</sys:String>
     <sys:String x:Key="TextBlockServerPort">端口(port):</sys:String>
-    <sys:String x:Key="TextBlockUserUUID">用户ID(uuid):</sys:String>
+    <sys:String x:Key="TextBlockUserUUID">用户ID(uuid)/密码:</sys:String>
     <sys:String x:Key="ButtonCopyV2RayUUIDtoClip">复制</sys:String>
     <sys:String x:Key="MessageBoxShow_V2RayUUIDcopyedToClip">已复制到剪贴板中！</sys:String>
     <sys:String x:Key="MessageBoxShow_V2RayEmptyToClip">空内容！</sys:String>

@@ -203,7 +203,7 @@ namespace ProxySU
                 MainWindow.ReceiveConfigurationParameters[7] = ClassModel.DisguiseURLprocessing(PreTrim(TextBoxMaskSites.Text));
             }
 
-            //VLESS+VMESS+XTLS+TCP+WebSocket+Web模式被选中
+            //VLESS+VMESS+Trojan+XTLS+TCP+WebSocket+Web模式被选中
             else if (RadioButtonVlessVmessXtlsTcpWebSocketHot.IsChecked == true)
             {
                 domainNotEmpty = ClassModel.TestDomainIsEmpty(TextBoxDomain.Text);
@@ -967,6 +967,7 @@ namespace ProxySU
             TextBlockPathVmessWs.Visibility = Visibility.Collapsed;
             TextBoxPathVmessWS.Visibility = Visibility.Collapsed;
             ButtonVlessVmessPath.Visibility = Visibility.Collapsed;
+            TextBlockTrojanPassword.Visibility = Visibility.Collapsed;
 
         }
         //显示VLESS VMESS复合方案路径
@@ -986,6 +987,7 @@ namespace ProxySU
             TextBoxPathVmessWS.Text = "/vmessws";
 
             ButtonVlessVmessPath.Visibility = Visibility.Visible;
+            TextBlockTrojanPassword.Visibility = Visibility.Visible;
         }
         //隐藏域名相关项
         private void HideDomain()

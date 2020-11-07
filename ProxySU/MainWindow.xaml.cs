@@ -1316,7 +1316,7 @@ namespace ProxySU
         //    SetUpProgressBarProcessing(40);
         //    return true;
         //}
-
+        
         //生成V2Ray服务端配置 44--46
         //functionResult = GenerateServerConfiguration(client);
         //if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
@@ -1538,8 +1538,7 @@ namespace ProxySU
 
                     //设置VLESS协议的回落端口，指向Caddy
                     if (String.Equals(ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == true
-                        || String.Equals(ReceiveConfigurationParameters[0], "VlessXtlsTcp") == true
-                        || String.Equals(ReceiveConfigurationParameters[0], "VlessVmessXtlsTcpWebSocketWeb") == true)
+                        || String.Equals(ReceiveConfigurationParameters[0], "VlessXtlsTcp") == true)
                     {
                         //设置Caddy随机监听的端口
                         randomCaddyListenPort = GetRandomPort();
@@ -1547,14 +1546,19 @@ namespace ProxySU
                         //指向Caddy监听的随机端口
                         jObjectJson["inbounds"][0]["settings"]["fallbacks"][0]["dest"] = randomCaddyListenPort;
                     }
-
-                    //
+                    //设置VLESS+VMESS+Trojan+XTLS+TCP+WebSocket+Web协议
                     if (String.Equals(ReceiveConfigurationParameters[0], "VlessVmessXtlsTcpWebSocketWeb") == true)
                     {
+                        //设置Caddy随机监听的端口
+                        randomCaddyListenPort = GetRandomPort();
+
+                        //指向Caddy监听的随机端口
+                        jObjectJson["inbounds"][1]["settings"]["fallbacks"][0]["dest"] = randomCaddyListenPort;
                         //设置其他模式的UUID
-                        jObjectJson["inbounds"][1]["settings"]["clients"][0]["id"] = ReceiveConfigurationParameters[2];
+                        jObjectJson["inbounds"][1]["settings"]["clients"][0]["password"] = ReceiveConfigurationParameters[2];
                         jObjectJson["inbounds"][2]["settings"]["clients"][0]["id"] = ReceiveConfigurationParameters[2];
                         jObjectJson["inbounds"][3]["settings"]["clients"][0]["id"] = ReceiveConfigurationParameters[2];
+                        jObjectJson["inbounds"][4]["settings"]["clients"][0]["id"] = ReceiveConfigurationParameters[2];
 
                         //设置Vless回落与分流的Path
                         jObjectJson["inbounds"][0]["settings"]["fallbacks"][1]["path"] = ReceiveConfigurationParameters[3];
@@ -1939,8 +1943,8 @@ namespace ProxySU
                 {
                     //复合方案所需要的配置文件
                     //VLESS over TCP with XTLS模式
-                    string outboundsConfigJsonVlessXtls = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\vless_tcp_xtls_client_config.json";
-                    using (StreamReader readerJson = File.OpenText(outboundsConfigJsonVlessXtls))
+                    string outboundsConfigJsons = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\vless_tcp_xtls_client_config.json";
+                    using (StreamReader readerJson = File.OpenText(outboundsConfigJsons))
                     {
                         JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
 
@@ -1961,8 +1965,8 @@ namespace ProxySU
                     }
 
                     //VLESS over TCP with TLS模式
-                    string outboundsConfigJsonVlessTcpTls = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\vless_tcp_tls_caddy_cilent_config.json";
-                    using (StreamReader readerJson = File.OpenText(outboundsConfigJsonVlessTcpTls))
+                    outboundsConfigJsons = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\vless_tcp_tls_caddy_cilent_config.json";
+                    using (StreamReader readerJson = File.OpenText(outboundsConfigJsons))
                     {
                         JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
 
@@ -1983,8 +1987,8 @@ namespace ProxySU
                     }
 
                     //VLESS over WS with TLS 模式
-                    string outboundsConfigJsonVlessWsTls = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\vless_ws_tls_client_config.json";
-                    using (StreamReader readerJson = File.OpenText(outboundsConfigJsonVlessWsTls))
+                    outboundsConfigJsons = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\vless_ws_tls_client_config.json";
+                    using (StreamReader readerJson = File.OpenText(outboundsConfigJsons))
                     {
                         JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
 
@@ -2006,8 +2010,8 @@ namespace ProxySU
                     }
 
                     //VMess over TCP with TLS模式
-                    string outboundsConfigJsonVmessTcpTls = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\vmess_tcp_tls_client_config.json";
-                    using (StreamReader readerJson = File.OpenText(outboundsConfigJsonVmessTcpTls))
+                    outboundsConfigJsons = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\vmess_tcp_tls_client_config.json";
+                    using (StreamReader readerJson = File.OpenText(outboundsConfigJsons))
                     {
                         JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
 
@@ -2029,8 +2033,8 @@ namespace ProxySU
                     }
 
                     //VMess over WS with TLS模式
-                    string outboundsConfigJsonVmessWsTls = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\WebSocketTLSWeb_client_config.json";
-                    using (StreamReader readerJson = File.OpenText(outboundsConfigJsonVmessWsTls))
+                    outboundsConfigJsons = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\WebSocketTLSWeb_client_config.json";
+                    using (StreamReader readerJson = File.OpenText(outboundsConfigJsons))
                     {
                         JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
 
@@ -2046,6 +2050,29 @@ namespace ProxySU
                             Directory.CreateDirectory(@"v2ray_config\vmess_ws_tls_client_config");//创建该文件夹　　   
                         }
                         using (StreamWriter sw = new StreamWriter(@"v2ray_config\vmess_ws_tls_client_config\config.json"))
+                        {
+                            sw.Write(clientJson.ToString());
+                        }
+                    }
+
+                    //Trojan over TCP with TLS模式
+                    outboundsConfigJsons = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\trojan_tcp_tls.json";
+                    using (StreamReader readerJson = File.OpenText(outboundsConfigJsons))
+                    {
+                        JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+
+                        //设置客户端的地址/端口/id
+                        jObjectJson["outbounds"][0]["settings"]["servers"][0]["address"] = ReceiveConfigurationParameters[4];
+                        jObjectJson["outbounds"][0]["settings"]["servers"][0]["port"] = int.Parse(ReceiveConfigurationParameters[1]);
+                        jObjectJson["outbounds"][0]["settings"]["servers"][0]["password"] = ReceiveConfigurationParameters[2];
+                        jObjectJson["outbounds"][0]["streamSettings"]["tlsSettings"]["serverName"] = ReceiveConfigurationParameters[4];
+
+                        clientJson["outbounds"] = jObjectJson["outbounds"];
+                        if (!Directory.Exists(@"v2ray_config\trojan_tcp_tls_client_config"))//如果不存在就创建file文件夹　　             　　              
+                        {
+                            Directory.CreateDirectory(@"v2ray_config\trojan_tcp_tls_client_config");//创建该文件夹　　   
+                        }
+                        using (StreamWriter sw = new StreamWriter(@"v2ray_config\trojan_tcp_tls_client_config\config.json"))
                         {
                             sw.Write(clientJson.ToString());
                         }
@@ -7282,8 +7309,8 @@ namespace ProxySU
         #region 测试用代码
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string host = ClassModel.DisguiseURLprocessing("www.google.com/accout/");
-            MessageBox.Show(host);
+            //string host = ClassModel.DisguiseURLprocessing("www.google.com/accout/");
+            //MessageBox.Show(host);
             //saveShellScriptFileName = GenerateRandomScriptFileName(GenerateRandomStr(10));
             //saveShellScriptFileName = "tmp." + saveShellScriptFileName + ".sh";
             //MessageBox.Show(saveShellScriptFileName);
@@ -7293,9 +7320,9 @@ namespace ProxySU
             //string randStr = Convert.ToBase64String(bytes);
             //randStr = randStr.Replace("+","").Replace("/", "").Replace("=","");
             //MessageBox.Show(randStr);
-            //proxyType = "TrojanGo";
-            //ResultClientInformation resultClientInformation = new ResultClientInformation();
-            //resultClientInformation.ShowDialog();
+            proxyType = "V2Ray";
+            ResultClientInformation resultClientInformation = new ResultClientInformation();
+            resultClientInformation.ShowDialog();
             //return;
             //string pwdir = AppDomain.CurrentDomain.BaseDirectory;
             //MessageBox.Show(pwdir);

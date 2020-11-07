@@ -13,7 +13,8 @@
                 "decryption": "none",
                 "fallbacks": [
                     {
-                        "dest": null
+                        "dest": 1310,
+                        "xver": 1
                     },
                     {
                         "path": "/websocket",
@@ -45,6 +46,30 @@
                             "keyFile": "/usr/local/etc/v2ray/ssl/v2ray_ssl.key"
                         }
                     ]
+                }
+            }
+        },
+        {
+            "port": 1310,
+            "listen": "127.0.0.1",
+            "protocol": "trojan",
+            "settings": {
+                "clients": [
+                    {
+                        "password": null
+                    }
+                ],
+                "fallbacks": [
+                    {
+                        "dest": null
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "tcp",
+                "security": "none",
+                "tcpSettings": {
+                    "acceptProxyProtocol": true
                 }
             }
         },

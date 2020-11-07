@@ -173,6 +173,7 @@
     <sys:String x:Key="TextBlockV2RayVmessWsPath">VMESS ws path:</sys:String>
     <sys:String x:Key="TextBlockQuicEncryption">QUIC Encryption:</sys:String>
     <sys:String x:Key="TextBlockV2RayDomain">Domain name:</sys:String>
+    <sys:String x:Key="TextBlockTrojanPassword">Trojan password is the same as V2ray UUID.</sys:String>
     <sys:String x:Key="TextBlockV2RayMaskSites">Mask a website:</sys:String>
     <sys:String x:Key="TextBoxV2RayMaskSitesTag">Set this option to increase proxy concealment (can be empty)</sys:String>
     <sys:String x:Key="TextBoxV2RayMaskSitesToolTip">Enter only the domain name, excluding "http" and "/" etc.</sys:String>
@@ -225,7 +226,7 @@
     <sys:String x:Key="GroupBoxHeaderClientParameter">Client configuration parameters</sys:String>
     <sys:String x:Key="TextBlockServerAddress">Server address:</sys:String>
     <sys:String x:Key="TextBlockServerPort">Port:</sys:String>
-    <sys:String x:Key="TextBlockUserUUID">User ID(uuid):</sys:String>
+    <sys:String x:Key="TextBlockUserUUID">User ID(uuid)/Password:</sys:String>
     <sys:String x:Key="ButtonCopyV2RayUUIDtoClip">Copy</sys:String>
     <sys:String x:Key="MessageBoxShow_V2RayUUIDcopyedToClip">Copied to the clipboard!</sys:String>
     <sys:String x:Key="MessageBoxShow_V2RayEmptyToClip">Empty content!</sys:String>
