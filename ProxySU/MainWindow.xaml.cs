@@ -1104,7 +1104,8 @@ namespace ProxySU
                         //******"主机登录成功"******
                         SetUpProgressBarProcessing(3);
                         currentStatus = Application.Current.FindResource("DisplayInstallInfo_LoginSuccessful").ToString();
-                        MainWindowsShowInfo(currentStatus);                                                                                                                                 //Thread.Sleep(1000);
+                        MainWindowsShowInfo(currentStatus);
+                        //Thread.Sleep(3000);
                     }
 
                     //检测root权限 5--7
@@ -5488,6 +5489,7 @@ namespace ProxySU
             getYum = false;
 
             //******"正在登录远程主机......"******
+            SetUpProgressBarProcessing(1);
             currentStatus = Application.Current.FindResource("DisplayInstallInfo_Login").ToString();
             MainWindowsShowInfo(currentStatus);
 
@@ -5527,6 +5529,7 @@ namespace ProxySU
                     if (client.IsConnected == true)
                     {
                         //******"主机登录成功"******
+                        SetUpProgressBarProcessing(5);
                         currentStatus = Application.Current.FindResource("DisplayInstallInfo_LoginSuccessful").ToString();
                         MainWindowsShowInfo(currentStatus);
                     }
@@ -5706,7 +5709,9 @@ namespace ProxySU
                         SetUpProgressBarProcessing(5);
                         currentStatus = Application.Current.FindResource("DisplayInstallInfo_LoginSuccessful").ToString();
                         MainWindowsShowInfo(currentStatus);
+                        //Thread.Sleep(3000);
                     }
+
 
                     //检测root权限 5--7
                     functionResult = RootAuthorityDetect(client);
@@ -7646,6 +7651,15 @@ namespace ProxySU
         //if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
         private bool RootAuthorityDetect(SshClient client)
         {
+            sshShellCommand = @"uname -a";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+            //禁止一些可能产生的干扰信息
+            sshShellCommand = @"sed -i 's/echo/#echo/g' ~/.bashrc";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+            sshShellCommand = @"sed -i 's/echo/#echo/g' ~/.profile";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
             //******"检测是否运行在root权限下..."******01
             SetUpProgressBarProcessing(5);
             currentStatus = Application.Current.FindResource("DisplayInstallInfo_DetectionRootPermission").ToString();
