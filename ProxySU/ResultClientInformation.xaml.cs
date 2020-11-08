@@ -32,6 +32,21 @@ namespace ProxySU
         private static string configDomainSavePath = "";
         private static string server = MainWindow.ReceiveConfigurationParameters[4];
 
+        private static string TextBoxURLDefault;
+        private static string TextBoxURLVlessTcp;
+        private static string TextBoxURLVlessWs;
+        private static string TextBoxURLVmessTcp;
+        private static string TextBoxURLVmessWs;
+        private static string TextBoxURLTrojanTcp;
+
+        private static BitmapSource ImageShareQRcodeDefault;
+        private static BitmapSource ImageShareQRcodeVlessTcp;
+        private static BitmapSource ImageShareQRcodeVlessWs;
+        private static BitmapSource ImageShareQRcodeVmessTcp;
+        private static BitmapSource ImageShareQRcodeVmessWs;
+        private static BitmapSource ImageShareQRcodeTrojanTcp;
+      
+
         [DllImport("user32.dll")]
         private static extern int MessageBoxTimeoutA(IntPtr hWnd, string msg, string Caps, int type, int Id, int time);   //引用DLL
  
@@ -697,6 +712,8 @@ namespace ProxySU
             TextBlockVmessOrVless.Visibility = Visibility.Visible;
             //隐藏下面的二维码显示
             HideGroupBoxClientQRandURL();
+            //ImageShareQRcode.Source = ImageShareQRcodeDefault;
+            //TextBoxURL.Text = TextBoxURLDefault;
 
             TextBoxEncryption.Text = "none";
             TextBoxTransmission.Text = "tcp";
@@ -709,6 +726,7 @@ namespace ProxySU
             ShowPathV2ray();
             TextBoxQuicKeyMkcpSeedPath.Text = "";
 
+
         }
 
         //设置VLESS over TCP with TLS
@@ -719,6 +737,8 @@ namespace ProxySU
             TextBlockVmessOrVless.Visibility = Visibility.Visible;
             //隐藏下面的二维码显示
             HideGroupBoxClientQRandURL();
+            //TextBoxURL.Text = TextBoxURLVlessTcp;
+            //ImageShareQRcode.Source = ImageShareQRcodeVlessTcp;
 
             TextBoxEncryption.Text = "none";
             TextBoxTransmission.Text = "tcp";
@@ -740,6 +760,8 @@ namespace ProxySU
             TextBlockVmessOrVless.Visibility = Visibility.Visible;
             //隐藏下面的二维码显示
             HideGroupBoxClientQRandURL();
+            //TextBoxURL.Text = TextBoxURLVlessWs;
+            //ImageShareQRcode.Source = ImageShareQRcodeVlessWs;
 
             TextBoxEncryption.Text = "none";
             TextBoxTransmission.Text = "ws";
@@ -772,6 +794,8 @@ namespace ProxySU
             //显示下面的二维码显示。
             //HideGroupBoxClientQRandURL();
             ShowGroupBoxClientQRandURL();
+            TextBoxURL.Text = TextBoxURLVmessTcp;
+            ImageShareQRcode.Source = ImageShareQRcodeVmessTcp;
         }
 
         //设置VMess over WS with TLS
@@ -790,6 +814,8 @@ namespace ProxySU
             TextBoxQuicKeyMkcpSeedPath.Text = MainWindow.ReceiveConfigurationParameters[6];
             TextBlockVmessOrVless.Visibility = Visibility.Collapsed;
             ShowGroupBoxClientQRandURL();
+            TextBoxURL.Text = TextBoxURLVmessWs;
+            ImageShareQRcode.Source = ImageShareQRcodeVmessWs;
         }
 
         //设置Trojan over TCP with TLS
@@ -799,6 +825,8 @@ namespace ProxySU
             GridNotTrojanParameters.Visibility = Visibility.Collapsed;
             //显示下面的二维码与分享链接
             ShowGroupBoxClientQRandURL();
+            TextBoxURL.Text = TextBoxURLTrojanTcp;
+            ImageShareQRcode.Source = ImageShareQRcodeTrojanTcp;
         }
         #endregion
 
@@ -1364,19 +1392,17 @@ namespace ProxySU
 
 
             //生成二维码与URL，跳过VlessTcpTlsWeb暂时未有URL标准
-            //string vmessUrl = "vmess://" + ToBase64Encode(v2rayNjsonObject.ToString());
-            //TextBoxURL.Text = vmessUrl;
+            //TextBoxURLDefault = "vmess://" + ToBase64Encode(v2rayNjsonObject.ToString());
+            //TextBoxURL.Text = TextBoxURLDefault;
             //using (StreamWriter sw = new StreamWriter($"{configSavePath}\\url.txt"))
             //{
-            //    if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false)
-            //    {
-            //        sw.WriteLine(vmessUrl);
-            //    }
+
+            //        sw.WriteLine(TextBoxURLDefault);
+
             //}
-            //if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false)
-            //{
-            //    ImageShareQRcode.Source = CreateQRCode(vmessUrl, $"v2ray_config\\{saveFileFolder}\\QR.bmp");
-            //}
+
+            //   ImageShareQRcodeDefault = CreateQRCode(TextBoxURLDefault, $"v2ray_config\\{saveFileFolder}\\QR.bmp");
+            // ImageShareQRcode.Source = ImageShareQRcodeDefault;
 
 
             if (File.Exists($"v2ray_config\\{plainSavePath}\\config.json"))
@@ -1503,19 +1529,17 @@ namespace ProxySU
 
 
             //生成二维码与URL，跳过VlessTcpTlsWeb暂时未有URL标准
-            //string vmessUrl = "vmess://" + ToBase64Encode(v2rayNjsonObject.ToString());
-            //TextBoxURL.Text = vmessUrl;
+            //TextBoxURLVlessTcp = "vmess://" + ToBase64Encode(v2rayNjsonObject.ToString());
+            //TextBoxURL.Text = TextBoxURLVlessTcp;
             //using (StreamWriter sw = new StreamWriter($"{configSavePath}\\url.txt"))
             //{
-            //    if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false)
-            //    {
-            //        sw.WriteLine(vmessUrl);
-            //    }
+
+            //        sw.WriteLine(TextBoxURLVlessTcp);
+
             //}
-            //if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false)
-            //{
-            //    ImageShareQRcode.Source = CreateQRCode(vmessUrl, $"v2ray_config\\{saveFileFolder}\\QR.bmp");
-            //}
+
+            //   ImageShareQRcodeVlessTcp = CreateQRCode(TextBoxURLVlessTcp, $"v2ray_config\\{saveFileFolder}\\QR.bmp");
+            //  ImageShareQRcode.Source = ImageShareQRcodeVlessTcp;
 
 
             if (File.Exists($"v2ray_config\\{plainSavePath}\\config.json"))
@@ -1642,19 +1666,17 @@ namespace ProxySU
 
 
             //生成二维码与URL，跳过VlessTcpTlsWeb暂时未有URL标准
-            //string vmessUrl = "vmess://" + ToBase64Encode(v2rayNjsonObject.ToString());
-            //TextBoxURL.Text = vmessUrl;
+            //TextBoxURLVlessWs = "vmess://" + ToBase64Encode(v2rayNjsonObject.ToString());
+            //TextBoxURL.Text = TextBoxURLVlessWs;
             //using (StreamWriter sw = new StreamWriter($"{configSavePath}\\url.txt"))
             //{
-            //    if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false)
-            //    {
-            //        sw.WriteLine(vmessUrl);
-            //    }
+
+            //        sw.WriteLine(TextBoxURLVlessWs);
+
             //}
-            //if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false)
-            //{
-            //    ImageShareQRcode.Source = CreateQRCode(vmessUrl, $"v2ray_config\\{saveFileFolder}\\QR.bmp");
-            //}
+
+            // ImageShareQRcodeVlessWs = CreateQRCode(TextBoxURLVlessWs, $"v2ray_config\\{saveFileFolder}\\QR.bmp");
+            //ImageShareQRcode.Source = ImageShareQRcodeVlessWs;
 
 
             if (File.Exists($"v2ray_config\\{plainSavePath}\\config.json"))
@@ -1771,15 +1793,15 @@ namespace ProxySU
 
 
             //生成二维码与URL，跳过VlessTcpTlsWeb暂时未有URL标准
-            string vmessUrl = "vmess://" + ToBase64Encode(v2rayNjsonObject.ToString());
-            TextBoxURL.Text = vmessUrl;
+            TextBoxURLVmessTcp = "vmess://" + ToBase64Encode(v2rayNjsonObject.ToString());
+            //TextBoxURL.Text = TextBoxURLVmessTcp;
             using (StreamWriter sw = new StreamWriter($"{configSavePath}\\url.txt"))
             {
-                sw.WriteLine(vmessUrl);
+                sw.WriteLine(TextBoxURLVmessTcp);
             }
 
-            ImageShareQRcode.Source = CreateQRCode(vmessUrl, $"{configSavePath}\\QR.bmp");
-
+            ImageShareQRcodeVmessTcp = CreateQRCode(TextBoxURLVmessTcp, $"{configSavePath}\\QR.bmp");
+            //ImageShareQRcode.Source = ImageShareQRcodeVmessTcp;
 
 
             if (File.Exists($"v2ray_config\\{plainSavePath}\\config.json"))
@@ -1853,20 +1875,17 @@ namespace ProxySU
 
 
             //生成二维码与URL，跳过VlessTcpTlsWeb暂时未有URL标准
-            string vmessUrl = "vmess://" + ToBase64Encode(v2rayNjsonObject.ToString());
-            TextBoxURL.Text = vmessUrl;
+            TextBoxURLVmessWs = "vmess://" + ToBase64Encode(v2rayNjsonObject.ToString());
+            //TextBoxURL.Text = TextBoxURLVmessWs;
             using (StreamWriter sw = new StreamWriter($"{configSavePath}\\url.txt"))
             {
-                //if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false)
-               // {
-                    sw.WriteLine(vmessUrl);
-               // }
-            }
-           // if (String.Equals(MainWindow.ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == false)
-           // {
-                ImageShareQRcode.Source = CreateQRCode(vmessUrl, $"{configSavePath}\\QR.bmp");
-            //}
 
+                sw.WriteLine(TextBoxURLVmessWs);
+
+            }
+
+            ImageShareQRcodeVmessWs = CreateQRCode(TextBoxURLVmessWs, $"{configSavePath}\\QR.bmp");
+            //ImageShareQRcode.Source = ImageShareQRcodeVmessWs;
 
             if (File.Exists($"v2ray_config\\{plainSavePath}\\config.json"))
             {
@@ -1888,16 +1907,17 @@ namespace ProxySU
             string plainSavePath = @"trojan_tcp_tls_client_config";
             string configSavePath = CheckDir($"{configDomainSavePath}\\{plainSavePath}");
 
-            string trojanUrl = $"trojan://{TextBoxUUID.Text}@{TextBoxHostAddress.Text}:{TextBoxPort.Text}#{TextBoxHostAddress.Text}";
+            TextBoxURLTrojanTcp = $"trojan://{TextBoxUUID.Text}@{TextBoxHostAddress.Text}:{TextBoxPort.Text}#{TextBoxHostAddress.Text}";
 
-            TextBoxURL.Text = trojanUrl;
+            //TextBoxURL.Text = TextBoxURLTrojanTcp;
             using (StreamWriter sw = new StreamWriter($"{configSavePath}\\url.txt"))
             {
-                sw.WriteLine(trojanUrl);
+                sw.WriteLine(TextBoxURLTrojanTcp);
 
             }
-            ImageShareQRcode.Source = CreateQRCode(trojanUrl, $"{configSavePath}\\QR.bmp");
-
+            //ImageShareQRcode.Source = CreateQRCode(TextBoxURLTrojanTcp, $"{configSavePath}\\QR.bmp");
+            ImageShareQRcodeTrojanTcp = CreateQRCode(TextBoxURLTrojanTcp, $"{configSavePath}\\QR.bmp");
+            //ImageShareQRcode.Source = ImageShareQRcodeTrojanTcp;
             //移动官方程序配置文件到相应目录
             if (File.Exists($"v2ray_config\\{plainSavePath}\\config.json"))
             {

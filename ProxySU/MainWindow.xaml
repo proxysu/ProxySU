@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProxySU"
         mc:Ignorable="d"
-        Title="ProxySU - v2.4.21 Beta1" Height="675" Width="650">
+        Title="ProxySU - v2.4.21 Beta2" Height="675" Width="650">
     <!--以下样式参考自：https://yq.aliyun.com/articles/331878
 	https://docs.microsoft.co/en-us/dotnet/desktop-wpf/fundamentals/styles-templates-overview-->
     <Window.Resources>
@@ -32,15 +32,11 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="274*"/>
-            <ColumnDefinition Width="369*"/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0.333,0.333">
+        <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.5*"></ColumnDefinition>
                 <ColumnDefinition Width="1.6*"></ColumnDefinition>
@@ -55,7 +51,7 @@
             <TextBlock Grid.Column="3" Text="{DynamicResource MainWindowsLanguage}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5"></TextBlock>
             <ComboBox x:Name="ComboBoxLanguage" Grid.Column="4" Height="20" Width="80" SelectionChanged="ComboBoxLanguage_SelectionChanged"></ComboBox>
         </Grid>
-        <Grid Grid.ColumnSpan="2" Margin="0,25,0.333,0.333" Grid.RowSpan="2">
+        <Grid Grid.Row="1">
             <TabControl>
                 <TabItem Header="{DynamicResource TabItemHeaderAppDeployment}" Width="110" Height="30">
                     <Grid>

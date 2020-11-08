@@ -1343,9 +1343,13 @@ namespace ProxySU
             //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
             //备份原来的文件
+            //functionResult = FileCheckExists(client, @"/usr/local/etc/v2ray/config.json");
+            //if (functionResult == true)
+            //{
+
             sshShellCommand = @"mv /usr/local/etc/v2ray/config.json /usr/local/etc/v2ray/config.json.1";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-
+            //}
             //读取配置文件各个模块
             string logConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\00_log\00_log.json";
             string apiConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\01_api\01_api.json";
@@ -1566,11 +1570,11 @@ namespace ProxySU
                         jObjectJson["inbounds"][0]["settings"]["fallbacks"][3]["path"] = ReceiveConfigurationParameters[6];
 
                         //设置Vless ws Path
-                        jObjectJson["inbounds"][1]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[3];
+                        jObjectJson["inbounds"][2]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[3];
                         //设置Vmess tcp Path
-                        jObjectJson["inbounds"][2]["streamSettings"]["tcpSettings"]["header"]["request"]["path"][0] = ReceiveConfigurationParameters[9];
+                        jObjectJson["inbounds"][3]["streamSettings"]["tcpSettings"]["header"]["request"]["path"][0] = ReceiveConfigurationParameters[9];
                         //设置Vmess ws Path
-                        jObjectJson["inbounds"][3]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[6];
+                        jObjectJson["inbounds"][4]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[6];
 
                     }
 
