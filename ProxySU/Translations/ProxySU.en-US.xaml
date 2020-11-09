@@ -102,9 +102,9 @@
     <sys:String x:Key="ButtonClearOccupiedPorts">Release 80/443</sys:String>
     <sys:String x:Key="ButtonTestAndEnableBBR">Enable BBR</sys:String>
     <sys:String x:Key="ButtonRemoveAllSoft">Uninstall Proxy</sys:String>
-    <sys:String x:Key="ButtonEnableRootPassWord">Enable Root password login</sys:String>
+    <sys:String x:Key="ButtonEnableRootPassWord">Enable root password login</sys:String>
     <sys:String x:Key="ButtonRootProhibitsPasswordLogin">root prohibits password login</sys:String>
-    <sys:String x:Key="ButtonEnableRootCert">Enable Root certificate key login</sys:String>
+    <sys:String x:Key="ButtonEnableRootCert">Enable root certificate key login</sys:String>
     <sys:String x:Key="MessageBoxShow_RemoveAllSoft">Only the proxy software installed by ProxySU and related configurations are supported. Please make sure that important configurations have been backed up. Uninstalling agents installed using other methods or scripts is not supported. Are you sure you want to uninstall the agent software on the remote host?</sys:String>
     <sys:String x:Key="MessageBoxShow_EnableRootPassword">This function requires that the currently logged-in account has sudo permissions. Is the root account enabled and password set for the remote host?</sys:String>
     <sys:String x:Key="MessageBoxShow_ButtonEnableRootCert">This function requires that the currently logged-in account has root or sudo authority. Is root certificate key login enabled for the remote host?</sys:String>

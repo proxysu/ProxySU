@@ -102,8 +102,8 @@
     <sys:String x:Key="ButtonClearOccupiedPorts">释放80/443端口</sys:String>
     <sys:String x:Key="ButtonTestAndEnableBBR">启用BBR</sys:String>
     <sys:String x:Key="ButtonRemoveAllSoft">卸载代理</sys:String>
-    <sys:String x:Key="ButtonEnableRootPassWord">启用Root密码登录</sys:String>
-    <sys:String x:Key="ButtonEnableRootCert">启用Root证书密钥登录</sys:String>
+    <sys:String x:Key="ButtonEnableRootPassWord">启用root密码登录</sys:String>
+    <sys:String x:Key="ButtonEnableRootCert">启用root证书密钥登录</sys:String>
     <sys:String x:Key="ButtonRootProhibitsPasswordLogin">root禁止密码登录</sys:String>
     <sys:String x:Key="MessageBoxShow_RemoveAllSoft">仅支持卸载由ProxySU安装的代理软件及相关配置，请确保重要配置已备份。不支持卸载使用其他方法或脚本安装的代理。确定要卸载远程主机上的代理软件吗？</sys:String>
     <sys:String x:Key="MessageBoxShow_EnableRootPassword">本功能需要当前登录的账户具有sudo权限，是否为远程主机启用root账户并设置密码？</sys:String>
