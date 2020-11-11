@@ -90,7 +90,7 @@ ProxySU在开发过程中，一般都是在vultr的vps中测试，测试系统�
 以上两种方法不能解决，请各位网友及时发[issues](https://github.com/proxysu/windows/issues)，或者到[TG群组](https://t.me/proxysuissues)，[推特](https://twitter.com/proxysu_true)下反馈。  
 
 在以上平台反馈求助时，请尽可能将安装出错的日志保存下来，并提供，将有利于查找错误原因。  
-在反馈问题前，可以先看一下[常见问题集锦](https://github.com/proxysu/windows/wiki/CommonError)，是否可以解决。  
+在反馈问题前，可以先看一下 <<[常见问题集锦](https://github.com/proxysu/windows/wiki/CommonError)>>，是否可以解决。  
 
 ##### 关于兼容的密钥格式    
 ProxySU调用[SSH.NET](https://github.com/sshnet/SSH.NET)库登录远程主机，目前[SSH.NET](https://github.com/sshnet/SSH.NET)只支持以下格式的密钥：  
