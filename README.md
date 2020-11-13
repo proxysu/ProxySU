@@ -232,7 +232,6 @@ Microsoft [.NET Framework 4.0](https://dotnet.microsoft.com/download/dotnet-fram
 ## 程序使用问题反馈  
 * Telegram群组 https://t.me/proxysuissues   
 * Telegram频道 https://t.me/proxysu_channel 
-* Tiwtter  [ProxySU_True](https://twitter.com/proxysu_true)   
 * 在线提问  https://github.com/proxysu/windows/issues  
 
 在使用遇到问题时，请先看一下[常见问题集锦](https://github.com/proxysu/windows/wiki/CommonError)，如果还不能解决，可以到以上平台询问，个人精力有限，尽力解答。
