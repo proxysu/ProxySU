@@ -87,7 +87,7 @@ ProxySU在开发过程中，一般都是在vultr的vps中测试，测试系统�
 1.如果以前装过翻墙软件，请重装一下vps系统后，再试。  
 2.更换为其他版本的linux发行版，推荐使用 Debian 9与Debian 10系统，再试。  
 
-以上两种方法不能解决，请各位网友及时发[issues](https://github.com/proxysu/windows/issues)，或者到[TG群组](https://t.me/proxysuissues)，[推特](https://twitter.com/proxysu_true)下反馈。  
+以上两种方法不能解决，请各位网友及时发[issues](https://github.com/proxysu/windows/issues)，或者到[TG群组](https://t.me/proxysuissues)，反馈。  
 
 在以上平台反馈求助时，请尽可能将安装出错的日志保存下来，并提供，将有利于查找错误原因。  
 在反馈问题前，可以先看一下 <<[常见问题集锦](https://github.com/proxysu/windows/wiki/CommonError)>>，是否可以解决。  
