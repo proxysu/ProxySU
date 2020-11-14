@@ -7485,15 +7485,6 @@ namespace ProxySU
                     return false;
                 }
                
-                //****** "当前主机最快的Nat64网关为:" ******
-                //currentStatus = Application.Current.FindResource("DisplayInstallInfo_FindFastestNat64AsIs").ToString();
-                //MainWindowsShowInfo(currentStatus);
-
-                //currentStatus = dns64[0];
-                //MainWindowsShowInfo(currentStatus);
-                //currentStatus = dns64[1];
-                //MainWindowsShowInfo(currentStatus);
-
                 //****** "正在设置Nat64网关......" ******
                 currentStatus = Application.Current.FindResource("DisplayInstallInfo_SetUpNat64").ToString();
                 MainWindowsShowInfo(currentStatus);
@@ -7553,12 +7544,6 @@ namespace ProxySU
                 "2a00:1098:2c::1",
                 "2a09:11c0:100::53",
             };
-            //string[] gateNat64 = {
-            //    "2a01:4f9:c010:3f02::1",
-            //    "2001:67c:2b0::4",
-            //    "2001:67c:2b0::6",
-
-            //};
 
             List<NatDns64> NatDns64s = new List<NatDns64>();
             foreach (string gateip in gateNat64)
