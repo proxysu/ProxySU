@@ -7473,7 +7473,18 @@ namespace ProxySU
                 MainWindowsShowInfo(currentStatus);
                 //string[] dns64 = new string[2];
                 var dns64 = FilterFastestIP(client);
-
+               
+                if (functionResult == false)
+                {
+                    //****** "未能找到有效的Nat64网关......" ******
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_FindFastestSetUpNat64Failed").ToString();
+                    MainWindowsShowInfo(currentStatus);
+                    MessageBox.Show(currentStatus);
+                    FunctionResultErr();
+                    client.Disconnect();
+                    return false;
+                }
+               
                 //****** "当前主机最快的Nat64网关为:" ******
                 //currentStatus = Application.Current.FindResource("DisplayInstallInfo_FindFastestNat64AsIs").ToString();
                 //MainWindowsShowInfo(currentStatus);
@@ -7542,11 +7553,17 @@ namespace ProxySU
                 "2a00:1098:2c::1",
                 "2a09:11c0:100::53",
             };
-            
+            //string[] gateNat64 = {
+            //    "2a01:4f9:c010:3f02::1",
+            //    "2001:67c:2b0::4",
+            //    "2001:67c:2b0::6",
+
+            //};
+
             List<NatDns64> NatDns64s = new List<NatDns64>();
             foreach (string gateip in gateNat64)
             {
-                sshShellCommand = $"ping -c4 {gateip} | grep avg | awk '{{print $4}}'|cut -d/ -f2";
+                sshShellCommand = $"ping6 -c4 {gateip} | grep avg | awk '{{print $4}}'|cut -d/ -f2";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
                 if (String.IsNullOrEmpty(currentShellCommandResult) != true)
                 {
@@ -7562,6 +7579,16 @@ namespace ProxySU
             }
             NatDns64s = NatDns64s.OrderBy(o => o.Avg).ToList();
             int listCount = NatDns64s.Count;
+            currentStatus = listCount.ToString() + " NAT64 gateways are valid";
+            MainWindowsShowInfo(currentStatus);
+            if (listCount < 1)
+            {
+                functionResult = false;
+            }
+            else
+            {
+                functionResult = true;
+            }
             string[] returnstr = new string[listCount];
             for(int i=0;i<listCount;i++)
             {
