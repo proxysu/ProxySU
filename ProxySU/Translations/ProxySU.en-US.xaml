@@ -293,6 +293,7 @@
     <sys:String x:Key="DisplayInstallInfo_TimeOK">The time difference meets the requirements, OK!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_TestDomainResolve">is checking whether the domain name is resolved to the IP of the current VPS...</sys:String>
     <sys:String x:Key="DisplayInstallInfo_OnlyIpv6HostDetect">is detecting whether it is a pure ipv6 host...</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_NoIpDetect">A valid IP address was not detected...</sys:String>
     <sys:String x:Key="DisplayInstallInfo_FindFastestSetUpNat64">Finding the fastest Nat64 gateway...</sys:String>
     <sys:String x:Key="DisplayInstallInfo_FindFastestSetUpNat64Failed">Failed to find a valid Nat64 gateway...</sys:String>
     <sys:String x:Key="DisplayInstallInfo_FindFastestNat64AsIs">The fastest Nat64 gateway of the current host is:</sys:String>

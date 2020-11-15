@@ -293,6 +293,7 @@
     <sys:String x:Key="DisplayInstallInfo_TimeOK">時間差符合要求，OK!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_TestDomainResolve">正在檢測域名是否解析到當前VPS的IP上......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_OnlyIpv6HostDetect">正在檢測是否為純ipv6主機......</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_NoIpDetect">未檢測到有效的IP地址......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_FindFastestSetUpNat64">正在查找最快的Nat64網關......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_FindFastestSetUpNat64Failed">未能找到有效的Nat64網關......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_FindFastestNat64AsIs">當前主機最快的Nat64網關為:</sys:String>

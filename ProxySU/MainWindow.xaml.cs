@@ -7450,13 +7450,17 @@ namespace ProxySU
             {
                 if (String.IsNullOrEmpty(ipv6) == false)
                 {
-                    //apiGithubCom = "api.githubipv6.ga";
-                    //scriptGithubUrl = "raw.githubipv6.ga";
-                    //githubCom = "github.githubipv6.ga";
+
                     return true;
                 }
                 else
                 {
+                    FunctionResultErr();
+                    client.Disconnect();
+                    //****未检测到有效的IP地址......***
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_NoIpDetect").ToString();
+                    MainWindowsShowInfo(currentStatus);
+                    MessageBox.Show(currentStatus);
                     return false;
                 }
             }
@@ -7935,13 +7939,19 @@ namespace ProxySU
 
             //检测主机是否为纯ipv6的主机
             onlyIpv6 = OnlyIpv6HostDetect(client);
-            if(onlyIpv6 == true)
+
+            //如果未检测到有效的ip，连接就会被断开
+            if (client.IsConnected == false)
+            {
+                return false;
+            }
+            if (onlyIpv6 == true)
             {
                 SetUpNat64(client, true);
                 sshShellCommand = $"{sshCmdUpdate}";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
             }
-
+          
             //****** "检测端口占用情况......" ******
             SetUpProgressBarProcessing(22);
             currentStatus = Application.Current.FindResource("DisplayInstallInfo_TestPortUsed").ToString();
@@ -8237,20 +8247,20 @@ namespace ProxySU
             MainWindowsShowInfo(currentStatus);
 
             //再次初始化相关变量
-            ipv4 = String.Empty;
-            ipv6 = String.Empty;
-            onlyIpv6 = false;
+            //ipv4 = String.Empty;
+            //ipv6 = String.Empty;
+            //onlyIpv6 = false;
 
             //sshShellCommand = @"curl -4 ip.sb";
-            sshShellCommand = @"curl -s https://api.ip.sb/ip --ipv4 --max-time 8";
-            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-            ipv4 = currentShellCommandResult.TrimEnd('\r', '\n');
+            //sshShellCommand = @"curl -s https://api.ip.sb/ip --ipv4 --max-time 8";
+            //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+            //ipv4 = currentShellCommandResult.TrimEnd('\r', '\n');
 
-            sshShellCommand = @"curl -s https://api.ip.sb/ip --ipv6 --max-time 8";
-            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-            ipv6 = currentShellCommandResult.TrimEnd('\r', '\n');
+            //sshShellCommand = @"curl -s https://api.ip.sb/ip --ipv6 --max-time 8";
+            //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+            //ipv6 = currentShellCommandResult.TrimEnd('\r', '\n');
 
-            if (String.IsNullOrEmpty(ipv4) == false)
+            if (onlyIpv6 == false)
             {
                 string nativeIp = ipv4;
 
@@ -8264,75 +8274,42 @@ namespace ProxySU
                     SetUpProgressBarProcessing(36);
                     currentStatus = Application.Current.FindResource("DisplayInstallInfo_DomainResolveOK").ToString();
                     MainWindowsShowInfo(currentStatus);
-                    onlyIpv6 = false;
+                    //onlyIpv6 = false;
                     return true;
                 }
-                else
-                {
-                    //****** "域名未能正确解析到当前VPS的IP上!安装失败！" ******
-                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_ErrorDomainResolve").ToString();
-                    MainWindowsShowInfo(currentStatus);
-
-                    //****** "域名未能正确解析到当前VPS的IP上，请检查！若解析设置正确，请等待生效后再重试安装。如果域名使用了CDN，请先关闭！" ******
-                    MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorDomainResolve").ToString());
-                    //client.Disconnect();
-                    return false;
-                }
+           
             }
             else
             {
-                if (String.IsNullOrEmpty(ipv6) == false)
+
+                string nativeIp = ipv6;
+
+                //sshShellCommand = "ping6 " + ReceiveConfigurationParameters[4] + " -c1 | grep -oE -m1 \"([0-9]{1,3}\\.){3}[0-9]{1,3}\"";
+                sshShellCommand = $"dig @resolver1.opendns.com AAAA {ReceiveConfigurationParameters[4]} +short -6";
+                currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                string resultTestDomainCmd = currentShellCommandResult.TrimEnd('\r', '\n');
+                if (String.Equals(nativeIp, resultTestDomainCmd) == true)
                 {
-                    string nativeIp = ipv6;
-
-                    //sshShellCommand = "ping6 " + ReceiveConfigurationParameters[4] + " -c1 | grep -oE -m1 \"([0-9]{1,3}\\.){3}[0-9]{1,3}\"";
-                    sshShellCommand = $"dig @resolver1.opendns.com AAAA {ReceiveConfigurationParameters[4]} +short -6";
-                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-
-                    string resultTestDomainCmd = currentShellCommandResult.TrimEnd('\r', '\n');
-                    if (String.Equals(nativeIp, resultTestDomainCmd) == true)
-                    {
-                        //****** "解析正确！OK!" ******12
-                        SetUpProgressBarProcessing(36);
-                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_DomainResolveOK").ToString();
-                        MainWindowsShowInfo(currentStatus);
-                        onlyIpv6 = true;
-                        //apiGithubCom = "api.githubipv6.ga";
-                        //scriptGithubUrl = "raw.githubipv6.ga";
-                        //githubCom = "github.githubipv6.ga";
-                        //纯ipv6主机，目前暂不支持
-                        //currentStatus = Application.Current.FindResource("DisplayInstallInfo_OnlyIpv6").ToString();
-                        //MainWindowsShowInfo(currentStatus);
-                        //MessageBox.Show(currentStatus);
-                        return true;
-                    }
-                    else
-                    {
-                        //****** "域名未能正确解析到当前VPS的IP上!安装失败！" ******
-                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_ErrorDomainResolve").ToString();
-                        MainWindowsShowInfo(currentStatus);
-
-                        //****** "域名未能正确解析到当前VPS的IP上，请检查！若解析设置正确，请等待生效后再重试安装。如果域名使用了CDN，请先关闭！" ******
-                        MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorDomainResolve").ToString());
-                        //client.Disconnect();
-                        return false;
-                    }
-                    
-                }
-                else
-                {
-                    //****** "域名未能正确解析到当前VPS的IP上!安装失败！" ******
-                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_ErrorDomainResolve").ToString();
+                    //****** "解析正确！OK!" ******12
+                    SetUpProgressBarProcessing(36);
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_DomainResolveOK").ToString();
                     MainWindowsShowInfo(currentStatus);
+                    //onlyIpv6 = true;
 
-                    //****** "域名未能正确解析到当前VPS的IP上，请检查！若解析设置正确，请等待生效后再重试安装。如果域名使用了CDN，请先关闭！" ******
-                    MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorDomainResolve").ToString());
-                    //client.Disconnect();
-                    return false;
+                    return true;
                 }
+               
             }
-            
-            //return true;
+            //****** "域名未能正确解析到当前VPS的IP上!安装失败！" ******
+            currentStatus = Application.Current.FindResource("DisplayInstallInfo_ErrorDomainResolve").ToString();
+            MainWindowsShowInfo(currentStatus);
+
+            //****** "域名未能正确解析到当前VPS的IP上，请检查！若解析设置正确，请等待生效后再重试安装。如果域名使用了CDN，请先关闭！" ******
+            MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorDomainResolve").ToString());
+            //client.Disconnect();
+            return false;
+
         }
 
 
