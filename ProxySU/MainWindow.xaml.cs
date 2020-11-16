@@ -7484,7 +7484,7 @@ namespace ProxySU
                     currentStatus = Application.Current.FindResource("DisplayInstallInfo_FindFastestSetUpNat64Failed").ToString();
                     MainWindowsShowInfo(currentStatus);
                     MessageBox.Show(currentStatus);
-                    FunctionResultErr();
+                    //FunctionResultErr();
                     client.Disconnect();
                     return false;
                 }
@@ -7493,8 +7493,13 @@ namespace ProxySU
                 currentStatus = Application.Current.FindResource("DisplayInstallInfo_SetUpNat64").ToString();
                 MainWindowsShowInfo(currentStatus);
 
-                sshShellCommand = @"mv /etc/resolv.conf /etc/resolv.conf.bak";
-                currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                functionResult = FileCheckExists(client, @"/etc/resolv.conf.proxysu");
+                if (functionResult == false)
+                {
+                    sshShellCommand = @"mv /etc/resolv.conf /etc/resolv.conf.proxysu";
+                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                }
+               
 
                 foreach (string gateip in dns64)
                 {
@@ -7511,10 +7516,7 @@ namespace ProxySU
                     }
 
                 }
-                
-                
-                //sshShellCommand = $"echo \"nameserver   {dns64[1]}\" >>/etc/resolv.conf";
-                //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
             }
             else
             {
@@ -7523,7 +7525,7 @@ namespace ProxySU
                 MainWindowsShowInfo(currentStatus);
                 sshShellCommand = @"rm /etc/resolv.conf";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-                sshShellCommand = @"ln -s /etc/resolvconf/run/resolv.conf /etc/resolv.conf";
+                sshShellCommand = @"mv /etc/resolv.conf.proxysu /etc/resolv.conf";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
             }
            
@@ -7947,9 +7949,10 @@ namespace ProxySU
             }
             if (onlyIpv6 == true)
             {
-                SetUpNat64(client, true);
-                sshShellCommand = $"{sshCmdUpdate}";
-                currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                functionResult = SetUpNat64(client, true);
+                if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return false; }
+                //sshShellCommand = $"{sshCmdUpdate}";
+                //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
             }
           
             //****** "检测端口占用情况......" ******
