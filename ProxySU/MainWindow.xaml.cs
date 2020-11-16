@@ -7455,7 +7455,7 @@ namespace ProxySU
                 }
                 else
                 {
-                    FunctionResultErr();
+                    //FunctionResultErr();
                     client.Disconnect();
                     //****未检测到有效的IP地址......***
                     currentStatus = Application.Current.FindResource("DisplayInstallInfo_NoIpDetect").ToString();
@@ -7523,7 +7523,7 @@ namespace ProxySU
                 MainWindowsShowInfo(currentStatus);
                 sshShellCommand = @"rm /etc/resolv.conf";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-                sshShellCommand = @"mv /etc/resolv.conf.bak /etc/resolv.conf";
+                sshShellCommand = @"ln -s /etc/resolvconf/run/resolv.conf /etc/resolv.conf";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
             }
            
@@ -8646,8 +8646,8 @@ namespace ProxySU
             sshShellCommand = $"sed -i 's/##path##/\\{ReceiveConfigurationParameters[6]}/' {upLoadPath}";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-            //设置伪装网站
-            if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7]) == false)
+            //设置伪装网站/纯ipv6主机暂不设置
+            if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7]) == false && onlyIpv6 == false)
             {
                 sshShellCommand = $"sed -i 's/##reverse_Proxy1##/reverse_proxy http:\\/\\/{ReceiveConfigurationParameters[7]} {{/ ' {upLoadPath}";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
