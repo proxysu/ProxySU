@@ -1058,6 +1058,7 @@ namespace ProxySU
         private void StartSetUpV2ray(ConnectionInfo connectionInfo)
         {
             functionResult = true;
+            onlyIpv6 = false;
             getApt = false;
             getDnf = false;
             getYum = false;
@@ -1279,45 +1280,7 @@ namespace ProxySU
 
         #region V2Ray专用调用函数
 
-        //下载安装脚本安装V2Ray 37--40
-        //functionResult = V2RayInstallScript(client);
-        //if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
-        //private bool V2RayInstallScript(SshClient client)
-        //{
-        //    //****** "系统环境检测完毕，符合安装要求,开始布署......" ******17
-        //    currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstalling").ToString();
-        //    MainWindowsShowInfo(currentStatus);
 
-        //    //下载官方安装脚本安装
-        //    //****** "正在安装V2Ray......" ******19
-        //    SetUpProgressBarProcessing(37);
-        //    currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstallSoft").ToString() + "V2Ray......";
-        //    MainWindowsShowInfo(currentStatus);
-
-        //    sshShellCommand = $"curl -o /tmp/go.sh https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh";
-        //    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-
-        //    functionResult = FileCheckExists(client, @"/tmp/go.sh");
-        //    if (functionResult == true)
-        //    {
-        //        sshShellCommand = @"yes | bash /tmp/go.sh -f";
-        //        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-
-        //        sshShellCommand = @"rm -f /tmp/go.sh";
-        //        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-        //    }
-        //    else
-        //    {
-        //        //***安装脚本下载失败！***
-        //        currentStatus = Application.Current.FindResource("DisplayInstallInfo_DownloadScriptFailed").ToString();
-        //        MainWindowsShowInfo(currentStatus);
-        //        return false;
-        //    }
-
-        //    SetUpProgressBarProcessing(40);
-        //    return true;
-        //}
-        
         //生成V2Ray服务端配置 44--46
         //functionResult = GenerateServerConfiguration(client);
         //if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
@@ -2113,6 +2076,7 @@ namespace ProxySU
         private void UpdateV2ray(ConnectionInfo connectionInfo)
         {
             functionResult = true;
+            onlyIpv6 = false;
             getApt = false;
             getDnf = false;
             getYum = false;
@@ -2414,6 +2378,7 @@ namespace ProxySU
         private void StartSetUpTrojanGo(ConnectionInfo connectionInfo)
         {
             functionResult = true;
+            onlyIpv6 = false;
             getApt = false;
             getDnf = false;
             getYum = false;
@@ -2778,6 +2743,7 @@ namespace ProxySU
         private void UpdateTojanGo(ConnectionInfo connectionInfo)
         {
             functionResult = true;
+            onlyIpv6 = false;
             getApt = false;
             getDnf = false;
             getYum = false;
@@ -3048,6 +3014,7 @@ namespace ProxySU
         private void StartSetUpTrojan(ConnectionInfo connectionInfo)
         {
             functionResult = true;
+            onlyIpv6 = false;
             getApt = false;
             getDnf = false;
             getYum = false;
@@ -3333,6 +3300,7 @@ namespace ProxySU
         private void UpdateTojan(ConnectionInfo connectionInfo)
         {
             functionResult = true;
+            onlyIpv6 = false;
             getApt = false;
             getDnf = false;
             getYum = false;
@@ -3624,6 +3592,7 @@ namespace ProxySU
         private void StartSetUpNaive(ConnectionInfo connectionInfo)
         {
             functionResult = true;
+            onlyIpv6 = false;
             getApt = false;
             getDnf = false;
             getYum = false;
@@ -4023,6 +3992,7 @@ namespace ProxySU
         private void StartSetUpSSR(ConnectionInfo connectionInfo)
         {
             functionResult = true;
+            onlyIpv6 = false;
             getApt = false;
             getDnf = false;
             getYum = false;
@@ -4405,6 +4375,7 @@ namespace ProxySU
         private void StartSetUpSS(ConnectionInfo connectionInfo)
         {
             functionResult = true;
+            onlyIpv6 = false;
             getApt = false;
             getDnf = false;
             getYum = false;
@@ -4982,6 +4953,7 @@ namespace ProxySU
         private void StartSetUpMtg(ConnectionInfo connectionInfo)
         {
             functionResult = true;
+            onlyIpv6 = false;
             getApt = false;
             getDnf = false;
             getYum = false;
@@ -5484,6 +5456,7 @@ namespace ProxySU
         private void StartTestAndEnableBBR(ConnectionInfo connectionInfo)
         {
             functionResult = true;
+            onlyIpv6 = false;
             getApt = false;
             getDnf = false;
             getYum = false;
