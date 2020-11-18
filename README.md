@@ -72,6 +72,7 @@ BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）,支持语�
 [Youtube视频教程](https://www.youtube.com/watch?v=ipFZDE1Aqoo)---------------------------网友 [jc-nf那坨](https://www.youtube.com/channel/UC52iA9wBGGN7LBWSdyI-yfg) 制作，需要先翻墙后观看。  
 
 ##### 使用提醒及常见问题：  
+有些vps主机商会对vps所使用的资源进行限制，可能会造成Caddy启动失败，提示“failed to create new OS thread ”错误，在一些免费vps类型上经常出现。可以切换为不使用web伪装的代理模式（不填伪装网址的就是了）。  
 vps主机配置推荐内存在256M及以上，过低的内存配置，可能导致某些代理方案不能成功运行。
 
 纯IPV6主机，安装过程中，将临时设置NAT64网关。仅用于布署代理，布署完成后，则会删除。注意，纯IPV6 的主机无法直接访问纯IPV4的网络。(不推荐使用纯ipv6主机做为代理节点)  
