@@ -5690,6 +5690,13 @@ namespace ProxySU
                     functionResult = RootAuthorityDetect(client);
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
 
+                    functionResult = FileCheckExists(client, @"/etc/resolv.conf.proxysu");
+                    if (functionResult == true)
+                    {
+                        sshShellCommand = @"mv /etc/resolv.conf.proxysu /etc/resolv.conf ";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    }
+
                     sshShellCommand = @"command -v apt-get";
                     currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
                     getApt = !String.IsNullOrEmpty(currentShellCommandResult);
@@ -5721,11 +5728,19 @@ namespace ProxySU
 
                     //检测主机是否为纯ipv6的主机
                     onlyIpv6 = OnlyIpv6HostDetect(client);
+
+                    //如果未检测到有效的ip，连接就会被断开
+                    if (client.IsConnected == false)
+                    {
+                        return ;
+                    }
                     if (onlyIpv6 == true)
                     {
-                        SetUpNat64(client, true);
-                        sshShellCommand = $"{sshCmdUpdate}";
-                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                        functionResult = SetUpNat64(client, true);
+                        if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return ; }
+                        //SetUpNat64(client, true);
+                        //sshShellCommand = $"{sshCmdUpdate}";
+                        //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
                     }
 
                     
@@ -6434,8 +6449,8 @@ namespace ProxySU
                     if (onlyIpv6 == true)
                     {
                         SetUpNat64(client, false);
-                        sshShellCommand = $"{sshCmdUpdate}";
-                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                        //sshShellCommand = $"{sshCmdUpdate}";
+                        //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
                     }
 
                     
@@ -8524,8 +8539,6 @@ namespace ProxySU
                 sshShellCommand = @"yum -y install caddy";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-               
-
             }
 
             string caddyService = @"/lib/systemd/system/caddy.service";
@@ -8540,15 +8553,16 @@ namespace ProxySU
             sshShellCommand = $"sed -i 's/=caddy/=root/g' {caddyService}";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
+            sshShellCommand = $"sed -i 's/LimitNPROC/#LimitNPROC/g' {caddyService}";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+            sshShellCommand = $"sed -i 's/LimitNOFILE/#LimitNOFILE/g' {caddyService}";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
             sshShellCommand = @"systemctl daemon-reload";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-            //sshShellCommand = @"find / -name caddy"; 
-            //sshShellCommand = @"if [[ -f /usr/bin/caddy ]];then echo '1';else echo '0'; fi";
-            //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-            //if (!currentShellCommandResult.Contains("/usr/bin/caddy"))
-            //if (currentShellCommandResult.Trim().Equals("0") == true)
             functionResult = FileCheckExists(client, @"/usr/bin/caddy");
             if (functionResult == true)
             {
@@ -8623,8 +8637,8 @@ namespace ProxySU
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
             //设置伪装网站/纯ipv6主机暂不设置
-            if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7]) == false && onlyIpv6 == false)
-            {
+            //if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7]) == false && onlyIpv6 == false)
+            //{
                 sshShellCommand = $"sed -i 's/##reverse_Proxy1##/reverse_proxy http:\\/\\/{ReceiveConfigurationParameters[7]} {{/ ' {upLoadPath}";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
@@ -8634,7 +8648,7 @@ namespace ProxySU
                 sshShellCommand = $"sed -i 's/##reverse_Proxy3##/}}/' {upLoadPath}";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-            }
+            //}
             return true;
         }
 
