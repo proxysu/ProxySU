@@ -8637,8 +8637,9 @@ namespace ProxySU
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
             //设置伪装网站/纯ipv6主机暂不设置
-            //if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7]) == false && onlyIpv6 == false)
-            //{
+            // && onlyIpv6 == false
+            if (String.IsNullOrEmpty(ReceiveConfigurationParameters[7]) == false)
+            {
                 sshShellCommand = $"sed -i 's/##reverse_Proxy1##/reverse_proxy http:\\/\\/{ReceiveConfigurationParameters[7]} {{/ ' {upLoadPath}";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
@@ -8648,7 +8649,7 @@ namespace ProxySU
                 sshShellCommand = $"sed -i 's/##reverse_Proxy3##/}}/' {upLoadPath}";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-            //}
+            }
             return true;
         }
 
