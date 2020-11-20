@@ -1135,7 +1135,9 @@ namespace ProxySU
                     }
 
                     //下载安装脚本安装 37--40
-                    functionResult = ProxySoftInstall(client, @"V2Ray", @"https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh");
+                    //functionResult = ProxySoftInstall(client, @"V2Ray", @"https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh");
+                    functionResult = ProxySoftInstallV2ray(client, @"V2Ray", @"https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh");
+
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
                     //functionResult = V2RayInstallScript(client);
                     //if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
@@ -1279,6 +1281,44 @@ namespace ProxySU
         }
 
         #region V2Ray专用调用函数
+        //安装代理程序 37--40
+        //functionResult = ProxySoftInstall(client,@"",@"");
+        //if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+        private bool ProxySoftInstallV2ray(SshClient client, string proxyName, string downloadUrl)
+        {
+            //****** "系统环境检测完毕，符合安装要求,开始布署......" ******
+            SetUpProgressBarProcessing(37);
+            currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstalling").ToString();
+            MainWindowsShowInfo(currentStatus);
+
+            //****** "正在安装{proxyName}......" ******
+            SetUpProgressBarProcessing(38);
+            currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstallSoft").ToString() + $"{proxyName}......";
+            MainWindowsShowInfo(currentStatus);
+
+            saveShellScriptFileName = GenerateRandomScriptFileName(GenerateRandomStr(10));
+
+            sshShellCommand = $"curl -o {saveShellScriptFileName} {downloadUrl}";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+            functionResult = FileCheckExists(client, $"{saveShellScriptFileName}");
+            if (functionResult == false)
+            {
+                //***文件下载失败！***
+                currentStatus = Application.Current.FindResource("DisplayInstallInfo_DownloadScriptFailed").ToString();
+                MainWindowsShowInfo(currentStatus);
+                return false;
+
+            }
+            sshShellCommand = $"yes | bash {saveShellScriptFileName} --version v4.32.1";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+            sshShellCommand = $"rm -f {saveShellScriptFileName}";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+            SetUpProgressBarProcessing(40);
+            return true;
+        }
 
 
         //生成V2Ray服务端配置 44--46
