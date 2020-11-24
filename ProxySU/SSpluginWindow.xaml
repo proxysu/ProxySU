@@ -39,7 +39,7 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <GroupBox Header="{DynamicResource GroupBoxHeaderV2RayTemplates}" Grid.Row="0" Grid.RowSpan="3">
+        <GroupBox Header="{DynamicResource ButtonTemplateConfigurationSS}" Grid.Row="0" Grid.RowSpan="3">
             <Grid>
                 <TabControl x:Name="TabControlTemplate">
                     <TabItem Header="{DynamicResource TabItemHeaderV2RayHotPlan}" Width="110" Height="30">

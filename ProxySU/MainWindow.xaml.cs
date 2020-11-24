@@ -7953,12 +7953,18 @@ namespace ProxySU
 
             }
             //处理极其少见的xz-utils未安装的情况
-            if (string.IsNullOrEmpty(client.RunCommand("command -v xz-utils").Result) == true)
+
+            if (getApt == true)
             {
                 sshShellCommand = $"{sshCmdInstall}xz-utils";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-
             }
+            else if (getDnf == true || getYum == true)
+            {
+                sshShellCommand = $"{sshCmdInstall}xz-devel";
+                currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+            }
+
             //检测是否安装lsof
             if (string.IsNullOrEmpty(client.RunCommand("command -v lsof").Result) == true)
             {
