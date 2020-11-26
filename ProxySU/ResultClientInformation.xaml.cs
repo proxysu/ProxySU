@@ -3751,7 +3751,7 @@ namespace ProxySU
 
             if (alterId == true)
             {
-                strApplicat = "TextBlockXrayAlterId";
+                strApplicat = "TextBlockV2RayAlterId";
                 strParam = TextBoxUUIDextraXray.Text;
                 sw.WriteLine(AlignmentStrFunc(Application.Current.FindResource($"{strApplicat}").ToString(), strLenth) + strParam);
             }

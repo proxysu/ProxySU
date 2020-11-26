@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProxySU"
         mc:Ignorable="d"
-        Title="ProxySU - v2.5.0 Beta3" Height="675" Width="660">
+        Title="ProxySU - v2.5.1 Beta1" Height="675" Width="660">
     <!--以下样式参考自：https://yq.aliyun.com/articles/331878
 	https://docs.microsoft.co/en-us/dotnet/desktop-wpf/fundamentals/styles-templates-overview-->
     <Window.Resources>
