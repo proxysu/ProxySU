@@ -1130,8 +1130,8 @@ namespace ProxySU
                     }
 
                     //下载安装脚本安装 37--40
-                    //functionResult = ProxySoftInstall(client, @"V2Ray", @"https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh");
-                    functionResult = ProxySoftInstallV2ray(client, @"V2Ray", @"https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh");
+                    functionResult = ProxySoftInstall(client, @"V2Ray", @"https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh");
+                    //functionResult = ProxySoftInstallV2ray(client, @"V2Ray", @"https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh");
 
                     if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
                     //functionResult = V2RayInstallScript(client);
