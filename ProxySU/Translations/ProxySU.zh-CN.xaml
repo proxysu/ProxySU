@@ -182,7 +182,7 @@
 
     <sys:String x:Key="TextBlockQuicEncryption">QUIC加密方式:</sys:String>
     <sys:String x:Key="TextBlockV2RayDomain">域名：</sys:String>
-    <sys:String x:Key="TextBlockTrojanPassword">Trojan密码与V2ray的UUID相同。</sys:String>
+    <sys:String x:Key="TextBlockTrojanPassword">Trojan密码与UUID相同。</sys:String>
     <sys:String x:Key="TextBlockV2RayMaskSites">伪装网站：</sys:String>
     <sys:String x:Key="TextBoxV2RayMaskSitesTag">设置此项可增加代理的隐蔽(可为空)</sys:String>
     <sys:String x:Key="TextBoxV2RayMaskSitesToolTip">仅仅输入域名，不包括"http"及"/"等</sys:String>
@@ -192,6 +192,7 @@
     <sys:String x:Key="MessageBoxShow_MaskSitesToolTip">伪装网址输入格式错误！请重新输入！</sys:String>
     <sys:String x:Key="TextBlockV2RayWebSocketTlsWebExplain">稳定性强，Caddy2做前置，隐藏代理特征，被识别为访问网站的https流量，抗封锁识别最强,需要域名,支持CDN</sys:String>
     <sys:String x:Key="TextBlockV2RayHttp2TlsWebExplain">基于 HTTP/2 传输。完整按 HTTP/2 标准实现，Caddy2做前置，隐藏代理特征，H2C协议转发到V2Ray，需要域名，暂不支持CloudFlare的CDN</sys:String>
+    <sys:String x:Key="TextBlockXrayExplain">当前Xray是V2Ray的超集，未来与V2Ray会有不同的发展方向。</sys:String>
     <sys:String x:Key="TextBlockVlessVmessXtlsTcpWebSocketExplainHot">VLESS over TCP with XTLS + 回落 and 分流 to WHATEVER（终极配置），由rprx大佬 (xtls作者) 配置并推荐，在服务端同时配置以下六种方案，共用同一域名与443端口，其中 WS 都可以通过 CDN。</sys:String>
     <sys:String x:Key="TextBlockVlessVmessXtlsTcpWebSocketExplainHot5">VLESS over TCP with XTLS + 回落 and 分流 to WHATEVER（终极配置），由rprx大佬 (xtls作者) 配置并推荐，在服务端同时配置以下五种方案，共用同一域名与443端口，其中 WS 都可以通过 CDN。(想增加XTLS方案请使用Xray配置)</sys:String>
     <sys:String x:Key="RadioButtonV2RayTcpHttp">TCP+Http伪装</sys:String>

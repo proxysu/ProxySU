@@ -188,6 +188,7 @@
     <sys:String x:Key="MessageBoxShow_MaskSitesToolTip">偽裝網址輸入格式錯誤！請重新輸入！</sys:String>
     <sys:String x:Key="TextBlockV2RayWebSocketTlsWebExplain">穩定性強，Caddy2做前置，隱藏代理特徵，被識別為訪問網站的https流量，抗封鎖識別最強,需要域名,支持CDN</sys:String >
     <sys:String x:Key="TextBlockV2RayHttp2TlsWebExplain">基於 HTTP/2 傳輸。完整按 HTTP/2 標準實現，Caddy2做前置，隱藏代理特徵，H2C協議轉發到V2Ray，需要域名，暫不支持CloudFlare的CDN</sys:String>
+    <sys:String x:Key="TextBlockXrayExplain">當前Xray是V2Ray的超集，未來與V2Ray會有不同的發展方向。</sys:String>
     <sys:String x:Key="TextBlockVlessVmessXtlsTcpWebSocketExplainHot">VLESS over TCP with XTLS + 回落and 分流to WHATEVER（終極配置），由rprx大佬(xtls作者)配置並推薦，在服務端同時配置以下六種方案，共用同一域名與443端口，其中 WS 都可以通過 CDN。</sys:String>
     <sys:String x:Key="TextBlockVlessVmessXtlsTcpWebSocketExplainHot5">VLESS over TCP with XTLS + 回落and 分流to WHATEVER（終極配置），由rprx大佬(xtls作者)配置並推薦，在服務端同時配置以下五種方案，共用同一域名與443端口，其中 WS 都可以通過 CDN。(想增加XTLS方案請使用Xray配置)</sys:String>
     <sys:String x:Key="TextBlockV2RayTcpExplain">數據加密傳輸，會被識別為未知的tcp流量</sys:String>
