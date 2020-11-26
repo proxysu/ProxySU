@@ -697,7 +697,7 @@ namespace ProxySU
                     GroupBoxSelectVlessVmessXtlsTcpWsXray.Visibility = Visibility.Visible;
 
                     string proxyfolder = CheckDir("xray_config");
-                    configDomainSavePath = CreateConfigSaveDir(proxyfolder, TextBoxHostAddress.Text);
+                    configDomainSavePath = CreateConfigSaveDir(proxyfolder, TextBoxHostAddressXray.Text);
 
                     XraySetVlessTcpXtls();
                     GenerateXrayVlessTcpXtlsShareQRcodeAndBase64Url();
@@ -2675,16 +2675,6 @@ namespace ProxySU
             TextBoxCamouflageTypeXray.Visibility = Visibility.Collapsed;
         }
 
-        /*    //显示二维码与链接分享
-           private void ShowGroupBoxClientQRandURL()
-           {
-               GroupBoxClientQRandURL.Visibility = Visibility.Visible;
-           }
-           //隐藏二维码与链接分享
-           private void HideGroupBoxClientQRandURL()
-           {
-               GroupBoxClientQRandURL.Visibility = Visibility.Hidden;
-           } */
 
         //以下几个为对RadioButton按钮的选中后，界面变化与参数显示
         private void RadioButtonVlessTcpXtlsXray_Checked(object sender, RoutedEventArgs e)
