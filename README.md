@@ -13,9 +13,29 @@ BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）,支持语�
 #### 再次声明：  
 ##### ProxySU本着技术中立的原则，没有任何立场，也不持任何见解，更不涉及任何政治因素。ProxySU仅仅主张人的知情权，这是一项天赋人权，也是各国宪法所保障的最基本人权。知情权包含对同一事物正负两方面评价的知情，至于相信哪个，由人自己选择。正如李文亮医生临终所言：一个正常的社会是不应该只有一种声音的。如果真的存在对某一事物只有一种声音的评价，无论其评价是正面还是负面，都是要慎重对待，并需要重新审视的。  
 
+##### Xray可一键安装的模式有： 
+当前Xray是V2Ray的超集，未来Xray会有不同的发展方向。  
+* VLESS+TCP+XTLS+Web (最新黑科技)  
+* Vless+tcp+TLS+Web (新热门协议)  
+* VLESS+WebSocket+TLS+Web  
+* VLESS+http2+TLS+Web  
+* VLESS+mKCP
+* tcp 
+* tcp+http伪装  
+* tcp+TLS 
+* tcp+TLS （自签证书）
+* WebSocket
+* WebSocket+TLS 
+* WebSocket+TLS+Web 
+* WebSocket+TLS（自签证书） 
+* http2  
+* http2+TLS+Web
+* http2（自签证书）  
+* mKCP及各种伪装 
+* QUIC及各种伪装。  
+
 ##### V2ray可一键安装的模式有： 
 
-* VLESS+TCP+XTLS+Web (最新黑科技)
 * Vless+tcp+TLS+Web (新热门协议)  
 * VLESS+WebSocket+TLS+Web  
 * VLESS+http2+TLS+Web  
@@ -123,6 +143,10 @@ Let's Encrypt证书申请频率的限制
 #### 伪装网站使用说明  
 伪装网站是网上已经现存的任何网站，没有敏感信息的，没有被墙的国外网站都行，不需要自已搭建。只填域名，不要带 http 或 /。  
 
+###### Xray模式目前已支持生成用于
+
+* 使用与V2Ray相兼容的客户端  
+
 ###### V2ray模式目前已支持生成用于
 
 * [v2ray官方程序](https://www.v2ray.com/chapter_00/install.html)配置文件(客户端配置)  
@@ -171,6 +195,7 @@ Let's Encrypt证书申请频率的限制
 ## 程序工作流程：  
 1. 使用[SSH.NET](https://github.com/sshnet/SSH.NET)登录远程主机  
 2. 根据选择的代理来调用相应的脚本：  
+  * 选择Xray，则调用V2ray官方安装脚本 `curl -o /tmp/go.sh https://raw.githubusercontent.com/XTLS/Xray-install/main/install-release.sh` `yes | bash /tmp/go.sh -f` ，安装Xray。
   * 选择V2ray，则调用V2ray官方安装脚本 `curl -o /tmp/go.sh https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh` `yes | bash /tmp/go.sh -f` ，安装V2ray。  
   * 选择Trojan，则调用Trojan官方安装脚本 `curl -o /tmp/trojan-quickstart.sh https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh` `yes | bash /tmp/trojan-quickstart.sh` 安装Trojan。  
   * 选择Trojan-Go，则调用本项目内的trojan-go.sh安装， `curl -o /tmp/trojan-go.sh https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh` `yes | bash /tmp/trojan-go.sh -f` 安装Trojan-GO。  
