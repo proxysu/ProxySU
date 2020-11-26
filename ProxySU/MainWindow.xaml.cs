@@ -8051,6 +8051,82 @@ namespace ProxySU
                     }
                     #endregion
 
+                    #region 卸载Xay
+
+                    //******"检测系统是否已经安装Xray......"******03
+                    SetUpProgressBarProcessing(66);
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_TestExistSoft").ToString() + "Xray......";
+                    MainWindowsShowInfo(currentStatus);
+
+                    //sshShellCommand = @"find / -name v2ray";
+                    //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+                    functionResult = FileCheckExists(client, @"/usr/local/bin/xray");
+                    if (functionResult == true)
+                    {
+                        //******"检测到已安装V2Ray!开始卸载Xray......"******
+                        SetUpProgressBarProcessing(68);
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_DiscoverProxySoft").ToString()
+                            + "Xray!"
+                            + Application.Current.FindResource("DisplayInstallInfo_StartRemoveProxy").ToString()
+                            + "Xray......";
+                        MainWindowsShowInfo(currentStatus);
+
+                        sshShellCommand = @"systemctl stop xray";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        saveShellScriptFileName = GenerateRandomScriptFileName(GenerateRandomStr(10));
+
+                        sshShellCommand = $"curl -o {saveShellScriptFileName} https://raw.githubusercontent.com/XTLS/Xray-install/main/install-release.sh";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        functionResult = FileCheckExists(client, $"{saveShellScriptFileName}");
+                        if (functionResult == false)
+                        {
+                            //***文件下载失败！***
+                            currentStatus = Application.Current.FindResource("DisplayInstallInfo_DownloadScriptFailed").ToString();
+                            MainWindowsShowInfo(currentStatus);
+                            return;
+                        }
+
+                        sshShellCommand = $"bash {saveShellScriptFileName} --remove";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = @"systemctl disable xray";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = @"rm -rf /usr/local/etc/xray /var/log/xray";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        sshShellCommand = $"rm -f {saveShellScriptFileName}";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        functionResult = FileCheckExists(client, @"/usr/local/bin/xray");
+                        if (functionResult == true)
+                        //if (currentShellCommandResult.Contains("/usr/local/bin/v2ray") == true)
+                        {
+                            //******"V2Ray卸载失败！请向开发者问询！"******
+                            currentStatus = "Xray" + Application.Current.FindResource("DisplayInstallInfo_RemoveProxySoftFailed").ToString();
+                            MainWindowsShowInfo(currentStatus);
+                        }
+                        else
+                        {
+                            //******"V2Ray卸载成功！"******
+                            SetUpProgressBarProcessing(70);
+                            currentStatus = "Xray" + Application.Current.FindResource("DisplayInstallInfo_RemoveProxySoftSuccess").ToString();
+                            MainWindowsShowInfo(currentStatus);
+                        }
+
+                    }
+                    else
+                    {
+                        //******"检测结果：未安装Xray！"******04
+                        SetUpProgressBarProcessing(70);
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_NoInstalledSoft").ToString() + "Xray!";
+                        MainWindowsShowInfo(currentStatus);
+                    }
+
+                    #endregion
+
                     //如果是纯ipv6主机，则需要删除前面设置的Nat64网关
                     if (onlyIpv6 == true)
                     {

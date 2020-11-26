@@ -2462,7 +2462,7 @@ namespace ProxySU
         private void XraySetVlessTcpXtls()
         {
             GridNotTrojanParametersXray.Visibility = Visibility.Visible;
-            TextBlockVmessOrVlessXray.Text = Application.Current.FindResource("TabItemHeaderXrayVlessProtocol").ToString();
+            TextBlockVmessOrVlessXray.Text = Application.Current.FindResource("TabItemHeaderV2RayVlessProtocol").ToString();
             TextBlockVmessOrVlessXray.Visibility = Visibility.Visible;
             //隐藏下面的二维码显示
             HideGroupBoxClientQRandURL();
@@ -2485,7 +2485,7 @@ namespace ProxySU
         private void XraySetVlessTcpTls()
         {
             GridNotTrojanParametersXray.Visibility = Visibility.Visible;
-            TextBlockVmessOrVlessXray.Text = Application.Current.FindResource("TabItemHeaderXrayVlessProtocol").ToString();
+            TextBlockVmessOrVlessXray.Text = Application.Current.FindResource("TabItemHeaderV2RayVlessProtocol").ToString();
             TextBlockVmessOrVlessXray.Visibility = Visibility.Visible;
             //隐藏下面的二维码显示
             HideGroupBoxClientQRandURL();
@@ -2506,7 +2506,7 @@ namespace ProxySU
         private void XraySetVlessWsTls()
         {
             GridNotTrojanParametersXray.Visibility = Visibility.Visible;
-            TextBlockVmessOrVlessXray.Text = Application.Current.FindResource("TabItemHeaderXrayVlessProtocol").ToString();
+            TextBlockVmessOrVlessXray.Text = Application.Current.FindResource("TabItemHeaderV2RayVlessProtocol").ToString();
             TextBlockVmessOrVlessXray.Visibility = Visibility.Visible;
             //隐藏下面的二维码显示
             HideGroupBoxClientQRandURL();
