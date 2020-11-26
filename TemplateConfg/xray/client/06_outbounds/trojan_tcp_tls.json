@@ -1,0 +1,23 @@
+{
+    "outbounds": [
+        {
+            "protocol": "trojan",
+            "settings": {
+                "servers": [
+                    {
+                        "address": null,
+                        "port": 443,
+                        "password": null
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "tcp",
+                "security": "tls",
+                "tlsSettings": {
+                    "serverName": null
+                }
+            }
+        }
+    ]
+}

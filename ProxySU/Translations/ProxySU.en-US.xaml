@@ -30,6 +30,11 @@
     <sys:String x:Key="ButtonSaveInstalledLog">Save Installation Log...</sys:String>
     <sys:String x:Key="TextBlockSetUpProcessing">Waiting for installation and deployment</sys:String>
     <sys:String x:Key="TabItemHeaderSysTools">System Tools</sys:String>
+
+    <sys:String x:Key="ButtonTemplateConfigurationXray">Xray template library</sys:String>
+    <sys:String x:Key="Button_LoginXray">Xray one-click installation</sys:String>
+    <sys:String x:Key="ButtonUpdateXray">Upgrade Xay</sys:String>
+
     <sys:String x:Key="ButtonV2RayTemplateConfiguration">V2Ray Templates</sys:String>
     <sys:String x:Key="ButtonV2RayOneKeyInstall">V2ray install</sys:String>
     <sys:String x:Key="ButtonUpdateV2ray">Upgrade V2Ray</sys:String>
@@ -184,6 +189,7 @@
     <sys:String x:Key="TextBlockV2RayWebSocketTlsWebExplain">Strong stability, Caddy2 as the front, hidden proxy feature, recognized as https traffic to the website, the strongest anti-blocking recognition, domain name is required, CDN support</sys:String >
     <sys:String x:Key="TextBlockV2RayHttp2TlsWebExplain">based on HTTP/2 transmission. Completely implemented in accordance with the HTTP/2 standard, with Caddy2 as the front, hidden proxy features, H2C protocol forwarding to V2Ray, domain name is required, and CloudFlare CDN is not currently supported</sys:String>
     <sys:String x:Key="TextBlockVlessVmessXtlsTcpWebSocketExplainHot">VLESS over TCP with XTLS + fallback and shunt to WHATEVER (ultimate configuration), configured and recommended by rprx boss (author of xtls), configure the following six solutions at the same time on the server side, sharing the same domain name and port 443, WS can pass through CDN.</sys:String>
+    <sys:String x:Key="TextBlockVlessVmessXtlsTcpWebSocketExplainHot5">VLESS over TCP with XTLS + fallback and shunt to WHATEVER (ultimate configuration), configured and recommended by rprx boss (author of xtls), configure the following five solutions at the same time on the server side, sharing the same domain name and port 443, WS can pass through CDN.(If you want to add XTLS scheme, please use Xray configuration)</sys:String>
     <sys:String x:Key="TextBlockV2RayTcpExplain">Encrypted data transmission will be recognized as unknown tcp traffic</sys:String>
     <sys:String x:Key="RadioButtonV2RayTcpHttp">TCP+Http camouflage</sys:String>
     <sys:String x:Key="TextBlockV2RayTcpHttpExplain">Encrypted data transmission and HTTP disguise will be recognized as http traffic, but not real http access</sys:String>
@@ -336,6 +342,7 @@
     <sys:String x:Key="DisplayInstallInfo_InstalledCaddyOK">Caddy installed successfully!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_UpgradeCaddy">is upgrading the Caddy v2.2.0 beta version for Http2Web mode!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_UploadCaddyConfig">Upload Caddy configuration file...</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_UploadCaddyConfigFailed">Caddy configuration file upload failed!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_UploadCaddyConfigOK">The Caddy configuration file is uploaded successfully, OK!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_StartCaddyService">Starting Caddy...</sys:String>
     <sys:String x:Key="DisplayInstallInfo_StartCaddyServiceOK">Caddy started successfully!</sys:String>
@@ -394,6 +401,11 @@
     <sys:String x:Key="DisplayInstallInfo_UpgradeNaiveProxyOK">The upgrade is complete, OK!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_OptimizeNetwork">Optimizing network parameters...</sys:String>
     <sys:String x:Key="DisplayInstallInfo_OptimizeNetworkOK">Optimize network parameters, OK!</sys:String>
+    <!--The following is the Xray client documentation-->
+    <sys:String x:Key="readmeTxtXrayExplainLine01">This file is the client configuration file used by the official Xay program. It is configured in global mode, socks5 address: 127.0.0.1:1080, http proxy address: 127.0.0.1:1081</sys:String>
+    <sys:String x:Key="readmeTxtXrayExplainLine02">Xray official website: https://github.com/XTLS/Xray-core</sys:String>
+    <sys:String x:Key="readmeTxtXrayExplainLine03">Xray official program download address: https://github.com/XTLS/Xray-core/releases</sys:String>
+    <sys:String x:Key="readmeTxtXrayExplainLine04">Download the corresponding version, select xray-windows-64.zip or xray-windows-32.zip for Windows, extract xray.exe after decompression. Put it in the same directory as config.json, just run xray.exe.</sys:String>
     <!--The following is the V2Ray client description file-->
     <sys:String x:Key="readmeTxtV2RayExplainLine01">This file is the client configuration file used by the official V2Ray program. It is configured in global mode, socks5 address: 127.0.0.1:1080, http proxy address: 127.0.0.1:1081</sys:String>
     <sys:String x:Key="readmeTxtV2RayExplainLine02">v2ray official website: https://www.v2ray.com/</sys:String>

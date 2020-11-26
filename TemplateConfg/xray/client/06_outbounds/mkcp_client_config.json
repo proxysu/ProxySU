@@ -1,0 +1,34 @@
+{
+    "outbounds": [
+        {
+            "protocol": "vmess",
+            "settings": {
+                "vnext": [
+                    {
+                        "address": null,
+                        "port": null,
+                        "users": [
+                            {
+                                "id": null,
+                                "alterId": 0,
+                                "security": "auto"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "kcp",
+                "kcpSettings": {
+                    "uplinkCapacity": 100,
+                    "downlinkCapacity": 100,
+                    "congestion": true,
+                    "header": {
+                        "type": null
+                    },
+                    "seed": null
+                }
+            }
+        }
+    ]
+}

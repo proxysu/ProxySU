@@ -30,6 +30,11 @@
     <sys:String x:Key="ButtonSaveInstalledLog">安裝日誌另存為...</sys:String>
     <sys:String x:Key="TextBlockSetUpProcessing">等待安裝佈署</sys:String>
     <sys:String x:Key="TabItemHeaderSysTools">系統工具</sys:String>
+
+    <sys:String x:Key="ButtonTemplateConfigurationXray">Xray模板庫</sys:String>
+    <sys:String x:Key="Button_LoginXray">Xray一鍵安裝</sys:String>
+    <sys:String x:Key="ButtonUpdateXray">升級Xay</sys:String>
+
     <sys:String x:Key="ButtonV2RayTemplateConfiguration">V2Ray模板庫</sys:String>
     <sys:String x:Key="ButtonV2RayOneKeyInstall">V2ray一鍵安裝</sys:String>
     <sys:String x:Key="ButtonUpdateV2ray">升級V2Ray</sys:String>
@@ -184,6 +189,7 @@
     <sys:String x:Key="TextBlockV2RayWebSocketTlsWebExplain">穩定性強，Caddy2做前置，隱藏代理特徵，被識別為訪問網站的https流量，抗封鎖識別最強,需要域名,支持CDN</sys:String >
     <sys:String x:Key="TextBlockV2RayHttp2TlsWebExplain">基於 HTTP/2 傳輸。完整按 HTTP/2 標準實現，Caddy2做前置，隱藏代理特徵，H2C協議轉發到V2Ray，需要域名，暫不支持CloudFlare的CDN</sys:String>
     <sys:String x:Key="TextBlockVlessVmessXtlsTcpWebSocketExplainHot">VLESS over TCP with XTLS + 回落and 分流to WHATEVER（終極配置），由rprx大佬(xtls作者)配置並推薦，在服務端同時配置以下六種方案，共用同一域名與443端口，其中 WS 都可以通過 CDN。</sys:String>
+    <sys:String x:Key="TextBlockVlessVmessXtlsTcpWebSocketExplainHot5">VLESS over TCP with XTLS + 回落and 分流to WHATEVER（終極配置），由rprx大佬(xtls作者)配置並推薦，在服務端同時配置以下五種方案，共用同一域名與443端口，其中 WS 都可以通過 CDN。(想增加XTLS方案請使用Xray配置)</sys:String>
     <sys:String x:Key="TextBlockV2RayTcpExplain">數據加密傳輸，會被識別為未知的tcp流量</sys:String>
     <sys:String x:Key="RadioButtonV2RayTcpHttp">TCP+Http偽裝</sys:String>
     <sys:String x:Key="TextBlockV2RayTcpHttpExplain">數據加密傳輸，並做http偽裝，會被識別為http流量，但並不是真正的http訪問</sys:String>
@@ -336,6 +342,7 @@
     <sys:String x:Key="DisplayInstallInfo_InstalledCaddyOK">Caddy安裝成功！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_UpgradeCaddy">正在為Http2Web模式升級Caddy v2.2.0測試版！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_UploadCaddyConfig">上傳Caddy配置文件......</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_UploadCaddyConfigFailed">Caddy配置文件上傳失敗!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_UploadCaddyConfigOK">Caddy配置文件上傳成功,OK!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_StartCaddyService">正在啟動Caddy......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_StartCaddyServiceOK">Caddy啟動成功！</sys:String>
@@ -394,8 +401,12 @@
     <sys:String x:Key="DisplayInstallInfo_UpgradeNaiveProxyOK">升級完畢，OK！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_OptimizeNetwork">正在優化網絡參數......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_OptimizeNetworkOK">優化網絡參數,OK!</sys:String>
+    <!--以下為Xray客戶端說明文件-->
+    <sys:String x:Key="readmeTxtXrayExplainLine01">此文件為Xay官方程序所使用的客戶端配置文件，配置為全局模式，socks5地址：127.0.0.1:1080，http代理地址：127.0.0.1:1081</sys:String>
+    <sys:String x:Key="readmeTxtXrayExplainLine02">Xray官方網站：https://github.com/XTLS/Xray-core</sys:String>
+    <sys:String x:Key="readmeTxtXrayExplainLine03">Xray官方程序下載地址：https://github.com/XTLS/Xray-core/releases</sys:String>
+    <sys:String x:Key="readmeTxtXrayExplainLine04">下載相應版本，Windows選擇xray-windows-64.zip或者xray-windows-32.zip，解壓後提取xray.exe。與config.json放在同一目錄，運行xray.exe即可。</sys:String>
     <!--以下為V2Ray客戶端說明文件-->
-    
     <sys:String x:Key="readmeTxtV2RayExplainLine01">此文件為V2Ray官方程序所使用的客戶端配置文件，配置為全局模式，socks5地址：127.0.0.1:1080，http代理地址：127.0.0.1:1081</sys:String>
     <sys:String x:Key="readmeTxtV2RayExplainLine02">v2ray官方網站：https://www.v2ray.com/</sys:String>
     <sys:String x:Key="readmeTxtV2RayExplainLine03">v2ray官方程序下載地址：https://github.com/v2ray/v2ray-core/releases</sys:String>

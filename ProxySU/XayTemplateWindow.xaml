@@ -1,11 +1,11 @@
-﻿<Window x:Name="TemplateConfiguration" x:Class="ProxySU.WindowTemplateConfiguration"
+﻿<Window x:Name="XrayTemplateConfiguration" x:Class="ProxySU.XrayWindowTemplateConfiguration"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProxySU"
         mc:Ignorable="d"
-        Title="V2RayTemplateConfiguration" Height="600" Width="950">
+        Title="XayTemplateConfiguration" Height="600" Width="950">
     <Window.Resources>
         <Style BasedOn="{StaticResource {x:Type TextBox}}"
            TargetType="TextBox"
@@ -39,7 +39,7 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <GroupBox Header="{DynamicResource GroupBoxHeaderV2RayTemplates}" Grid.Row="0" Grid.RowSpan="3">
+        <GroupBox Header="{DynamicResource ButtonTemplateConfigurationXray}" Grid.Row="0" Grid.RowSpan="3">
             <Grid>
                 <TabControl x:Name="TabControlTemplate">
                     <TabItem Header="{DynamicResource TabItemHeaderV2RayHotPlan}" Width="100" Height="30">
@@ -93,16 +93,16 @@
                                     <RowDefinition></RowDefinition>
                                     <RowDefinition></RowDefinition>
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="{DynamicResource TextBlockVlessVmessXtlsTcpWebSocketExplainHot5}" TextWrapping="Wrap" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                                <TextBlock Text="1. VLESS over TCP with XTLS(direct)" Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom" Visibility="Collapsed"></TextBlock>
-                                <TextBlock Text="1. VLESS over TCP with TLS" Grid.Column="1" Grid.Row="2" VerticalAlignment="Bottom"></TextBlock>
-                                <TextBlock Text="2. VLESS over WS with TLS" Grid.Column="1" Grid.Row="3" VerticalAlignment="Bottom"></TextBlock>
-                                <TextBlock Text="3. VMess over TCP with TLS  (Not Recommended)" Grid.Column="1" Grid.Row="4" VerticalAlignment="Bottom"></TextBlock>
-                                <TextBlock Text="4. VMess over WS with TLS" Grid.Column="1" Grid.Row="5" VerticalAlignment="Bottom"></TextBlock>
-                                <TextBlock Text="5. Trojan over TCP with TLS" Grid.Column="1" Grid.Row="6" VerticalAlignment="Bottom"></TextBlock>
+                                <TextBlock Text="{DynamicResource TextBlockVlessVmessXtlsTcpWebSocketExplainHot}" TextWrapping="Wrap" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                                <TextBlock Text="1. VLESS over TCP with XTLS(direct)" Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom"></TextBlock>
+                                <TextBlock Text="2. VLESS over TCP with TLS" Grid.Column="1" Grid.Row="2" VerticalAlignment="Bottom"></TextBlock>
+                                <TextBlock Text="3. VLESS over WS with TLS" Grid.Column="1" Grid.Row="3" VerticalAlignment="Bottom"></TextBlock>
+                                <TextBlock Text="4. VMess over TCP with TLS  (Not Recommended)" Grid.Column="1" Grid.Row="4" VerticalAlignment="Bottom"></TextBlock>
+                                <TextBlock Text="5. VMess over WS with TLS" Grid.Column="1" Grid.Row="5" VerticalAlignment="Bottom"></TextBlock>
+                                <TextBlock Text="6. Trojan over TCP with TLS" Grid.Column="1" Grid.Row="6" VerticalAlignment="Bottom"></TextBlock>
 
                             </Grid>
-                            <RadioButton x:Name="RadioButtonVlessVmessXtlsTcpWebSocketHot" Content="VLESS+VMESS+Trojan+TCP+WebSocket+Web" GroupName="TemplateGroup"  Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Checked="RadioButtonVlessVmessXtlsTcpWebSocketHot_Checked" HorizontalAlignment="Left" VerticalAlignment="Center"></RadioButton>
+                            <RadioButton x:Name="RadioButtonVlessVmessXtlsTcpWebSocketHot" Content="VLESS+VMESS+Trojan+XTLS(direct)+TCP+WebSocket+Web" GroupName="TemplateGroup"  Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Checked="RadioButtonVlessVmessXtlsTcpWebSocketHot_Checked" HorizontalAlignment="Left" VerticalAlignment="Center"></RadioButton>
 
                             <!--<Grid Grid.Column="0" Grid.Row="2">
                                 <Grid.ColumnDefinitions>
@@ -136,8 +136,8 @@
                             </Grid.RowDefinitions>
                             <TextBlock Text="{DynamicResource TextBlockVlessExplain}" TextWrapping="Wrap" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Margin="5,3,5,0"></TextBlock>
 
-                            <RadioButton x:Name="RadioButtonVlessXtlsTcp" Content="VLESS+TCP+XTLS(direct)+Web" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="1" Checked="RadioButtonVlessTcpTlsWeb_Checked" VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="Collapsed"></RadioButton>
-                            <TextBlock Text="{DynamicResource TextBlockVlessXtlsTcpExplain}" TextWrapping="Wrap" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Margin="0,0,5,0" VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="Collapsed"></TextBlock>
+                            <RadioButton x:Name="RadioButtonVlessXtlsTcp" Content="VLESS+TCP+XTLS(direct)+Web" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="1" Checked="RadioButtonVlessTcpTlsWeb_Checked" VerticalAlignment="Center" HorizontalAlignment="Left" ></RadioButton>
+                            <TextBlock Text="{DynamicResource TextBlockVlessXtlsTcpExplain}" TextWrapping="Wrap" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Margin="0,0,5,0" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
 
                             <RadioButton x:Name="RadioButtonVlessTcpTlsWeb" Content="VLESS+TCP+TLS+Web" GroupName="TemplateGroup"  Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Checked="RadioButtonVlessTcpTlsWeb_Checked" ></RadioButton>
                             <TextBlock Text="{DynamicResource TextBlockV2RayVlessTcpTlsWebExplain}" TextWrapping="Wrap" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Margin="0,0,5,0" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>

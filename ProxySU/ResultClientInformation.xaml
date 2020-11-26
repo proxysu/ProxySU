@@ -13,7 +13,7 @@
             <RowDefinition Height="0.12*"></RowDefinition>
         </Grid.RowDefinitions>
         <!-- V2Ray客户端配置参数 -->
-        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxV2rayClient" Visibility="Visible" Grid.Row="0">
+        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxV2rayClient" Visibility="Collapsed" Grid.Row="0">
             <Grid >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.5*"></ColumnDefinition>
@@ -95,7 +95,7 @@
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-                        <RadioButton x:Name="RadioButtonVlessTcpXtls" Content="VLESS over TCP with XTLS" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Checked="RadioButtonVlessTcpXtls_Checked"></RadioButton>
+                        <RadioButton x:Name="RadioButtonVlessTcpXtls" Content="VLESS over TCP with XTLS" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Checked="RadioButtonVlessTcpXtls_Checked" Visibility="Collapsed"></RadioButton>
                         <RadioButton x:Name="RadioButtonVlessTcpTls" Content="VLESS over TCP with TLS" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Checked="RadioButtonVlessTcpTls_Checked"></RadioButton>
                         <RadioButton x:Name="RadioButtonVlessWsTls" Content="VLESS over WS with TLS" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Checked="RadioButtonVlessWsTls_Checked"></RadioButton>
                         <RadioButton x:Name="RadioButtonVmessTcpTls" Content="VMess over TCP with TLS" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Checked="RadioButtonVmessTcpTls_Checked"></RadioButton>
@@ -106,6 +106,103 @@
                 </GroupBox>
             </Grid>
         </GroupBox>
+
+        <!-- Xray客户端配置参数 -->
+        <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxXrayClient" Visibility="Visible" Grid.Row="0">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="0.8*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{DynamicResource TextBlockServerAddress}" Grid.Column="0" Grid.Row="0" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxHostAddressXray" IsReadOnly="True" Grid.Column="1" Grid.Row="0" Margin="2" MouseDoubleClick="TextBoxHostAddressXray_MouseDoubleClick"></TextBox>
+                <TextBlock x:Name="TextBlockVmessOrVlessXray" Text="" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+
+                <TextBlock Text="{DynamicResource TextBlockServerPort}" Grid.Column="0" Grid.Row="1" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxPortXray" IsReadOnly="True" Grid.Column="1" Grid.Row="1" Margin="2" MouseDoubleClick="TextBoxPortXray_MouseDoubleClick"></TextBox>
+
+                <TextBlock Text="{DynamicResource TextBlockUserUUID}" Grid.Column="0" Grid.Row="2" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                <TextBox x:Name="TextBoxUUIDXray" IsReadOnly="True" Grid.Column="1" Grid.Row="2" Margin="2" MouseDoubleClick="TextBoxUUIDXray_MouseDoubleClick"></TextBox>
+                <Grid x:Name="GridNotTrojanParametersXray" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Grid.RowSpan="7">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock x:Name="TextBlockUUIDextraXray" Text="{DynamicResource TextBlockV2RayAlterId}" Grid.Column="0" Grid.Row="0" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                    <TextBox x:Name="TextBoxUUIDextraXray" IsReadOnly="False" Grid.Column="1" Grid.Row="0" Margin="2" MouseDoubleClick="TextBoxUUIDextraXray_MouseDoubleClick"></TextBox>
+                    <TextBlock x:Name="TextBlockEncryptionXray" Text="{DynamicResource TextBlockEncryption}" Grid.Column="0" Grid.Row="1" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                    <TextBox x:Name="TextBoxEncryptionXray" IsReadOnly="True" Grid.Column="1" Grid.Row="1" Margin="2" MouseDoubleClick="TextBoxEncryptionXray_MouseDoubleClick"></TextBox>
+                    <TextBlock x:Name="TextBlockTransferProtocolXray" Text="{DynamicResource TextBlockTransferProtocol}" Grid.Column="0" Grid.Row="2" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                    <TextBox x:Name="TextBoxTransmissionXray" IsReadOnly="True" Grid.Column="1" Grid.Row="2" Margin="2" MouseDoubleClick="TextBoxTransmissionXray_MouseDoubleClick"></TextBox>
+                    <TextBlock x:Name="TextBlockCamouflageTypeXray" Text="{DynamicResource TextBlockCamouflageType}" Grid.Column="0" Grid.Row="3" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                    <TextBox x:Name="TextBoxCamouflageTypeXray" IsReadOnly="True" Grid.Column="1" Grid.Row="3" Margin="2" MouseDoubleClick="TextBoxCamouflageTypeXray_MouseDoubleClick"></TextBox>
+
+                    <TextBlock x:Name="TextBlockQuicEncryptionXray" Text="{DynamicResource TextBlockQuicEncryption}" Visibility="Collapsed" Grid.Column="0" Grid.Row="4" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                    <TextBlock x:Name="TextBlockHostXray" Text="Host:" Grid.Column="0" Grid.Row="4" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                    <TextBox x:Name="TextBoxHostQuicEncryptionXray" IsReadOnly="True" Grid.Column="1" Grid.Row="4" Margin="2" MouseDoubleClick="TextBoxHostQuicEncryptionXray_MouseDoubleClick"></TextBox>
+
+                    <TextBlock x:Name="TextBlockPathXray" Text="{DynamicResource TextBlockClientPath}" Visibility="Visible" Grid.Column="0" Grid.Row="5" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                    <TextBlock x:Name="TextBlockMkcpSeedXray" Text="{DynamicResource TextBlockClientMkcpSeed}" Visibility="Collapsed" Grid.Column="0" Grid.Row="5" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                    <TextBlock x:Name="TextBlockQuicKeyXray" Text="{DynamicResource TextBlockClientQuicKey}" Visibility="Collapsed" Grid.Column="0" Grid.Row="5" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                    <TextBox x:Name="TextBoxQuicKeyMkcpSeedPathXray" IsReadOnly="True" Grid.Column="1" Grid.Row="5" Margin="2" MouseDoubleClick="TextBoxQuicKeyMkcpSeedPathXray_MouseDoubleClick"></TextBox>
+
+                    <TextBlock x:Name="TextBlocTLSonOrNoXray" Text="{DynamicResource TextBlockIsOrNotTLS}" Grid.Column="0" Grid.Row="6" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                    <TextBox x:Name="TextBoxTLSXray" IsReadOnly="True" Grid.Column="1" Grid.Row="6" Margin="2" MouseDoubleClick="TextBoxTLSXray_MouseDoubleClick"></TextBox>
+
+                </Grid>
+                <TextBlock x:Name="TextBlockUUIDextraExplanationXray" Text="{DynamicResource TextBlockV2RayAlterIdExplain}" TextWrapping="Wrap" Grid.Column="2" Grid.Row="3" VerticalAlignment="Center"></TextBlock>
+                <TextBlock Text="{DynamicResource TextBlockEncryptionIsAuto}" Grid.Column="2" Grid.Row="4" Visibility="Collapsed" VerticalAlignment="Center"></TextBlock>
+                <TextBlock Text="{DynamicResource TextBlockCopyToClipExplain}" Grid.Column="0" Grid.Row="10" Grid.ColumnSpan="2" Margin="5"></TextBlock>
+                <GroupBox  x:Name="GroupBoxSelectVlessVmessXtlsTcpWsXray" Grid.Column="2" Grid.Row="5" Grid.RowSpan="6" Margin="10,0,2,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <RadioButton x:Name="RadioButtonVlessTcpXtlsXray" Content="VLESS over TCP with XTLS" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Checked="RadioButtonVlessTcpXtlsXray_Checked"></RadioButton>
+                        <RadioButton x:Name="RadioButtonVlessTcpTlsXray" Content="VLESS over TCP with TLS" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Checked="RadioButtonVlessTcpTlsXray_Checked"></RadioButton>
+                        <RadioButton x:Name="RadioButtonVlessWsTlsXray" Content="VLESS over WS with TLS" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Checked="RadioButtonVlessWsTlsXray_Checked"></RadioButton>
+                        <RadioButton x:Name="RadioButtonVmessTcpTlsXray" Content="VMess over TCP with TLS" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Checked="RadioButtonVmessTcpTlsXray_Checked"></RadioButton>
+                        <RadioButton x:Name="RadioButtonVmessWsTlsXray" Content="VMess over WS with TLS" Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Checked="RadioButtonVmessWsTlsXray_Checked"></RadioButton>
+                        <RadioButton x:Name="RadioButtonTrojanTcpTlsXray" Content="Trojan over TCP with TLS" Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" Checked="RadioButtonTrojanTcpTlsXray_Checked" ></RadioButton>
+
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </GroupBox>
+
+
         <!-- Trojan-Go客户端配置参数 -->
         <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxTrojanGoClient" Visibility="Collapsed" Grid.Row="0">
             <Grid >
@@ -327,7 +424,7 @@
        
             </Grid>
         </GroupBox>
-
+        <!-- MTProto客户端配置参数 -->
         <GroupBox Header="{DynamicResource GroupBoxHeaderClientParameter}" x:Name="GroupBoxClientMTProto" Visibility="Collapsed" Grid.Row="0" Grid.RowSpan="2">
             <Grid >
                 <Grid.ColumnDefinitions>

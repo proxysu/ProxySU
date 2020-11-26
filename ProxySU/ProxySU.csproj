@@ -92,6 +92,9 @@
     <Compile Include="SSpluginWindow.xaml.cs">
       <DependentUpon>SSpluginWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="XayTemplateWindow.xaml.cs">
+      <DependentUpon>XayTemplateWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="V2RayTemplateWindow.xaml.cs">
       <DependentUpon>V2RayTemplateWindow.xaml</DependentUpon>
     </Compile>
@@ -133,6 +136,10 @@
     <Page Include="Translations\ProxySU.zh-TW.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XayTemplateWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="V2RayTemplateWindow.xaml">
       <SubType>Designer</SubType>

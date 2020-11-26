@@ -30,10 +30,16 @@
     <sys:String x:Key="ButtonSaveInstalledLog">安装日志另存为...</sys:String>
     <sys:String x:Key="TextBlockSetUpProcessing">等待安装布署</sys:String>
     <sys:String x:Key="TabItemHeaderSysTools">系统工具</sys:String>
+
+    <sys:String x:Key="ButtonTemplateConfigurationXray">Xray模板库</sys:String>
+    <sys:String x:Key="Button_LoginXray">Xray一键安装</sys:String>
+    <sys:String x:Key="ButtonUpdateXray">升级Xay</sys:String>
+    
     <sys:String x:Key="ButtonV2RayTemplateConfiguration">V2Ray模板库</sys:String>
     <sys:String x:Key="ButtonV2RayOneKeyInstall">V2ray一键安装</sys:String>
-    <sys:String x:Key="ButtonUpdateV2ray">升级V2Ray</sys:String>
+    <sys:String x:Key="ButtonUpdateV2ray">升级V2ray</sys:String>
     <sys:String x:Key="Button_canel">取消</sys:String>
+
     <sys:String x:Key="ButtonTrojanGoTemplate">Trojan-Go参数设置</sys:String>
     <sys:String x:Key="ButtonTrojanGoSetUp">Trojan-Go一键安装</sys:String>
     <sys:String x:Key="ButtonUpdateTrojanGo">升级Trojan-Go</sys:String>
@@ -187,6 +193,7 @@
     <sys:String x:Key="TextBlockV2RayWebSocketTlsWebExplain">稳定性强，Caddy2做前置，隐藏代理特征，被识别为访问网站的https流量，抗封锁识别最强,需要域名,支持CDN</sys:String>
     <sys:String x:Key="TextBlockV2RayHttp2TlsWebExplain">基于 HTTP/2 传输。完整按 HTTP/2 标准实现，Caddy2做前置，隐藏代理特征，H2C协议转发到V2Ray，需要域名，暂不支持CloudFlare的CDN</sys:String>
     <sys:String x:Key="TextBlockVlessVmessXtlsTcpWebSocketExplainHot">VLESS over TCP with XTLS + 回落 and 分流 to WHATEVER（终极配置），由rprx大佬 (xtls作者) 配置并推荐，在服务端同时配置以下六种方案，共用同一域名与443端口，其中 WS 都可以通过 CDN。</sys:String>
+    <sys:String x:Key="TextBlockVlessVmessXtlsTcpWebSocketExplainHot5">VLESS over TCP with XTLS + 回落 and 分流 to WHATEVER（终极配置），由rprx大佬 (xtls作者) 配置并推荐，在服务端同时配置以下五种方案，共用同一域名与443端口，其中 WS 都可以通过 CDN。(想增加XTLS方案请使用Xray配置)</sys:String>
     <sys:String x:Key="RadioButtonV2RayTcpHttp">TCP+Http伪装</sys:String>
     <sys:String x:Key="TextBlockV2RayTcpExplain">数据加密传输，会被识别为未知的tcp流量</sys:String>
    <sys:String x:Key="TextBlockV2RayTcpHttpExplain">数据加密传输，并做http伪装，会被识别为http流量，但并不是真正的http访问</sys:String>
@@ -341,6 +348,7 @@
     <sys:String x:Key="DisplayInstallInfo_InstalledCaddyOK">Caddy安装成功！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_UpgradeCaddy">正在为Http2Web模式升级Caddy v2.2.0测试版！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_UploadCaddyConfig">上传Caddy配置文件......</sys:String>
+    <sys:String x:Key="DisplayInstallInfo_UploadCaddyConfigFailed">Caddy配置文件上传失败!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_UploadCaddyConfigOK">Caddy配置文件上传成功,OK!</sys:String>
     <sys:String x:Key="DisplayInstallInfo_StartCaddyService">正在启动Caddy......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_StartCaddyServiceOK">Caddy启动成功！</sys:String>
@@ -399,11 +407,18 @@
     <sys:String x:Key="DisplayInstallInfo_UpgradeNaiveProxyOK">升级完毕，OK！</sys:String>
     <sys:String x:Key="DisplayInstallInfo_OptimizeNetwork">正在优化网络参数......</sys:String>
     <sys:String x:Key="DisplayInstallInfo_OptimizeNetworkOK">优化网络参数,OK!</sys:String>
+    <!--以下为Xray客户端说明文件-->
+    <sys:String x:Key="readmeTxtXrayExplainLine01">此文件为Xay官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080，http代理地址：127.0.0.1:1081</sys:String>
+    <sys:String x:Key="readmeTxtXrayExplainLine02">Xray官方网站：https://github.com/XTLS/Xray-core</sys:String>
+    <sys:String x:Key="readmeTxtXrayExplainLine03">Xray官方程序下载地址：https://github.com/XTLS/Xray-core/releases</sys:String>
+    <sys:String x:Key="readmeTxtXrayExplainLine04">下载相应版本，Windows选择xray-windows-64.zip或者xray-windows-32.zip，解压后提取xray.exe。与config.json放在同一目录，运行xray.exe即可。</sys:String>
+
     <!--以下为V2Ray客户端说明文件-->
     <sys:String x:Key="readmeTxtV2RayExplainLine01">此文件为V2Ray官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080，http代理地址：127.0.0.1:1081</sys:String>
     <sys:String x:Key="readmeTxtV2RayExplainLine02">v2ray官方网站：https://www.v2ray.com/</sys:String>
     <sys:String x:Key="readmeTxtV2RayExplainLine03">v2ray官方程序下载地址：https://github.com/v2ray/v2ray-core/releases</sys:String>
     <sys:String x:Key="readmeTxtV2RayExplainLine04">下载相应版本，Windows选择v2ray-windows-64.zip或者v2ray-windows-32.zip，解压后提取v2ctl.exe和v2ray.exe。与config.json放在同一目录，运行v2ray.exe即可。</sys:String>
+    
     <sys:String x:Key="readmeTxtV2RayExplainLine05">此文件为v2rayN(windows)、Qv2ray(windows)、v2rayNG(Android)、Shadowrocket(ios)扫码导入节点</sys:String>
     <sys:String x:Key="readmeTxtV2RayExplainLine06">v2rayN下载网址：https://github.com/2dust/v2rayN/releases</sys:String>
     <sys:String x:Key="readmeTxtV2RayExplainLine07">Qv2ray下载网址：https://github.com/Qv2ray/Qv2ray/releases</sys:String>

@@ -151,17 +151,11 @@ namespace ProxySU
             //初始化SSR的密码
             TextBoxSSRPassword.Text = RandomUUID();
 
-            //初始化所选方案面板为不显示
+            //初始化V2Ray所选方案面板为不显示
             GridV2rayCurrentlyPlan.Visibility = Visibility.Hidden;
 
-            //初始化三合一的所有内容
-            //TextBoxV2rayUUID3in1.Text = RandomUUID();
-            //TextBoxV2rayPath3in1.Text = "/ray";
-
-            //TextBoxTrojanPassword3in1.Text= RandomUUID();
-
-            //TextBoxNaiveUser3in1.Text = RandomUserName();
-            //TextBoxNaivePassword3in1.Text= RandomUUID();
+            //初始化Xray所选方案面板为不显示
+            GridXrayCurrentlyPlan.Visibility = Visibility.Hidden;
 
             //自动检查ProxySU是否有新版本发布，有则显示更新提示
             Thread thread = new Thread(() => TestLatestVersionProxySU(TextBlockLastVersionProxySU, TextBlockNewVersionReminder, ButtonUpgradeProxySU));
@@ -743,6 +737,7 @@ namespace ProxySU
 
         }
 
+       
         #region V2Ray相关
 
         //打开v2ray模板设置窗口
@@ -1225,14 +1220,27 @@ namespace ProxySU
                         client.RunCommand("mv /etc/caddy/Caddyfile /etc/caddy/Caddyfile.bak");
                         UploadConfig(connectionInfo, serverConfig, upLoadPath);
 
-                        //设置Caddy配置文件
-                        functionResult = SetCaddyfile(client, upLoadPath);
-                        if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+                        functionResult = FileCheckExists(client, @"/etc/caddy/Caddyfile");
+                        if (functionResult == false)
+                        {
+                            //****** "Caddy配置文件上传失败!" ******32
+                            currentStatus = Application.Current.FindResource("DisplayInstallInfo_UploadCaddyConfigFailed").ToString();
+                            MainWindowsShowInfo(currentStatus);
+                            FunctionResultErr();
+                            client.Disconnect();
+                            return;
+                        }
 
                         //****** "Caddy配置文件上传成功,OK!" ******32
                         SetUpProgressBarProcessing(70);
                         currentStatus = Application.Current.FindResource("DisplayInstallInfo_UploadCaddyConfigOK").ToString();
                         MainWindowsShowInfo(currentStatus);
+
+                        //设置Caddy配置文件
+                        functionResult = SetCaddyfile(client, upLoadPath);
+                        if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+
+                        
                         #endregion
 
                         //启动Caddy服务
@@ -2189,11 +2197,9 @@ namespace ProxySU
                     if (functionResult == false)
                     {
                         //******"退出！原因：远程主机未安装V2ray"******
-                        MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorUpgradeSoftNotInstall").ToString() + "V2Ray!");
-                        //******"退出！原因：远程主机未安装V2ray"******
                         currentStatus = Application.Current.FindResource("MessageBoxShow_ErrorUpgradeSoftNotInstall").ToString() + "V2Ray!";
                         MainWindowsShowInfo(currentStatus);
-
+                        MessageBox.Show(currentStatus);
                         client.Disconnect();
                         return;
 
@@ -2295,6 +2301,1570 @@ namespace ProxySU
             #endregion
 
         }
+        #endregion
+
+        #region Xray相关
+        //打开Xray模板设置窗口
+        private void ButtonTemplateConfigurationXray_Click(object sender, RoutedEventArgs e)
+        {
+            //清空初始化模板参数
+            for (int i = 0; i != ReceiveConfigurationParameters.Length; i++)
+
+            {
+                ReceiveConfigurationParameters[i] = "";
+            }
+            XrayWindowTemplateConfiguration XraywindowTemplateConfiguration = new XrayWindowTemplateConfiguration();
+            XraywindowTemplateConfiguration.Closed += XraywindowTemplateConfigurationClosed;
+            XraywindowTemplateConfiguration.ShowDialog();
+        }
+
+        //Xay模板设置窗口关闭后，触发事件，将所选的方案与其参数显示在UI上
+        private void XraywindowTemplateConfigurationClosed(object sender, System.EventArgs e)
+        {
+            if (String.IsNullOrEmpty(ReceiveConfigurationParameters[0]) == true)
+            {
+                //显示"未选择方案！"
+                TextBlockCurrentlySelectedPlanXray.Text = Application.Current.FindResource("TextBlockCurrentlySelectedPlanNo").ToString();
+
+                GridXrayCurrentlyPlan.Visibility = Visibility.Hidden;
+
+                return;
+            }
+            else
+            {
+                GridXrayCurrentlyPlan.Visibility = Visibility.Visible;
+            }
+            TextBlockCurrentlySelectedPlanXray.Text = ReceiveConfigurationParameters[8];            //所选方案名称
+            TextBlockCurrentlySelectedPlanPortXray.Text = ReceiveConfigurationParameters[1];        //服务器端口
+            TextBlockCurrentlySelectedPlanUUIDXray.Text = ReceiveConfigurationParameters[2];        //UUID
+            TextBlockCurrentlySelectedPlanPathSeedKeyXray.Text = ReceiveConfigurationParameters[6]; //mKCP Seed\Quic Key\Path
+            //MessageBox.Show(ReceiveConfigurationParameters[7]);
+            TextBlockCurrentlySelectedPlanFakeWebsiteXray.Text = ReceiveConfigurationParameters[7]; //伪装网站
+
+            if (String.Equals(ReceiveConfigurationParameters[0], "TCP") == true
+                || String.Equals(ReceiveConfigurationParameters[0], "TCPhttp") == true
+                || String.Equals(ReceiveConfigurationParameters[0], "tcpTLSselfSigned") == true
+                || String.Equals(ReceiveConfigurationParameters[0], "webSocket") == true)
+            {
+                //隐藏Path/mKCP Seed/Quic Key
+                HideXayPathSeedKey();
+                HideVlessVmessXtlsTcpWsXray();
+
+                //隐藏域名/Quic加密方式
+                HideXrayDomainQuicEncrypt();
+
+                //隐藏伪装网站
+                HideXrayMaskSites();
+
+            }
+            else if (String.Equals(ReceiveConfigurationParameters[0], "tcpTLS") == true)
+            {
+                //隐藏Path/mKCP Seed/Quic Key
+                HideXayPathSeedKey();
+                HideVlessVmessXtlsTcpWsXray();
+
+                //显示域名
+                ShowXrayDomainQuicEncrypt();
+
+                //隐藏伪装网站
+                HideXrayMaskSites();
+            }
+            else if (String.Equals(ReceiveConfigurationParameters[0], "VlessVmessXtlsTcpWebSocketWeb") == true)
+            {
+                //显示复合方案路径
+                ShowVlessVmessXtlsTcpWsXray();
+
+                //显示域名
+                ShowXrayDomainQuicEncrypt();
+
+                //显示伪装网站
+                ShowXayMaskSites();
+
+            }
+            else if (String.Equals(ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == true
+              || String.Equals(ReceiveConfigurationParameters[0], "VlessXtlsTcp") == true)
+            {
+                //隐藏Path/mKCP Seed/Quic Key
+                HideXayPathSeedKey();
+                HideVlessVmessXtlsTcpWsXray();
+
+                //显示域名
+                ShowXrayDomainQuicEncrypt();
+
+                //显示伪装网站
+                ShowXayMaskSites();
+            }
+            else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS") == true
+                || String.Equals(ReceiveConfigurationParameters[0], "Http2") == true)
+            {
+                //显示Path
+                ShowXayPathSeedKey();
+                TextBlockXrayShowPathSeedKey.Text = "Path:";
+                TextBlockCurrentlySelectedPlanPathSeedKeyXray.Text = ReceiveConfigurationParameters[6]; //mKCP Seed\Quic Key\Path
+
+
+                //显示域名
+                ShowXrayDomainQuicEncrypt();
+
+                //显示伪装网站(暂时不显示)
+                HideXrayMaskSites();
+            }
+            else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web") == true
+                || String.Equals(ReceiveConfigurationParameters[0], "http2Web") == true
+                || String.Equals(ReceiveConfigurationParameters[0], "VlessWebSocketTlsWeb") == true
+                || String.Equals(ReceiveConfigurationParameters[0], "VlessHttp2Web") == true)
+            {
+                //显示Path
+                ShowXayPathSeedKey();
+                TextBlockXrayShowPathSeedKey.Text = "Path:";
+                TextBlockCurrentlySelectedPlanPathSeedKeyXray.Text = ReceiveConfigurationParameters[6]; //mKCP Seed\Quic Key\Path
+
+                //显示域名
+                ShowXrayDomainQuicEncrypt();
+
+                //显示伪装网站
+                ShowXayMaskSites();
+            }
+            else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLSselfSigned") == true
+                || String.Equals(ReceiveConfigurationParameters[0], "http2selfSigned") == true)
+            {
+                //显示Path
+                ShowXayPathSeedKey();
+                TextBlockXrayShowPathSeedKey.Text = "Path:";
+                TextBlockCurrentlySelectedPlanPathSeedKeyXray.Text = ReceiveConfigurationParameters[6]; //mKCP Seed\Quic Key\Path
+
+                //隐藏域名/Quic加密方式
+                HideXrayDomainQuicEncrypt();
+
+                //隐藏伪装网站
+                HideXrayMaskSites();
+            }
+            else if (ReceiveConfigurationParameters[0].Contains("mKCP") == true)
+            {
+                //显示mKCP Seed
+                ShowXayPathSeedKey();
+                TextBlockXrayShowPathSeedKey.Text = "mKCP Seed:";
+                TextBlockCurrentlySelectedPlanPathSeedKeyXray.Text = ReceiveConfigurationParameters[6]; //mKCP Seed\Quic Key\Path
+
+                //隐藏域名/Quic加密方式
+                HideXrayDomainQuicEncrypt();
+
+                //隐藏伪装网站
+                HideXrayMaskSites();
+            }
+            else if (ReceiveConfigurationParameters[0].Contains("Quic") == true)
+            {
+                //显示QUIC Key
+                ShowXayPathSeedKey();
+                TextBlockXrayShowPathSeedKey.Text = "QUIC Key:";
+                TextBlockCurrentlySelectedPlanPathSeedKeyXray.Text = ReceiveConfigurationParameters[6]; //mKCP Seed\Quic Key\Path
+
+                //显示Quic加密方式
+                ShowXrayDomainQuicEncrypt();
+                TextBlockXrayShowCurrentlySelectedPlanDomain.Text = Application.Current.FindResource("TextBlockQuicEncryption").ToString();
+                TextBlockCurrentlySelectedPlanDomainXray.Text = ReceiveConfigurationParameters[3];      //Quic加密方式
+                if (String.Equals(TextBlockCurrentlySelectedPlanDomain.Text, "none") == true)
+                {
+                    HideXayPathSeedKey();
+                }
+
+
+                //隐藏伪装网站
+                HideXrayMaskSites();
+            }
+        }
+
+        #region 当前方案界面控制
+        //显示端口与UUID
+        private void ShowXrayCurrentPortUUID()
+        {
+            TextBlockXrayShowPort.Visibility = Visibility.Visible;
+            TextBlockCurrentlySelectedPlanPortXray.Visibility = Visibility.Visible;
+
+            TextBlockXrayShowUUID.Visibility = Visibility.Visible;
+            TextBlockCurrentlySelectedPlanUUIDXray.Visibility = Visibility.Visible;
+        }
+
+        //显示Path/mKCP Seed/Quic Key
+        private void ShowXayPathSeedKey()
+        {
+            HideVlessVmessXtlsTcpWsXray();
+            TextBlockXrayShowPathSeedKey.Visibility = Visibility.Visible;
+            TextBlockCurrentlySelectedPlanPathSeedKeyXray.Visibility = Visibility.Visible;
+        }
+
+        //隐藏Path/mKCP Seed/Quic Key
+        private void HideXayPathSeedKey()
+        {
+            TextBlockXrayShowPathSeedKey.Visibility = Visibility.Hidden;
+            TextBlockCurrentlySelectedPlanPathSeedKeyXray.Visibility = Visibility.Hidden;
+        }
+
+        //显示VLESS VMESS XTLS TCP WS 复合方案
+        private void ShowVlessVmessXtlsTcpWsXray()
+        {
+            HideXayPathSeedKey();
+            GridVlessVmessXtlsTcpWsXray.Visibility = Visibility.Visible;
+            TextBlockBoxPathVlessWSXray.Text = ReceiveConfigurationParameters[3];
+            TextBlockBoxPathVmessTcpXray.Text = ReceiveConfigurationParameters[9];
+            TextBlockBoxPathVmessWSXray.Text = ReceiveConfigurationParameters[6];
+        }
+
+        //隐藏VLESS VMESS XTLS TCP WS 复合方案
+        private void HideVlessVmessXtlsTcpWsXray()
+        {
+            GridVlessVmessXtlsTcpWsXray.Visibility = Visibility.Collapsed;
+        }
+
+        //显示域名/Quic加密方式
+        private void ShowXrayDomainQuicEncrypt()
+        {
+            TextBlockXrayShowCurrentlySelectedPlanDomain.Visibility = Visibility.Visible;
+            TextBlockCurrentlySelectedPlanDomainXray.Visibility = Visibility.Visible;
+            TextBlockXrayShowCurrentlySelectedPlanDomain.Text = Application.Current.FindResource("TextBlockV2RayDomain").ToString();
+            TextBlockCurrentlySelectedPlanDomainXray.Text = ReceiveConfigurationParameters[4];      //域名
+
+        }
+
+        //隐藏域名/Quic加密方式
+        private void HideXrayDomainQuicEncrypt()
+        {
+            TextBlockXrayShowCurrentlySelectedPlanDomain.Visibility = Visibility.Hidden;
+            TextBlockCurrentlySelectedPlanDomainXray.Visibility = Visibility.Hidden;
+        }
+        //显示伪装网站
+        private void ShowXayMaskSites()
+        {
+            TextBlockXrayShowCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Visible;
+            TextBlockCurrentlySelectedPlanFakeWebsiteXray.Visibility = Visibility.Visible;
+        }
+
+        //隐藏伪装网站
+        private void HideXrayMaskSites()
+        {
+            TextBlockXrayShowCurrentlySelectedPlanFakeWebsite.Visibility = Visibility.Hidden;
+            TextBlockCurrentlySelectedPlanFakeWebsiteXray.Visibility = Visibility.Hidden;
+        }
+        #endregion
+
+        //传送Xray模板参数,启动Xray安装进程
+        private void ButtonXraySetUP_Click(object sender, RoutedEventArgs e)
+
+        {
+            ConnectionInfo connectionInfo = GenerateConnectionInfo();
+            if (connectionInfo == null)
+            {
+                //****** "远程主机连接信息有误，请检查!" ******
+                MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorHostConnection").ToString());
+                return;
+            }
+
+
+            //生成客户端配置时，连接的服务主机的IP或者域名
+            if (String.IsNullOrEmpty(ReceiveConfigurationParameters[4]) == true)
+            {
+                ReceiveConfigurationParameters[4] = PreTrim(TextBoxHost.Text);
+                testDomain = false;
+            }
+            //选择模板
+            if (String.IsNullOrEmpty(ReceiveConfigurationParameters[0]) == true)
+            {
+                //******"请先选择配置模板！"******
+                MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ChooseTemplate").ToString());
+                return;
+            }
+            else if (String.Equals(ReceiveConfigurationParameters[0], "TCP") == true
+                || String.Equals(ReceiveConfigurationParameters[0], "TCPhttp") == true
+                || String.Equals(ReceiveConfigurationParameters[0], "tcpTLSselfSigned") == true
+                || String.Equals(ReceiveConfigurationParameters[0], "webSocket") == true
+                || String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLSselfSigned") == true
+                || String.Equals(ReceiveConfigurationParameters[0], "http2selfSigned") == true
+                || ReceiveConfigurationParameters[0].Contains("mKCP") == true
+                || ReceiveConfigurationParameters[0].Contains("Quic") == true)
+            {
+                testDomain = false;
+
+            }
+            else if (String.Equals(ReceiveConfigurationParameters[0], "tcpTLS") == true
+                || String.Equals(ReceiveConfigurationParameters[0], "VlessXtlsTcp") == true
+                || String.Equals(ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == true
+                || String.Equals(ReceiveConfigurationParameters[0], "VlessWebSocketTlsWeb") == true
+                || String.Equals(ReceiveConfigurationParameters[0], "VlessHttp2Web") == true
+                || String.Equals(ReceiveConfigurationParameters[0], "VlessVmessXtlsTcpWebSocketWeb") == true
+                || String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web") == true
+                || String.Equals(ReceiveConfigurationParameters[0], "Http2") == true
+                || String.Equals(ReceiveConfigurationParameters[0], "http2Web") == true)
+            {
+                testDomain = true;
+
+            }
+
+
+            //Thread thread
+            //SetUpProgressBarProcessing(0); //重置安装进度
+            installationDegree = 0;
+            TextBoxMonitorCommandResults.Text = "";
+            //Thread thread = new Thread(() => StartSetUpXray(connectionInfo, TextBlockSetUpProcessing, ProgressBarSetUpProcessing));
+            Thread thread = new Thread(() => StartSetUpXray(connectionInfo));
+
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+
+
+        }
+
+        //登录远程主机布署Xray程序
+        private void StartSetUpXray(ConnectionInfo connectionInfo)
+        {
+            functionResult = true;
+            onlyIpv6 = false;
+            getApt = false;
+            getDnf = false;
+            getYum = false;
+
+            //******"正在登录远程主机......"******
+            SetUpProgressBarProcessing(1);
+            currentStatus = Application.Current.FindResource("DisplayInstallInfo_Login").ToString();
+            MainWindowsShowInfo(currentStatus);
+
+            try
+            {
+                #region 主机指纹，暂未启用
+                //byte[] expectedFingerPrint = new byte[] {
+                //                                0x66, 0x31, 0xaf, 0x00, 0x54, 0xb9, 0x87, 0x31,
+                //                                0xff, 0x58, 0x1c, 0x31, 0xb1, 0xa2, 0x4c, 0x6b
+                //                            };
+                #endregion
+                using (var client = new SshClient(connectionInfo))
+                {
+                    #region ssh登录验证主机指纹代码块，暂未启用
+                    //    client.HostKeyReceived += (sender, e) =>
+                    //    {
+                    //        if (expectedFingerPrint.Length == e.FingerPrint.Length)
+                    //        {
+                    //            for (var i = 0; i < expectedFingerPrint.Length; i++)
+                    //            {
+                    //                if (expectedFingerPrint[i] != e.FingerPrint[i])
+                    //                {
+                    //                    e.CanTrust = false;
+                    //                    break;
+                    //                }
+                    //            }
+                    //        }
+                    //        else
+                    //        {
+                    //            e.CanTrust = false;
+                    //        }
+                    //    };
+                    #endregion
+
+                    client.Connect();
+                    if (client.IsConnected == true)
+                    {
+                        //******"主机登录成功"******
+                        SetUpProgressBarProcessing(3);
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_LoginSuccessful").ToString();
+                        MainWindowsShowInfo(currentStatus);
+                        //Thread.Sleep(3000);
+                    }
+
+                    //检测root权限 5--7
+                    functionResult = RootAuthorityDetect(client);
+                    if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+
+                    //检测是否已安装代理 8--10
+                    functionResult = SoftInstalledIsNoYes(client, "xray", @"/usr/local/bin/xray");
+                    if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+
+                    //检测系统是否符合安装要求 11--30
+                    //检测关闭Selinux及系统组件是否齐全（apt-get/yum/dnf/systemctl）
+                    //安装依赖软件，检测端口，防火墙开启端口
+                    functionResult = ShutDownSelinuxAndSysComponentsDetect(client);
+                    if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+
+                    //检测校对时间 31--33
+                    functionResult = CheckProofreadingTime(client);
+                    if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+
+                    //检测域名解析是否正确 34---36
+                    if (testDomain == true)
+                    {
+                        functionResult = DomainResolutionCurrentIPDetect(client);
+                        if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+                    }
+
+                    //下载安装脚本安装 37--40
+                    //functionResult = ProxySoftInstall(client, @"Xray", @"https://raw.githubusercontent.com/v2fly/fhs-install-Xray/master/install-release.sh");
+                    functionResult = ProxySoftInstall(client, @"Xray", @"https://raw.githubusercontent.com/XTLS/Xray-install/main/install-release.sh");
+
+                    if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+                    //functionResult = XrayInstallScript(client);
+                    //if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+
+                    //程序是否安装成功检测 41--43
+                    functionResult = SoftInstalledSuccessOrFail(client, "xray", @"/usr/local/bin/xray");
+                    if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+
+                    //生成服务端配置 44--46
+                    functionResult = GenerateServerConfigurationXray(client);
+                    if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+
+                    //****** "上传配置文件......" ****** 47--50
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_UploadSoftConfig").ToString();
+                    MainWindowsShowInfo(currentStatus);
+                    string serverRemoteConfig = @"/usr/local/etc/xray/config.json";
+                    UploadConfig(connectionInfo, @"config.json", serverRemoteConfig);
+                    File.Delete(@"config.json");
+                    SetUpProgressBarProcessing(50);
+
+                    //如果使用http2/WebSocketTLS/tcpTLS/VlessTcpTlsWeb/VLESS+TCP+XTLS+Web模式，先要安装acme.sh,申请证书
+                    if (String.Equals(ReceiveConfigurationParameters[0], "Http2") == true
+                        || String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS") == true
+                        || String.Equals(ReceiveConfigurationParameters[0], "tcpTLS") == true
+                        || String.Equals(ReceiveConfigurationParameters[0], "VlessXtlsTcp") == true
+                        || String.Equals(ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == true
+                        || String.Equals(ReceiveConfigurationParameters[0], "VlessVmessXtlsTcpWebSocketWeb") == true)
+                    {
+                        //安装acme.sh与申请证书 51--57
+                        functionResult = AcmeShInstall(client);
+                        if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+
+                        //安装证书到Xray 58--60
+                        functionResult = CertInstallToXray(client);
+                        if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+
+                    }
+
+
+                    #region Caddy安装 61--70
+
+                    //如果是VLESS+TCP+XTLS+Web/VLESS+TCP+TLS+Web/VLESS+WebSocket+TLS+Web/VLESS+http2+TLS+Web/WebSocket+TLS+Web/http2Web模式，需要安装Caddy
+                    if (String.Equals(ReceiveConfigurationParameters[0], "VlessXtlsTcp") == true
+                        || String.Equals(ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == true
+                        || String.Equals(ReceiveConfigurationParameters[0], "VlessWebSocketTlsWeb") == true
+                        || String.Equals(ReceiveConfigurationParameters[0], "VlessHttp2Web") == true
+                        || String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web") == true
+                        || String.Equals(ReceiveConfigurationParameters[0], "http2Web") == true
+                        || String.Equals(ReceiveConfigurationParameters[0], "VlessVmessXtlsTcpWebSocketWeb") == true)
+                    {
+                        //安装Caddy 61--66
+                        functionResult = CaddyInstall(client);
+                        if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+
+
+                        #region 上传Caddy配置文件 67--70
+
+                        //******"上传Caddy配置文件"******
+                        SetUpProgressBarProcessing(67);
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_UploadCaddyConfig").ToString();
+                        MainWindowsShowInfo(currentStatus);
+
+                        string serverConfig = "";
+                        sshShellCommand = @"mv /etc/caddy/Caddyfile /etc/caddy/Caddyfile.bak";
+                        currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                        if (String.Equals(ReceiveConfigurationParameters[0], "VlessXtlsTcp") == true
+                            || String.Equals(ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == true
+                            || String.Equals(ReceiveConfigurationParameters[0], "VlessVmessXtlsTcpWebSocketWeb") == true)
+                        {
+                            serverConfig = $"{pwdir}" + @"TemplateConfg\xray\caddy\vlessTcpTlsWeb.caddyfile";
+                        }
+                        else if (String.Equals(ReceiveConfigurationParameters[0], "VlessWebSocketTlsWeb") == true
+                            || String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web") == true)
+                        {
+                            serverConfig = $"{pwdir}" + @"TemplateConfg\xray\caddy\WebSocketTLSWeb.caddyfile";
+                        }
+                        else if (String.Equals(ReceiveConfigurationParameters[0], "VlessHttp2Web") == true
+                            || String.Equals(ReceiveConfigurationParameters[0], "http2Web") == true)
+                        {
+                            serverConfig = $"{pwdir}" + @"TemplateConfg\xray\caddy\Http2Web.caddyfile";
+                        }
+
+                        string upLoadPath = "/etc/caddy/Caddyfile";
+                        client.RunCommand("mv /etc/caddy/Caddyfile /etc/caddy/Caddyfile.bak");
+                        UploadConfig(connectionInfo, serverConfig, upLoadPath);
+
+                        functionResult = FileCheckExists(client, @"/etc/caddy/Caddyfile");
+                        if (functionResult == false)
+                        {
+                            //****** "Caddy配置文件上传失败!" ******32
+                            currentStatus = Application.Current.FindResource("DisplayInstallInfo_UploadCaddyConfigFailed").ToString();
+                            MainWindowsShowInfo(currentStatus);
+                            FunctionResultErr();
+                            client.Disconnect();
+                            return;
+                        }
+
+                        //****** "Caddy配置文件上传成功,OK!" ******32
+                        SetUpProgressBarProcessing(70);
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_UploadCaddyConfigOK").ToString();
+                        MainWindowsShowInfo(currentStatus);
+
+                        //设置Caddy配置文件
+                        functionResult = SetCaddyfile(client, upLoadPath);
+                        if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+
+
+                        #endregion
+
+                        //启动Caddy服务
+                        functionResult = SoftStartDetect(client, "caddy", @"/usr/bin/caddy");
+                        if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+                    }
+                    #endregion
+
+                    //****** "正在启动Xray......" ******35
+                    functionResult = SoftStartDetect(client, "xray", @"/usr/local/bin/xray");
+                    if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+
+                    //测试BBR条件，若满足提示是否启用
+                    functionResult = DetectBBRandEnable(client);
+                    if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+
+                    client.Disconnect();//断开服务器ssh连接
+
+                    //生成客户端配置 96--98
+                    functionResult = GenerateClientConfigurationXray();
+
+                    //****** "Xray安装成功,祝你玩的愉快！！" ******40
+                    SetUpProgressBarProcessing(100);
+                    currentStatus = "Xray" + Application.Current.FindResource("DisplayInstallInfo_ProxyInstalledOK").ToString();
+                    MainWindowsShowInfo(currentStatus);
+
+                    Thread.Sleep(1000);
+
+                    //显示服务端连接参数
+                    proxyType = "Xray";
+                    ResultClientInformation resultClientInformation = new ResultClientInformation();
+                    resultClientInformation.ShowDialog();
+
+                    return;
+
+                }
+            }
+            catch (Exception ex1)//例外处理   
+            {
+                ProcessException(ex1.Message);
+
+                //****** "安装失败!" ******
+                currentStatus = Application.Current.FindResource("DisplayInstallInfo_LoginFailed").ToString();
+                MainWindowsShowInfo(currentStatus);
+            }
+        }
+
+        #region Xray专用调用函数
+        //安装代理程序 37--40
+        //functionResult = ProxySoftInstall(client,@"",@"");
+        //if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+        /*         private bool ProxySoftInstallV2ray(SshClient client, string proxyName, string downloadUrl)
+                {
+                    //****** "系统环境检测完毕，符合安装要求,开始布署......" ******
+                    SetUpProgressBarProcessing(37);
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstalling").ToString();
+                    MainWindowsShowInfo(currentStatus);
+
+                    //****** "正在安装{proxyName}......" ******
+                    SetUpProgressBarProcessing(38);
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartInstallSoft").ToString() + $"{proxyName}......";
+                    MainWindowsShowInfo(currentStatus);
+
+                    saveShellScriptFileName = GenerateRandomScriptFileName(GenerateRandomStr(10));
+
+                    sshShellCommand = $"curl -o {saveShellScriptFileName} {downloadUrl}";
+                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                    functionResult = FileCheckExists(client, $"{saveShellScriptFileName}");
+                    if (functionResult == false)
+                    {
+                        //***文件下载失败！***
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_DownloadScriptFailed").ToString();
+                        MainWindowsShowInfo(currentStatus);
+                        return false;
+
+                    }
+                    sshShellCommand = $"yes | bash {saveShellScriptFileName} --version v4.32.1";
+                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                    sshShellCommand = $"rm -f {saveShellScriptFileName}";
+                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                    SetUpProgressBarProcessing(40);
+                    return true;
+                } */
+
+
+        //生成Xray服务端配置 44--46
+        //functionResult = GenerateServerConfiguration(client);
+        //if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+        private bool GenerateServerConfigurationXray(SshClient client)
+        {
+            SetUpProgressBarProcessing(44);
+            //修改xray.service
+
+            sshShellCommand = $"sed -i 's/User=nobody/User=root/g' /etc/systemd/system/xray.service";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+            sshShellCommand = $"sed -i 's/CapabilityBoundingSet=/#CapabilityBoundingSet=/g' /etc/systemd/system/xray.service";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+            sshShellCommand = $"sed -i 's/AmbientCapabilities=/#AmbientCapabilities=/g' /etc/systemd/system/xray.service";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+            sshShellCommand = $"systemctl daemon-reload";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+            //备用下载地址：https://raw.githubusercontent.com/proxysu/Resources/master/xray/xray.service
+
+            //sshShellCommand = $"yes | curl -o /etc/systemd/system/xray.service https://raw.githubusercontent.com/proxysu/Resources/master/xray/xray.service";
+            //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+            //备份原来的文件
+            //functionResult = FileCheckExists(client, @"/usr/local/etc/xray/config.json");
+            //if (functionResult == true)
+            //{
+
+            sshShellCommand = @"mv /usr/local/etc/xray/config.json /usr/local/etc/xray/config.json.1";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+            //}
+            //读取配置文件各个模块
+            string logConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\00_log\00_log.json";
+            string apiConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\01_api\01_api.json";
+            string dnsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\02_dns\02_dns.json";
+            string routingConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\03_routing\03_routing.json";
+            string policyConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\04_policy\04_policy.json";
+            string inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\05_inbounds\05_inbounds.json";
+            string outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\06_outbounds\06_outbounds.json";
+            string transportConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\07_transport\07_transport.json";
+            string statsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\08_stats\08_stats.json";
+            string reverseConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\09_reverse\09_reverse.json";
+            string baseConfigJson = $"{pwdir}" + @"TemplateConfg\xray\base.json";
+
+            //配置文件模块合成
+            using (StreamReader reader = File.OpenText(baseConfigJson))
+            {
+                JObject serverJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
+                //读取"log"
+                using (StreamReader readerJson = File.OpenText(logConfigJson))
+                {
+                    JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+                    serverJson["log"] = jObjectJson["log"];
+                }
+                //读取"api"
+                using (StreamReader readerJson = File.OpenText(apiConfigJson))
+                {
+                    JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+                    serverJson["api"] = jObjectJson["api"];
+                }
+                //读取"dns"
+                using (StreamReader readerJson = File.OpenText(dnsConfigJson))
+                {
+                    JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+                    serverJson["dns"] = jObjectJson["dns"];
+                }
+                //读取"routing"
+                using (StreamReader readerJson = File.OpenText(routingConfigJson))
+                {
+                    JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+                    serverJson["routing"] = jObjectJson["routing"];
+                }
+                //读取"policy"
+                using (StreamReader readerJson = File.OpenText(policyConfigJson))
+                {
+                    JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+                    serverJson["policy"] = jObjectJson["policy"];
+                }
+                //读取"inbounds"
+                using (StreamReader readerJson = File.OpenText(inboundsConfigJson))
+                {
+                    JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+                    serverJson["inbounds"] = jObjectJson["inbounds"];
+                }
+                //读取"outbounds"
+                using (StreamReader readerJson = File.OpenText(outboundsConfigJson))
+                {
+                    JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+                    serverJson["outbounds"] = jObjectJson["outbounds"];
+                }
+                //读取"transport"
+                using (StreamReader readerJson = File.OpenText(transportConfigJson))
+                {
+                    JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+                    serverJson["transport"] = jObjectJson["transport"];
+                }
+                //读取"stats"
+                using (StreamReader readerJson = File.OpenText(statsConfigJson))
+                {
+                    JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+                    serverJson["stats"] = jObjectJson["stats"];
+                }
+                //读取"reverse"
+                using (StreamReader readerJson = File.OpenText(reverseConfigJson))
+                {
+                    JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+                    serverJson["reverse"] = jObjectJson["reverse"];
+                }
+
+                //依据安装模式读取相应模板
+                if (String.Equals(ReceiveConfigurationParameters[0], "TCP") == true)
+                {
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\05_inbounds\tcp_server_config.json";
+                }
+                else if (String.Equals(ReceiveConfigurationParameters[0], "TCPhttp") == true)
+                {
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\05_inbounds\tcp_http_server_config.json";
+                }
+                else if (String.Equals(ReceiveConfigurationParameters[0], "tcpTLS") == true)
+                {
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\05_inbounds\tcp_TLS_server_config.json";
+                }
+                else if (String.Equals(ReceiveConfigurationParameters[0], "tcpTLSselfSigned") == true)
+                {
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\05_inbounds\tcpTLSselfSigned_server_config.json";
+                }
+                else if (String.Equals(ReceiveConfigurationParameters[0], "VlessXtlsTcp") == true)
+                {
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\05_inbounds\vless_tcp_xtls_server_config.json";
+                }
+                else if (String.Equals(ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == true)
+                {
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\05_inbounds\vless_tcp_tls_server_config.json";
+                }
+                else if (String.Equals(ReceiveConfigurationParameters[0], "VlessWebSocketTlsWeb") == true)
+                {
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\05_inbounds\vless_ws_tls_server_config.json";
+                }
+                else if (String.Equals(ReceiveConfigurationParameters[0], "VlessHttp2Web") == true)
+                {
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\05_inbounds\vless_http2_tls_server_config.json";
+                }
+                else if (String.Equals(ReceiveConfigurationParameters[0], "VlessVmessXtlsTcpWebSocketWeb") == true)
+                {
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\05_inbounds\vless_vmess_xtls_tcp_websocket_server_config.json";
+                }
+                else if (String.Equals(ReceiveConfigurationParameters[0], "webSocket") == true)
+                {
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\05_inbounds\webSocket_server_config.json";
+                }
+                else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS") == true)
+                {
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\05_inbounds\WebSocket_TLS_server_config.json";
+                }
+                else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLSselfSigned") == true)
+                {
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\05_inbounds\WebSocketTLS_selfSigned_server_config.json";
+                }
+                else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web") == true)
+                {
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\05_inbounds\WebSocketTLSWeb_server_config.json";
+                }
+                else if (String.Equals(ReceiveConfigurationParameters[0], "Http2") == true)
+                {
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\05_inbounds\http2_server_config.json";
+                }
+                else if (String.Equals(ReceiveConfigurationParameters[0], "http2Web") == true)
+                {
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\05_inbounds\Http2Web_server_config.json";
+                }
+                else if (String.Equals(ReceiveConfigurationParameters[0], "http2selfSigned") == true)
+                {
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\Http2selfSigned_server_config.json";
+                }
+                //else if (String.Equals(ReceiveConfigurationParameters[0], "MkcpNone")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2SRTP")||String.Equals(ReceiveConfigurationParameters[0], "mKCPuTP")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WechatVideo")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2DTLS")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WireGuard"))
+                else if (ReceiveConfigurationParameters[0].Contains("mKCP") == true)
+                {
+                    if (mKCPvlessIsSet == true)
+                    {
+                        inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\05_inbounds\vless_mkcp_server_config.json";
+                    }
+                    else
+                    {
+                        inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\05_inbounds\mkcp_server_config.json";
+                    }
+
+                }
+
+                // else if (String.Equals(ReceiveConfigurationParameters[0], "QuicNone") || String.Equals(ReceiveConfigurationParameters[0], "QuicSRTP") || String.Equals(ReceiveConfigurationParameters[0], "Quic2uTP") || String.Equals(ReceiveConfigurationParameters[0], "QuicWechatVideo") || String.Equals(ReceiveConfigurationParameters[0], "QuicDTLS") || String.Equals(ReceiveConfigurationParameters[0], "QuicWireGuard"))
+                else if (ReceiveConfigurationParameters[0].Contains("Quic") == true)
+                {
+                    inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\05_inbounds\quic_server_config.json";
+                }
+
+                //读取"inbounds"
+                using (StreamReader readerJson = File.OpenText(inboundsConfigJson))
+                {
+                    JObject jObjectJsonTmp = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+                    var jObjectJson = (dynamic)jObjectJsonTmp;
+
+                    //Padavan路由固件服务端设置（因为客户端分流有问题所以在服务端弥补）加上后会影响一定的速度
+
+                    //string sniffingAddServer = $"{pwdir}" + @"TemplateConfg\xray\server\05_inbounds\00_padavan_router.json";
+                    //using (StreamReader readerSniffingJson = File.OpenText(sniffingAddServer))
+                    //{
+                    //    JObject jObjectSniffingJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerSniffingJson));
+                    //    jObjectJson["inbounds"][0]["sniffing"] = jObjectSniffingJson["sniffing"];
+                    //}
+
+                    //设置uuid
+                    jObjectJson["inbounds"][0]["settings"]["clients"][0]["id"] = ReceiveConfigurationParameters[2];
+
+                    //除WebSocketTLSWeb/http2Web/VLESS+WebSocket+TLS+Web/VLESS+http2+TLS+Web模式外设置监听端口
+                    if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web") == false
+                        && String.Equals(ReceiveConfigurationParameters[0], "http2Web") == false
+                        && String.Equals(ReceiveConfigurationParameters[0], "VlessWebSocketTlsWeb") == false
+                        && String.Equals(ReceiveConfigurationParameters[0], "VlessHttp2Web") == false)
+                    {
+                        jObjectJson["inbounds"][0]["port"] = int.Parse(ReceiveConfigurationParameters[1]);
+                    }
+
+                    //设置VLESS协议的回落端口，指向Caddy
+                    if (String.Equals(ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == true
+                        || String.Equals(ReceiveConfigurationParameters[0], "VlessXtlsTcp") == true)
+                    {
+                        //设置Caddy随机监听的端口
+                        randomCaddyListenPort = GetRandomPort();
+
+                        //指向Caddy监听的随机端口
+                        jObjectJson["inbounds"][0]["settings"]["fallbacks"][0]["dest"] = randomCaddyListenPort;
+                    }
+                    //设置VLESS+VMESS+Trojan+XTLS+TCP+WebSocket+Web协议
+                    if (String.Equals(ReceiveConfigurationParameters[0], "VlessVmessXtlsTcpWebSocketWeb") == true)
+                    {
+                        //设置Caddy随机监听的端口
+                        randomCaddyListenPort = GetRandomPort();
+
+                        //指向Caddy监听的随机端口
+                        jObjectJson["inbounds"][1]["settings"]["fallbacks"][0]["dest"] = randomCaddyListenPort;
+                        //设置其他模式的UUID
+                        jObjectJson["inbounds"][1]["settings"]["clients"][0]["password"] = ReceiveConfigurationParameters[2];
+                        jObjectJson["inbounds"][2]["settings"]["clients"][0]["id"] = ReceiveConfigurationParameters[2];
+                        jObjectJson["inbounds"][3]["settings"]["clients"][0]["id"] = ReceiveConfigurationParameters[2];
+                        jObjectJson["inbounds"][4]["settings"]["clients"][0]["id"] = ReceiveConfigurationParameters[2];
+
+                        //设置Vless回落与分流的Path
+                        jObjectJson["inbounds"][0]["settings"]["fallbacks"][1]["path"] = ReceiveConfigurationParameters[3];
+                        jObjectJson["inbounds"][0]["settings"]["fallbacks"][2]["path"] = ReceiveConfigurationParameters[9];
+                        jObjectJson["inbounds"][0]["settings"]["fallbacks"][3]["path"] = ReceiveConfigurationParameters[6];
+
+                        //设置Vless ws Path
+                        jObjectJson["inbounds"][2]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[3];
+                        //设置Vmess tcp Path
+                        jObjectJson["inbounds"][3]["streamSettings"]["tcpSettings"]["header"]["request"]["path"][0] = ReceiveConfigurationParameters[9];
+                        //设置Vmess ws Path
+                        jObjectJson["inbounds"][4]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[6];
+
+                    }
+
+                    //TLS自签证书/WebSocketTLS(自签证书)/http2自签证书模式下，使用v2ctl 生成自签证书
+                    if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLSselfSigned") == true
+                        || String.Equals(ReceiveConfigurationParameters[0], "tcpTLSselfSigned") == true
+                        || String.Equals(ReceiveConfigurationParameters[0], "http2selfSigned") == true)
+                    {
+                        string selfSignedCa = client.RunCommand("/usr/local/bin/v2ctl cert --ca").Result;
+                        JObject selfSignedCaJObject = JObject.Parse(selfSignedCa);
+                        jObjectJson["inbounds"][0]["streamSettings"]["tlsSettings"]["certificates"][0] = selfSignedCaJObject;
+                    }
+
+                    //如果是WebSocketTLSWeb/WebSocketTLS/WebSocketTLS(自签证书)/VLESS+WebSocket+TLS+Web模式，则设置路径
+                    if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS") == true
+                        || String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLSselfSigned") == true
+                        || String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web") == true
+                        || String.Equals(ReceiveConfigurationParameters[0], "VlessWebSocketTlsWeb") == true)
+                    {
+                        jObjectJson["inbounds"][0]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[6];
+                    }
+
+                    //如果是Http2/http2Web/http2自签/VLESS+http2+TLS+Web模式下，设置路径
+                    if (String.Equals(ReceiveConfigurationParameters[0], "Http2") == true
+                        || String.Equals(ReceiveConfigurationParameters[0], "http2Web") == true
+                        || String.Equals(ReceiveConfigurationParameters[0], "http2selfSigned") == true
+                        || String.Equals(ReceiveConfigurationParameters[0], "VlessHttp2Web") == true)
+                    {
+                        jObjectJson["inbounds"][0]["streamSettings"]["httpSettings"]["path"] = ReceiveConfigurationParameters[6];
+                    }
+
+                    //如果是Http2+Web/VLESS+http2+TLS+Web模式下，设置host
+                    if (String.Equals(ReceiveConfigurationParameters[0], "http2Web") == true
+                        || String.Equals(ReceiveConfigurationParameters[0], "VlessHttp2Web") == true)
+                    {
+                        jObjectJson["inbounds"][0]["streamSettings"]["httpSettings"]["host"][0] = ReceiveConfigurationParameters[4];
+                    }
+
+                    //mkcp模式下，设置伪装类型
+                    if (ReceiveConfigurationParameters[0].Contains("mKCP") == true)
+                    {
+                        jObjectJson["inbounds"][0]["streamSettings"]["kcpSettings"]["header"]["type"] = ReceiveConfigurationParameters[5];
+                        if (String.IsNullOrEmpty(ReceiveConfigurationParameters[6]) == false)
+                        {
+                            jObjectJson["inbounds"][0]["streamSettings"]["kcpSettings"]["seed"] = ReceiveConfigurationParameters[6];
+                        }
+                    }
+
+                    //quic模式下设置伪装类型及密钥
+                    if (ReceiveConfigurationParameters[0].Contains("Quic") == true)
+                    {
+                        jObjectJson["inbounds"][0]["streamSettings"]["quicSettings"]["header"]["type"] = ReceiveConfigurationParameters[5];
+                        jObjectJson["inbounds"][0]["streamSettings"]["quicSettings"]["security"] = ReceiveConfigurationParameters[3];
+
+                        if (String.Equals(ReceiveConfigurationParameters[3], "none") == true)
+                        {
+                            ReceiveConfigurationParameters[6] = "";
+                        }
+                        jObjectJson["inbounds"][0]["streamSettings"]["quicSettings"]["key"] = ReceiveConfigurationParameters[6];
+                    }
+
+                    serverJson["inbounds"] = jObjectJson["inbounds"];
+                }
+
+                using (StreamWriter sw = new StreamWriter(@"config.json"))
+                {
+                    sw.Write(serverJson.ToString());
+                }
+            }
+            SetUpProgressBarProcessing(46);
+            return true;
+        }
+
+        //安装证书到Xray 58--60
+        //functionResult = CertInstallToXray(client);
+        //if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+        private bool CertInstallToXray(SshClient client)
+        {
+            //****** "安装证书到Xray......" ******26
+            SetUpProgressBarProcessing(58);
+            currentStatus = Application.Current.FindResource("DisplayInstallInfo_IntallCertToSoft").ToString() + "Xray......";
+            MainWindowsShowInfo(currentStatus);
+
+            sshShellCommand = @"mkdir -p /usr/local/etc/xray/ssl";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+            sshShellCommand = $"/root/.acme.sh/acme.sh  --installcert  -d {ReceiveConfigurationParameters[4]}  --certpath /usr/local/etc/xray/ssl/xray_ssl.crt --keypath /usr/local/etc/xray/ssl/xray_ssl.key  --capath  /usr/local/etc/xray/ssl/xray_ssl.crt  --reloadcmd  \"systemctl restart xray\"";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+            sshShellCommand = @"if [ ! -f ""/usr/local/etc/xray/ssl/xray_ssl.key"" ]; then echo ""0""; else echo ""1""; fi | head -n 1";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+            if (currentShellCommandResult.Contains("1") == true)
+            {
+                //****** "证书成功安装到Xray！" ******27
+                SetUpProgressBarProcessing(60);
+                currentStatus = Application.Current.FindResource("DisplayInstallInfo_IntallCertToSoftOK").ToString() + "Xray!";
+                MainWindowsShowInfo(currentStatus);
+            }
+            else
+            {
+                //****** "证书安装到Xray失败，原因未知，可以向开发者提问！" ******
+                currentStatus = Application.Current.FindResource("DisplayInstallInfo_IntallCertToSoftFail").ToString() +
+                                "Xray" +
+                                Application.Current.FindResource("DisplayInstallInfo_InstallCertFailAsk").ToString();
+                MainWindowsShowInfo(currentStatus);
+                return false;
+            }
+
+            //设置私钥权限
+            sshShellCommand = @"chmod 644 /usr/local/etc/xray/ssl/xray_ssl.key";
+            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+            return true;
+        }
+
+        //生成Xray客户端配置 96--98
+        //functionResult = GenerateClientConfiguration();
+        //if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+        private bool GenerateClientConfigurationXray()
+        {
+            //****** "生成客户端配置......" ******39
+            SetUpProgressBarProcessing(96);
+            currentStatus = Application.Current.FindResource("DisplayInstallInfo_GenerateClientConfig").ToString();
+            MainWindowsShowInfo(currentStatus);
+
+            string logConfigJson = $"{pwdir}" + @"TemplateConfg\xray\client\00_log\00_log.json";
+            string apiConfigJson = $"{pwdir}" + @"TemplateConfg\xray\client\01_api\01_api.json";
+            string dnsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\client\02_dns\02_dns.json";
+            string routingConfigJson = $"{pwdir}" + @"TemplateConfg\xray\client\03_routing\03_routing.json";
+            string policyConfigJson = $"{pwdir}" + @"TemplateConfg\xray\client\04_policy\04_policy.json";
+            string inboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\client\05_inbounds\05_inbounds.json";
+            string outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\client\06_outbounds\06_outbounds.json";
+            string transportConfigJson = $"{pwdir}" + @"TemplateConfg\xray\client\07_transport\07_transport.json";
+            string statsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\client\08_stats\08_stats.json";
+            string reverseConfigJson = $"{pwdir}" + @"TemplateConfg\xray\client\09_reverse\09_reverse.json";
+            string baseConfigJson = $"{pwdir}" + @"TemplateConfg\xray\base.json";
+            //Thread.Sleep(1000);
+            if (!Directory.Exists("xray_config"))//如果不存在就创建file文件夹　　             　　              
+            {
+                Directory.CreateDirectory("xray_config");//创建该文件夹　　   
+            }
+
+            using (StreamReader reader = File.OpenText(baseConfigJson))
+            {
+                JObject clientJson = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
+                //读取"log"
+                using (StreamReader readerJson = File.OpenText(logConfigJson))
+                {
+                    JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+                    clientJson["log"] = jObjectJson["log"];
+                }
+                //读取"api"
+                using (StreamReader readerJson = File.OpenText(apiConfigJson))
+                {
+                    JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+                    clientJson["api"] = jObjectJson["api"];
+                }
+                //读取"dns"
+                using (StreamReader readerJson = File.OpenText(dnsConfigJson))
+                {
+                    JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+                    clientJson["dns"] = jObjectJson["dns"];
+                }
+                //读取"routing"
+                using (StreamReader readerJson = File.OpenText(routingConfigJson))
+                {
+                    JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+                    clientJson["routing"] = jObjectJson["routing"];
+                }
+                //读取"policy"
+                using (StreamReader readerJson = File.OpenText(policyConfigJson))
+                {
+                    JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+                    clientJson["policy"] = jObjectJson["policy"];
+                }
+                //读取"inbounds"
+                using (StreamReader readerJson = File.OpenText(inboundsConfigJson))
+                {
+                    JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+                    clientJson["inbounds"] = jObjectJson["inbounds"];
+                }
+                //读取"outbounds"
+                using (StreamReader readerJson = File.OpenText(outboundsConfigJson))
+                {
+                    JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+                    clientJson["outbounds"] = jObjectJson["outbounds"];
+                }
+                //读取"transport"
+                using (StreamReader readerJson = File.OpenText(transportConfigJson))
+                {
+                    JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+                    clientJson["transport"] = jObjectJson["transport"];
+                }
+                //读取"stats"
+                using (StreamReader readerJson = File.OpenText(statsConfigJson))
+                {
+                    JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+                    clientJson["stats"] = jObjectJson["stats"];
+                }
+                //读取"reverse"
+                using (StreamReader readerJson = File.OpenText(reverseConfigJson))
+                {
+                    JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+                    clientJson["reverse"] = jObjectJson["reverse"];
+                }
+
+                //根据不同的安装方案，选择相应的客户端模板
+                if (String.Equals(ReceiveConfigurationParameters[0], "VlessVmessXtlsTcpWebSocketWeb") == false)
+                {
+                    #region 单模式方案
+                    //根据选择的不同模式，选择相应的配置文件
+                    if (String.Equals(ReceiveConfigurationParameters[0], "TCP") == true)
+                    {
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\client\06_outbounds\tcp_client_config.json";
+                    }
+                    else if (String.Equals(ReceiveConfigurationParameters[0], "TCPhttp") == true)
+                    {
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\client\06_outbounds\tcp_http_client_config.json";
+                    }
+                    else if (String.Equals(ReceiveConfigurationParameters[0], "tcpTLS") == true)
+                    {
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\client\06_outbounds\tcp_TLS_client_config.json";
+                    }
+                    else if (String.Equals(ReceiveConfigurationParameters[0], "tcpTLSselfSigned") == true)
+                    {
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\client\06_outbounds\tcpTLSselfSigned_client_config.json";
+                    }
+                    else if (String.Equals(ReceiveConfigurationParameters[0], "VlessXtlsTcp") == true)
+                    {
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\client\06_outbounds\vless_tcp_xtls_client_config.json";
+                    }
+                    else if (String.Equals(ReceiveConfigurationParameters[0], "VlessTcpTlsWeb") == true)
+                    {
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\client\06_outbounds\vless_tcp_tls_caddy_cilent_config.json";
+                    }
+                    else if (String.Equals(ReceiveConfigurationParameters[0], "VlessWebSocketTlsWeb") == true)
+                    {
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\client\06_outbounds\vless_ws_tls_client_config.json";
+                    }
+                    else if (String.Equals(ReceiveConfigurationParameters[0], "VlessHttp2Web") == true)
+                    {
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\client\06_outbounds\vless_http2_tls_server_config.json";
+                    }
+
+                    else if (String.Equals(ReceiveConfigurationParameters[0], "webSocket") == true)
+                    {
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\client\06_outbounds\webSocket_client_config.json";
+                    }
+                    else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS") == true)
+                    {
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\client\06_outbounds\WebSocket_TLS_client_config.json";
+                    }
+                    else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLSselfSigned") == true)
+                    {
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\client\06_outbounds\WebSocketTLS_selfSigned_client_config.json";
+                    }
+                    else if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web") == true)
+                    {
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\client\06_outbounds\WebSocketTLSWeb_client_config.json";
+                    }
+                    else if (String.Equals(ReceiveConfigurationParameters[0], "Http2") == true)
+                    {
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\client\06_outbounds\http2_client_config.json";
+                    }
+                    else if (String.Equals(ReceiveConfigurationParameters[0], "http2Web") == true)
+                    {
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\client\06_outbounds\Http2Web_client_config.json";
+                    }
+                    else if (String.Equals(ReceiveConfigurationParameters[0], "http2selfSigned") == true)
+                    {
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\client\06_outbounds\Http2selfSigned_client_config.json";
+                    }
+                    //else if (String.Equals(ReceiveConfigurationParameters[0], "MkcpNone")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2SRTP")||String.Equals(ReceiveConfigurationParameters[0], "mKCPuTP")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WechatVideo")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2DTLS")|| String.Equals(ReceiveConfigurationParameters[0], "mKCP2WireGuard"))
+                    else if (ReceiveConfigurationParameters[0].Contains("mKCP") == true)
+                    {
+                        if (mKCPvlessIsSet == true)
+                        {
+                            outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\client\06_outbounds\vless_mkcp_client_config.json";
+                        }
+                        else
+                        {
+                            outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\client\06_outbounds\mkcp_client_config.json";
+                        }
+
+                    }
+                    // else if (String.Equals(ReceiveConfigurationParameters[0], "QuicNone") || String.Equals(ReceiveConfigurationParameters[0], "QuicSRTP") || String.Equals(ReceiveConfigurationParameters[0], "Quic2uTP") || String.Equals(ReceiveConfigurationParameters[0], "QuicWechatVideo") || String.Equals(ReceiveConfigurationParameters[0], "QuicDTLS") || String.Equals(ReceiveConfigurationParameters[0], "QuicWireGuard"))
+                    else if (ReceiveConfigurationParameters[0].Contains("Quic") == true)
+                    {
+                        outboundsConfigJson = $"{pwdir}" + @"TemplateConfg\xray\client\06_outbounds\quic_client_config.json";
+                    }
+
+
+                    //读取"相应模板的outbounds"
+                    using (StreamReader readerJson = File.OpenText(outboundsConfigJson))
+                    {
+                        JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+
+                        //设置客户端的地址/端口/id
+                        jObjectJson["outbounds"][0]["settings"]["vnext"][0]["address"] = ReceiveConfigurationParameters[4];
+                        jObjectJson["outbounds"][0]["settings"]["vnext"][0]["port"] = int.Parse(ReceiveConfigurationParameters[1]);
+                        jObjectJson["outbounds"][0]["settings"]["vnext"][0]["users"][0]["id"] = ReceiveConfigurationParameters[2];
+
+
+                        //设置WebSocket模式下的path
+                        if (String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS") == true
+                            || String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLSselfSigned") == true
+                            || String.Equals(ReceiveConfigurationParameters[0], "WebSocketTLS2Web") == true
+                            || String.Equals(ReceiveConfigurationParameters[0], "VlessWebSocketTlsWeb") == true)
+                        {
+                            jObjectJson["outbounds"][0]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[6];
+                        }
+
+                        //设置http2模式下的path
+                        if (String.Equals(ReceiveConfigurationParameters[0], "Http2") == true
+                            || String.Equals(ReceiveConfigurationParameters[0], "http2Web") == true
+                            || String.Equals(ReceiveConfigurationParameters[0], "http2selfSigned") == true
+                            || String.Equals(ReceiveConfigurationParameters[0], "VlessHttp2Web") == true)
+                        {
+                            jObjectJson["outbounds"][0]["streamSettings"]["httpSettings"]["path"] = ReceiveConfigurationParameters[6];
+                        }
+
+                        //设置http2+TLS+Web/VLESS+http2+TLS+Web模式下的host
+                        if (String.Equals(ReceiveConfigurationParameters[0], "http2Web") == true
+                            || String.Equals(ReceiveConfigurationParameters[0], "VlessHttp2Web") == true)
+                        {
+                            jObjectJson["outbounds"][0]["streamSettings"]["httpSettings"]["host"][0] = ReceiveConfigurationParameters[4];
+                        }
+
+                        //设置VLESS+TCP+XTLS+Web模式下的serverName
+                        //if (String.Equals(ReceiveConfigurationParameters[0], "VlessXtlsTcp") == true)
+                        //{
+                        //    jObjectJson["outbounds"][0]["streamSettings"]["xtlsSettings"]["serverName"] = ReceiveConfigurationParameters[4];
+                        //}
+
+                        //设置mkcp
+                        if (ReceiveConfigurationParameters[0].Contains("mKCP") == true)
+                        {
+                            jObjectJson["outbounds"][0]["streamSettings"]["kcpSettings"]["header"]["type"] = ReceiveConfigurationParameters[5];
+                            if (String.IsNullOrEmpty(ReceiveConfigurationParameters[6]) == false)
+                            {
+                                jObjectJson["outbounds"][0]["streamSettings"]["kcpSettings"]["seed"] = ReceiveConfigurationParameters[6];
+                            }
+                        }
+
+                        //设置QUIC
+                        if (ReceiveConfigurationParameters[0].Contains("Quic") == true)
+                        {
+                            jObjectJson["outbounds"][0]["streamSettings"]["quicSettings"]["header"]["type"] = ReceiveConfigurationParameters[5];
+                            jObjectJson["outbounds"][0]["streamSettings"]["quicSettings"]["security"] = ReceiveConfigurationParameters[3];
+                            if (String.Equals(ReceiveConfigurationParameters[3], "none") == true)
+                            {
+                                ReceiveConfigurationParameters[6] = "";
+                            }
+                            jObjectJson["outbounds"][0]["streamSettings"]["quicSettings"]["key"] = ReceiveConfigurationParameters[6];
+                        }
+
+                        clientJson["outbounds"] = jObjectJson["outbounds"];
+
+                    }
+
+                    using (StreamWriter sw = new StreamWriter(@"xray_config\config.json"))
+                    {
+                        sw.Write(clientJson.ToString());
+                    }
+
+                    #endregion
+
+                }
+                else
+                {
+                    //复合方案所需要的配置文件
+                    //VLESS over TCP with XTLS模式
+                    string outboundsConfigJsons = $"{pwdir}" + @"TemplateConfg\xray\client\06_outbounds\vless_tcp_xtls_client_config.json";
+                    using (StreamReader readerJson = File.OpenText(outboundsConfigJsons))
+                    {
+                        JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+
+                        //设置客户端的地址/端口/id
+                        jObjectJson["outbounds"][0]["settings"]["vnext"][0]["address"] = ReceiveConfigurationParameters[4];
+                        jObjectJson["outbounds"][0]["settings"]["vnext"][0]["port"] = int.Parse(ReceiveConfigurationParameters[1]);
+                        jObjectJson["outbounds"][0]["settings"]["vnext"][0]["users"][0]["id"] = ReceiveConfigurationParameters[2];
+
+                        clientJson["outbounds"] = jObjectJson["outbounds"];
+                        if (!Directory.Exists(@"xray_config\vless_tcp_xtls_client_config"))//如果不存在就创建file文件夹　　             　　              
+                        {
+                            Directory.CreateDirectory(@"xray_config\vless_tcp_xtls_client_config");//创建该文件夹　　   
+                        }
+                        using (StreamWriter sw = new StreamWriter(@"xray_config\vless_tcp_xtls_client_config\config.json"))
+                        {
+                            sw.Write(clientJson.ToString());
+                        }
+                    }
+
+                    //VLESS over TCP with TLS模式
+                    outboundsConfigJsons = $"{pwdir}" + @"TemplateConfg\xray\client\06_outbounds\vless_tcp_tls_caddy_cilent_config.json";
+                    using (StreamReader readerJson = File.OpenText(outboundsConfigJsons))
+                    {
+                        JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+
+                        //设置客户端的地址/端口/id
+                        jObjectJson["outbounds"][0]["settings"]["vnext"][0]["address"] = ReceiveConfigurationParameters[4];
+                        jObjectJson["outbounds"][0]["settings"]["vnext"][0]["port"] = int.Parse(ReceiveConfigurationParameters[1]);
+                        jObjectJson["outbounds"][0]["settings"]["vnext"][0]["users"][0]["id"] = ReceiveConfigurationParameters[2];
+
+                        clientJson["outbounds"] = jObjectJson["outbounds"];
+                        if (!Directory.Exists(@"xray_config\vless_tcp_tls_client_config"))//如果不存在就创建file文件夹　　             　　              
+                        {
+                            Directory.CreateDirectory(@"xray_config\vless_tcp_tls_client_config");//创建该文件夹　　   
+                        }
+                        using (StreamWriter sw = new StreamWriter(@"xray_config\vless_tcp_tls_client_config\config.json"))
+                        {
+                            sw.Write(clientJson.ToString());
+                        }
+                    }
+
+                    //VLESS over WS with TLS 模式
+                    outboundsConfigJsons = $"{pwdir}" + @"TemplateConfg\xray\client\06_outbounds\vless_ws_tls_client_config.json";
+                    using (StreamReader readerJson = File.OpenText(outboundsConfigJsons))
+                    {
+                        JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+
+                        //设置客户端的地址/端口/id
+                        jObjectJson["outbounds"][0]["settings"]["vnext"][0]["address"] = ReceiveConfigurationParameters[4];
+                        jObjectJson["outbounds"][0]["settings"]["vnext"][0]["port"] = int.Parse(ReceiveConfigurationParameters[1]);
+                        jObjectJson["outbounds"][0]["settings"]["vnext"][0]["users"][0]["id"] = ReceiveConfigurationParameters[2];
+                        jObjectJson["outbounds"][0]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[3];
+
+                        clientJson["outbounds"] = jObjectJson["outbounds"];
+                        if (!Directory.Exists(@"xray_config\vless_ws_tls_client_config"))//如果不存在就创建file文件夹　　             　　              
+                        {
+                            Directory.CreateDirectory(@"xray_config\vless_ws_tls_client_config");//创建该文件夹　　   
+                        }
+                        using (StreamWriter sw = new StreamWriter(@"xray_config\vless_ws_tls_client_config\config.json"))
+                        {
+                            sw.Write(clientJson.ToString());
+                        }
+                    }
+
+                    //VMess over TCP with TLS模式
+                    outboundsConfigJsons = $"{pwdir}" + @"TemplateConfg\xray\client\06_outbounds\vmess_tcp_tls_client_config.json";
+                    using (StreamReader readerJson = File.OpenText(outboundsConfigJsons))
+                    {
+                        JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+
+                        //设置客户端的地址/端口/id
+                        jObjectJson["outbounds"][0]["settings"]["vnext"][0]["address"] = ReceiveConfigurationParameters[4];
+                        jObjectJson["outbounds"][0]["settings"]["vnext"][0]["port"] = int.Parse(ReceiveConfigurationParameters[1]);
+                        jObjectJson["outbounds"][0]["settings"]["vnext"][0]["users"][0]["id"] = ReceiveConfigurationParameters[2];
+                        jObjectJson["outbounds"][0]["streamSettings"]["tcpSettings"]["header"]["request"]["path"][0] = ReceiveConfigurationParameters[9];
+
+                        clientJson["outbounds"] = jObjectJson["outbounds"];
+                        if (!Directory.Exists(@"xray_config\vmess_tcp_tls_client_config"))//如果不存在就创建file文件夹　　             　　              
+                        {
+                            Directory.CreateDirectory(@"xray_config\vmess_tcp_tls_client_config");//创建该文件夹　　   
+                        }
+                        using (StreamWriter sw = new StreamWriter(@"xray_config\vmess_tcp_tls_client_config\config.json"))
+                        {
+                            sw.Write(clientJson.ToString());
+                        }
+                    }
+
+                    //VMess over WS with TLS模式
+                    outboundsConfigJsons = $"{pwdir}" + @"TemplateConfg\xray\client\06_outbounds\WebSocketTLSWeb_client_config.json";
+                    using (StreamReader readerJson = File.OpenText(outboundsConfigJsons))
+                    {
+                        JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+
+                        //设置客户端的地址/端口/id
+                        jObjectJson["outbounds"][0]["settings"]["vnext"][0]["address"] = ReceiveConfigurationParameters[4];
+                        jObjectJson["outbounds"][0]["settings"]["vnext"][0]["port"] = int.Parse(ReceiveConfigurationParameters[1]);
+                        jObjectJson["outbounds"][0]["settings"]["vnext"][0]["users"][0]["id"] = ReceiveConfigurationParameters[2];
+                        jObjectJson["outbounds"][0]["streamSettings"]["wsSettings"]["path"] = ReceiveConfigurationParameters[6];
+
+                        clientJson["outbounds"] = jObjectJson["outbounds"];
+                        if (!Directory.Exists(@"xray_config\vmess_ws_tls_client_config"))//如果不存在就创建file文件夹　　             　　              
+                        {
+                            Directory.CreateDirectory(@"xray_config\vmess_ws_tls_client_config");//创建该文件夹　　   
+                        }
+                        using (StreamWriter sw = new StreamWriter(@"xray_config\vmess_ws_tls_client_config\config.json"))
+                        {
+                            sw.Write(clientJson.ToString());
+                        }
+                    }
+
+                    //Trojan over TCP with TLS模式
+                    outboundsConfigJsons = $"{pwdir}" + @"TemplateConfg\xray\client\06_outbounds\trojan_tcp_tls.json";
+                    using (StreamReader readerJson = File.OpenText(outboundsConfigJsons))
+                    {
+                        JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+
+                        //设置客户端的地址/端口/id
+                        jObjectJson["outbounds"][0]["settings"]["servers"][0]["address"] = ReceiveConfigurationParameters[4];
+                        jObjectJson["outbounds"][0]["settings"]["servers"][0]["port"] = int.Parse(ReceiveConfigurationParameters[1]);
+                        jObjectJson["outbounds"][0]["settings"]["servers"][0]["password"] = ReceiveConfigurationParameters[2];
+                        jObjectJson["outbounds"][0]["streamSettings"]["tlsSettings"]["serverName"] = ReceiveConfigurationParameters[4];
+
+                        clientJson["outbounds"] = jObjectJson["outbounds"];
+                        if (!Directory.Exists(@"xray_config\trojan_tcp_tls_client_config"))//如果不存在就创建file文件夹　　             　　              
+                        {
+                            Directory.CreateDirectory(@"xray_config\trojan_tcp_tls_client_config");//创建该文件夹　　   
+                        }
+                        using (StreamWriter sw = new StreamWriter(@"xray_config\trojan_tcp_tls_client_config\config.json"))
+                        {
+                            sw.Write(clientJson.ToString());
+                        }
+                    }
+
+                }
+            }
+            SetUpProgressBarProcessing(98);
+            return true;
+        }
+
+
+        #endregion
+
+        //检测升级远程主机端的Xray版本
+        private void ButtonUpdateXray_Click(object sender, RoutedEventArgs e)
+        {
+            ConnectionInfo connectionInfo = GenerateConnectionInfo();
+            if (connectionInfo == null)
+            {
+                //****** "远程主机连接信息有误，请检查!" ******
+                MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorHostConnection").ToString());
+                return;
+            }
+            installationDegree = 0;
+            TextBoxMonitorCommandResults.Text = "";
+            Thread thread = new Thread(() => UpdateXray(connectionInfo));
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+        }
+
+        //升级Xray主程序
+        private void UpdateXray(ConnectionInfo connectionInfo)
+        {
+            functionResult = true;
+            onlyIpv6 = false;
+            getApt = false;
+            getDnf = false;
+            getYum = false;
+
+            //******"正在登录远程主机......"******
+            SetUpProgressBarProcessing(1);
+            currentStatus = Application.Current.FindResource("DisplayInstallInfo_Login").ToString();
+            MainWindowsShowInfo(currentStatus);
+
+            try
+            {
+                #region 主机指纹，暂未启用
+                //byte[] expectedFingerPrint = new byte[] {
+                //                                0x66, 0x31, 0xaf, 0x00, 0x54, 0xb9, 0x87, 0x31,
+                //                                0xff, 0x58, 0x1c, 0x31, 0xb1, 0xa2, 0x4c, 0x6b
+                //                            };
+                #endregion
+                using (var client = new SshClient(connectionInfo))
+
+                {
+                    #region ssh登录验证主机指纹代码块，暂未启用
+                    //    client.HostKeyReceived += (sender, e) =>
+                    //    {
+                    //        if (expectedFingerPrint.Length == e.FingerPrint.Length)
+                    //        {
+                    //            for (var i = 0; i < expectedFingerPrint.Length; i++)
+                    //            {
+                    //                if (expectedFingerPrint[i] != e.FingerPrint[i])
+                    //                {
+                    //                    e.CanTrust = false;
+                    //                    break;
+                    //                }
+                    //            }
+                    //        }
+                    //        else
+                    //        {
+                    //            e.CanTrust = false;
+                    //        }
+                    //    };
+                    #endregion
+
+                    client.Connect();
+                    if (client.IsConnected == true)
+                    {
+                        //******"主机登录成功"******
+                        SetUpProgressBarProcessing(3);
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_LoginSuccessful").ToString();
+                        MainWindowsShowInfo(currentStatus);
+                    }
+
+                    //检测root权限 5--7
+                    functionResult = RootAuthorityDetect(client);
+                    if (functionResult == false) { FunctionResultErr(); client.Disconnect(); return; }
+
+
+                    //******"检测系统是否已经安装Xray......"******
+                    SetUpProgressBarProcessing(20);
+                    currentStatus = Application.Current.FindResource("DisplayInstallInfo_TestExistSoft").ToString() + "Xray......";
+                    MainWindowsShowInfo(currentStatus);
+
+                    //Thread.Sleep(1000);
+                    //检测是否安装Xray
+                    //sshShellCommand = @"find / -name xray";
+                    //sshShellCommand = @"if [[ -f /usr/local/bin/xray ]];then echo '1';else echo '0'; fi";
+                    //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                    //if (currentShellCommandResult.Contains("/usr/local/bin/xray") == false)
+                    //if (currentShellCommandResult.Trim().Equals("0") == true)
+                    functionResult = FileCheckExists(client, @"/usr/local/bin/xray");
+                    if (functionResult == false)
+                    {
+                        //******"退出！原因：远程主机未安装Xray"******
+                        currentStatus = Application.Current.FindResource("MessageBoxShow_ErrorUpgradeSoftNotInstall").ToString() + "Xray!";
+                        MainWindowsShowInfo(currentStatus);
+                        MessageBox.Show(currentStatus);
+
+                        client.Disconnect();
+                        return;
+
+                    }
+
+                    //sshcmd = @"/usr/local/bin/xray -version | head -n 1 | cut -d "" "" -f2";
+                    sshShellCommand = @"/usr/local/bin/xray -version | head -n 1 | cut -d "" "" -f2";
+                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                    string xrayCurrentVersion = currentShellCommandResult;//不含字母v
+
+                    //sshcmd = @"curl -H ""Accept: application/json"" -H ""User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0"" -s ""https://api.github.com/repos/v2fly/xray-core/releases/latest"" --connect-timeout 10| grep 'tag_name' | cut -d\"" -f4";
+                    sshShellCommand = @"curl -H ""Accept: application/json"" -H ""User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0"" -sS ""https://api.github.com/repos/XTLS/Xray-core/releases/latest"" --connect-timeout 10 | grep 'tag_name' | cut -d\"" -f4";
+                    currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                    string xrayNewVersion = currentShellCommandResult;//包含字母v
+
+                    if (xrayNewVersion.Contains(xrayCurrentVersion) == false)
+                    {
+                        MessageBoxResult messageBoxResult = MessageBox.Show(
+                            //****** "远程主机当前版本为：v" ******
+                            Application.Current.FindResource("DisplayInstallInfo_CurrentVersion").ToString() +
+                            $"{xrayCurrentVersion}\n" +
+                            //****** "最新版本为：" ******
+                            Application.Current.FindResource("DisplayInstallInfo_NewVersion").ToString() +
+                            $"{xrayNewVersion}\n" +
+                            //****** "是否升级为最新版本？" ******
+                            Application.Current.FindResource("DisplayInstallInfo_IsOrNoUpgradeNewVersion").ToString(), "", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        if (messageBoxResult == MessageBoxResult.Yes)
+                        {
+                            //****** "正在升级到最新版本......" ******
+                            SetUpProgressBarProcessing(60);
+                            currentStatus = Application.Current.FindResource("DisplayInstallInfo_StartUpgradeNewVersion").ToString();
+                            MainWindowsShowInfo(currentStatus);
+
+                            //client.RunCommand(@"bash <(curl -L -s https://raw.githubusercontent.com/v2fly/fhs-install-xray/master/install-release.sh)");
+                            sshShellCommand = $"bash <(curl -L -s https://raw.githubusercontent.com/XTLS/Xray-install/main/install-release.sh)";
+                            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                            SetUpProgressBarProcessing(80);
+                            //sshcmd = @"/usr/local/bin/xray -version | head -n 1 | cut -d "" "" -f2";
+                            sshShellCommand = @"/usr/local/bin/xray -version | head -n 1 | cut -d "" "" -f2";
+                            currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
+
+                            xrayCurrentVersion = currentShellCommandResult;//不含字母v
+                            if (xrayNewVersion.Contains(xrayCurrentVersion) == true)
+                            {
+                                //****** "升级成功！当前已是最新版本！" ******
+                                SetUpProgressBarProcessing(100);
+                                currentStatus = Application.Current.FindResource("DisplayInstallInfo_UpgradeNewVersionOK").ToString();
+                                MainWindowsShowInfo(currentStatus);
+                                MessageBox.Show(currentStatus);
+                            }
+                            else
+                            {
+                                //****** "升级失败，原因未知，请向开发者提问！" ******
+                                currentStatus = Application.Current.FindResource("DisplayInstallInfo_UpgradeNewVersionFail").ToString();
+                                MainWindowsShowInfo(currentStatus);
+                                MessageBox.Show(currentStatus);
+                            }
+                        }
+                        else
+                        {
+                            //****** "升级取消，退出!" ******
+                            currentStatus = Application.Current.FindResource("DisplayInstallInfo_UpgradeVersionCancel").ToString();
+                            MainWindowsShowInfo(currentStatus);
+
+                            client.Disconnect();
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        //****** "远程主机当前已是最新版本：" ******
+                        SetUpProgressBarProcessing(100);
+                        currentStatus = Application.Current.FindResource("DisplayInstallInfo_IsNewVersion").ToString() +
+                            $"{xrayNewVersion}\n" +
+                            //******  "无需升级！退出！" ******
+                            Application.Current.FindResource("DisplayInstallInfo_NotUpgradeVersion").ToString();
+                        MessageBox.Show(currentStatus);
+                        MainWindowsShowInfo(currentStatus);
+                    }
+
+                    client.Disconnect();
+                    return;
+                }
+            }
+            catch (Exception ex1)//例外处理   
+            #region 例外处理
+            {
+                ProcessException(ex1.Message);
+
+                //****** "主机登录失败!" ******
+                currentStatus = Application.Current.FindResource("DisplayInstallInfo_LoginFailed").ToString();
+                MainWindowsShowInfo(currentStatus);
+            }
+            #endregion
+
+        }
+
         #endregion
 
         #region Trojan-go相关
@@ -2856,11 +4426,9 @@ namespace ProxySU
                     if (functionResult == false)
                     {
                         //******"退出！原因：远程主机未安装Trojan-go"******
-                        MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorUpgradeSoftNotInstall").ToString() + "Trojan-go!");
-                        //******"退出！原因：远程主机未安装Trojan-go"******
                         currentStatus = Application.Current.FindResource("MessageBoxShow_ErrorUpgradeSoftNotInstall").ToString() + "Trojan-go!";
                         MainWindowsShowInfo(currentStatus);
-
+                        MessageBox.Show(currentStatus);
                         client.Disconnect();
                         return;
 
@@ -3414,11 +4982,9 @@ namespace ProxySU
                     if (functionResult == false)
                     {
                         //******"退出！原因：远程主机未安装Trojan"******
-                        MessageBox.Show(Application.Current.FindResource("MessageBoxShow_ErrorUpgradeSoftNotInstall").ToString() + "Trojan!");
-                        //******"退出！原因：远程主机未安装Trojan"******
                         currentStatus = Application.Current.FindResource("MessageBoxShow_ErrorUpgradeSoftNotInstall").ToString() + "Trojan!";
                         MainWindowsShowInfo(currentStatus);
-
+                        MessageBox.Show(currentStatus);
                         client.Disconnect();
                         return;
 
@@ -8232,8 +9798,6 @@ namespace ProxySU
                 }
             }
 
-           
-
             SetUpProgressBarProcessing(30);
             return true;
         }
@@ -8863,12 +10427,13 @@ namespace ProxySU
 
 
 
+
         //生成客户端配置 96--98
 
 
         #endregion
 
-        
+ 
     }
 
 }
