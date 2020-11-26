@@ -2720,23 +2720,7 @@ namespace ProxySU
 
         #region 复制参数到剪贴板中
 
-        /*         //复制内容到剪贴板函数
-                private void CopyToClipboard(string content)
-                {
-                    if (content != "")
-                    {
-                        Clipboard.SetDataObject(content);
-                        //MessageBox.Show(Application.Current.FindResource("MessageBoxShow_XrayUUIDcopyedToClip").ToString());
-                        string message = Application.Current.FindResource("MessageBoxShow_XrayUUIDcopyedToClip").ToString();
-                        MessageBoxTimeoutA((IntPtr)0, message, "", 0, 0, 600);    // 直接调用  0.6秒后自动关闭 
-                    }
-                    else
-                    {
-                        //MessageBox.Show(Application.Current.FindResource("MessageBoxShow_XrayEmptyToClip").ToString());
-                        string message = Application.Current.FindResource("MessageBoxShow_XrayEmptyToClip").ToString();
-                        MessageBoxTimeoutA((IntPtr)0, message, "", 0, 0, 600);    // 直接调用  0.6秒后自动关闭 
-                    }
-                } */
+
 
         //复制服务器地址到剪贴板
         private void TextBoxHostAddressXray_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -2996,28 +2980,28 @@ namespace ProxySU
                 //sw.WriteLine("QR.bmp");
 
                 //****** "此文件为v2rayN、Qv2ray、v2rayNG(Android)、Shadowrocket(ios)扫码导入节点" ******
-                //sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine05").ToString());
+                //sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine05").ToString());
 
                 //****** "v2rayN下载网址：https://github.com/2dust/v2rayN/releases" ******
-                //sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine06").ToString());
+                //sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine06").ToString());
 
                 //****** "Qv2ray：https://github.com/Qv2ray/Qv2ray/releases" ******
-                //sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine07").ToString());
+                //sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine07").ToString());
 
                 //****** "v2rayNG(Android)下载网址：https://github.com/2dust/v2rayNG/releases" ******
-                //sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine08").ToString());
+                //sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine08").ToString());
 
                 //****** "v2rayNG(Android)在Google Play下载网址：https://play.google.com/store/apps/details?id=com.v2ray.ang" ******
-                //sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine09").ToString());
+                //sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine09").ToString());
 
                 //****** "Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。" ******
-                sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine10").ToString());
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine10").ToString());
 
                 //sw.WriteLine("-----------------------------------------");
                 //sw.WriteLine("url.txt");
 
                 //****** "此文件为v2rayN、Qv2ray、v2rayNG(Android)、Shadowrocket(ios)复制粘贴导入节点的vmess网址" ******
-                //sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine11").ToString());
+                //sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine11").ToString());
 
                 //写入通用配置参数
                 TxtWriteGeneralParametersXray(sw);
@@ -3116,44 +3100,44 @@ namespace ProxySU
             using (StreamWriter sw = new StreamWriter($"{configSavePath}\\readme.txt"))
             {
                 sw.WriteLine("config.json");
-                //****** "此文件为v2ray官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080，http代理地址：127.0.0.1:1081" ******
+                //****** "此文件为Xray官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080，http代理地址：127.0.0.1:1081" ******
                 sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine01").ToString());
 
-                //****** "v2ray官方网站：https://www.v2ray.com/" ******
+                //****** "Xray官方网站：https://github.com/XTLS/Xray-core" ******
                 sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine02").ToString());
 
-                //****** "v2ray官方程序下载地址：https://github.com/v2ray/v2ray-core/releases" ******
+                //****** "Xray官方程序下载地址：https://github.com/XTLS/Xray-core/releases" ******
                 sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine03").ToString());
 
-                //****** "下载相应版本，Windows选择v2ray-windows-64.zip或者v2ray-windows-32.zip，解压后提取v2ctl.exe和v2ray.exe。与config.json放在同一目录，运行v2ray.exe即可。" ******
+                //****** "下载相应版本，Windows选择xray-windows-64.zip或者xray-windows-32.zip，解压后提取xray.exe。与config.json放在同一目录，运行xray.exe即可。" ******
                 sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine04").ToString());
 
                 //sw.WriteLine("-----------------------------------------");
                 //sw.WriteLine("QR.bmp");
 
-                //****** "此文件为v2rayN、Qv2ray、v2rayNG(Android)、Shadowrocket(ios)扫码导入节点" ******
-                //sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine05").ToString());
+                //****** "此文件为v2rayN(windows)、Qv2ray(windows)、v2rayNG(Android)、Shadowrocket(ios)扫码导入节点" ******
+                //sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine05").ToString());
 
                 //****** "v2rayN下载网址：https://github.com/2dust/v2rayN/releases" ******
-                sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine06").ToString());
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine06").ToString());
 
-                //****** "Qv2ray：https://github.com/Qv2ray/Qv2ray/releases" ******
-                sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine07").ToString());
+                //****** "Qv2ray下载网址：https://github.com/Qv2ray/Qv2ray/releases" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine07").ToString());
 
                 //****** "v2rayNG(Android)下载网址：https://github.com/2dust/v2rayNG/releases" ******
-                sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine08").ToString());
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine08").ToString());
 
                 //****** "v2rayNG(Android)在Google Play下载网址：https://play.google.com/store/apps/details?id=com.v2ray.ang" ******
-                sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine09").ToString());
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine09").ToString());
 
                 //****** "Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。" ******
-                sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine10").ToString());
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine10").ToString());
 
                 //sw.WriteLine("-----------------------------------------");
                 //sw.WriteLine("url.txt");
 
                 //****** "此文件为v2rayN、Qv2ray、v2rayNG(Android)、Shadowrocket(ios)复制粘贴导入节点的vmess网址" ******
-                //sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine11").ToString());
+                //sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine11").ToString());
 
                 //写入通用配置参数--
                 TxtWriteGeneralParametersXray(sw, false);
@@ -3253,44 +3237,44 @@ namespace ProxySU
             using (StreamWriter sw = new StreamWriter($"{configSavePath}\\readme.txt"))
             {
                 sw.WriteLine("config.json");
-                //****** "此文件为v2ray官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080，http代理地址：127.0.0.1:1081" ******
+                //****** "此文件为Xray官方程序所使用的客户端配置文件，配置为全局模式，socks5地址：127.0.0.1:1080，http代理地址：127.0.0.1:1081" ******
                 sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine01").ToString());
 
-                //****** "v2ray官方网站：https://www.v2ray.com/" ******
+                //****** "Xray官方网站：https://github.com/XTLS/Xray-core" ******
                 sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine02").ToString());
 
-                //****** "v2ray官方程序下载地址：https://github.com/v2ray/v2ray-core/releases" ******
+                //****** "Xray官方程序下载地址：https://github.com/XTLS/Xray-core/releases" ******
                 sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine03").ToString());
 
-                //****** "下载相应版本，Windows选择v2ray-windows-64.zip或者v2ray-windows-32.zip，解压后提取v2ctl.exe和v2ray.exe。与config.json放在同一目录，运行v2ray.exe即可。" ******
+                //****** "下载相应版本，Windows选择xray-windows-64.zip或者xray-windows-32.zip，解压后提取v2ray.exe。与config.json放在同一目录，运行xray.exe即可。" ******
                 sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine04").ToString());
 
                 //sw.WriteLine("-----------------------------------------");
                 //sw.WriteLine("QR.bmp");
 
-                //****** "此文件为v2rayN、Qv2ray、v2rayNG(Android)、Shadowrocket(ios)扫码导入节点" ******
-                //sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine05").ToString());
+                //****** "此文件为v2rayN(windows)、Qv2ray(windows)、v2rayNG(Android)、Shadowrocket(ios)扫码导入节点" ******
+                //sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine05").ToString());
 
                 //****** "v2rayN下载网址：https://github.com/2dust/v2rayN/releases" ******
-                sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine06").ToString());
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine06").ToString());
 
-                //****** "Qv2ray：https://github.com/Qv2ray/Qv2ray/releases" ******
-                sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine07").ToString());
+                //****** "Qv2ray下载网址：https://github.com/Qv2ray/Qv2ray/releases" ******
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine07").ToString());
 
                 //****** "v2rayNG(Android)下载网址：https://github.com/2dust/v2rayNG/releases" ******
-                sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine08").ToString());
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine08").ToString());
 
                 //****** "v2rayNG(Android)在Google Play下载网址：https://play.google.com/store/apps/details?id=com.v2ray.ang" ******
-                sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine09").ToString());
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine09").ToString());
 
                 //****** "Shadowrocket(ios)下载,需要使用国外区的AppleID。请自行谷歌方法。" ******
-                sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine10").ToString());
+                sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine10").ToString());
 
                 //sw.WriteLine("-----------------------------------------");
                 //sw.WriteLine("url.txt");
 
                 //****** "此文件为v2rayN、Qv2ray、v2rayNG(Android)、Shadowrocket(ios)复制粘贴导入节点的vmess网址" ******
-                //sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine11").ToString());
+                //sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine11").ToString());
 
                 //写入通用配置参数--
                 TxtWriteGeneralParametersXray(sw, false);
@@ -3427,7 +3411,7 @@ namespace ProxySU
                 //sw.WriteLine("url.txt");
 
                 //****** "此文件为v2rayN、Qv2ray、v2rayNG(Android)、Shadowrocket(ios)复制粘贴导入节点的vmess网址" ******
-                //sw.WriteLine(Application.Current.FindResource("readmeTxtXrayExplainLine11").ToString());
+                //sw.WriteLine(Application.Current.FindResource("readmeTxtV2RayExplainLine11").ToString());
 
                 //写入通用配置参数--
                 TxtWriteGeneralParametersXray(sw, false);
