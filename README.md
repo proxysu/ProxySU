@@ -195,7 +195,7 @@ Let's Encrypt证书申请频率的限制
 ## 程序工作流程：  
 1. 使用[SSH.NET](https://github.com/sshnet/SSH.NET)登录远程主机  
 2. 根据选择的代理来调用相应的脚本：  
-  * 选择Xray，则调用V2ray官方安装脚本 `curl -o /tmp/go.sh https://raw.githubusercontent.com/XTLS/Xray-install/main/install-release.sh` `yes | bash /tmp/go.sh -f` ，安装Xray。
+  * 选择Xray，则调用Xray官方安装脚本 `curl -o /tmp/go.sh https://raw.githubusercontent.com/XTLS/Xray-install/main/install-release.sh` `yes | bash /tmp/go.sh -f` ，安装Xray。
   * 选择V2ray，则调用V2ray官方安装脚本 `curl -o /tmp/go.sh https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh` `yes | bash /tmp/go.sh -f` ，安装V2ray。  
   * 选择Trojan，则调用Trojan官方安装脚本 `curl -o /tmp/trojan-quickstart.sh https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh` `yes | bash /tmp/trojan-quickstart.sh` 安装Trojan。  
   * 选择Trojan-Go，则调用本项目内的trojan-go.sh安装， `curl -o /tmp/trojan-go.sh https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh` `yes | bash /tmp/trojan-go.sh -f` 安装Trojan-GO。  
