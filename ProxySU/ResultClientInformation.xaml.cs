@@ -61,6 +61,7 @@ namespace ProxySU
                 GroupBoxClientQRandURL.Visibility = Visibility.Visible;
                 GroupBoxClientSSpc.Visibility = Visibility.Collapsed;
                 GroupBoxV2rayClient.Visibility = Visibility.Visible;
+                GroupBoxXrayClient.Visibility = Visibility.Collapsed;
                 GroupBoxTrojanGoClient.Visibility = Visibility.Collapsed;
                 GroupBoxTrojanClient.Visibility = Visibility.Collapsed;
                 GroupBoxNaiveProxyClient.Visibility = Visibility.Collapsed;
@@ -382,7 +383,7 @@ namespace ProxySU
                     GenerateV2rayVmessWsTlsShareQRcodeAndBase64Url();
 
                     GenerateV2rayTrojanShareQRcodeAndBase64Url();
-                    RadioButtonVlessTcpXtls.IsChecked = true;
+                    RadioButtonVlessTcpTls.IsChecked = true;
                 }
 
             }
@@ -726,6 +727,7 @@ namespace ProxySU
                 GroupBoxClientQRandURL.Visibility = Visibility.Visible;
                 GroupBoxClientSSpc.Visibility = Visibility.Collapsed;
                 GroupBoxV2rayClient.Visibility = Visibility.Collapsed;
+                GroupBoxXrayClient.Visibility = Visibility.Collapsed;
                 GroupBoxTrojanGoClient.Visibility = Visibility.Visible;
                 GroupBoxTrojanClient.Visibility = Visibility.Collapsed;
                 GroupBoxNaiveProxyClient.Visibility = Visibility.Collapsed;
@@ -788,6 +790,7 @@ namespace ProxySU
                 GroupBoxClientQRandURL.Visibility = Visibility.Visible;
                 GroupBoxClientSSpc.Visibility = Visibility.Collapsed;
                 GroupBoxV2rayClient.Visibility = Visibility.Collapsed;
+                GroupBoxXrayClient.Visibility = Visibility.Collapsed;
                 GroupBoxTrojanGoClient.Visibility = Visibility.Collapsed;
                 GroupBoxTrojanClient.Visibility = Visibility.Visible;
                 GroupBoxNaiveProxyClient.Visibility = Visibility.Collapsed;
@@ -812,6 +815,7 @@ namespace ProxySU
                 GroupBoxClientQRandURL.Visibility = Visibility.Visible;
                 GroupBoxClientSSpc.Visibility = Visibility.Collapsed;
                 GroupBoxV2rayClient.Visibility = Visibility.Collapsed;
+                GroupBoxXrayClient.Visibility = Visibility.Collapsed;
                 GroupBoxTrojanGoClient.Visibility = Visibility.Collapsed;
                 GroupBoxTrojanClient.Visibility = Visibility.Collapsed;
                 GroupBoxNaiveProxyClient.Visibility = Visibility.Visible;
@@ -831,6 +835,7 @@ namespace ProxySU
                 GroupBoxClientQRandURL.Visibility = Visibility.Visible;
                 GroupBoxClientSSpc.Visibility = Visibility.Collapsed;
                 GroupBoxV2rayClient.Visibility = Visibility.Collapsed;
+                GroupBoxXrayClient.Visibility = Visibility.Collapsed;
                 GroupBoxTrojanGoClient.Visibility = Visibility.Collapsed;
                 GroupBoxTrojanClient.Visibility = Visibility.Collapsed;
                 GroupBoxNaiveProxyClient.Visibility = Visibility.Collapsed;
@@ -861,6 +866,7 @@ namespace ProxySU
                 GroupBoxClientQRandURL.Visibility = Visibility.Visible;
                 GroupBoxClientSSpc.Visibility = Visibility.Collapsed;
                 GroupBoxV2rayClient.Visibility = Visibility.Collapsed;
+                GroupBoxXrayClient.Visibility = Visibility.Collapsed;
                 GroupBoxTrojanGoClient.Visibility = Visibility.Collapsed;
                 GroupBoxTrojanClient.Visibility = Visibility.Collapsed;
                 GroupBoxNaiveProxyClient.Visibility = Visibility.Collapsed;
@@ -967,6 +973,7 @@ namespace ProxySU
                 GroupBoxClientQRandURL.Visibility = Visibility.Collapsed;
                 GroupBoxClientSSpc.Visibility = Visibility.Collapsed;
                 GroupBoxV2rayClient.Visibility = Visibility.Collapsed;
+                GroupBoxXrayClient.Visibility = Visibility.Collapsed;
                 GroupBoxTrojanGoClient.Visibility = Visibility.Collapsed;
                 GroupBoxTrojanClient.Visibility = Visibility.Collapsed;
                 GroupBoxNaiveProxyClient.Visibility = Visibility.Collapsed;
@@ -1736,7 +1743,7 @@ namespace ProxySU
 
             //}
 
-            //   ImageShareQRcodeDefault = CreateQRCode(TextBoxURLDefault, $"v2ray_config\\{saveFileFolder}\\QR.bmp");
+            // ImageShareQRcodeDefault = CreateQRCode(TextBoxURLDefault, $"v2ray_config\\{saveFileFolder}\\QR.bmp");
             // ImageShareQRcode.Source = ImageShareQRcodeDefault;
 
 
@@ -4256,7 +4263,7 @@ namespace ProxySU
 
         #endregion
 
-        #region SSR相关
+        #region SSR 相关
         //生成SSR客户端资料
         private void GenerateSSRShareQRcodeAndBase64Url()
         {
@@ -4628,7 +4635,6 @@ namespace ProxySU
         #endregion
 
         #endregion
-
 
         #region MTProto 界面控制
         private void RadioButtonMtgIpv4_Checked(object sender, RoutedEventArgs e)

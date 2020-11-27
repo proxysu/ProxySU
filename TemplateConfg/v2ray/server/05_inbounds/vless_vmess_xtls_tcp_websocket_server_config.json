@@ -6,8 +6,7 @@
             "settings": {
                 "clients": [
                     {
-                        "id": null,
-                        "flow": "xtls-rprx-direct"
+                        "id": null
                     }
                 ],
                 "decryption": "none",
@@ -35,7 +34,7 @@
             },
             "streamSettings": {
                 "network": "tcp",
-                "security": "xtls",
+                "security": "tls",
                 "xtlsSettings": {
                     "alpn": [
                         "http/1.1"

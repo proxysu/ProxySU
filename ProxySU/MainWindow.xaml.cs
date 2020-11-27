@@ -1355,13 +1355,13 @@ namespace ProxySU
             //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
             //备份原来的文件
-            //functionResult = FileCheckExists(client, @"/usr/local/etc/v2ray/config.json");
-            //if (functionResult == true)
-            //{
+            functionResult = FileCheckExists(client, @"/usr/local/etc/v2ray/config.json");
+            if (functionResult == true)
+            {
 
             sshShellCommand = @"mv /usr/local/etc/v2ray/config.json /usr/local/etc/v2ray/config.json.1";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-            //}
+            }
             //读取配置文件各个模块
             string logConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\00_log\00_log.json";
             string apiConfigJson = $"{pwdir}" + @"TemplateConfg\v2ray\server\01_api\01_api.json";
@@ -1959,29 +1959,29 @@ namespace ProxySU
                 {
                     //复合方案所需要的配置文件
                     //VLESS over TCP with XTLS模式
-                    string outboundsConfigJsons = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\vless_tcp_xtls_client_config.json";
-                    using (StreamReader readerJson = File.OpenText(outboundsConfigJsons))
-                    {
-                        JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
+                    //string outboundsConfigJsons = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\vless_tcp_xtls_client_config.json";
+                    //using (StreamReader readerJson = File.OpenText(outboundsConfigJsons))
+                    //{
+                    //    JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
 
-                        //设置客户端的地址/端口/id
-                        jObjectJson["outbounds"][0]["settings"]["vnext"][0]["address"] = ReceiveConfigurationParameters[4];
-                        jObjectJson["outbounds"][0]["settings"]["vnext"][0]["port"] = int.Parse(ReceiveConfigurationParameters[1]);
-                        jObjectJson["outbounds"][0]["settings"]["vnext"][0]["users"][0]["id"] = ReceiveConfigurationParameters[2];
+                    //    //设置客户端的地址/端口/id
+                    //    jObjectJson["outbounds"][0]["settings"]["vnext"][0]["address"] = ReceiveConfigurationParameters[4];
+                    //    jObjectJson["outbounds"][0]["settings"]["vnext"][0]["port"] = int.Parse(ReceiveConfigurationParameters[1]);
+                    //    jObjectJson["outbounds"][0]["settings"]["vnext"][0]["users"][0]["id"] = ReceiveConfigurationParameters[2];
 
-                        clientJson["outbounds"] = jObjectJson["outbounds"];
-                        if (!Directory.Exists(@"v2ray_config\vless_tcp_xtls_client_config"))//如果不存在就创建file文件夹　　             　　              
-                        {
-                            Directory.CreateDirectory(@"v2ray_config\vless_tcp_xtls_client_config");//创建该文件夹　　   
-                        }
-                        using (StreamWriter sw = new StreamWriter(@"v2ray_config\vless_tcp_xtls_client_config\config.json"))
-                        {
-                            sw.Write(clientJson.ToString());
-                        }
-                    }
+                    //    clientJson["outbounds"] = jObjectJson["outbounds"];
+                    //    if (!Directory.Exists(@"v2ray_config\vless_tcp_xtls_client_config"))//如果不存在就创建file文件夹　　             　　              
+                    //    {
+                    //        Directory.CreateDirectory(@"v2ray_config\vless_tcp_xtls_client_config");//创建该文件夹　　   
+                    //    }
+                    //    using (StreamWriter sw = new StreamWriter(@"v2ray_config\vless_tcp_xtls_client_config\config.json"))
+                    //    {
+                    //        sw.Write(clientJson.ToString());
+                    //    }
+                    //}
 
                     //VLESS over TCP with TLS模式
-                    outboundsConfigJsons = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\vless_tcp_tls_caddy_cilent_config.json";
+                    string outboundsConfigJsons = $"{pwdir}" + @"TemplateConfg\v2ray\client\06_outbounds\vless_tcp_tls_caddy_cilent_config.json";
                     using (StreamReader readerJson = File.OpenText(outboundsConfigJsons))
                     {
                         JObject jObjectJson = (JObject)JToken.ReadFrom(new JsonTextReader(readerJson));
