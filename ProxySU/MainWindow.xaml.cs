@@ -2919,13 +2919,13 @@ namespace ProxySU
             //currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
             //备份原来的文件
-            //functionResult = FileCheckExists(client, @"/usr/local/etc/xray/config.json");
-            //if (functionResult == true)
-            //{
+            functionResult = FileCheckExists(client, @"/usr/local/etc/xray/config.json");
+            if (functionResult == true)
+            {
 
             sshShellCommand = @"mv /usr/local/etc/xray/config.json /usr/local/etc/xray/config.json.1";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
-            //}
+            }
             //读取配置文件各个模块
             string logConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\00_log\00_log.json";
             string apiConfigJson = $"{pwdir}" + @"TemplateConfg\xray\server\01_api\01_api.json";
@@ -3159,7 +3159,7 @@ namespace ProxySU
                         || String.Equals(ReceiveConfigurationParameters[0], "tcpTLSselfSigned") == true
                         || String.Equals(ReceiveConfigurationParameters[0], "http2selfSigned") == true)
                     {
-                        string selfSignedCa = client.RunCommand("/usr/local/bin/v2ctl cert --ca").Result;
+                        string selfSignedCa = client.RunCommand("/usr/local/bin/xray tls cert --ca").Result;
                         JObject selfSignedCaJObject = JObject.Parse(selfSignedCa);
                         jObjectJson["inbounds"][0]["streamSettings"]["tlsSettings"]["certificates"][0] = selfSignedCaJObject;
                     }
