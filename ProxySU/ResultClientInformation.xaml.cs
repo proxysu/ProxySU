@@ -712,7 +712,7 @@ namespace ProxySU
                     XraySetVmessTcpTls();
                     GenerateXrayVmessTcpTlsShareQRcodeAndBase64Url();
 
-                    V2raySetVmessWsTls();
+                    XraySetVmessWsTls();
                     GenerateXrayVmessWsTlsShareQRcodeAndBase64Url();
 
                     GenerateXrayTrojanShareQRcodeAndBase64Url();
@@ -3445,12 +3445,12 @@ namespace ProxySU
             v2rayNjsonObject["net"] = TextBoxTransmissionXray.Text; //设置传输模式
             v2rayNjsonObject["type"] = TextBoxCamouflageTypeXray.Text; //设置伪装类型
 
-            if (TextBoxTransmission.Text.Contains("kcp") == true)
+            if (TextBoxTransmissionXray.Text.Contains("kcp") == true)
             {
                 v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPathXray.Text;//设置mKCP Seed
                 v2rayNjsonObject["host"] = "";//设置Host
             }
-            else if (TextBoxTransmission.Text.Contains("quic") == true)
+            else if (TextBoxTransmissionXray.Text.Contains("quic") == true)
             {
                 v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPathXray.Text;//设置quic密钥
                 v2rayNjsonObject["host"] = TextBoxHostQuicEncryptionXray.Text;//Quic加密方式
@@ -3529,11 +3529,11 @@ namespace ProxySU
             v2rayNjsonObject["net"] = TextBoxTransmissionXray.Text; //设置传输模式
             v2rayNjsonObject["type"] = TextBoxCamouflageTypeXray.Text; //设置伪装类型
 
-            if (TextBoxTransmission.Text.Contains("kcp") == true)
+            if (TextBoxTransmissionXray.Text.Contains("kcp") == true)
             {
                 v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPathXray.Text;//设置mKCP Seed
             }
-            else if (TextBoxTransmission.Text.Contains("quic") == true)
+            else if (TextBoxTransmissionXray.Text.Contains("quic") == true)
             {
                 v2rayNjsonObject["path"] = TextBoxQuicKeyMkcpSeedPathXray.Text;//设置quic密钥
                 v2rayNjsonObject["host"] = TextBoxHostQuicEncryptionXray.Text;//Quic加密方式
@@ -3557,14 +3557,12 @@ namespace ProxySU
             string configSavePath = CheckDir($"{configDomainSavePath}\\{plainSavePath}");
 
 
-            //生成二维码与URL，
+            //生成二维码与URL
             TextBoxURLVmessWs = "vmess://" + ToBase64Encode(v2rayNjsonObject.ToString());
             //TextBoxURL.Text = TextBoxURLVmessWs;
             using (StreamWriter sw = new StreamWriter($"{configSavePath}\\url.txt"))
             {
-
                 sw.WriteLine(TextBoxURLVmessWs);
-
             }
 
             ImageShareQRcodeVmessWs = CreateQRCode(TextBoxURLVmessWs, $"{configSavePath}\\QR.bmp");
