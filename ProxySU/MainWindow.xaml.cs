@@ -10076,7 +10076,7 @@ namespace ProxySU
 
        
         //上传服务配置 47--50
-
+        private bool GenerateServerConfigurations(SshClient client) { return true; }
 
         //acme.sh安装与申请证书 51--57
         //functionResult = AcmeShInstall(client);
@@ -10131,12 +10131,12 @@ namespace ProxySU
 
             if (onlyIpv6 == true)
             {
-                sshShellCommand = $"/root/.acme.sh/acme.sh --force --issue  --standalone  -d {ReceiveConfigurationParameters[4]} --listen-v6";
+                sshShellCommand = $"/root/.acme.sh/acme.sh --force --debug --issue  --standalone  -d {ReceiveConfigurationParameters[4]} --listen-v6";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
             }
             else
             {
-                sshShellCommand = $"/root/.acme.sh/acme.sh --force --issue  --standalone  -d {ReceiveConfigurationParameters[4]}";
+                sshShellCommand = $"/root/.acme.sh/acme.sh --force --debug --issue  --standalone  -d {ReceiveConfigurationParameters[4]}";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
             }
 
