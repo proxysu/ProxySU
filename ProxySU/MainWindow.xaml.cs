@@ -9941,7 +9941,8 @@ namespace ProxySU
             {
                 string nativeIp = ipv4;
 
-                sshShellCommand = "ping " + ReceiveConfigurationParameters[4] + " -c1 | grep -oE -m1 \"([0-9]{1,3}\\.){3}[0-9]{1,3}\"";
+                //sshShellCommand = "ping " + ReceiveConfigurationParameters[4] + " -c1 | grep -oE -m1 \"([0-9]{1,3}\\.){3}[0-9]{1,3}\"";
+                sshShellCommand = $"dig @resolver1.opendns.com A {ReceiveConfigurationParameters[4]} +short -4";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                 string resultTestDomainCmd = currentShellCommandResult.TrimEnd('\r', '\n');
