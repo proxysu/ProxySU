@@ -9941,8 +9941,9 @@ namespace ProxySU
             {
                 string nativeIp = ipv4;
 
-                //sshShellCommand = "ping " + ReceiveConfigurationParameters[4] + " -c1 | grep -oE -m1 \"([0-9]{1,3}\\.){3}[0-9]{1,3}\"";
-                sshShellCommand = $"dig @resolver1.opendns.com A {ReceiveConfigurationParameters[4]} +short -4";
+                //string cmdFilter = "";
+                string cmdFilter = @"| grep  -oE '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | head -n 1";
+                sshShellCommand = $"dig @resolver1.opendns.com A {ReceiveConfigurationParameters[4]} +short -4 {cmdFilter}";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                 string resultTestDomainCmd = currentShellCommandResult.TrimEnd('\r', '\n');
@@ -9959,11 +9960,11 @@ namespace ProxySU
             }
             else
             {
-
                 string nativeIp = ipv6;
 
-                //sshShellCommand = "ping6 " + ReceiveConfigurationParameters[4] + " -c1 | grep -oE -m1 \"([0-9]{1,3}\\.){3}[0-9]{1,3}\"";
-                sshShellCommand = $"dig @resolver1.opendns.com AAAA {ReceiveConfigurationParameters[4]} +short -6";
+                //string cmdFilter = "";
+                string cmdFilter = @"| grep  -oE '(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))' | head -n 1";
+                sshShellCommand = $"dig @resolver1.opendns.com AAAA {ReceiveConfigurationParameters[4]} +short -6 {cmdFilter}";
                 currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
                 string resultTestDomainCmd = currentShellCommandResult.TrimEnd('\r', '\n');
