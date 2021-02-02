@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\huife\AppData\Local\JetBrains\Rider2020.2\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\huife\AppData\Local\JetBrains\Rider2020.2\resharper-host\Local\Transient\Rider\v202\SolutionCaches\_ProxySU.1010492592.00" t="ExcludeRecursive" />
+    <e p="E:\dev\ProxySU" t="IncludeFlat">
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="ProxySU" t="IncludeRecursive">
+        <e p="ProxySU.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="ProxySU.sln" t="IncludeFlat" />
+      <e p="WpfApp1" t="IncludeRecursive">
+        <e p="App.xaml" t="Include" />
+        <e p="App.xaml.cs" t="Include" />
+        <e p="AssemblyInfo.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="MainWindow.xaml" t="Include" />
+        <e p="MainWindow.xaml.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1-windows" t="Include">
+              <e p="App.g.cs" t="Include" />
+              <e p="MainWindow.g.cs" t="Include" />
+              <e p="WpfApp1.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="WpfApp1.csproj" t="IncludeRecursive" />
+      </e>
+    </e>
+  </component>
+</project>
