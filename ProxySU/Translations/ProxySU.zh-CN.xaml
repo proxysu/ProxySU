@@ -27,6 +27,8 @@
     <sys:String x:Key="RadioButtonProxyNoLogin">不需登录</sys:String>
     <sys:String x:Key="RadiobuttonProxyYesLogin">需要登录</sys:String>
     <sys:String x:Key="TextBlockProxyHost">代理地址:</sys:String>
+    <sys:String x:Key="AcmeEmail">Email</sys:String>
+    <sys:String x:Key="AcmeEmailDesc">申请SSL证书需要一个可用的Email地址</sys:String>
     <sys:String x:Key="ButtonSaveInstalledLog">安装日志另存为...</sys:String>
     <sys:String x:Key="TextBlockSetUpProcessing">等待安装布署</sys:String>
     <sys:String x:Key="TabItemHeaderSysTools">系统工具</sys:String>

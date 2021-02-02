@@ -10102,7 +10102,8 @@ namespace ProxySU
             sshShellCommand = $"{sshCmdInstall}automake autoconf libtool";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
-            sshShellCommand = $"curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh";
+            //sshShellCommand = $"curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh";
+            sshShellCommand = $"curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh | sh -s -- --install-online -m  {AcmeEmailTextBox.Text}";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
 
             if (currentShellCommandResult.Contains("Install success") == true)

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProxySU"
         mc:Ignorable="d"
-        Title="ProxySU - v2.5.4" Height="675" Width="660">
+        Title="ProxySU - v2.5.5" Height="720" Width="660">
     <!--以下样式参考自：https://yq.aliyun.com/articles/331878
 	https://docs.microsoft.co/en-us/dotnet/desktop-wpf/fundamentals/styles-templates-overview-->
     <Window.Resources>
@@ -57,6 +57,7 @@
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition></RowDefinition>
+                            <RowDefinition Height="40"></RowDefinition>
                             <RowDefinition Height="1.3*"></RowDefinition>
                             <RowDefinition Height="1.8*"></RowDefinition>
                         </Grid.RowDefinitions>
@@ -147,23 +148,29 @@
                                 <TextBlock x:Name="TextBlockProxyPassword" IsEnabled="False" Text="{DynamicResource TextBlockHostPassword}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5" Grid.Column="2"  Grid.Row="1" ></TextBlock>
                                 <TextBox x:Name="TextBoxProxyUserName" IsEnabled="False" Text="" Margin="3" Grid.Column="1"  Grid.Row="1" />
                                 <PasswordBox x:Name="PasswordBoxProxyPassword" IsEnabled="False" Password=""  Margin="3" Grid.Column="3"  Grid.Row="1"></PasswordBox>
-                                <Button x:Name="ButtonSaveInstalledLog" Content="{DynamicResource ButtonSaveInstalledLog}" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="2" Margin="10,3,10,3" Click="ButtonSaveInstalledLog_Click"></Button>
                             </Grid>
                         </Grid>
-                        <Grid Grid.Row="1">
+                        <Grid Grid.Row="1"> 
+                                <StackPanel Margin="10,0,0,0" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <TextBlock Foreground="Red" x:Name="AcmeEmailLabel" Text="Email:" VerticalAlignment="Center" />
+                                    <TextBox Margin="10,0,0,0" Height="20" Width="200" x:Name="AcmeEmailTextBox" />
+                                    <TextBlock Margin="10,0,0,0" Text="{DynamicResource AcmeEmailDesc}" Foreground="Red" />
+                                </StackPanel>  
+                        </Grid>
+                        <Grid Grid.Row="2">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="20"></RowDefinition>
                                 <RowDefinition Height="20"></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-
-                            <TextBlock x:Name="TextBlockSetUpProcessing" Text="{DynamicResource TextBlockSetUpProcessing}" Foreground="Blue" HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Row="0"></TextBlock>
+                            <Button x:Name="ButtonSaveInstalledLog" Content="{DynamicResource ButtonSaveInstalledLog}" Margin="0,0,10,0" Width="140" HorizontalAlignment="Right" Click="ButtonSaveInstalledLog_Click"></Button>
+                            <TextBlock x:Name="TextBlockSetUpProcessing" Text="{DynamicResource TextBlockSetUpProcessing}" Foreground="Blue" HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Row="0"></TextBlock>                            
                             <ProgressBar x:Name="ProgressBarSetUpProcessing" Minimum="0" Maximum="100" Value="{Binding InsertBindingHere}" Margin="10,0,10,3" Grid.Row="1"></ProgressBar>
                             <TextBlock Text="{Binding ElementName=ProgressBarSetUpProcessing, Path=Value, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1"/>
                             <TextBox x:Name="TextBoxMonitorCommandResults"  IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"  Grid.Row="2" Margin="10,0,10,3"></TextBox>
 
                         </Grid>
-                        <Grid Grid.Row="2">
+                        <Grid Grid.Row="3">
                             <TabControl Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="4" Grid.RowSpan="3">
                                 <TabItem Header="Xray" Width="60" Height="30">
                                     <Grid>
