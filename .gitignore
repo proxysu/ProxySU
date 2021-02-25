@@ -198,3 +198,4 @@ FakesAssemblies/
 
 # vs code
 .vscode/*
+/ProxySU_Core/Data/Record.json
