@@ -336,6 +336,32 @@ namespace ProxySU_Core.ViewModels.Developers
             return cmd.Trim() == "1";
         }
 
+        /// <summary>
+        /// 安装 Caddy
+        /// </summary>
+        protected void InstallCaddy()
+        {
+            if (CmdType == CmdType.Apt)
+            {
+                RunCmd("sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https");
+                RunCmd("curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo apt-key add -");
+                RunCmd("curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee -a /etc/apt/sources.list.d/caddy-stable.list");
+                RunCmd("sudo apt update");
+                RunCmd("sudo apt install caddy");
+            }
+            else if (CmdType == CmdType.Dnf)
+            {
+                RunCmd("dnf install 'dnf-command(copr)'");
+                RunCmd("dnf copr enable @caddy/caddy");
+                RunCmd("dnf install caddy");
+            }
+            else if (CmdType == CmdType.Yum)
+            {
+                RunCmd("yum install yum-plugin-copr");
+                RunCmd("yum copr enable @caddy/caddy");
+                RunCmd("yum install caddy");
+            }
+        }
 
 
         #region 检测系统环境

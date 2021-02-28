@@ -12,16 +12,19 @@ namespace ProxySU_Core.ViewModels.Developers
     public class XrayProject : Project<XrayParameters>
     {
 
-        private const string ServerLogPath = "/Templates/xray/server/00_log/00_log.json";
-        private const string ServerApiPath = "/Templates/xray/server/01_api/01_api.json";
-        private const string ServerDnsPath = "/Templates/xray/server/02_dns/02_dns.json";
-        private const string ServerRoutingPath = "/Templates/xray/server/03_routing/03_routing.json";
-        private const string ServerPolicyPath = "/Templates/xray/server/04_policy/04_policy.json";
-        private const string ServerInboundsPath = "/Templates/xray/server/05_inbounds/05_inbounds.json";
-        private const string ServerOutboundsPath = "/Templates/xray/server/06_outbounds/06_outbounds.json";
-        private const string ServerTransportPath = "/Templates/xray/server/07_transport/07_transport.json";
-        private const string ServerStatsPath = "/Templates/xray/server/08_stats/08_stats.json";
-        private const string ServerReversePath = "/Templates/xray/server/09_reverse/09_reverse.json";
+        private const string ServerLogDir = @"Templates\xray\server\00_log";
+        private const string ServerApiDir = @"Templates\xray\server\01_api";
+        private const string ServerDnsDir = @"Templates\xray\server\02_dns";
+        private const string ServerRoutingDir = @"Templates\xray\server\03_routing";
+        private const string ServerPolicyDir = @"Templates\xray\server\04_policy";
+        private const string ServerInboundsDir = @"Templates\xray\server\05_inbounds";
+        private const string ServerOutboundsDir = @"Templates\xray\server\06_outbounds";
+        private const string ServerTransportDir = @"Templates\xray\server\07_transport";
+        private const string ServerStatsDir = @"Templates\xray\server\08_stats";
+        private const string ServerReverseDir = @"Templates\xray\server\09_reverse";
+        private const string CaddyFileDir = @"Templates\xray\caddy";
+
+        private int randomCaddyListenPort = 8800;
 
         public XrayProject(SshClient sshClient, XrayParameters parameters, Action<string> writeOutput) : base(sshClient, parameters, writeOutput)
         {
@@ -55,7 +58,11 @@ namespace ProxySU_Core.ViewModels.Developers
 
                 ValidateDomain();
 
-                InstallXray();
+                InstallXrayWithCert();
+
+                InstallCaddy();
+
+                UploadCaddyFile();
             }
             catch (Exception ex)
             {
@@ -63,7 +70,16 @@ namespace ProxySU_Core.ViewModels.Developers
             }
         }
 
-        private void InstallXray()
+        private void UploadCaddyFile()
+        {
+            var configJson = ConfigBuilder.BuildCaddyConfig(Parameters);
+            var stream = new MemoryStream(Encoding.UTF8.GetBytes(configJson));
+            RunCmd("mv /etc/caddy/Caddyfile /etc/caddy/Caddyfile.back");
+            UploadFile(stream, "/etc/caddy/Caddyfile");
+            RunCmd("systemctl reload caddy");
+        }
+
+        private void InstallXrayWithCert()
         {
             RunCmd("bash -c \"$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)\" @ install");
 
@@ -82,88 +98,16 @@ namespace ProxySU_Core.ViewModels.Developers
                 RunCmd(@"mv /usr/local/etc/xray/config.json /usr/local/etc/xray/config.json.1");
             }
 
-            UploadXrayConfig();
+            InstallCertToXray();
+
+
+            var configJson = ConfigBuilder.BuildXrayConfig(Parameters);
+            var stream = new MemoryStream(Encoding.UTF8.GetBytes(configJson));
+            RunCmd("rm -rf /usr/local/etc/xray/config.json");
+            UploadFile(stream, "/usr/local/etc/xray/config.json");
         }
 
-        private int GetRandomPort()
-        {
-            var random = new Random();
-            return random.Next(10001, 60000);
-        }
-
-        private void UploadXrayConfig()
-        {
-            dynamic logObj = JsonConvert.DeserializeObject(File.ReadAllText(ServerLogPath));
-            dynamic apiObj = JsonConvert.DeserializeObject(File.ReadAllText(ServerApiPath));
-            dynamic dnsObj = JsonConvert.DeserializeObject(File.ReadAllText(ServerDnsPath));
-            dynamic routingObj = JsonConvert.DeserializeObject(File.ReadAllText(ServerRoutingPath));
-            dynamic policyObj = JsonConvert.DeserializeObject(File.ReadAllText(ServerPolicyPath));
-            dynamic inboundsObj = JsonConvert.DeserializeObject(File.ReadAllText(ServerInboundsPath));
-            dynamic outboundsObj = JsonConvert.DeserializeObject(File.ReadAllText(ServerOutboundsPath));
-            dynamic transportObj = JsonConvert.DeserializeObject(File.ReadAllText(ServerTransportPath));
-            dynamic statsObj = JsonConvert.DeserializeObject(File.ReadAllText(ServerStatsPath));
-            dynamic reverseObj = JsonConvert.DeserializeObject(File.ReadAllText(ServerReversePath));
-
-            switch (Parameters.Type)
-            {
-                case XrayType.Shadowsocks_AEAD:
-                    break;
-                case XrayType.Shadowsocks_TCP:
-                    break;
-                case XrayType.Sockets5_TLS:
-                    break;
-                case XrayType.Trojan_TCP_TLS:
-                    break;
-                case XrayType.VLESS_H2C_Caddy2:
-                    inboundsObj = JsonConvert.DeserializeObject(File.ReadAllText("/Templates/xray/server/05_inbounds/VLESS_HTTP2_TLS.json"));
-                    inboundsObj[0]["port"] = GetRandomPort();
-                    inboundsObj[0]["settings"]["clients"][0]["id"] = Parameters.UUID;
-                    inboundsObj[0]["streamSettings"]["httpSettings"]["path"] = Parameters.VlessHttpPath;
-                    inboundsObj[0]["streamSettings"]["httpSettings"]["host"][0] = Parameters.Domain;
-                    break;
-                case XrayType.VLESS_TCP_TLS_WS:
-                    inboundsObj = JsonConvert.DeserializeObject(File.ReadAllText("/Templates/xray/server/05_inbounds/VLESS_TCP_TLS_WS.json"));
-                    inboundsObj[0]["port"] = GetRandomPort();
-                    inboundsObj[0]["settings"]["clients"][0]["id"] = Parameters.UUID;
-                    inboundsObj[0]["streamSettings"]["httpSettings"]["path"] = Parameters.VlessWsPath;
-                    break;
-                case XrayType.VLESS_TCP_XTLS_WHATEVER:
-                    break;
-                case XrayType.VLESS_mKCPSeed:
-                    break;
-                case XrayType.VMess_HTTP2:
-                    break;
-                case XrayType.VMess_TCP_TLS:
-                    break;
-                case XrayType.VMess_WebSocket_TLS:
-                    break;
-                case XrayType.VMess_mKCPSeed:
-                    break;
-                default:
-                    break;
-            }
-
-            var serverConfig = new
-            {
-                log = logObj["log"],
-                api = apiObj["api"],
-                dns = dnsObj["dns"],
-                routing = routingObj["routing"],
-                policy = policyObj["policy"],
-                inbounds = inboundsObj["inbounds"],
-                outbounds = outboundsObj["outbounds"],
-                transport = transportObj["transport"],
-                stats = statsObj["stats"],
-                reverse = reverseObj["reverse"]
-            };
-
-            var json = JsonConvert.SerializeObject(serverConfig);
-            var jsonStream = new MemoryStream(Encoding.UTF8.GetBytes(json));
-            UploadFile(jsonStream, "/usr/local/etc/xray/config.json");
-            jsonStream.Dispose();
-        }
-
-        private void InstallCert()
+        private void InstallCertToXray()
         {
             // 安装依赖
             RunCmd(GetInstallCmd("socat"));
@@ -223,16 +167,28 @@ namespace ProxySU_Core.ViewModels.Developers
             RunCmd(@"chmod 644 /usr/local/etc/xray/ssl/xray_ssl.key");
         }
 
-        private void InstallCaddy()
-        {
-
-        }
-
         private string GetRandomEmail()
         {
             Random r = new Random();
             var num = r.Next(200000000, 900000000);
             return $"{num}@qq.com";
         }
+
+        private int GetRandomPort()
+        {
+            var random = new Random();
+            return random.Next(10001, 60000);
+        }
+
+        private dynamic LoadJsonObj(string path)
+        {
+            if (File.Exists(path))
+            {
+                var jsonStr = File.ReadAllText(path, Encoding.UTF8);
+                return JsonConvert.DeserializeObject(jsonStr);
+            }
+            return null;
+        }
+
     }
 }

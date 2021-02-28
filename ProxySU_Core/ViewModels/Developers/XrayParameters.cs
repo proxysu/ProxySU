@@ -25,11 +25,6 @@ namespace ProxySU_Core.ViewModels.Developers
         /// vless tcp路径
         /// </summary>
         public string VlessTcpPath { get; set; }
-        
-        /// <summary>
-        /// vless http路径
-        /// </summary>
-        public string VlessHttpPath { get; set; }
 
         /// <summary>
         /// vmess ws路径
@@ -42,9 +37,14 @@ namespace ProxySU_Core.ViewModels.Developers
         public string VmessTcpPath { get; set; }
 
         /// <summary>
-        /// vmess http路径
+        /// trojan tcp路径
         /// </summary>
-        public string VmessHttpPath { get; set; }
+        public string TrojanTcpPath { get; set; }
+
+        /// <summary>
+        /// trojan密码
+        /// </summary>
+        public string TrojanPassword { get; set; }
 
         /// <summary>
         /// 域名
@@ -60,25 +60,39 @@ namespace ProxySU_Core.ViewModels.Developers
         /// 安装类型
         /// </summary>
         public XrayType Type { get; set; }
+
+
+        public string GetPath()
+        {
+            switch (Type)
+            {
+                case XrayType.VLESS_TCP_TLS:
+                    return VlessTcpPath;
+                case XrayType.VLESS_TCP_XTLS:
+                    return VlessTcpPath;
+                case XrayType.VLESS_WS_TLS:
+                    return VlessWsPath;
+                case XrayType.VMESS_TCP_TLS:
+                    return VmessTcpPath;
+                case XrayType.VMESS_WS_TLS:
+                    return VmessWsPath;
+                case XrayType.Trojan_TCP_TLS:
+                    return TrojanTcpPath;
+                default:
+                    return string.Empty;
+            }
+        }
     }
 
     public enum XrayType
     {
-        Shadowsocks_AEAD,
-        Shadowsocks_TCP,
-        Sockets5_TLS,
-        Trojan_TCP_TLS,
+        VLESS_TCP_TLS,
+        VLESS_TCP_XTLS,
+        VLESS_WS_TLS,
 
-        // vless
-        VLESS_H2C_Caddy2,
-        VLESS_TCP_TLS_WS,
-        VLESS_TCP_XTLS_WHATEVER,
-        VLESS_mKCPSeed,
+        VMESS_TCP_TLS,
+        VMESS_WS_TLS,
 
-        // vmess
-        VMess_HTTP2,
-        VMess_TCP_TLS,
-        VMess_WebSocket_TLS,
-        VMess_mKCPSeed,
+        Trojan_TCP_TLS
     }
 }

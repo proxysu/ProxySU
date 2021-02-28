@@ -185,7 +185,7 @@
     <Compile Include="Tools\DateTimeUtils.cs" />
     <Compile Include="ViewModels\BaseCommand.cs" />
     <Compile Include="ViewModels\BaseModel.cs" />
-    <Compile Include="ViewModels\Developers\Developer.cs" />
+    <Compile Include="ViewModels\Developers\ConfigBuilder.cs" />
     <Compile Include="ViewModels\Developers\IParameters.cs" />
     <Compile Include="ViewModels\Developers\Project.cs" />
     <Compile Include="ViewModels\Developers\XrayParameters.cs" />
@@ -235,9 +235,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Templates\xray\base.json" />
-    <None Include="Templates\xray\caddy\Http2Web.caddyfile" />
-    <None Include="Templates\xray\caddy\vlessTcpTlsWeb.caddyfile" />
-    <None Include="Templates\xray\caddy\WebSocketTLSWeb.caddyfile" />
+    <None Include="Templates\xray\caddy\base.caddyfile" />
     <None Include="Templates\xray\client\00_log\00_log.json" />
     <None Include="Templates\xray\client\01_api\01_api.json" />
     <None Include="Templates\xray\client\02_dns\02_dns.json" />
@@ -250,14 +248,16 @@
     <None Include="Templates\xray\client\07_transport\07_transport.json" />
     <None Include="Templates\xray\client\08_stats\08_stats.json" />
     <None Include="Templates\xray\client\09_reverse\09_reverse.json" />
-    <None Include="Templates\xray\server\00_log\00_log.json" />
     <None Include="Templates\xray\server\01_api\01_api.json" />
     <None Include="Templates\xray\server\02_dns\02_dns.json" />
     <None Include="Templates\xray\server\03_routing\03_routing.json" />
     <None Include="Templates\xray\server\04_policy\04_policy.json" />
     <None Include="Templates\xray\server\05_inbounds\05_inbounds.json" />
-    <None Include="Templates\xray\server\05_inbounds\VLESS_HTTP2_TLS.json" />
-    <None Include="Templates\xray\server\05_inbounds\VLESS_TCP_TLS_WS.json" />
+    <None Include="Templates\xray\server\05_inbounds\Trojan_TCP_TLS.json" />
+    <None Include="Templates\xray\server\05_inbounds\VLESS_TCP_XTLS.json" />
+    <None Include="Templates\xray\server\05_inbounds\VLESS_WS_TLS.json" />
+    <None Include="Templates\xray\server\05_inbounds\VMESS_TCP_TLS.json" />
+    <None Include="Templates\xray\server\05_inbounds\VMESS_WS_TLS.json" />
     <None Include="Templates\xray\server\06_outbounds\06_outbounds.json" />
     <None Include="Templates\xray\server\07_transport\07_transport.json" />
     <None Include="Templates\xray\server\08_stats\08_stats.json" />
