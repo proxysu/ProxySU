@@ -205,6 +205,9 @@
     <Compile Include="Views\TerminalWindow.xaml.cs">
       <DependentUpon>TerminalWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\XrayWindow.xaml.cs">
+      <DependentUpon>XrayWindow.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\LoginSecretTypeConverter.cs" />
@@ -290,6 +293,10 @@
     <Page Include="Views\TerminalWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\XrayWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

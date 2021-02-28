@@ -24,8 +24,6 @@ namespace ProxySU_Core.ViewModels.Developers
         private const string ServerReverseDir = @"Templates\xray\server\09_reverse";
         private const string CaddyFileDir = @"Templates\xray\caddy";
 
-        private int randomCaddyListenPort = 8800;
-
         public XrayProject(SshClient sshClient, XrayParameters parameters, Action<string> writeOutput) : base(sshClient, parameters, writeOutput)
         {
         }

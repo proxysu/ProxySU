@@ -1,6 +1,7 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
 using ProxySU_Core.ViewModels;
 using ProxySU_Core.ViewModels.Developers;
+using ProxySU_Core.Views;
 using Renci.SshNet;
 using System;
 using System.Collections.Generic;
@@ -106,22 +107,9 @@ namespace ProxySU_Core
 
         private void Install(object sender, RoutedEventArgs e)
         {
-            var project = new XrayProject(
-                _sshClient,
-                new XrayParameters { Port = 443 },
-                WriteShell
-            );
-            Task.Run(() =>
-            {
-                try
-                {
-                    project.Execute();
-                }
-                catch (Exception ex)
-                {
-                    _vm.AddOutput(ex.Message);
-                }
-            });
+            var xrayWindow = new XrayWindow();
+            xrayWindow.ShowDialog();
+
         }
 
 
