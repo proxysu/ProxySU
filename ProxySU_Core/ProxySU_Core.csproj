@@ -182,35 +182,36 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\LoginSecretTypeConverter.cs" />
+    <Compile Include="Models\Host.cs" />
+    <Compile Include="Models\XraySettings.cs" />
     <Compile Include="Tools\DateTimeUtils.cs" />
+    <Compile Include="Tools\Extensions.cs" />
     <Compile Include="ViewModels\BaseCommand.cs" />
-    <Compile Include="ViewModels\BaseModel.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\Developers\ConfigBuilder.cs" />
     <Compile Include="ViewModels\Developers\IParameters.cs" />
     <Compile Include="ViewModels\Developers\Project.cs" />
-    <Compile Include="ViewModels\Developers\XrayParameters.cs" />
     <Compile Include="ViewModels\Developers\XrayProject.cs" />
-    <Compile Include="ViewModels\Host.cs" />
-    <Compile Include="ViewModels\LocalProxy.cs" />
-    <Compile Include="ViewModels\LocalProxyType.cs" />
-    <Compile Include="ViewModels\LoginSecretType.cs" />
-    <Compile Include="ViewModels\Record.cs" />
+    <Compile Include="ViewModels\HostViewModel.cs" />
+    <Compile Include="Models\LocalProxy.cs" />
+    <Compile Include="Models\LocalProxyType.cs" />
+    <Compile Include="Models\LoginSecretType.cs" />
+    <Compile Include="Models\Record.cs" />
+    <Compile Include="ViewModels\RecordViewModel.cs" />
     <Compile Include="ViewModels\Terminal.cs" />
-    <Compile Include="Views\HostEditorWindow.xaml.cs">
-      <DependentUpon>HostEditorWindow.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="ViewModels\XraySettingsViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RecordEditorWindow.xaml.cs">
+      <DependentUpon>RecordEditorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TerminalWindow.xaml.cs">
       <DependentUpon>TerminalWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\XrayWindow.xaml.cs">
-      <DependentUpon>XrayWindow.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\LoginSecretTypeConverter.cs" />
     <Compile Include="Converters\ProxyTypeConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -282,21 +283,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\HostEditorWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\RecordEditorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\TerminalWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\XrayWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

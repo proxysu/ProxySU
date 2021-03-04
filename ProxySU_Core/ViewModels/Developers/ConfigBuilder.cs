@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using ProxySU_Core.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -57,11 +58,9 @@ namespace ProxySU_Core.ViewModels.Developers
                 stats = statsObj["stats"],
                 reverse = reverseObj["reverse"]
             };
-
-
         }
 
-        public static string BuildCaddyConfig(XrayParameters parameters)
+        public static string BuildCaddyConfig(XraySettings parameters)
         {
             var caddyStr = File.ReadAllText(Path.Combine(CaddyFileDir, "base.caddyfile"));
             caddyStr.Replace("##domain##", parameters.Domain);
@@ -77,11 +76,11 @@ namespace ProxySU_Core.ViewModels.Developers
             return caddyStr;
         }
 
-        public static string BuildXrayConfig(XrayParameters parameters)
+        public static string BuildXrayConfig(XraySettings parameters)
         {
             var xrayConfig = LoadXrayConfig();
             var baseBound = LoadJsonObj(Path.Combine(ServerInboundsDir, "VLESS_TCP_XTLS.json"));
-            baseBound["port"] = VLESS_TCP_Port;
+            baseBound["port"] = parameters.Port;
             baseBound["settings"]["fallbacks"].Add(new
             {
                 dest = 80,
@@ -89,64 +88,69 @@ namespace ProxySU_Core.ViewModels.Developers
             });
             xrayConfig["inbounds"].Add(baseBound);
 
-            switch (parameters.Type)
+            if (parameters.Types.Contains(XrayType.VLESS_TCP_XTLS))
             {
-                case XrayType.VLESS_TCP_TLS:
-                case XrayType.VLESS_TCP_XTLS:
-                    baseBound["settings"]["clients"][0]["id"] = parameters.UUID;
-                    break;
-                case XrayType.VLESS_WS_TLS:
-                    var wsInbound = LoadJsonObj(Path.Combine(ServerInboundsDir, "VLESS_WS_TLS.json"));
-                    wsInbound["port"] = VLESS_WS_Port;
-                    wsInbound["settings"]["clients"][0]["id"] = parameters.UUID;
-                    wsInbound["streamSettings"]["wsSettings"]["path"] = parameters.VlessWsPath;
-                    baseBound["settings"]["fallbacks"].Add(new
-                    {
-                        dest = VLESS_WS_Port,
-                        path = parameters.VlessWsPath,
-                        xver = 1,
-                    });
-                    xrayConfig["inbounds"].Add(wsInbound);
-                    break;
-                case XrayType.VMESS_TCP_TLS:
-                    var mtcpBound = LoadJsonObj(Path.Combine(ServerInboundsDir, "VMESS_TCP_TLS.json"));
-                    mtcpBound["port"] = VMESS_TCP_Port;
-                    mtcpBound["settings"]["clients"][0]["id"] = parameters.UUID;
-                    mtcpBound["streamSettings"]["tcpSettings"]["header"]["request"]["path"] = parameters.VmessTcpPath;
-                    baseBound["settings"]["fallbacks"].Add(new
-                    {
-                        dest = VMESS_TCP_Port,
-                        path = parameters.VmessTcpPath,
-                        xver = 1,
-                    });
-                    xrayConfig["inbounds"].Add(mtcpBound);
-                    break;
-                case XrayType.VMESS_WS_TLS:
-                    var mwsBound = LoadJsonObj(Path.Combine(ServerInboundsDir, "VMESS_WS_TLS.json"));
-                    mwsBound["port"] = VMESS_WS_Port;
-                    mwsBound["settings"]["clients"][0]["id"] = parameters.UUID;
-                    mwsBound["streamSettings"]["wsSettings"]["path"] = parameters.VmessWsPath;
-                    baseBound["settings"]["fallbacks"].Add(new
-                    {
-                        dest = VMESS_WS_Port,
-                        path = parameters.VmessWsPath,
-                        xver = 1,
-                    });
-                    xrayConfig["inbounds"].Add(mwsBound);
-                    break;
-                case XrayType.Trojan_TCP_TLS:
-                    var trojanTcpBound = LoadJsonObj(Path.Combine(ServerInboundsDir, "Trojan_TCP_TLS.json"));
-                    trojanTcpBound["port"] = Trojan_TCP_Port;
-                    trojanTcpBound["settings"]["clients"][0]["password"] = parameters.TrojanPassword;
-                    baseBound["settings"]["fallbacks"][0] = new
-                    {
-                        dest = Trojan_TCP_Port,
-                        xver = 1,
-                    };
-                    xrayConfig["inbounds"].Add(trojanTcpBound);
-                    break;
-                default:
-                    break;
+                baseBound["settings"]["clients"][0]["id"] = parameters.UUID;
+            }
+
+            if (parameters.Types.Contains(XrayType.VLESS_WS_TLS))
+            {
+                baseBound["settings"]["clients"][0]["id"] = parameters.UUID;
+
+                var wsInbound = LoadJsonObj(Path.Combine(ServerInboundsDir, "VLESS_WS_TLS.json"));
+                wsInbound["port"] = VLESS_WS_Port;
+                wsInbound["settings"]["clients"][0]["id"] = parameters.UUID;
+                wsInbound["streamSettings"]["wsSettings"]["path"] = parameters.VLESS_WS_Path;
+                baseBound["settings"]["fallbacks"].Add(new
+                {
+                    dest = VLESS_WS_Port,
+                    path = parameters.VLESS_WS_Path,
+                    xver = 1,
+                });
+                xrayConfig["inbounds"].Add(wsInbound);
+            }
+
+            if (parameters.Types.Contains(XrayType.VMESS_TCP_TLS))
+            {
+                var mtcpBound = LoadJsonObj(Path.Combine(ServerInboundsDir, "VMESS_TCP_TLS.json"));
+                mtcpBound["port"] = VMESS_TCP_Port;
+                mtcpBound["settings"]["clients"][0]["id"] = parameters.UUID;
+                mtcpBound["streamSettings"]["tcpSettings"]["header"]["request"]["path"] = parameters.VMESS_TCP_Path;
+                baseBound["settings"]["fallbacks"].Add(new
+                {
+                    dest = VMESS_TCP_Port,
+                    path = parameters.VMESS_TCP_Path,
+                    xver = 1,
+                });
+                xrayConfig["inbounds"].Add(mtcpBound);
+            }
+
+            if (parameters.Types.Contains(XrayType.VMESS_WS_TLS))
+            {
+                var mwsBound = LoadJsonObj(Path.Combine(ServerInboundsDir, "VMESS_WS_TLS.json"));
+                mwsBound["port"] = VMESS_WS_Port;
+                mwsBound["settings"]["clients"][0]["id"] = parameters.UUID;
+                mwsBound["streamSettings"]["wsSettings"]["path"] = parameters.VMESS_WS_Path;
+                baseBound["settings"]["fallbacks"].Add(new
+                {
+                    dest = VMESS_WS_Port,
+                    path = parameters.VMESS_WS_Path,
+                    xver = 1,
+                });
+                xrayConfig["inbounds"].Add(mwsBound);
+            }
+
+            if (parameters.Types.Contains(XrayType.Trojan_TCP_TLS))
+            {
+                var trojanTcpBound = LoadJsonObj(Path.Combine(ServerInboundsDir, "Trojan_TCP_TLS.json"));
+                trojanTcpBound["port"] = Trojan_TCP_Port;
+                trojanTcpBound["settings"]["clients"][0]["password"] = parameters.TrojanPassword;
+                baseBound["settings"]["fallbacks"][0] = new
+                {
+                    dest = Trojan_TCP_Port,
+                    xver = 1,
+                };
+                xrayConfig["inbounds"].Add(trojanTcpBound);
             }
 
             return JsonConvert.SerializeObject(xrayConfig, Formatting.Indented);

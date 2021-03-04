@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ProxySU_Core.ViewModels
+namespace ProxySU_Core.Models
 {
     public enum LocalProxyType
     {

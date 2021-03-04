@@ -1,6 +1,9 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json;
+using ProxySU_Core.Models;
 using ProxySU_Core.ViewModels;
+using ProxySU_Core.ViewModels.Developers;
+using ProxySU_Core.Views;
 using Renci.SshNet;
 using System;
 using System.Collections.Generic;
@@ -30,20 +33,25 @@ namespace ProxySU_Core
     {
         private const string RecordPath = @"Data\Record.json";
 
-        public ObservableCollection<Record> ProjectList { get; set; }
+        public ObservableCollection<RecordViewModel> Records { get; set; }
 
         public MainWindow()
         {
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             InitializeComponent();
-            ProjectList = new ObservableCollection<Record>();
+
+            Records = new ObservableCollection<RecordViewModel>();
 
             if (File.Exists(RecordPath))
             {
                 var recordsJson = File.ReadAllText(RecordPath, Encoding.UTF8);
                 var records = JsonConvert.DeserializeObject<List<Record>>(recordsJson);
-                records.ForEach(item => ProjectList.Add(item));
+                records.ForEach(item =>
+                {
+                    Records.Add(new RecordViewModel(item));
+                });
             }
+
 
             DataContext = this;
         }
@@ -90,40 +98,31 @@ namespace ProxySU_Core
             Application.Current.Resources.MergedDictionaries[0] = resource;
         }
 
-        private void DataGrid_CopyingRowClipboardContent(object sender, DataGridRowClipboardEventArgs e)
-        {
-            var currentCell = e.ClipboardRowContent[DataGrid.CurrentCell.Column.DisplayIndex];
-            e.ClipboardRowContent.Clear();
-            e.ClipboardRowContent.Add(currentCell);
-        }
 
         private void AddHost(object sender, RoutedEventArgs e)
         {
-            var hostWindow = new HostEditorWindow();
-            hostWindow.OnSaveEvent += (s, host) =>
-            {
-                ProjectList.Add(new Record() { Host = host });
-            };
+            var hostWindow = new RecordEditorWindow(new Record());
             hostWindow.ShowDialog();
         }
 
         private void EditHost(object sender, RoutedEventArgs e)
         {
-            if (DataGrid.SelectedItem is Record project)
+            if (DataGrid.SelectedItem is RecordViewModel project)
             {
-                var hostWindow = new HostEditorWindow(project.Host);
+                var hostWindow = new RecordEditorWindow(project.record);
                 hostWindow.ShowDialog();
             }
         }
 
+
         private void DeleteHost(object sender, RoutedEventArgs e)
         {
-            if (DataGrid.SelectedItem is Record project)
+            if (DataGrid.SelectedItem is RecordViewModel project)
             {
                 var result = MessageBox.Show($"您确认删除主机{project.Host.Tag}吗？", "提示", MessageBoxButton.OKCancel);
                 if (result == MessageBoxResult.OK)
                 {
-                    ProjectList.Remove(project);
+                    Records.Remove(project);
                 }
             }
 

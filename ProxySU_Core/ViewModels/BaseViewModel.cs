@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ProxySU_Core.ViewModels
 {
-    public abstract class BaseModel : INotifyPropertyChanged
+    public abstract class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -19,7 +19,7 @@ namespace ProxySU_Core.ViewModels.Developers
         Yum
     }
 
-    public abstract class Project<TParameters> : BaseModel where TParameters : IParameters
+    public abstract class Project<TParameters> : BaseViewModel where TParameters : IParameters
     {
         private SshClient _sshClient;
 

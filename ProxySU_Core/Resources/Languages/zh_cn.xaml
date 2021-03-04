@@ -11,6 +11,7 @@
     <sys:String x:Key="Connect">连接</sys:String>
     <sys:String x:Key="Install">安装</sys:String>
     <sys:String x:Key="Edit">编辑</sys:String>
+    <sys:String x:Key="EditTemp">编辑模板</sys:String>
     <sys:String x:Key="Delete">删除</sys:String>
     <sys:String x:Key="Save">保存</sys:String>
     <sys:String x:Key="Info">消息</sys:String>

@@ -6,10 +6,11 @@ using System.Text;
 using System.Windows;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using ProxySU_Core.Models;
 
 namespace ProxySU_Core.ViewModels.Developers
 {
-    public class XrayProject : Project<XrayParameters>
+    public class XrayProject : Project<XraySettings>
     {
 
         private const string ServerLogDir = @"Templates\xray\server\00_log";
@@ -24,7 +25,7 @@ namespace ProxySU_Core.ViewModels.Developers
         private const string ServerReverseDir = @"Templates\xray\server\09_reverse";
         private const string CaddyFileDir = @"Templates\xray\caddy";
 
-        public XrayProject(SshClient sshClient, XrayParameters parameters, Action<string> writeOutput) : base(sshClient, parameters, writeOutput)
+        public XrayProject(SshClient sshClient, XraySettings parameters, Action<string> writeOutput) : base(sshClient, parameters, writeOutput)
         {
         }
 

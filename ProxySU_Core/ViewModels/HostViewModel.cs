@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using Newtonsoft.Json;
+using ProxySU_Core.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,66 +9,79 @@ using System.Windows.Input;
 
 namespace ProxySU_Core.ViewModels
 {
-    public class Host : BaseModel
+    public class HostViewModel : BaseViewModel
     {
-        private LoginSecretType _secretType;
-        private string tag = string.Empty;
-        private string _address;
-        private LocalProxy proxy;
+        public Host host;
+
         private readonly ICommand _selectKeyCommand;
 
-        public Host()
+        public HostViewModel(Host host)
         {
             _selectKeyCommand = new BaseCommand(obj => OpenFileDialog(obj));
-            Proxy = new LocalProxy();
+            this.host = host;
         }
 
 
         public string Tag
         {
-            get => tag; set
+            get => host.Tag;
+            set
             {
-                tag = value;
+                host.Tag = value;
                 Notify("Tag");
             }
         }
 
         public string Address
         {
-            get => _address;
+            get => host.Address;
             set
             {
-                _address = value;
+                host.Address = value;
                 Notify("Address");
             }
         }
 
-        public string UserName { get; set; }
+        public string UserName
+        {
+            get => host.UserName;
+            set => host.UserName = value;
+        }
 
-        public string Password { get; set; }
+        public string Password
+        {
+            get => host.Password;
+            set => host.Password = value;
+        }
 
-        public int Port { get; set; } = 22;
+        public int Port
+        {
+            get => host.Port;
+            set => host.Port = value;
+        }
 
-        public string PrivateKeyPath { get; set; }
+        public string PrivateKeyPath
+        {
+            get => host.PrivateKeyPath;
+            set => host.PrivateKeyPath = value;
+        }
 
         public LocalProxy Proxy
         {
-            get => proxy; set
+            get => host.Proxy;
+            set
             {
-                proxy = value;
+                host.Proxy = value;
                 Notify("Proxy");
             }
         }
 
         public LoginSecretType SecretType
         {
-            get
-            {
-                return _secretType;
-            }
+            get => host.SecretType;
             set
             {
-                _secretType = value;
+                host.SecretType = value;
                 Notify("SecretType");
                 Notify("KeyUploaderVisiblity");
                 Notify("PasswordVisiblity");

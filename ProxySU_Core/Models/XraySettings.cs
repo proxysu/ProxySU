@@ -1,11 +1,28 @@
-﻿using System;
+﻿using ProxySU_Core.ViewModels.Developers;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace ProxySU_Core.ViewModels.Developers
+namespace ProxySU_Core.Models
 {
-    public class XrayParameters : IParameters
+    public class XraySettings : IParameters
     {
+
+        public XraySettings()
+        {
+            Port = 443;
+            UUID = Guid.NewGuid().ToString();
+            Types = new List<XrayType> { XrayType.VLESS_TCP_XTLS };
+            VLESS_WS_Path = "/vlessws";
+            VLESS_TCP_Path = "/vlesstcp";
+            VMESS_WS_Path = "/vmessws";
+            VMESS_TCP_Path = "/vmesstcp";
+            Trojan_TCP_Path = "/trojan";
+            TrojanPassword = Guid.NewGuid().ToString();
+        }
+
         /// <summary>
         /// 访问端口
         /// </summary>
@@ -19,27 +36,27 @@ namespace ProxySU_Core.ViewModels.Developers
         /// <summary>
         /// vless ws路径
         /// </summary>
-        public string VlessWsPath { get; set; }
+        public string VLESS_WS_Path { get; set; }
 
         /// <summary>
         /// vless tcp路径
         /// </summary>
-        public string VlessTcpPath { get; set; }
+        public string VLESS_TCP_Path { get; set; }
 
         /// <summary>
         /// vmess ws路径
         /// </summary>
-        public string VmessWsPath { get; set; }
+        public string VMESS_WS_Path { get; set; }
 
         /// <summary>
         /// vmess tcp路径
         /// </summary>
-        public string VmessTcpPath { get; set; }
+        public string VMESS_TCP_Path { get; set; }
 
         /// <summary>
         /// trojan tcp路径
         /// </summary>
-        public string TrojanTcpPath { get; set; }
+        public string Trojan_TCP_Path { get; set; }
 
         /// <summary>
         /// trojan密码
@@ -59,25 +76,25 @@ namespace ProxySU_Core.ViewModels.Developers
         /// <summary>
         /// 安装类型
         /// </summary>
-        public XrayType Type { get; set; }
+        public List<XrayType> Types { get; set; }
 
 
-        public string GetPath()
+        public string GetPath(XrayType type)
         {
-            switch (Type)
+            switch (type)
             {
                 case XrayType.VLESS_TCP_TLS:
-                    return VlessTcpPath;
+                    return VLESS_TCP_Path;
                 case XrayType.VLESS_TCP_XTLS:
-                    return VlessTcpPath;
+                    return VLESS_TCP_Path;
                 case XrayType.VLESS_WS_TLS:
-                    return VlessWsPath;
+                    return VLESS_WS_Path;
                 case XrayType.VMESS_TCP_TLS:
-                    return VmessTcpPath;
+                    return VMESS_TCP_Path;
                 case XrayType.VMESS_WS_TLS:
-                    return VmessWsPath;
+                    return VMESS_WS_Path;
                 case XrayType.Trojan_TCP_TLS:
-                    return TrojanTcpPath;
+                    return Trojan_TCP_Path;
                 default:
                     return string.Empty;
             }

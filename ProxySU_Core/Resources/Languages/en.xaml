@@ -10,6 +10,7 @@
     <sys:String x:Key="Actions">Actions</sys:String>
     <sys:String x:Key="Connect">Connect</sys:String>
     <sys:String x:Key="Edit">Edit</sys:String>
+    <sys:String x:Key="EditTemp">Edit Xray</sys:String>
     <sys:String x:Key="Delete">Delete</sys:String>
     <sys:String x:Key="Install">Install</sys:String>
     <sys:String x:Key="Save">Save</sys:String>

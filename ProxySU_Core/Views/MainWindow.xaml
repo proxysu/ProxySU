@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProxySU_Core"
         mc:Ignorable="d"
-        GlowBrush="{DynamicResource AccentColorBrush}"
         BorderThickness="1"
         xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
@@ -64,7 +63,7 @@
                         Width="100"/>
                     </StackPanel>
 
-                    <DataGrid ItemsSource="{Binding Path=ProjectList}"
+                    <DataGrid ItemsSource="{Binding Records}"
                               Margin="0,20,0,0"
                               IsReadOnly="True"
                               x:Name="DataGrid"
@@ -74,7 +73,6 @@
                               SelectionUnit="FullRow"
                               BorderBrush="#eee"
                               BorderThickness="1"
-                              CopyingRowClipboardContent="DataGrid_CopyingRowClipboardContent"
                               AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="{DynamicResource HostTag}"  

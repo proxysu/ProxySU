@@ -1,11 +1,12 @@
-﻿using System;
+﻿using ProxySU_Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 
 namespace ProxySU_Core.ViewModels
 {
-    public class Terminal : BaseModel
+    public class Terminal : BaseViewModel
     {
         private string outputText;
 

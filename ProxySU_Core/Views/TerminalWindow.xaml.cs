@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
+using ProxySU_Core.Models;
 using ProxySU_Core.ViewModels;
 using ProxySU_Core.ViewModels.Developers;
 using ProxySU_Core.Views;
@@ -30,6 +31,8 @@ namespace ProxySU_Core
         public TerminalWindow(Record project)
         {
             InitializeComponent();
+            ResizeMode = ResizeMode.NoResize;
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             _vm = new Terminal(project.Host);
             DataContext = _vm;
@@ -107,9 +110,6 @@ namespace ProxySU_Core
 
         private void Install(object sender, RoutedEventArgs e)
         {
-            var xrayWindow = new XrayWindow();
-            xrayWindow.ShowDialog();
-
         }
 
 
