@@ -57,7 +57,7 @@ namespace ProxySU_Core.ViewModels.Developers
         /// <summary>
         /// 执行安装命令
         /// </summary>
-        public abstract void Execute();
+        public abstract void Install();
 
         /// <summary>
         /// 配置系统基础环境
@@ -420,7 +420,7 @@ namespace ProxySU_Core.ViewModels.Developers
             return true;
         }
 
-        private void ConfigurePort(bool force = true)
+        public void ConfigurePort(bool force = true)
         {
             if (Parameters.Port == 80 || Parameters.Port == 443)
             {
@@ -429,6 +429,8 @@ namespace ProxySU_Core.ViewModels.Developers
             }
             else
             {
+                SetPortFree(80);
+                SetPortFree(443);
                 SetPortFree(Parameters.Port);
             }
         }

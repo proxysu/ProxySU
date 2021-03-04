@@ -11,82 +11,82 @@ namespace ProxySU_Core.ViewModels
 {
     public class XraySettingsViewModel : BaseViewModel
     {
-        private XraySettings p;
+        public XraySettings settings;
 
         public XraySettingsViewModel(XraySettings parameters)
         {
-            this.p = parameters;
+            this.settings = parameters;
         }
 
         public string UUID
         {
-            get => p.UUID;
-            set => p.UUID = value;
+            get => settings.UUID;
+            set => settings.UUID = value;
         }
 
         public string Domain
         {
-            get => p.Domain;
-            set => p.Domain = value;
+            get => settings.Domain;
+            set => settings.Domain = value;
         }
 
         public string MaskDomain
         {
-            get => p.MaskDomain;
-            set => p.MaskDomain = value;
+            get => settings.MaskDomain;
+            set => settings.MaskDomain = value;
         }
 
         public string VLESS_TCP_Path
         {
-            get => p.VLESS_TCP_Path;
-            set => p.VLESS_TCP_Path = value;
+            get => settings.VLESS_TCP_Path;
+            set => settings.VLESS_TCP_Path = value;
         }
 
         public string VLESS_WS_Path
         {
-            get => p.VLESS_WS_Path;
-            set => p.VLESS_WS_Path = value;
+            get => settings.VLESS_WS_Path;
+            set => settings.VLESS_WS_Path = value;
         }
 
         public string VMESS_TCP_Path
         {
-            get => p.VMESS_TCP_Path;
-            set => p.VMESS_TCP_Path = value;
+            get => settings.VMESS_TCP_Path;
+            set => settings.VMESS_TCP_Path = value;
         }
 
         public string VMESS_WS_Path
         {
-            get => p.VMESS_WS_Path;
-            set => p.VMESS_WS_Path = value;
+            get => settings.VMESS_WS_Path;
+            set => settings.VMESS_WS_Path = value;
         }
 
         public string Trojan_TCP_Path
         {
-            get => p.Trojan_TCP_Path;
-            set => p.Trojan_TCP_Path = value;
+            get => settings.Trojan_TCP_Path;
+            set => settings.Trojan_TCP_Path = value;
         }
 
         public string TrojanPassword
         {
-            get => p.TrojanPassword;
-            set => p.TrojanPassword = value;
+            get => settings.TrojanPassword;
+            set => settings.TrojanPassword = value;
         }
 
         public bool Checked_VLESS_TCP
         {
             get
             {
-                return p.Types.Contains(XrayType.VLESS_TCP_TLS);
+                return settings.Types.Contains(XrayType.VLESS_TCP_TLS);
             }
             set
             {
                 if (value == true)
                 {
-                    p.Types.Add(XrayType.VLESS_TCP_TLS);
+                    settings.Types.Add(XrayType.VLESS_TCP_TLS);
                 }
                 else
                 {
-                    p.Types.Remove(XrayType.VLESS_TCP_TLS);
+                    settings.Types.Remove(XrayType.VLESS_TCP_TLS);
                 }
                 Notify("Checked_VLESS_TCP");
                 Notify("VLESS_TCP_Path_Visibility");
@@ -97,17 +97,17 @@ namespace ProxySU_Core.ViewModels
         {
             get
             {
-                return p.Types.Contains(XrayType.VLESS_TCP_XTLS);
+                return settings.Types.Contains(XrayType.VLESS_TCP_XTLS);
             }
             set
             {
                 if (value == true)
                 {
-                    p.Types.Add(XrayType.VLESS_TCP_XTLS);
+                    settings.Types.Add(XrayType.VLESS_TCP_XTLS);
                 }
                 else
                 {
-                    p.Types.Remove(XrayType.VLESS_TCP_XTLS);
+                    settings.Types.Remove(XrayType.VLESS_TCP_XTLS);
                 }
                 Notify("Checked_VLESS_XTLS");
             }
@@ -117,17 +117,17 @@ namespace ProxySU_Core.ViewModels
         {
             get
             {
-                return p.Types.Contains(XrayType.VLESS_WS_TLS);
+                return settings.Types.Contains(XrayType.VLESS_WS_TLS);
             }
             set
             {
                 if (value == true)
                 {
-                    p.Types.Add(XrayType.VLESS_WS_TLS);
+                    settings.Types.Add(XrayType.VLESS_WS_TLS);
                 }
                 else
                 {
-                    p.Types.Remove(XrayType.VLESS_WS_TLS);
+                    settings.Types.Remove(XrayType.VLESS_WS_TLS);
                 }
                 Notify("Checked_VLESS_WS");
                 Notify("VLESS_WS_Path_Visibility");
@@ -138,17 +138,17 @@ namespace ProxySU_Core.ViewModels
         {
             get
             {
-                return p.Types.Contains(XrayType.VMESS_TCP_TLS);
+                return settings.Types.Contains(XrayType.VMESS_TCP_TLS);
             }
             set
             {
                 if (value == true)
                 {
-                    p.Types.Add(XrayType.VMESS_TCP_TLS);
+                    settings.Types.Add(XrayType.VMESS_TCP_TLS);
                 }
                 else
                 {
-                    p.Types.Remove(XrayType.VMESS_TCP_TLS);
+                    settings.Types.Remove(XrayType.VMESS_TCP_TLS);
                 }
                 Notify("Checked_VMESS_TCP");
                 Notify("VMESS_TCP_Path_Visibility");
@@ -159,17 +159,17 @@ namespace ProxySU_Core.ViewModels
         {
             get
             {
-                return p.Types.Contains(XrayType.VMESS_WS_TLS);
+                return settings.Types.Contains(XrayType.VMESS_WS_TLS);
             }
             set
             {
                 if (value == true)
                 {
-                    p.Types.Add(XrayType.VMESS_WS_TLS);
+                    settings.Types.Add(XrayType.VMESS_WS_TLS);
                 }
                 else
                 {
-                    p.Types.Remove(XrayType.VMESS_WS_TLS);
+                    settings.Types.Remove(XrayType.VMESS_WS_TLS);
                 }
                 Notify("Checked_VMESS_WS");
                 Notify("VMESS_WS_Path_Visibility");
@@ -180,17 +180,17 @@ namespace ProxySU_Core.ViewModels
         {
             get
             {
-                return p.Types.Contains(XrayType.Trojan_TCP_TLS);
+                return settings.Types.Contains(XrayType.Trojan_TCP_TLS);
             }
             set
             {
                 if (value == true)
                 {
-                    p.Types.Add(XrayType.Trojan_TCP_TLS);
+                    settings.Types.Add(XrayType.Trojan_TCP_TLS);
                 }
                 else
                 {
-                    p.Types.Remove(XrayType.Trojan_TCP_TLS);
+                    settings.Types.Remove(XrayType.Trojan_TCP_TLS);
                 }
                 Notify("Checked_Trojan_TCP");
                 Notify("Trojan_TCP_Path_Visibility");

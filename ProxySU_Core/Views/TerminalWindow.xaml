@@ -14,6 +14,7 @@
                      Foreground="LawnGreen"
                      FontSize="14"
                      FontFamily="Consolas"
+                     x:Name="OutputTextBox"
                      Height="320">
             <FlowDocument>
                 <Paragraph>

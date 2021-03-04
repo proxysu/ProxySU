@@ -25,16 +25,18 @@ namespace ProxySU_Core
     /// </summary>
     public partial class TerminalWindow
     {
+        private Record Record { get; set; }
         private readonly Terminal _vm;
         private SshClient _sshClient;
 
-        public TerminalWindow(Record project)
+        public TerminalWindow(Record record)
         {
             InitializeComponent();
             ResizeMode = ResizeMode.NoResize;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
-            _vm = new Terminal(project.Host);
+            this.Record = record;
+            _vm = new Terminal(record.Host);
             DataContext = _vm;
 
             _vm.AddOutput("Connect ...");
@@ -106,10 +108,23 @@ namespace ProxySU_Core
         private void WriteShell(string outShell)
         {
             _vm.AddOutput(outShell);
+            Dispatcher.Invoke(() =>
+            {
+                OutputTextBox.ScrollToEnd();
+            });
         }
 
         private void Install(object sender, RoutedEventArgs e)
         {
+            XrayProject project = new XrayProject(
+                _sshClient,
+                Record.Settings,
+                WriteShell);
+
+            Task.Factory.StartNew(() =>
+            {
+                project.Install();
+            });
         }
 
 

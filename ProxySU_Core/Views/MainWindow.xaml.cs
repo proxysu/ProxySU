@@ -101,8 +101,13 @@ namespace ProxySU_Core
 
         private void AddHost(object sender, RoutedEventArgs e)
         {
-            var hostWindow = new RecordEditorWindow(new Record());
-            hostWindow.ShowDialog();
+            var newRecord = new Record();
+            var hostWindow = new RecordEditorWindow(newRecord);
+            var result = hostWindow.ShowDialog();
+            if (result == true)
+            {
+                Records.Add(new RecordViewModel(newRecord));
+            }
         }
 
         private void EditHost(object sender, RoutedEventArgs e)
@@ -110,7 +115,11 @@ namespace ProxySU_Core
             if (DataGrid.SelectedItem is RecordViewModel project)
             {
                 var hostWindow = new RecordEditorWindow(project.record);
-                hostWindow.ShowDialog();
+                var result = hostWindow.ShowDialog();
+                if (result == true)
+                {
+                    project.Notify();
+                }
             }
         }
 
@@ -130,13 +139,13 @@ namespace ProxySU_Core
 
         private void Connect(object sender, RoutedEventArgs e)
         {
-            var project = DataGrid.SelectedItem as Record;
+            var project = DataGrid.SelectedItem as RecordViewModel;
             if (project == null)
             {
                 DialogManager.ShowMessageAsync(this, "提示", "请选择一个服务器");
             }
 
-            TerminalWindow terminalWindow = new TerminalWindow(project);
+            TerminalWindow terminalWindow = new TerminalWindow(project.record);
             terminalWindow.Show();
         }
     }

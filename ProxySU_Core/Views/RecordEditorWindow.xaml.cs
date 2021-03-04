@@ -27,6 +27,8 @@ namespace ProxySU_Core.Views
 
         public XraySettingsViewModel Settings { get; set; }
 
+        public EventHandler OnSaved;
+
         public RecordEditorWindow(Record record)
         {
             InitializeComponent();
@@ -37,6 +39,14 @@ namespace ProxySU_Core.Views
             Host = new HostViewModel(record.Host.DeepClone());
             Settings = new XraySettingsViewModel(record.Settings.DeepClone());
             this.DataContext = this;
+        }
+
+        public void Save(object sender, RoutedEventArgs e)
+        {
+            Record.Host = Host.host;
+            Record.Settings = Settings.settings;
+            DialogResult = true;
+            Close();
         }
     }
 }

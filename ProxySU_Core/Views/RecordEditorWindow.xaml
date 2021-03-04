@@ -136,71 +136,71 @@
                         Width="100"
                         Text="{DynamicResource ProxyType}" />
                         <RadioButton
-                        GroupName="ProxyType"
-                        Content="{StaticResource ProxyTypeNone}"
-                        IsChecked="{
-                            Binding Path=Host.Proxy.Type,
-                            Converter={StaticResource ProxyTypeConverter},
-                            ConverterParameter={x:Static models:LocalProxyType.None}
+                            GroupName="ProxyType"
+                            Content="{StaticResource ProxyTypeNone}"
+                            IsChecked="{
+                                Binding Path=Host.Proxy.Type,
+                                Converter={StaticResource ProxyTypeConverter},
+                                ConverterParameter={x:Static models:LocalProxyType.None}
                         }"/>
                         <RadioButton
-                        Margin="10,0,0,0"
-                        GroupName="ProxyType"       
-                        Content="{DynamicResource ProxyTypeHttp}"                 
-                        IsChecked="{
-                            Binding Path=Host.Proxy.Type,
-                            Converter={StaticResource ProxyTypeConverter},
-                            ConverterParameter={x:Static models:LocalProxyType.Http}
-                        }"/>
+                            Margin="10,0,0,0"
+                            GroupName="ProxyType"       
+                            Content="{DynamicResource ProxyTypeHttp}"                 
+                            IsChecked="{
+                                Binding Path=Host.Proxy.Type,
+                                Converter={StaticResource ProxyTypeConverter},
+                                ConverterParameter={x:Static models:LocalProxyType.Http}
+                            }"/>
                         <RadioButton
-                        Margin="10,0,0,0"
-                        GroupName="ProxyType"
-                        Content="{DynamicResource ProxyTypeSocks5}"
-                        IsChecked="{
-                            Binding Path=Host.Proxy.Type,
-                            Converter={StaticResource ProxyTypeConverter},
-                            ConverterParameter={x:Static models:LocalProxyType.Socks5}
-                        }"/>
+                            Margin="10,0,0,0"
+                            GroupName="ProxyType"
+                            Content="{DynamicResource ProxyTypeSocks5}"
+                            IsChecked="{
+                                Binding Path=Host.Proxy.Type,
+                                Converter={StaticResource ProxyTypeConverter},
+                                ConverterParameter={x:Static models:LocalProxyType.Socks5}
+                            }"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                         <TextBlock
-                        Width="100"
-                        Text="{DynamicResource ProxyHostName}"
-                        VerticalAlignment="Center" />
+                            Width="100"
+                            Text="{DynamicResource ProxyHostName}"
+                            VerticalAlignment="Center" />
                         <TextBox
-                        Width="200"
-                        Text="{Binding Path=Host.Proxy.Address}" />
+                            Width="200"
+                            Text="{Binding Path=Host.Proxy.Address}" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                         <TextBlock
-                        Width="100"
-                        Text="{DynamicResource ProxyHostPort}"
-                        VerticalAlignment="Center"/>
+                            Width="100"
+                            Text="{DynamicResource ProxyHostPort}"
+                            VerticalAlignment="Center"/>
                         <TextBox
-                        Width="200"
-                        Text="{Binding Path=Host.Proxy.Port}" />
+                            Width="200"
+                            Text="{Binding Path=Host.Proxy.Port}" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                         <TextBlock
-                        Width="100"
-                        Text="{DynamicResource ProxyUserName}"
-                        VerticalAlignment="Center"/>
+                            Width="100"
+                            Text="{DynamicResource ProxyUserName}"
+                            VerticalAlignment="Center"/>
                         <TextBox
-                        Width="200"
-                        Text="{Binding Path=Host.Proxy.UserName}"/>
+                            Width="200"
+                            Text="{Binding Path=Host.Proxy.UserName}"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                         <TextBlock
-                        Width="100"
-                        Text="{DynamicResource ProxyPassword}"
-                        VerticalAlignment="Center"/>
+                            Width="100"
+                            Text="{DynamicResource ProxyPassword}"
+                            VerticalAlignment="Center"/>
                         <TextBox
-                        Width="200"
-                        Text="{Binding Path=Host.Proxy.Password}"/>
+                            Width="200"
+                            Text="{Binding Path=Host.Proxy.Password}"/>
                     </StackPanel>
 
                 </StackPanel>
@@ -315,6 +315,11 @@
             </GroupBox>
         </StackPanel>
 
-        <Button Content="保存" Grid.Row="3" Width="120" Height="32" HorizontalAlignment="Right" Margin="0,0,20,0"></Button>
+        <Button Content="保存" 
+                Grid.Row="3" 
+                Width="120" Height="32" 
+                Click="Save"
+                HorizontalAlignment="Right" 
+                Margin="0,0,20,0"></Button>
     </Grid>
 </metro:MetroWindow>

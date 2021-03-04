@@ -29,7 +29,7 @@ namespace ProxySU_Core.ViewModels.Developers
         {
         }
 
-        public override void Execute()
+        public override void Install()
         {
             try
             {
@@ -46,6 +46,8 @@ namespace ProxySU_Core.ViewModels.Developers
                 }
 
                 EnsureSystemEnv();
+
+                ConfigurePort();
 
                 ConfigureSoftware();
 

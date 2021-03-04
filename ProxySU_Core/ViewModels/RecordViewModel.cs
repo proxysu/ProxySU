@@ -36,5 +36,11 @@ namespace ProxySU_Core.ViewModels
                 Notify("Settings");
             }
         }
+
+        public void Notify()
+        {
+            Notify("Host");
+            Notify("Settings");
+        }
     }
 }
