@@ -19,7 +19,6 @@ namespace ProxySU_Core.Models
             VLESS_TCP_Path = "/vlesstcp";
             VMESS_WS_Path = "/vmessws";
             VMESS_TCP_Path = "/vmesstcp";
-            Trojan_TCP_Path = "/trojan";
             TrojanPassword = Guid.NewGuid().ToString();
         }
 
@@ -52,11 +51,6 @@ namespace ProxySU_Core.Models
         /// vmess tcp路径
         /// </summary>
         public string VMESS_TCP_Path { get; set; }
-
-        /// <summary>
-        /// trojan tcp路径
-        /// </summary>
-        public string Trojan_TCP_Path { get; set; }
 
         /// <summary>
         /// trojan密码
@@ -94,7 +88,7 @@ namespace ProxySU_Core.Models
                 case XrayType.VMESS_WS_TLS:
                     return VMESS_WS_Path;
                 case XrayType.Trojan_TCP_TLS:
-                    return Trojan_TCP_Path;
+                    return string.Empty;
                 default:
                     return string.Empty;
             }

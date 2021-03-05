@@ -60,12 +60,6 @@ namespace ProxySU_Core.ViewModels
             set => settings.VMESS_WS_Path = value;
         }
 
-        public string Trojan_TCP_Path
-        {
-            get => settings.Trojan_TCP_Path;
-            set => settings.Trojan_TCP_Path = value;
-        }
-
         public string TrojanPassword
         {
             get => settings.TrojanPassword;
@@ -193,7 +187,7 @@ namespace ProxySU_Core.ViewModels
                     settings.Types.Remove(XrayType.Trojan_TCP_TLS);
                 }
                 Notify("Checked_Trojan_TCP");
-                Notify("Trojan_TCP_Path_Visibility");
+                Notify("Trojan_TCP_Pwd_Visibility");
             }
         }
 
@@ -225,7 +219,7 @@ namespace ProxySU_Core.ViewModels
                 return Checked_VMESS_WS ? Visibility.Visible : Visibility.Hidden;
             }
         }
-        public Visibility Trojan_TCP_Path_Visibility
+        public Visibility Trojan_TCP_Pwd_Visibility
         {
             get
             {

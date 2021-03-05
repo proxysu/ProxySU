@@ -297,18 +297,11 @@
                              Width="200" />
                         </StackPanel>
 
-                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal" Visibility="{Binding Settings.Trojan_TCP_Path_Visibility}">
+                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal" Visibility="{Binding Settings.Trojan_TCP_Pwd_Visibility}">
                             <Label Content="Trojan密码" Width="120" VerticalAlignment="Center" />
                             <TextBox Text="{Binding Path=Settings.TrojanPassword}" 
                              IsEnabled="{Binding Checked_Trojan_TCP}"
                              Width="200" />
-                        </StackPanel>
-
-                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal" Visibility="{Binding Settings.Trojan_TCP_Path_Visibility}">
-                            <Label Content="Trojan Path" Width="120" VerticalAlignment="Center" />
-                            <TextBox Text="{Binding Path=Settings.TrojanPath}" 
-                                 IsEnabled="{Binding Checked_Trojan_TCP}"
-                                 Width="200" />
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
