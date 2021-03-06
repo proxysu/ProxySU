@@ -1,0 +1,24 @@
+﻿<metro:MetroWindow x:Class="ProxySU_Core.Views.ClientInfoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"       
+        xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:local="clr-namespace:ProxySU_Core.Views"
+        mc:Ignorable="d"
+        Title="ClientInfoWindow" Height="450" Width="800">
+    <Grid>
+        <TabControl 
+            Background="#fff"
+            Style="{StaticResource MaterialDesignNavigatilRailTabControl}"
+            Padding="10">
+            <TabItem Width="200" Style="{StaticResource MaterialDesignNavigationRailTabItem}" Header="VLESS-TCP-XTLS"></TabItem>
+            <TabItem Width="200" Style="{StaticResource MaterialDesignNavigationRailTabItem}" Header="VLESS-TCP-XTL"></TabItem>
+            <TabItem Width="200" Style="{StaticResource MaterialDesignNavigationRailTabItem}" Header="VLESS-WebSocket-XTLS"></TabItem>
+            <TabItem Width="200" Style="{StaticResource MaterialDesignNavigationRailTabItem}" Header="VMESS-TCP-XTL"></TabItem>
+            <TabItem Width="200" Style="{StaticResource MaterialDesignNavigationRailTabItem}" Header="VLESS-WebSocket-XTL"></TabItem>
+            <TabItem Width="200" Style="{StaticResource MaterialDesignNavigationRailTabItem}" Header="VLESS-TCP-Trojan"></TabItem>
+           
+        </TabControl>
+    </Grid>
+</metro:MetroWindow>

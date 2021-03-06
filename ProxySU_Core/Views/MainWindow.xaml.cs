@@ -1,5 +1,6 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using ProxySU_Core.Models;
 using ProxySU_Core.ViewModels;
 using ProxySU_Core.ViewModels.Developers;
@@ -56,6 +57,20 @@ namespace ProxySU_Core
             DataContext = this;
         }
 
+        private void SaveRecord()
+        {
+            var recordList = Records.Select(x => x.record);
+            var json = JsonConvert.SerializeObject(recordList,
+                Formatting.Indented,
+                new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                });
+            if (File.Exists("Data\\Record.json"))
+            {
+                File.WriteAllText("Data\\Record.json", json, Encoding.UTF8);
+            }
+        }
 
         private void LaunchGitHubSite(object sender, RoutedEventArgs e)
         {
@@ -107,6 +122,7 @@ namespace ProxySU_Core
             if (result == true)
             {
                 Records.Add(new RecordViewModel(newRecord));
+                SaveRecord();
             }
         }
 
@@ -119,7 +135,17 @@ namespace ProxySU_Core
                 if (result == true)
                 {
                     project.Notify();
+                    SaveRecord();
                 }
+            }
+        }
+
+        private void ShowClientInfo(object sender, RoutedEventArgs e)
+        {
+            if (DataGrid.SelectedItem is RecordViewModel project)
+            {
+                var dialog = new ClientInfoWindow(project.record);
+                dialog.ShowDialog();
             }
         }
 

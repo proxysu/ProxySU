@@ -76,7 +76,9 @@ namespace ProxySU_Core.ViewModels
             {
                 if (value == true)
                 {
-                    settings.Types.Add(XrayType.VLESS_TCP_TLS);
+                    if (!settings.Types.Contains(XrayType.VLESS_TCP_TLS))
+                        settings.Types.Add(XrayType.VLESS_TCP_TLS);
+
                 }
                 else
                 {
@@ -97,7 +99,8 @@ namespace ProxySU_Core.ViewModels
             {
                 if (value == true)
                 {
-                    settings.Types.Add(XrayType.VLESS_TCP_XTLS);
+                    if (!settings.Types.Contains(XrayType.VLESS_TCP_XTLS))
+                        settings.Types.Add(XrayType.VLESS_TCP_XTLS);
                 }
                 else
                 {
@@ -117,7 +120,8 @@ namespace ProxySU_Core.ViewModels
             {
                 if (value == true)
                 {
-                    settings.Types.Add(XrayType.VLESS_WS_TLS);
+                    if (!settings.Types.Contains(XrayType.VLESS_WS_TLS))
+                        settings.Types.Add(XrayType.VLESS_WS_TLS);
                 }
                 else
                 {
@@ -138,7 +142,8 @@ namespace ProxySU_Core.ViewModels
             {
                 if (value == true)
                 {
-                    settings.Types.Add(XrayType.VMESS_TCP_TLS);
+                    if (!settings.Types.Contains(XrayType.VMESS_TCP_TLS))
+                        settings.Types.Add(XrayType.VMESS_TCP_TLS);
                 }
                 else
                 {
@@ -159,7 +164,8 @@ namespace ProxySU_Core.ViewModels
             {
                 if (value == true)
                 {
-                    settings.Types.Add(XrayType.VMESS_WS_TLS);
+                    if (!settings.Types.Contains(XrayType.VMESS_WS_TLS))
+                        settings.Types.Add(XrayType.VMESS_WS_TLS);
                 }
                 else
                 {
@@ -180,7 +186,8 @@ namespace ProxySU_Core.ViewModels
             {
                 if (value == true)
                 {
-                    settings.Types.Add(XrayType.Trojan_TCP_TLS);
+                    if (!settings.Types.Contains(XrayType.Trojan_TCP_TLS))
+                        settings.Types.Add(XrayType.Trojan_TCP_TLS);
                 }
                 else
                 {

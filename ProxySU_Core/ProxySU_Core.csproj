@@ -201,6 +201,9 @@
     <Compile Include="ViewModels\RecordViewModel.cs" />
     <Compile Include="ViewModels\Terminal.cs" />
     <Compile Include="ViewModels\XraySettingsViewModel.cs" />
+    <Compile Include="Views\ClientInfoWindow.xaml.cs">
+      <DependentUpon>ClientInfoWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -341,6 +344,10 @@
     <Page Include="Resources\Styles\MaterialDesignThemes.Overrides.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ClientInfoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

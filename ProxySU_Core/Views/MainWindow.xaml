@@ -96,6 +96,7 @@
                                         <StackPanel Orientation="Horizontal">
                                             <Button Content="{DynamicResource Connect}" FontSize="12" Height="24" Click="Connect" />
                                             <Button Content="{DynamicResource Edit}" FontSize="12" Height="24" Margin="10,0,0,0" Click="EditHost" />
+                                            <Button Content="查看配置" FontSize="12" Height="24" Margin="10,0,0,0" Click="ShowClientInfo" />
                                             <Button Content="{DynamicResource Delete}" FontSize="12"  Height="24" Margin="10,0,0,0" Click="DeleteHost" />
                                         </StackPanel>
                                     </DataTemplate>
