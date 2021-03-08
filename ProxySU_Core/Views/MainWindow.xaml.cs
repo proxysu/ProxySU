@@ -46,11 +46,14 @@ namespace ProxySU_Core
             if (File.Exists(RecordPath))
             {
                 var recordsJson = File.ReadAllText(RecordPath, Encoding.UTF8);
-                var records = JsonConvert.DeserializeObject<List<Record>>(recordsJson);
-                records.ForEach(item =>
+                if (!string.IsNullOrEmpty(recordsJson))
                 {
-                    Records.Add(new RecordViewModel(item));
-                });
+                    var records = JsonConvert.DeserializeObject<List<Record>>(recordsJson);
+                    records.ForEach(item =>
+                    {
+                        Records.Add(new RecordViewModel(item));
+                    });
+                }
             }
 
 
@@ -66,10 +69,11 @@ namespace ProxySU_Core
                 {
                     ContractResolver = new CamelCasePropertyNamesContractResolver()
                 });
-            if (File.Exists("Data\\Record.json"))
+            if (!Directory.Exists("Data"))
             {
-                File.WriteAllText("Data\\Record.json", json, Encoding.UTF8);
+                Directory.CreateDirectory("Data");
             }
+            File.WriteAllText("Data\\Record.json", json, Encoding.UTF8);
         }
 
         private void LaunchGitHubSite(object sender, RoutedEventArgs e)

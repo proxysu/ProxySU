@@ -106,6 +106,7 @@ namespace ProxySU_Core.ViewModels.Developers
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(configJson));
             RunCmd("rm -rf /usr/local/etc/xray/config.json");
             UploadFile(stream, "/usr/local/etc/xray/config.json");
+            RunCmd("systemctl restart xray");
         }
 
         private void InstallCertToXray()
@@ -114,7 +115,7 @@ namespace ProxySU_Core.ViewModels.Developers
             RunCmd(GetInstallCmd("socat"));
 
             // 解决搬瓦工CentOS缺少问题
-            RunCmd(GetInstallCmd("automake autoconf libtool"));
+            RunCmd("y | " + GetInstallCmd("automake autoconf libtool"));
 
             // 安装Acme
             var result = RunCmd($"curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh | sh -s -- --install-online -m  {GetRandomEmail()}");
@@ -153,7 +154,7 @@ namespace ProxySU_Core.ViewModels.Developers
 
             // 安装证书到xray
             RunCmd("mkdir -p /usr/local/etc/xray/ssl");
-            RunCmd($"/root/.acme.sh/acme.sh  --installcert  -d {Parameters.Domain}  --certpath /usr/local/etc/xray/ssl/xray_ssl.crt --keypath /usr/local/etc/xray/ssl/xray_ssl.key  --capath  /usr/local/etc/xray/ssl/xray_ssl.crt  --reloadcmd  \"systemctl restart xray\"");
+            RunCmd($"/root/.acme.sh/acme.sh  --installcert  -d {Parameters.Domain}  --certpath /usr/local/etc/xray/ssl/xray_ssl.crt --keypath /usr/local/etc/xray/ssl/xray_ssl.key  --capath  /usr/local/etc/xray/ssl/xray_ssl.crt");
             result = RunCmd(@"if [ ! -f ""/usr/local/etc/xray/ssl/xray_ssl.key"" ]; then echo ""0""; else echo ""1""; fi | head -n 1");
             if (result.Contains("1"))
             {
@@ -164,8 +165,7 @@ namespace ProxySU_Core.ViewModels.Developers
                 throw new Exception("安装证书失败，请联系开发者！");
             }
 
-
-            RunCmd(@"chmod 644 /usr/local/etc/xray/ssl/xray_ssl.key");
+            RunCmd(@"chmod 755 /usr/local/etc/xray/ssl");
         }
 
         private string GetRandomEmail()

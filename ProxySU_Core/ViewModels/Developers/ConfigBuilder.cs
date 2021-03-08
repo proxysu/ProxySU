@@ -48,7 +48,7 @@ namespace ProxySU_Core.ViewModels.Developers
             return new
             {
                 log = logObj["log"],
-                api = apiObj["api"],
+                //api = apiObj["api"],  api不能为空
                 dns = dnsObj["dns"],
                 routing = routingObj["routing"],
                 policy = policyObj["policy"],
@@ -63,14 +63,14 @@ namespace ProxySU_Core.ViewModels.Developers
         public static string BuildCaddyConfig(XraySettings parameters)
         {
             var caddyStr = File.ReadAllText(Path.Combine(CaddyFileDir, "base.caddyfile"));
-            caddyStr.Replace("##domain##", parameters.Domain);
+            caddyStr = caddyStr.Replace("##domain##", parameters.Domain);
             if (!string.IsNullOrEmpty(parameters.MaskDomain))
             {
-                caddyStr.Replace("##server_proxy##", $"reverse_proxy http://{parameters.MaskDomain} {{ header_up Host {parameters.MaskDomain} }}");
+                caddyStr = caddyStr.Replace("##reverse_proxy##", $"reverse_proxy http://{parameters.MaskDomain} {{ header_up Host {parameters.MaskDomain} }}");
             }
             else
             {
-                caddyStr.Replace("##server_proxy##", "");
+                caddyStr = caddyStr.Replace("##reverse_proxy##", "");
             }
 
             return caddyStr;
