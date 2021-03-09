@@ -9,10 +9,25 @@ namespace ProxySU_Core.ViewModels
     public class Terminal : BaseViewModel
     {
         private string outputText;
+        private bool hasConnected;
 
         public Terminal(Host host)
         {
             Host = host;
+            HasConnected = false;
+        }
+
+        public bool HasConnected
+        {
+            get
+            {
+                return hasConnected;
+            }
+            set
+            {
+                hasConnected = value;
+                Notify("HasConnected");
+            }
         }
 
         public Host Host { get; set; }

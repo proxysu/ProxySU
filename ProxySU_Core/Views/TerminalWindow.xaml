@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ProxySU_Core"
         xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="TerminalWindow" Height="500" Width="800">
+        Title="主机控制台" Height="500" Width="800">
     <StackPanel>
         <RichTextBox IsReadOnly="True"
                      Block.LineHeight="18"
@@ -23,12 +23,45 @@
             </FlowDocument>
         </RichTextBox>
 
-        <StackPanel Margin="0,10,0,0">
+        <StackPanel Margin="10" 
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Left">
+
             <Button Content="安装Xray"
                     Click="Install"
                     Height="32"
+                    IsEnabled="{Binding HasConnected}"
                     Width="100"/>
-            
+
+            <Button Content="申请TLS证书"
+                    Margin="10,0,0,0"
+                    Height="32"
+                    Width="120"
+                    IsEnabled="{Binding HasConnected}"
+                    Click="InstallCert"/>
+
+            <Button Content="上传伪装网站"
+                    Margin="10,0,0,0"
+                    Height="32"
+                    Width="120"
+                    IsEnabled="{Binding HasConnected}"
+                    Click="UploadWeb"/>
+        </StackPanel>
+
+        <StackPanel Margin="10,0,0,0">
+            <Label Content="静态网页模版（感谢网友推荐）" />
+            <TextBlock>
+                <Hyperlink NavigateUri="https://www.themezy.com" Click="OpenLink">Themezy</Hyperlink>
+            </TextBlock>
+            <TextBlock>
+                <Hyperlink NavigateUri="https://onepagelove.com/templates/free-templates" Click="OpenLink">Themezy</Hyperlink>
+            </TextBlock>
+            <TextBlock>
+                <Hyperlink NavigateUri="https://html5up.net/" Click="OpenLink">HTML5 UP</Hyperlink>
+            </TextBlock>
+            <TextBlock>
+                <Hyperlink NavigateUri="https://templatemo.com/" Click="OpenLink">template mo</Hyperlink>
+            </TextBlock>
         </StackPanel>
     </StackPanel>
 </metro:MetroWindow>

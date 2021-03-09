@@ -29,6 +29,25 @@ namespace ProxySU_Core.ViewModels.Developers
         {
         }
 
+        public void InstallCert()
+        {
+            EnsureRootAuth();
+            EnsureSystemEnv();
+            this.InstallCertToXray();
+            RunCmd("systemctl restart xray");
+        }
+
+        public void UploadWeb(Stream stream)
+        {
+            EnsureRootAuth();
+            EnsureSystemEnv();
+            RunCmd("rm -rf /usr/share/caddy/*");
+            UploadFile(stream, "/usr/share/caddy/caddy.zip");
+            RunCmd("unzip /usr/share/caddy/caddy.zip -d /usr/share/caddy");
+            RunCmd("chmod -R 777 /usr/share/caddy");
+        }
+
+
         public override void Install()
         {
             try
@@ -45,25 +64,46 @@ namespace ProxySU_Core.ViewModels.Developers
                     }
                 }
 
+                WriteOutput("检测安装系统环境...");
                 EnsureSystemEnv();
+                WriteOutput("检测安装系统环境完成");
 
+                WriteOutput("配置服务器端口...");
                 ConfigurePort();
+                WriteOutput("端口配置完成");
 
+                WriteOutput("安装必要的系统工具...");
                 ConfigureSoftware();
+                WriteOutput("系统工具安装完成");
 
+                WriteOutput("检测IP6...");
                 ConfigureIPv6();
+                WriteOutput("检测IP6完成");
 
+                WriteOutput("配置防火墙...");
                 ConfigureFirewall();
+                WriteOutput("防火墙配置完成");
 
+                WriteOutput("同步系统和本地世间...");
                 SyncTimeDiff();
+                WriteOutput("时间同步完成");
 
+                WriteOutput("检测域名是否绑定本机IP...");
                 ValidateDomain();
+                WriteOutput("域名检测完成");
 
+                WriteOutput("安装Xray-Core...");
                 InstallXrayWithCert();
+                WriteOutput("Xray-Core安装完成");
 
+                WriteOutput("安装Caddy...");
                 InstallCaddy();
+                WriteOutput("Caddy安装完成");
 
                 UploadCaddyFile();
+                WriteOutput("************");
+                WriteOutput("安装完成，尽情享用吧......");
+                WriteOutput("************");
             }
             catch (Exception ex)
             {
@@ -84,9 +124,9 @@ namespace ProxySU_Core.ViewModels.Developers
         {
             RunCmd("bash -c \"$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)\" @ install");
 
-            if (FileExists("/usr/local/bin/xray"))
+            if (!FileExists("/usr/local/bin/xray"))
             {
-                WriteOutput("Xray安装成功");
+                throw new Exception("Xray-Core安装失败，请联系开发者");
             }
 
             RunCmd($"sed -i 's/User=nobody/User=root/g' /etc/systemd/system/xray.service");
@@ -99,7 +139,9 @@ namespace ProxySU_Core.ViewModels.Developers
                 RunCmd(@"mv /usr/local/etc/xray/config.json /usr/local/etc/xray/config.json.1");
             }
 
+            WriteOutput("安装TLS证书");
             InstallCertToXray();
+            WriteOutput("TLS证书安装完成");
 
 
             var configJson = ConfigBuilder.BuildXrayConfig(Parameters);

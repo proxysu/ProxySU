@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
+using Microsoft.Win32;
 using ProxySU_Core.Models;
 using ProxySU_Core.ViewModels;
 using ProxySU_Core.ViewModels.Developers;
@@ -6,6 +7,8 @@ using ProxySU_Core.Views;
 using Renci.SshNet;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +31,8 @@ namespace ProxySU_Core
         private Record Record { get; set; }
         private readonly Terminal _vm;
         private SshClient _sshClient;
+
+        XrayProject project;
 
         public TerminalWindow(Record record)
         {
@@ -56,6 +61,7 @@ namespace ProxySU_Core
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
+            _vm.HasConnected = false;
 
             if (_sshClient != null)
                 _sshClient.Disconnect();
@@ -103,6 +109,9 @@ namespace ProxySU_Core
             _sshClient = new SshClient(conneInfo);
             _sshClient.Connect();
             _vm.AddOutput("Connected");
+
+            _vm.HasConnected = true;
+            project = new XrayProject(_sshClient, Record.Settings, WriteShell);
         }
 
         private void WriteShell(string outShell)
@@ -116,17 +125,44 @@ namespace ProxySU_Core
 
         private void Install(object sender, RoutedEventArgs e)
         {
-            XrayProject project = new XrayProject(
-                _sshClient,
-                Record.Settings,
-                WriteShell);
-
             Task.Factory.StartNew(() =>
             {
                 project.Install();
             });
         }
 
+        private void InstallCert(object sender, RoutedEventArgs e)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                project.InstallCert();
+            });
+        }
+
+        private void UploadWeb(object sender, RoutedEventArgs e)
+        {
+            var fileDialog = new OpenFileDialog();
+            fileDialog.FileOk += OnFileOk;
+            fileDialog.ShowDialog();
+        }
+
+        private void OnFileOk(object sender, CancelEventArgs e)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                var file = sender as OpenFileDialog;
+                using (var stream = file.OpenFile())
+                {
+                    project.UploadWeb(stream);
+                }
+            });
+        }
+
+        private void OpenLink(object sender, RoutedEventArgs e)
+        {
+            Hyperlink link = sender as Hyperlink;
+            Process.Start(new ProcessStartInfo(link.NavigateUri.AbsoluteUri));
+        }
 
     }
 }

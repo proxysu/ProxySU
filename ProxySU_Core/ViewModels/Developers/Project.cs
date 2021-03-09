@@ -156,8 +156,14 @@ namespace ProxySU_Core.ViewModels.Developers
         /// </summary>
         protected void ConfigureSoftware()
         {
+            string cmd = RunCmd("command -v sudo");
+            if (string.IsNullOrEmpty(cmd))
+            {
+                RunCmd(GetInstallCmd("sudo"));
+            }
+
             // 安装curl,wget,unzip
-            string cmd = RunCmd("command -v curl");
+            cmd = RunCmd("command -v curl");
             if (string.IsNullOrEmpty(cmd))
             {
                 RunCmd(GetInstallCmd("curl"));
@@ -399,7 +405,7 @@ namespace ProxySU_Core.ViewModels.Developers
             {
                 if (force)
                 {
-                    var btnResult = MessageBox.Show("80/443端口之一，或全部被占用，将强制停止占用80/443端口的程序?", "提示", MessageBoxButton.YesNo);
+                    var btnResult = MessageBox.Show($"{port}端口被占用，将强制停止占用{port}端口的程序?", "提示", MessageBoxButton.YesNo);
                     if (btnResult == MessageBoxResult.No)
                     {
                         throw new Exception($"{port}端口被占用，安装停止!");

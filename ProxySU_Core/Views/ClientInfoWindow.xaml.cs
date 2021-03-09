@@ -1,4 +1,5 @@
 ﻿using ProxySU_Core.Models;
+using ProxySU_Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,13 +21,14 @@ namespace ProxySU_Core.Views
     /// </summary>
     public partial class ClientInfoWindow
     {
-        Record Record { get; set; }
+        public XraySettingsViewModel Settings { get; set; }
+
         public ClientInfoWindow(Record record)
         {
             InitializeComponent();
-            this.Record = record;
 
-            DataContext = this.Record;
+            Settings = new XraySettingsViewModel(record.Settings);
+            DataContext = this;
         }
     }
 }
