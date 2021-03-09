@@ -54,7 +54,7 @@
                 <Hyperlink NavigateUri="https://www.themezy.com" Click="OpenLink">Themezy</Hyperlink>
             </TextBlock>
             <TextBlock>
-                <Hyperlink NavigateUri="https://onepagelove.com/templates/free-templates" Click="OpenLink">Themezy</Hyperlink>
+                <Hyperlink NavigateUri="https://onepagelove.com/templates/free-templates" Click="OpenLink">One Page Love</Hyperlink>
             </TextBlock>
             <TextBlock>
                 <Hyperlink NavigateUri="https://html5up.net/" Click="OpenLink">HTML5 UP</Hyperlink>

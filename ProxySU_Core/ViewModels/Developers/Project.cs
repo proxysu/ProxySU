@@ -359,12 +359,14 @@ namespace ProxySU_Core.ViewModels.Developers
             {
                 RunCmd("dnf install 'dnf-command(copr)'");
                 RunCmd("dnf copr enable @caddy/caddy");
+                RunCmd(GetUpdateCmd());
                 RunCmd("dnf install caddy");
             }
             else if (CmdType == CmdType.Yum)
             {
-                RunCmd("yum install yum-plugin-copr");
+                RunCmd("y | yum install yum-plugin-copr");
                 RunCmd("yum copr enable @caddy/caddy");
+                RunCmd(GetUpdateCmd());
                 RunCmd("yum install caddy");
             }
         }
