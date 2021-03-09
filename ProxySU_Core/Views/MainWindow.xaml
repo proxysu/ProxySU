@@ -7,7 +7,6 @@
         mc:Ignorable="d"
         BorderThickness="1"
         xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
-        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         TextElement.FontSize="14"
         Title="ProxySU Core" Height="800" Width="1200">
@@ -15,10 +14,7 @@
     <mah:MetroWindow.LeftWindowCommands>
         <mah:WindowCommands>
             <Button Click="LaunchGitHubSite" ToolTip="Open up the GitHub site">
-                <iconPacks:PackIconModern 
-                    Width="22"
-                    Height="22"
-                    Kind="SocialGithubOctocat" />
+                github
             </Button>
         </mah:WindowCommands>
     </mah:MetroWindow.LeftWindowCommands>
