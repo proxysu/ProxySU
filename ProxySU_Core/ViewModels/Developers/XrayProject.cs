@@ -35,16 +35,32 @@ namespace ProxySU_Core.ViewModels.Developers
             EnsureSystemEnv();
             this.InstallCertToXray();
             RunCmd("systemctl restart xray");
+            WriteOutput("安装证书完成");
         }
 
         public void UploadWeb(Stream stream)
         {
             EnsureRootAuth();
             EnsureSystemEnv();
+            if (!FileExists("/usr/share/caddy"))
+            {
+                RunCmd("mkdir /usr/share/caddy");
+            }
             RunCmd("rm -rf /usr/share/caddy/*");
             UploadFile(stream, "/usr/share/caddy/caddy.zip");
             RunCmd("unzip /usr/share/caddy/caddy.zip -d /usr/share/caddy");
             RunCmd("chmod -R 777 /usr/share/caddy");
+            RunCmd("systemctl restart caddy");
+            WriteOutput("上传网站模板完成");
+        }
+
+        public void ReinstallCaddy()
+        {
+            EnsureRootAuth();
+            EnsureSystemEnv();
+            InstallCaddy();
+            UploadCaddyFile();
+            WriteOutput("重装Caddy完成");
         }
 
 
@@ -157,7 +173,7 @@ namespace ProxySU_Core.ViewModels.Developers
             RunCmd(GetInstallCmd("socat"));
 
             // 解决搬瓦工CentOS缺少问题
-            RunCmd("y | " + GetInstallCmd("automake autoconf libtool"));
+            RunCmd("echo y | " + GetInstallCmd("automake autoconf libtool"));
 
             // 安装Acme
             var result = RunCmd($"curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh | sh -s -- --install-online -m  {GetRandomEmail()}");

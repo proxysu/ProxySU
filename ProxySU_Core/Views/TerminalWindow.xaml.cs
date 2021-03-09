@@ -146,6 +146,14 @@ namespace ProxySU_Core
             fileDialog.ShowDialog();
         }
 
+        private void ReinstallCaddy(object sender, RoutedEventArgs e)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                project.ReinstallCaddy();
+            });
+        }
+
         private void OnFileOk(object sender, CancelEventArgs e)
         {
             Task.Factory.StartNew(() =>

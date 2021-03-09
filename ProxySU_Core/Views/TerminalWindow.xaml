@@ -46,6 +46,13 @@
                     Width="120"
                     IsEnabled="{Binding HasConnected}"
                     Click="UploadWeb"/>
+
+            <Button Content="重装Caddy"
+                    Margin="10,0,0,0"
+                    Click="ReinstallCaddy"
+                    Height="32"
+                    IsEnabled="{Binding HasConnected}"
+                    Width="120"/>
         </StackPanel>
 
         <StackPanel Margin="10,0,0,0">
