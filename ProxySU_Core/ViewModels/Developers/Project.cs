@@ -530,15 +530,15 @@ namespace ProxySU_Core.ViewModels.Developers
         {
             if (CmdType == CmdType.Apt)
             {
-                return "echo y | apt-get update ";
+                return "apt-get update";
             }
             else if (CmdType == CmdType.Dnf)
             {
-                return "echo y | dnf update ";
+                return "dnf clean all;dnf makecache";
             }
             else if (CmdType == CmdType.Yum)
             {
-                return "echo y | yum update ";
+                return "yum clean all;yum makecache";
             }
 
             throw new Exception("未识别的系统");

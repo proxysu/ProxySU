@@ -26,6 +26,8 @@ namespace ProxySU_Core.Views
         public ClientInfoWindow(Record record)
         {
             InitializeComponent();
+            ResizeMode = ResizeMode.NoResize;
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             Settings = new XraySettingsViewModel(record.Settings);
             DataContext = this;

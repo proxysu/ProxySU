@@ -108,9 +108,9 @@
             <TabItem    
                 Width="160"          
                 Style="{StaticResource MaterialDesignNavigationRailTabItem}"
-                Header="V2ray">
+                Header="其他功能">
                 <StackPanel>
-                    <TextBox />
+                    <TextBlock Text="还不知道要点啥...看大家建议？" />
                 </StackPanel>
             </TabItem>
         </TabControl>

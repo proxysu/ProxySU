@@ -56,7 +56,7 @@
         </StackPanel>
 
         <StackPanel Margin="10,0,0,0">
-            <Label Content="静态网页模版（感谢网友推荐）" />
+            <Label Content="静态网页模版（感谢网友推荐），将网站压缩包上传到服务区即可。" />
             <TextBlock>
                 <Hyperlink NavigateUri="https://www.themezy.com" Click="OpenLink">Themezy</Hyperlink>
             </TextBlock>

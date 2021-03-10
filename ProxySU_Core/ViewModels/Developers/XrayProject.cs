@@ -35,7 +35,9 @@ namespace ProxySU_Core.ViewModels.Developers
             EnsureSystemEnv();
             this.InstallCertToXray();
             RunCmd("systemctl restart xray");
+            WriteOutput("************");
             WriteOutput("安装证书完成");
+            WriteOutput("************");
         }
 
         public void UploadWeb(Stream stream)
@@ -51,7 +53,9 @@ namespace ProxySU_Core.ViewModels.Developers
             RunCmd("unzip /usr/share/caddy/caddy.zip -d /usr/share/caddy");
             RunCmd("chmod -R 777 /usr/share/caddy");
             RunCmd("systemctl restart caddy");
+            WriteOutput("************");
             WriteOutput("上传网站模板完成");
+            WriteOutput("************");
         }
 
         public void ReinstallCaddy()
@@ -60,7 +64,9 @@ namespace ProxySU_Core.ViewModels.Developers
             EnsureSystemEnv();
             InstallCaddy();
             UploadCaddyFile();
+            WriteOutput("************");
             WriteOutput("重装Caddy完成");
+            WriteOutput("************");
         }
 
 
