@@ -60,13 +60,13 @@ namespace ProxySU_Core.ViewModels.Developers
             };
         }
 
-        public static string BuildCaddyConfig(XraySettings parameters)
+        public static string BuildCaddyConfig(XraySettings parameters, bool useCustomWeb = false)
         {
             var caddyStr = File.ReadAllText(Path.Combine(CaddyFileDir, "base.caddyfile"));
             caddyStr = caddyStr.Replace("##domain##", parameters.Domain);
-            if (!string.IsNullOrEmpty(parameters.MaskDomain))
+            if (!useCustomWeb && !string.IsNullOrEmpty(parameters.MaskDomain))
             {
-                caddyStr = caddyStr.Replace("##reverse_proxy##", $"reverse_proxy http://{parameters.MaskDomain} {{ header_up Host {parameters.MaskDomain} }}");
+                caddyStr = caddyStr.Replace("##reverse_proxy##", $"reverse_proxy {parameters.MaskDomain} {{ header_up Host {parameters.MaskDomain} }}");
             }
             else
             {

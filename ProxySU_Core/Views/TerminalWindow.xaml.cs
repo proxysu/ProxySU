@@ -44,7 +44,7 @@ namespace ProxySU_Core
             _vm = new Terminal(record.Host);
             DataContext = _vm;
 
-            _vm.AddOutput("Connect ...");
+            WriteOutput("Connect ...");
             Task.Factory.StartNew(() =>
             {
                 try
@@ -108,17 +108,21 @@ namespace ProxySU_Core
             var conneInfo = CreateConnectionInfo(host);
             _sshClient = new SshClient(conneInfo);
             _sshClient.Connect();
-            _vm.AddOutput("Connected");
+            WriteOutput("Connected");
 
             _vm.HasConnected = true;
-            project = new XrayProject(_sshClient, Record.Settings, WriteShell);
+            project = new XrayProject(_sshClient, Record.Settings, WriteOutput);
         }
 
-        private void WriteShell(string outShell)
+        private void WriteOutput(string outShell)
         {
-            _vm.AddOutput(outShell);
+            if (!outShell.EndsWith("\n"))
+            {
+                outShell += "\n";
+            }
             Dispatcher.Invoke(() =>
             {
+                OutputTextBox.AppendText(outShell);
                 OutputTextBox.ScrollToEnd();
             });
         }

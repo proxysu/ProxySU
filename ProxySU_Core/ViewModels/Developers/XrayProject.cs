@@ -52,10 +52,9 @@ namespace ProxySU_Core.ViewModels.Developers
             UploadFile(stream, "/usr/share/caddy/caddy.zip");
             RunCmd("unzip /usr/share/caddy/caddy.zip -d /usr/share/caddy");
             RunCmd("chmod -R 777 /usr/share/caddy");
+            UploadCaddyFile(useCustomWeb: true);
             RunCmd("systemctl restart caddy");
-            WriteOutput("************");
-            WriteOutput("上传网站模板完成");
-            WriteOutput("************");
+            WriteOutput("************\n上传网站模板完成\n************");
         }
 
         public void ReinstallCaddy()
@@ -133,9 +132,9 @@ namespace ProxySU_Core.ViewModels.Developers
             }
         }
 
-        private void UploadCaddyFile()
+        private void UploadCaddyFile(bool useCustomWeb = false)
         {
-            var configJson = ConfigBuilder.BuildCaddyConfig(Parameters);
+            var configJson = ConfigBuilder.BuildCaddyConfig(Parameters, useCustomWeb);
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(configJson));
             RunCmd("mv /etc/caddy/Caddyfile /etc/caddy/Caddyfile.back");
             UploadFile(stream, "/etc/caddy/Caddyfile");
@@ -179,7 +178,7 @@ namespace ProxySU_Core.ViewModels.Developers
             RunCmd(GetInstallCmd("socat"));
 
             // 解决搬瓦工CentOS缺少问题
-            RunCmd("echo y | " + GetInstallCmd("automake autoconf libtool"));
+            RunCmd(GetInstallCmd("automake autoconf libtool"));
 
             // 安装Acme
             var result = RunCmd($"curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh | sh -s -- --install-online -m  {GetRandomEmail()}");

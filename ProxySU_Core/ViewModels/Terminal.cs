@@ -8,7 +8,6 @@ namespace ProxySU_Core.ViewModels
 {
     public class Terminal : BaseViewModel
     {
-        private string outputText;
         private bool hasConnected;
 
         public Terminal(Host host)
@@ -34,26 +33,6 @@ namespace ProxySU_Core.ViewModels
 
         public string CommandText { get; set; }
 
-        public string OutputText
-        {
-            get => outputText;
-        }
-
-        public void ClearOutput()
-        {
-            outputText = "";
-            Notify("OutputText");
-        }
-
-        public void AddOutput(string text)
-        {
-            outputText += text;
-
-            if (!text.EndsWith("\n"))
-            {
-                outputText += "\n";
-            }
-            Notify("OutputText");
-        }
+        public string OutputText { get; set; }
     }
 }

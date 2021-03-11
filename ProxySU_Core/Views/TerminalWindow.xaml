@@ -8,20 +8,16 @@
         mc:Ignorable="d"
         Title="主机控制台" Height="500" Width="800">
     <StackPanel>
-        <RichTextBox IsReadOnly="True"
+        <TextBox IsReadOnly="True"
                      Block.LineHeight="18"
                      Background="#000" 
                      Foreground="LawnGreen"
                      FontSize="14"
                      FontFamily="Consolas"
                      x:Name="OutputTextBox"
-                     Height="320">
-            <FlowDocument>
-                <Paragraph>
-                    <Run Text="{Binding Path=OutputText, Mode=OneWay}" />
-                </Paragraph>
-            </FlowDocument>
-        </RichTextBox>
+                     Height="320"
+                    Text="{Binding Path=OutputText}"
+                 />
 
         <StackPanel Margin="10" 
                     Orientation="Horizontal"

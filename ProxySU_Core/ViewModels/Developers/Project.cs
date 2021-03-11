@@ -553,15 +553,15 @@ namespace ProxySU_Core.ViewModels.Developers
         {
             if (CmdType == CmdType.Apt)
             {
-                return "apt-get install " + soft;
+                return "echo y | apt-get install " + soft;
             }
             else if (CmdType == CmdType.Dnf)
             {
-                return "dnf -y install " + soft;
+                return "echo y | dnf -y install " + soft;
             }
             else if (CmdType == CmdType.Yum)
             {
-                return "yum -y install " + soft;
+                return "echo y | yum -y install " + soft;
             }
 
             throw new Exception("未识别的系统");
