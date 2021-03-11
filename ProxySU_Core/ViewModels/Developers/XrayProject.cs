@@ -35,9 +35,7 @@ namespace ProxySU_Core.ViewModels.Developers
             EnsureSystemEnv();
             this.InstallCertToXray();
             RunCmd("systemctl restart xray");
-            WriteOutput("************");
-            WriteOutput("安装证书完成");
-            WriteOutput("************");
+            WriteOutput("************ 安装证书完成 ************");
         }
 
         public void UploadWeb(Stream stream)
@@ -54,7 +52,19 @@ namespace ProxySU_Core.ViewModels.Developers
             RunCmd("chmod -R 777 /usr/share/caddy");
             UploadCaddyFile(useCustomWeb: true);
             RunCmd("systemctl restart caddy");
-            WriteOutput("************\n上传网站模板完成\n************");
+            WriteOutput("************ 上传网站模板完成 ************");
+        }
+
+        public void UpdateXraySettings()
+        {
+            EnsureRootAuth();
+            EnsureSystemEnv();
+            var configJson = ConfigBuilder.BuildXrayConfig(Parameters);
+            var stream = new MemoryStream(Encoding.UTF8.GetBytes(configJson));
+            RunCmd("rm -rf /usr/local/etc/xray/config.json");
+            UploadFile(stream, "/usr/local/etc/xray/config.json");
+            RunCmd("systemctl restart xray");
+            WriteOutput("************ 更新Xray配置成功，更新配置不包含域名，如果域名更换请重新安装。 ************");
         }
 
         public void ReinstallCaddy()
@@ -63,9 +73,7 @@ namespace ProxySU_Core.ViewModels.Developers
             EnsureSystemEnv();
             InstallCaddy();
             UploadCaddyFile();
-            WriteOutput("************");
-            WriteOutput("重装Caddy完成");
-            WriteOutput("************");
+            WriteOutput("************ 重装Caddy完成 ************");
         }
 
 

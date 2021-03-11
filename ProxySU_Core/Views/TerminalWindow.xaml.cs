@@ -158,6 +158,14 @@ namespace ProxySU_Core
             });
         }
 
+        private void UpdateXraySettings(object sender, RoutedEventArgs e)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                project.UpdateXraySettings();
+            });
+        }
+
         private void OnFileOk(object sender, CancelEventArgs e)
         {
             Task.Factory.StartNew(() =>

@@ -29,6 +29,13 @@
                     IsEnabled="{Binding HasConnected}"
                     Width="100"/>
 
+            <Button Content="更新Xray配置"
+                    Margin="10,0,0,0"
+                    Click="UpdateXraySettings"
+                    Height="32"
+                    IsEnabled="{Binding HasConnected}"
+                    Width="120"/>
+
             <Button Content="申请TLS证书"
                     Margin="10,0,0,0"
                     Height="32"
