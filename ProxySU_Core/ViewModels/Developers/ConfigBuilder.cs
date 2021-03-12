@@ -66,7 +66,16 @@ namespace ProxySU_Core.ViewModels.Developers
             caddyStr = caddyStr.Replace("##domain##", parameters.Domain);
             if (!useCustomWeb && !string.IsNullOrEmpty(parameters.MaskDomain))
             {
-                caddyStr = caddyStr.Replace("##reverse_proxy##", $"reverse_proxy {parameters.MaskDomain} {{ header_up Host {parameters.MaskDomain} }}");
+                var prefix = "http://";
+                if (parameters.MaskDomain.StartsWith("https://"))
+                {
+                    prefix = "https://";
+                }
+                var domain = parameters.MaskDomain
+                    .TrimStart("http://".ToCharArray())
+                    .TrimStart("https://".ToCharArray());
+
+                caddyStr = caddyStr.Replace("##reverse_proxy##", $"reverse_proxy {prefix}{domain} {{ \n        header_up Host {domain} \n    }}");
             }
             else
             {

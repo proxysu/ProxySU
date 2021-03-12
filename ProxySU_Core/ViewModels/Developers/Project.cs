@@ -312,9 +312,7 @@ namespace ProxySU_Core.ViewModels.Developers
                 var cmd = $"dig @resolver1.opendns.com AAAA {Parameters.Domain} +short -6 {cmdFilter}";
                 var result = RunCmd(cmd).TrimEnd('\r', '\n');
 
-                if (result != IPv6)
-                {
-                }
+                if (result == IPv6) return;
             }
 
             else
@@ -323,11 +321,19 @@ namespace ProxySU_Core.ViewModels.Developers
                 var cmd = $"dig @resolver1.opendns.com A {Parameters.Domain} +short -4 {cmdFilter}";
                 var result = RunCmd(cmd).TrimEnd('\r', '\n');
 
-                if (result != IPv4)
-                {
-                    throw new Exception("域名未能解析到服务器IP，请检查域名配置");
-                }
+                if (result == IPv4) return;
+
             }
+
+
+            var btnResult = MessageBox.Show(
+                $"{Parameters.Domain}未能正常解析到服务器的IP，如果您使用了CDN请忽略，是否继续安装?", "提示", MessageBoxButton.YesNo);
+
+            if (btnResult == MessageBoxResult.No)
+            {
+                throw new Exception($"域名解析失败，安装停止!");
+            }
+
         }
 
         /// <summary>
@@ -447,7 +453,7 @@ namespace ProxySU_Core.ViewModels.Developers
             }
         }
 
-        private void SetNat64()
+        protected void SetNat64()
         {
             var dns64List = FilterFastestIP();
             if (dns64List.Count == 0)
@@ -468,7 +474,7 @@ namespace ProxySU_Core.ViewModels.Developers
             }
         }
 
-        private void RemoveNat64()
+        protected void RemoveNat64()
         {
             RunCmd("rm /etc/resolv.conf");
             RunCmd("mv /etc/resolv.conf.proxysu /etc/resolv.conf");

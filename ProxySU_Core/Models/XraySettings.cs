@@ -12,14 +12,15 @@ namespace ProxySU_Core.Models
 
         public XraySettings()
         {
+            var guid = Guid.NewGuid().ToString();
             Port = 443;
-            UUID = Guid.NewGuid().ToString();
+            UUID = guid;
             Types = new List<XrayType> { XrayType.VLESS_TCP_XTLS };
             VLESS_WS_Path = "/vlessws";
             VLESS_TCP_Path = "/vlesstcp";
             VMESS_WS_Path = "/vmessws";
             VMESS_TCP_Path = "/vmesstcp";
-            TrojanPassword = Guid.NewGuid().ToString();
+            TrojanPassword = guid;
         }
 
         /// <summary>

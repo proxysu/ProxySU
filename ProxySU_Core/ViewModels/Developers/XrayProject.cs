@@ -51,7 +51,6 @@ namespace ProxySU_Core.ViewModels.Developers
             RunCmd("unzip /usr/share/caddy/caddy.zip -d /usr/share/caddy");
             RunCmd("chmod -R 777 /usr/share/caddy");
             UploadCaddyFile(useCustomWeb: true);
-            RunCmd("systemctl restart caddy");
             WriteOutput("************ 上传网站模板完成 ************");
         }
 
@@ -75,7 +74,6 @@ namespace ProxySU_Core.ViewModels.Developers
             UploadCaddyFile();
             WriteOutput("************ 重装Caddy完成 ************");
         }
-
 
         public override void Install()
         {
@@ -129,6 +127,10 @@ namespace ProxySU_Core.ViewModels.Developers
                 InstallCaddy();
                 WriteOutput("Caddy安装完成");
 
+                WriteOutput("启动BBR");
+                EnableBBR();
+                WriteOutput("BBR启动成功");
+
                 UploadCaddyFile();
                 WriteOutput("************");
                 WriteOutput("安装完成，尽情享用吧......");
@@ -146,7 +148,60 @@ namespace ProxySU_Core.ViewModels.Developers
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(configJson));
             RunCmd("mv /etc/caddy/Caddyfile /etc/caddy/Caddyfile.back");
             UploadFile(stream, "/etc/caddy/Caddyfile");
-            RunCmd("systemctl reload caddy");
+            RunCmd("systemctl restart caddy");
+        }
+
+        private void EnableBBR()
+        {
+            var osVersion = RunCmd("uname -r");
+            var canInstallBBR = CheckKernelVersionBBR(osVersion.Split('-')[0]);
+
+            var bbrInfo = RunCmd("sysctl net.ipv4.tcp_congestion_control | grep bbr");
+            var installed = bbrInfo.Contains("bbr");
+            if (canInstallBBR && !installed)
+            {
+                RunCmd(@"bash -c 'echo ""net.core.default_qdisc=fq"" >> /etc/sysctl.conf'");
+                RunCmd(@"bash -c 'echo ""net.ipv4.tcp_congestion_control=bbr"" >> /etc/sysctl.conf'");
+                RunCmd(@"sysctl -p");
+
+                if (OnlyIpv6)
+                {
+                    RemoveNat64();
+                }
+            }
+
+            if (!canInstallBBR)
+            {
+                WriteOutput("****** 系统不满足启用BBR条件，启动失败。 ******");
+            }
+
+        }
+
+        private bool CheckKernelVersionBBR(string kernelVer)
+        {
+            string[] linuxKernelCompared = kernelVer.Split('.');
+            if (int.Parse(linuxKernelCompared[0]) > 4)
+            {
+                return true;
+            }
+            else if (int.Parse(linuxKernelCompared[0]) < 4)
+            {
+                return false;
+            }
+            else if (int.Parse(linuxKernelCompared[0]) == 4)
+            {
+                if (int.Parse(linuxKernelCompared[1]) >= 9)
+                {
+                    return true;
+                }
+                else if (int.Parse(linuxKernelCompared[1]) < 9)
+                {
+                    return false;
+                }
+
+            }
+            return false;
+
         }
 
         private void InstallXrayWithCert()
