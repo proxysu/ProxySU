@@ -1,0 +1,49 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="TabItemHeaderAppDeployment">应用布署</sys:String>
+    <sys:String x:Key="LanguageText">语言</sys:String>
+    <sys:String x:Key="LanguageChinese">中文</sys:String>
+    <sys:String x:Key="LanguageEnglish">英文</sys:String>
+    <sys:String x:Key="Hosts">主机列表</sys:String>
+    <sys:String x:Key="AddHost">添加主机</sys:String>
+    <sys:String x:Key="Actions">操作</sys:String>
+    <sys:String x:Key="Connect">连接</sys:String>
+    <sys:String x:Key="Install">安装</sys:String>
+    <sys:String x:Key="Edit">编辑</sys:String>
+    <sys:String x:Key="EditTemp">编辑模板</sys:String>
+    <sys:String x:Key="Delete">删除</sys:String>
+    <sys:String x:Key="Save">保存</sys:String>
+    <sys:String x:Key="Info">消息</sys:String>
+    <sys:String x:Key="Warning">提示</sys:String>
+    <sys:String x:Key="Error">错误</sys:String>
+
+    <!--Host Window-->
+    <sys:String x:Key="HostWindowTitle">服务器管理</sys:String>
+    <sys:String x:Key="ConnectionGroupName">连接</sys:String>
+    <sys:String x:Key="HostUserName">用户名</sys:String>
+    <sys:String x:Key="HostPassword">密码</sys:String>
+    <sys:String x:Key="HostTag">别名</sys:String>
+    <sys:String x:Key="HostAddress">主机</sys:String>
+    <sys:String x:Key="HostPort">端口</sys:String>
+    <sys:String x:Key="HostLoginType">登陆方式</sys:String>
+    <sys:String x:Key="PasswordLogin">密码登陆</sys:String>
+    <sys:String x:Key="KeyLogin">密钥登陆</sys:String>
+    <sys:String x:Key="KeyLoginField">密钥</sys:String>
+    <sys:String x:Key="KeyUpload">上传</sys:String>
+    <sys:String x:Key="ProxyGroupName">代理</sys:String>
+    <sys:String x:Key="ProxyType">类型</sys:String>
+    <sys:String x:Key="ProxyTypeNone">无</sys:String>
+    <sys:String x:Key="ProxyTypeHttp">Http</sys:String>
+    <sys:String x:Key="ProxyTypeSocks5">Socks5</sys:String>
+    <sys:String x:Key="ProxyHostName">代理地址</sys:String>
+    <sys:String x:Key="ProxyHostPort">代理端口</sys:String>
+    <sys:String x:Key="ProxyUserName">用户名</sys:String>
+    <sys:String x:Key="ProxyPassword">密码</sys:String>
+    <sys:String x:Key="HostAddressNotNull">请输入主机</sys:String>
+    <sys:String x:Key="HostPortNotNull">请输入端口号</sys:String>
+    <sys:String x:Key="PorxyAddressNotNull">请输入代理地址</sys:String>
+    <sys:String x:Key="ProxyProtNotNull">请输入代理端口号</sys:String>
+    
+    <!--Terminal Window--> 
+</ResourceDictionary>

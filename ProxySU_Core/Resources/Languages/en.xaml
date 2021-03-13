@@ -1,0 +1,49 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="TabItemHeaderAppDeployment">Deployment</sys:String>
+    <sys:String x:Key="LanguageText">Language</sys:String>
+    <sys:String x:Key="LanguageChinese">Chinese</sys:String>
+    <sys:String x:Key="LanguageEnglish">English</sys:String>
+    <sys:String x:Key="Hosts">Hosts</sys:String>
+    <sys:String x:Key="AddHost">Add Host</sys:String>
+    <sys:String x:Key="Actions">Actions</sys:String>
+    <sys:String x:Key="Connect">Connect</sys:String>
+    <sys:String x:Key="Edit">Edit</sys:String>
+    <sys:String x:Key="EditTemp">Edit Xray</sys:String>
+    <sys:String x:Key="Delete">Delete</sys:String>
+    <sys:String x:Key="Install">Install</sys:String>
+    <sys:String x:Key="Save">Save</sys:String>
+    <sys:String x:Key="Info">Info</sys:String>
+    <sys:String x:Key="Warning">Warning</sys:String>
+    <sys:String x:Key="Error">Error</sys:String>
+
+    <!--Host Window-->
+    <sys:String x:Key="HostWindowTitle">Server Manager</sys:String>
+    <sys:String x:Key="ConnectionGroupName">Connection</sys:String>
+    <sys:String x:Key="HostUserName">User</sys:String>
+    <sys:String x:Key="HostPassword">Password</sys:String>
+    <sys:String x:Key="HostTag">Tag</sys:String>
+    <sys:String x:Key="HostAddress">Host</sys:String>
+    <sys:String x:Key="HostPort">Port</sys:String>
+    <sys:String x:Key="HostLoginType">Method</sys:String>
+    <sys:String x:Key="PasswordLogin">Password Login</sys:String>
+    <sys:String x:Key="CertLogin">KeyLogin</sys:String>
+    <sys:String x:Key="KeyLoginField">Key</sys:String>
+    <sys:String x:Key="KeyUpload">Upload</sys:String>
+    <sys:String x:Key="ProxyGroupName">Proxy</sys:String>
+    <sys:String x:Key="ProxyType">Method</sys:String>
+    <sys:String x:Key="ProxyTypeNone">None</sys:String>
+    <sys:String x:Key="ProxyTypeHttp">Http</sys:String>
+    <sys:String x:Key="ProxyTypeSocks5">Socks5</sys:String>
+    <sys:String x:Key="ProxyHostName">Host</sys:String>
+    <sys:String x:Key="ProxyHostPort">Port</sys:String>
+    <sys:String x:Key="ProxyUserName">User</sys:String>
+    <sys:String x:Key="ProxyPassword">Password</sys:String>
+    <sys:String x:Key="HostAddressNotNull">Please enter host</sys:String>
+    <sys:String x:Key="HostPortNotNull">Please enter port</sys:String>
+    <sys:String x:Key="PorxyAddressNotNull">Please enter proxy host</sys:String>
+    <sys:String x:Key="ProxyProtNotNull">Please enter proxy port</sys:String>
+
+    <!--Terminal Window-->
+</ResourceDictionary>

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ProxySU.Core
+namespace ProxySU_Core
 {
     /// <summary>
     /// Interaction logic for App.xaml

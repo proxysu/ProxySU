@@ -1,0 +1,118 @@
+﻿<metro:MetroWindow x:Class="ProxySU_Core.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProxySU_Core"
+        mc:Ignorable="d"
+        BorderThickness="1"
+        xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        TextElement.FontSize="14"
+        Title="ProxySU Core" Height="800" Width="1200">
+
+    <mah:MetroWindow.LeftWindowCommands>
+        <mah:WindowCommands>
+            <Button Click="LaunchGitHubSite" ToolTip="Open up the GitHub site">
+                github
+            </Button>
+        </mah:WindowCommands>
+    </mah:MetroWindow.LeftWindowCommands>
+
+    <mah:MetroWindow.RightWindowCommands>
+        <mah:WindowCommands>
+            <StackPanel Orientation="Horizontal" Margin="0,0,20,0">
+                <TextBlock Text="{DynamicResource LanguageText}" VerticalAlignment="Center" Margin="0,0,20,0" />
+                <ComboBox 
+                    SelectionChanged="ChangeLanguage" 
+                    x:Name="cmbLanguage" 
+                    SelectedIndex="0">
+                    <ComboBoxItem x:Name="zh_cn" Content="{DynamicResource LanguageChinese}"></ComboBoxItem>
+                    <ComboBoxItem x:Name="en" Content="{DynamicResource LanguageEnglish}"></ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+        </mah:WindowCommands>
+    </mah:MetroWindow.RightWindowCommands>
+
+    <Window.Resources>
+        <DataTemplate x:Key="HostTagTemplate">
+            <TextBlock Text="{Binding Tag}" />
+        </DataTemplate>
+    </Window.Resources>
+
+
+    <Grid>
+        <TabControl
+            Background="#fff"
+            Style="{StaticResource MaterialDesignNavigatilRailTabControl}"
+            Padding="10">
+            <TabItem
+                Width="160"
+                Style="{StaticResource MaterialDesignNavigationRailTabItem}"
+                Header="{DynamicResource TabItemHeaderAppDeployment}">
+                <StackPanel Orientation="Vertical">
+
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                        <Button
+                        Content="{DynamicResource AddHost}"
+                        Click="AddHost"
+                        Width="100"/>
+                    </StackPanel>
+
+                    <DataGrid ItemsSource="{Binding Records}"
+                              Margin="0,20,0,0"
+                              IsReadOnly="True"
+                              x:Name="DataGrid"
+                              CellStyle="{StaticResource DataGridCell}"
+                              Style="{StaticResource MaterialDesignDataGrid}"
+                              ColumnHeaderStyle="{StaticResource DataGridColumnHeader}"
+                              SelectionUnit="FullRow"
+                              BorderBrush="#eee"
+                              BorderThickness="1"
+                              AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{DynamicResource HostTag}"  
+                                                Binding="{Binding Path=Host.Tag}" 
+                                                Width="150"/>
+                            <DataGridTextColumn Header="{DynamicResource HostAddress}"  
+                                                Binding="{Binding Path=Host.Address}"
+                                                Width="200"/>
+                            <DataGridTextColumn Header="{DynamicResource HostPort}"  
+                                                Binding="{Binding Path=Host.Port}" 
+                                                Width="100"/>
+                            <DataGridTextColumn Header="{DynamicResource ProxyGroupName}" 
+                                                Binding="{Binding Path=Host.Proxy.Type}"
+                                                Width="100"/>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.Header>
+                                    <TextBlock Text="{DynamicResource Actions}" />
+                                </DataGridTemplateColumn.Header>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Content="{DynamicResource Connect}" FontSize="12" Height="24" Click="Connect" />
+                                            <Button Content="{DynamicResource Edit}" FontSize="12" Height="24" Margin="10,0,0,0" Click="EditHost" />
+                                            <Button Content="查看配置" FontSize="12" Height="24" Margin="10,0,0,0" Click="ShowClientInfo" />
+                                            <Button Content="{DynamicResource Delete}" FontSize="12"  Height="24" Margin="10,0,0,0" Click="DeleteHost" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+
+                </StackPanel>
+            </TabItem>
+
+            <TabItem    
+                Width="160"          
+                Style="{StaticResource MaterialDesignNavigationRailTabItem}"
+                Header="其他功能">
+                <StackPanel>
+                    <TextBlock Text="还不知道要点啥...看大家建议？" />
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</metro:MetroWindow>

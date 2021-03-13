@@ -1,0 +1,31 @@
+{
+  "port": 443,
+  "protocol": "vless",
+  "settings": {
+    "clients": [
+      {
+        "id": "",
+        "flow": "xtls-rprx-direct",
+        "level": 0,
+        "email": "love@example.com"
+      }
+    ],
+    "decryption": "none",
+    "fallbacks": []
+  },
+  "streamSettings": {
+    "network": "tcp",
+    "security": "xtls",
+    "xtlsSettings": {
+      "alpn": [
+        "http/1.1"
+      ],
+      "certificates": [
+        {
+          "certificateFile": "/usr/local/etc/xray/ssl/xray_ssl.crt",
+          "keyFile": "/usr/local/etc/xray/ssl/xray_ssl.key"
+        }
+      ]
+    }
+  }
+}

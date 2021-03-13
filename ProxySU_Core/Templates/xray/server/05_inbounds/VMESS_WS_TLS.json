@@ -1,0 +1,22 @@
+{
+  "port": 3456,
+  "listen": "127.0.0.1",
+  "protocol": "vmess",
+  "settings": {
+    "clients": [
+      {
+        "id": "",
+        "level": 0,
+        "email": "love@example.com"
+      }
+    ]
+  },
+  "streamSettings": {
+    "network": "ws",
+    "security": "none",
+    "wsSettings": {
+      "acceptProxyProtocol": true,
+      "path": "/vmessws"
+    }
+  }
+}
