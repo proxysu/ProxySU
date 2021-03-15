@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows;
 
 namespace ProxySU_Core.ViewModels
@@ -233,6 +234,117 @@ namespace ProxySU_Core.ViewModels
                 return Checked_Trojan_TCP ? Visibility.Visible : Visibility.Hidden;
             }
         }
+
+        public string VLESS_TCP_XTLS_ShareLink
+        {
+            get => BuildVlessShareLink(XrayType.VLESS_TCP_XTLS);
+        }
+        public string VLESS_TCP_TLS_ShareLink
+        {
+            get => BuildVlessShareLink(XrayType.VLESS_TCP_TLS);
+        }
+        public string VLESS_WS_TLS_ShareLink
+        {
+            get => BuildVlessShareLink(XrayType.VLESS_WS_TLS);
+        }
+        public string VMESS_TCP_TLS_ShareLink
+        {
+            get => BuildVmessShareLink(XrayType.VMESS_TCP_TLS);
+        }
+        public string VMESS_WS_TLS_ShareLink
+        {
+            get => BuildVmessShareLink(XrayType.VMESS_WS_TLS);
+        }
+        public string Trojan_TCP_TLS_ShareLink
+        {
+            get => BuildVlessShareLink(XrayType.Trojan_TCP_TLS);
+        }
+
+        public string BuildVmessShareLink(XrayType xrayType)
+        {
+            return "vmess://xxxxxx";
+        }
+
+        public string BuildVlessShareLink(XrayType xrayType)
+        {
+            var _protocol = string.Empty;
+            var _uuid = settings.UUID;
+            var _domain = settings.Domain;
+            var _port = settings.Port;
+            var _type = string.Empty;
+            var _encryption = string.Empty;
+            var _security = "tls";
+            var _path = "/";
+            var _host = settings.Domain;
+            var _descriptiveText = string.Empty;
+
+            switch (xrayType)
+            {
+                case XrayType.VLESS_TCP_TLS:
+                    _protocol = "vless";
+                    _type = "tcp";
+                    _path = VLESS_TCP_Path;
+                    _encryption = "none";
+                    _descriptiveText = "vless-tcp-tls";
+                    break;
+                case XrayType.VLESS_TCP_XTLS:
+                    _protocol = "vless";
+                    _type = "tcp";
+                    _security = "xtls";
+                    _encryption = "none";
+                    _descriptiveText = "vless-tcp-xtls";
+                    break;
+                case XrayType.VLESS_WS_TLS:
+                    _protocol = "vless";
+                    _type = "ws";
+                    _path = VLESS_WS_Path;
+                    _encryption = "none";
+                    _descriptiveText = "vless-ws-tls";
+                    break;
+                case XrayType.VMESS_TCP_TLS:
+                    _protocol = "vmess";
+                    _type = "tcp";
+                    _path = VMESS_TCP_Path;
+                    _encryption = "auto";
+                    _descriptiveText = "vmess-tcp-tls";
+                    break;
+                case XrayType.VMESS_WS_TLS:
+                    _protocol = "vmess";
+                    _type = "ws";
+                    _path = VMESS_WS_Path;
+                    _encryption = "auto";
+                    _descriptiveText = "vmess-ws-tls";
+                    break;
+                case XrayType.Trojan_TCP_TLS:
+                    _protocol = "trojan";
+                    _descriptiveText = "trojan-tcp";
+                    break;
+                default:
+                    throw new Exception("暂未实现的协议");
+            }
+
+
+            string parametersURL = string.Empty;
+            if (xrayType != XrayType.Trojan_TCP_TLS)
+            {
+                // 4.3 传输层相关段
+                parametersURL = $"?type={_type}&encryption={_encryption}&security={_security}&host={_host}&path={HttpUtility.UrlEncode(_path)}";
+
+
+                // if mKCP
+                // if QUIC
+
+                // 4.4 TLS 相关段
+                if (xrayType == XrayType.VLESS_TCP_XTLS)
+                {
+                    parametersURL += "&flow=xtls-rprx-direct";
+                }
+            }
+
+
+            return $"{_protocol}://{HttpUtility.UrlEncode(_uuid)}@{_domain}:{_port}{parametersURL}#{HttpUtility.UrlEncode(_descriptiveText)}";
+        }
+
 
     }
 }

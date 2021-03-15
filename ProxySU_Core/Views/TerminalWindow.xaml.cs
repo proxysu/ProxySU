@@ -135,26 +135,11 @@ namespace ProxySU_Core
             });
         }
 
-        private void InstallCert(object sender, RoutedEventArgs e)
+        private void UpdateXrayCore(object sender, RoutedEventArgs e)
         {
             Task.Factory.StartNew(() =>
             {
-                project.InstallCert();
-            });
-        }
-
-        private void UploadWeb(object sender, RoutedEventArgs e)
-        {
-            var fileDialog = new OpenFileDialog();
-            fileDialog.FileOk += OnFileOk;
-            fileDialog.ShowDialog();
-        }
-
-        private void ReinstallCaddy(object sender, RoutedEventArgs e)
-        {
-            Task.Factory.StartNew(() =>
-            {
-                project.ReinstallCaddy();
+                project.UpdateXrayCore();
             });
         }
 
@@ -166,7 +151,39 @@ namespace ProxySU_Core
             });
         }
 
-        private void OnFileOk(object sender, CancelEventArgs e)
+        private void InstallCert(object sender, RoutedEventArgs e)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                project.InstallCert();
+            });
+        }
+
+        private void UploadCert(object sender, RoutedEventArgs e)
+        {
+            var fileDialog = new OpenFileDialog();
+            fileDialog.Filter = "压缩文件|*.zip";
+            fileDialog.FileOk += DoUploadCert;
+            fileDialog.ShowDialog();
+        }
+
+        private void UploadWeb(object sender, RoutedEventArgs e)
+        {
+            var fileDialog = new OpenFileDialog();
+            fileDialog.Filter = "压缩文件|*.zip";
+            fileDialog.FileOk += DoUploadWeb;
+            fileDialog.ShowDialog();
+        }
+
+        private void ReinstallCaddy(object sender, RoutedEventArgs e)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                project.ReinstallCaddy();
+            });
+        }
+
+        private void DoUploadWeb(object sender, CancelEventArgs e)
         {
             Task.Factory.StartNew(() =>
             {
@@ -174,6 +191,18 @@ namespace ProxySU_Core
                 using (var stream = file.OpenFile())
                 {
                     project.UploadWeb(stream);
+                }
+            });
+        }
+
+        private void DoUploadCert(object sender, CancelEventArgs e)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                var file = sender as OpenFileDialog;
+                using (var stream = file.OpenFile())
+                {
+                    project.UploadCert(stream);
                 }
             });
         }

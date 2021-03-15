@@ -105,6 +105,6 @@ namespace ProxySU_Core.Models
         VMESS_TCP_TLS,
         VMESS_WS_TLS,
 
-        Trojan_TCP_TLS
+        Trojan_TCP_TLS,
     }
 }

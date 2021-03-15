@@ -65,7 +65,12 @@
                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                         <Label Content="传输安全(tls)" Width="120" />
                         <TextBox Text="xtls" IsReadOnly="True" Width="200" />
-                    </StackPanel>                    
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <Label Content="分享链接" Width="120" />
+                        <TextBox Text="{Binding Settings.VLESS_TCP_XTLS_ShareLink,Mode=OneTime}" Width="300" IsReadOnly="True" />
+                    </StackPanel>
                 </StackPanel>
             </TabItem>
             <TabItem Width="200" 
@@ -121,6 +126,11 @@
                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                         <Label Content="传输安全(tls)" Width="120" />
                         <TextBox Text="tls" IsReadOnly="True" Width="200" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <Label Content="分享链接" Width="120" />
+                        <TextBox Text="{Binding Settings.VLESS_TCP_TLS_ShareLink,Mode=OneTime}" Width="300" IsReadOnly="True" />
                     </StackPanel>
                 </StackPanel>
             </TabItem>
@@ -178,6 +188,11 @@
                         <Label Content="传输安全(tls)" Width="120" />
                         <TextBox Text="tls" IsReadOnly="True" Width="200" />
                     </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <Label Content="分享链接" Width="120" />
+                        <TextBox Text="{Binding Settings.VLESS_WS_TLS_ShareLink,Mode=OneTime}" Width="300" IsReadOnly="True" />
+                    </StackPanel>
                 </StackPanel>
             </TabItem>
             <TabItem Width="200"                      
@@ -228,6 +243,11 @@
                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                         <Label Content="传输安全(tls)" Width="120" />
                         <TextBox Text="tls" IsReadOnly="True" Width="200" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <Label Content="分享链接" Width="120" />
+                        <TextBox Text="{Binding Settings.VMESS_TCP_TLS_ShareLink,Mode=OneTime}" Width="300" IsReadOnly="True" />
                     </StackPanel>
                 </StackPanel>
             </TabItem>
@@ -280,6 +300,11 @@
                         <Label Content="传输安全(tls)" Width="120" />
                         <TextBox Text="tls" IsReadOnly="True" Width="200" />
                     </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <Label Content="分享链接" Width="120" />
+                        <TextBox Text="{Binding Settings.VMESS_WS_TLS_ShareLink,Mode=OneTime}" Width="300" IsReadOnly="True" />
+                    </StackPanel>
                 </StackPanel>
             </TabItem>
             <TabItem Width="200" 
@@ -300,6 +325,11 @@
                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                         <Label Content="密码" Width="120" />
                         <TextBox Text="{Binding Settings.TrojanPassword}" IsReadOnly="True" Width="300" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <Label Content="分享链接" Width="120" />
+                        <TextBox Text="{Binding Settings.Trojan_TCP_TLS_ShareLink,Mode=OneTime}" Width="300" IsReadOnly="True" />
                     </StackPanel>
                 </StackPanel>
             </TabItem>
