@@ -1,4 +1,6 @@
-﻿using ProxySU_Core.Models;
+﻿using Newtonsoft.Json;
+using ProxySU_Core.Common;
+using ProxySU_Core.Models;
 using ProxySU_Core.ViewModels.Developers;
 using System;
 using System.Collections.Generic;
@@ -262,7 +264,42 @@ namespace ProxySU_Core.ViewModels
 
         public string BuildVmessShareLink(XrayType xrayType)
         {
-            return "vmess://xxxxxx";
+            var vmess = new Vmess
+            {
+                v = "2",
+                add = settings.Domain,
+                port = settings.Port.ToString(),
+                id = settings.UUID,
+                aid = "0",
+                net = "",
+                type = "none",
+                host = settings.Domain,
+                path = "",
+                tls = "tls",
+                ps = "",
+            };
+
+
+            switch (xrayType)
+            {
+                case XrayType.VMESS_TCP_TLS:
+                    vmess.ps = "vmess-tcp-tls";
+                    vmess.net = "tcp";
+                    vmess.type = "http";
+                    vmess.path = VMESS_TCP_Path;
+                    break;
+                case XrayType.VMESS_WS_TLS:
+                    vmess.ps = "vmess-ws-tls";
+                    vmess.net = "ws";
+                    vmess.type = "none";
+                    vmess.path = VMESS_WS_Path;
+                    break;
+                default:
+                    return string.Empty;
+            }
+
+            var base64Url = Base64.Encode(JsonConvert.SerializeObject(vmess));
+            return $"vmess://" + base64Url;
         }
 
         public string BuildVlessShareLink(XrayType xrayType)
@@ -346,5 +383,20 @@ namespace ProxySU_Core.ViewModels
         }
 
 
+    }
+
+    public class Vmess
+    {
+        public string v { get; set; }
+        public string ps { get; set; }
+        public string add { get; set; }
+        public string port { get; set; }
+        public string id { get; set; }
+        public string aid { get; set; }
+        public string net { get; set; }
+        public string type { get; set; }
+        public string host { get; set; }
+        public string path { get; set; }
+        public string tls { get; set; }
     }
 }

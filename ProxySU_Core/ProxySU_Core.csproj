@@ -117,6 +117,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Common\Base64.cs" />
     <Compile Include="Converters\LoginSecretTypeConverter.cs" />
     <Compile Include="Models\Host.cs" />
     <Compile Include="Models\XraySettings.cs" />
