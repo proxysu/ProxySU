@@ -1,8 +1,8 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
 using ProxySU_Core.Models;
+using ProxySU_Core.Models.Developers;
 using ProxySU_Core.ViewModels;
-using ProxySU_Core.ViewModels.Developers;
 using ProxySU_Core.Views;
 using Renci.SshNet;
 using System;

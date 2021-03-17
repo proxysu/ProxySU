@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ProxySU_Core.Models;
 
-namespace ProxySU_Core.ViewModels.Developers
+namespace ProxySU_Core.Models.Developers
 {
     public class XrayProject : Project<XraySettings>
     {

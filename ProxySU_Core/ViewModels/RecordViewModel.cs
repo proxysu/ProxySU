@@ -11,10 +11,22 @@ namespace ProxySU_Core.ViewModels
     public class RecordViewModel : BaseViewModel
     {
         public Record record;
+        private bool _isChecked;
 
         public RecordViewModel(Record record)
         {
             this.record = record;
+            this._isChecked = false;
+        }
+
+        public bool IsChecked
+        {
+            get => _isChecked;
+            set
+            {
+                _isChecked = value;
+                Notify("IsChecked");
+            }
         }
 
         public Host Host

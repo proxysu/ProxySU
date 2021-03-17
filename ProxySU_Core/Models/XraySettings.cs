@@ -1,9 +1,12 @@
-﻿using ProxySU_Core.ViewModels.Developers;
+﻿using Newtonsoft.Json;
+using ProxySU_Core.Common;
+using ProxySU_Core.Models.Developers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace ProxySU_Core.Models
 {
@@ -15,7 +18,7 @@ namespace ProxySU_Core.Models
             var guid = Guid.NewGuid().ToString();
             Port = 443;
             UUID = guid;
-            Types = new List<XrayType> { XrayType.VLESS_TCP_XTLS };
+            Types = new List<XrayType>();
             VLESS_WS_Path = "/vlessws";
             VLESS_TCP_Path = "/vlesstcp";
             VMESS_WS_Path = "/vmessws";
@@ -94,7 +97,9 @@ namespace ProxySU_Core.Models
                     return string.Empty;
             }
         }
+
     }
+
 
     public enum XrayType
     {

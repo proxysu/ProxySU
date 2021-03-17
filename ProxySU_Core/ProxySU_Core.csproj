@@ -120,15 +120,16 @@
     <Compile Include="Common\Base64.cs" />
     <Compile Include="Converters\LoginSecretTypeConverter.cs" />
     <Compile Include="Models\Host.cs" />
+    <Compile Include="Models\ShareLink.cs" />
     <Compile Include="Models\XraySettings.cs" />
     <Compile Include="Tools\DateTimeUtils.cs" />
     <Compile Include="Tools\Extensions.cs" />
     <Compile Include="ViewModels\BaseCommand.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
-    <Compile Include="ViewModels\Developers\ConfigBuilder.cs" />
-    <Compile Include="ViewModels\Developers\IParameters.cs" />
-    <Compile Include="ViewModels\Developers\Project.cs" />
-    <Compile Include="ViewModels\Developers\XrayProject.cs" />
+    <Compile Include="Models\Developers\ConfigBuilder.cs" />
+    <Compile Include="Models\Developers\IParameters.cs" />
+    <Compile Include="Models\Developers\Project.cs" />
+    <Compile Include="Models\Developers\XrayProject.cs" />
     <Compile Include="ViewModels\HostViewModel.cs" />
     <Compile Include="Models\LocalProxy.cs" />
     <Compile Include="Models\LocalProxyType.cs" />
@@ -148,6 +149,9 @@
     </Compile>
     <Compile Include="Views\TerminalWindow.xaml.cs">
       <DependentUpon>TerminalWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TextBoxWindow.xaml.cs">
+      <DependentUpon>TextBoxWindow.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -237,6 +241,9 @@
     <None Include="Templates\xray\server\05_inbounds\Trojan_TCP_TLS.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Templates\xray\server\05_inbounds\Trojan_WS_TLS.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Templates\xray\server\05_inbounds\VLESS_TCP_XTLS.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -293,6 +300,10 @@
     <Page Include="Views\TerminalWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TextBoxWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

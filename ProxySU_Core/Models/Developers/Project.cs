@@ -1,4 +1,5 @@
 ﻿using ProxySU_Core.Tools;
+using ProxySU_Core.ViewModels;
 using Renci.SshNet;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ProxySU_Core.ViewModels.Developers
+namespace ProxySU_Core.Models.Developers
 {
     public enum CmdType
     {

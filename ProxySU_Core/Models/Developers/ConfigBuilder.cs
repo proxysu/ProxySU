@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace ProxySU_Core.ViewModels.Developers
+namespace ProxySU_Core.Models.Developers
 {
     public class ConfigBuilder
     {
@@ -96,16 +96,10 @@ namespace ProxySU_Core.ViewModels.Developers
                 xver = 1,
             }));
             xrayConfig.inbounds.Add(baseBound);
-
-            if (parameters.Types.Contains(XrayType.VLESS_TCP_XTLS))
-            {
-                baseBound.settings.clients[0].id = parameters.UUID;
-            }
+            baseBound.settings.clients[0].id = parameters.UUID;
 
             if (parameters.Types.Contains(XrayType.VLESS_WS_TLS))
             {
-                baseBound.settings.clients[0].id = parameters.UUID;
-
                 var wsInbound = LoadJsonObj(Path.Combine(ServerInboundsDir, "VLESS_WS_TLS.json"));
                 wsInbound.port = VLESS_WS_Port;
                 wsInbound.settings.clients[0].id = parameters.UUID;
