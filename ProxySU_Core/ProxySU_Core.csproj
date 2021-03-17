@@ -244,10 +244,22 @@
     <None Include="Templates\xray\server\05_inbounds\Trojan_WS_TLS.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Templates\xray\server\05_inbounds\VLESS_HTTP2_TLS.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\xray\server\05_inbounds\VLESS_mKCP.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Templates\xray\server\05_inbounds\VLESS_TCP_XTLS.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Templates\xray\server\05_inbounds\VLESS_WS_TLS.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\xray\server\05_inbounds\VMESS_HTTP2_TLS.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\xray\server\05_inbounds\VMESS_mKCP.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Templates\xray\server\05_inbounds\VMESS_TCP_TLS.json">
