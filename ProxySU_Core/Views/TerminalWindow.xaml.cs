@@ -1,11 +1,14 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
+using Microsoft.Win32;
 using ProxySU_Core.Models;
+using ProxySU_Core.Models.Developers;
 using ProxySU_Core.ViewModels;
-using ProxySU_Core.ViewModels.Developers;
 using ProxySU_Core.Views;
 using Renci.SshNet;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +32,8 @@ namespace ProxySU_Core
         private readonly Terminal _vm;
         private SshClient _sshClient;
 
+        XrayProject project;
+
         public TerminalWindow(Record record)
         {
             InitializeComponent();
@@ -39,7 +44,7 @@ namespace ProxySU_Core
             _vm = new Terminal(record.Host);
             DataContext = _vm;
 
-            _vm.AddOutput("Connect ...");
+            WriteOutput("Connect ...");
             Task.Factory.StartNew(() =>
             {
                 try
@@ -56,6 +61,7 @@ namespace ProxySU_Core
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
+            _vm.HasConnected = false;
 
             if (_sshClient != null)
                 _sshClient.Disconnect();
@@ -102,31 +108,110 @@ namespace ProxySU_Core
             var conneInfo = CreateConnectionInfo(host);
             _sshClient = new SshClient(conneInfo);
             _sshClient.Connect();
-            _vm.AddOutput("Connected");
+            WriteOutput("Connected");
+
+            _vm.HasConnected = true;
+            project = new XrayProject(_sshClient, Record.Settings, WriteOutput);
         }
 
-        private void WriteShell(string outShell)
+        private void WriteOutput(string outShell)
         {
-            _vm.AddOutput(outShell);
+            if (!outShell.EndsWith("\n"))
+            {
+                outShell += "\n";
+            }
             Dispatcher.Invoke(() =>
             {
+                OutputTextBox.AppendText(outShell);
                 OutputTextBox.ScrollToEnd();
             });
         }
 
         private void Install(object sender, RoutedEventArgs e)
         {
-            XrayProject project = new XrayProject(
-                _sshClient,
-                Record.Settings,
-                WriteShell);
-
             Task.Factory.StartNew(() =>
             {
                 project.Install();
             });
         }
 
+        private void UpdateXrayCore(object sender, RoutedEventArgs e)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                project.UpdateXrayCore();
+            });
+        }
+
+        private void UpdateXraySettings(object sender, RoutedEventArgs e)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                project.UpdateXraySettings();
+            });
+        }
+
+        private void InstallCert(object sender, RoutedEventArgs e)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                project.InstallCert();
+            });
+        }
+
+        private void UploadCert(object sender, RoutedEventArgs e)
+        {
+            var fileDialog = new OpenFileDialog();
+            fileDialog.Filter = "压缩文件|*.zip";
+            fileDialog.FileOk += DoUploadCert;
+            fileDialog.ShowDialog();
+        }
+
+        private void UploadWeb(object sender, RoutedEventArgs e)
+        {
+            var fileDialog = new OpenFileDialog();
+            fileDialog.Filter = "压缩文件|*.zip";
+            fileDialog.FileOk += DoUploadWeb;
+            fileDialog.ShowDialog();
+        }
+
+        private void ReinstallCaddy(object sender, RoutedEventArgs e)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                project.ReinstallCaddy();
+            });
+        }
+
+        private void DoUploadWeb(object sender, CancelEventArgs e)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                var file = sender as OpenFileDialog;
+                using (var stream = file.OpenFile())
+                {
+                    project.UploadWeb(stream);
+                }
+            });
+        }
+
+        private void DoUploadCert(object sender, CancelEventArgs e)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                var file = sender as OpenFileDialog;
+                using (var stream = file.OpenFile())
+                {
+                    project.UploadCert(stream);
+                }
+            });
+        }
+
+        private void OpenLink(object sender, RoutedEventArgs e)
+        {
+            Hyperlink link = sender as Hyperlink;
+            Process.Start(new ProcessStartInfo(link.NavigateUri.AbsoluteUri));
+        }
 
     }
 }

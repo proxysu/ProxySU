@@ -7,7 +7,6 @@
         mc:Ignorable="d"
         BorderThickness="1"
         xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
-        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         TextElement.FontSize="14"
         Title="ProxySU Core" Height="800" Width="1200">
@@ -15,10 +14,7 @@
     <mah:MetroWindow.LeftWindowCommands>
         <mah:WindowCommands>
             <Button Click="LaunchGitHubSite" ToolTip="Open up the GitHub site">
-                <iconPacks:PackIconModern 
-                    Width="22"
-                    Height="22"
-                    Kind="SocialGithubOctocat" />
+                github
             </Button>
         </mah:WindowCommands>
     </mah:MetroWindow.LeftWindowCommands>
@@ -58,9 +54,21 @@
 
                     <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                         <Button
-                        Content="{DynamicResource AddHost}"
-                        Click="AddHost"
-                        Width="100"/>
+                            Content="{DynamicResource AddHost}"
+                            Click="AddHost"
+                            Width="100"/>
+
+                        <Button
+                            Margin="10,0,0,0"
+                            Content="导出配置"
+                            Click="ExportXraySettings"
+                            Width="100" />
+
+                        <Button
+                            Margin="10,0,0,0"
+                            Content="导出订阅"
+                            Click="ExportXraySub"
+                            Width="100" />
                     </StackPanel>
 
                     <DataGrid ItemsSource="{Binding Records}"
@@ -75,6 +83,10 @@
                               BorderThickness="1"
                               AutoGenerateColumns="False">
                         <DataGrid.Columns>
+                            <DataGridCheckBoxColumn Header="选择"
+                                                    Binding="{Binding Path=IsChecked, UpdateSourceTrigger=PropertyChanged}"
+                                                    IsReadOnly="False"
+                                                    Width="80"/>
                             <DataGridTextColumn Header="{DynamicResource HostTag}"  
                                                 Binding="{Binding Path=Host.Tag}" 
                                                 Width="150"/>
@@ -96,7 +108,8 @@
                                         <StackPanel Orientation="Horizontal">
                                             <Button Content="{DynamicResource Connect}" FontSize="12" Height="24" Click="Connect" />
                                             <Button Content="{DynamicResource Edit}" FontSize="12" Height="24" Margin="10,0,0,0" Click="EditHost" />
-                                            <Button Content="{DynamicResource Delete}" FontSize="12"  Height="24" Margin="10,0,0,0" Click="DeleteHost" />
+                                            <Button Content="查看配置" FontSize="12" Height="24" Margin="10,0,0,0" Click="ShowClientInfo" />
+                                            <Button Content="{DynamicResource Delete}" FontSize="12"  Height="24" Margin="10,0,0,0" Click="DeleteHost" BorderBrush="IndianRed" Background="IndianRed" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -111,9 +124,9 @@
             <TabItem    
                 Width="160"          
                 Style="{StaticResource MaterialDesignNavigationRailTabItem}"
-                Header="V2ray">
+                Header="其他功能">
                 <StackPanel>
-                    <TextBox />
+                    <TextBlock Text="还不知道要点啥...看大家建议？" />
                 </StackPanel>
             </TabItem>
         </TabControl>

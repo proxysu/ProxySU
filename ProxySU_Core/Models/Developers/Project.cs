@@ -1,4 +1,5 @@
 ﻿using ProxySU_Core.Tools;
+using ProxySU_Core.ViewModels;
 using Renci.SshNet;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ProxySU_Core.ViewModels.Developers
+namespace ProxySU_Core.Models.Developers
 {
     public enum CmdType
     {
@@ -156,8 +157,14 @@ namespace ProxySU_Core.ViewModels.Developers
         /// </summary>
         protected void ConfigureSoftware()
         {
+            string cmd = RunCmd("command -v sudo");
+            if (string.IsNullOrEmpty(cmd))
+            {
+                RunCmd(GetInstallCmd("sudo"));
+            }
+
             // 安装curl,wget,unzip
-            string cmd = RunCmd("command -v curl");
+            cmd = RunCmd("command -v curl");
             if (string.IsNullOrEmpty(cmd))
             {
                 RunCmd(GetInstallCmd("curl"));
@@ -306,9 +313,7 @@ namespace ProxySU_Core.ViewModels.Developers
                 var cmd = $"dig @resolver1.opendns.com AAAA {Parameters.Domain} +short -6 {cmdFilter}";
                 var result = RunCmd(cmd).TrimEnd('\r', '\n');
 
-                if (result != IPv6)
-                {
-                }
+                if (result == IPv6) return;
             }
 
             else
@@ -317,11 +322,19 @@ namespace ProxySU_Core.ViewModels.Developers
                 var cmd = $"dig @resolver1.opendns.com A {Parameters.Domain} +short -4 {cmdFilter}";
                 var result = RunCmd(cmd).TrimEnd('\r', '\n');
 
-                if (result != IPv4)
-                {
-                    throw new Exception("域名未能解析到服务器IP，请检查域名配置");
-                }
+                if (result == IPv4) return;
+
             }
+
+
+            var btnResult = MessageBox.Show(
+                $"{Parameters.Domain}未能正常解析到服务器的IP，如果您使用了CDN请忽略，是否继续安装?", "提示", MessageBoxButton.YesNo);
+
+            if (btnResult == MessageBoxResult.No)
+            {
+                throw new Exception($"域名解析失败，安装停止!");
+            }
+
         }
 
         /// <summary>
@@ -341,26 +354,32 @@ namespace ProxySU_Core.ViewModels.Developers
         /// </summary>
         protected void InstallCaddy()
         {
-            if (CmdType == CmdType.Apt)
-            {
-                RunCmd("sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https");
-                RunCmd("curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo apt-key add -");
-                RunCmd("curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee -a /etc/apt/sources.list.d/caddy-stable.list");
-                RunCmd("sudo apt update");
-                RunCmd("sudo apt install caddy");
-            }
-            else if (CmdType == CmdType.Dnf)
-            {
-                RunCmd("dnf install 'dnf-command(copr)'");
-                RunCmd("dnf copr enable @caddy/caddy");
-                RunCmd("dnf install caddy");
-            }
-            else if (CmdType == CmdType.Yum)
-            {
-                RunCmd("yum install yum-plugin-copr");
-                RunCmd("yum copr enable @caddy/caddy");
-                RunCmd("yum install caddy");
-            }
+            RunCmd("rm -rf caddy_install.sh");
+            RunCmd("curl -o caddy_install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/Caddy-Naive/caddy-naive-install.sh");
+            RunCmd("yes | bash caddy_install.sh");
+
+            //if (CmdType == CmdType.Apt)
+            //{
+            //    RunCmd("sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https");
+            //    RunCmd("curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo apt-key add -");
+            //    RunCmd("curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee -a /etc/apt/sources.list.d/caddy-stable.list");
+            //    RunCmd(GetUpdateCmd());
+            //    RunCmd("sudo apt install caddy");
+            //}
+            //else if (CmdType == CmdType.Dnf)
+            //{
+            //    RunCmd("echo y | dnf install 'dnf-command(copr)'");
+            //    RunCmd("echo y | dnf copr enable @caddy/caddy");
+            //    RunCmd(GetUpdateCmd());
+            //    RunCmd("dnf install caddy");
+            //}
+            //else if (CmdType == CmdType.Yum)
+            //{
+            //    RunCmd("echo y | echo y | yum install yum-plugin-copr");
+            //    RunCmd("echo y | echo y | yum copr enable @caddy/caddy");
+            //    RunCmd(GetUpdateCmd());
+            //    RunCmd("yum install caddy");
+            //}
         }
 
 
@@ -399,7 +418,7 @@ namespace ProxySU_Core.ViewModels.Developers
             {
                 if (force)
                 {
-                    var btnResult = MessageBox.Show("80/443端口之一，或全部被占用，将强制停止占用80/443端口的程序?", "提示", MessageBoxButton.YesNo);
+                    var btnResult = MessageBox.Show($"{port}端口被占用，将强制停止占用{port}端口的程序?", "提示", MessageBoxButton.YesNo);
                     if (btnResult == MessageBoxResult.No)
                     {
                         throw new Exception($"{port}端口被占用，安装停止!");
@@ -435,7 +454,7 @@ namespace ProxySU_Core.ViewModels.Developers
             }
         }
 
-        private void SetNat64()
+        protected void SetNat64()
         {
             var dns64List = FilterFastestIP();
             if (dns64List.Count == 0)
@@ -456,7 +475,7 @@ namespace ProxySU_Core.ViewModels.Developers
             }
         }
 
-        private void RemoveNat64()
+        protected void RemoveNat64()
         {
             RunCmd("rm /etc/resolv.conf");
             RunCmd("mv /etc/resolv.conf.proxysu /etc/resolv.conf");
@@ -518,7 +537,7 @@ namespace ProxySU_Core.ViewModels.Developers
         {
             if (CmdType == CmdType.Apt)
             {
-                return "apt-get update ";
+                return "apt-get update";
             }
             else if (CmdType == CmdType.Dnf)
             {
@@ -541,15 +560,15 @@ namespace ProxySU_Core.ViewModels.Developers
         {
             if (CmdType == CmdType.Apt)
             {
-                return "apt-get install " + soft;
+                return "echo y | apt-get install " + soft;
             }
             else if (CmdType == CmdType.Dnf)
             {
-                return "dnf -y install " + soft;
+                return "echo y | dnf -y install " + soft;
             }
             else if (CmdType == CmdType.Yum)
             {
-                return "yum -y install " + soft;
+                return "echo y | yum -y install " + soft;
             }
 
             throw new Exception("未识别的系统");

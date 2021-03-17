@@ -1,8 +1,9 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using ProxySU_Core.Common;
 using ProxySU_Core.Models;
 using ProxySU_Core.ViewModels;
-using ProxySU_Core.ViewModels.Developers;
 using ProxySU_Core.Views;
 using Renci.SshNet;
 using System;
@@ -45,17 +46,35 @@ namespace ProxySU_Core
             if (File.Exists(RecordPath))
             {
                 var recordsJson = File.ReadAllText(RecordPath, Encoding.UTF8);
-                var records = JsonConvert.DeserializeObject<List<Record>>(recordsJson);
-                records.ForEach(item =>
+                if (!string.IsNullOrEmpty(recordsJson))
                 {
-                    Records.Add(new RecordViewModel(item));
-                });
+                    var records = JsonConvert.DeserializeObject<List<Record>>(recordsJson);
+                    records.ForEach(item =>
+                    {
+                        Records.Add(new RecordViewModel(item));
+                    });
+                }
             }
 
 
             DataContext = this;
         }
 
+        private void SaveRecord()
+        {
+            var recordList = Records.Select(x => x.record);
+            var json = JsonConvert.SerializeObject(recordList,
+                Formatting.Indented,
+                new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                });
+            if (!Directory.Exists("Data"))
+            {
+                Directory.CreateDirectory("Data");
+            }
+            File.WriteAllText("Data\\Record.json", json, Encoding.UTF8);
+        }
 
         private void LaunchGitHubSite(object sender, RoutedEventArgs e)
         {
@@ -98,6 +117,36 @@ namespace ProxySU_Core
             Application.Current.Resources.MergedDictionaries[0] = resource;
         }
 
+        private void ExportXraySettings(object sender, RoutedEventArgs e)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var record in Records.Where(x => x.IsChecked))
+            {
+                record.Settings.Types.ForEach(type =>
+                {
+                    var link = ShareLink.Build(type, record.Settings);
+                    sb.AppendLine(link);
+                });
+            }
+            var tbx = new TextBoxWindow("分享链接", sb.ToString());
+            tbx.ShowDialog();
+        }
+
+        private void ExportXraySub(object sender, RoutedEventArgs e)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var record in Records.Where(x => x.IsChecked))
+            {
+                record.Settings.Types.ForEach(type =>
+                {
+                    var link = ShareLink.Build(type, record.Settings);
+                    sb.AppendLine(link);
+                });
+            }
+            var result = Base64.Encode(sb.ToString());
+            var tbx = new TextBoxWindow("订阅内容", result);
+            tbx.ShowDialog();
+        }
 
         private void AddHost(object sender, RoutedEventArgs e)
         {
@@ -107,6 +156,7 @@ namespace ProxySU_Core
             if (result == true)
             {
                 Records.Add(new RecordViewModel(newRecord));
+                SaveRecord();
             }
         }
 
@@ -119,7 +169,17 @@ namespace ProxySU_Core
                 if (result == true)
                 {
                     project.Notify();
+                    SaveRecord();
                 }
+            }
+        }
+
+        private void ShowClientInfo(object sender, RoutedEventArgs e)
+        {
+            if (DataGrid.SelectedItem is RecordViewModel project)
+            {
+                var dialog = new ClientInfoWindow(project.record);
+                dialog.ShowDialog();
             }
         }
 

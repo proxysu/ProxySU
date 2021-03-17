@@ -1,10 +1,12 @@
-﻿using ProxySU_Core.Models;
-using ProxySU_Core.ViewModels.Developers;
+﻿using Newtonsoft.Json;
+using ProxySU_Core.Common;
+using ProxySU_Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows;
 
 namespace ProxySU_Core.ViewModels
@@ -76,7 +78,9 @@ namespace ProxySU_Core.ViewModels
             {
                 if (value == true)
                 {
-                    settings.Types.Add(XrayType.VLESS_TCP_TLS);
+                    if (!settings.Types.Contains(XrayType.VLESS_TCP_TLS))
+                        settings.Types.Add(XrayType.VLESS_TCP_TLS);
+
                 }
                 else
                 {
@@ -97,7 +101,8 @@ namespace ProxySU_Core.ViewModels
             {
                 if (value == true)
                 {
-                    settings.Types.Add(XrayType.VLESS_TCP_XTLS);
+                    if (!settings.Types.Contains(XrayType.VLESS_TCP_XTLS))
+                        settings.Types.Add(XrayType.VLESS_TCP_XTLS);
                 }
                 else
                 {
@@ -117,7 +122,8 @@ namespace ProxySU_Core.ViewModels
             {
                 if (value == true)
                 {
-                    settings.Types.Add(XrayType.VLESS_WS_TLS);
+                    if (!settings.Types.Contains(XrayType.VLESS_WS_TLS))
+                        settings.Types.Add(XrayType.VLESS_WS_TLS);
                 }
                 else
                 {
@@ -138,7 +144,8 @@ namespace ProxySU_Core.ViewModels
             {
                 if (value == true)
                 {
-                    settings.Types.Add(XrayType.VMESS_TCP_TLS);
+                    if (!settings.Types.Contains(XrayType.VMESS_TCP_TLS))
+                        settings.Types.Add(XrayType.VMESS_TCP_TLS);
                 }
                 else
                 {
@@ -159,7 +166,8 @@ namespace ProxySU_Core.ViewModels
             {
                 if (value == true)
                 {
-                    settings.Types.Add(XrayType.VMESS_WS_TLS);
+                    if (!settings.Types.Contains(XrayType.VMESS_WS_TLS))
+                        settings.Types.Add(XrayType.VMESS_WS_TLS);
                 }
                 else
                 {
@@ -180,7 +188,8 @@ namespace ProxySU_Core.ViewModels
             {
                 if (value == true)
                 {
-                    settings.Types.Add(XrayType.Trojan_TCP_TLS);
+                    if (!settings.Types.Contains(XrayType.Trojan_TCP_TLS))
+                        settings.Types.Add(XrayType.Trojan_TCP_TLS);
                 }
                 else
                 {
@@ -227,5 +236,31 @@ namespace ProxySU_Core.ViewModels
             }
         }
 
+        public string VLESS_TCP_XTLS_ShareLink
+        {
+            get => ShareLink.Build(XrayType.VLESS_TCP_XTLS, settings);
+        }
+        public string VLESS_TCP_TLS_ShareLink
+        {
+            get => ShareLink.Build(XrayType.VLESS_TCP_TLS, settings);
+        }
+        public string VLESS_WS_TLS_ShareLink
+        {
+            get => ShareLink.Build(XrayType.VLESS_WS_TLS, settings);
+        }
+        public string VMESS_TCP_TLS_ShareLink
+        {
+            get => ShareLink.Build(XrayType.VMESS_TCP_TLS, settings);
+        }
+        public string VMESS_WS_TLS_ShareLink
+        {
+            get => ShareLink.Build(XrayType.VMESS_WS_TLS, settings);
+        }
+        public string Trojan_TCP_TLS_ShareLink
+        {
+            get => ShareLink.Build(XrayType.Trojan_TCP_TLS, settings);
+        }
+
     }
+
 }

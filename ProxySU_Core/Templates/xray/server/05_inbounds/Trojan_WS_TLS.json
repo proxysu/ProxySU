@@ -1,21 +1,26 @@
 {
-  "port": 1234,
+  "port": 1320,
   "listen": "127.0.0.1",
-  "protocol": "vless",
+  "protocol": "trojan",
   "settings": {
     "clients": [
       {
-        "id": ""
+        "password": ""
       }
     ],
-    "decryption": "none"
+    "fallbacks": [
+      {
+        "dest": 80
+      }
+    ]
   },
+
   "streamSettings": {
     "network": "ws",
     "security": "none",
     "wsSettings": {
       "acceptProxyProtocol": true,
-      "path": "/websocket"
+      "path": "/trojanws"
     }
   }
 }

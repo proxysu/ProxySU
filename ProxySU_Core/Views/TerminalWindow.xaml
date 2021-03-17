@@ -6,29 +6,98 @@
         xmlns:local="clr-namespace:ProxySU_Core"
         xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="TerminalWindow" Height="500" Width="800">
+        Title="主机控制台" Height="500" Width="800">
     <StackPanel>
-        <RichTextBox IsReadOnly="True"
+        <TextBox IsReadOnly="True"
                      Block.LineHeight="18"
                      Background="#000" 
                      Foreground="LawnGreen"
                      FontSize="14"
                      FontFamily="Consolas"
                      x:Name="OutputTextBox"
-                     Height="320">
-            <FlowDocument>
-                <Paragraph>
-                    <Run Text="{Binding Path=OutputText, Mode=OneWay}" />
-                </Paragraph>
-            </FlowDocument>
-        </RichTextBox>
+                     Height="260"
+                    Text="{Binding Path=OutputText}"
+                 />
 
-        <StackPanel Margin="0,10,0,0">
-            <Button Content="安装Xray"
-                    Click="Install"
-                    Height="32"
-                    Width="100"/>
-            
+        <StackPanel Margin="10" 
+                    Orientation="Vertical"
+                    HorizontalAlignment="Left">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="内核/配置" 
+                           VerticalAlignment="Center"
+                           Margin="0,0,10,0"/>
+                
+                <Button Content="安装Xray"
+                        Click="Install"
+                        Height="26"
+                        IsEnabled="{Binding HasConnected}"
+                        Width="120"/>
+
+                <Button Content="更新Xray内核" 
+                        Margin="10,0,0,0"
+                        Click="UpdateXrayCore"
+                        Height="26"
+                        IsEnabled="{Binding HasConnected}"
+                        Width="120"/>
+
+                <Button Content="更新Xray配置"
+                        Margin="10,0,0,0"
+                        Click="UpdateXraySettings"
+                        Height="26"
+                        IsEnabled="{Binding HasConnected}"
+                        Width="120"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal"
+                        Margin="0,10,0,0">
+                <TextBlock Text="证书/网站" 
+                           VerticalAlignment="Center"
+                           Margin="0,0,10,0"/>
+
+                <Button Content="生成证书"
+                        Margin="0,0,0,0"
+                        Height="26"
+                        Width="120"
+                        IsEnabled="{Binding HasConnected}"
+                        Click="InstallCert"/>
+
+                <Button Content="上传自有证书"
+                        Margin="10,0,0,0"
+                        Height="26"
+                        Width="120"
+                        IsEnabled="{Binding HasConnected}"
+                        Click="UploadCert"/>
+
+                <Button Content="上传伪装网站"
+                        Margin="10,0,0,0"
+                        Height="26"
+                        Width="120"
+                        IsEnabled="{Binding HasConnected}"
+                        Click="UploadWeb"/>
+
+                <Button Content="重装Caddy"
+                        Margin="10,0,0,0"
+                        Click="ReinstallCaddy"
+                        Height="26"
+                        IsEnabled="{Binding HasConnected}"
+                        Width="120"/>
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Margin="10,0,0,0">
+            <Label Content="静态网页模版（感谢网友推荐），将网站压缩包上传到服务区即可。" />
+            <TextBlock>
+                <Hyperlink NavigateUri="https://www.themezy.com" Click="OpenLink">Themezy</Hyperlink>
+            </TextBlock>
+            <TextBlock>
+                <Hyperlink NavigateUri="https://onepagelove.com/templates/free-templates" Click="OpenLink">One Page Love</Hyperlink>
+            </TextBlock>
+            <TextBlock>
+                <Hyperlink NavigateUri="https://html5up.net/" Click="OpenLink">HTML5 UP</Hyperlink>
+            </TextBlock>
+            <TextBlock>
+                <Hyperlink NavigateUri="https://templatemo.com/" Click="OpenLink">template mo</Hyperlink>
+            </TextBlock>
         </StackPanel>
     </StackPanel>
 </metro:MetroWindow>

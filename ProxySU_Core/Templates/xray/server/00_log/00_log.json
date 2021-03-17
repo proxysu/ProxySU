@@ -1,5 +1,6 @@
 {
-    "log": {
-        "loglevel": "warning"
-    }
+  "log": {
+    "access": "none",
+    "loglevel": "none"
+  }
 }

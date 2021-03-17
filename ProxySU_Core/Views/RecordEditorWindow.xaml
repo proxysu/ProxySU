@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:ProxySU_Core.Views" 
         xmlns:converters="clr-namespace:ProxySU_Core.Converters"
         mc:Ignorable="d"
-        Title="RecordEditorWindow" Height="800" Width="710">
+        Title="编辑主机信息" Height="800" Width="710">
 
     <Window.Resources>
         <converters:LoginSecretTypeConverter x:Key="LoginSecretTypeConverter" />

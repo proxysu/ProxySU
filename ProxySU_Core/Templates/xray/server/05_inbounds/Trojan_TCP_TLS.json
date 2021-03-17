@@ -5,9 +5,7 @@
   "settings": {
     "clients": [
       {
-        "password": "",
-        "level": 0,
-        "email": "love@example.com"
+        "password": ""
       }
     ],
     "fallbacks": [
