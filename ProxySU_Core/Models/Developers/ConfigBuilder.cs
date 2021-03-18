@@ -113,29 +113,28 @@ namespace ProxySU_Core.Models.Developers
                 baseBound.settings.fallbacks.Add(JToken.FromObject(new
                 {
                     dest = VLESS_WS_Port,
-                    path = parameters.VLESS_WS_Path
+                    path = parameters.VLESS_WS_Path,
+                    xver = 1,
                 }));
                 xrayConfig.inbounds.Add(JToken.FromObject(wsInbound));
             }
 
-            if (parameters.Types.Contains(XrayType.VLESS_H2_TLS))
-            {
-                var h2Inbound = LoadJsonObj(Path.Combine(ServerInboundsDir, "VLESS_HTTP2_TLS.json"));
-                h2Inbound.port = VLESS_H2_Port;
-                h2Inbound.settings.clients[0].id = parameters.UUID;
-                h2Inbound.streamSettings.httpSettings.path = parameters.VLESS_H2_Path;
-                baseBound.settings.fallbacks.Add(JToken.FromObject(new
-                {
-                    dest = VLESS_H2_Port,
-                    path = parameters.VLESS_H2_Path
-                }));
-                xrayConfig.inbounds.Add(JToken.FromObject(h2Inbound));
-            }
+            //if (parameters.Types.Contains(XrayType.VLESS_H2_TLS))
+            //{
+            //    var h2Inbound = LoadJsonObj(Path.Combine(ServerInboundsDir, "VLESS_HTTP2_TLS.json"));
+            //    h2Inbound.port = VLESS_H2_Port;
+            //    h2Inbound.settings.clients[0].id = parameters.UUID;
+            //    h2Inbound.streamSettings.httpSettings.path = parameters.VLESS_H2_Path;
+            //    baseBound.settings.fallbacks.Add(JToken.FromObject(new
+            //    {
+            //        dest = VLESS_H2_Port,
+            //        path = parameters.VLESS_H2_Path,
+            //        xver = 1,
+            //    }));
+            //    xrayConfig.inbounds.Add(JToken.FromObject(h2Inbound));
+            //}
 
-            if (parameters.Types.Contains(XrayType.VLESS_mKCP_Speed))
-            {
-                var kcpInbound = LoadJsonObj(Path.Combine(ServerInboundsDir, "VLESS_mKCP"));
-            }
+
 
             if (parameters.Types.Contains(XrayType.VMESS_TCP_TLS))
             {
@@ -166,10 +165,6 @@ namespace ProxySU_Core.Models.Developers
                 }));
                 xrayConfig.inbounds.Add(JToken.FromObject(mwsBound));
             }
-
-            if (parameters.Types.Contains(XrayType.VMESS_H2_TLS)) { }
-
-            if (parameters.Types.Contains(XrayType.VMESS_mKCP_Speed)) { }
 
             if (parameters.Types.Contains(XrayType.Trojan_TCP_TLS))
             {
