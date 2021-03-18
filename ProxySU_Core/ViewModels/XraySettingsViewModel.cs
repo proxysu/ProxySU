@@ -50,6 +50,12 @@ namespace ProxySU_Core.ViewModels
             set => settings.VLESS_WS_Path = value;
         }
 
+        public string VLESS_H2_Path
+        {
+            get => settings.VLESS_H2_Path;
+            set => settings.VLESS_H2_Path = value;
+        }
+
         public string VMESS_TCP_Path
         {
             get => settings.VMESS_TCP_Path;
@@ -60,6 +66,12 @@ namespace ProxySU_Core.ViewModels
         {
             get => settings.VMESS_WS_Path;
             set => settings.VMESS_WS_Path = value;
+        }
+
+        public string VMESS_H2_Path
+        {
+            get => settings.VMESS_H2_Path;
+            set => settings.VMESS_H2_Path = value;
         }
 
         public string TrojanPassword
@@ -134,6 +146,25 @@ namespace ProxySU_Core.ViewModels
             }
         }
 
+        public bool Checked_VLESS_H2
+        {
+            get => settings.Types.Contains(XrayType.VLESS_H2_TLS);
+            set
+            {
+                if (value == true)
+                {
+                    if (!settings.Types.Contains(XrayType.VLESS_H2_TLS))
+                        settings.Types.Add(XrayType.VLESS_H2_TLS);
+                }
+                else
+                {
+                    settings.Types.Remove(XrayType.VLESS_H2_TLS);
+                }
+                Notify("Checked_VLESS_H2");
+                Notify("VLESS_H2_Path_Visibility");
+            }
+        }
+
         public bool Checked_VMESS_TCP
         {
             get
@@ -178,6 +209,24 @@ namespace ProxySU_Core.ViewModels
             }
         }
 
+        public bool Checked_VMESS_H2
+        {
+            get => settings.Types.Contains(XrayType.VMESS_H2_TLS);
+            set
+            {
+                if (value == true)
+                {
+                    if (!settings.Types.Contains(XrayType.VMESS_H2_TLS))
+                        settings.Types.Add(XrayType.VMESS_H2_TLS);
+                }
+                else
+                {
+                    settings.Types.Remove(XrayType.VMESS_H2_TLS);
+                }
+                Notify("Checked_VMESS_H2");
+                Notify("VMESS_H2_Path_Visibility");
+            }
+        }
         public bool Checked_Trojan_TCP
         {
             get
@@ -214,6 +263,14 @@ namespace ProxySU_Core.ViewModels
                 return Checked_VLESS_WS ? Visibility.Visible : Visibility.Hidden;
             }
         }
+        public Visibility VLESS_H2_Path_Visibility
+        {
+            get
+            {
+                return Checked_VLESS_H2 ? Visibility.Visible : Visibility.Hidden;
+            }
+        }
+
         public Visibility VMESS_TCP_Path_Visibility
         {
             get
@@ -226,6 +283,13 @@ namespace ProxySU_Core.ViewModels
             get
             {
                 return Checked_VMESS_WS ? Visibility.Visible : Visibility.Hidden;
+            }
+        }
+        public Visibility VMESS_H2_Path_Visibility
+        {
+            get
+            {
+                return Checked_VMESS_H2 ? Visibility.Visible : Visibility.Hidden;
             }
         }
         public Visibility Trojan_TCP_Pwd_Visibility
@@ -248,6 +312,10 @@ namespace ProxySU_Core.ViewModels
         {
             get => ShareLink.Build(XrayType.VLESS_WS_TLS, settings);
         }
+        public string VLESS_H2_TLS_ShareLink
+        {
+            get => ShareLink.Build(XrayType.VLESS_H2_TLS, settings);
+        }
         public string VMESS_TCP_TLS_ShareLink
         {
             get => ShareLink.Build(XrayType.VMESS_TCP_TLS, settings);
@@ -255,6 +323,10 @@ namespace ProxySU_Core.ViewModels
         public string VMESS_WS_TLS_ShareLink
         {
             get => ShareLink.Build(XrayType.VMESS_WS_TLS, settings);
+        }
+        public string VMESS_H2_TLS_ShareLink
+        {
+            get => ShareLink.Build(XrayType.VMESS_H2_TLS, settings);
         }
         public string Trojan_TCP_TLS_ShareLink
         {

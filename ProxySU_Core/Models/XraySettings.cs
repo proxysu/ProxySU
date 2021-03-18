@@ -21,9 +21,12 @@ namespace ProxySU_Core.Models
             Types = new List<XrayType>();
             VLESS_WS_Path = "/vlessws";
             VLESS_TCP_Path = "/vlesstcp";
+            VLESS_H2_Path = "/vlessh2";
             VMESS_WS_Path = "/vmessws";
             VMESS_TCP_Path = "/vmesstcp";
+            VMESS_H2_Path = "/vmessh2";
             TrojanPassword = guid;
+            Trojan_WS_Path = "/trojanws";
         }
 
         /// <summary>
@@ -69,7 +72,7 @@ namespace ProxySU_Core.Models
         /// <summary>
         /// vmess http2 path
         /// </summary>
-        public string VMESS_HTTP2_Path { get; set; }
+        public string VMESS_H2_Path { get; set; }
 
         /// <summary>
         /// vmess mKcp seed
