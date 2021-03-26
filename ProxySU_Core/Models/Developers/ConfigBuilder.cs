@@ -104,7 +104,7 @@ namespace ProxySU_Core.Models.Developers
             xrayConfig.inbounds.Add(baseBound);
             baseBound.settings.clients[0].id = parameters.UUID;
 
-            if (parameters.Types.Contains(XrayType.VLESS_WS_TLS))
+            if (parameters.Types.Contains(XrayType.VLESS_WS))
             {
                 var wsInbound = LoadJsonObj(Path.Combine(ServerInboundsDir, "VLESS_WS_TLS.json"));
                 wsInbound.port = VLESS_WS_Port;
@@ -136,7 +136,7 @@ namespace ProxySU_Core.Models.Developers
 
 
 
-            if (parameters.Types.Contains(XrayType.VMESS_TCP_TLS))
+            if (parameters.Types.Contains(XrayType.VMESS_TCP))
             {
                 var mtcpBound = LoadJsonObj(Path.Combine(ServerInboundsDir, "VMESS_TCP_TLS.json"));
                 mtcpBound.port = VMESS_TCP_Port;
@@ -151,7 +151,7 @@ namespace ProxySU_Core.Models.Developers
                 xrayConfig.inbounds.Add(JToken.FromObject(mtcpBound));
             }
 
-            if (parameters.Types.Contains(XrayType.VMESS_WS_TLS))
+            if (parameters.Types.Contains(XrayType.VMESS_WS))
             {
                 var mwsBound = LoadJsonObj(Path.Combine(ServerInboundsDir, "VMESS_WS_TLS.json"));
                 mwsBound.port = VMESS_WS_Port;
@@ -166,7 +166,7 @@ namespace ProxySU_Core.Models.Developers
                 xrayConfig.inbounds.Add(JToken.FromObject(mwsBound));
             }
 
-            if (parameters.Types.Contains(XrayType.Trojan_TCP_TLS))
+            if (parameters.Types.Contains(XrayType.Trojan_TCP))
             {
                 var trojanTcpBound = LoadJsonObj(Path.Combine(ServerInboundsDir, "Trojan_TCP_TLS.json"));
                 trojanTcpBound.port = Trojan_TCP_Port;
@@ -179,7 +179,7 @@ namespace ProxySU_Core.Models.Developers
                 xrayConfig.inbounds.Add(JToken.FromObject(trojanTcpBound));
             }
 
-            if (parameters.Types.Contains(XrayType.Trojan_WS_TLS)) { }
+            if (parameters.Types.Contains(XrayType.Trojan_WS)) { }
 
             return JsonConvert.SerializeObject(
                 xrayConfig,

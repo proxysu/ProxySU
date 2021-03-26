@@ -15,13 +15,13 @@ namespace ProxySU_Core.Models
         {
             switch (xrayType)
             {
-                case XrayType.VLESS_TCP_TLS:
+                case XrayType.VLESS_TCP:
                 case XrayType.VLESS_TCP_XTLS:
-                case XrayType.VLESS_WS_TLS:
-                case XrayType.Trojan_TCP_TLS:
+                case XrayType.VLESS_WS:
+                case XrayType.Trojan_TCP:
                     return BuildVlessShareLink(xrayType, settings);
-                case XrayType.VMESS_TCP_TLS:
-                case XrayType.VMESS_WS_TLS:
+                case XrayType.VMESS_TCP:
+                case XrayType.VMESS_WS:
                     return BuildVmessShareLink(xrayType, settings);
                 default:
                     return string.Empty;
@@ -49,13 +49,13 @@ namespace ProxySU_Core.Models
 
             switch (xrayType)
             {
-                case XrayType.VMESS_TCP_TLS:
+                case XrayType.VMESS_TCP:
                     vmess.ps = "vmess-tcp-tls";
                     vmess.net = "tcp";
                     vmess.type = "http";
                     vmess.path = settings.VMESS_TCP_Path;
                     break;
-                case XrayType.VMESS_WS_TLS:
+                case XrayType.VMESS_WS:
                     vmess.ps = "vmess-ws-tls";
                     vmess.net = "ws";
                     vmess.type = "none";
@@ -84,10 +84,9 @@ namespace ProxySU_Core.Models
 
             switch (xrayType)
             {
-                case XrayType.VLESS_TCP_TLS:
+                case XrayType.VLESS_TCP:
                     _protocol = "vless";
                     _type = "tcp";
-                    _path = settings.VLESS_TCP_Path;
                     _encryption = "none";
                     _descriptiveText = "vless-tcp-tls";
                     break;
@@ -98,28 +97,28 @@ namespace ProxySU_Core.Models
                     _encryption = "none";
                     _descriptiveText = "vless-tcp-xtls";
                     break;
-                case XrayType.VLESS_WS_TLS:
+                case XrayType.VLESS_WS:
                     _protocol = "vless";
                     _type = "ws";
                     _path = settings.VLESS_WS_Path;
                     _encryption = "none";
                     _descriptiveText = "vless-ws-tls";
                     break;
-                case XrayType.VMESS_TCP_TLS:
+                case XrayType.VMESS_TCP:
                     _protocol = "vmess";
                     _type = "tcp";
                     _path = settings.VMESS_TCP_Path;
                     _encryption = "auto";
                     _descriptiveText = "vmess-tcp-tls";
                     break;
-                case XrayType.VMESS_WS_TLS:
+                case XrayType.VMESS_WS:
                     _protocol = "vmess";
                     _type = "ws";
                     _path = settings.VMESS_WS_Path;
                     _encryption = "auto";
                     _descriptiveText = "vmess-ws-tls";
                     break;
-                case XrayType.Trojan_TCP_TLS:
+                case XrayType.Trojan_TCP:
                     _protocol = "trojan";
                     _descriptiveText = "trojan-tcp";
                     break;
@@ -129,7 +128,7 @@ namespace ProxySU_Core.Models
 
 
             string parametersURL = string.Empty;
-            if (xrayType != XrayType.Trojan_TCP_TLS)
+            if (xrayType != XrayType.Trojan_TCP)
             {
                 // 4.3 传输层相关段
                 parametersURL = $"?type={_type}&encryption={_encryption}&security={_security}&host={_host}&path={HttpUtility.UrlEncode(_path)}";

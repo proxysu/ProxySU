@@ -13,6 +13,7 @@
     <Window.Resources>
         <converters:LoginSecretTypeConverter x:Key="LoginSecretTypeConverter" />
         <converters:ProxyTypeConverter x:Key="ProxyTypeConverter" />
+        <converters:VisibleConverter x:Key="VisibleConverter" />
     </Window.Resources>
 
     <Grid>
@@ -98,7 +99,7 @@
                             Content="{DynamicResource KeyLogin}" />
                     </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0" Visibility="{Binding PasswordVisiblity}">
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0" Visibility="{Binding Host.PasswordVisiblity}">
                         <TextBlock
                             Width="100"
                             Text="{DynamicResource HostPassword}"
@@ -223,7 +224,7 @@
                     <StackPanel>
                         <CheckBox Content="VLESS OVER TCP with XTLS" 
                           Style="{StaticResource MahApps.Styles.CheckBox}" 
-                          IsChecked="{Binding Path=Settings.Checked_VLESS_XTLS}"
+                          IsChecked="{Binding Path=Settings.Checked_VLESS_TCP_XTLS}"
                           Margin="0,10,0,0" />
                         <Label Content="数倍性能，首选方式，不支持CDN" Margin="20,0,0,0"  />
 
@@ -251,11 +252,24 @@
                           Margin="0,10,0,0" />
                         <Label Content="常规，支持CDN" Margin="20,0,0,0" />
 
+                        <CheckBox Content="VMess mKCP" 
+                          Style="{StaticResource MahApps.Styles.CheckBox}" 
+                          IsChecked="{Binding Path=Settings.Checked_VMESS_KCP}"
+                          Margin="0,10,0,0" />
+                        <Label Content="低延迟，适用于游戏" Margin="20,0,0,0" />
+
                         <CheckBox Content="Trojan over TCP with TLS" 
                           Style="{StaticResource MahApps.Styles.CheckBox}" 
                           IsChecked="{Binding Path=Settings.Checked_Trojan_TCP}"
                           Margin="0,10,0,0" />
                         <Label Content="Torjan协议，不支持CDN" Margin="20,0,0,0" />
+
+                        <CheckBox Content="ShadowSocksAEAD" 
+                          Style="{StaticResource MahApps.Styles.CheckBox}" 
+                          IsChecked="{Binding Path=Settings.CheckedShadowSocks}"
+                          Margin="0,10,0,0" />
+                        <Label Content="俗称SS" Margin="20,0,0,0" />
+
                     </StackPanel>
 
                     <StackPanel Margin="60,0,0,0">
@@ -278,39 +292,97 @@
                             <TextBox Text="{Binding Path=Settings.MaskDomain}" Width="200" />
                         </StackPanel>
 
-                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal" Visibility="{Binding Settings.VLESS_TCP_Path_Visibility}">
-                            <Label Content="VLESS-TCP-Path" Width="120" VerticalAlignment="Center" />
-                            <TextBox Text="{Binding Path=Settings.VLESS_TCP_Path}"
-                                IsEnabled="{Binding Checked_VLESS_TCP}"
-                                Width="200" />
-                        </StackPanel>
-
-                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal" Visibility="{Binding Settings.VLESS_WS_Path_Visibility}">
-                            <Label Content="VLESS-WS-Path" Width="120" VerticalAlignment="Center" />
+                        <StackPanel Margin="0,10,0,0" 
+                                    Orientation="Horizontal"
+                                    Visibility="{
+                                        Binding Path=Settings.Checked_VLESS_WS,
+                                        Converter={StaticResource VisibleConverter}
+                                    }">
+                            <Label Content="VLESS-WS" Width="80" VerticalAlignment="Center" />
                             <TextBox Text="{Binding Path=Settings.VLESS_WS_Path}"
-                         IsEnabled="{Binding Checked_VLESS_WS}"
-                         Width="200" />
+                                     Width="200" />
                         </StackPanel>
 
-                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal" Visibility="{Binding Settings.VMESS_TCP_Path_Visibility}">
-                            <Label Content="VMESS-TCP-Path" Width="120" VerticalAlignment="Center" />
+                        <StackPanel Margin="0,10,0,0" 
+                                    Orientation="Horizontal" 
+                                    Visibility="{
+                                        Binding Path=Settings.Checked_VMESS_TCP,
+                                        Converter={StaticResource VisibleConverter}
+                                    }">
+                            <Label Content="VMESS-TCP" Width="80" VerticalAlignment="Center" />
                             <TextBox Text="{Binding Path=Settings.VMESS_TCP_Path}"
-                             IsEnabled="{Binding Checked_VMESS_TCP}"
-                             Width="200" />
+                                     Width="200" />
                         </StackPanel>
 
-                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal" Visibility="{Binding Settings.VMESS_WS_Path_Visibility}">
-                            <Label Content="VMESS-WS-Path" Width="120" VerticalAlignment="Center" />
+                        <StackPanel Margin="0,10,0,0" 
+                                    Orientation="Horizontal" 
+                                    Visibility="{
+                                        Binding Path=Settings.Checked_VMESS_WS,
+                                        Converter={StaticResource VisibleConverter}
+                                    }">
+                            <Label Content="VMESS-WS" Width="80" VerticalAlignment="Center" />
                             <TextBox Text="{Binding Path=Settings.VMESS_WS_Path}"
-                             IsEnabled="{Binding Checked_VMESS_WS}"
-                             Width="200" />
+                                     Width="200" />
                         </StackPanel>
 
-                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal" Visibility="{Binding Settings.Trojan_TCP_Pwd_Visibility}">
+                        <StackPanel Margin="0,10,0,0" 
+                                    Orientation="Horizontal" 
+                                    Visibility="{
+                                        Binding Path=Settings.Checked_Trojan_TCP,
+                                        Converter={StaticResource VisibleConverter}
+                                    }">
                             <Label Content="Trojan密码" Width="80" VerticalAlignment="Center" />
                             <TextBox Text="{Binding Path=Settings.TrojanPassword}" 
-                             IsEnabled="{Binding Checked_Trojan_TCP}"
-                             Width="200" />
+                                     Width="200" />
+                        </StackPanel>
+
+                        <StackPanel Margin="0,10,0,0"
+                                    Orientation="Horizontal"
+                                    Visibility="{
+                                        Binding Path=Settings.Checked_VMESS_KCP,
+                                        Converter={StaticResource VisibleConverter}
+                                    }">
+                            <Label Content="KCP伪装" Width="80" VerticalAlignment="Center"/>
+                            <ComboBox Width="200" 
+                                      ItemsSource="{Binding Path=Settings.KcpTypes}"
+                                      SelectedValue="{Binding Settings.VMESS_KCP_Type,Mode=TwoWay}">
+                            </ComboBox>
+                        </StackPanel>
+
+                        <StackPanel Margin="0,10,0,0" 
+                                    Orientation="Horizontal" 
+                                    Visibility="{
+                                        Binding Path=Settings.Checked_VMESS_KCP,
+                                        Converter={StaticResource VisibleConverter}
+                                    }">
+                            <Label Content="KCP Seed" Width="80" VerticalAlignment="Center" />
+                            <TextBox Text="{Binding Path=Settings.VMESS_KCP_Seed}"
+                                     Width="200"/>
+                        </StackPanel>
+
+
+                        <StackPanel Margin="0,10,0,0" 
+                                    Orientation="Horizontal" 
+                                    Visibility="{
+                                        Binding Path=Settings.CheckedShadowSocks,
+                                        Converter={StaticResource VisibleConverter}
+                                    }">
+                            <Label Content="SS 密码" Width="80" VerticalAlignment="Center" />
+                            <TextBox Text="{Binding Path=Settings.ShadowSocksPassword}"
+                                     Width="200"/>
+                        </StackPanel>
+
+                        <StackPanel Margin="0,10,0,0" 
+                                    Orientation="Horizontal" 
+                                    Visibility="{
+                                        Binding Path=Settings.CheckedShadowSocks,
+                                        Converter={StaticResource VisibleConverter}
+                                    }">
+                            <Label Content="SS 加密方式" Width="80" VerticalAlignment="Center" />
+                            <ComboBox Width="200" 
+                                      ItemsSource="{Binding Settings.ShadowSocksMethods}"
+                                      SelectedValue="{Binding Settings.ShadowSocksMethod}">
+                            </ComboBox>
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>

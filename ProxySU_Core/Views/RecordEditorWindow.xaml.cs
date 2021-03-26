@@ -53,5 +53,6 @@ namespace ProxySU_Core.Views
         {
             Settings.UUID = Guid.NewGuid().ToString();
         }
+
     }
 }
