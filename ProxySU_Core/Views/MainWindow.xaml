@@ -107,10 +107,10 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Content="{DynamicResource Connect}" FontSize="12" Height="24" Click="Connect" />
-                                            <Button Content="{DynamicResource Edit}" FontSize="12" Height="24" Margin="10,0,0,0" Click="EditHost" />
+                                            <Button Content="控制台" FontSize="12" Height="24" Click="Connect" />
                                             <Button Content="查看配置" FontSize="12" Height="24" Margin="10,0,0,0" Click="ShowClientInfo" />
-                                            <Button Content="{DynamicResource Delete}" FontSize="12"  Height="24" Margin="10,0,0,0" Click="DeleteHost" BorderBrush="IndianRed" Background="IndianRed" />
+                                            <Button Content="编辑" FontSize="12" Height="24" Margin="10,0,0,0" Click="EditHost" />
+                                            <Button Content="删除" FontSize="12"  Height="24" Margin="10,0,0,0" Click="DeleteHost" BorderBrush="IndianRed" Background="IndianRed" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>

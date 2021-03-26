@@ -46,6 +46,13 @@
                         Height="26"
                         IsEnabled="{Binding HasConnected}"
                         Width="120"/>
+
+                <Button Content="卸载代理"
+                        Margin="10,0,0,0"
+                        Click="UninstallXray"
+                        Height="26"
+                        Width="120"
+                        IsEnabled="{Binding HasConnected}"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal"
@@ -54,7 +61,7 @@
                            VerticalAlignment="Center"
                            Margin="0,0,10,0"/>
 
-                <Button Content="生成证书"
+                <Button Content="申请证书"
                         Margin="0,0,0,0"
                         Height="26"
                         Width="120"

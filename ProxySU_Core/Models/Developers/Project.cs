@@ -357,29 +357,16 @@ namespace ProxySU_Core.Models.Developers
             RunCmd("rm -rf caddy_install.sh");
             RunCmd("curl -o caddy_install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/Caddy-Naive/caddy-naive-install.sh");
             RunCmd("yes | bash caddy_install.sh");
+            RunCmd("rm -rf caddy_install.sh");
+        }
 
-            //if (CmdType == CmdType.Apt)
-            //{
-            //    RunCmd("sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https");
-            //    RunCmd("curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo apt-key add -");
-            //    RunCmd("curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee -a /etc/apt/sources.list.d/caddy-stable.list");
-            //    RunCmd(GetUpdateCmd());
-            //    RunCmd("sudo apt install caddy");
-            //}
-            //else if (CmdType == CmdType.Dnf)
-            //{
-            //    RunCmd("echo y | dnf install 'dnf-command(copr)'");
-            //    RunCmd("echo y | dnf copr enable @caddy/caddy");
-            //    RunCmd(GetUpdateCmd());
-            //    RunCmd("dnf install caddy");
-            //}
-            //else if (CmdType == CmdType.Yum)
-            //{
-            //    RunCmd("echo y | echo y | yum install yum-plugin-copr");
-            //    RunCmd("echo y | echo y | yum copr enable @caddy/caddy");
-            //    RunCmd(GetUpdateCmd());
-            //    RunCmd("yum install caddy");
-            //}
+        protected void UninstallCaddy()
+        {
+            RunCmd("rm -rf caddy_install.sh");
+            RunCmd("curl -o caddy_install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/Caddy-Naive/caddy-naive-install.sh");
+            RunCmd("yes | bash caddy_install.sh uninstall");
+            RunCmd("rm -rf caddy_install.sh");
+            RunCmd("rm -rf /usr/share/caddy");
         }
 
 

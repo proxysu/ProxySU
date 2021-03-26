@@ -23,7 +23,11 @@ namespace ProxySU_Core.ViewModels
         public string UUID
         {
             get => settings.UUID;
-            set => settings.UUID = value;
+            set
+            {
+                settings.UUID = value;
+                Notify("UUID");
+            }
         }
 
         public string Domain

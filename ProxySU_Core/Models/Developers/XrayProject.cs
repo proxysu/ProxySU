@@ -69,7 +69,7 @@ namespace ProxySU_Core.Models.Developers
                 ConfigureFirewall();
                 WriteOutput("防火墙配置完成");
 
-                WriteOutput("同步系统和本地世间...");
+                WriteOutput("同步系统和本地时间...");
                 SyncTimeDiff();
                 WriteOutput("时间同步完成");
 
@@ -96,8 +96,23 @@ namespace ProxySU_Core.Models.Developers
             }
             catch (Exception ex)
             {
-                MessageBox.Show("安装终止，" + ex.Message);
+                var errorLog = "安装终止，" + ex.Message;
+                WriteOutput(errorLog);
+                MessageBox.Show(errorLog);
             }
+        }
+
+        public void Uninstall()
+        {
+            EnsureRootAuth();
+            WriteOutput("卸载Caddy");
+            UninstallCaddy();
+            WriteOutput("卸载Xray");
+            UninstallXray();
+            WriteOutput("卸载证书");
+            UninstallAcme();
+
+            WriteOutput("************ 卸载完成 ************");
         }
 
         /// <summary>
@@ -286,12 +301,24 @@ namespace ProxySU_Core.Models.Developers
 
         }
 
+        private void UninstallXray()
+        {
+            RunCmd("bash -c \"$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)\" @ remove");
+        }
+
+        private void UninstallAcme()
+        {
+            RunCmd("acme.sh --uninstall");
+            RunCmd("rm -r  ~/.acme.sh");
+        }
+
         private void InstallXrayWithCert()
         {
             RunCmd("bash -c \"$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)\" @ install");
 
             if (!FileExists("/usr/local/bin/xray"))
             {
+                WriteOutput("Xray-Core安装失败，请联系开发者");
                 throw new Exception("Xray-Core安装失败，请联系开发者");
             }
 
@@ -333,6 +360,7 @@ namespace ProxySU_Core.Models.Developers
             }
             else
             {
+                WriteOutput("安装 acme.sh 失败，请联系开发者！");
                 throw new Exception("安装 acme.sh 失败，请联系开发者！");
             }
 
@@ -357,6 +385,7 @@ namespace ProxySU_Core.Models.Developers
             }
             else
             {
+                WriteOutput("申请证书失败，请联系开发者！");
                 throw new Exception("申请证书失败，请联系开发者！");
             }
 
@@ -370,6 +399,7 @@ namespace ProxySU_Core.Models.Developers
             }
             else
             {
+                WriteOutput("安装证书失败，请联系开发者！");
                 throw new Exception("安装证书失败，请联系开发者！");
             }
 

@@ -15,7 +15,11 @@
     "network": "tcp",
     "security": "xtls",
     "xtlsSettings": {
-      "alpn": [ "h2", "http/1.1" ],
+      "allowInsecure": false,
+      "minVersion": "1.2",
+      "alpn": [
+        "http/1.1"
+      ],
       "certificates": [
         {
           "certificateFile": "/usr/local/etc/xray/ssl/xray_ssl.crt",

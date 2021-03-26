@@ -254,7 +254,7 @@
             <TabItem Width="200" 
                      IsEnabled="{Binding Settings.Checked_VMESS_WS}"
                      Style="{StaticResource MaterialDesignNavigationRailTabItem}"
-                     Header="VLESS-WebSocket-TLS">
+                     Header="VMESS-WebSocket-TLS">
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
                         <Label Content="地址(address)" Width="120" />
