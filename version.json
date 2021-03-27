@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<item>
-    <version>3.1.0</version>
-    <url>https://github.com/proxysu/ProxySU/releases/download/v3.0.1/ProySU-Core.zip</url>
-    <changelog>https://github.com/proxysu/ProxySU/releases/tag/v3.0.1</changelog>
-    <mandatory>false</mandatory>
-</item>
