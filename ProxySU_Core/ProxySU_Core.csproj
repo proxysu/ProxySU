@@ -243,7 +243,9 @@
     <None Include="Templates\xray\server\05_inbounds\05_inbounds.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Templates\xray\server\05_inbounds\Shadowsocks-AEAD.json" />
+    <None Include="Templates\xray\server\05_inbounds\Shadowsocks-AEAD.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Templates\xray\server\05_inbounds\Trojan_TCP.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

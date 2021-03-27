@@ -45,7 +45,6 @@ namespace ProxySU_Core.ViewModels
             set => settings.MaskDomain = value;
         }
 
-
         public string TrojanPassword
         {
             get => settings.TrojanPassword;
@@ -165,11 +164,11 @@ namespace ProxySU_Core.ViewModels
             get => settings.VMESS_WS_Path;
             set => settings.VMESS_WS_Path = value;
         }
-        public string VMESS_WS_TLS_ShareLink
+        public string VMESS_WS_ShareLink
         {
             get => ShareLink.Build(XrayType.VMESS_WS, settings);
         }
-
+        
         // vmess kcp
         public string VMESS_KCP_Seed
         {

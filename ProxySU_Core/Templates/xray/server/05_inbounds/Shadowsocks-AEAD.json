@@ -4,7 +4,7 @@
   "settings": {
     "clients": [
       {
-        "password": "example_user_1",
+        "password": "",
         "method": "aes-128-gcm"
       }
     ],

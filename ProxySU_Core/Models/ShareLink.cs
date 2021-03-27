@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using ProxySU_Core.Common;
+using ProxySU_Core.Models.Developers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace ProxySU_Core.Models
     {
         public static string Build(XrayType xrayType, XraySettings settings)
         {
+
             switch (xrayType)
             {
                 case XrayType.VLESS_TCP:
@@ -22,12 +24,25 @@ namespace ProxySU_Core.Models
                     return BuildVlessShareLink(xrayType, settings);
                 case XrayType.VMESS_TCP:
                 case XrayType.VMESS_WS:
+                case XrayType.VMESS_KCP:
                     return BuildVmessShareLink(xrayType, settings);
+                case XrayType.ShadowsocksAEAD:
+                    return BuildShadowSocksShareLink(settings);
                 default:
                     return string.Empty;
             }
         }
 
+        private static string BuildShadowSocksShareLink(XraySettings settings)
+        {
+            var _method = settings.ShadowsocksMethod;
+            var _password = settings.ShadowsocksPassword;
+            var _server = settings.Domain;
+            var _port = ConfigBuilder.ShadowSocksPort;
+
+            var base64URL = Base64.Encode($"{_method}:{_password}@{_server}:{_port}");
+            return "ss://" + base64URL;
+        }
 
         private static string BuildVmessShareLink(XrayType xrayType, XraySettings settings)
         {
@@ -46,7 +61,6 @@ namespace ProxySU_Core.Models
                 ps = "",
             };
 
-
             switch (xrayType)
             {
                 case XrayType.VMESS_TCP:
@@ -60,6 +74,14 @@ namespace ProxySU_Core.Models
                     vmess.net = "ws";
                     vmess.type = "none";
                     vmess.path = settings.VMESS_WS_Path;
+                    break;
+                case XrayType.VMESS_KCP:
+                    vmess.ps = "vmess-mKCP";
+                    vmess.port = ConfigBuilder.VMESS_mKCP_Port.ToString();
+                    vmess.net = "kcp";
+                    vmess.type = settings.VMESS_KCP_Type;
+                    vmess.path = settings.VMESS_KCP_Seed;
+                    vmess.tls = "";
                     break;
                 default:
                     return string.Empty;
@@ -120,6 +142,7 @@ namespace ProxySU_Core.Models
                     break;
                 case XrayType.Trojan_TCP:
                     _protocol = "trojan";
+                    _uuid = settings.TrojanPassword;
                     _descriptiveText = "trojan-tcp";
                     break;
                 default:
