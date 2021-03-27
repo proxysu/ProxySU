@@ -1,14 +1,7 @@
-{
-   "version":"3.1.0",
-   "url":"http://rbsoft.org/downloads/AutoUpdaterTest.zip",
-   "changelog":"https://github.com/ravibpatel/AutoUpdater.NET/releases",
-   "mandatory":{
-      "value":true,
-      "minVersion": "3.1.0",
-      "mode":1
-   },
-   "checksum":{
-      "value":"E5F59E50FC91A9E52634FFCB11F32BD37FE0E2F1",
-      "hashingAlgorithm":"SHA1"
-   }
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<item>
+    <version>3.1.0</version>
+    <url>http://rbsoft.org/downloads/AutoUpdaterTest.zip</url>
+    <changelog>https://github.com/ravibpatel/AutoUpdater.NET/releases</changelog>
+    <mandatory>false</mandatory>
+</item>
