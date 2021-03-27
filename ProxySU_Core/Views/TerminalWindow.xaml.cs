@@ -114,7 +114,9 @@ namespace ProxySU_Core
             }
             catch (Exception ex)
             {
+                WriteOutput("登陆失败！");
                 WriteOutput(ex.Message);
+                return;
             }
             WriteOutput("登陆服务器成功！");
 

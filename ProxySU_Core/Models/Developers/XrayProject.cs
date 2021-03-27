@@ -111,6 +111,8 @@ namespace ProxySU_Core.Models.Developers
             UninstallXray();
             WriteOutput("卸载证书");
             UninstallAcme();
+            WriteOutput("关闭端口");
+            ClosePort(ConfigBuilder.ShadowSocksPort, ConfigBuilder.VLESS_mKCP_Port, ConfigBuilder.VMESS_mKCP_Port);
 
             WriteOutput("************ 卸载完成 ************");
         }
@@ -134,6 +136,7 @@ namespace ProxySU_Core.Models.Developers
         {
             EnsureRootAuth();
             EnsureSystemEnv();
+            ConfigureFirewall();
             var configJson = ConfigBuilder.BuildXrayConfig(Parameters);
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(configJson));
             RunCmd("rm -rf /usr/local/etc/xray/config.json");
