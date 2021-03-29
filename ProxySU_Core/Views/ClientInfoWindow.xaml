@@ -5,8 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"       
         xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:local="clr-namespace:ProxySU_Core.Views"
+        xmlns:dev="clr-namespace:ProxySU_Core.Models.Developers"
         mc:Ignorable="d"
-        Title="查看配置" Height="450" Width="800">
+        Title="查看配置" Height="500" Width="800">
+
+
     <Grid>
         <TabControl 
             Background="#fff"
@@ -34,7 +37,7 @@
 
                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                         <Label Content="流控(flow)" Width="120" />
-                        <TextBox Text="xtls-rprx-direct" IsReadOnly="True" Width="200" />
+                        <TextBox Text="xtls-rprx-splice" IsReadOnly="True" Width="200" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
@@ -130,7 +133,7 @@
 
                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                         <Label Content="分享链接" Width="120" />
-                        <TextBox Text="{Binding Settings.VLESS_TCP_TLS_ShareLink,Mode=OneTime}" Width="300" IsReadOnly="True" />
+                        <TextBox Text="{Binding Settings.VLESS_TCP_ShareLink,Mode=OneTime}" Width="300" IsReadOnly="True" />
                     </StackPanel>
                 </StackPanel>
             </TabItem>
@@ -191,7 +194,7 @@
 
                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                         <Label Content="分享链接" Width="120" />
-                        <TextBox Text="{Binding Settings.VLESS_WS_TLS_ShareLink,Mode=OneTime}" Width="300" IsReadOnly="True" />
+                        <TextBox Text="{Binding Settings.VLESS_WS_ShareLink,Mode=OneTime}" Width="300" IsReadOnly="True" />
                     </StackPanel>
                 </StackPanel>
             </TabItem>
@@ -247,14 +250,14 @@
 
                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                         <Label Content="分享链接" Width="120" />
-                        <TextBox Text="{Binding Settings.VMESS_TCP_TLS_ShareLink,Mode=OneTime}" Width="300" IsReadOnly="True" />
+                        <TextBox Text="{Binding Settings.VMESS_TCP_ShareLink,Mode=OneTime}" Width="300" IsReadOnly="True" />
                     </StackPanel>
                 </StackPanel>
             </TabItem>
             <TabItem Width="200" 
                      IsEnabled="{Binding Settings.Checked_VMESS_WS}"
                      Style="{StaticResource MaterialDesignNavigationRailTabItem}"
-                     Header="VLESS-WebSocket-TLS">
+                     Header="VMESS-WebSocket-TLS">
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
                         <Label Content="地址(address)" Width="120" />
@@ -303,7 +306,63 @@
 
                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                         <Label Content="分享链接" Width="120" />
-                        <TextBox Text="{Binding Settings.VMESS_WS_TLS_ShareLink,Mode=OneTime}" Width="300" IsReadOnly="True" />
+                        <TextBox Text="{Binding Settings.VMESS_WS_ShareLink,Mode=OneTime}" Width="300" IsReadOnly="True" />
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+            <TabItem Width="200" 
+                     IsEnabled="{Binding Settings.Checked_VMESS_WS}"
+                     Style="{StaticResource MaterialDesignNavigationRailTabItem}"
+                     Header="VMESS-mKCP">
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="地址(address)" Width="120" />
+                        <TextBox Text="{Binding Settings.Domain}" IsReadOnly="True" Width="200" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <Label Content="端口(port)" Width="120" />
+                        <TextBox Text="{Binding Source={x:Static dev:ConfigBuilder.VMESS_mKCP_Port},Mode=OneTime}" IsReadOnly="True" Width="200" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <Label Content="用户ID(id)" Width="120" />
+                        <TextBox Text="{Binding Settings.UUID}" IsReadOnly="True" Width="300" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <Label Content="加密(security)" Width="120" />
+                        <TextBox Text="none" IsReadOnly="True" Width="200" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <Label Content="传输协议(network)" Width="120" />
+                        <TextBox Text="kcp" IsReadOnly="True" Width="200" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <Label Content="伪装类型(type)" Width="120" />
+                        <TextBox Text="{Binding Settings.VMESS_KCP_Type}" IsReadOnly="True" Width="200" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <Label Content="伪装域名(host)" Width="120" />
+                        <TextBox Text="{Binding Settings.Domain}" IsReadOnly="True" Width="200" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <Label Content="路径(path)" Width="120" />
+                        <TextBox Text="{Binding Settings.VMESS_KCP_Seed}" IsReadOnly="True" Width="200" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <Label Content="传输安全(tls)" Width="120" />
+                        <TextBox Text="" IsReadOnly="True" Width="200" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <Label Content="分享链接" Width="120" />
+                        <TextBox Text="{Binding Settings.VMESS_KCP_ShareLink,Mode=OneTime}" Width="300" IsReadOnly="True" />
                     </StackPanel>
                 </StackPanel>
             </TabItem>
@@ -329,11 +388,41 @@
 
                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                         <Label Content="分享链接" Width="120" />
-                        <TextBox Text="{Binding Settings.Trojan_TCP_TLS_ShareLink,Mode=OneTime}" Width="300" IsReadOnly="True" />
+                        <TextBox Text="{Binding Settings.Trojan_TCP_ShareLink,Mode=OneTime}" Width="300" IsReadOnly="True" />
                     </StackPanel>
                 </StackPanel>
             </TabItem>
+            <TabItem Width="200"
+                     IsEnabled="{Binding Settings.CheckedShadowSocks}"
+                     Style="{StaticResource MaterialDesignNavigationRailTabItem}"
+                     Header="ShadowSocks">
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="服务器地址" Width="120" />
+                        <TextBox Text="{Binding Settings.Domain}" IsReadOnly="True" Width="200" />
+                    </StackPanel>
 
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <Label Content="服务器端口" Width="120" />
+                        <TextBox Text="{Binding Source={x:Static dev:ConfigBuilder.ShadowSocksPort},Mode=OneTime}" IsReadOnly="True" Width="200" />
+                    </StackPanel>
+                    
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <Label Content="密码" Width="120" />
+                        <TextBox Text="{Binding Settings.ShadowSocksPassword}" IsReadOnly="True" Width="300" />
+                    </StackPanel>
+                    
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <Label Content="加密方式" Width="120" />
+                        <TextBox Text="{Binding Settings.ShadowSocksMethod}" IsReadOnly="True" Width="300" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <Label Content="分享链接" Width="120" />
+                        <TextBox Text="{Binding Settings.ShadowSocksShareLink,Mode=OneTime}" Width="300" IsReadOnly="True" />
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
         </TabControl>
     </Grid>
 </metro:MetroWindow>

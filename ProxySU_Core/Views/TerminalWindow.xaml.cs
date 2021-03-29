@@ -44,7 +44,6 @@ namespace ProxySU_Core
             _vm = new Terminal(record.Host);
             DataContext = _vm;
 
-            WriteOutput("Connect ...");
             Task.Factory.StartNew(() =>
             {
                 try
@@ -105,10 +104,21 @@ namespace ProxySU_Core
 
         private void OpenConnect(Host host)
         {
+
+            WriteOutput("正在登陆服务器 ...");
             var conneInfo = CreateConnectionInfo(host);
             _sshClient = new SshClient(conneInfo);
-            _sshClient.Connect();
-            WriteOutput("Connected");
+            try
+            {
+                _sshClient.Connect();
+            }
+            catch (Exception ex)
+            {
+                WriteOutput("登陆失败！");
+                WriteOutput(ex.Message);
+                return;
+            }
+            WriteOutput("登陆服务器成功！");
 
             _vm.HasConnected = true;
             project = new XrayProject(_sshClient, Record.Settings, WriteOutput);
@@ -156,6 +166,14 @@ namespace ProxySU_Core
             Task.Factory.StartNew(() =>
             {
                 project.InstallCert();
+            });
+        }
+
+        private void UninstallXray(object sender, RoutedEventArgs e)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                project.Uninstall();
             });
         }
 

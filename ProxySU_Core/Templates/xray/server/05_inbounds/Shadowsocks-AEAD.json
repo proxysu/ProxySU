@@ -1,0 +1,13 @@
+{
+  "port": 12345,
+  "protocol": "shadowsocks",
+  "settings": {
+    "clients": [
+      {
+        "password": "",
+        "method": "aes-128-gcm"
+      }
+    ],
+    "network": "tcp,udp"
+  }
+}

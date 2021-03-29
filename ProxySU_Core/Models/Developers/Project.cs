@@ -222,10 +222,7 @@ namespace ProxySU_Core.Models.Developers
             }
         }
 
-        /// <summary>
-        /// 配置防火墙
-        /// </summary>
-        protected void ConfigureFirewall()
+        protected void ClosePort(params int[] portList)
         {
             string cmd;
 
@@ -240,41 +237,86 @@ namespace ProxySU_Core.Models.Developers
                     RunCmd("systemctl restart firewalld");
                 }
 
-                if (Parameters.Port == 443)
+                foreach (var port in portList)
                 {
-                    RunCmd("firewall-cmd --zone=public --add-port=80/tcp --permanent");
-                    RunCmd("firewall-cmd --zone=public --add-port=443/tcp --permanent");
-                    RunCmd("firewall-cmd --zone=public --add-port=80/udp --permanent");
-                    RunCmd("firewall-cmd --zone=public --add-port=443/udp --permanent");
-                    RunCmd("yes | firewall-cmd --reload");
+                    RunCmd($"firewall-cmd --zone=public --remove-port={port}/tcp --permanent");
+                    RunCmd($"firewall-cmd --zone=public --remove-port={port}/udp --permanent");
                 }
-                else
-                {
-                    RunCmd($"firewall-cmd --zone=public --add-port={Parameters.Port}/tcp --permanent");
-                    RunCmd($"firewall-cmd --zone=public --add-port={Parameters.Port}/udp --permanent");
-                    RunCmd("yes | firewall-cmd --reload");
-                }
-                return;
+                RunCmd("yes | firewall-cmd --reload");
             }
+            else
+            {
+                cmd = RunCmd("command -v ufw");
+                if (!string.IsNullOrEmpty(cmd))
+                {
+                    foreach (var port in portList)
+                    {
+                        RunCmd($"ufw delete allow {port}/tcp");
+                        RunCmd($"ufw delete allow {port}/udp");
+                    }
+                    RunCmd("yes | ufw reload");
+                }
+            }
+        }
 
-            cmd = RunCmd("command -v ufw");
+        protected void OpenPort(params int[] portList)
+        {
+
+            string cmd;
+
+            cmd = RunCmd("command -v firewall-cmd");
             if (!string.IsNullOrEmpty(cmd))
             {
-                if (Parameters.Port == 443)
+                //有很奇怪的vps主机，在firewalld未运行时，端口是关闭的，无法访问。所以要先启动firewalld
+                //用于保证acme.sh申请证书成功
+                cmd = RunCmd("firewall-cmd --state");
+                if (cmd.Trim() != "running")
                 {
-                    RunCmd("ufw allow 80/tcp");
-                    RunCmd("ufw allow 443/tcp");
-                    RunCmd("ufw allow 80/udp");
-                    RunCmd("ufw allow 443/udp");
-                    RunCmd("yes | ufw reload");
+                    RunCmd("systemctl restart firewalld");
                 }
-                else
+
+                foreach (var port in portList)
                 {
-                    RunCmd($"ufw allow {Parameters.Port}/tcp");
-                    RunCmd($"ufw allow {Parameters.Port}/udp");
+                    RunCmd($"firewall-cmd --zone=public --add-port={port}/tcp --permanent");
+                    RunCmd($"firewall-cmd --zone=public --add-port={port}/udp --permanent");
+                }
+                RunCmd("yes | firewall-cmd --reload");
+            }
+            else
+            {
+                cmd = RunCmd("command -v ufw");
+                if (!string.IsNullOrEmpty(cmd))
+                {
+                    foreach (var port in portList)
+                    {
+                        RunCmd($"ufw allow {port}/tcp");
+                        RunCmd($"ufw allow {port}/udp");
+                    }
                     RunCmd("yes | ufw reload");
                 }
             }
+        }
+
+        /// <summary>
+        /// 配置防火墙
+        /// </summary>
+        protected void ConfigureFirewall()
+        {
+            var portList = new List<int>();
+            portList.Add(80);
+            portList.Add(Parameters.Port);
+
+            if (Parameters.Types.Contains(XrayType.ShadowsocksAEAD))
+            {
+                portList.Add(ConfigBuilder.ShadowSocksPort);
+            }
+
+            if (Parameters.Types.Contains(XrayType.VMESS_KCP))
+            {
+                portList.Add(ConfigBuilder.VMESS_mKCP_Port);
+            }
+
+            OpenPort(portList.ToArray());
         }
 
         /// <summary>
@@ -357,29 +399,16 @@ namespace ProxySU_Core.Models.Developers
             RunCmd("rm -rf caddy_install.sh");
             RunCmd("curl -o caddy_install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/Caddy-Naive/caddy-naive-install.sh");
             RunCmd("yes | bash caddy_install.sh");
+            RunCmd("rm -rf caddy_install.sh");
+        }
 
-            //if (CmdType == CmdType.Apt)
-            //{
-            //    RunCmd("sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https");
-            //    RunCmd("curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo apt-key add -");
-            //    RunCmd("curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee -a /etc/apt/sources.list.d/caddy-stable.list");
-            //    RunCmd(GetUpdateCmd());
-            //    RunCmd("sudo apt install caddy");
-            //}
-            //else if (CmdType == CmdType.Dnf)
-            //{
-            //    RunCmd("echo y | dnf install 'dnf-command(copr)'");
-            //    RunCmd("echo y | dnf copr enable @caddy/caddy");
-            //    RunCmd(GetUpdateCmd());
-            //    RunCmd("dnf install caddy");
-            //}
-            //else if (CmdType == CmdType.Yum)
-            //{
-            //    RunCmd("echo y | echo y | yum install yum-plugin-copr");
-            //    RunCmd("echo y | echo y | yum copr enable @caddy/caddy");
-            //    RunCmd(GetUpdateCmd());
-            //    RunCmd("yum install caddy");
-            //}
+        protected void UninstallCaddy()
+        {
+            RunCmd("rm -rf caddy_install.sh");
+            RunCmd("curl -o caddy_install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/Caddy-Naive/caddy-naive-install.sh");
+            RunCmd("yes | bash caddy_install.sh uninstall");
+            RunCmd("rm -rf caddy_install.sh");
+            RunCmd("rm -rf /usr/share/caddy");
         }
 
 
