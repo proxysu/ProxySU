@@ -1,8 +1,8 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
 using ProxySU_Core.Models;
+using ProxySU_Core.Models.Developers;
 using ProxySU_Core.ViewModels;
-using ProxySU_Core.ViewModels.Developers;
 using ProxySU_Core.Views;
 using Renci.SshNet;
 using System;
@@ -44,7 +44,6 @@ namespace ProxySU_Core
             _vm = new Terminal(record.Host);
             DataContext = _vm;
 
-            WriteOutput("Connect ...");
             Task.Factory.StartNew(() =>
             {
                 try
@@ -105,10 +104,21 @@ namespace ProxySU_Core
 
         private void OpenConnect(Host host)
         {
+
+            WriteOutput("正在登陆服务器 ...");
             var conneInfo = CreateConnectionInfo(host);
             _sshClient = new SshClient(conneInfo);
-            _sshClient.Connect();
-            WriteOutput("Connected");
+            try
+            {
+                _sshClient.Connect();
+            }
+            catch (Exception ex)
+            {
+                WriteOutput("登陆失败！");
+                WriteOutput(ex.Message);
+                return;
+            }
+            WriteOutput("登陆服务器成功！");
 
             _vm.HasConnected = true;
             project = new XrayProject(_sshClient, Record.Settings, WriteOutput);
@@ -135,26 +145,11 @@ namespace ProxySU_Core
             });
         }
 
-        private void InstallCert(object sender, RoutedEventArgs e)
+        private void UpdateXrayCore(object sender, RoutedEventArgs e)
         {
             Task.Factory.StartNew(() =>
             {
-                project.InstallCert();
-            });
-        }
-
-        private void UploadWeb(object sender, RoutedEventArgs e)
-        {
-            var fileDialog = new OpenFileDialog();
-            fileDialog.FileOk += OnFileOk;
-            fileDialog.ShowDialog();
-        }
-
-        private void ReinstallCaddy(object sender, RoutedEventArgs e)
-        {
-            Task.Factory.StartNew(() =>
-            {
-                project.ReinstallCaddy();
+                project.UpdateXrayCore();
             });
         }
 
@@ -166,7 +161,47 @@ namespace ProxySU_Core
             });
         }
 
-        private void OnFileOk(object sender, CancelEventArgs e)
+        private void InstallCert(object sender, RoutedEventArgs e)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                project.InstallCert();
+            });
+        }
+
+        private void UninstallXray(object sender, RoutedEventArgs e)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                project.Uninstall();
+            });
+        }
+
+        private void UploadCert(object sender, RoutedEventArgs e)
+        {
+            var fileDialog = new OpenFileDialog();
+            fileDialog.Filter = "压缩文件|*.zip";
+            fileDialog.FileOk += DoUploadCert;
+            fileDialog.ShowDialog();
+        }
+
+        private void UploadWeb(object sender, RoutedEventArgs e)
+        {
+            var fileDialog = new OpenFileDialog();
+            fileDialog.Filter = "压缩文件|*.zip";
+            fileDialog.FileOk += DoUploadWeb;
+            fileDialog.ShowDialog();
+        }
+
+        private void ReinstallCaddy(object sender, RoutedEventArgs e)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                project.ReinstallCaddy();
+            });
+        }
+
+        private void DoUploadWeb(object sender, CancelEventArgs e)
         {
             Task.Factory.StartNew(() =>
             {
@@ -174,6 +209,18 @@ namespace ProxySU_Core
                 using (var stream = file.OpenFile())
                 {
                     project.UploadWeb(stream);
+                }
+            });
+        }
+
+        private void DoUploadCert(object sender, CancelEventArgs e)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                var file = sender as OpenFileDialog;
+                using (var stream = file.OpenFile())
+                {
+                    project.UploadCert(stream);
                 }
             });
         }

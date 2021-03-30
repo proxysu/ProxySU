@@ -5,9 +5,7 @@
   "settings": {
     "clients": [
       {
-        "id": "",
-        "level": 0,
-        "email": "love@example.com"
+        "id": ""
       }
     ]
   },

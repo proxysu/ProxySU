@@ -5,9 +5,7 @@
     "clients": [
       {
         "id": "",
-        "flow": "xtls-rprx-direct",
-        "level": 0,
-        "email": "love@example.com"
+        "flow": "xtls-rprx-direct"
       }
     ],
     "decryption": "none",
@@ -17,6 +15,8 @@
     "network": "tcp",
     "security": "xtls",
     "xtlsSettings": {
+      "allowInsecure": false,
+      "minVersion": "1.2",
       "alpn": [
         "http/1.1"
       ],

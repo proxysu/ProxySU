@@ -1,13 +1,11 @@
 {
-  "port": 1310,
+  "port": 1320,
   "listen": "127.0.0.1",
   "protocol": "trojan",
   "settings": {
     "clients": [
       {
-        "password": "",
-        "level": 0,
-        "email": "love@example.com"
+        "password": ""
       }
     ],
     "fallbacks": [
@@ -16,11 +14,13 @@
       }
     ]
   },
+
   "streamSettings": {
-    "network": "tcp",
+    "network": "ws",
     "security": "none",
-    "tcpSettings": {
-      "acceptProxyProtocol": true
+    "wsSettings": {
+      "acceptProxyProtocol": true,
+      "path": "/trojanws"
     }
   }
 }

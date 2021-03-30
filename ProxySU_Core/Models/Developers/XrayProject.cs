@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ProxySU_Core.Models;
 
-namespace ProxySU_Core.ViewModels.Developers
+namespace ProxySU_Core.Models.Developers
 {
     public class XrayProject : Project<XraySettings>
     {
@@ -29,52 +29,10 @@ namespace ProxySU_Core.ViewModels.Developers
         {
         }
 
-        public void InstallCert()
-        {
-            EnsureRootAuth();
-            EnsureSystemEnv();
-            this.InstallCertToXray();
-            RunCmd("systemctl restart xray");
-            WriteOutput("************ 安装证书完成 ************");
-        }
 
-        public void UploadWeb(Stream stream)
-        {
-            EnsureRootAuth();
-            EnsureSystemEnv();
-            if (!FileExists("/usr/share/caddy"))
-            {
-                RunCmd("mkdir /usr/share/caddy");
-            }
-            RunCmd("rm -rf /usr/share/caddy/*");
-            UploadFile(stream, "/usr/share/caddy/caddy.zip");
-            RunCmd("unzip /usr/share/caddy/caddy.zip -d /usr/share/caddy");
-            RunCmd("chmod -R 777 /usr/share/caddy");
-            UploadCaddyFile(useCustomWeb: true);
-            WriteOutput("************ 上传网站模板完成 ************");
-        }
-
-        public void UpdateXraySettings()
-        {
-            EnsureRootAuth();
-            EnsureSystemEnv();
-            var configJson = ConfigBuilder.BuildXrayConfig(Parameters);
-            var stream = new MemoryStream(Encoding.UTF8.GetBytes(configJson));
-            RunCmd("rm -rf /usr/local/etc/xray/config.json");
-            UploadFile(stream, "/usr/local/etc/xray/config.json");
-            RunCmd("systemctl restart xray");
-            WriteOutput("************ 更新Xray配置成功，更新配置不包含域名，如果域名更换请重新安装。 ************");
-        }
-
-        public void ReinstallCaddy()
-        {
-            EnsureRootAuth();
-            EnsureSystemEnv();
-            InstallCaddy();
-            UploadCaddyFile();
-            WriteOutput("************ 重装Caddy完成 ************");
-        }
-
+        /// <summary>
+        /// 安装Xray
+        /// </summary>
         public override void Install()
         {
             try
@@ -111,7 +69,7 @@ namespace ProxySU_Core.ViewModels.Developers
                 ConfigureFirewall();
                 WriteOutput("防火墙配置完成");
 
-                WriteOutput("同步系统和本地世间...");
+                WriteOutput("同步系统和本地时间...");
                 SyncTimeDiff();
                 WriteOutput("时间同步完成");
 
@@ -138,9 +96,151 @@ namespace ProxySU_Core.ViewModels.Developers
             }
             catch (Exception ex)
             {
-                MessageBox.Show("安装终止，" + ex.Message);
+                var errorLog = "安装终止，" + ex.Message;
+                WriteOutput(errorLog);
+                MessageBox.Show(errorLog);
             }
         }
+
+        public void Uninstall()
+        {
+            EnsureRootAuth();
+            WriteOutput("卸载Caddy");
+            UninstallCaddy();
+            WriteOutput("卸载Xray");
+            UninstallXray();
+            WriteOutput("卸载证书");
+            UninstallAcme();
+            WriteOutput("关闭端口");
+            ClosePort(ConfigBuilder.ShadowSocksPort, ConfigBuilder.VLESS_mKCP_Port, ConfigBuilder.VMESS_mKCP_Port);
+
+            WriteOutput("************ 卸载完成 ************");
+        }
+
+        /// <summary>
+        /// 更新xray内核
+        /// </summary>
+        public void UpdateXrayCore()
+        {
+            EnsureRootAuth();
+            EnsureSystemEnv();
+            RunCmd("bash -c \"$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)\" @ install");
+            RunCmd("systemctl restart xray");
+            WriteOutput("************ 更新xray内核完成 ************");
+        }
+
+        /// <summary>
+        /// 更新xray配置
+        /// </summary>
+        public void UpdateXraySettings()
+        {
+            EnsureRootAuth();
+            EnsureSystemEnv();
+            ConfigureFirewall();
+            var configJson = ConfigBuilder.BuildXrayConfig(Parameters);
+            var stream = new MemoryStream(Encoding.UTF8.GetBytes(configJson));
+            RunCmd("rm -rf /usr/local/etc/xray/config.json");
+            UploadFile(stream, "/usr/local/etc/xray/config.json");
+            RunCmd("systemctl restart xray");
+            WriteOutput("************ 更新Xray配置成功，更新配置不包含域名，如果域名更换请重新安装。 ************");
+        }
+
+        /// <summary>
+        /// 重装Caddy
+        /// </summary>
+        public void ReinstallCaddy()
+        {
+            EnsureRootAuth();
+            EnsureSystemEnv();
+            InstallCaddy();
+            UploadCaddyFile();
+            WriteOutput("************ 重装Caddy完成 ************");
+        }
+
+        /// <summary>
+        /// 安装证书
+        /// </summary>
+        public void InstallCert()
+        {
+            EnsureRootAuth();
+            EnsureSystemEnv();
+            this.InstallCertToXray();
+            RunCmd("systemctl restart xray");
+            WriteOutput("************ 安装证书完成 ************");
+        }
+
+        /// <summary>
+        /// 上传证书
+        /// </summary>
+        /// <param name="keyStrem"></param>
+        /// <param name="crtStream"></param>
+        public void UploadCert(Stream stream)
+        {
+            EnsureRootAuth();
+            EnsureSystemEnv();
+
+            // 转移旧文件
+            var oldFileName = $"ssl_{DateTime.Now.Ticks}";
+            RunCmd($"mv /usr/local/etc/xray/ssl /usr/local/etc/xray/{oldFileName}");
+
+            // 上传新文件
+            RunCmd("mkdir /usr/local/etc/xray/ssl");
+            UploadFile(stream, "/usr/local/etc/xray/ssl/ssl.zip");
+            RunCmd("unzip /usr/local/etc/xray/ssl/ssl.zip -d /usr/local/etc/xray/ssl");
+
+            // 改名
+            var crtFiles = RunCmd("find /usr/local/etc/xray/ssl/*.crt").Split("\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            if (crtFiles.Length > 0)
+            {
+                RunCmd($"mv {crtFiles[0]} /usr/local/etc/xray/ssl/xray_ssl.crt");
+            }
+            else
+            {
+                WriteOutput("************ 上传证书失败，请联系开发者 ************");
+                RunCmd("rm -rf /usr/local/etc/xray/ssl");
+                RunCmd($"mv /usr/local/etc/xray/ssl{oldFileName} /usr/local/etc/xray/ssl");
+                WriteOutput("操作已回滚");
+                return;
+            }
+
+            var keyFiles = RunCmd("find /usr/local/etc/xray/ssl/*.key").Split("\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            if (keyFiles.Length > 0)
+            {
+                RunCmd($"mv {keyFiles[0]} /usr/local/etc/xray/ssl/xray_ssl.key");
+            }
+            else
+            {
+                WriteOutput("************ 上传证书失败，请联系开发者 ************");
+                RunCmd("rm -rf /usr/local/etc/xray/ssl");
+                RunCmd($"mv /usr/local/etc/xray/ssl{oldFileName} /usr/local/etc/xray/ssl");
+                WriteOutput("操作已回滚");
+                return;
+            }
+
+            RunCmd("systemctl restart xray");
+            WriteOutput("************ 上传证书完成 ************");
+        }
+
+        /// <summary>
+        /// 上传静态网站
+        /// </summary>
+        /// <param name="stream"></param>
+        public void UploadWeb(Stream stream)
+        {
+            EnsureRootAuth();
+            EnsureSystemEnv();
+            if (!FileExists("/usr/share/caddy"))
+            {
+                RunCmd("mkdir /usr/share/caddy");
+            }
+            RunCmd("rm -rf /usr/share/caddy/*");
+            UploadFile(stream, "/usr/share/caddy/caddy.zip");
+            RunCmd("unzip /usr/share/caddy/caddy.zip -d /usr/share/caddy");
+            RunCmd("chmod -R 777 /usr/share/caddy");
+            UploadCaddyFile(useCustomWeb: true);
+            WriteOutput("************ 上传网站模板完成 ************");
+        }
+
 
         private void UploadCaddyFile(bool useCustomWeb = false)
         {
@@ -204,12 +304,24 @@ namespace ProxySU_Core.ViewModels.Developers
 
         }
 
+        private void UninstallXray()
+        {
+            RunCmd("bash -c \"$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)\" @ remove");
+        }
+
+        private void UninstallAcme()
+        {
+            RunCmd("acme.sh --uninstall");
+            RunCmd("rm -r  ~/.acme.sh");
+        }
+
         private void InstallXrayWithCert()
         {
             RunCmd("bash -c \"$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)\" @ install");
 
             if (!FileExists("/usr/local/bin/xray"))
             {
+                WriteOutput("Xray-Core安装失败，请联系开发者");
                 throw new Exception("Xray-Core安装失败，请联系开发者");
             }
 
@@ -251,6 +363,7 @@ namespace ProxySU_Core.ViewModels.Developers
             }
             else
             {
+                WriteOutput("安装 acme.sh 失败，请联系开发者！");
                 throw new Exception("安装 acme.sh 失败，请联系开发者！");
             }
 
@@ -275,6 +388,7 @@ namespace ProxySU_Core.ViewModels.Developers
             }
             else
             {
+                WriteOutput("申请证书失败，请联系开发者！");
                 throw new Exception("申请证书失败，请联系开发者！");
             }
 
@@ -288,6 +402,7 @@ namespace ProxySU_Core.ViewModels.Developers
             }
             else
             {
+                WriteOutput("安装证书失败，请联系开发者！");
                 throw new Exception("安装证书失败，请联系开发者！");
             }
 

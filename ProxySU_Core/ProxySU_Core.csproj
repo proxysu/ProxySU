@@ -62,7 +62,10 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>ProxySU.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ControlzEx, Version=5.0.0.0, Culture=neutral, PublicKeyToken=69f1c32f803d307e, processorArchitecture=MSIL">
@@ -117,22 +120,26 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Common\Base64.cs" />
     <Compile Include="Converters\LoginSecretTypeConverter.cs" />
+    <Compile Include="Converters\VisibleConverter.cs" />
     <Compile Include="Models\Host.cs" />
+    <Compile Include="Models\ShareLink.cs" />
     <Compile Include="Models\XraySettings.cs" />
     <Compile Include="Tools\DateTimeUtils.cs" />
     <Compile Include="Tools\Extensions.cs" />
     <Compile Include="ViewModels\BaseCommand.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
-    <Compile Include="ViewModels\Developers\ConfigBuilder.cs" />
-    <Compile Include="ViewModels\Developers\IParameters.cs" />
-    <Compile Include="ViewModels\Developers\Project.cs" />
-    <Compile Include="ViewModels\Developers\XrayProject.cs" />
+    <Compile Include="Models\Developers\ConfigBuilder.cs" />
+    <Compile Include="Models\Developers\IParameters.cs" />
+    <Compile Include="Models\Developers\Project.cs" />
+    <Compile Include="Models\Developers\XrayProject.cs" />
     <Compile Include="ViewModels\HostViewModel.cs" />
     <Compile Include="Models\LocalProxy.cs" />
     <Compile Include="Models\LocalProxyType.cs" />
     <Compile Include="Models\LoginSecretType.cs" />
     <Compile Include="Models\Record.cs" />
+    <Compile Include="ViewModels\IdValueViewModel.cs" />
     <Compile Include="ViewModels\RecordViewModel.cs" />
     <Compile Include="ViewModels\Terminal.cs" />
     <Compile Include="ViewModels\XraySettingsViewModel.cs" />
@@ -147,6 +154,9 @@
     </Compile>
     <Compile Include="Views\TerminalWindow.xaml.cs">
       <DependentUpon>TerminalWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TextBoxWindow.xaml.cs">
+      <DependentUpon>TextBoxWindow.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -233,19 +243,37 @@
     <None Include="Templates\xray\server\05_inbounds\05_inbounds.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Templates\xray\server\05_inbounds\Trojan_TCP_TLS.json">
+    <None Include="Templates\xray\server\05_inbounds\Shadowsocks-AEAD.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\xray\server\05_inbounds\Trojan_TCP.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\xray\server\05_inbounds\Trojan_WS.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\xray\server\05_inbounds\VLESS_HTTP2.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\xray\server\05_inbounds\VLESS_KCP.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Templates\xray\server\05_inbounds\VLESS_TCP_XTLS.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Templates\xray\server\05_inbounds\VLESS_WS_TLS.json">
+    <None Include="Templates\xray\server\05_inbounds\VLESS_WS.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Templates\xray\server\05_inbounds\VMESS_TCP_TLS.json">
+    <None Include="Templates\xray\server\05_inbounds\VMESS_HTTP2.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Templates\xray\server\05_inbounds\VMESS_WS_TLS.json">
+    <None Include="Templates\xray\server\05_inbounds\VMESS_KCP.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\xray\server\05_inbounds\VMESS_TCP.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\xray\server\05_inbounds\VMESS_WS.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Templates\xray\server\06_outbounds\06_outbounds.json">
@@ -293,6 +321,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\TextBoxWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
@@ -308,6 +340,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ProxySU.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ProxySU.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.0.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.0.0\build\MaterialDesignThemes.targets')" />

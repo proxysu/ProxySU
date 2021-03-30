@@ -48,5 +48,11 @@ namespace ProxySU_Core.Views
             DialogResult = true;
             Close();
         }
+
+        public void RandomUuid(object sender, RoutedEventArgs e)
+        {
+            Settings.UUID = Guid.NewGuid().ToString();
+        }
+
     }
 }

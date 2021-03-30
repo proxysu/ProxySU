@@ -1,9 +1,12 @@
-﻿using ProxySU_Core.ViewModels.Developers;
+﻿using Newtonsoft.Json;
+using ProxySU_Core.Common;
+using ProxySU_Core.Models.Developers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace ProxySU_Core.Models
 {
@@ -15,12 +18,22 @@ namespace ProxySU_Core.Models
             var guid = Guid.NewGuid().ToString();
             Port = 443;
             UUID = guid;
-            Types = new List<XrayType> { XrayType.VLESS_TCP_XTLS };
+            Types = new List<XrayType>();
+
             VLESS_WS_Path = "/vlessws";
-            VLESS_TCP_Path = "/vlesstcp";
+            VLESS_H2_Path = "/vlessh2";
+
             VMESS_WS_Path = "/vmessws";
             VMESS_TCP_Path = "/vmesstcp";
+            VMESS_H2_Path = "/vmessh2";
+            VMESS_KCP_Seed = guid;
+            VMESS_KCP_Type = "none";
+
             TrojanPassword = guid;
+            Trojan_WS_Path = "/trojanws";
+
+            ShadowsocksPassword = guid;
+            ShadowsocksMethod = "aes-128-gcm";
         }
 
         /// <summary>
@@ -33,16 +46,19 @@ namespace ProxySU_Core.Models
         /// </summary>
         public string UUID { get; set; }
 
+        #region vless
         /// <summary>
         /// vless ws路径
         /// </summary>
         public string VLESS_WS_Path { get; set; }
 
         /// <summary>
-        /// vless tcp路径
+        /// vless http2 path
         /// </summary>
-        public string VLESS_TCP_Path { get; set; }
+        public string VLESS_H2_Path { get; set; }
+        #endregion
 
+        #region vmess
         /// <summary>
         /// vmess ws路径
         /// </summary>
@@ -54,9 +70,45 @@ namespace ProxySU_Core.Models
         public string VMESS_TCP_Path { get; set; }
 
         /// <summary>
+        /// vmess http2 path
+        /// </summary>
+        public string VMESS_H2_Path { get; set; }
+
+        /// <summary>
+        /// vmess kcp seed
+        /// </summary>
+        public string VMESS_KCP_Seed { get; set; }
+
+        /// <summary>
+        /// vmess kcp type
+        /// </summary>
+        public string VMESS_KCP_Type { get; set; }
+        #endregion
+
+        #region Trojan
+        /// <summary>
         /// trojan密码
         /// </summary>
         public string TrojanPassword { get; set; }
+
+        /// <summary>
+        /// trojan ws path
+        /// </summary>
+        public string Trojan_WS_Path { get; set; }
+        #endregion
+
+        #region ShadowsocksAEAD
+        /// <summary>
+        /// ss password
+        /// </summary>
+        public string ShadowsocksPassword { get; set; }
+
+        /// <summary>
+        /// ss method
+        /// </summary>
+        public string ShadowsocksMethod { get; set; }
+        #endregion
+
 
         /// <summary>
         /// 域名
@@ -78,33 +130,55 @@ namespace ProxySU_Core.Models
         {
             switch (type)
             {
-                case XrayType.VLESS_TCP_TLS:
-                    return VLESS_TCP_Path;
-                case XrayType.VLESS_TCP_XTLS:
-                    return VLESS_TCP_Path;
-                case XrayType.VLESS_WS_TLS:
+                case XrayType.VLESS_WS:
                     return VLESS_WS_Path;
-                case XrayType.VMESS_TCP_TLS:
+                case XrayType.VLESS_H2:
+                    return VLESS_H2_Path;
+
+                case XrayType.VMESS_TCP:
                     return VMESS_TCP_Path;
-                case XrayType.VMESS_WS_TLS:
+                case XrayType.VMESS_WS:
                     return VMESS_WS_Path;
-                case XrayType.Trojan_TCP_TLS:
+                case XrayType.Trojan_WS:
+                    return Trojan_WS_Path;
+
+                // no path
+                case XrayType.VLESS_TCP_XTLS:
+                case XrayType.VLESS_TCP:
+                case XrayType.VLESS_KCP:
+                case XrayType.VMESS_KCP:
+                case XrayType.Trojan_TCP:
                     return string.Empty;
                 default:
                     return string.Empty;
             }
         }
+
     }
+
 
     public enum XrayType
     {
-        VLESS_TCP_TLS,
-        VLESS_TCP_XTLS,
-        VLESS_WS_TLS,
+        // 入口
+        VLESS_TCP_XTLS = 100,
 
-        VMESS_TCP_TLS,
-        VMESS_WS_TLS,
+        // vless 101开头
+        VLESS_TCP = 101,
+        VLESS_WS = 102,
+        VLESS_H2 = 103,
+        VLESS_KCP = 104,
 
-        Trojan_TCP_TLS
+        // vmess 201开头
+        VMESS_TCP = 201,
+        VMESS_WS = 202,
+        VMESS_H2 = 203,
+        VMESS_KCP = 204,
+
+        // trojan 301开头
+        Trojan_TCP = 301,
+        Trojan_WS = 302,
+
+        // ss
+        ShadowsocksAEAD = 401
     }
 }

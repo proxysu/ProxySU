@@ -1,28 +1,18 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using ProxySU_Core.Common;
 using ProxySU_Core.Models;
 using ProxySU_Core.ViewModels;
-using ProxySU_Core.ViewModels.Developers;
 using ProxySU_Core.Views;
-using Renci.SshNet;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 
 namespace ProxySU_Core
@@ -117,6 +107,36 @@ namespace ProxySU_Core
             Application.Current.Resources.MergedDictionaries[0] = resource;
         }
 
+        private void ExportXraySettings(object sender, RoutedEventArgs e)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var record in Records.Where(x => x.IsChecked))
+            {
+                record.Settings.Types.ForEach(type =>
+                {
+                    var link = ShareLink.Build(type, record.Settings);
+                    sb.AppendLine(link);
+                });
+            }
+            var tbx = new TextBoxWindow("分享链接", sb.ToString());
+            tbx.ShowDialog();
+        }
+
+        private void ExportXraySub(object sender, RoutedEventArgs e)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var record in Records.Where(x => x.IsChecked))
+            {
+                record.Settings.Types.ForEach(type =>
+                {
+                    var link = ShareLink.Build(type, record.Settings);
+                    sb.AppendLine(link);
+                });
+            }
+            var result = Base64.Encode(sb.ToString());
+            var tbx = new TextBoxWindow("订阅内容", result);
+            tbx.ShowDialog();
+        }
 
         private void AddHost(object sender, RoutedEventArgs e)
         {

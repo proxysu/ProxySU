@@ -15,6 +15,7 @@ namespace ProxySU_Core.ViewModels
 
         private readonly ICommand _selectKeyCommand;
 
+
         public HostViewModel(Host host)
         {
             _selectKeyCommand = new BaseCommand(obj => OpenFileDialog(obj));

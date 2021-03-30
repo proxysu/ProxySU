@@ -26,6 +26,7 @@
                 <ComboBox 
                     SelectionChanged="ChangeLanguage" 
                     x:Name="cmbLanguage" 
+                    IsEnabled="False"
                     SelectedIndex="0">
                     <ComboBoxItem x:Name="zh_cn" Content="{DynamicResource LanguageChinese}"></ComboBoxItem>
                     <ComboBoxItem x:Name="en" Content="{DynamicResource LanguageEnglish}"></ComboBoxItem>
@@ -54,9 +55,21 @@
 
                     <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                         <Button
-                        Content="{DynamicResource AddHost}"
-                        Click="AddHost"
-                        Width="100"/>
+                            Content="{DynamicResource AddHost}"
+                            Click="AddHost"
+                            Width="100"/>
+
+                        <Button
+                            Margin="10,0,0,0"
+                            Content="导出配置"
+                            Click="ExportXraySettings"
+                            Width="100" />
+
+                        <Button
+                            Margin="10,0,0,0"
+                            Content="导出订阅"
+                            Click="ExportXraySub"
+                            Width="100" />
                     </StackPanel>
 
                     <DataGrid ItemsSource="{Binding Records}"
@@ -71,6 +84,10 @@
                               BorderThickness="1"
                               AutoGenerateColumns="False">
                         <DataGrid.Columns>
+                            <DataGridCheckBoxColumn Header="选择"
+                                                    Binding="{Binding Path=IsChecked, UpdateSourceTrigger=PropertyChanged}"
+                                                    IsReadOnly="False"
+                                                    Width="80"/>
                             <DataGridTextColumn Header="{DynamicResource HostTag}"  
                                                 Binding="{Binding Path=Host.Tag}" 
                                                 Width="150"/>
@@ -90,10 +107,10 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Content="{DynamicResource Connect}" FontSize="12" Height="24" Click="Connect" />
-                                            <Button Content="{DynamicResource Edit}" FontSize="12" Height="24" Margin="10,0,0,0" Click="EditHost" />
+                                            <Button Content="控制台" FontSize="12" Height="24" Click="Connect" />
                                             <Button Content="查看配置" FontSize="12" Height="24" Margin="10,0,0,0" Click="ShowClientInfo" />
-                                            <Button Content="{DynamicResource Delete}" FontSize="12"  Height="24" Margin="10,0,0,0" Click="DeleteHost" />
+                                            <Button Content="编辑" FontSize="12" Height="24" Margin="10,0,0,0" Click="EditHost" />
+                                            <Button Content="删除" FontSize="12"  Height="24" Margin="10,0,0,0" Click="DeleteHost" BorderBrush="IndianRed" Background="IndianRed" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
