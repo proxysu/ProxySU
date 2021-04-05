@@ -129,6 +129,7 @@
     <Compile Include="Tools\DateTimeUtils.cs" />
     <Compile Include="Tools\Extensions.cs" />
     <Compile Include="ViewModels\BaseCommand.cs" />
+    <Compile Include="ViewModels\BaseModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="Models\Developers\ConfigBuilder.cs" />
     <Compile Include="Models\Developers\IParameters.cs" />

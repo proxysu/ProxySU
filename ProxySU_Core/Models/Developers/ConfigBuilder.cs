@@ -25,20 +25,18 @@ namespace ProxySU_Core.Models.Developers
         private const string ServerReverseDir = @"Templates\xray\server\09_reverse";
         private const string CaddyFileDir = @"Templates\xray\caddy";
 
-        public const int VLESS_TCP_Port = 1110;
-        public const int VLESS_WS_Port = 1111;
-        public const int VLESS_H2_Port = 1112;
-        public const int VLESS_mKCP_Port = 1113;
+        public static int VLESS_TCP_Port = 1110;
+        public static int VLESS_WS_Port = 1111;
+        public static int VLESS_H2_Port = 1112;
+        public static int VLESS_mKCP_Port = 1113;
 
-        public const int VMESS_TCP_Port = 2110;
-        public const int VMESS_WS_Port = 2111;
-        public const int VMESS_H2_Port = 2112;
-        public const int VMESS_mKCP_Port = 2113;
+        public static int VMESS_TCP_Port = 1210;
+        public static int VMESS_WS_Port = 1211;
+        public static int VMESS_H2_Port = 1212;
 
-        public const int Trojan_TCP_Port = 3110;
-        public const int Trojan_WS_Port = 3111;
+        public static int Trojan_TCP_Port = 1310;
+        public static int Trojan_WS_Port = 1311;
 
-        public const int ShadowSocksPort = 4110;
 
 
         public static dynamic LoadXrayConfig()
@@ -73,6 +71,16 @@ namespace ProxySU_Core.Models.Developers
         {
             var caddyStr = File.ReadAllText(Path.Combine(CaddyFileDir, "base.caddyfile"));
             caddyStr = caddyStr.Replace("##domain##", parameters.Domain);
+
+            if (parameters.Port != 443)
+            {
+                caddyStr = caddyStr.Replace(":##port##", "");
+            }
+            else
+            {
+                caddyStr = caddyStr.Replace("##port##", 80.ToString());
+            }
+
             if (!useCustomWeb && !string.IsNullOrEmpty(parameters.MaskDomain))
             {
                 var prefix = "http://";
@@ -167,7 +175,7 @@ namespace ProxySU_Core.Models.Developers
             if (parameters.Types.Contains(XrayType.VMESS_KCP))
             {
                 var kcpBound = GetBound("VMESS_KCP.json");
-                kcpBound.port = VMESS_mKCP_Port;
+                kcpBound.port = parameters.KcpPort;
                 kcpBound.settings.clients[0].id = parameters.UUID;
                 kcpBound.streamSettings.kcpSettings.header.type = parameters.VMESS_KCP_Type;
                 kcpBound.streamSettings.kcpSettings.seed = parameters.VMESS_KCP_Seed;
@@ -178,7 +186,7 @@ namespace ProxySU_Core.Models.Developers
             if (parameters.Types.Contains(XrayType.ShadowsocksAEAD))
             {
                 var ssBound = GetBound("Shadowsocks-AEAD.json");
-                ssBound.port = ShadowSocksPort;
+                ssBound.port = parameters.ShadowSocksPort;
                 ssBound.settings.clients[0].password = parameters.ShadowsocksPassword;
                 ssBound.settings.clients[0].method = parameters.ShadowsocksMethod;
                 xrayConfig.inbounds.Add(JToken.FromObject(ssBound));

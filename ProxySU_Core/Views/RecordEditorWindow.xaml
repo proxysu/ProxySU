@@ -222,6 +222,8 @@
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Orientation="Horizontal">
                     <StackPanel>
+                        <Label Content="默认端口（请避开1000-1999回落端口）" />
+
                         <CheckBox Content="VLESS OVER TCP with XTLS" 
                           Style="{StaticResource MahApps.Styles.CheckBox}" 
                           IsChecked="{Binding Path=Settings.Checked_VLESS_TCP_XTLS}"
@@ -273,7 +275,17 @@
                     </StackPanel>
 
                     <StackPanel Margin="60,0,0,0">
+
                         <StackPanel Margin="0,0,0,0" Orientation="Horizontal">
+                            <Label Content="xray" VerticalAlignment="Center" />
+                            <TextBox Text="{Binding Path=Settings.Port}" Width="50" VerticalAlignment="Center" />
+                            <Label Content="ss" Margin="10,0,0,0" VerticalAlignment="Center" />
+                            <TextBox Text="{Binding Path=Settings.ShadowSocksPort}" Width="50" VerticalAlignment="Center" />
+                            <Label Content="mkcp" Margin="10,0,0,0" VerticalAlignment="Center" />
+                            <TextBox Text="{Binding Path=Settings.KcpPort}" Width="50" VerticalAlignment="Center" />
+                        </StackPanel>
+
+                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                             <Label Content="UUID" Width="80" VerticalAlignment="Center" />
                             <TextBox Text="{Binding Path=Settings.UUID}" Width="200" />
                             <Button Style="{StaticResource MahApps.Styles.Button.Flat}"

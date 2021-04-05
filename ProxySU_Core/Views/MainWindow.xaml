@@ -125,9 +125,27 @@
             <TabItem    
                 Width="160"          
                 Style="{StaticResource MaterialDesignNavigationRailTabItem}"
-                Header="其他功能">
+                Header="说明文档">
                 <StackPanel>
-                    <TextBlock Text="还不知道要点啥...看大家建议？" />
+                    <StackPanel Margin="0,10,0,0">
+                        <TextBlock Text="新书指引：" FontWeight="Black" />
+                        <TextBlock Text="1. 【添加主机】，填写主机信息及节点配置信息，保存。" />
+                        <TextBlock Text="2. 点【控制台】，自动连接主机，连接成功后，点【一键安装】,待输出 “请尽情享用吧” 代表安装完成。" />
+                        <TextBlock Text="3. 在【查看配置】中可以查看节点配置信息，选中【导出配置】可以复制所有节点的分享拦截。" />
+                    </StackPanel>
+                    <StackPanel Margin="0,10,0,0">
+                        <TextBlock Text="自定义功能" FontWeight="Black" />
+                        <TextBlock Text="【更新配置】：用户想修改节点的信息，比如增加一个websocket或修改用户id，在【编辑】中修改保存后，不需要重新安装了，这个功能就可以更新配置。" />
+                        <TextBlock Text="【更新内核】：更新官方xray-core的最新版本。" />
+                        <TextBlock Text="【卸载代理】：卸载 域名证书、caddy服务、xray内核，一些安装过程中的基础功能，不影响不卸载，会影响到您的系统，请自行处理。" />
+                        <TextBlock Text="【续签证书】：默认是会自动续签的，但由于各种平台的基础环境不一样，可能有些会续签失败，这个功能可手动续签证书。" />
+                        <TextBlock Text="【上传证书】：上传自有证书，将您的证书 crt 和 key 文件打包zip上传即可。" />
+                        <TextBlock Text="【上传网站】：上传伪装静态网站，静态网站必须根目录有一个index.html文件，请自行检查。" />
+                    </StackPanel>
+                    <StackPanel Margin="0,10,0,0">
+                        <TextBlock Text="关于v3版本：" FontWeight="Black" />
+                        <TextBlock Text="初步以xray为基础，方便自动安装、修改、卸载，看建议再考虑其他方式，如有需要请先用v2的版本。" />
+                    </StackPanel>
                 </StackPanel>
             </TabItem>
         </TabControl>

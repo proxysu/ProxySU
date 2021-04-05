@@ -1,4 +1,4 @@
-##domain##:80 {
+##domain##:##port## {
     root * /usr/share/caddy
     file_server
     ##reverse_proxy##

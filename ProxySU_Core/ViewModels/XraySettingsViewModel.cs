@@ -23,6 +23,37 @@ namespace ProxySU_Core.ViewModels
             Notify("VMESS_KCP_Type");
         }
 
+        public int Port
+        {
+            get => settings.Port;
+            set
+            {
+                settings.Port = value;
+                Notify("Port");
+            }
+        }
+
+        public int KcpPort
+        {
+            get => settings.KcpPort;
+            set
+            {
+                settings.KcpPort = value;
+                Notify("KcpPort");
+            }
+        }
+
+        public int ShadowSocksPort
+        {
+            get => settings.ShadowSocksPort;
+            set
+            {
+                settings.KcpPort = value;
+                Notify("ShadowSocksPort");
+            }
+        }
+
+
         public string UUID
         {
             get => settings.UUID;
@@ -168,7 +199,7 @@ namespace ProxySU_Core.ViewModels
         {
             get => ShareLink.Build(XrayType.VMESS_WS, settings);
         }
-        
+
         // vmess kcp
         public string VMESS_KCP_Seed
         {

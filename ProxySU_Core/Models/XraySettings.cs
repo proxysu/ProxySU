@@ -17,6 +17,9 @@ namespace ProxySU_Core.Models
         {
             var guid = Guid.NewGuid().ToString();
             Port = 443;
+            KcpPort = 10443;
+            ShadowSocksPort = 11443;
+
             UUID = guid;
             Types = new List<XrayType>();
 
@@ -40,6 +43,14 @@ namespace ProxySU_Core.Models
         /// 访问端口
         /// </summary>
         public int Port { get; set; }
+
+        /// <summary>
+        /// kcp端口
+        /// </summary>
+        public int KcpPort { get; set; }
+
+        // ss端口
+        public int ShadowSocksPort { get; set; }
 
         /// <summary>
         /// UUID

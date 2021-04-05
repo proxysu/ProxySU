@@ -38,7 +38,7 @@ namespace ProxySU_Core.Models
             var _method = settings.ShadowsocksMethod;
             var _password = settings.ShadowsocksPassword;
             var _server = settings.Domain;
-            var _port = ConfigBuilder.ShadowSocksPort;
+            var _port = settings.ShadowSocksPort;
 
             var base64URL = Base64.Encode($"{_method}:{_password}@{_server}:{_port}");
             return "ss://" + base64URL;
@@ -77,7 +77,7 @@ namespace ProxySU_Core.Models
                     break;
                 case XrayType.VMESS_KCP:
                     vmess.ps = "vmess-mKCP";
-                    vmess.port = ConfigBuilder.VMESS_mKCP_Port.ToString();
+                    vmess.port = settings.KcpPort.ToString();
                     vmess.net = "kcp";
                     vmess.type = settings.VMESS_KCP_Type;
                     vmess.path = settings.VMESS_KCP_Seed;

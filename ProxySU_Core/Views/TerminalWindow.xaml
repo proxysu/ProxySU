@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ProxySU_Core"
         xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="主机控制台" Height="500" Width="800">
+        Title="主机控制台" Height="600" Width="800">
     <StackPanel>
         <TextBox IsReadOnly="True"
                      Block.LineHeight="18"
@@ -27,8 +27,15 @@
                            VerticalAlignment="Center"
                            Margin="0,0,10,0"/>
                 
-                <Button Content="安装Xray"
+                <Button Content="一键安装"
                         Click="Install"
+                        Height="26"
+                        IsEnabled="{Binding HasConnected}"
+                        Width="120"/>
+
+                <Button Content="更新配置"
+                        Margin="10,0,0,0"
+                        Click="UpdateXraySettings"
                         Height="26"
                         IsEnabled="{Binding HasConnected}"
                         Width="120"/>
@@ -36,13 +43,6 @@
                 <Button Content="更新Xray内核" 
                         Margin="10,0,0,0"
                         Click="UpdateXrayCore"
-                        Height="26"
-                        IsEnabled="{Binding HasConnected}"
-                        Width="120"/>
-
-                <Button Content="更新Xray配置"
-                        Margin="10,0,0,0"
-                        Click="UpdateXraySettings"
                         Height="26"
                         IsEnabled="{Binding HasConnected}"
                         Width="120"/>
@@ -61,7 +61,7 @@
                            VerticalAlignment="Center"
                            Margin="0,0,10,0"/>
 
-                <Button Content="申请证书"
+                <Button Content="续签证书"
                         Margin="0,0,0,0"
                         Height="26"
                         Width="120"
@@ -75,7 +75,7 @@
                         IsEnabled="{Binding HasConnected}"
                         Click="UploadCert"/>
 
-                <Button Content="上传伪装网站"
+                <Button Content="上传网站"
                         Margin="10,0,0,0"
                         Height="26"
                         Width="120"
@@ -92,7 +92,15 @@
         </StackPanel>
 
         <StackPanel Margin="10,0,0,0">
-            <Label Content="静态网页模版（感谢网友推荐），将网站压缩包上传到服务区即可。" />
+            <Label Content="说明："/>
+            <StackPanel Margin="10,0,0,0">
+                <Label Content="一键安装： 最后输出 “请尽情享用” 表示完成，到[查看配置]或[导出配置]查看节点" />
+                <Label Content="更新配置： 修改节点配置信息后，不需要重新安装，这个功能就可以更新配置了" />
+            
+                <Label Content="续签证书： 证书默认是自动续签，但不保证都能续签成功，如果失败请用[续签证书]手动续签" />
+                <Label Content="上传网站： 伪装网站，正确的静态网页要有index.html文件(请检查)，然后将网站压缩包上传。" />
+            </StackPanel>
+            <Label Content="如下是网友提供的静态网页连接，请自行检查是否有index.html文件" />
             <TextBlock>
                 <Hyperlink NavigateUri="https://www.themezy.com" Click="OpenLink">Themezy</Hyperlink>
             </TextBlock>
