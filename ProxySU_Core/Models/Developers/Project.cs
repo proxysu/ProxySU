@@ -400,6 +400,7 @@ namespace ProxySU_Core.Models.Developers
             RunCmd("curl -o caddy_install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/Caddy-Naive/caddy-naive-install.sh");
             RunCmd("yes | bash caddy_install.sh");
             RunCmd("rm -rf caddy_install.sh");
+            RunCmd("systemctl enable caddy.service");
         }
 
         protected void UninstallCaddy()
