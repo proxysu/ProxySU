@@ -111,7 +111,7 @@ namespace ProxySU_Core.Models.Developers
             WriteOutput("卸载证书");
             UninstallAcme();
             WriteOutput("关闭端口");
-            ClosePort(Parameters.ShadowSocksPort, Parameters.KcpPort);
+            ClosePort(Parameters.ShadowSocksPort, Parameters.VMESS_KCP_Port);
 
             WriteOutput("************ 卸载完成 ************");
         }

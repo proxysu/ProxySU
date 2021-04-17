@@ -8,7 +8,7 @@ namespace ProxySU_Core.Models.Developers
     {
         int Port { get; set; }
 
-        int KcpPort { get; set; }
+        int VMESS_KCP_Port { get; set; }
 
         int ShadowSocksPort { get; set; }
 

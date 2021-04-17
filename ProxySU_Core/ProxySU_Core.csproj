@@ -144,14 +144,47 @@
     <Compile Include="ViewModels\RecordViewModel.cs" />
     <Compile Include="ViewModels\Terminal.cs" />
     <Compile Include="ViewModels\XraySettingsViewModel.cs" />
-    <Compile Include="Views\ClientInfoWindow.xaml.cs">
+    <Compile Include="Views\ClientInfo\ClientInfoWindow.xaml.cs">
       <DependentUpon>ClientInfoWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ClientInfo\ShadowSocksControl.xaml.cs">
+      <DependentUpon>ShadowSocksControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ClientInfo\Trojan_TCP_Control.xaml.cs">
+      <DependentUpon>Trojan_TCP_Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ClientInfo\VLESS_KCP_Control.xaml.cs">
+      <DependentUpon>VLESS_KCP_Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ClientInfo\VLESS_TCP_TLS_Control.xaml.cs">
+      <DependentUpon>VLESS_TCP_TLS_Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ClientInfo\VLESS_WS_TLS_Control.xaml.cs">
+      <DependentUpon>VLESS_WS_TLS_Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ClientInfo\VLESS_XTLS_Control.xaml.cs">
+      <DependentUpon>VLESS_XTLS_Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ClientInfo\VMESS_KCP_Control.xaml.cs">
+      <DependentUpon>VMESS_KCP_Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ClientInfo\VMESS_TCP_TLS_Control.xaml.cs">
+      <DependentUpon>VMESS_TCP_TLS_Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ClientInfo\VMESS_WS_TLS_Control.xaml.cs">
+      <DependentUpon>VMESS_WS_TLS_Control.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\RecordEditorWindow.xaml.cs">
+    <Compile Include="Views\RecordEditor\RecordEditorWindow.xaml.cs">
       <DependentUpon>RecordEditorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RecordEditor\ServerInfoControl.xaml.cs">
+      <DependentUpon>ServerInfoControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RecordEditor\VlessEditorControl.xaml.cs">
+      <DependentUpon>VlessEditorControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TerminalWindow.xaml.cs">
       <DependentUpon>TerminalWindow.xaml</DependentUpon>
@@ -306,7 +339,43 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ClientInfoWindow.xaml">
+    <Page Include="Views\ClientInfo\ClientInfoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ClientInfo\ShadowSocksControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ClientInfo\Trojan_TCP_Control.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ClientInfo\VLESS_KCP_Control.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ClientInfo\VLESS_TCP_TLS_Control.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ClientInfo\VLESS_WS_TLS_Control.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ClientInfo\VLESS_XTLS_Control.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ClientInfo\VMESS_KCP_Control.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ClientInfo\VMESS_TCP_TLS_Control.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ClientInfo\VMESS_WS_TLS_Control.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -314,7 +383,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\RecordEditorWindow.xaml">
+    <Page Include="Views\RecordEditor\RecordEditorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RecordEditor\ServerInfoControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RecordEditor\VlessEditorControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

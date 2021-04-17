@@ -313,7 +313,7 @@ namespace ProxySU_Core.Models.Developers
 
             if (Parameters.Types.Contains(XrayType.VMESS_KCP))
             {
-                portList.Add(Parameters.KcpPort);
+                portList.Add(Parameters.VMESS_KCP_Port);
             }
 
             OpenPort(portList.ToArray());
@@ -481,7 +481,7 @@ namespace ProxySU_Core.Models.Developers
                 SetPortFree(80);
                 SetPortFree(443);
                 SetPortFree(Parameters.Port);
-                SetPortFree(Parameters.KcpPort);
+                SetPortFree(Parameters.VMESS_KCP_Port);
                 SetPortFree(Parameters.ShadowSocksPort);
             }
         }

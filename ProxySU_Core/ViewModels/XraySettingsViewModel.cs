@@ -10,18 +10,30 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace ProxySU_Core.ViewModels
 {
     public partial class XraySettingsViewModel : BaseViewModel
     {
         public XraySettings settings;
+        private readonly ICommand _randomUuid;
 
         public XraySettingsViewModel(XraySettings parameters)
         {
+            _randomUuid = new BaseCommand((obj) => GetUuid());
             this.settings = parameters;
             Notify("VMESS_KCP_Type");
         }
+
+        public ICommand RandomUuid
+        {
+            get
+            {
+                return _randomUuid;
+            }
+        }
+
 
         public int Port
         {
@@ -33,13 +45,23 @@ namespace ProxySU_Core.ViewModels
             }
         }
 
-        public int KcpPort
+        public int VLESS_KCP_Port
         {
-            get => settings.KcpPort;
+            get => settings.VLESS_KCP_Port;
             set
             {
-                settings.KcpPort = value;
-                Notify("KcpPort");
+                settings.VLESS_KCP_Port = value;
+                Notify("VLESS_KCP_Port");
+            }
+        }
+
+        public int VMESS_KCP_Port
+        {
+            get => settings.VMESS_KCP_Port;
+            set
+            {
+                settings.VMESS_KCP_Port = value;
+                Notify("VMESS_KCP_Port");
             }
         }
 
@@ -48,7 +70,7 @@ namespace ProxySU_Core.ViewModels
             get => settings.ShadowSocksPort;
             set
             {
-                settings.KcpPort = value;
+                settings.VMESS_KCP_Port = value;
                 Notify("ShadowSocksPort");
             }
         }
@@ -156,6 +178,14 @@ namespace ProxySU_Core.ViewModels
             }
         }
 
+
+
+        private void GetUuid()
+        {
+            UUID = Guid.NewGuid().ToString();
+            Notify("UUID");
+        }
+
     }
 
     public partial class XraySettingsViewModel
@@ -256,7 +286,6 @@ namespace ProxySU_Core.ViewModels
             get => ShareLink.Build(XrayType.VLESS_TCP_XTLS, settings);
         }
 
-
         // vless tcp
         public bool Checked_VLESS_TCP
         {
@@ -296,6 +325,37 @@ namespace ProxySU_Core.ViewModels
             get => ShareLink.Build(XrayType.VLESS_WS, settings);
         }
 
+        // vless kcp
+        public string VLESS_KCP_Seed
+        {
+            get => settings.VLESS_KCP_Seed;
+            set => settings.VLESS_KCP_Seed = value;
+        }
+        public string VLESS_KCP_Type
+        {
+            get => settings.VLESS_KCP_Type;
+            set
+            {
+                var namespaceStr = typeof(ComboBoxItem).FullName + ":";
+                var trimValue = value.Replace(namespaceStr, "");
+                trimValue = trimValue.Trim();
+                settings.VLESS_KCP_Type = trimValue;
+                Notify("VLESS_KCP_Type");
+            }
+        }
+        public bool Checked_VLESS_KCP
+        {
+            get => settings.Types.Contains(XrayType.VMESS_KCP);
+            set
+            {
+                CheckBoxChanged(value, XrayType.VMESS_KCP);
+                Notify("Checked_VLESS_KCP");
+            }
+        }
+        public string VLESS_KCP_ShareLink
+        {
+            get => ShareLink.Build(XrayType.VLESS_KCP, settings);
+        }
     }
 
 }

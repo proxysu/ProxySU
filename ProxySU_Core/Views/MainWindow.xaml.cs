@@ -5,6 +5,8 @@ using ProxySU_Core.Common;
 using ProxySU_Core.Models;
 using ProxySU_Core.ViewModels;
 using ProxySU_Core.Views;
+using ProxySU_Core.Views.ClientInfo;
+using ProxySU_Core.Views.RecordEditor;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

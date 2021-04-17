@@ -175,7 +175,7 @@ namespace ProxySU_Core.Models.Developers
             if (parameters.Types.Contains(XrayType.VMESS_KCP))
             {
                 var kcpBound = GetBound("VMESS_KCP.json");
-                kcpBound.port = parameters.KcpPort;
+                kcpBound.port = parameters.VMESS_KCP_Port;
                 kcpBound.settings.clients[0].id = parameters.UUID;
                 kcpBound.streamSettings.kcpSettings.header.type = parameters.VMESS_KCP_Type;
                 kcpBound.streamSettings.kcpSettings.seed = parameters.VMESS_KCP_Seed;

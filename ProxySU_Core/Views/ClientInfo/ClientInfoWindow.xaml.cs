@@ -14,7 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace ProxySU_Core.Views
+namespace ProxySU_Core.Views.ClientInfo
 {
     /// <summary>
     /// ClientInfoWindow.xaml 的交互逻辑

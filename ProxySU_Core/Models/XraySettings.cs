@@ -17,7 +17,8 @@ namespace ProxySU_Core.Models
         {
             var guid = Guid.NewGuid().ToString();
             Port = 443;
-            KcpPort = 10443;
+            VLESS_KCP_Port = 10445;
+            VMESS_KCP_Port = 10443;
             ShadowSocksPort = 11443;
 
             UUID = guid;
@@ -45,9 +46,14 @@ namespace ProxySU_Core.Models
         public int Port { get; set; }
 
         /// <summary>
-        /// kcp端口
+        /// vless kcp端口
         /// </summary>
-        public int KcpPort { get; set; }
+        public int VLESS_KCP_Port { get; set; }
+
+        /// <summary>
+        /// vmess kcp端口
+        /// </summary>
+        public int VMESS_KCP_Port { get; set; }
 
         // ss端口
         public int ShadowSocksPort { get; set; }
@@ -67,6 +73,16 @@ namespace ProxySU_Core.Models
         /// vless http2 path
         /// </summary>
         public string VLESS_H2_Path { get; set; }
+
+        /// <summary>
+        /// vless kcp seed
+        /// </summary>
+        public string VLESS_KCP_Seed { get; set; }
+
+        /// <summary>
+        /// vless kcp type
+        /// </summary>
+        public string VLESS_KCP_Type { get; set; }
         #endregion
 
         #region vmess

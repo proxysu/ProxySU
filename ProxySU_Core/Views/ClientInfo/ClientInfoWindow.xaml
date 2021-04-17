@@ -1,0 +1,94 @@
+﻿<metro:MetroWindow x:Class="ProxySU_Core.Views.ClientInfo.ClientInfoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"       
+        xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:local="clr-namespace:ProxySU_Core.Views.ClientInfo"
+        xmlns:dev="clr-namespace:ProxySU_Core.Models.Developers"
+        mc:Ignorable="d"
+        Title="查看配置" Height="500" Width="800">
+
+
+    <Grid>
+        <TabControl BorderThickness="0,1,0,0" BorderBrush="#DDD">
+            <TabItem metro:HeaderedControlHelper.HeaderFontSize="20" Padding="10,5,10,5" Header="VLESS">
+                <TabControl 
+                    Background="#fff"
+                    Style="{StaticResource MaterialDesignNavigatilRailTabControl}"
+                    Padding="10">
+                    <TabItem Width="200" 
+                             IsEnabled="{Binding Settings.Checked_VLESS_XTLS}"
+                             Style="{StaticResource MaterialDesignNavigationRailTabItem}"
+                             Header="VLESS-TCP-XTLS">
+                        <local:VLESS_XTLS_Control />
+                    </TabItem>
+                    <TabItem Width="200" 
+                             IsEnabled="{Binding Settings.Checked_VLESS_TCP}" 
+                             Style="{StaticResource MaterialDesignNavigationRailTabItem}" 
+                             Header="VLESS-TCP-TLS">
+                        <local:VLESS_TCP_TLS_Control />
+                    </TabItem>
+                    <TabItem Width="200"
+                             IsEnabled="{Binding Settings.Checked_VLESS_WS}" 
+                             Style="{StaticResource MaterialDesignNavigationRailTabItem}" 
+                             Header="VLESS-WebSocket-TLS">
+                        <local:VLESS_WS_TLS_Control />
+                    </TabItem>
+                   
+                </TabControl>
+            </TabItem>
+
+            <TabItem metro:HeaderedControlHelper.HeaderFontSize="20" Padding="10,5,10,5" Header="VMESS">
+                <TabControl 
+                    Padding="10"
+                    Style="{StaticResource MaterialDesignNavigatilRailTabControl}">
+                    <TabItem Width="200"                      
+                                 IsEnabled="{Binding Settings.Checked_VMESS_TCP}"
+                                 Style="{StaticResource MaterialDesignNavigationRailTabItem}" 
+                                 Header="VMESS-TCP-TLS">
+                        <local:VMESS_TCP_TLS_Control />
+                    </TabItem>
+                    <TabItem Width="200" 
+                                 IsEnabled="{Binding Settings.Checked_VMESS_WS}"
+                                 Style="{StaticResource MaterialDesignNavigationRailTabItem}"
+                                 Header="VMESS-WebSocket-TLS">
+                        <local:VMESS_WS_TLS_Control />
+                    </TabItem>
+                    <TabItem Width="200" 
+                                 IsEnabled="{Binding Settings.Checked_VMESS_KCP}"
+                                 Style="{StaticResource MaterialDesignNavigationRailTabItem}"
+                                 Header="VMESS-mKCP">
+                        <local:VMESS_KCP_Control />
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+
+            <TabItem metro:HeaderedControlHelper.HeaderFontSize="20" Padding="10,5,10,5" Header="Trojan">
+                <TabControl 
+                    Padding="10"
+                    Style="{StaticResource MaterialDesignNavigatilRailTabControl}">
+                    <TabItem Width="200" 
+                             IsEnabled="{Binding Settings.Checked_Trojan_TCP}"
+                             Style="{StaticResource MaterialDesignNavigationRailTabItem}"
+                             Header="VLESS-TCP-Trojan">
+                        <local:Trojan_TCP_Control />
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+
+            <TabItem metro:HeaderedControlHelper.HeaderFontSize="20" Padding="10,5,10,5" Header="ShadowSocks">
+                <TabControl 
+                    Padding="10"
+                    Style="{StaticResource MaterialDesignNavigatilRailTabControl}">
+                    <TabItem Width="200"
+                             IsEnabled="{Binding Settings.CheckedShadowSocks}"
+                             Style="{StaticResource MaterialDesignNavigationRailTabItem}"
+                             Header="ShadowSocks">
+                        <local:ShadowSocksControl />
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</metro:MetroWindow>
