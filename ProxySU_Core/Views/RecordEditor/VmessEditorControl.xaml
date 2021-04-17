@@ -1,16 +1,16 @@
-﻿<UserControl x:Class="ProxySU_Core.Views.RecordEditor.VlessEditorControl"
+﻿<UserControl x:Class="ProxySU_Core.Views.RecordEditor.VmessEditorControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ProxySU_Core.Views.RecordEditor"
+             xmlns:local="clr-namespace:ProxySU_Core.Views.RecordEditor"             
              xmlns:converters="clr-namespace:ProxySU_Core.Converters"
              mc:Ignorable="d">
 
     <UserControl.Resources>
         <converters:VisibleConverter x:Key="VisibleConverter" />
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="220"/>
@@ -28,47 +28,32 @@
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
 
-        <!--XTLS-->
-        <CheckBox Content="VLESS Over TCP With XTLS&#x0a;性能数倍，首选方式。"
-                  FontSize="13"
-                  Grid.Row="0" 
-                  Grid.Column="0"
-                  Style="{StaticResource MahApps.Styles.CheckBox}"
-                  IsChecked="{Binding Path=Settings.Checked_VLESS_TCP_XTLS}"/>
-        
         <!--TCP-->
-        <CheckBox Content="VLESS over TCP with TLS&#x0a;仍推荐XTLS"
+        <CheckBox Content="VMESS over TCP with TLS&#x0a;不推荐"
+                  Grid.Row="0"
+                  Grid.Column="0"
+                  FontSize="13"
+                  Style="{StaticResource MahApps.Styles.CheckBox}"
+                  IsChecked="{Binding Path=Settings.Checked_VMESS_TCP}" />
+
+        <!--WebSocket-->
+        <CheckBox Content="VMESS over WS with TLS&#x0a;推荐，支持CDN。" 
                   Grid.Row="1"
                   Grid.Column="0"
-                  FontSize="13"
-                  Style="{StaticResource MahApps.Styles.CheckBox}"
-                  IsChecked="{Binding Path=Settings.Checked_VLESS_TCP}" />
-        
-        <!--WebSocket-->
-        <CheckBox Content="VLESS over WS with TLS&#x0a;推荐，支持CDN。" 
+                  Style="{StaticResource MahApps.Styles.CheckBox}" 
+                  IsChecked="{Binding Path=Settings.Checked_VMESS_WS}" />
+
+        <!--mKCP-->
+        <CheckBox Content="VMESS mKCP&#x0a;游戏推荐，延迟低。"
                   Grid.Row="2"
                   Grid.Column="0"
                   Style="{StaticResource MahApps.Styles.CheckBox}" 
-                  IsChecked="{Binding Path=Settings.Checked_VLESS_WS}" />
-
-        <!--mKCP-->
-        <CheckBox Content="VLESS mKCP&#x0a;游戏推荐，延迟低。"
-                  Grid.Row="3"
-                  Grid.Column="0"
-                  Style="{StaticResource MahApps.Styles.CheckBox}" 
-                  IsChecked="{Binding Path=Settings.Checked_VLESS_KCP}" />
-
-        <!--gRPC-->
-        <CheckBox Content="VLESS gRPC&#x0a;基于http2，多路复用。"
-                  Grid.Row="4"
-                  Grid.Column="0"
-                  Style="{StaticResource MahApps.Styles.CheckBox}"
-                  IsChecked="{Binding Path=Settings.Checked_VLESS_gRPC}"/>
+                  IsChecked="{Binding Path=Settings.Checked_VMESS_KCP}" />
 
 
 
-        <!--************************** 参数 **************************-->        
-        
+        <!--************************** 参数 **************************-->
+
         <!--UUID-->
         <StackPanel Margin="40,0,0,10"
                     Grid.Row="0"
@@ -96,7 +81,7 @@
             <Label Content="域名" Width="70" VerticalAlignment="Bottom" />
             <TextBox Text="{Binding Path=Settings.Domain}" Width="260" VerticalAlignment="Bottom" />
         </StackPanel>
-        
+
         <!--Mask Domain-->
         <StackPanel Margin="40,0,0,10" 
                     Grid.Row="2"
@@ -105,55 +90,39 @@
             <Label Content="伪装域名" Width="70" VerticalAlignment="Bottom" />
             <TextBox Text="{Binding Path=Settings.MaskDomain}" Width="260" VerticalAlignment="Bottom" />
         </StackPanel>
-        
+
         <!--WebSocket Path-->
         <StackPanel Margin="40,0,0,10" 
                     Grid.Row="3"
                     Grid.Column="1"
                     Orientation="Horizontal"
                     Visibility="{
-                        Binding Path=Settings.Checked_VLESS_WS,
+                        Binding Path=Settings.Checked_VMESS_WS,
                         Converter={StaticResource VisibleConverter}
                     }">
             <Label Content="WS路径" Width="70" VerticalAlignment="Bottom" />
-            <TextBox Text="{Binding Path=Settings.VLESS_WS_Path}"
+            <TextBox Text="{Binding Path=Settings.VMESS_WS_Path}"
                      VerticalAlignment="Bottom"
                      Width="260" />
         </StackPanel>
-        
+
         <!--kcp port-->
         <StackPanel Margin="40,0,0,10"
                     Grid.Row="4"
                     Grid.Column="1"
                     Orientation="Horizontal"
                     Visibility="{
-                        Binding Path=Settings.Checked_VLESS_KCP,
+                        Binding Path=Settings.Checked_VMESS_KCP,
                         Converter={StaticResource VisibleConverter}
                     }">
             <Label Content="KCP端口" Width="70" VerticalAlignment="Bottom" />
-            <TextBox Text="{Binding Path=Settings.VLESS_KCP_Port}" Width="100" VerticalAlignment="Bottom" />
-        </StackPanel>
-
-        <!--gRPC Port-->
-        <StackPanel Margin="40,0,0,10"
-                    Grid.Row="5"
-                    Grid.Column="1"
-                    Orientation="Horizontal"
-                    Visibility="{
-                        Binding Path=Settings.Checked_VLESS_gRPC,
-                        Converter={StaticResource VisibleConverter}
-                    }">
-            <Label Content="gRPC端口" Width="70" VerticalAlignment="Bottom" />
-            <TextBox Text="{Binding Path=Settings.VLESS_gRPC_Port}" Width="100" VerticalAlignment="Bottom" />
-
-            <Label Content="服务器" Width="70" VerticalAlignment="Bottom" Margin="10,0,0,0" />
-            <TextBox Text="{Binding Path=Settings.VLESS_gRPC_ServiceName}" Width="100" VerticalAlignment="Bottom" />
+            <TextBox Text="{Binding Path=Settings.VMESS_KCP_Port}" Width="100" VerticalAlignment="Bottom" />
         </StackPanel>
 
 
         <!--xray prot-->
         <StackPanel Margin="40,0,0,10"
-                    Grid.Row="6"
+                    Grid.Row="5"
                     Grid.Column="1"
                     Orientation="Horizontal">
             <Label Content="Xray端口" Width="70" VerticalAlignment="Bottom" />

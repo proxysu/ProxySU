@@ -1,0 +1,19 @@
+{
+  "port": 2002,
+  "protocol": "vless",
+  "settings": {
+    "clients": [
+      {
+        "id": ""
+      }
+    ],
+    "decryption": "none"
+  },
+  "streamSettings": {
+    "network": "grpc",
+    "grpcSettings": {
+      "serviceName": ""
+    }
+  }
+}
+}

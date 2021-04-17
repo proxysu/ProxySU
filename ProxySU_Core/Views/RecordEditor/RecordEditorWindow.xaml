@@ -42,13 +42,13 @@
                         <local:VlessEditorControl />
                     </TabItem>
                     <TabItem metro:HeaderedControlHelper.HeaderFontSize="20" Padding="10,5,10,5" Header="VMESS">
-                        
+                        <local:VmessEditorControl />
                     </TabItem>
                     <TabItem metro:HeaderedControlHelper.HeaderFontSize="20" Padding="10,5,10,5" Header="Trojan">
-                        
+                        <local:TrojanEditorControl />
                     </TabItem>
                     <TabItem metro:HeaderedControlHelper.HeaderFontSize="20" Padding="10,5,10,5" Header="ShadowSocks">
-                        
+                        <local:ShadowSocksEditorControl />
                     </TabItem>
                 </TabControl>
              

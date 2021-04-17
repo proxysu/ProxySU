@@ -135,6 +135,13 @@ namespace ProxySU_Core.Models
                     _headerType = settings.VLESS_KCP_Type;
                     _seed = settings.VLESS_KCP_Seed;
                     _port = settings.VLESS_KCP_Port;
+                    _descriptiveText = "vless-mKCP";
+                    break;
+                case XrayType.VLESS_gRPC:
+                    _protocol = "vless";
+                    _type = "grpc";
+                    _path = settings.VLESS_gRPC_ServiceName;
+                    _descriptiveText = "vless-gRPC";
                     break;
                 case XrayType.Trojan_TCP:
                     _protocol = "trojan";

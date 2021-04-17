@@ -17,15 +17,17 @@ namespace ProxySU_Core.Models
         {
             var guid = Guid.NewGuid().ToString();
             Port = 443;
-            VLESS_KCP_Port = 10445;
-            VMESS_KCP_Port = 10443;
-            ShadowSocksPort = 11443;
+            VLESS_KCP_Port = 2001;
+            VLESS_gRPC_Port = 2002;
+            VMESS_KCP_Port = 3001;
+            ShadowSocksPort = 4001;
 
             UUID = guid;
             Types = new List<XrayType>();
 
             VLESS_WS_Path = "/vlessws";
             VLESS_H2_Path = "/vlessh2";
+            VLESS_gRPC_ServiceName = "xray_gRPC";
 
             VMESS_WS_Path = "/vmessws";
             VMESS_TCP_Path = "/vmesstcp";
@@ -45,18 +47,6 @@ namespace ProxySU_Core.Models
         /// </summary>
         public int Port { get; set; }
 
-        /// <summary>
-        /// vless kcp端口
-        /// </summary>
-        public int VLESS_KCP_Port { get; set; }
-
-        /// <summary>
-        /// vmess kcp端口
-        /// </summary>
-        public int VMESS_KCP_Port { get; set; }
-
-        // ss端口
-        public int ShadowSocksPort { get; set; }
 
         /// <summary>
         /// UUID
@@ -64,6 +54,8 @@ namespace ProxySU_Core.Models
         public string UUID { get; set; }
 
         #region vless
+
+
         /// <summary>
         /// vless ws路径
         /// </summary>
@@ -83,6 +75,22 @@ namespace ProxySU_Core.Models
         /// vless kcp type
         /// </summary>
         public string VLESS_KCP_Type { get; set; }
+
+        /// <summary>
+        /// vless kcp端口
+        /// </summary>
+        public int VLESS_KCP_Port { get; set; }
+
+        /// <summary>
+        /// grpc service name
+        /// </summary>
+        public string VLESS_gRPC_ServiceName { get; set; }
+
+        /// <summary>
+        /// grpc port
+        /// </summary>
+        public int VLESS_gRPC_Port { get; set; }
+
         #endregion
 
         #region vmess
@@ -110,6 +118,11 @@ namespace ProxySU_Core.Models
         /// vmess kcp type
         /// </summary>
         public string VMESS_KCP_Type { get; set; }
+
+        /// <summary>
+        /// vmess kcp端口
+        /// </summary>
+        public int VMESS_KCP_Port { get; set; }
         #endregion
 
         #region Trojan
@@ -134,6 +147,11 @@ namespace ProxySU_Core.Models
         /// ss method
         /// </summary>
         public string ShadowsocksMethod { get; set; }
+
+        /// <summary>
+        /// ss端口
+        /// </summary>
+        public int ShadowSocksPort { get; set; }
         #endregion
 
 
@@ -194,6 +212,7 @@ namespace ProxySU_Core.Models
         VLESS_WS = 102,
         VLESS_H2 = 103,
         VLESS_KCP = 104,
+        VLESS_gRPC = 110,
 
         // vmess 201开头
         VMESS_TCP = 201,

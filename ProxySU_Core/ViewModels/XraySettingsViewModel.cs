@@ -188,6 +188,9 @@ namespace ProxySU_Core.ViewModels
 
     }
 
+    /// <summary>
+    /// VMESS
+    /// </summary>
     public partial class XraySettingsViewModel
     {
         // vmess tcp
@@ -267,7 +270,9 @@ namespace ProxySU_Core.ViewModels
         public List<string> KcpTypes => _kcpTypes;
     }
 
-
+    /// <summary>
+    /// VLESS
+    /// </summary>
     public partial class XraySettingsViewModel
     {
 
@@ -345,16 +350,41 @@ namespace ProxySU_Core.ViewModels
         }
         public bool Checked_VLESS_KCP
         {
-            get => settings.Types.Contains(XrayType.VMESS_KCP);
+            get => settings.Types.Contains(XrayType.VLESS_KCP);
             set
             {
-                CheckBoxChanged(value, XrayType.VMESS_KCP);
+                CheckBoxChanged(value, XrayType.VLESS_KCP);
                 Notify("Checked_VLESS_KCP");
             }
         }
         public string VLESS_KCP_ShareLink
         {
             get => ShareLink.Build(XrayType.VLESS_KCP, settings);
+        }
+
+        // vless grpc
+        public string VLESS_gRPC_ServiceName
+        {
+            get => settings.VLESS_gRPC_ServiceName;
+            set => settings.VLESS_gRPC_ServiceName = value;
+        }
+        public int VLESS_gRPC_Port
+        {
+            get => settings.VLESS_gRPC_Port;
+            set => settings.VLESS_gRPC_Port = value;
+        }
+        public bool Checked_VLESS_gRPC
+        {
+            get => settings.Types.Contains(XrayType.VLESS_gRPC);
+            set
+            {
+                CheckBoxChanged(value, XrayType.VLESS_gRPC);
+                Notify("Checked_VLESS_gRPC");
+            }
+        }
+        public string VLESS_gRPC_ShareLink
+        {
+            get => ShareLink.Build(XrayType.VLESS_gRPC, settings);
         }
     }
 

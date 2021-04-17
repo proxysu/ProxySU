@@ -129,6 +129,25 @@ namespace ProxySU_Core.Models.Developers
                 xrayConfig.inbounds.Add(JToken.FromObject(wsInbound));
             }
 
+            if(parameters.Types.Contains(XrayType.VLESS_gRPC))
+            {
+                var gRPCInBound = GetBound("VLESS_gRPC.json");
+                gRPCInBound.port = parameters.VLESS_gRPC_Port;
+                gRPCInBound.settings.clients[0].id = parameters.UUID;
+                gRPCInBound.streamSettings.grpcSettings.serviceName = parameters.VLESS_gRPC_ServiceName;
+                xrayConfig.inbounds.Add(JToken.FromObject(gRPCInBound));
+            }
+
+            if(parameters.Types.Contains(XrayType.VLESS_KCP))
+            {
+                var kcpBound = GetBound("VLESS_KCP.json");
+                kcpBound.port = parameters.VLESS_KCP_Port;
+                kcpBound.settings.clients[0].id = parameters.UUID;
+                kcpBound.streamSettings.kcpSettings.header.type = parameters.VLESS_KCP_Type;
+                kcpBound.streamSettings.kcpSettings.seed = parameters.VLESS_KCP_Seed;
+                xrayConfig.inbounds.Add(JToken.FromObject(kcpBound));
+            }
+
             if (parameters.Types.Contains(XrayType.VMESS_TCP))
             {
                 var mtcpBound = GetBound("VMESS_TCP.json");
@@ -159,6 +178,16 @@ namespace ProxySU_Core.Models.Developers
                 xrayConfig.inbounds.Add(JToken.FromObject(mwsBound));
             }
 
+            if (parameters.Types.Contains(XrayType.VMESS_KCP))
+            {
+                var kcpBound = GetBound("VMESS_KCP.json");
+                kcpBound.port = parameters.VMESS_KCP_Port;
+                kcpBound.settings.clients[0].id = parameters.UUID;
+                kcpBound.streamSettings.kcpSettings.header.type = parameters.VMESS_KCP_Type;
+                kcpBound.streamSettings.kcpSettings.seed = parameters.VMESS_KCP_Seed;
+                xrayConfig.inbounds.Add(JToken.FromObject(kcpBound));
+            }
+
             if (parameters.Types.Contains(XrayType.Trojan_TCP))
             {
                 var trojanTcpBound = GetBound("Trojan_TCP.json");
@@ -170,16 +199,6 @@ namespace ProxySU_Core.Models.Developers
                     xver = 1,
                 });
                 xrayConfig.inbounds.Add(JToken.FromObject(trojanTcpBound));
-            }
-
-            if (parameters.Types.Contains(XrayType.VMESS_KCP))
-            {
-                var kcpBound = GetBound("VMESS_KCP.json");
-                kcpBound.port = parameters.VMESS_KCP_Port;
-                kcpBound.settings.clients[0].id = parameters.UUID;
-                kcpBound.streamSettings.kcpSettings.header.type = parameters.VMESS_KCP_Type;
-                kcpBound.streamSettings.kcpSettings.seed = parameters.VMESS_KCP_Seed;
-                xrayConfig.inbounds.Add(JToken.FromObject(kcpBound));
             }
 
 
