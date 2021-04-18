@@ -82,6 +82,8 @@
                               SelectionUnit="FullRow"
                               BorderBrush="#eee"
                               BorderThickness="1"
+                              VerticalScrollBarVisibility="Auto"
+                              Height="500"
                               AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridCheckBoxColumn Header="选择"
