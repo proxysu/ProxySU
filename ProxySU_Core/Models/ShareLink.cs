@@ -133,6 +133,7 @@ namespace ProxySU_Core.Models
                     _headerType = settings.VLESS_KCP_Type;
                     _seed = settings.VLESS_KCP_Seed;
                     _port = settings.VLESS_KCP_Port;
+                    _security = "none";
                     _descriptiveText = "vless-mKCP";
                     break;
                 case XrayType.VLESS_gRPC:
