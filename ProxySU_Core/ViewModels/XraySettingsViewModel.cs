@@ -89,13 +89,21 @@ namespace ProxySU_Core.ViewModels
         public string Domain
         {
             get => settings.Domain;
-            set => settings.Domain = value;
+            set
+            {
+                settings.Domain = value;
+                Notify("Domain");
+            }
         }
 
         public string MaskDomain
         {
             get => settings.MaskDomain;
-            set => settings.MaskDomain = value;
+            set
+            {
+                settings.MaskDomain = value;
+                Notify("MaskDomain");
+            }
         }
 
         public string TrojanPassword
@@ -283,7 +291,7 @@ namespace ProxySU_Core.ViewModels
             set
             {
                 CheckBoxChanged(value, XrayType.VLESS_TCP_XTLS);
-                Notify("Checked_VLESS_XTLS");
+                Notify("Checked_VLESS_TCP_XTLS");
             }
         }
         public string VLESS_TCP_XTLS_ShareLink

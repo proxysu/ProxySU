@@ -106,7 +106,9 @@
                      Width="260" />
         </StackPanel>
 
-        <!--kcp port-->
+
+
+        <!--seed-->
         <StackPanel Margin="40,0,0,10"
                     Grid.Row="4"
                     Grid.Column="1"
@@ -115,14 +117,46 @@
                         Binding Path=Settings.Checked_VMESS_KCP,
                         Converter={StaticResource VisibleConverter}
                     }">
-            <Label Content="KCP端口" Width="70" VerticalAlignment="Bottom" />
-            <TextBox Text="{Binding Path=Settings.VMESS_KCP_Port}" Width="100" VerticalAlignment="Bottom" />
+            <Label Content="KCP Seed" Width="70" VerticalAlignment="Bottom" />
+            <TextBox Text="{Binding Path=Settings.VMESS_KCP_Seed}" Width="260" VerticalAlignment="Bottom" />
         </StackPanel>
+
+        <StackPanel Margin="40,0,0,10"
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Orientation="Horizontal">
+            <!--kcp type-->
+            <StackPanel Margin="0,0,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{
+                            Binding Path=Settings.Checked_VMESS_KCP,
+                            Converter={StaticResource VisibleConverter}
+                        }">
+                <Label Content="KCP伪装" Width="70" VerticalAlignment="Bottom"/>
+                <ComboBox Width="100" 
+                          VerticalAlignment="Bottom"
+                          ItemsSource="{Binding Path=Settings.KcpTypes}"
+                          SelectedValue="{Binding Settings.VMESS_KCP_Type,Mode=TwoWay}">
+                </ComboBox>
+            </StackPanel>
+
+            <!--kcp port-->
+            <StackPanel Margin="10,0,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{
+                            Binding Path=Settings.Checked_VMESS_KCP,
+                            Converter={StaticResource VisibleConverter}
+                        }">
+                <Label Content="KCP端口" Width="70" VerticalAlignment="Bottom" />
+                <TextBox Text="{Binding Path=Settings.VMESS_KCP_Port}" Width="100" VerticalAlignment="Bottom" />
+            </StackPanel>
+        </StackPanel>
+
 
 
         <!--xray prot-->
         <StackPanel Margin="40,0,0,10"
-                    Grid.Row="5"
+                    Grid.Row="6"
                     Grid.Column="1"
                     Orientation="Horizontal">
             <Label Content="Xray端口" Width="70" VerticalAlignment="Bottom" />

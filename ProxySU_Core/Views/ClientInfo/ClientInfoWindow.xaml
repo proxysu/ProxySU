@@ -18,24 +18,39 @@
                     Style="{StaticResource MaterialDesignNavigatilRailTabControl}"
                     Padding="10">
                     <TabItem Width="200" 
-                             IsEnabled="{Binding Settings.Checked_VLESS_XTLS}"
+                             IsEnabled="{Binding Settings.Checked_VLESS_TCP_XTLS}"
                              Style="{StaticResource MaterialDesignNavigationRailTabItem}"
                              Header="VLESS-TCP-XTLS">
                         <local:VLESS_XTLS_Control />
                     </TabItem>
+                    
                     <TabItem Width="200" 
                              IsEnabled="{Binding Settings.Checked_VLESS_TCP}" 
                              Style="{StaticResource MaterialDesignNavigationRailTabItem}" 
                              Header="VLESS-TCP-TLS">
                         <local:VLESS_TCP_TLS_Control />
                     </TabItem>
+                    
                     <TabItem Width="200"
                              IsEnabled="{Binding Settings.Checked_VLESS_WS}" 
                              Style="{StaticResource MaterialDesignNavigationRailTabItem}" 
                              Header="VLESS-WebSocket-TLS">
                         <local:VLESS_WS_TLS_Control />
                     </TabItem>
-                   
+
+                    <TabItem Width="200"
+                             IsEnabled="{Binding Settings.Checked_VLESS_KCP}" 
+                             Style="{StaticResource MaterialDesignNavigationRailTabItem}" 
+                             Header="VLESS-mKCP">
+                        <local:VLESS_KCP_Control />
+                    </TabItem>
+                    
+                    <TabItem Width="200"
+                             IsEnabled="{Binding Settings.Checked_VLESS_gRPC}" 
+                             Style="{StaticResource MaterialDesignNavigationRailTabItem}" 
+                             Header="VLESS-gRPC">
+                        <local:VLESS_gRPC_Control />
+                    </TabItem>
                 </TabControl>
             </TabItem>
 
@@ -71,7 +86,7 @@
                     <TabItem Width="200" 
                              IsEnabled="{Binding Settings.Checked_Trojan_TCP}"
                              Style="{StaticResource MaterialDesignNavigationRailTabItem}"
-                             Header="VLESS-TCP-Trojan">
+                             Header="Trojan-TCP">
                         <local:Trojan_TCP_Control />
                     </TabItem>
                 </TabControl>

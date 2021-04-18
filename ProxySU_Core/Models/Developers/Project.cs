@@ -316,6 +316,16 @@ namespace ProxySU_Core.Models.Developers
                 portList.Add(Parameters.VMESS_KCP_Port);
             }
 
+            if (Parameters.Types.Contains(XrayType.VLESS_KCP))
+            {
+                portList.Add(Parameters.VLESS_KCP_Port);
+            }
+
+            if (Parameters.Types.Contains(XrayType.VLESS_gRPC))
+            {
+                portList.Add(Parameters.VLESS_gRPC_Port);
+            }
+
             OpenPort(portList.ToArray());
         }
 
@@ -481,7 +491,8 @@ namespace ProxySU_Core.Models.Developers
                 SetPortFree(80);
                 SetPortFree(443);
                 SetPortFree(Parameters.Port);
-                SetPortFree(Parameters.VMESS_KCP_Port);
+                SetPortFree(Parameters.VLESS_gRPC_Port);
+                SetPortFree(Parameters.VLESS_KCP_Port);
                 SetPortFree(Parameters.ShadowSocksPort);
             }
         }

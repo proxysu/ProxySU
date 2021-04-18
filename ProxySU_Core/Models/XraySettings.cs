@@ -27,6 +27,8 @@ namespace ProxySU_Core.Models
 
             VLESS_WS_Path = "/vlessws";
             VLESS_H2_Path = "/vlessh2";
+            VLESS_KCP_Type = "none";
+            VLESS_KCP_Seed = guid;
             VLESS_gRPC_ServiceName = "xray_gRPC";
 
             VMESS_WS_Path = "/vmessws";

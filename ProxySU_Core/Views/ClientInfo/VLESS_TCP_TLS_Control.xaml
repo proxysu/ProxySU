@@ -48,7 +48,7 @@
 
         <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
             <Label Content="路径(path)" Width="120" />
-            <TextBox Text="{Binding Settings.VLESS_TCP_Path}" IsReadOnly="True" Width="200" />
+            <TextBox Text="" IsReadOnly="True" Width="200" />
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0,10,0,0">

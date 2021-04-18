@@ -153,6 +153,9 @@
     <Compile Include="Views\ClientInfo\Trojan_TCP_Control.xaml.cs">
       <DependentUpon>Trojan_TCP_Control.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ClientInfo\VLESS_gRPC_Control.xaml.cs">
+      <DependentUpon>VLESS_gRPC_Control.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ClientInfo\VLESS_KCP_Control.xaml.cs">
       <DependentUpon>VLESS_KCP_Control.xaml</DependentUpon>
     </Compile>
@@ -295,7 +298,9 @@
     <None Include="Templates\xray\server\05_inbounds\Trojan_WS.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Templates\xray\server\05_inbounds\VLESS_gRPC.json" />
+    <None Include="Templates\xray\server\05_inbounds\VLESS_gRPC.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Templates\xray\server\05_inbounds\VLESS_HTTP2.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -358,6 +363,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ClientInfo\Trojan_TCP_Control.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ClientInfo\VLESS_gRPC_Control.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
