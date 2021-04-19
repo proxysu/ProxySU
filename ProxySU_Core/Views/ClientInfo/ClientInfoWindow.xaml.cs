@@ -36,12 +36,27 @@ namespace ProxySU_Core.Views.ClientInfo
             DataContext = this;
         }
 
+        private void SelectDefault(object sender, SelectionChangedEventArgs e)
+        {
+            var tabControl = e.Source as TabControl;
+            var item = (tabControl.SelectedItem as TabItem);
+            var itemControl = item.Content as ContentControl;
+            if (itemControl == null) return;
+            Console.WriteLine(itemControl.Tag);
+        }
+
         private void BuildQrCode(object sender, SelectionChangedEventArgs e)
         {
             var tabControl = e.Source as TabControl;
             var item = (tabControl.SelectedItem as TabItem);
+            if (item == null) return;
             var type = (XrayType)item.Tag;
+            if (type == null) return;
+            BuildQrCode(type);
+        }
 
+        private void BuildQrCode(XrayType type)
+        {
             string shareLink = string.Empty;
             switch (type)
             {

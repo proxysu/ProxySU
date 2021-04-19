@@ -43,7 +43,7 @@ namespace ProxySU_Core.Models
             var _port = settings.ShadowSocksPort;
 
             var base64URL = Base64.Encode($"{_method}:{_password}@{_server}:{_port}");
-            return "ss://" + base64URL;
+            return "ss://" + base64URL + "#ShadowSocks";
         }
 
         private static string BuildVmessShareLink(XrayType xrayType, XraySettings settings)
@@ -156,7 +156,7 @@ namespace ProxySU_Core.Models
             if (xrayType != XrayType.Trojan_TCP)
             {
                 // 4.3 传输层相关段
-                parametersURL = $"?type={_type}&encryption={_encryption}&security={_security}&host={_host}&path={HttpUtility.UrlEncode(_path)}&headerType={_headerType}";
+                parametersURL = $"?type={_type}&encryption={_encryption}&security={_security}&path={HttpUtility.UrlEncode(_path)}&headerType={_headerType}";
 
                 // kcp
                 if (xrayType == XrayType.VLESS_KCP)

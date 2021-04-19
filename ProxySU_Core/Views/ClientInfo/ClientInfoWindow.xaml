@@ -16,113 +16,94 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="200" />
         </Grid.ColumnDefinitions>
-        
-        <TabControl Grid.Column="0" BorderThickness="0,1,0,0" BorderBrush="#DDD">
-            <TabItem metro:HeaderedControlHelper.HeaderFontSize="20" Padding="10,5,10,5" Header="VLESS">
-                <TabControl 
-                    Background="#fff"
-                    SelectionChanged="BuildQrCode"
-                    Style="{StaticResource MaterialDesignNavigatilRailTabControl}"
-                    Padding="10">
-                    <TabItem Width="200"
-                             Tag="{x:Static models:XrayType.VLESS_TCP_XTLS}"
-                             IsEnabled="{Binding Settings.Checked_VLESS_TCP_XTLS}"
-                             Style="{StaticResource MaterialDesignNavigationRailTabItem}"
-                             Header="VLESS-TCP-XTLS">
-                        <local:VLESS_XTLS_Control />
-                    </TabItem>
 
-                    <TabItem Width="200" 
-                             Tag="{x:Static models:XrayType.VLESS_TCP}"
-                             IsEnabled="{Binding Settings.Checked_VLESS_TCP}" 
-                             Style="{StaticResource MaterialDesignNavigationRailTabItem}" 
-                             Header="VLESS-TCP-TLS">
-                        <local:VLESS_TCP_TLS_Control />
-                    </TabItem>
-
-                    <TabItem Width="200"
-                             Tag="{x:Static models:XrayType.VLESS_WS}"
-                             IsEnabled="{Binding Settings.Checked_VLESS_WS}" 
-                             Style="{StaticResource MaterialDesignNavigationRailTabItem}" 
-                             Header="VLESS-WebSocket-TLS">
-                        <local:VLESS_WS_TLS_Control />
-                    </TabItem>
-
-                    <TabItem Width="200"
-                             Tag="{x:Static models:XrayType.VLESS_KCP}"
-                             IsEnabled="{Binding Settings.Checked_VLESS_KCP}" 
-                             Style="{StaticResource MaterialDesignNavigationRailTabItem}" 
-                             Header="VLESS-mKCP">
-                        <local:VLESS_KCP_Control />
-                    </TabItem>
-                    
-                    <!--<TabItem Width="200"
-                             IsEnabled="{Binding Settings.Checked_VLESS_gRPC}" 
-                             Style="{StaticResource MaterialDesignNavigationRailTabItem}" 
-                             Header="VLESS-gRPC">
-                        <local:VLESS_gRPC_Control />
-                    </TabItem>-->
-                </TabControl>
-            </TabItem>
-
-            <TabItem metro:HeaderedControlHelper.HeaderFontSize="20" Padding="10,5,10,5" Header="VMESS">
-                <TabControl 
-                    SelectionChanged="BuildQrCode"
+        <TabControl Grid.Column="0"
                     Padding="10"
-                    Style="{StaticResource MaterialDesignNavigatilRailTabControl}">
-                    <TabItem Width="200"     
-                             Tag="{x:Static models:XrayType.VMESS_TCP}"                 
-                             IsEnabled="{Binding Settings.Checked_VMESS_TCP}"
-                             Style="{StaticResource MaterialDesignNavigationRailTabItem}" 
-                             Header="VMESS-TCP-TLS">
-                        <local:VMESS_TCP_TLS_Control />
-                    </TabItem>
-                    <TabItem Width="200" 
-                             Tag="{x:Static models:XrayType.VMESS_WS}"
-                             IsEnabled="{Binding Settings.Checked_VMESS_WS}"
-                             Style="{StaticResource MaterialDesignNavigationRailTabItem}"
-                             Header="VMESS-WebSocket-TLS">
-                        <local:VMESS_WS_TLS_Control />
-                    </TabItem>
-                    <TabItem Width="200" 
-                             Tag="{x:Static models:XrayType.VMESS_KCP}"
-                             IsEnabled="{Binding Settings.Checked_VMESS_KCP}"
-                             Style="{StaticResource MaterialDesignNavigationRailTabItem}"
-                             Header="VMESS-mKCP">
-                        <local:VMESS_KCP_Control />
-                    </TabItem>
-                </TabControl>
+                    BorderThickness="1,0,1,0" 
+                    BorderBrush="#DDD" 
+                    TabStripPlacement="Left"
+                    SelectionChanged="BuildQrCode">
+            <TabItem Width="200" Height="40"
+                     Tag="{x:Static models:XrayType.VLESS_TCP_XTLS}"
+                     IsEnabled="{Binding Settings.Checked_VLESS_TCP_XTLS}"
+                     Style="{StaticResource MaterialDesignNavigationRailTabItem}"
+                     Header="VLESS-TCP-XTLS">
+                <local:VLESS_XTLS_Control />
             </TabItem>
 
-            <TabItem metro:HeaderedControlHelper.HeaderFontSize="20" Padding="10,5,10,5" Header="Trojan">
-                <TabControl 
-                    SelectionChanged="BuildQrCode"
-                    Padding="10"
-                    Style="{StaticResource MaterialDesignNavigatilRailTabControl}">
-                    <TabItem Width="200" 
-                             Tag="{x:Static models:XrayType.Trojan_TCP}"
-                             IsEnabled="{Binding Settings.Checked_Trojan_TCP}"
-                             Style="{StaticResource MaterialDesignNavigationRailTabItem}"
-                             Header="Trojan-TCP">
-                        <local:Trojan_TCP_Control />
-                    </TabItem>
-                </TabControl>
+            <TabItem Width="200" Height="40"
+                     Tag="{x:Static models:XrayType.VLESS_TCP}"
+                     IsEnabled="{Binding Settings.Checked_VLESS_TCP}" 
+                     metro:HeaderedControlHelper.HeaderMargin="0"
+                     Style="{StaticResource MaterialDesignNavigationRailTabItem}" 
+                     Header="VLESS-TCP-TLS">
+                <local:VLESS_TCP_TLS_Control />
             </TabItem>
 
-            <TabItem metro:HeaderedControlHelper.HeaderFontSize="20" Padding="10,5,10,5" Header="ShadowSocks">
-                <TabControl 
-                    SelectionChanged="BuildQrCode"
-                    Padding="10"
-                    Style="{StaticResource MaterialDesignNavigatilRailTabControl}">
-                    <TabItem Width="200"
-                             Tag="{x:Static models:XrayType.ShadowsocksAEAD}"
-                             IsEnabled="{Binding Settings.CheckedShadowSocks}"
-                             Style="{StaticResource MaterialDesignNavigationRailTabItem}"
-                             Header="ShadowSocks">
-                        <local:ShadowSocksControl />
-                    </TabItem>
-                </TabControl>
+            <TabItem Width="200" Height="40"
+                     Tag="{x:Static models:XrayType.VLESS_WS}"
+                     IsEnabled="{Binding Settings.Checked_VLESS_WS}" 
+                     Style="{StaticResource MaterialDesignNavigationRailTabItem}" 
+                     Header="VLESS-WebSocket-TLS">
+                <local:VLESS_WS_TLS_Control />
             </TabItem>
+
+            <TabItem Width="200" Height="40"
+                     Tag="{x:Static models:XrayType.VLESS_KCP}"
+                     IsEnabled="{Binding Settings.Checked_VLESS_KCP}" 
+                     Style="{StaticResource MaterialDesignNavigationRailTabItem}" 
+                     Header="VLESS-mKCP">
+                <local:VLESS_KCP_Control />
+            </TabItem>
+
+            <!--<TabItem Width="200"
+                     Tag="{x:Static models:XrayType.VLESS_gRPC}"
+                     IsEnabled="{Binding Settings.Checked_VLESS_gRPC}" 
+                     Style="{StaticResource MaterialDesignNavigationRailTabItem}" 
+                     Header="VLESS-gRPC">
+                <local:VLESS_gRPC_Control />
+            </TabItem>-->
+            
+            <TabItem Width="200" Height="40"     
+                     Tag="{x:Static models:XrayType.VMESS_TCP}"                 
+                     IsEnabled="{Binding Settings.Checked_VMESS_TCP}"
+                     Style="{StaticResource MaterialDesignNavigationRailTabItem}" 
+                     Header="VMESS-TCP-TLS">
+                <local:VMESS_TCP_TLS_Control />
+            </TabItem>
+
+            <TabItem Width="200" Height="40"     
+                     Tag="{x:Static models:XrayType.VMESS_WS}"
+                     IsEnabled="{Binding Settings.Checked_VMESS_WS}"
+                     Style="{StaticResource MaterialDesignNavigationRailTabItem}"
+                     Header="VMESS-WebSocket-TLS">
+                <local:VMESS_WS_TLS_Control />
+            </TabItem>
+
+            <TabItem Width="200" Height="40"     
+                     Tag="{x:Static models:XrayType.VMESS_KCP}"
+                     IsEnabled="{Binding Settings.Checked_VMESS_KCP}"
+                     Style="{StaticResource MaterialDesignNavigationRailTabItem}"
+                     Header="VMESS-mKCP">
+                <local:VMESS_KCP_Control />
+            </TabItem>
+
+            <TabItem Width="200" Height="40"     
+                     Tag="{x:Static models:XrayType.Trojan_TCP}"
+                     IsEnabled="{Binding Settings.Checked_Trojan_TCP}"
+                     Style="{StaticResource MaterialDesignNavigationRailTabItem}"
+                     Header="Trojan-TCP">
+                <local:Trojan_TCP_Control />
+            </TabItem>
+
+            <TabItem Width="200" Height="40"     
+                     Tag="{x:Static models:XrayType.ShadowsocksAEAD}"
+                     IsEnabled="{Binding Settings.CheckedShadowSocks}"
+                     Style="{StaticResource MaterialDesignNavigationRailTabItem}"
+                     Header="ShadowSocks">
+                <local:ShadowSocksControl />
+            </TabItem>
+
         </TabControl>
 
         <Image Grid.Column="1" Width="150" Height="150" x:Name="QrImage" />
