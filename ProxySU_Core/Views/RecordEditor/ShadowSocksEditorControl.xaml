@@ -17,47 +17,46 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
-            <RowDefinition Height="50" />
-            <RowDefinition Height="50" />
-        </Grid.RowDefinitions>
-
-        <CheckBox Content="ShadowSocksAEAD&#x0a;SS，支持udp。" 
-                  Grid.Column="0"
-                  Grid.Row="0"
-                  FontSize="13"
-                  Style="{StaticResource MahApps.Styles.CheckBox}" 
-                  IsChecked="{Binding Path=Settings.CheckedShadowSocks}" />
-
-        <StackPanel Margin="50,0,0,10" 
-                    Grid.Column="1"
-                    Grid.Row="0"
-                    Orientation="Horizontal" 
-                    Visibility="{
-                        Binding Path=Settings.CheckedShadowSocks,
-                        Converter={StaticResource VisibleConverter}
-                    }">
-            <Label Content="SS 密码" Width="80" VerticalAlignment="Bottom" />
-            <TextBox Text="{Binding Path=Settings.ShadowSocksPassword}"
-                     VerticalAlignment="Bottom"
-                     Width="200"/>
+        <StackPanel Margin="0,10,0,0" Grid.Column="0">
+            <CheckBox Content="ShadowSocks&#x0a;SS，支持udp。" 
+                      FontSize="13"
+                      Style="{StaticResource MahApps.Styles.CheckBox}" 
+                      IsChecked="{Binding Path=Settings.CheckedShadowSocks}" />
         </StackPanel>
 
-        <StackPanel Margin="50,0,0,10" 
-                    Grid.Column="1"
-                    Grid.Row="1"
-                    Orientation="Horizontal" 
-                    Visibility="{
-                        Binding Path=Settings.CheckedShadowSocks,
-                        Converter={StaticResource VisibleConverter}
-                    }">
-            <Label Content="SS 加密方式" Width="80" VerticalAlignment="Bottom" />
-            <ComboBox Width="200" 
-                      VerticalAlignment="Bottom"
-                      ItemsSource="{Binding Settings.ShadowSocksMethods}"
-                      SelectedValue="{Binding Settings.ShadowSocksMethod}">
-            </ComboBox>
+        <StackPanel  Grid.Column="1">
+            <!--域名-->
+            <StackPanel Margin="40,10,0,0"
+                        Orientation="Horizontal">
+                <Label Content="域名" Width="70"  />
+                <TextBox Text="{Binding Path=Settings.Domain}" Width="260"  />
+            </StackPanel>
+            
+            <!--ss密码-->
+            <StackPanel Margin="40,10,0,0" 
+                        Orientation="Horizontal" 
+                        Visibility="{
+                            Binding Path=Settings.CheckedShadowSocks,
+                            Converter={StaticResource VisibleConverter}
+                        }">
+                <Label Content="密码" Width="70" />
+                <TextBox Text="{Binding Path=Settings.ShadowSocksPassword}"
+                         Width="260"/>
+            </StackPanel>
+
+            <!--ss加密方式-->
+            <StackPanel Margin="40,15,0,0" 
+                        Orientation="Horizontal" 
+                        Visibility="{
+                            Binding Path=Settings.CheckedShadowSocks,
+                            Converter={StaticResource VisibleConverter}
+                        }">
+                <Label Content="加密方式" Width="70" />
+                <ComboBox Width="260"
+                          ItemsSource="{Binding Settings.ShadowSocksMethods}"
+                          SelectedValue="{Binding Settings.ShadowSocksMethod}">
+                </ComboBox>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

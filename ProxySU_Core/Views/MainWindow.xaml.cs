@@ -166,6 +166,19 @@ namespace ProxySU_Core
             }
         }
 
+        private void DeleteHost(object sender, RoutedEventArgs e)
+        {
+            if (DataGrid.SelectedItem is RecordViewModel project)
+            {
+                var result = MessageBox.Show($"您确认删除主机{project.Host.Tag}吗？", "提示", MessageBoxButton.OKCancel);
+                if (result == MessageBoxResult.OK)
+                {
+                    Records.Remove(project);
+                    SaveRecord();
+                }
+            }
+        }
+
         private void ShowClientInfo(object sender, RoutedEventArgs e)
         {
             if (DataGrid.SelectedItem is RecordViewModel project)
@@ -175,19 +188,6 @@ namespace ProxySU_Core
             }
         }
 
-
-        private void DeleteHost(object sender, RoutedEventArgs e)
-        {
-            if (DataGrid.SelectedItem is RecordViewModel project)
-            {
-                var result = MessageBox.Show($"您确认删除主机{project.Host.Tag}吗？", "提示", MessageBoxButton.OKCancel);
-                if (result == MessageBoxResult.OK)
-                {
-                    Records.Remove(project);
-                }
-            }
-
-        }
 
         private void Connect(object sender, RoutedEventArgs e)
         {

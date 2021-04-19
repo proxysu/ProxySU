@@ -101,7 +101,7 @@ namespace ProxySU_Core.Models.Developers
             }
         }
 
-        public void Uninstall()
+        public void UninstallProxy()
         {
             EnsureRootAuth();
             WriteOutput("卸载Caddy");
@@ -149,13 +149,11 @@ namespace ProxySU_Core.Models.Developers
         /// <summary>
         /// 重装Caddy
         /// </summary>
-        public void ReinstallCaddy()
+        public void DoUninstallCaddy()
         {
             EnsureRootAuth();
-            EnsureSystemEnv();
-            InstallCaddy();
-            UploadCaddyFile();
-            WriteOutput("************ 重装Caddy完成 ************");
+            UninstallCaddy();
+            WriteOutput("************ 卸载Caddy完成 ************");
         }
 
         /// <summary>

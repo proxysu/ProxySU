@@ -37,6 +37,8 @@ namespace ProxySU_Core.Models.Developers
         public static int Trojan_TCP_Port = 1310;
         public static int Trojan_WS_Port = 1311;
 
+        public static int FullbackPort = 8080;
+
 
 
         public static dynamic LoadXrayConfig()
@@ -71,15 +73,7 @@ namespace ProxySU_Core.Models.Developers
         {
             var caddyStr = File.ReadAllText(Path.Combine(CaddyFileDir, "base.caddyfile"));
             caddyStr = caddyStr.Replace("##domain##", parameters.Domain);
-
-            if (parameters.Port != 443)
-            {
-                caddyStr = caddyStr.Replace(":##port##", "");
-            }
-            else
-            {
-                caddyStr = caddyStr.Replace("##port##", 80.ToString());
-            }
+            caddyStr = caddyStr.Replace("##port##", FullbackPort.ToString());
 
             if (!useCustomWeb && !string.IsNullOrEmpty(parameters.MaskDomain))
             {
@@ -109,7 +103,7 @@ namespace ProxySU_Core.Models.Developers
             baseBound.port = parameters.Port;
             baseBound.settings.fallbacks.Add(JToken.FromObject(new
             {
-                dest = 80
+                dest = FullbackPort
             }));
             xrayConfig.inbounds.Add(baseBound);
             baseBound.settings.clients[0].id = parameters.UUID;
@@ -129,7 +123,7 @@ namespace ProxySU_Core.Models.Developers
                 xrayConfig.inbounds.Add(JToken.FromObject(wsInbound));
             }
 
-            if(parameters.Types.Contains(XrayType.VLESS_gRPC))
+            if (parameters.Types.Contains(XrayType.VLESS_gRPC))
             {
                 var gRPCInBound = GetBound("VLESS_gRPC.json");
                 gRPCInBound.port = parameters.VLESS_gRPC_Port;
@@ -138,7 +132,7 @@ namespace ProxySU_Core.Models.Developers
                 xrayConfig.inbounds.Add(JToken.FromObject(gRPCInBound));
             }
 
-            if(parameters.Types.Contains(XrayType.VLESS_KCP))
+            if (parameters.Types.Contains(XrayType.VLESS_KCP))
             {
                 var kcpBound = GetBound("VLESS_KCP.json");
                 kcpBound.port = parameters.VLESS_KCP_Port;
@@ -193,6 +187,7 @@ namespace ProxySU_Core.Models.Developers
                 var trojanTcpBound = GetBound("Trojan_TCP.json");
                 trojanTcpBound.port = Trojan_TCP_Port;
                 trojanTcpBound.settings.clients[0].password = parameters.TrojanPassword;
+                trojanTcpBound.settings.fallbacks[0].dest = FullbackPort;
                 baseBound.settings.fallbacks[0] = JToken.FromObject(new
                 {
                     dest = Trojan_TCP_Port,

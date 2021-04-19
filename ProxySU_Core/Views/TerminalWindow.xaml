@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:ProxySU_Core"
         xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
+        FontSize="15"
         Title="主机控制台" Height="600" Width="800">
     <StackPanel>
         <TextBox IsReadOnly="True"
@@ -82,9 +83,9 @@
                         IsEnabled="{Binding HasConnected}"
                         Click="UploadWeb"/>
 
-                <Button Content="重装Caddy"
+                <Button Content="卸载Caddy"
                         Margin="10,0,0,0"
-                        Click="ReinstallCaddy"
+                        Click="UninstallCaddy"
                         Height="26"
                         IsEnabled="{Binding HasConnected}"
                         Width="120"/>
@@ -100,19 +101,22 @@
                 <Label Content="续签证书： 证书默认是自动续签，但不保证都能续签成功，如果失败请用[续签证书]手动续签" />
                 <Label Content="上传网站： 伪装网站，正确的静态网页要有index.html文件(请检查)，然后将网站压缩包上传。" />
             </StackPanel>
-            <Label Content="如下是网友提供的静态网页连接，请自行检查是否有index.html文件" />
-            <TextBlock>
-                <Hyperlink NavigateUri="https://www.themezy.com" Click="OpenLink">Themezy</Hyperlink>
-            </TextBlock>
-            <TextBlock>
-                <Hyperlink NavigateUri="https://onepagelove.com/templates/free-templates" Click="OpenLink">One Page Love</Hyperlink>
-            </TextBlock>
-            <TextBlock>
-                <Hyperlink NavigateUri="https://html5up.net/" Click="OpenLink">HTML5 UP</Hyperlink>
-            </TextBlock>
-            <TextBlock>
-                <Hyperlink NavigateUri="https://templatemo.com/" Click="OpenLink">template mo</Hyperlink>
-            </TextBlock>
+            
+            <Label Margin="0,10,0,0" Content="如下是网友提供的静态网页连接，请自行检查是否有index.html文件" />
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="10,0,0,0">
+                    <Hyperlink NavigateUri="https://www.themezy.com" Click="OpenLink">Themezy</Hyperlink>
+                </TextBlock>
+                <TextBlock Margin="20,0,0,0">
+                    <Hyperlink NavigateUri="https://onepagelove.com/templates/free-templates" Click="OpenLink">One Page Love</Hyperlink>
+                </TextBlock>
+                <TextBlock Margin="20,0,0,0">
+                    <Hyperlink NavigateUri="https://html5up.net/" Click="OpenLink">HTML5 UP</Hyperlink>
+                </TextBlock>
+                <TextBlock Margin="20,0,0,0">
+                    <Hyperlink NavigateUri="https://templatemo.com/" Click="OpenLink">template mo</Hyperlink>
+                </TextBlock>
+            </StackPanel>
         </StackPanel>
     </StackPanel>
 </metro:MetroWindow>

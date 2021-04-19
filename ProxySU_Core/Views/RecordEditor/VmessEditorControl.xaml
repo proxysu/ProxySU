@@ -17,152 +17,124 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
-            <RowDefinition Height="50" />
-            <RowDefinition Height="50" />
-            <RowDefinition Height="50" />
-            <RowDefinition Height="50" />
-            <RowDefinition Height="50" />
-            <RowDefinition Height="50" />
-            <RowDefinition Height="50" />
-        </Grid.RowDefinitions>
+        <StackPanel Grid.Column="0">
+            <!--TCP-->
+            <CheckBox Content="VMESS over TCP with TLS&#x0a;不推荐" 
+                      Margin="0,10,0,0"
+                      FontSize="13"
+                      Style="{StaticResource MahApps.Styles.CheckBox}"
+                      IsChecked="{Binding Path=Settings.Checked_VMESS_TCP}" />
 
-        <!--TCP-->
-        <CheckBox Content="VMESS over TCP with TLS&#x0a;不推荐"
-                  Grid.Row="0"
-                  Grid.Column="0"
-                  FontSize="13"
-                  Style="{StaticResource MahApps.Styles.CheckBox}"
-                  IsChecked="{Binding Path=Settings.Checked_VMESS_TCP}" />
+            <!--WebSocket-->
+            <CheckBox Content="VMESS over WS with TLS&#x0a;推荐，支持CDN。" 
+                      Margin="0,15,0,0"
+                      Style="{StaticResource MahApps.Styles.CheckBox}" 
+                      IsChecked="{Binding Path=Settings.Checked_VMESS_WS}" />
 
-        <!--WebSocket-->
-        <CheckBox Content="VMESS over WS with TLS&#x0a;推荐，支持CDN。" 
-                  Grid.Row="1"
-                  Grid.Column="0"
-                  Style="{StaticResource MahApps.Styles.CheckBox}" 
-                  IsChecked="{Binding Path=Settings.Checked_VMESS_WS}" />
-
-        <!--mKCP-->
-        <CheckBox Content="VMESS mKCP&#x0a;游戏推荐，延迟低。"
-                  Grid.Row="2"
-                  Grid.Column="0"
-                  Style="{StaticResource MahApps.Styles.CheckBox}" 
-                  IsChecked="{Binding Path=Settings.Checked_VMESS_KCP}" />
-
+            <!--mKCP-->
+            <CheckBox Content="VMESS mKCP&#x0a;游戏推荐，延迟低。"
+                      Margin="0,15,0,0"
+                      Style="{StaticResource MahApps.Styles.CheckBox}" 
+                      IsChecked="{Binding Path=Settings.Checked_VMESS_KCP}" />
+        </StackPanel>
 
 
         <!--************************** 参数 **************************-->
 
-        <!--UUID-->
-        <StackPanel Margin="40,0,0,10"
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    Orientation="Horizontal">
-            <Label Content="UUID" Width="70" VerticalAlignment="Bottom" />
+        <StackPanel Grid.Column="1">
+            <!--UUID-->
+            <StackPanel Margin="40,10,0,0"
+                        Orientation="Horizontal">
+                <Label Content="UUID" Width="70" />
 
-            <TextBox Text="{Binding Path=Settings.UUID}"
-                     VerticalAlignment="Bottom"
-                     Width="260" />
+                <TextBox Text="{Binding Path=Settings.UUID}"
+                         Width="260" />
 
-            <Button Style="{StaticResource MahApps.Styles.Button.Flat}"
-                    Margin="5,0,0,0"
-                    Height="30"
-                    VerticalAlignment="Bottom"
-                    Command="{Binding Path=Settings.RandomUuid}"
-                    Content="随机" />
-        </StackPanel>
+                <Button Style="{StaticResource MahApps.Styles.Button.Flat}"
+                        Margin="5,0,0,0"
+                        FontSize="12"
+                        Command="{Binding Path=Settings.RandomUuid}"
+                        Content="随机" />
+            </StackPanel>
 
-        <!--Domain-->
-        <StackPanel Margin="40,0,0,10"
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    Orientation="Horizontal">
-            <Label Content="域名" Width="70" VerticalAlignment="Bottom" />
-            <TextBox Text="{Binding Path=Settings.Domain}" Width="260" VerticalAlignment="Bottom" />
-        </StackPanel>
+            <!--Domain-->
+            <StackPanel Margin="40,15,0,0"
+                        Orientation="Horizontal">
+                <Label Content="域名" Width="70" />
+                <TextBox Text="{Binding Path=Settings.Domain}" Width="260" />
+            </StackPanel>
 
-        <!--Mask Domain-->
-        <StackPanel Margin="40,0,0,10" 
-                    Grid.Row="2"
-                    Grid.Column="1"
-                    Orientation="Horizontal">
-            <Label Content="伪装域名" Width="70" VerticalAlignment="Bottom" />
-            <TextBox Text="{Binding Path=Settings.MaskDomain}" Width="260" VerticalAlignment="Bottom" />
-        </StackPanel>
+            <!--Mask Domain-->
+            <StackPanel Margin="40,15,0,0" 
+                        Orientation="Horizontal">
+                <Label Content="伪装域名" Width="70" />
+                <TextBox Text="{Binding Path=Settings.MaskDomain}" Width="260" />
+            </StackPanel>
 
-        <!--WebSocket Path-->
-        <StackPanel Margin="40,0,0,10" 
-                    Grid.Row="3"
-                    Grid.Column="1"
-                    Orientation="Horizontal"
-                    Visibility="{
-                        Binding Path=Settings.Checked_VMESS_WS,
-                        Converter={StaticResource VisibleConverter}
-                    }">
-            <Label Content="WS路径" Width="70" VerticalAlignment="Bottom" />
-            <TextBox Text="{Binding Path=Settings.VMESS_WS_Path}"
-                     VerticalAlignment="Bottom"
-                     Width="260" />
-        </StackPanel>
+            <!--WebSocket Path-->
+            <StackPanel Margin="40,15,0,0" 
+                        Orientation="Horizontal"
+                        Visibility="{
+                            Binding Path=Settings.Checked_VMESS_WS,
+                            Converter={StaticResource VisibleConverter}
+                        }">
+                <Label Content="WS路径" Width="70" />
+                <TextBox Text="{Binding Path=Settings.VMESS_WS_Path}"
+                         VerticalAlignment="Bottom"
+                         Width="260" />
+            </StackPanel>
 
 
 
-        <!--seed-->
-        <StackPanel Margin="40,0,0,10"
-                    Grid.Row="4"
-                    Grid.Column="1"
-                    Orientation="Horizontal"
-                    Visibility="{
-                        Binding Path=Settings.Checked_VMESS_KCP,
-                        Converter={StaticResource VisibleConverter}
-                    }">
-            <Label Content="KCP Seed" Width="70" VerticalAlignment="Bottom" />
-            <TextBox Text="{Binding Path=Settings.VMESS_KCP_Seed}" Width="260" VerticalAlignment="Bottom" />
-        </StackPanel>
-
-        <StackPanel Margin="40,0,0,10"
-                    Grid.Row="5"
-                    Grid.Column="1"
-                    Orientation="Horizontal">
-            <!--kcp type-->
-            <StackPanel Margin="0,0,0,0"
+            <!--seed-->
+            <StackPanel Margin="40,15,0,0"
                         Orientation="Horizontal"
                         Visibility="{
                             Binding Path=Settings.Checked_VMESS_KCP,
                             Converter={StaticResource VisibleConverter}
                         }">
-                <Label Content="KCP伪装" Width="70" VerticalAlignment="Bottom"/>
-                <ComboBox Width="100" 
-                          VerticalAlignment="Bottom"
-                          ItemsSource="{Binding Path=Settings.KcpTypes}"
-                          SelectedValue="{Binding Settings.VMESS_KCP_Type,Mode=TwoWay}">
-                </ComboBox>
+                <Label Content="KCP Seed" Width="70" />
+                <TextBox Text="{Binding Path=Settings.VMESS_KCP_Seed}" Width="260" />
             </StackPanel>
 
-            <!--kcp port-->
-            <StackPanel Margin="10,0,0,0"
-                        Orientation="Horizontal"
-                        Visibility="{
-                            Binding Path=Settings.Checked_VMESS_KCP,
-                            Converter={StaticResource VisibleConverter}
-                        }">
-                <Label Content="KCP端口" Width="70" VerticalAlignment="Bottom" />
-                <TextBox Text="{Binding Path=Settings.VMESS_KCP_Port}" Width="100" VerticalAlignment="Bottom" />
+            <StackPanel Margin="40,15,0,0"
+                        Orientation="Horizontal">
+                <!--kcp type-->
+                <StackPanel Margin="0,0,0,0"
+                            Orientation="Horizontal"
+                            Visibility="{
+                                Binding Path=Settings.Checked_VMESS_KCP,
+                                Converter={StaticResource VisibleConverter}
+                            }">
+                    <Label Content="KCP伪装" Width="70" VerticalAlignment="Bottom"/>
+                    <ComboBox Width="100" 
+                              VerticalAlignment="Bottom"
+                              ItemsSource="{Binding Path=Settings.KcpTypes}"
+                              SelectedValue="{Binding Settings.VMESS_KCP_Type,Mode=TwoWay}">
+                    </ComboBox>
+                </StackPanel>
+
+                <!--kcp port-->
+                <StackPanel Margin="10,0,0,0"
+                            Orientation="Horizontal"
+                            Visibility="{
+                                Binding Path=Settings.Checked_VMESS_KCP,
+                                Converter={StaticResource VisibleConverter}
+                            }">
+                    <Label Content="KCP端口" Width="70" />
+                    <TextBox Text="{Binding Path=Settings.VMESS_KCP_Port}" Width="100" />
+                </StackPanel>
+            </StackPanel>
+
+
+
+            <!--xray prot-->
+            <StackPanel Margin="40,15,0,0"
+                        Orientation="Horizontal">
+                <Label Content="Xray端口" Width="70" />
+                <TextBox Text="{Binding Path=Settings.Port}" Width="100" />
+                <Label Content="默认端口443，不建议修改" Foreground="Red" />
             </StackPanel>
         </StackPanel>
-
-
-
-        <!--xray prot-->
-        <StackPanel Margin="40,0,0,10"
-                    Grid.Row="6"
-                    Grid.Column="1"
-                    Orientation="Horizontal">
-            <Label Content="Xray端口" Width="70" VerticalAlignment="Bottom" />
-            <TextBox Text="{Binding Path=Settings.Port}" Width="100" VerticalAlignment="Bottom" />
-            <Label Content="默认端口443，不建议修改" VerticalAlignment="Bottom" Foreground="Red" />
-        </StackPanel>
-
     </Grid>
 </UserControl>

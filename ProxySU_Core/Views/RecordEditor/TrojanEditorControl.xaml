@@ -17,29 +17,33 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
-        </Grid.RowDefinitions>
-        
-        <CheckBox Content="Trojan over TCP with TLS&#x0a;Trojan" 
-                  Grid.Column="0"
-                  Grid.Row="0"
+        <StackPanel Grid.Column="0">
+        <CheckBox Content="Trojan over TCP with TLS&#x0a;Trojan"
                   FontSize="13"
+                  Margin="0,10,0,0"
                   Style="{StaticResource MahApps.Styles.CheckBox}" 
                   IsChecked="{Binding Path=Settings.Checked_Trojan_TCP}" />
+        </StackPanel>
 
-        <StackPanel Margin="50,0,0,10" 
-                    Grid.Column="1"
-                    Grid.Row="0"
-                    Orientation="Horizontal" 
-                    Visibility="{
-                        Binding Path=Settings.Checked_Trojan_TCP,
-                        Converter={StaticResource VisibleConverter}
-                    }">
-            <Label Content="Trojan密码" Width="70" VerticalAlignment="Bottom" />
-            <TextBox Text="{Binding Path=Settings.TrojanPassword}" 
-                     VerticalAlignment="Bottom"
-                     Width="260" />
+        <StackPanel Grid.Column="1">
+            <!--域名-->
+            <StackPanel Margin="40,10,0,0"
+                        Orientation="Horizontal">
+                <Label Content="域名" Width="70"  />
+                <TextBox Text="{Binding Path=Settings.Domain}" Width="260"  />
+            </StackPanel>
+
+            <!--密码-->
+            <StackPanel Margin="40,15,0,0" 
+                        Orientation="Horizontal" 
+                        Visibility="{
+                            Binding Path=Settings.Checked_Trojan_TCP,
+                            Converter={StaticResource VisibleConverter}
+                        }">
+                <Label Content="密码" Width="70" />
+                <TextBox Text="{Binding Path=Settings.TrojanPassword}" 
+                         Width="260" /> 
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>
