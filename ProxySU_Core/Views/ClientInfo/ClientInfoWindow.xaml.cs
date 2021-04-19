@@ -1,4 +1,5 @@
-﻿using ProxySU_Core.Models;
+﻿using Microsoft.Win32;
+using ProxySU_Core.Models;
 using ProxySU_Core.ViewModels;
 using QRCoder;
 using System;
@@ -36,14 +37,6 @@ namespace ProxySU_Core.Views.ClientInfo
             DataContext = this;
         }
 
-        private void SelectDefault(object sender, SelectionChangedEventArgs e)
-        {
-            var tabControl = e.Source as TabControl;
-            var item = (tabControl.SelectedItem as TabItem);
-            var itemControl = item.Content as ContentControl;
-            if (itemControl == null) return;
-            Console.WriteLine(itemControl.Tag);
-        }
 
         private void BuildQrCode(object sender, SelectionChangedEventArgs e)
         {
@@ -51,8 +44,22 @@ namespace ProxySU_Core.Views.ClientInfo
             var item = (tabControl.SelectedItem as TabItem);
             if (item == null) return;
             var type = (XrayType)item.Tag;
-            if (type == null) return;
             BuildQrCode(type);
+        }
+
+        private void SaveImage(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.FileName += QrImage.Tag;
+            sfd.Filter = "Image Files (*.bmp, *.png, *.jpg)|*.bmp;*.png;*.jpg | All Files | *.*";
+            sfd.RestoreDirectory = true;//保存对话框是否记忆上次打开的目录
+            if (sfd.ShowDialog() == true)
+            {
+                var encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create((BitmapSource)QrImage.Source));
+                using (FileStream stream = new FileStream(sfd.FileName, FileMode.Create))
+                    encoder.Save(stream);
+            }
         }
 
         private void BuildQrCode(XrayType type)
@@ -115,6 +122,7 @@ namespace ProxySU_Core.Views.ClientInfo
             image.StreamSource = new MemoryStream(bytes);
             image.EndInit();
             QrImage.Source = image;
+            QrImage.Tag = type.ToString();
         }
     }
 }

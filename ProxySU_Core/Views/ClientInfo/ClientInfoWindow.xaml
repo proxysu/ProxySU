@@ -14,7 +14,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="220" />
         </Grid.ColumnDefinitions>
 
         <TabControl Grid.Column="0"
@@ -63,7 +63,7 @@
                      Header="VLESS-gRPC">
                 <local:VLESS_gRPC_Control />
             </TabItem>-->
-            
+
             <TabItem Width="200" Height="40"     
                      Tag="{x:Static models:XrayType.VMESS_TCP}"                 
                      IsEnabled="{Binding Settings.Checked_VMESS_TCP}"
@@ -106,6 +106,9 @@
 
         </TabControl>
 
-        <Image Grid.Column="1" Width="150" Height="150" x:Name="QrImage" />
+        <StackPanel Grid.Column="1" >
+            <Image Width="200" Height="200" x:Name="QrImage" />
+            <Button Click="SaveImage" Width="100" Content="另存为" />
+        </StackPanel>
     </Grid>
 </metro:MetroWindow>
