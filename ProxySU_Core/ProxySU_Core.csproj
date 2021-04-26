@@ -191,17 +191,8 @@
     <Compile Include="Views\RecordEditor\ServerInfoControl.xaml.cs">
       <DependentUpon>ServerInfoControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\RecordEditor\ShadowSocksEditorControl.xaml.cs">
-      <DependentUpon>ShadowSocksEditorControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\RecordEditor\TrojanEditorControl.xaml.cs">
-      <DependentUpon>TrojanEditorControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\RecordEditor\VlessEditorControl.xaml.cs">
-      <DependentUpon>VlessEditorControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\RecordEditor\VmessEditorControl.xaml.cs">
-      <DependentUpon>VmessEditorControl.xaml</DependentUpon>
+    <Compile Include="Views\RecordEditor\XrayEditorControl.xaml.cs">
+      <DependentUpon>XrayEditorControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TerminalWindow.xaml.cs">
       <DependentUpon>TerminalWindow.xaml</DependentUpon>
@@ -415,19 +406,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\RecordEditor\ShadowSocksEditorControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\RecordEditor\TrojanEditorControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\RecordEditor\VlessEditorControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\RecordEditor\VmessEditorControl.xaml">
+    <Page Include="Views\RecordEditor\XrayEditorControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

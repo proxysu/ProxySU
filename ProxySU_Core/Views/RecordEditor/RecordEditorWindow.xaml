@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:ProxySU_Core.Views.RecordEditor" 
         xmlns:converters="clr-namespace:ProxySU_Core.Converters"
         mc:Ignorable="d"
-        Title="编辑主机信息" Height="600" Width="1000">
+        Title="编辑主机信息" Height="600" Width="1100">
 
     <Window.Resources>
         <converters:VisibleConverter x:Key="VisibleConverter" />
@@ -34,32 +34,40 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="40" />
+                    <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
 
-                <TabControl BorderThickness="0,1,0,0" BorderBrush="#DDD" Padding="10">
-                    <TabItem metro:HeaderedControlHelper.HeaderFontSize="20" Padding="10,5,10,5" Header="VLESS">
-                        <local:VlessEditorControl />
+
+                <TabControl Grid.Row="0"  BorderThickness="0,1,0,0" BorderBrush="#DDD" Padding="10">
+                    <TabItem metro:HeaderedControlHelper.HeaderFontSize="20" Header="xray-vless">
+                        <ScrollViewer Name="scroll" 
+                                      BorderBrush="#ddd" 
+                                      BorderThickness="2" 
+                                      Width="auto"  
+                                      Height="450" 
+                                      HorizontalScrollBarVisibility="Auto" 
+                                      VerticalScrollBarVisibility="Auto" >
+                            <local:XrayEditorControl />
+                        </ScrollViewer>
                     </TabItem>
-                    <TabItem metro:HeaderedControlHelper.HeaderFontSize="20" Padding="10,5,10,5" Header="VMESS">
-                        <local:VmessEditorControl />
+                    <TabItem metro:HeaderedControlHelper.HeaderFontSize="20" Padding="10,5,10,5" Header="Trojan-Go">
+
                     </TabItem>
-                    <TabItem metro:HeaderedControlHelper.HeaderFontSize="20" Padding="10,5,10,5" Header="Trojan">
-                        <local:TrojanEditorControl />
-                    </TabItem>
-                    <TabItem metro:HeaderedControlHelper.HeaderFontSize="20" Padding="10,5,10,5" Header="ShadowSocks">
-                        <local:ShadowSocksEditorControl />
+                    <TabItem metro:HeaderedControlHelper.HeaderFontSize="20" Padding="10,5,10,5" Header="NaiveProxy">
+
                     </TabItem>
                 </TabControl>
-                
-                <Button Content="保存"
-                        Grid.Row="1"
-                        Margin="0,0,20,0"
+
+                <StackPanel Grid.Row="1" Grid.Column="0" VerticalAlignment="Center">
+                    <Border BorderBrush="#DDD" BorderThickness="0,1,0,0" />
+                    <Button Content="保存"
+                        Margin="15"
                         HorizontalAlignment="Right"
-                        VerticalAlignment="Bottom"
+                        VerticalAlignment="Center"
                         Width="120"
                         Height="32"
                         Click="Save" />
+                </StackPanel>
             </Grid>
         </StackPanel>
 

@@ -1,0 +1,295 @@
+﻿<UserControl x:Class="ProxySU_Core.Views.RecordEditor.XrayEditorControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProxySU_Core.Views.RecordEditor"
+             xmlns:converters="clr-namespace:ProxySU_Core.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:VisibleConverter x:Key="VisibleConverter" />
+    </UserControl.Resources>
+
+    <StackPanel Orientation="Horizontal">
+        <StackPanel Width="220">
+            <!--XTLS-->
+            <CheckBox Margin="0,10,0,0"
+                      Style="{StaticResource MahApps.Styles.CheckBox}"
+                      IsChecked="{Binding Path=Settings.Checked_VLESS_TCP_XTLS}">
+                <Label Content="VLESS Over TCP With XTLS&#x0a;性能数倍，首选方式。"  FontSize="13" Foreground="LimeGreen" />
+            </CheckBox>
+
+            <!--TCP-->
+            <CheckBox Margin="0,15,0,0"
+                      Style="{StaticResource MahApps.Styles.CheckBox}"
+                      IsChecked="{Binding Path=Settings.Checked_VLESS_TCP}">
+                <Label Content="VLESS over TCP with TLS&#x0a;仍推荐XTLS"  FontSize="13" Foreground="LimeGreen" />
+            </CheckBox>
+
+            <!--WebSocket-->
+            <CheckBox Margin="0,15,0,0"
+                      Style="{StaticResource MahApps.Styles.CheckBox}" 
+                      IsChecked="{Binding Path=Settings.Checked_VLESS_WS}">
+                <Label  Content="VLESS over WS with TLS&#x0a;推荐，支持CDN。"  FontSize="13"  Foreground="LimeGreen" />
+            </CheckBox>
+
+            <!--mKCP-->
+            <CheckBox Margin="0,15,0,0"
+                      Foreground="LimeGreen"
+                      Style="{StaticResource MahApps.Styles.CheckBox}" 
+                      IsChecked="{Binding Path=Settings.Checked_VLESS_KCP}">
+                <Label Content="VLESS mKCP&#x0a;游戏推荐，延迟低。"  FontSize="13" Foreground="LimeGreen" />
+            </CheckBox>
+
+            <!--TCP-->
+            <!--<CheckBox Content="VMESS over TCP with TLS&#x0a;不推荐" 
+                    Margin="0,15,0,0"
+                    FontSize="13"
+                    Style="{StaticResource MahApps.Styles.CheckBox}"
+                    IsChecked="{Binding Path=Settings.Checked_VMESS_TCP}" />-->
+
+            <!--WebSocket-->
+            <CheckBox Margin="0,15,0,0"
+                      Style="{StaticResource MahApps.Styles.CheckBox}" 
+                      IsChecked="{Binding Path=Settings.Checked_VMESS_WS}">
+                <Label Content="VMESS over WS with TLS&#x0a;推荐，支持CDN。"  FontSize="13" Foreground="Blue" />
+            </CheckBox>
+
+            <!--mKCP-->
+            <CheckBox Margin="0,15,0,0"
+                      Style="{StaticResource MahApps.Styles.CheckBox}" 
+                      IsChecked="{Binding Path=Settings.Checked_VMESS_KCP}">
+                <Label Foreground="Blue"  FontSize="13" Content="VMESS mKCP&#x0a;游戏推荐，延迟低。" />
+            </CheckBox>
+
+            <!--ss-->
+            <CheckBox Margin="0,15,0,0"
+                      Style="{StaticResource MahApps.Styles.CheckBox}" 
+                      IsChecked="{Binding Path=Settings.CheckedShadowSocks}">
+                <Label Content="ShadowSocks&#x0a;SS，支持udp。" FontSize="13"  Foreground="Fuchsia" />
+            </CheckBox>
+
+            <!--Trojan-->
+            <CheckBox Margin="0,15,0,0"
+                Foreground="CadetBlue"
+                Style="{StaticResource MahApps.Styles.CheckBox}" 
+                IsChecked="{Binding Path=Settings.Checked_Trojan_TCP}">
+                <Label Content="Trojan over TCP with TLS&#x0a;Trojan"  FontSize="13" Foreground="CadetBlue" />
+            </CheckBox>
+
+            <!--gRPC-->
+            <!--<CheckBox Content="VLESS gRPC&#x0a;基于http2，多路复用。"
+                    Margin="0,15,0,0"
+                    Grid.Column="0"
+                    Style="{StaticResource MahApps.Styles.CheckBox}"
+                    IsChecked="{Binding Path=Settings.Checked_VLESS_gRPC}"/>-->
+
+        </StackPanel>
+
+        <!--************************** 参数 **************************-->
+
+        <StackPanel Width="auto">
+
+            <!--Domain-->
+            <StackPanel Margin="40,15,0,0"
+                    Orientation="Horizontal">
+                <Label Content="域名" Width="120"  />
+                <TextBox Text="{Binding Path=Settings.Domain}" Width="260"  />
+            </StackPanel>
+
+            <!--Mask Domain-->
+            <StackPanel Margin="40,15,0,0"
+                    Orientation="Horizontal">
+                <Label Content="伪装域名" Width="120"  />
+                <TextBox Text="{Binding Path=Settings.MaskDomain}" Width="260"  />
+            </StackPanel>
+
+            <!--UUID-->
+            <StackPanel Margin="40,10,0,0"
+                        Orientation="Horizontal">
+                <Label Content="UUID" Width="120" />
+
+                <TextBox Text="{Binding Path=Settings.UUID}"
+                            Width="260" />
+
+                <Button Style="{StaticResource MahApps.Styles.Button.Flat}"
+                        Margin="5,0,0,0"
+                        FontSize="12"
+                        Command="{Binding Path=Settings.RandomUuid}"
+                        Content="随机" />
+            </StackPanel>
+
+            <!--WebSocket Path-->
+            <StackPanel Margin="40,15,0,0"
+                    Orientation="Horizontal"
+                    Visibility="{
+                        Binding Path=Settings.Checked_VLESS_WS,
+                        Converter={StaticResource VisibleConverter}
+                    }">
+                <Label Content="VLESS WS路径" Foreground="LimeGreen" Width="120" />
+                <TextBox Text="{Binding Path=Settings.VLESS_WS_Path}"
+                        Width="260" />
+            </StackPanel>
+
+            <!--seed-->
+            <StackPanel Margin="40,15,0,0"
+                    Orientation="Horizontal"
+                    Visibility="{
+                        Binding Path=Settings.Checked_VLESS_KCP,
+                        Converter={StaticResource VisibleConverter}
+                    }">
+                <Label Content="VLESS KCP Seed" Foreground="LimeGreen" Width="120" />
+                <TextBox Text="{Binding Path=Settings.VLESS_KCP_Seed}" Width="260"  />
+            </StackPanel>
+
+            <!--kcp type-->
+            <StackPanel Margin="40,15,0,0"
+                Visibility="{
+                    Binding Path=Settings.Checked_VLESS_KCP,
+                    Converter={StaticResource VisibleConverter}
+                }" Orientation="Horizontal">
+
+                <Label Content="VLESS KCP伪装"  Foreground="LimeGreen" Width="120" />
+                <ComboBox Width="260" 
+                        ItemsSource="{Binding Path=Settings.KcpTypes}"
+                        SelectedValue="{Binding Settings.VLESS_KCP_Type,Mode=TwoWay}">
+                </ComboBox>
+            </StackPanel>
+
+            <!--kcp port-->
+            <StackPanel Margin="40,15,0,0"
+                Visibility="{
+                    Binding Path=Settings.Checked_VLESS_KCP,
+                    Converter={StaticResource VisibleConverter}
+                }" 
+                Orientation="Horizontal">
+                <Label Content="VLESS KCP端口" Width="120"  Foreground="LimeGreen" />
+                <TextBox Text="{Binding Path=Settings.VLESS_KCP_Port}" Width="260"  />
+            </StackPanel>
+
+            <!--gRPC Port-->
+            <!--<StackPanel Margin="40,15,0,0"
+                    Orientation="Horizontal"
+                    Visibility="{
+                        Binding Path=Settings.Checked_VLESS_gRPC,
+                        Converter={StaticResource VisibleConverter}
+                    }">
+                <Label Content="gRPC端口" Width="120"  Foreground="LimeGreen" />
+                <TextBox Text="{Binding Path=Settings.VLESS_gRPC_Port}" Width="120"  />
+
+                <Label Content="服务器" Width="120"  Margin="10,0,0,0"  Foreground="LimeGreen" />
+                <TextBox Text="{Binding Path=Settings.VLESS_gRPC_ServiceName}" Width="120"  />
+            </StackPanel>-->
+            
+            <!--Tcp Path-->
+            <!--<StackPanel Margin="40,15,0,0" 
+                    Orientation="Horizontal"
+                    Visibility="{
+                        Binding Path=Settings.Checked_VMESS_TCP,
+                        Converter={StaticResource VisibleConverter}
+                    }">
+                <Label Content="VMESS WS路径" Foreground="Blue"  Width="120" />
+                <TextBox Text="{Binding Path=Settings.VMESS_TCP_Path}"
+                        VerticalAlignment="Bottom"
+                        Width="260" />
+            </StackPanel>-->
+
+            <!--WebSocket Path-->
+            <StackPanel Margin="40,15,0,0" 
+                    Orientation="Horizontal"
+                    Visibility="{
+                        Binding Path=Settings.Checked_VMESS_WS,
+                        Converter={StaticResource VisibleConverter}
+                    }">
+                <Label Content="VMESS WS路径" Foreground="Blue"  Width="120" />
+                <TextBox Text="{Binding Path=Settings.VMESS_WS_Path}"
+                        VerticalAlignment="Bottom"
+                        Width="260" />
+            </StackPanel>
+
+            <!--seed-->
+            <StackPanel Margin="40,15,0,0"
+                    Orientation="Horizontal"
+                    Visibility="{
+                        Binding Path=Settings.Checked_VMESS_KCP,
+                        Converter={StaticResource VisibleConverter}
+                    }">
+                <Label Content="VMESS KCP Seed"  Foreground="Blue" Width="120" />
+                <TextBox Text="{Binding Path=Settings.VMESS_KCP_Seed}" Width="260" />
+            </StackPanel>
+
+            <!--kcp type-->
+            <StackPanel Margin="40,15,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{
+                            Binding Path=Settings.Checked_VMESS_KCP,
+                            Converter={StaticResource VisibleConverter}
+                        }">
+                <Label Content="VMESS KCP伪装" Foreground="Blue" Width="120" VerticalAlignment="Bottom"/>
+                <ComboBox Width="260" 
+                        VerticalAlignment="Bottom"
+                        ItemsSource="{Binding Path=Settings.KcpTypes}"
+                        SelectedValue="{Binding Settings.VMESS_KCP_Type,Mode=TwoWay}">
+                </ComboBox>
+            </StackPanel>
+
+            <!--kcp port-->
+            <StackPanel Margin="40,15,0,0"
+                    Orientation="Horizontal"
+                    Visibility="{
+                        Binding Path=Settings.Checked_VMESS_KCP,
+                        Converter={StaticResource VisibleConverter}
+                    }">
+                <Label Content="VMESS KCP端口"  Foreground="Blue" Width="120" />
+                <TextBox Text="{Binding Path=Settings.VMESS_KCP_Port}" Width="260" />
+            </StackPanel>
+
+            <!--ss密码-->
+            <StackPanel Margin="40,15,0,0" 
+                    Orientation="Horizontal" 
+                    Visibility="{
+                        Binding Path=Settings.CheckedShadowSocks,
+                        Converter={StaticResource VisibleConverter}
+                    }">
+                <Label Content="SS密码" Foreground="Fuchsia" Width="120" />
+                <TextBox Text="{Binding Path=Settings.ShadowSocksPassword}"
+                        Width="260"/>
+            </StackPanel>
+
+            <!--ss加密方式-->
+            <StackPanel Margin="40,15,0,0" 
+                    Orientation="Horizontal" 
+                    Visibility="{
+                        Binding Path=Settings.CheckedShadowSocks,
+                        Converter={StaticResource VisibleConverter}
+                    }">
+                <Label Content="SS加密方式" Foreground="Fuchsia" Width="120" />
+                <ComboBox Width="260"
+                        ItemsSource="{Binding Settings.ShadowSocksMethods}"
+                        SelectedValue="{Binding Settings.ShadowSocksMethod}">
+                </ComboBox>
+            </StackPanel>
+
+            <!--Trojan密码-->
+            <StackPanel Margin="40,15,0,0" 
+                        Orientation="Horizontal" 
+                        Visibility="{
+                            Binding Path=Settings.Checked_Trojan_TCP,
+                            Converter={StaticResource VisibleConverter}
+                        }">
+                <Label Content="Trojan密码" Foreground="CadetBlue" Width="120" />
+                <TextBox Text="{Binding Path=Settings.TrojanPassword}" 
+                                Width="260" />
+            </StackPanel>
+
+            <!--xray prot-->
+            <StackPanel Margin="40,15,0,0"
+                    Orientation="Horizontal">
+                <Label Content="Xray端口" Foreground="Gray" Width="120"  />
+                <TextBox Text="{Binding Path=Settings.Port}" Width="120"  />
+                <Label Content="默认端口443，不建议修改"  Foreground="Red" />
+            </StackPanel>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

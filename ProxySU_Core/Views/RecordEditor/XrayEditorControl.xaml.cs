@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace ProxySU_Core.Views.RecordEditor
 {
     /// <summary>
-    /// TrojanEditorControl.xaml 的交互逻辑
+    /// XrayEditorControl.xaml 的交互逻辑
     /// </summary>
-    public partial class TrojanEditorControl : UserControl
+    public partial class XrayEditorControl : UserControl
     {
-        public TrojanEditorControl()
+        public XrayEditorControl()
         {
             InitializeComponent();
         }
