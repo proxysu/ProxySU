@@ -7,7 +7,21 @@
     <sys:String x:Key="LanguageEnglish">英文</sys:String>
     <sys:String x:Key="Hosts">主机列表</sys:String>
     <sys:String x:Key="AddHost">添加主机</sys:String>
-    <sys:String x:Key="Actions">操作</sys:String>
+    <sys:String x:Key="ViewConfig">导出配置</sys:String>
+    <sys:String x:Key="ViewSub">导出订阅</sys:String>
+    
+    <!--table-->
+    <sys:String x:Key="MainTableSelection">选择</sys:String>
+    <sys:String x:Key="MainTableRemark">别名</sys:String>
+    <sys:String x:Key="MainTableHost">主机</sys:String>
+    <sys:String x:Key="MainTablePort">端口</sys:String>
+    <sys:String x:Key="MainTableProxy">代理</sys:String>
+    <sys:String x:Key="MainTableActions">操作</sys:String>
+    <sys:String x:Key="MainTableControl">控制台</sys:String>
+    <sys:String x:Key="MainTableViewConfig">查看配置</sys:String>
+    <sys:String x:Key="MainTableEditor">编辑</sys:String>
+    <sys:String x:Key="MainTableDelete">删除</sys:String>
+    
     <sys:String x:Key="Connect">连接</sys:String>
     <sys:String x:Key="Install">安装</sys:String>
     <sys:String x:Key="Edit">编辑</sys:String>
@@ -17,6 +31,7 @@
     <sys:String x:Key="Info">消息</sys:String>
     <sys:String x:Key="Warning">提示</sys:String>
     <sys:String x:Key="Error">错误</sys:String>
+
 
     <!--Host Window-->
     <sys:String x:Key="HostWindowTitle">服务器管理</sys:String>

@@ -7,6 +7,23 @@
     <sys:String x:Key="LanguageEnglish">English</sys:String>
     <sys:String x:Key="Hosts">Hosts</sys:String>
     <sys:String x:Key="AddHost">Add Host</sys:String>
+    <sys:String x:Key="ViewConfig">Configuration</sys:String>
+    <sys:String x:Key="ViewSub">Subscription</sys:String>
+
+
+    <!--table-->
+    <sys:String x:Key="MainTableSelection">Selection</sys:String>
+    <sys:String x:Key="MainTableRemark">Remark</sys:String>
+    <sys:String x:Key="MainTableHost">Host</sys:String>
+    <sys:String x:Key="MainTablePort">Port</sys:String>
+    <sys:String x:Key="MainTableProxy">Proxy</sys:String>
+    <sys:String x:Key="MainTableActions">Actions</sys:String>
+    <sys:String x:Key="MainTableControl">Cnsole</sys:String>
+    <sys:String x:Key="MainTableViewConfig">Config</sys:String>
+    <sys:String x:Key="MainTableEditor">Edit</sys:String>
+    <sys:String x:Key="MainTableDelete">Del</sys:String>
+
+
     <sys:String x:Key="Actions">Actions</sys:String>
     <sys:String x:Key="Connect">Connect</sys:String>
     <sys:String x:Key="Edit">Edit</sys:String>
@@ -17,6 +34,7 @@
     <sys:String x:Key="Info">Info</sys:String>
     <sys:String x:Key="Warning">Warning</sys:String>
     <sys:String x:Key="Error">Error</sys:String>
+
 
     <!--Host Window-->
     <sys:String x:Key="HostWindowTitle">Server Manager</sys:String>
