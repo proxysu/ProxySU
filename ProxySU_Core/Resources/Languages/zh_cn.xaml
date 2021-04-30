@@ -2,6 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <sys:String x:Key="TabItemHeaderAppDeployment">应用布署</sys:String>
+    <sys:String x:Key="TabItemHeaderReadme">说明文档</sys:String>
+    
     <sys:String x:Key="LanguageText">语言</sys:String>
     <sys:String x:Key="LanguageChinese">中文</sys:String>
     <sys:String x:Key="LanguageEnglish">英文</sys:String>
@@ -9,6 +11,7 @@
     <sys:String x:Key="AddHost">添加主机</sys:String>
     <sys:String x:Key="ViewConfig">导出配置</sys:String>
     <sys:String x:Key="ViewSub">导出订阅</sys:String>
+    <sys:String x:Key="Random">随机</sys:String>
     
     <!--table-->
     <sys:String x:Key="MainTableSelection">选择</sys:String>
@@ -21,6 +24,7 @@
     <sys:String x:Key="MainTableViewConfig">查看配置</sys:String>
     <sys:String x:Key="MainTableEditor">编辑</sys:String>
     <sys:String x:Key="MainTableDelete">删除</sys:String>
+
     
     <sys:String x:Key="Connect">连接</sys:String>
     <sys:String x:Key="Install">安装</sys:String>
@@ -31,7 +35,6 @@
     <sys:String x:Key="Info">消息</sys:String>
     <sys:String x:Key="Warning">提示</sys:String>
     <sys:String x:Key="Error">错误</sys:String>
-
 
     <!--Host Window-->
     <sys:String x:Key="HostWindowTitle">服务器管理</sys:String>
@@ -59,6 +62,55 @@
     <sys:String x:Key="HostPortNotNull">请输入端口号</sys:String>
     <sys:String x:Key="PorxyAddressNotNull">请输入代理地址</sys:String>
     <sys:String x:Key="ProxyProtNotNull">请输入代理端口号</sys:String>
+
+    <sys:String x:Key="VlessXtlsDesc">VLESS Over TCP With XTLS&#x0a;性能数倍，首选方式。</sys:String>
+    <sys:String x:Key="VlessTcpDesc">VLESS over TCP with TLS&#x0a;仍推荐XTLS。</sys:String>
+    <sys:String x:Key="VlessWsDesc">VLESS over WS with TLS&#x0a;推荐，支持CDN。</sys:String>
+    <sys:String x:Key="VlessKcpDesc">"VLESS mKCP&#x0a;游戏推荐，延迟低。</sys:String>
+    <sys:String x:Key="VmessWsDesc">VMESS over WS with TLS&#x0a;推荐，支持CDN。</sys:String>
+    <sys:String x:Key="VmessKcpDesc">VMESS mKCP&#x0a;游戏推荐，延迟低。</sys:String>
+    <sys:String x:Key="SSDesc">ShadowSocks&#x0a;SS，支持udp。</sys:String>
+    <sys:String x:Key="TrojanDesc">Trojan over TCP with TLS&#x0a;Trojan。</sys:String>
     
-    <!--Terminal Window--> 
+
+    <sys:String x:Key="XrayDomain">域名</sys:String>
+    <sys:String x:Key="XrayMarkDomain">伪装域名</sys:String>
+    <sys:String x:Key="XrayUUID">UUID</sys:String>
+    <sys:String x:Key="VlessWsPath">VLESS WS路径</sys:String>
+    <sys:String x:Key="VlessKcpSeed">VLESS KCP Seed</sys:String>
+    <sys:String x:Key="VlessKcpType">VLESS KCP伪装</sys:String>
+    <sys:String x:Key="VlessKcpPort">VLESS KCP端口</sys:String>
+    <sys:String x:Key="VmessWsPath">VMESS WS路径</sys:String>
+    <sys:String x:Key="VmessKcpSeed">VMESS KCP Seed</sys:String>
+    <sys:String x:Key="VmessKcpType">VMESS KCP伪装</sys:String>
+    <sys:String x:Key="VmessKcpPort">VMESS KCP端口</sys:String>
+    <sys:String x:Key="SSPassword">SS密码</sys:String>
+    <sys:String x:Key="SSMethods">SS加密方式</sys:String>
+    <sys:String x:Key="TrojanPassword">Trojan密码</sys:String>
+    <sys:String x:Key="XrayPort">xray端口</sys:String>
+    <sys:String x:Key="XrayPortDefault">默认端口443，不建议修改</sys:String>
+
+
+
+    <!--Terminal Window-->
+    <sys:String x:Key="TerminalTitle">控制台</sys:String>
+    <sys:String x:Key="InstallActions">内核/配置</sys:String>
+    <sys:String x:Key="InstallXray">一键安装</sys:String>
+    <sys:String x:Key="UpdateSettings">更新配置</sys:String>
+    <sys:String x:Key="UpdateXrayCore">更新xray内核</sys:String>
+    <sys:String x:Key="UninstallXray">卸载代理</sys:String>
+    
+    <sys:String x:Key="SettingActions">证书/网站</sys:String>
+    <sys:String x:Key="UpdateCert">续签证书</sys:String>
+    <sys:String x:Key="UploadSelfCert">上传自有证书</sys:String>
+    <sys:String x:Key="UploadWeb">上传网站</sys:String>
+    <sys:String x:Key="UninstallCaddy">卸载Caddy</sys:String>
+
+    <sys:String x:Key="ReadmeInstallXray">一键安装： 最后输出 “请尽情享用” 表示完成，到[查看配置]或[导出配置]查看节点</sys:String>
+    <sys:String x:Key="ReadmeUpdateSettings">更新配置： 修改节点配置信息后，不需要重新安装，这个功能就可以更新配置了</sys:String>
+    <sys:String x:Key="ReadmeUpdateCert">续签证书： 证书默认是自动续签，但不保证都能续签成功，如果失败请用[续签证书]手动续签</sys:String>
+    <sys:String x:Key="ReadmeUploadWeb">上传网站： 伪装网站，正确的静态网页要有index.html文件(请检查)，然后将网站压缩包上传。</sys:String>
+    <sys:String x:Key="ReadmeWebsiteDemo">如下是网友提供的静态网页连接，请自行检查是否有index.html文件</sys:String>
+    
+
 </ResourceDictionary>

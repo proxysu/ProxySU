@@ -89,25 +89,37 @@
                               Width="1000"
                               AutoGenerateColumns="False">
                         <DataGrid.Columns>
-                            <DataGridCheckBoxColumn Header="{DynamicResource MainTableSelection}"
-                                                    Binding="{Binding Path=IsChecked, UpdateSourceTrigger=PropertyChanged}"
+                            <DataGridCheckBoxColumn Binding="{Binding Path=IsChecked, UpdateSourceTrigger=PropertyChanged}"
                                                     IsReadOnly="False"
-                                                    Width="80"/>
-                            <DataGridTextColumn Header="{DynamicResource MainTableRemark}"  
-                                                Binding="{Binding Path=Host.Tag}" 
-                                                Width="180"/>
-                            <DataGridTextColumn Header="{DynamicResource MainTableHost}"  
-                                                Binding="{Binding Path=Host.Address}"
-                                                Width="180"/>
-                            <DataGridTextColumn Header="{DynamicResource MainTablePort}"  
-                                                Binding="{Binding Path=Host.Port}" 
-                                                Width="100"/>
-                            <DataGridTextColumn Header="{DynamicResource MainTableProxy}" 
-                                                Binding="{Binding Path=Host.Proxy.Type}"
-                                                Width="100"/>
+                                                    Width="80">
+                                <DataGridCheckBoxColumn.Header>
+                                    <TextBlock  Text="{DynamicResource MainTableSelection}" />
+                                </DataGridCheckBoxColumn.Header>
+                            </DataGridCheckBoxColumn>
+                            <DataGridTextColumn Binding="{Binding Path=Host.Tag}" Width="180">
+                                <DataGridTextColumn.Header>
+                                    <TextBlock  Text="{DynamicResource MainTableRemark}"  />
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Path=Host.Address}" Width="180">
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="{DynamicResource MainTableHost}" />
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Path=Host.Port}"  Width="100">
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="{DynamicResource MainTablePort}" />
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            
+                            <DataGridTextColumn Binding="{Binding Path=Host.Proxy.Type}" Width="100">
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="{DynamicResource MainTableProxy}" />
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
                             <DataGridTemplateColumn>
                                 <DataGridTemplateColumn.Header>
-                                    <TextBlock Text="{DynamicResource Actions}" />
+                                    <TextBlock Text="{DynamicResource MainTableActions}" />
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -132,7 +144,7 @@
                 Height="40"
                 FontSize="15"
                 Style="{StaticResource MaterialDesignNavigationRailTabItem}"
-                Header="说明文档">
+                Header="{DynamicResource TabItemHeaderReadme}">
                 <StackPanel>
                     <StackPanel Margin="0,0,0,0">
                         <TextBlock Margin="0,0,0,5" Text="新书指引：" FontWeight="Black" />

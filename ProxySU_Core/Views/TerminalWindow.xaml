@@ -7,7 +7,7 @@
         xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
         FontSize="15"
-        Title="主机控制台" Height="600" Width="800">
+        Title="{DynamicResource TerminalTitle}" Height="640" Width="900">
     <StackPanel>
         <TextBox IsReadOnly="True"
                      Block.LineHeight="18"
@@ -24,85 +24,87 @@
                     Orientation="Vertical"
                     HorizontalAlignment="Left">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="内核/配置" 
+                <TextBlock Text="{DynamicResource InstallActions}" 
                            VerticalAlignment="Center"
+                           Width="100"
                            Margin="0,0,10,0"/>
                 
-                <Button Content="一键安装"
+                <Button Content="{DynamicResource InstallXray}"
                         Click="Install"
                         Height="26"
                         IsEnabled="{Binding HasConnected}"
-                        Width="120"/>
+                        Width="150"/>
 
-                <Button Content="更新配置"
+                <Button Content="{DynamicResource UpdateSettings}"
                         Margin="10,0,0,0"
                         Click="UpdateXraySettings"
                         Height="26"
                         IsEnabled="{Binding HasConnected}"
-                        Width="120"/>
+                        Width="150"/>
 
-                <Button Content="更新Xray内核" 
+                <Button Content="{DynamicResource UpdateXrayCore}" 
                         Margin="10,0,0,0"
                         Click="UpdateXrayCore"
                         Height="26"
                         IsEnabled="{Binding HasConnected}"
-                        Width="120"/>
+                        Width="150"/>
 
-                <Button Content="卸载代理"
+                <Button Content="{DynamicResource UninstallXray}"
                         Margin="10,0,0,0"
                         Click="UninstallXray"
                         Height="26"
-                        Width="120"
+                        Width="150"
                         IsEnabled="{Binding HasConnected}"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal"
                         Margin="0,10,0,0">
-                <TextBlock Text="证书/网站" 
+                <TextBlock Text="{DynamicResource SettingActions}" 
                            VerticalAlignment="Center"
+                           Width="100"
                            Margin="0,0,10,0"/>
 
-                <Button Content="续签证书"
+                <Button Content="{DynamicResource UpdateCert}"
                         Margin="0,0,0,0"
                         Height="26"
-                        Width="120"
+                        Width="150"
                         IsEnabled="{Binding HasConnected}"
                         Click="InstallCert"/>
 
-                <Button Content="上传自有证书"
+                <Button Content="{DynamicResource UploadSelfCert}"
                         Margin="10,0,0,0"
                         Height="26"
-                        Width="120"
+                        Width="150"
                         IsEnabled="{Binding HasConnected}"
                         Click="UploadCert"/>
 
-                <Button Content="上传网站"
+                <Button Content="{DynamicResource UploadWeb}"
                         Margin="10,0,0,0"
                         Height="26"
-                        Width="120"
+                        Width="150"
                         IsEnabled="{Binding HasConnected}"
                         Click="UploadWeb"/>
 
-                <Button Content="卸载Caddy"
+                <Button Content="{DynamicResource UninstallCaddy}"
                         Margin="10,0,0,0"
                         Click="UninstallCaddy"
                         Height="26"
                         IsEnabled="{Binding HasConnected}"
-                        Width="120"/>
+                        Width="150"/>
             </StackPanel>
         </StackPanel>
 
         <StackPanel Margin="10,0,0,0">
-            <Label Content="说明："/>
+            <Label Content="说明(Readme)："/>
             <StackPanel Margin="10,0,0,0">
-                <Label Content="一键安装： 最后输出 “请尽情享用” 表示完成，到[查看配置]或[导出配置]查看节点" />
-                <Label Content="更新配置： 修改节点配置信息后，不需要重新安装，这个功能就可以更新配置了" />
-            
-                <Label Content="续签证书： 证书默认是自动续签，但不保证都能续签成功，如果失败请用[续签证书]手动续签" />
-                <Label Content="上传网站： 伪装网站，正确的静态网页要有index.html文件(请检查)，然后将网站压缩包上传。" />
+                <TextBlock TextWrapping="WrapWithOverflow" Text="{DynamicResource ReadmeInstallXray}" />
+                <TextBlock TextWrapping="WrapWithOverflow" Text="{DynamicResource ReadmeUpdateSettings}" />
+
+                <TextBlock TextWrapping="WrapWithOverflow" Text="{DynamicResource ReadmeUpdateCert}" />
+                <TextBlock TextWrapping="WrapWithOverflow" Text="{DynamicResource ReadmeUploadWeb}" />
             </StackPanel>
             
-            <Label Margin="0,10,0,0" Content="如下是网友提供的静态网页连接，请自行检查是否有index.html文件" />
+            <Label Margin="0,10,0,0" Content="{DynamicResource ReadmeWebsiteDemo}" />
             <StackPanel Orientation="Horizontal">
                 <TextBlock Margin="10,0,0,0">
                     <Hyperlink NavigateUri="https://www.themezy.com" Click="OpenLink">Themezy</Hyperlink>

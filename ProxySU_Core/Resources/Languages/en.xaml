@@ -2,6 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <sys:String x:Key="TabItemHeaderAppDeployment">Deployment</sys:String>
+    <sys:String x:Key="TabItemHeaderReadme">Readme</sys:String>
+    
     <sys:String x:Key="LanguageText">Language</sys:String>
     <sys:String x:Key="LanguageChinese">Chinese</sys:String>
     <sys:String x:Key="LanguageEnglish">English</sys:String>
@@ -9,6 +11,7 @@
     <sys:String x:Key="AddHost">Add Host</sys:String>
     <sys:String x:Key="ViewConfig">Configuration</sys:String>
     <sys:String x:Key="ViewSub">Subscription</sys:String>
+    <sys:String x:Key="Random">Random</sys:String>
 
 
     <!--table-->
@@ -62,6 +65,51 @@
     <sys:String x:Key="HostPortNotNull">Please enter port</sys:String>
     <sys:String x:Key="PorxyAddressNotNull">Please enter proxy host</sys:String>
     <sys:String x:Key="ProxyProtNotNull">Please enter proxy port</sys:String>
+    
+
+    <sys:String x:Key="VlessXtlsDesc" xml:space="preserve">VLESS over TCP With XTLS&#x0a;Preferred</sys:String>
+    <sys:String x:Key="VlessTcpDesc" xml:space="preserve">VLESS over TCP with TLS&#x0a;XTLS is Preferred</sys:String>
+    <sys:String x:Key="VlessWsDesc" xml:space="preserve">VLESS over WS with TLS&#x0a;Support CDN</sys:String>
+    <sys:String x:Key="VlessKcpDesc" xml:space="preserve">"VLESS mKCP&#x0a;low delay</sys:String>
+    <sys:String x:Key="VmessWsDesc" xml:space="preserve">VMESS over WS with TLS&#x0a;Support CDN</sys:String>
+    <sys:String x:Key="VmessKcpDesc" xml:space="preserve">VMESS mKCP&#x0a;low delay</sys:String>
+    <sys:String x:Key="SSDesc" xml:space="preserve">ShadowSocks&#x0a;Support CDN</sys:String>
+    <sys:String x:Key="TrojanDesc" xml:space="preserve">Trojan over TCP with TLS&#x0a;Trojan</sys:String>
+
+    <sys:String x:Key="XrayDomain">Address</sys:String>
+    <sys:String x:Key="XrayMarkDomain">GuiseHost</sys:String>
+    <sys:String x:Key="XrayUUID">UUID</sys:String>
+    <sys:String x:Key="VlessWsPath">VLESS WS Path</sys:String>
+    <sys:String x:Key="VlessKcpSeed">VLESS KCP Seed</sys:String>
+    <sys:String x:Key="VlessKcpType">VLESS KCP Type</sys:String>
+    <sys:String x:Key="VlessKcpPort">VLESS KCP Port</sys:String>
+    <sys:String x:Key="VmessWsPath">VMESS WS Path</sys:String>
+    <sys:String x:Key="VmessKcpSeed">VMESS KCP Seed</sys:String>
+    <sys:String x:Key="VmessKcpType">VMESS KCP Type</sys:String>
+    <sys:String x:Key="VmessKcpPort">VMESS KCP Port</sys:String>
+    <sys:String x:Key="SSPassword">SS Pwd</sys:String>
+    <sys:String x:Key="SSMethods">SS Method</sys:String>
+    <sys:String x:Key="TrojanPassword">Trojan Pwd</sys:String>
+    <sys:String x:Key="XrayPort">xray Port</sys:String>
+    <sys:String x:Key="XrayPortDefault">default port is 443</sys:String>
 
     <!--Terminal Window-->
+    <sys:String x:Key="TerminalTitle">Console</sys:String>
+    <sys:String x:Key="InstallActions">xray/settings</sys:String>
+    <sys:String x:Key="InstallXray">Install</sys:String>
+    <sys:String x:Key="UpdateSettings">UpdateSettings</sys:String>
+    <sys:String x:Key="UpdateXrayCore">UpdateXray</sys:String>
+    <sys:String x:Key="UninstallXray">UninstallXray</sys:String>
+
+    <sys:String x:Key="SettingActions">cert/web</sys:String>
+    <sys:String x:Key="UpdateCert">UpdateCert</sys:String>
+    <sys:String x:Key="UploadSelfCert">UploadSelfCert</sys:String>
+    <sys:String x:Key="UploadWeb">UploadWebite</sys:String>
+    <sys:String x:Key="UninstallCaddy">UninstallCaddy</sys:String>
+
+    <sys:String x:Key="ReadmeInstallXray">Install: Finally output "please enjoy" to indicate completion, go to [Configuration] or [Config] to view the node</sys:String>
+    <sys:String x:Key="ReadmeUpdateSettings">Update Settings: After modifying the node configuration information, there is no need to reinstall, this function can update the configuration</sys:String>
+    <sys:String x:Key="ReadmeUpdateCert">Update Cert: The certificate is automatically updated by default, but it is not guaranteed to be updated successfully. If it fails, please use [Update Cert] to update manually</sys:String>
+    <sys:String x:Key="ReadmeUploadWeb">Upload website: Disguise the website, the correct static webpage must have an index.html file (please check), and then upload the website compressed package.</sys:String>
+    <sys:String x:Key="ReadmeWebsiteDemo">The following is a static web page connection provided by netizens, please check whether there is an index.html file by yourself</sys:String>
 </ResourceDictionary>
