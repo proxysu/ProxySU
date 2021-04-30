@@ -4,7 +4,7 @@
     <sys:String x:Key="TabItemHeaderAppDeployment">应用布署</sys:String>
     <sys:String x:Key="TabItemHeaderReadme">说明文档</sys:String>
     
-    <sys:String x:Key="LanguageText">语言</sys:String>
+    <sys:String x:Key="LanguageText">语言(Language)</sys:String>
     <sys:String x:Key="LanguageChinese">中文</sys:String>
     <sys:String x:Key="LanguageEnglish">英文</sys:String>
     <sys:String x:Key="Hosts">主机列表</sys:String>
@@ -114,4 +114,7 @@
     <sys:String x:Key="ReadmeWebsiteDemo">如下是网友提供的静态网页连接，请自行检查是否有index.html文件</sys:String>
     
 
+    <!--client info window-->
+    <sys:String x:Key="ClientInfoTitle">查看配置信息</sys:String>
+    
 </ResourceDictionary>

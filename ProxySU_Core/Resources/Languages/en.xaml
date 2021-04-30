@@ -4,13 +4,13 @@
     <sys:String x:Key="TabItemHeaderAppDeployment">Deployment</sys:String>
     <sys:String x:Key="TabItemHeaderReadme">Readme</sys:String>
     
-    <sys:String x:Key="LanguageText">Language</sys:String>
+    <sys:String x:Key="LanguageText">Language(语言)</sys:String>
     <sys:String x:Key="LanguageChinese">Chinese</sys:String>
     <sys:String x:Key="LanguageEnglish">English</sys:String>
     <sys:String x:Key="Hosts">Hosts</sys:String>
     <sys:String x:Key="AddHost">Add Host</sys:String>
-    <sys:String x:Key="ViewConfig">Configuration</sys:String>
-    <sys:String x:Key="ViewSub">Subscription</sys:String>
+    <sys:String x:Key="ViewConfig">Export Config</sys:String>
+    <sys:String x:Key="ViewSub">Export Sub</sys:String>
     <sys:String x:Key="Random">Random</sys:String>
 
 
@@ -113,4 +113,10 @@
     <sys:String x:Key="ReadmeUpdateCert">Update Cert: The certificate is automatically updated by default, but it is not guaranteed to be updated successfully. If it fails, please use [Update Cert] to update manually</sys:String>
     <sys:String x:Key="ReadmeUploadWeb">Upload website: Disguise the website, the correct static webpage must have an index.html file (please check), and then upload the website compressed package.</sys:String>
     <sys:String x:Key="ReadmeWebsiteDemo">The following is a static web page connection provided by netizens, please check whether there is an index.html file by yourself</sys:String>
+
+
+
+    <!--client info window-->
+    <sys:String x:Key="ClientInfoTitle">View Settings</sys:String>
+
 </ResourceDictionary>

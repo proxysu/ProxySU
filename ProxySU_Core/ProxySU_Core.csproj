@@ -127,6 +127,7 @@
     <Compile Include="Common\Base64.cs" />
     <Compile Include="Converters\LoginSecretTypeConverter.cs" />
     <Compile Include="Converters\VisibleConverter.cs" />
+    <Compile Include="Models\AppSettings.cs" />
     <Compile Include="Models\Host.cs" />
     <Compile Include="Models\ShareLink.cs" />
     <Compile Include="Models\XraySettings.cs" />

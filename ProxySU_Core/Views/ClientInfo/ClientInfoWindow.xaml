@@ -8,7 +8,7 @@
         xmlns:dev="clr-namespace:ProxySU_Core.Models.Developers"           
         xmlns:models="clr-namespace:ProxySU_Core.Models"
         mc:Ignorable="d"
-        Title="查看配置" Height="500" Width="800">
+        Title="{DynamicResource ClientInfoTitle}" Height="500" Width="800">
 
 
     <Grid>
@@ -64,13 +64,13 @@
                 <local:VLESS_gRPC_Control />
             </TabItem>-->
 
-            <TabItem Width="200" Height="40"     
+            <!--<TabItem Width="200" Height="40"     
                      Tag="{x:Static models:XrayType.VMESS_TCP}"                 
                      IsEnabled="{Binding Settings.Checked_VMESS_TCP}"
                      Style="{StaticResource MaterialDesignNavigationRailTabItem}" 
                      Header="VMESS-TCP-TLS">
                 <local:VMESS_TCP_TLS_Control />
-            </TabItem>
+            </TabItem>-->
 
             <TabItem Width="200" Height="40"     
                      Tag="{x:Static models:XrayType.VMESS_WS}"
