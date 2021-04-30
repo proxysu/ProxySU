@@ -108,7 +108,7 @@
 
         <StackPanel Grid.Column="1" >
             <Image Width="200" Height="200" x:Name="QrImage" />
-            <Button Click="SaveImage" Width="100" Content="另存为" />
+            <Button Click="SaveImage" Width="100" Content="{DynamicResource SaveAs}" />
         </StackPanel>
     </Grid>
 </metro:MetroWindow>

@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:ProxySU_Core.Views.RecordEditor" 
         xmlns:converters="clr-namespace:ProxySU_Core.Converters"
         mc:Ignorable="d"
-        Title="编辑主机信息" Height="600" Width="1100">
+        Title="{DynamicResource HostWindowTitle}" Height="600" Width="1100">
 
     <Window.Resources>
         <converters:VisibleConverter x:Key="VisibleConverter" />
@@ -51,16 +51,16 @@
                         </ScrollViewer>
                     </TabItem>
                     <TabItem metro:HeaderedControlHelper.HeaderFontSize="20" Padding="10,5,10,5" Header="Trojan-Go">
-
+                        Trojan-Go 未完成(Not Implemented)
                     </TabItem>
                     <TabItem metro:HeaderedControlHelper.HeaderFontSize="20" Padding="10,5,10,5" Header="NaiveProxy">
-
+                        Naive Proxy 未完成(Not Implemented)
                     </TabItem>
                 </TabControl>
 
                 <StackPanel Grid.Row="1" Grid.Column="0" VerticalAlignment="Center">
                     <Border BorderBrush="#DDD" BorderThickness="0,1,0,0" />
-                    <Button Content="保存"
+                    <Button Content="{DynamicResource Save}"
                         Margin="15"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"

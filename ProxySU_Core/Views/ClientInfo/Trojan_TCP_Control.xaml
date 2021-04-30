@@ -7,22 +7,22 @@
              mc:Ignorable="d">
     <StackPanel Orientation="Vertical">
         <StackPanel Orientation="Horizontal">
-            <Label Content="服务器地址" Width="120" />
+            <Label Content="服务器地址(Address)" Width="120" />
             <TextBox Text="{Binding Settings.Domain}" IsReadOnly="True" Width="200" />
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-            <Label Content="服务器端口" Width="120" />
+            <Label Content="服务器端口(Port)" Width="120" />
             <TextBox Text="443" IsReadOnly="True" Width="200" />
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-            <Label Content="密码" Width="120" />
+            <Label Content="密码(Pwd)" Width="120" />
             <TextBox Text="{Binding Settings.TrojanPassword}" IsReadOnly="True" Width="300" />
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-            <Label Content="分享链接" Width="120" />
+            <Label Content="分享链接(ShareLink)" Width="120" />
             <TextBox Text="{Binding Settings.Trojan_TCP_ShareLink,Mode=OneTime}" Width="300" IsReadOnly="True" />
         </StackPanel>
     </StackPanel>

@@ -24,7 +24,7 @@
     <sys:String x:Key="MainTableControl">Cnsole</sys:String>
     <sys:String x:Key="MainTableViewConfig">Config</sys:String>
     <sys:String x:Key="MainTableEditor">Edit</sys:String>
-    <sys:String x:Key="MainTableDelete">Del</sys:String>
+    <sys:String x:Key="MainTableDelete">Delete</sys:String>
 
 
     <sys:String x:Key="Actions">Actions</sys:String>
@@ -34,13 +34,14 @@
     <sys:String x:Key="Delete">Delete</sys:String>
     <sys:String x:Key="Install">Install</sys:String>
     <sys:String x:Key="Save">Save</sys:String>
+    <sys:String x:Key="SaveAs">Save as</sys:String>
     <sys:String x:Key="Info">Info</sys:String>
     <sys:String x:Key="Warning">Warning</sys:String>
     <sys:String x:Key="Error">Error</sys:String>
 
 
     <!--Host Window-->
-    <sys:String x:Key="HostWindowTitle">Server Manager</sys:String>
+    <sys:String x:Key="HostWindowTitle">Server Editor</sys:String>
     <sys:String x:Key="ConnectionGroupName">Connection</sys:String>
     <sys:String x:Key="HostUserName">User</sys:String>
     <sys:String x:Key="HostPassword">Password</sys:String>
@@ -70,7 +71,7 @@
     <sys:String x:Key="VlessXtlsDesc" xml:space="preserve">VLESS over TCP With XTLS&#x0a;Preferred</sys:String>
     <sys:String x:Key="VlessTcpDesc" xml:space="preserve">VLESS over TCP with TLS&#x0a;XTLS is Preferred</sys:String>
     <sys:String x:Key="VlessWsDesc" xml:space="preserve">VLESS over WS with TLS&#x0a;Support CDN</sys:String>
-    <sys:String x:Key="VlessKcpDesc" xml:space="preserve">"VLESS mKCP&#x0a;low delay</sys:String>
+    <sys:String x:Key="VlessKcpDesc" xml:space="preserve">VLESS mKCP&#x0a;low delay</sys:String>
     <sys:String x:Key="VmessWsDesc" xml:space="preserve">VMESS over WS with TLS&#x0a;Support CDN</sys:String>
     <sys:String x:Key="VmessKcpDesc" xml:space="preserve">VMESS mKCP&#x0a;low delay</sys:String>
     <sys:String x:Key="SSDesc" xml:space="preserve">ShadowSocks&#x0a;Support CDN</sys:String>
