@@ -20,6 +20,8 @@ namespace ProxySU_Core.Models
                 case XrayType.VLESS_TCP:
                 case XrayType.VLESS_TCP_XTLS:
                 case XrayType.VLESS_WS:
+                case XrayType.VLESS_KCP:
+                case XrayType.VLESS_gRPC:
                 case XrayType.Trojan_TCP:
                     return BuildVlessShareLink(xrayType, settings);
                 case XrayType.VMESS_TCP:
@@ -38,10 +40,10 @@ namespace ProxySU_Core.Models
             var _method = settings.ShadowsocksMethod;
             var _password = settings.ShadowsocksPassword;
             var _server = settings.Domain;
-            var _port = ConfigBuilder.ShadowSocksPort;
+            var _port = settings.ShadowSocksPort;
 
             var base64URL = Base64.Encode($"{_method}:{_password}@{_server}:{_port}");
-            return "ss://" + base64URL;
+            return "ss://" + base64URL + "#ShadowSocks";
         }
 
         private static string BuildVmessShareLink(XrayType xrayType, XraySettings settings)
@@ -77,7 +79,7 @@ namespace ProxySU_Core.Models
                     break;
                 case XrayType.VMESS_KCP:
                     vmess.ps = "vmess-mKCP";
-                    vmess.port = ConfigBuilder.VMESS_mKCP_Port.ToString();
+                    vmess.port = settings.VMESS_KCP_Port.ToString();
                     vmess.net = "kcp";
                     vmess.type = settings.VMESS_KCP_Type;
                     vmess.path = settings.VMESS_KCP_Seed;
@@ -98,47 +100,47 @@ namespace ProxySU_Core.Models
             var _domain = settings.Domain;
             var _port = settings.Port;
             var _type = string.Empty;
-            var _encryption = string.Empty;
+            var _encryption = "none";
             var _security = "tls";
             var _path = "/";
             var _host = settings.Domain;
             var _descriptiveText = string.Empty;
+            var _headerType = "none";
+            var _seed = string.Empty;
 
             switch (xrayType)
             {
                 case XrayType.VLESS_TCP:
                     _protocol = "vless";
                     _type = "tcp";
-                    _encryption = "none";
                     _descriptiveText = "vless-tcp-tls";
                     break;
                 case XrayType.VLESS_TCP_XTLS:
                     _protocol = "vless";
                     _type = "tcp";
                     _security = "xtls";
-                    _encryption = "none";
                     _descriptiveText = "vless-tcp-xtls";
                     break;
                 case XrayType.VLESS_WS:
                     _protocol = "vless";
                     _type = "ws";
                     _path = settings.VLESS_WS_Path;
-                    _encryption = "none";
                     _descriptiveText = "vless-ws-tls";
                     break;
-                case XrayType.VMESS_TCP:
-                    _protocol = "vmess";
-                    _type = "tcp";
-                    _path = settings.VMESS_TCP_Path;
-                    _encryption = "auto";
-                    _descriptiveText = "vmess-tcp-tls";
+                case XrayType.VLESS_KCP:
+                    _protocol = "vless";
+                    _type = "kcp";
+                    _headerType = settings.VLESS_KCP_Type;
+                    _seed = settings.VLESS_KCP_Seed;
+                    _port = settings.VLESS_KCP_Port;
+                    _security = "none";
+                    _descriptiveText = "vless-mKCP";
                     break;
-                case XrayType.VMESS_WS:
-                    _protocol = "vmess";
-                    _type = "ws";
-                    _path = settings.VMESS_WS_Path;
-                    _encryption = "auto";
-                    _descriptiveText = "vmess-ws-tls";
+                case XrayType.VLESS_gRPC:
+                    _protocol = "vless";
+                    _type = "grpc";
+                    _path = settings.VLESS_gRPC_ServiceName;
+                    _descriptiveText = "vless-gRPC";
                     break;
                 case XrayType.Trojan_TCP:
                     _protocol = "trojan";
@@ -154,11 +156,13 @@ namespace ProxySU_Core.Models
             if (xrayType != XrayType.Trojan_TCP)
             {
                 // 4.3 传输层相关段
-                parametersURL = $"?type={_type}&encryption={_encryption}&security={_security}&host={_host}&path={HttpUtility.UrlEncode(_path)}";
+                parametersURL = $"?type={_type}&encryption={_encryption}&security={_security}&path={HttpUtility.UrlEncode(_path)}&headerType={_headerType}";
 
-
-                // if mKCP
-                // if QUIC
+                // kcp
+                if (xrayType == XrayType.VLESS_KCP)
+                {
+                    parametersURL += $"&seed={_seed}";
+                }
 
                 // 4.4 TLS 相关段
                 if (xrayType == XrayType.VLESS_TCP_XTLS)

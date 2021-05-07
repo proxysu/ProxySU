@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:ProxySU_Core"
         xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="主机控制台" Height="500" Width="800">
+        FontSize="15"
+        Title="{DynamicResource TerminalTitle}" Height="640" Width="900">
     <StackPanel>
         <TextBox IsReadOnly="True"
                      Block.LineHeight="18"
@@ -23,88 +24,101 @@
                     Orientation="Vertical"
                     HorizontalAlignment="Left">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="内核/配置" 
+                <TextBlock Text="{DynamicResource InstallActions}" 
                            VerticalAlignment="Center"
+                           Width="100"
                            Margin="0,0,10,0"/>
                 
-                <Button Content="安装Xray"
+                <Button Content="{DynamicResource InstallXray}"
                         Click="Install"
                         Height="26"
                         IsEnabled="{Binding HasConnected}"
-                        Width="120"/>
+                        Width="150"/>
 
-                <Button Content="更新Xray内核" 
-                        Margin="10,0,0,0"
-                        Click="UpdateXrayCore"
-                        Height="26"
-                        IsEnabled="{Binding HasConnected}"
-                        Width="120"/>
-
-                <Button Content="更新Xray配置"
+                <Button Content="{DynamicResource UpdateSettings}"
                         Margin="10,0,0,0"
                         Click="UpdateXraySettings"
                         Height="26"
                         IsEnabled="{Binding HasConnected}"
-                        Width="120"/>
+                        Width="150"/>
 
-                <Button Content="卸载代理"
+                <Button Content="{DynamicResource UpdateXrayCore}" 
+                        Margin="10,0,0,0"
+                        Click="UpdateXrayCore"
+                        Height="26"
+                        IsEnabled="{Binding HasConnected}"
+                        Width="150"/>
+
+                <Button Content="{DynamicResource UninstallXray}"
                         Margin="10,0,0,0"
                         Click="UninstallXray"
                         Height="26"
-                        Width="120"
+                        Width="150"
                         IsEnabled="{Binding HasConnected}"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal"
                         Margin="0,10,0,0">
-                <TextBlock Text="证书/网站" 
+                <TextBlock Text="{DynamicResource SettingActions}" 
                            VerticalAlignment="Center"
+                           Width="100"
                            Margin="0,0,10,0"/>
 
-                <Button Content="申请证书"
+                <Button Content="{DynamicResource UpdateCert}"
                         Margin="0,0,0,0"
                         Height="26"
-                        Width="120"
+                        Width="150"
                         IsEnabled="{Binding HasConnected}"
                         Click="InstallCert"/>
 
-                <Button Content="上传自有证书"
+                <Button Content="{DynamicResource UploadSelfCert}"
                         Margin="10,0,0,0"
                         Height="26"
-                        Width="120"
+                        Width="150"
                         IsEnabled="{Binding HasConnected}"
                         Click="UploadCert"/>
 
-                <Button Content="上传伪装网站"
+                <Button Content="{DynamicResource UploadWeb}"
                         Margin="10,0,0,0"
                         Height="26"
-                        Width="120"
+                        Width="150"
                         IsEnabled="{Binding HasConnected}"
                         Click="UploadWeb"/>
 
-                <Button Content="重装Caddy"
+                <Button Content="{DynamicResource UninstallCaddy}"
                         Margin="10,0,0,0"
-                        Click="ReinstallCaddy"
+                        Click="UninstallCaddy"
                         Height="26"
                         IsEnabled="{Binding HasConnected}"
-                        Width="120"/>
+                        Width="150"/>
             </StackPanel>
         </StackPanel>
 
         <StackPanel Margin="10,0,0,0">
-            <Label Content="静态网页模版（感谢网友推荐），将网站压缩包上传到服务区即可。" />
-            <TextBlock>
-                <Hyperlink NavigateUri="https://www.themezy.com" Click="OpenLink">Themezy</Hyperlink>
-            </TextBlock>
-            <TextBlock>
-                <Hyperlink NavigateUri="https://onepagelove.com/templates/free-templates" Click="OpenLink">One Page Love</Hyperlink>
-            </TextBlock>
-            <TextBlock>
-                <Hyperlink NavigateUri="https://html5up.net/" Click="OpenLink">HTML5 UP</Hyperlink>
-            </TextBlock>
-            <TextBlock>
-                <Hyperlink NavigateUri="https://templatemo.com/" Click="OpenLink">template mo</Hyperlink>
-            </TextBlock>
+            <Label Content="说明(Readme)："/>
+            <StackPanel Margin="10,0,0,0">
+                <TextBlock TextWrapping="WrapWithOverflow" Text="{DynamicResource ReadmeInstallXray}" />
+                <TextBlock TextWrapping="WrapWithOverflow" Text="{DynamicResource ReadmeUpdateSettings}" />
+
+                <TextBlock TextWrapping="WrapWithOverflow" Text="{DynamicResource ReadmeUpdateCert}" />
+                <TextBlock TextWrapping="WrapWithOverflow" Text="{DynamicResource ReadmeUploadWeb}" />
+            </StackPanel>
+            
+            <Label Margin="0,10,0,0" Content="{DynamicResource ReadmeWebsiteDemo}" />
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="10,0,0,0">
+                    <Hyperlink NavigateUri="https://www.themezy.com" Click="OpenLink">Themezy</Hyperlink>
+                </TextBlock>
+                <TextBlock Margin="20,0,0,0">
+                    <Hyperlink NavigateUri="https://onepagelove.com/templates/free-templates" Click="OpenLink">One Page Love</Hyperlink>
+                </TextBlock>
+                <TextBlock Margin="20,0,0,0">
+                    <Hyperlink NavigateUri="https://html5up.net/" Click="OpenLink">HTML5 UP</Hyperlink>
+                </TextBlock>
+                <TextBlock Margin="20,0,0,0">
+                    <Hyperlink NavigateUri="https://templatemo.com/" Click="OpenLink">template mo</Hyperlink>
+                </TextBlock>
+            </StackPanel>
         </StackPanel>
     </StackPanel>
 </metro:MetroWindow>

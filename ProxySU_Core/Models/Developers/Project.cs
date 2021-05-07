@@ -308,12 +308,22 @@ namespace ProxySU_Core.Models.Developers
 
             if (Parameters.Types.Contains(XrayType.ShadowsocksAEAD))
             {
-                portList.Add(ConfigBuilder.ShadowSocksPort);
+                portList.Add(Parameters.ShadowSocksPort);
             }
 
             if (Parameters.Types.Contains(XrayType.VMESS_KCP))
             {
-                portList.Add(ConfigBuilder.VMESS_mKCP_Port);
+                portList.Add(Parameters.VMESS_KCP_Port);
+            }
+
+            if (Parameters.Types.Contains(XrayType.VLESS_KCP))
+            {
+                portList.Add(Parameters.VLESS_KCP_Port);
+            }
+
+            if (Parameters.Types.Contains(XrayType.VLESS_gRPC))
+            {
+                portList.Add(Parameters.VLESS_gRPC_Port);
             }
 
             OpenPort(portList.ToArray());
@@ -400,6 +410,7 @@ namespace ProxySU_Core.Models.Developers
             RunCmd("curl -o caddy_install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/Caddy-Naive/caddy-naive-install.sh");
             RunCmd("yes | bash caddy_install.sh");
             RunCmd("rm -rf caddy_install.sh");
+            RunCmd("systemctl enable caddy.service");
         }
 
         protected void UninstallCaddy()
@@ -468,7 +479,7 @@ namespace ProxySU_Core.Models.Developers
             return true;
         }
 
-        public void ConfigurePort(bool force = true)
+        public void ConfigurePort()
         {
             if (Parameters.Port == 80 || Parameters.Port == 443)
             {
@@ -480,6 +491,9 @@ namespace ProxySU_Core.Models.Developers
                 SetPortFree(80);
                 SetPortFree(443);
                 SetPortFree(Parameters.Port);
+                SetPortFree(Parameters.VLESS_gRPC_Port);
+                SetPortFree(Parameters.VLESS_KCP_Port);
+                SetPortFree(Parameters.ShadowSocksPort);
             }
         }
 

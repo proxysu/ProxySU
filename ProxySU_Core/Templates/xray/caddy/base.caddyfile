@@ -1,5 +1,9 @@
-##domain##:80 {
+:##port## {
     root * /usr/share/caddy
     file_server
     ##reverse_proxy##
+}
+
+##domain##:80 {
+    redir https://##domain##{uri}
 }

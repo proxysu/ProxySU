@@ -5,6 +5,8 @@ using ProxySU_Core.Common;
 using ProxySU_Core.Models;
 using ProxySU_Core.ViewModels;
 using ProxySU_Core.Views;
+using ProxySU_Core.Views.ClientInfo;
+using ProxySU_Core.Views.RecordEditor;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,6 +25,10 @@ namespace ProxySU_Core
     public partial class MainWindow
     {
         private const string RecordPath = @"Data\Record.json";
+        private const string SettingsPath = @"Data\AppSettings.json";
+
+        private const string ZH_CN = "zh_cn";
+        private const string EN = "en";
 
         public ObservableCollection<RecordViewModel> Records { get; set; }
 
@@ -32,7 +38,19 @@ namespace ProxySU_Core
             InitializeComponent();
 
             Records = new ObservableCollection<RecordViewModel>();
+            LoadRecords();
 
+            DataContext = this;
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            this.SaveRecord();
+        }
+
+        private void LoadRecords()
+        {
             if (File.Exists(RecordPath))
             {
                 var recordsJson = File.ReadAllText(RecordPath, Encoding.UTF8);
@@ -45,9 +63,6 @@ namespace ProxySU_Core
                     });
                 }
             }
-
-
-            DataContext = this;
         }
 
         private void SaveRecord()
@@ -63,7 +78,7 @@ namespace ProxySU_Core
             {
                 Directory.CreateDirectory("Data");
             }
-            File.WriteAllText("Data\\Record.json", json, Encoding.UTF8);
+            File.WriteAllText(RecordPath, json, Encoding.UTF8);
         }
 
         private void LaunchGitHubSite(object sender, RoutedEventArgs e)
@@ -76,30 +91,33 @@ namespace ProxySU_Core
             System.Diagnostics.Process.Start("explorer.exe", "https://github.com/proxysu/ProxySU");
         }
 
+
         private void ChangeLanguage(object sender, SelectionChangedEventArgs e)
         {
             var selection = cmbLanguage.SelectedValue as ComboBoxItem;
 
-            if (selection.Name == "zh_cn")
+            if (selection.Name == ZH_CN)
             {
-                ChangeLanguage("zh_cn");
+                ChangeLanguage(ZH_CN);
+
             }
-            else if (selection.Name == "en")
+            else if (selection.Name == EN)
             {
-                ChangeLanguage("en");
+                ChangeLanguage(EN);
             }
+
         }
 
         private void ChangeLanguage(string culture)
         {
             ResourceDictionary resource = new ResourceDictionary();
 
-            if (string.Equals(culture, "zh_cn", StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(culture, ZH_CN, StringComparison.OrdinalIgnoreCase))
             {
                 resource.Source = new Uri(@"Resources\Languages\zh_cn.xaml", UriKind.Relative);
             }
 
-            else if (string.Equals(culture, "en", StringComparison.OrdinalIgnoreCase))
+            else if (string.Equals(culture, EN, StringComparison.OrdinalIgnoreCase))
             {
                 resource.Source = new Uri(@"Resources\Languages\en.xaml", UriKind.Relative);
             }
@@ -164,6 +182,19 @@ namespace ProxySU_Core
             }
         }
 
+        private void DeleteHost(object sender, RoutedEventArgs e)
+        {
+            if (DataGrid.SelectedItem is RecordViewModel project)
+            {
+                var result = MessageBox.Show($"您确认删除主机{project.Host.Tag}吗？", "提示", MessageBoxButton.OKCancel);
+                if (result == MessageBoxResult.OK)
+                {
+                    Records.Remove(project);
+                    SaveRecord();
+                }
+            }
+        }
+
         private void ShowClientInfo(object sender, RoutedEventArgs e)
         {
             if (DataGrid.SelectedItem is RecordViewModel project)
@@ -173,19 +204,6 @@ namespace ProxySU_Core
             }
         }
 
-
-        private void DeleteHost(object sender, RoutedEventArgs e)
-        {
-            if (DataGrid.SelectedItem is RecordViewModel project)
-            {
-                var result = MessageBox.Show($"您确认删除主机{project.Host.Tag}吗？", "提示", MessageBoxButton.OKCancel);
-                if (result == MessageBoxResult.OK)
-                {
-                    Records.Remove(project);
-                }
-            }
-
-        }
 
         private void Connect(object sender, RoutedEventArgs e)
         {

@@ -173,7 +173,7 @@ namespace ProxySU_Core
         {
             Task.Factory.StartNew(() =>
             {
-                project.Uninstall();
+                project.UninstallProxy();
             });
         }
 
@@ -193,11 +193,11 @@ namespace ProxySU_Core
             fileDialog.ShowDialog();
         }
 
-        private void ReinstallCaddy(object sender, RoutedEventArgs e)
+        private void UninstallCaddy(object sender, RoutedEventArgs e)
         {
             Task.Factory.StartNew(() =>
             {
-                project.ReinstallCaddy();
+                project.DoUninstallCaddy();
             });
         }
 

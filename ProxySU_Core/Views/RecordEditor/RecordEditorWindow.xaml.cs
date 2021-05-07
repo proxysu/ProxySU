@@ -14,7 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace ProxySU_Core.Views
+namespace ProxySU_Core.Views.RecordEditor
 {
     /// <summary>
     /// RecordEditorWindow.xaml 的交互逻辑
@@ -47,11 +47,6 @@ namespace ProxySU_Core.Views
             Record.Settings = Settings.settings;
             DialogResult = true;
             Close();
-        }
-
-        public void RandomUuid(object sender, RoutedEventArgs e)
-        {
-            Settings.UUID = Guid.NewGuid().ToString();
         }
 
     }

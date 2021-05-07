@@ -87,7 +87,6 @@ namespace ProxySU_Core.Models.Developers
 
                 WriteOutput("启动BBR");
                 EnableBBR();
-                WriteOutput("BBR启动成功");
 
                 UploadCaddyFile();
                 WriteOutput("************");
@@ -102,7 +101,7 @@ namespace ProxySU_Core.Models.Developers
             }
         }
 
-        public void Uninstall()
+        public void UninstallProxy()
         {
             EnsureRootAuth();
             WriteOutput("卸载Caddy");
@@ -112,7 +111,7 @@ namespace ProxySU_Core.Models.Developers
             WriteOutput("卸载证书");
             UninstallAcme();
             WriteOutput("关闭端口");
-            ClosePort(ConfigBuilder.ShadowSocksPort, ConfigBuilder.VLESS_mKCP_Port, ConfigBuilder.VMESS_mKCP_Port);
+            ClosePort(Parameters.ShadowSocksPort, Parameters.VMESS_KCP_Port);
 
             WriteOutput("************ 卸载完成 ************");
         }
@@ -141,6 +140,8 @@ namespace ProxySU_Core.Models.Developers
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(configJson));
             RunCmd("rm -rf /usr/local/etc/xray/config.json");
             UploadFile(stream, "/usr/local/etc/xray/config.json");
+            ConfigurePort();
+            UploadCaddyFile(string.IsNullOrEmpty(Parameters.MaskDomain));
             RunCmd("systemctl restart xray");
             WriteOutput("************ 更新Xray配置成功，更新配置不包含域名，如果域名更换请重新安装。 ************");
         }
@@ -148,13 +149,11 @@ namespace ProxySU_Core.Models.Developers
         /// <summary>
         /// 重装Caddy
         /// </summary>
-        public void ReinstallCaddy()
+        public void DoUninstallCaddy()
         {
             EnsureRootAuth();
-            EnsureSystemEnv();
-            InstallCaddy();
-            UploadCaddyFile();
-            WriteOutput("************ 重装Caddy完成 ************");
+            UninstallCaddy();
+            WriteOutput("************ 卸载Caddy完成 ************");
         }
 
         /// <summary>
@@ -268,6 +267,7 @@ namespace ProxySU_Core.Models.Developers
                 {
                     RemoveNat64();
                 }
+                WriteOutput("BBR启动成功");
             }
 
             if (!canInstallBBR)
@@ -382,14 +382,14 @@ namespace ProxySU_Core.Models.Developers
                 result = RunCmd(cmd);
             }
 
-            if (result.Contains("Cert success"))
+            if (result.Contains("success"))
             {
                 WriteOutput("申请证书成功");
             }
             else
             {
-                WriteOutput("申请证书失败，请联系开发者！");
-                throw new Exception("申请证书失败，请联系开发者！");
+                WriteOutput("申请证书失败，如果申请次数过多请更换二级域名，或联系开发者！");
+                throw new Exception("申请证书失败，如果申请次数过多请更换二级域名，或联系开发者！");
             }
 
             // 安装证书到xray
