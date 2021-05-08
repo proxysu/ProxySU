@@ -37,16 +37,15 @@
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
 
-
                 <TabControl Grid.Row="0"  BorderThickness="0,1,0,0" BorderBrush="#DDD" Padding="10">
-                    <TabItem metro:HeaderedControlHelper.HeaderFontSize="20" Header="xray-vless">
+                    <TabItem metro:HeaderedControlHelper.HeaderFontSize="20" Padding="10,5,10,5" Header="Xray/V2ray">
                         <ScrollViewer Name="scroll" 
-                                      BorderBrush="#ddd" 
-                                      BorderThickness="2" 
-                                      Width="auto"  
-                                      Height="450" 
-                                      HorizontalScrollBarVisibility="Auto" 
-                                      VerticalScrollBarVisibility="Auto" >
+                                    BorderBrush="#ddd" 
+                                    BorderThickness="2" 
+                                    Width="auto"  
+                                    Height="450" 
+                                    HorizontalScrollBarVisibility="Auto" 
+                                    VerticalScrollBarVisibility="Auto" >
                             <local:XrayEditorControl />
                         </ScrollViewer>
                     </TabItem>
@@ -56,7 +55,9 @@
                     <TabItem metro:HeaderedControlHelper.HeaderFontSize="20" Padding="10,5,10,5" Header="NaiveProxy">
                         Naive Proxy 未完成(Not Implemented)
                     </TabItem>
-                </TabControl>
+                </TabControl> 
+
+                
 
                 <StackPanel Grid.Row="1" Grid.Column="0" VerticalAlignment="Center">
                     <Border BorderBrush="#DDD" BorderThickness="0,1,0,0" />

@@ -165,7 +165,7 @@ namespace ProxySU_Core
         {
             Task.Factory.StartNew(() =>
             {
-                project.InstallCert();
+                project.InstallCertToXray();
             });
         }
 

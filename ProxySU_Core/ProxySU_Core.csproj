@@ -128,16 +128,19 @@
     <Compile Include="Converters\LoginSecretTypeConverter.cs" />
     <Compile Include="Converters\VisibleConverter.cs" />
     <Compile Include="Models\AppSettings.cs" />
+    <Compile Include="Models\Developers\TrojanGoConfigBuilder.cs" />
+    <Compile Include="Models\Developers\TrojanGoProject.cs" />
+    <Compile Include="Models\Developers\TrojanGoSettings.cs" />
     <Compile Include="Models\Host.cs" />
     <Compile Include="Models\ShareLink.cs" />
-    <Compile Include="Models\XraySettings.cs" />
+    <Compile Include="Models\Developers\XraySettings.cs" />
     <Compile Include="Models\XrayType.cs" />
     <Compile Include="Tools\DateTimeUtils.cs" />
     <Compile Include="Tools\Extensions.cs" />
     <Compile Include="ViewModels\BaseCommand.cs" />
     <Compile Include="ViewModels\BaseModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
-    <Compile Include="Models\Developers\ConfigBuilder.cs" />
+    <Compile Include="Models\Developers\XrayConfigBuilder.cs" />
     <Compile Include="Models\Developers\IParameters.cs" />
     <Compile Include="Models\Developers\Project.cs" />
     <Compile Include="Models\Developers\XrayProject.cs" />
@@ -225,6 +228,12 @@
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\trojan-go\base.caddyfile">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\trojan-go\trojan-go.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Templates\xray\base.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

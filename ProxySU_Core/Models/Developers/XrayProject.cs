@@ -136,7 +136,7 @@ namespace ProxySU_Core.Models.Developers
             EnsureRootAuth();
             EnsureSystemEnv();
             ConfigureFirewall();
-            var configJson = ConfigBuilder.BuildXrayConfig(Parameters);
+            var configJson = XrayConfigBuilder.BuildXrayConfig(Parameters);
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(configJson));
             RunCmd("rm -rf /usr/local/etc/xray/config.json");
             UploadFile(stream, "/usr/local/etc/xray/config.json");
@@ -159,11 +159,15 @@ namespace ProxySU_Core.Models.Developers
         /// <summary>
         /// 安装证书
         /// </summary>
-        public void InstallCert()
+        public void InstallCertToXray()
         {
             EnsureRootAuth();
             EnsureSystemEnv();
-            this.InstallCertToXray();
+            InstallCert(
+                dirPath: "/usr/local/etc/xray/ssl",
+                certName: "xray_ssl.crt",
+                keyName: "xray_ssl.key");
+
             RunCmd("systemctl restart xray");
             WriteOutput("************ 安装证书完成 ************");
         }
@@ -243,66 +247,17 @@ namespace ProxySU_Core.Models.Developers
 
         private void UploadCaddyFile(bool useCustomWeb = false)
         {
-            var configJson = ConfigBuilder.BuildCaddyConfig(Parameters, useCustomWeb);
+            var configJson = XrayConfigBuilder.BuildCaddyConfig(Parameters, useCustomWeb);
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(configJson));
-            RunCmd("mv /etc/caddy/Caddyfile /etc/caddy/Caddyfile.back");
+            if (FileExists("/etc/caddy/Caddyfile"))
+            {
+                RunCmd("mv /etc/caddy/Caddyfile /etc/caddy/Caddyfile.back");
+            }
             UploadFile(stream, "/etc/caddy/Caddyfile");
             RunCmd("systemctl restart caddy");
         }
 
-        private void EnableBBR()
-        {
-            var osVersion = RunCmd("uname -r");
-            var canInstallBBR = CheckKernelVersionBBR(osVersion.Split('-')[0]);
 
-            var bbrInfo = RunCmd("sysctl net.ipv4.tcp_congestion_control | grep bbr");
-            var installed = bbrInfo.Contains("bbr");
-            if (canInstallBBR && !installed)
-            {
-                RunCmd(@"bash -c 'echo ""net.core.default_qdisc=fq"" >> /etc/sysctl.conf'");
-                RunCmd(@"bash -c 'echo ""net.ipv4.tcp_congestion_control=bbr"" >> /etc/sysctl.conf'");
-                RunCmd(@"sysctl -p");
-
-                if (OnlyIpv6)
-                {
-                    RemoveNat64();
-                }
-                WriteOutput("BBR启动成功");
-            }
-
-            if (!canInstallBBR)
-            {
-                WriteOutput("****** 系统不满足启用BBR条件，启动失败。 ******");
-            }
-
-        }
-
-        private bool CheckKernelVersionBBR(string kernelVer)
-        {
-            string[] linuxKernelCompared = kernelVer.Split('.');
-            if (int.Parse(linuxKernelCompared[0]) > 4)
-            {
-                return true;
-            }
-            else if (int.Parse(linuxKernelCompared[0]) < 4)
-            {
-                return false;
-            }
-            else if (int.Parse(linuxKernelCompared[0]) == 4)
-            {
-                if (int.Parse(linuxKernelCompared[1]) >= 9)
-                {
-                    return true;
-                }
-                else if (int.Parse(linuxKernelCompared[1]) < 9)
-                {
-                    return false;
-                }
-
-            }
-            return false;
-
-        }
 
         private void UninstallXray()
         {
@@ -340,80 +295,10 @@ namespace ProxySU_Core.Models.Developers
             WriteOutput("TLS证书安装完成");
 
 
-            var configJson = ConfigBuilder.BuildXrayConfig(Parameters);
+            var configJson = XrayConfigBuilder.BuildXrayConfig(Parameters);
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(configJson));
-            RunCmd("rm -rf /usr/local/etc/xray/config.json");
             UploadFile(stream, "/usr/local/etc/xray/config.json");
             RunCmd("systemctl restart xray");
-        }
-
-        private void InstallCertToXray()
-        {
-            // 安装依赖
-            RunCmd(GetInstallCmd("socat"));
-
-            // 解决搬瓦工CentOS缺少问题
-            RunCmd(GetInstallCmd("automake autoconf libtool"));
-
-            // 安装Acme
-            var result = RunCmd($"curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh | sh -s -- --install-online -m  {GetRandomEmail()}");
-            if (result.Contains("Install success"))
-            {
-                WriteOutput("安装 acme.sh 成功");
-            }
-            else
-            {
-                WriteOutput("安装 acme.sh 失败，请联系开发者！");
-                throw new Exception("安装 acme.sh 失败，请联系开发者！");
-            }
-
-            RunCmd("cd ~/.acme.sh/");
-            RunCmd("alias acme.sh=~/.acme.sh/acme.sh");
-
-            // 申请证书 
-            if (OnlyIpv6)
-            {
-                var cmd = $"/root/.acme.sh/acme.sh --force --debug --issue  --standalone  -d {Parameters.Domain} --listen-v6";
-                result = RunCmd(cmd);
-            }
-            else
-            {
-                var cmd = $"/root/.acme.sh/acme.sh --force --debug --issue  --standalone  -d {Parameters.Domain}";
-                result = RunCmd(cmd);
-            }
-
-            if (result.Contains("success"))
-            {
-                WriteOutput("申请证书成功");
-            }
-            else
-            {
-                WriteOutput("申请证书失败，如果申请次数过多请更换二级域名，或联系开发者！");
-                throw new Exception("申请证书失败，如果申请次数过多请更换二级域名，或联系开发者！");
-            }
-
-            // 安装证书到xray
-            RunCmd("mkdir -p /usr/local/etc/xray/ssl");
-            RunCmd($"/root/.acme.sh/acme.sh  --installcert  -d {Parameters.Domain}  --certpath /usr/local/etc/xray/ssl/xray_ssl.crt --keypath /usr/local/etc/xray/ssl/xray_ssl.key  --capath  /usr/local/etc/xray/ssl/xray_ssl.crt");
-            result = RunCmd(@"if [ ! -f ""/usr/local/etc/xray/ssl/xray_ssl.key"" ]; then echo ""0""; else echo ""1""; fi | head -n 1");
-            if (result.Contains("1"))
-            {
-                WriteOutput("安装证书成功");
-            }
-            else
-            {
-                WriteOutput("安装证书失败，请联系开发者！");
-                throw new Exception("安装证书失败，请联系开发者！");
-            }
-
-            RunCmd(@"chmod 755 /usr/local/etc/xray/ssl");
-        }
-
-        private string GetRandomEmail()
-        {
-            Random r = new Random();
-            var num = r.Next(200000000, 900000000);
-            return $"{num}@qq.com";
         }
 
         private int GetRandomPort()

@@ -305,26 +305,7 @@ namespace ProxySU_Core.Models.Developers
             var portList = new List<int>();
             portList.Add(80);
             portList.Add(Parameters.Port);
-
-            if (Parameters.Types.Contains(XrayType.ShadowsocksAEAD))
-            {
-                portList.Add(Parameters.ShadowSocksPort);
-            }
-
-            if (Parameters.Types.Contains(XrayType.VMESS_KCP))
-            {
-                portList.Add(Parameters.VMESS_KCP_Port);
-            }
-
-            if (Parameters.Types.Contains(XrayType.VLESS_KCP))
-            {
-                portList.Add(Parameters.VLESS_KCP_Port);
-            }
-
-            if (Parameters.Types.Contains(XrayType.VLESS_gRPC))
-            {
-                portList.Add(Parameters.VLESS_gRPC_Port);
-            }
+            portList.AddRange(Parameters.FreePorts);
 
             OpenPort(portList.ToArray());
         }
@@ -413,6 +394,9 @@ namespace ProxySU_Core.Models.Developers
             RunCmd("systemctl enable caddy.service");
         }
 
+        /// <summary>
+        /// 卸载 Caddy
+        /// </summary>
         protected void UninstallCaddy()
         {
             RunCmd("rm -rf caddy_install.sh");
@@ -491,9 +475,11 @@ namespace ProxySU_Core.Models.Developers
                 SetPortFree(80);
                 SetPortFree(443);
                 SetPortFree(Parameters.Port);
-                SetPortFree(Parameters.VLESS_gRPC_Port);
-                SetPortFree(Parameters.VLESS_KCP_Port);
-                SetPortFree(Parameters.ShadowSocksPort);
+
+                Parameters.FreePorts.ForEach(port =>
+                {
+                    SetPortFree(port);
+                });
             }
         }
 
@@ -562,6 +548,139 @@ namespace ProxySU_Core.Models.Developers
         #endregion
 
 
+        #region BBR
+        private bool CheckKernelVersionBBR(string kernelVer)
+        {
+            string[] linuxKernelCompared = kernelVer.Split('.');
+            if (int.Parse(linuxKernelCompared[0]) > 4)
+            {
+                return true;
+            }
+            else if (int.Parse(linuxKernelCompared[0]) < 4)
+            {
+                return false;
+            }
+            else if (int.Parse(linuxKernelCompared[0]) == 4)
+            {
+                if (int.Parse(linuxKernelCompared[1]) >= 9)
+                {
+                    return true;
+                }
+                else if (int.Parse(linuxKernelCompared[1]) < 9)
+                {
+                    return false;
+                }
+
+            }
+            return false;
+
+        }
+
+        protected void EnableBBR()
+        {
+            var osVersion = RunCmd("uname -r");
+            var canInstallBBR = CheckKernelVersionBBR(osVersion.Split('-')[0]);
+
+            var bbrInfo = RunCmd("sysctl net.ipv4.tcp_congestion_control | grep bbr");
+            var installed = bbrInfo.Contains("bbr");
+            if (canInstallBBR && !installed)
+            {
+                RunCmd(@"bash -c 'echo ""net.core.default_qdisc=fq"" >> /etc/sysctl.conf'");
+                RunCmd(@"bash -c 'echo ""net.ipv4.tcp_congestion_control=bbr"" >> /etc/sysctl.conf'");
+                RunCmd(@"sysctl -p");
+
+                if (OnlyIpv6)
+                {
+                    RemoveNat64();
+                }
+                WriteOutput("BBR启动成功");
+            }
+
+            if (!canInstallBBR)
+            {
+                WriteOutput("****** 系统不满足启用BBR条件，启动失败。 ******");
+            }
+
+        }
+        #endregion
+
+        /// <summary>
+        /// 安装证书
+        /// </summary>
+        /// <param name="certPath"></param>
+        /// <param name="keyPath"></param>
+        protected void InstallCert(string dirPath, string certName, string keyName)
+        {
+            string certPath = Path.Combine(dirPath, certName);
+            string keyPath = Path.Combine(dirPath, keyName);
+
+            // 安装依赖
+            RunCmd(GetInstallCmd("socat"));
+
+            // 解决搬瓦工CentOS缺少问题
+            RunCmd(GetInstallCmd("automake autoconf libtool"));
+
+            // 安装Acme
+            var result = RunCmd($"curl  https://get.acme.sh yes | sh");
+            if (result.Contains("Install success"))
+            {
+                WriteOutput("安装 acme.sh 成功");
+            }
+            else
+            {
+                WriteOutput("安装 acme.sh 失败，请联系开发者！");
+                throw new Exception("安装 acme.sh 失败，请联系开发者！");
+            }
+
+            RunCmd("cd ~/.acme.sh/");
+            RunCmd("alias acme.sh=~/.acme.sh/acme.sh");
+
+            // 申请证书 
+            if (OnlyIpv6)
+            {
+                var cmd = $"/root/.acme.sh/acme.sh --force --debug --issue  --standalone  -d {Parameters.Domain} --listen-v6";
+                result = RunCmd(cmd);
+            }
+            else
+            {
+                var cmd = $"/root/.acme.sh/acme.sh --force --debug --issue  --standalone  -d {Parameters.Domain}";
+                result = RunCmd(cmd);
+            }
+
+            if (result.Contains("success"))
+            {
+                WriteOutput("申请证书成功");
+            }
+            else
+            {
+                WriteOutput("申请证书失败，如果申请次数过多请更换二级域名，或联系开发者！");
+                throw new Exception("申请证书失败，如果申请次数过多请更换二级域名，或联系开发者！");
+            }
+
+            // 安装证书
+            RunCmd($"mkdir -p {dirPath}");
+            RunCmd($"/root/.acme.sh/acme.sh  --installcert  -d {Parameters.Domain}  --certpath {certPath} --keypath {keyPath}  --capath {certPath}");
+
+            result = RunCmd($@"if [ ! -f ""{keyPath}"" ]; then echo ""0""; else echo ""1""; fi | head -n 1");
+
+            if (result.Contains("1"))
+            {
+                WriteOutput("安装证书成功");
+            }
+            else
+            {
+                WriteOutput("安装证书失败，请联系开发者！");
+                throw new Exception("安装证书失败，请联系开发者！");
+            }
+
+            RunCmd($"chmod 755 {dirPath}");
+        }
+
+        /// <summary>
+        /// 上传文件
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="path"></param>
         protected void UploadFile(Stream stream, string path)
         {
             using (var sftp = new SftpClient(_sshClient.ConnectionInfo))

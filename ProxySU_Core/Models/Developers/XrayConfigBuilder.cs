@@ -8,11 +8,8 @@ using System.Text;
 
 namespace ProxySU_Core.Models.Developers
 {
-    public class ConfigBuilder
+    public class XrayConfigBuilder
     {
-        public dynamic xrayConfig { get; set; }
-        public string CaddyConfig { get; set; }
-
         private const string ServerLogDir = @"Templates\xray\server\00_log";
         private const string ServerApiDir = @"Templates\xray\server\01_api";
         private const string ServerDnsDir = @"Templates\xray\server\02_dns";

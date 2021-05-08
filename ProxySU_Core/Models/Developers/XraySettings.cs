@@ -172,6 +172,19 @@ namespace ProxySU_Core.Models
         /// </summary>
         public List<XrayType> Types { get; set; }
 
+        public List<int> FreePorts
+        {
+            get
+            {
+                return new List<int>
+                {
+                    VLESS_gRPC_Port,
+                    VLESS_KCP_Port,
+                    VMESS_KCP_Port,
+                    ShadowSocksPort,
+                };
+            }
+        }
 
         public string GetPath(XrayType type)
         {
