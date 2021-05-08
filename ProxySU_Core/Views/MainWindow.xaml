@@ -45,7 +45,6 @@
         <TabControl
             BorderThickness="0,1,0,0"
             BorderBrush="#DDD"
-            
             Background="#fff"
             Padding="20">
             <TabItem

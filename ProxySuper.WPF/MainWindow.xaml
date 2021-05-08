@@ -1,0 +1,34 @@
+﻿<local:MvxMetroWindow x:Class="ProxySuper.WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProxySuper.WPF"
+        xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <mah:MetroWindow.LeftWindowCommands>
+        <mah:WindowCommands>
+            <Button ToolTip="Open up the GitHub site">
+                github
+            </Button>
+        </mah:WindowCommands>
+    </mah:MetroWindow.LeftWindowCommands>
+
+    <mah:MetroWindow.RightWindowCommands>
+        <mah:WindowCommands>
+            <StackPanel Orientation="Horizontal" Margin="0,0,20,0">
+                <TextBlock Text="语言(Language)" VerticalAlignment="Center" Margin="0,0,20,0" />
+                <ComboBox 
+                    x:Name="cmbLanguage"
+                    SelectedIndex="0">
+                    <ComboBoxItem x:Name="zh_cn" Content="中文"></ComboBoxItem>
+                    <ComboBoxItem x:Name="en" Content="英文"></ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+        </mah:WindowCommands>
+    </mah:MetroWindow.RightWindowCommands>
+    <Grid>
+
+    </Grid>
+</local:MvxMetroWindow>
