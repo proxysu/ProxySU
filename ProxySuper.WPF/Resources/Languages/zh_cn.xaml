@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <sys:String x:Key="MainMenuAddHost">添加主机</sys:String>
+    <sys:String x:Key="MainMenuActions">操作</sys:String>
+    <sys:String x:Key="MainMenuActionsExportSettings">导出配置</sys:String>
+    <sys:String x:Key="MainMenuActionsExportSubscribe">导出配置</sys:String>
+
+    <sys:String x:Key="MainMenuLanguage">语言</sys:String>
+    <sys:String x:Key="MainMenuLanguageEn">English</sys:String>
+    <sys:String x:Key="MainMenuLanguageCn">中文</sys:String>
+    <sys:String x:Key="MainMenuHelper">帮助</sys:String>
+    <sys:String x:Key="MainMenuHelperGithub">Github</sys:String>
+    
+    
+</ResourceDictionary>

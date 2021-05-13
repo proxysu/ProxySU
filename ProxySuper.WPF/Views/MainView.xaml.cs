@@ -24,5 +24,10 @@ namespace ProxySuper.WPF.Views
         {
             InitializeComponent();
         }
+
+        private void LaunchGitHubSite(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("explorer.exe", "https://github.com/proxysu/ProxySU");
+        }
     }
 }

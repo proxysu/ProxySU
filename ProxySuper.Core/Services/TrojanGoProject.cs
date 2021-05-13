@@ -1,4 +1,5 @@
-﻿using Renci.SshNet;
+﻿using ProxySuper.Core.Models;
+using Renci.SshNet;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ProxySU_Core.Models.Developers
+namespace ProxySuper.Core.Services
 {
-    public class TrojanGoProject : Project<TrojanGoSettings>
+    public class TrojanGoProject : ProjectBase<TrojanGoSettings>
     {
         public TrojanGoProject(SshClient sshClient, TrojanGoSettings parameters, Action<string> writeOutput) : base(sshClient, parameters, writeOutput)
         {

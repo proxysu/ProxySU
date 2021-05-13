@@ -34,6 +34,14 @@
     <Reference Include="MvvmCross, Version=7.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmCross.7.1.2\lib\net461\MvvmCross.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\json.net\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework" />
+    <Reference Include="Renci.SshNet, Version=2020.0.1.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
+      <HintPath>..\packages\SSH.NET.2020.0.1\lib\net40\Renci.SshNet.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Console, Version=4.0.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Console.4.3.1\lib\net46\System.Console.dll</HintPath>
@@ -48,7 +56,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="Helpers\DateTimeUtils.cs" />
+    <Compile Include="Models\IProjectSettings.cs" />
+    <Compile Include="Models\TrojanGoSettings.cs" />
+    <Compile Include="Models\XraySettings_SS.cs" />
+    <Compile Include="Models\XraySettings_Trojan.cs" />
+    <Compile Include="Models\XraySettings_VLESS.cs" />
+    <Compile Include="Models\XraySettings.cs" />
+    <Compile Include="Models\XraySettings_VMESS.cs" />
+    <Compile Include="Models\XrayType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ProjectBase.cs" />
+    <Compile Include="Services\TrojanGoConfigBuilder.cs" />
+    <Compile Include="Services\TrojanGoProject.cs" />
+    <Compile Include="Services\XrayConfigBuilder.cs" />
+    <Compile Include="Services\XrayProject.cs" />
     <Compile Include="ViewModels\SecondViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
   </ItemGroup>

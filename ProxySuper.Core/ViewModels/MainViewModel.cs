@@ -18,30 +18,6 @@ namespace ProxySuper.Core.ViewModels
             _navigationService = navigationService;
         }
 
-        private int _count = 1;
 
-        public int Count
-        {
-            get
-            {
-                return _count;
-            }
-            set
-            {
-                SetProperty(ref _count, value);
-            }
-        }
-
-        public IMvxCommand PlusCommand => new MvxCommand(Plus);
-
-        public void Plus()
-        {
-            this.Count++;
-
-            if (this.Count >= 2)
-            {
-                _navigationService.Navigate<SecondViewModel>();
-            }
-        }
     }
 }
