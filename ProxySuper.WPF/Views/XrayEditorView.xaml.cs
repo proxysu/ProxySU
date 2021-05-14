@@ -16,18 +16,13 @@ using System.Windows.Shapes;
 namespace ProxySuper.WPF.Views
 {
     /// <summary>
-    /// MainView.xaml 的交互逻辑
+    /// XrayEditorView.xaml 的交互逻辑
     /// </summary>
-    public partial class MainView : MvxWpfView
+    public partial class XrayEditorView : MvxWindow
     {
-        public MainView()
+        public XrayEditorView()
         {
             InitializeComponent();
-        }
-
-        private void LaunchGitHubSite(object sender, RoutedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("explorer.exe", "https://github.com/proxysu/ProxySU");
         }
     }
 }

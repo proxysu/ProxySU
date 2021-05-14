@@ -12,7 +12,7 @@ namespace ProxySuper.Core
     {
         public override void Initialize()
         {
-            RegisterAppStart<MainViewModel>();
+            RegisterAppStart<HomeViewModel>();
         }
     }
 }

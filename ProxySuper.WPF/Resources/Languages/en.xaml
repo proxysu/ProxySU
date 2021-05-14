@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
+    <!--Main Menu-->
     <sys:String x:Key="MainMenuAddHost">Add Host</sys:String>
     <sys:String x:Key="MainMenuActions">Actions</sys:String>
     <sys:String x:Key="MainMenuActionsExportSettings">Export Settings</sys:String>
@@ -13,4 +14,16 @@
     
     <sys:String x:Key="MainMenuHelper">Helper</sys:String>
     <sys:String x:Key="MainMenuHelperGithub">Github</sys:String>
+    
+    <!--Main DataGrid-->
+    <sys:String x:Key="MainDataGridColumnTag">Tag</sys:String>
+    <sys:String x:Key="MainDataGridColumnAddress">Address</sys:String>
+    <sys:String x:Key="MainDataGridColumnType">Type</sys:String>
+    <sys:String x:Key="MainDataGridColumnAction">Action</sys:String>
+    <sys:String x:Key="MainDataGridColumnActionInstall">Install</sys:String>
+    <sys:String x:Key="MainDataGridColumnActionEdit">Edit</sys:String>
+    <sys:String x:Key="MainDataGridColumnActionDelete">Delete</sys:String>
+    
+    
+    <!--Editor Window-->
 </ResourceDictionary>

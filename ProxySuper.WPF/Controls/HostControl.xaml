@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="ProxySuper.WPF.Controls.HostControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProxySuper.WPF.Controls"
+             mc:Ignorable="d">
+    <Grid>
+        <GroupBox Padding="10" Header="Host">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+
+                <Label Content="地址:" Grid.Row="0" Grid.Column="0" />
+                <TextBox Grid.Row="0" Grid.Column="1"
+                         Width="200"
+                         Text="{Binding Host.Address}"
+                         VerticalContentAlignment="Center" />
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>

@@ -1,5 +1,6 @@
 ﻿using ProxySuper.Core.Helpers;
 using ProxySuper.Core.Models;
+using ProxySuper.Core.Models.Projects;
 using Renci.SshNet;
 using System;
 using System.Collections.Generic;

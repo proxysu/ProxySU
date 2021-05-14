@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProxySuper.Core.Models
+namespace ProxySuper.Core.Models.Projects
 {
     public partial class XraySettings : IProjectSettings
     {
@@ -20,6 +20,8 @@ namespace ProxySuper.Core.Models
                 };
             }
         }
+
+        public ProjectType Type { get; set; } = ProjectType.Xray;
 
         /// <summary>
         /// UUID

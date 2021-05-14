@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProxySuper.Core.Models
+namespace ProxySuper.Core.Models.Projects
 {
     public partial class XraySettings
     {

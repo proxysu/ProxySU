@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProxySuper.Core.Models
+namespace ProxySuper.Core.Models.Projects
 {
     public interface IProjectSettings
     {
@@ -22,5 +22,10 @@ namespace ProxySuper.Core.Models
         /// 额外需要开放的端口
         /// </summary>
         List<int> FreePorts { get; }
+
+        /// <summary>
+        /// 类型
+        /// </summary>
+        ProjectType Type { get; set; }
     }
 }

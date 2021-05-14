@@ -1,5 +1,4 @@
-﻿using MvvmCross.Platforms.Wpf.Views;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ProxySuper.WPF
+namespace ProxySuper.WPF.Controls
 {
     /// <summary>
-    /// MainWindow.xaml 的交互逻辑
+    /// HostControl.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : MvxWindow
+    public partial class HostControl : UserControl
     {
-        public MainWindow()
+        public HostControl()
         {
             InitializeComponent();
         }

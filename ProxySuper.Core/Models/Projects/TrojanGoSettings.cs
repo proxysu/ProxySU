@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProxySuper.Core.Models
+namespace ProxySuper.Core.Models.Projects
 {
     public class TrojanGoSettings : IProjectSettings
     {
@@ -15,6 +15,8 @@ namespace ProxySuper.Core.Models
                 return new List<int>();
             }
         }
+
+        public ProjectType Type { get; set; } = ProjectType.TrojanGo;
 
         /// <summary>
         /// 域名

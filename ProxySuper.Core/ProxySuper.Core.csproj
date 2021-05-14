@@ -57,22 +57,28 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="Helpers\DateTimeUtils.cs" />
-    <Compile Include="Models\IProjectSettings.cs" />
-    <Compile Include="Models\TrojanGoSettings.cs" />
-    <Compile Include="Models\XraySettings_SS.cs" />
-    <Compile Include="Models\XraySettings_Trojan.cs" />
-    <Compile Include="Models\XraySettings_VLESS.cs" />
-    <Compile Include="Models\XraySettings.cs" />
-    <Compile Include="Models\XraySettings_VMESS.cs" />
-    <Compile Include="Models\XrayType.cs" />
+    <Compile Include="Models\Hosts\Host.cs" />
+    <Compile Include="Models\Hosts\LocalProxyType.cs" />
+    <Compile Include="Models\Hosts\LoginSecretType.cs" />
+    <Compile Include="Models\Projects\IProjectSettings.cs" />
+    <Compile Include="Models\Hosts\LocalProxy.cs" />
+    <Compile Include="Models\Projects\ProjectType.cs" />
+    <Compile Include="Models\Projects\TrojanGoSettings.cs" />
+    <Compile Include="Models\Projects\XraySettings_SS.cs" />
+    <Compile Include="Models\Projects\XraySettings_Trojan.cs" />
+    <Compile Include="Models\Projects\XraySettings_VLESS.cs" />
+    <Compile Include="Models\Projects\XraySettings.cs" />
+    <Compile Include="Models\Projects\XraySettings_VMESS.cs" />
+    <Compile Include="Models\Projects\XrayType.cs" />
+    <Compile Include="Models\Record.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ProjectBase.cs" />
     <Compile Include="Services\TrojanGoConfigBuilder.cs" />
     <Compile Include="Services\TrojanGoProject.cs" />
     <Compile Include="Services\XrayConfigBuilder.cs" />
     <Compile Include="Services\XrayProject.cs" />
-    <Compile Include="ViewModels\SecondViewModel.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\HomeViewModel.cs" />
+    <Compile Include="ViewModels\XrayEditorViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

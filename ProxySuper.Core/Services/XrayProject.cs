@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using ProxySuper.Core.Models;
+using ProxySuper.Core.Models.Projects;
 using Renci.SshNet;
 using System;
 using System.Collections.Generic;
