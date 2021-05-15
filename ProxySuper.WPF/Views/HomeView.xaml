@@ -63,23 +63,23 @@
                                         Header="{DynamicResource MainDataGridColumnType}"
                                         Width="200" />
 
-                    <DataGridTemplateColumn Header="{DynamicResource MainDataGridColumnAction}">
+                    <DataGridTemplateColumn Header="{DynamicResource MainDataGridColumnAction}" Width="400">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Padding="10,3" 
-                                            Click="NavToEditor" 
+                                    <Button Click="NavToEditor" 
                                             Margin="5,0"
+                                            Padding="12,3"
                                             Content="{DynamicResource MainDataGridColumnActionInstall}" />
                                     
-                                    <Button Padding="10,3" 
-                                            Click="NavToEditor" 
+                                    <Button Click="NavToEditor" 
                                             Margin="5,0"
+                                            Padding="12,3"
                                             Content="{DynamicResource MainDataGridColumnActionEdit}" />
                                     
-                                    <Button Padding="10,3" 
-                                            Click="NavToEditor" 
+                                    <Button Click="NavToEditor" 
                                             Margin="5,0"
+                                            Padding="12,3"
                                             Content="{DynamicResource MainDataGridColumnActionDelete}" />
                                 </StackPanel>
                             </DataTemplate>

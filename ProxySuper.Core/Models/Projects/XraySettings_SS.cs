@@ -21,6 +21,6 @@ namespace ProxySuper.Core.Models.Projects
         /// <summary>
         /// ss port
         /// </summary>
-        public int ShadowsocksPort { get; set; }
+        public int ShadowSocksPort { get; set; }
     }
 }

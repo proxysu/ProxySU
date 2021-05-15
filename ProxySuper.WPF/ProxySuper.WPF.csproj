@@ -76,6 +76,9 @@
     <Compile Include="Controls\HostControl.xaml.cs">
       <DependentUpon>HostControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\XraySettingsControl.xaml.cs">
+      <DependentUpon>XraySettingsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -86,6 +89,10 @@
       <DependentUpon>XrayEditorView.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\HostControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\XraySettingsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -16,7 +16,7 @@ namespace ProxySuper.Core.Models.Projects
                 {
                     VLESS_KCP_Port,
                     VMESS_KCP_Port,
-                    ShadowsocksPort,
+                    ShadowSocksPort,
                 };
             }
         }

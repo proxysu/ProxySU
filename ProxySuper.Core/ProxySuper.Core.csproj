@@ -38,6 +38,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\json.net\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="Renci.SshNet, Version=2020.0.1.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
       <HintPath>..\packages\SSH.NET.2020.0.1\lib\net40\Renci.SshNet.dll</HintPath>
@@ -47,6 +48,7 @@
       <HintPath>..\packages\System.Console.4.3.1\lib\net46\System.Console.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,6 +58,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="Converters\LoginSecretTypeConverter.cs" />
+    <Compile Include="Converters\ProxyTypeConverter.cs" />
+    <Compile Include="Converters\VisibleConverter.cs" />
     <Compile Include="Helpers\DateTimeUtils.cs" />
     <Compile Include="Models\Hosts\Host.cs" />
     <Compile Include="Models\Hosts\LocalProxyType.cs" />
@@ -72,7 +77,9 @@
     <Compile Include="Models\Projects\XrayType.cs" />
     <Compile Include="Models\Record.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Base64.cs" />
     <Compile Include="Services\ProjectBase.cs" />
+    <Compile Include="Services\ShareLink.cs" />
     <Compile Include="Services\TrojanGoConfigBuilder.cs" />
     <Compile Include="Services\TrojanGoProject.cs" />
     <Compile Include="Services\XrayConfigBuilder.cs" />
@@ -83,5 +90,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -11,19 +11,22 @@
                 <!--Languages-->
                 <ResourceDictionary Source="/Resources/Languages/zh_cn.xaml" />
 
-                <!--components styles-->
-                <ResourceDictionary Source="/Resources/Styles/DataGridStyle.xaml" />
-
+                <!--styles-->
                 <ResourceDictionary>
                     <Style TargetType="{x:Type TextBox}">
-                        <Setter Property="Padding" Value="5" />
+                        <Setter Property="Padding" Value="5,2" />
+                        <Setter Property="Height" Value="26" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
                     </Style>
 
                     <Style TargetType="{x:Type Label}">
                         <Setter Property="VerticalAlignment" Value="Center" />
                     </Style>
-
                 </ResourceDictionary>
+
+                <!--components styles-->
+                <ResourceDictionary Source="/Resources/Styles/DataGridStyle.xaml" />
+
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

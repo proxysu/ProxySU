@@ -31,7 +31,7 @@ namespace ProxySuper.Core.Models.Projects
         /// <summary>
         /// grpc port
         /// </summary>
-        public string VLESS_gRPC_Port { get; set; }
+        public int VLESS_gRPC_Port { get; set; }
 
         /// <summary>
         /// grpc service name
