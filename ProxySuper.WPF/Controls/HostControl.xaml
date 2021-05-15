@@ -8,23 +8,52 @@
     <Grid>
         <GroupBox Padding="10" Header="Host">
             <Grid>
+                <Grid.Resources >
+                    <Style TargetType="Border" >
+                        <Setter Property="Padding" Value="5,5,5,5" />
+                    </Style>
+                </Grid.Resources>
                 <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
+                    <RowDefinition Height="36" />
+                    <RowDefinition Height="36" />
+                    <RowDefinition Height="36" />
+                    <RowDefinition Height="36" />
+                    <RowDefinition Height="36" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
 
-                <Label Content="地址:" Grid.Row="0" Grid.Column="0" />
+
+                <Label Content="{DynamicResource HostTag}" Grid.Row="0" Grid.Column="0" />
                 <TextBox Grid.Row="0" Grid.Column="1"
-                         Width="200"
+                         Width="180"
+                         Height="28"
+                         Text="{Binding Host.Tag}"
+                         VerticalContentAlignment="Center" />
+
+                
+                <Label Content="{DynamicResource HostAddress}" Grid.Row="1" Grid.Column="0" />
+                <TextBox Grid.Row="1" Grid.Column="1"
+                         Width="180"
+                         Height="28"
                          Text="{Binding Host.Address}"
+                         VerticalContentAlignment="Center" />
+
+                <Label Content="{DynamicResource HostUserName}" Grid.Row="2" Grid.Column="0" />
+                <TextBox Grid.Row="2" Grid.Column="1"
+                         Width="180"
+                         Height="28"
+                         Text="{Binding Host.UserName}"
+                         VerticalContentAlignment="Center" />
+
+                <Label Content="{DynamicResource HostPassword}" Grid.Row="3" Grid.Column="0" />
+                <TextBox Grid.Row="3" Grid.Column="1"
+                         Width="180"
+                         Height="28"
+                         Text="{Binding Host.Password}"
                          VerticalContentAlignment="Center" />
             </Grid>
         </GroupBox>

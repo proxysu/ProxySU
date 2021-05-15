@@ -23,4 +23,13 @@
     <sys:String x:Key="MainDataGridColumnActionInstall">安装</sys:String>
     <sys:String x:Key="MainDataGridColumnActionEdit">编辑</sys:String>
     <sys:String x:Key="MainDataGridColumnActionDelete">删除</sys:String>
+
+
+    <!--Editor Window-->
+    <sys:String x:Key="HostTag">Tag</sys:String>
+    <sys:String x:Key="HostAddress">Address</sys:String>
+    <sys:String x:Key="HostUserName">UserName</sys:String>
+    <sys:String x:Key="HostPassword">Password</sys:String>
+    <sys:String x:Key="HostPort">Port</sys:String>
+    
 </ResourceDictionary>

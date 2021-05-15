@@ -10,7 +10,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <!--Languages-->
                 <ResourceDictionary Source="/Resources/Languages/zh_cn.xaml" />
-                
+
                 <!--components styles-->
                 <ResourceDictionary Source="/Resources/Styles/DataGridStyle.xaml" />
 
@@ -21,7 +21,8 @@
 
                     <Style TargetType="{x:Type Label}">
                         <Setter Property="VerticalAlignment" Value="Center" />
-                    </Style>                    
+                    </Style>
+
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

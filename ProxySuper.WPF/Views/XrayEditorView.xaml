@@ -8,14 +8,18 @@
         xmlns:ctrl="clr-namespace:ProxySuper.WPF.Controls"
         mc:Ignorable="d"        
         WindowStartupLocation="CenterScreen"
+        Icon="/Resources/ProxySU.ico"
         Title="XrayEditorView" Height="600" Width="1000">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="320" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
 
+        <StackPanel Grid.Column="0" Margin="10">
+            <ctrl:HostControl />
+        </StackPanel>
 
-        <GroupBox Header="Host" Margin="10" Padding="10">
-            <StackPanel>
-                <ctrl:HostControl />
-            </StackPanel>
-        </GroupBox>
+        <StackPanel Grid.Column="1"></StackPanel>
     </Grid>
 </views:MvxWindow>
