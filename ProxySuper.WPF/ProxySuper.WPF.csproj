@@ -85,6 +85,9 @@
     <Compile Include="Views\HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\TrojanGoEditorView.xaml.cs">
+      <DependentUpon>TrojanGoEditorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\XrayEditorView.xaml.cs">
       <DependentUpon>XrayEditorView.xaml</DependentUpon>
     </Compile>
@@ -122,6 +125,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Views\TrojanGoEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\XrayEditorView.xaml">
       <SubType>Designer</SubType>

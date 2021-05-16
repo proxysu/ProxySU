@@ -56,6 +56,15 @@ namespace ProxySuper.Core.Models
 
                 await RaisePropertyChanged("Host");
             }
+
+            if (Type == ProjectType.TrojanGo)
+            {
+                var result = await nav.Navigate<TrojanGoEditorViewModel, Record, Record>(this);
+                if (result == null) return;
+
+                this.Host = result.Host;
+                this.TrojanGoSettings = result.TrojanGoSettings;
+            }
         }
     }
 }

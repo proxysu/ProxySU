@@ -3,6 +3,7 @@ using MvvmCross.Navigation;
 using MvvmCross.Platforms.Wpf.Views;
 using ProxySuper.Core.Models;
 using ProxySuper.Core.ViewModels;
+using System;
 using System.Windows;
 
 namespace ProxySuper.WPF.Views
@@ -18,6 +19,26 @@ namespace ProxySuper.WPF.Views
             InitializeComponent();
         }
 
+        private IMvxNavigationService _navigationService;
+
+        public IMvxNavigationService NavigationService
+        {
+            get
+            {
+                if (_navigationService == null)
+                {
+                    _navigationService = Mvx.IoCProvider.Resolve<IMvxNavigationService>();
+                }
+                return _navigationService;
+            }
+
+        }
+
+        public HomeViewModel VM
+        {
+            get { return (HomeViewModel)ViewModel; }
+        }
+
         private void LaunchGitHubSite(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start("explorer.exe", "https://github.com/proxysu/ProxySU");
@@ -25,10 +46,14 @@ namespace ProxySuper.WPF.Views
 
         private void NavToEditor(object sender, RoutedEventArgs e)
         {
-            var navSrv = Mvx.IoCProvider.Resolve<IMvxNavigationService>();
-
-            var vm = ViewModel as HomeViewModel;
-            navSrv.Navigate<XrayEditorViewModel, Record, Record>(vm.Records[0]);
+            NavigationService.Navigate<XrayEditorViewModel, Record, Record>(VM.Records[0]);
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            VM.SaveRecords();
+            base.Dispose(disposing);
+        }
+
     }
 }

@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,7 +25,7 @@ namespace ProxySuper.Core.ViewModels
             ReadRecords();
         }
 
-        private void ReadRecords()
+        public void ReadRecords()
         {
             var json = File.ReadAllText("Data/Record.json");
             var records = JsonConvert.DeserializeObject<List<Record>>(json);
@@ -40,9 +41,17 @@ namespace ProxySuper.Core.ViewModels
             });
         }
 
+        public void SaveRecords()
+        {
+            var json = JsonConvert.SerializeObject(Records);
+            File.WriteAllText("Data/Record.json", json);
+        }
+
         public MvxObservableCollection<Record> Records { get; set; }
 
         public IMvxCommand AddXrayCommand => new MvxAsyncCommand(AddXrayRecord);
+
+        public IMvxCommand AddTrojanGoCommand => new MvxAsyncCommand(AddTrojanGoRecord);
 
         public async Task AddXrayRecord()
         {
@@ -52,6 +61,19 @@ namespace ProxySuper.Core.ViewModels
             record.XraySettings = new XraySettings();
 
             var result = await _navigationService.Navigate<XrayEditorViewModel, Record, Record>(record);
+            if (result == null) return;
+
+            Records.Add(result);
+        }
+
+        public async Task AddTrojanGoRecord()
+        {
+            Record record = new Record();
+            record.Id = Guid.NewGuid().ToString();
+            record.Host = new Host();
+            record.TrojanGoSettings = new TrojanGoSettings();
+
+            var result = await _navigationService.Navigate<TrojanGoEditorViewModel, Record, Record>(record);
             if (result == null) return;
 
             Records.Add(result);

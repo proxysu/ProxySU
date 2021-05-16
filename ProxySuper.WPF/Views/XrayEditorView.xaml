@@ -11,7 +11,7 @@
         Icon="/Resources/ProxySU.ico"
         BorderThickness="0,1,0,0"
         BorderBrush="#EEE"
-        Title="XrayEditorView" Height="610" Width="1015">
+        Title="Xray" Height="610" Width="1015">
 
     <Grid>
         <Grid.ColumnDefinitions>

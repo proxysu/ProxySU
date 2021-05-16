@@ -17,12 +17,12 @@ using System.Windows.Shapes;
 namespace ProxySuper.WPF.Views
 {
     /// <summary>
-    /// XrayEditorView.xaml 的交互逻辑
+    /// TrojanEditorView.xaml 的交互逻辑
     /// </summary>
     [MvxWindowPresentation(Identifier = nameof(XrayEditorView), Modal = true)]
-    public partial class XrayEditorView : MvxWindow
+    public partial class TrojanGoEditorView : MvxWindow
     {
-        public XrayEditorView()
+        public TrojanGoEditorView()
         {
             InitializeComponent();
         }

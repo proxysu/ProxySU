@@ -6,7 +6,6 @@
              xmlns:local="clr-namespace:ProxySuper.WPF.Controls"
              xmlns:convert="clr-namespace:ProxySuper.Core.Converters;assembly=ProxySuper.Core"
              xmlns:host="clr-namespace:ProxySuper.Core.Models.Hosts;assembly=ProxySuper.Core"
-             
              mc:Ignorable="d">
 
 

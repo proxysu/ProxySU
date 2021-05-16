@@ -19,12 +19,9 @@ namespace ProxySuper.Core.ViewModels
 {
     public partial class XrayEditorViewModel : MvxViewModel<Record, Record>
     {
-        private IMvxNavigationService _navigationService;
-        public XrayEditorViewModel(IMvxNavigationService mvxNavigationService)
+        public XrayEditorViewModel(IMvxNavigationService navigationService)
         {
-            _navigationService = mvxNavigationService;
-            _randomUuid = new MvxCommand(() => GetUuid());
-            SaveCommand = new MvxCommand(() => Save());
+            NavigationService = navigationService;
         }
 
 
@@ -34,7 +31,9 @@ namespace ProxySuper.Core.ViewModels
 
         public XraySettings Settings { get; set; }
 
-        public IMvxCommand SaveCommand { get; }
+        public IMvxCommand SaveCommand => new MvxCommand(() => Save());
+
+        public IMvxNavigationService NavigationService { get; }
 
         public override void Prepare(Record parameter)
         {
@@ -46,28 +45,18 @@ namespace ProxySuper.Core.ViewModels
 
         public void Save()
         {
-            var result = new Record()
+            NavigationService.Close(this, new Record()
             {
                 Id = Id,
                 Host = Host,
                 XraySettings = Settings,
-            };
-            _navigationService.Close(this, result);
+            });
         }
     }
 
     public partial class XrayEditorViewModel
     {
-        private readonly ICommand _randomUuid;
-
-
-        public ICommand RandomUuid
-        {
-            get
-            {
-                return _randomUuid;
-            }
-        }
+        public IMvxCommand RandomUuid => new MvxCommand(() => GetUuid());
 
 
         public int Port
