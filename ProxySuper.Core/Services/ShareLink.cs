@@ -41,7 +41,7 @@ namespace ProxySuper.Core.Services
             var _server = settings.Domain;
             var _port = settings.ShadowSocksPort;
 
-            var base64URL = Base64.Encode($"{_method}:{_password}@{_server}:{_port}");
+            var base64URL = Utils.Base64Encode($"{_method}:{_password}@{_server}:{_port}");
             return "ss://" + base64URL + "#ShadowSocks";
         }
 
@@ -88,7 +88,7 @@ namespace ProxySuper.Core.Services
                     return string.Empty;
             }
 
-            var base64Url = Base64.Encode(JsonConvert.SerializeObject(vmess));
+            var base64Url = Utils.Base64Encode(JsonConvert.SerializeObject(vmess));
             return $"vmess://" + base64Url;
         }
 

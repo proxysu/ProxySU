@@ -28,7 +28,7 @@ namespace ProxySuper.WPF.Views
             var navSrv = Mvx.IoCProvider.Resolve<IMvxNavigationService>();
 
             var vm = ViewModel as HomeViewModel;
-            navSrv.Navigate<XrayEditorViewModel, Record>(vm.Records[0]);
+            navSrv.Navigate<XrayEditorViewModel, Record, Record>(vm.Records[0]);
         }
     }
 }

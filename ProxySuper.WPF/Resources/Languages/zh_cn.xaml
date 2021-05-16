@@ -2,6 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
+    <!--common-->
+    <sys:String x:Key="Random">随机</sys:String>
+    <sys:String x:Key="Save">保存</sys:String>
+    
     <!--Main Menu-->
     <sys:String x:Key="MainMenuAddHost">添加主机</sys:String>
     <sys:String x:Key="MainMenuActions">操作</sys:String>
@@ -48,7 +52,6 @@
     <sys:String x:Key="ProxyTypeSocks5">Socks5</sys:String>
 
     <!--Xray-->
-    <sys:String x:Key="Random">随机</sys:String>
     <sys:String x:Key="VlessXtlsDesc" xml:space="preserve">VLESS Over TCP With XTLS&#x0a;性能数倍，首选方式。</sys:String>
     <sys:String x:Key="VlessTcpDesc" xml:space="preserve">VLESS over TCP with TLS&#x0a;仍推荐XTLS。</sys:String>
     <sys:String x:Key="VlessWsDesc" xml:space="preserve">VLESS over WS with TLS&#x0a;推荐，支持CDN。</sys:String>

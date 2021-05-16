@@ -8,7 +8,7 @@ namespace ProxySuper.Core.Models.Projects
 {
     public partial class XraySettings : IProjectSettings
     {
-        public List<int> FreePorts
+        public override List<int> FreePorts
         {
             get
             {
@@ -21,22 +21,22 @@ namespace ProxySuper.Core.Models.Projects
             }
         }
 
-        public ProjectType Type { get; set; } = ProjectType.Xray;
+        public override ProjectType Type { get; set; } = ProjectType.Xray;
+
+        /// <summary>
+        /// 端口
+        /// </summary>
+        public override int Port { get; set; }
+
+        /// <summary>
+        /// 域名
+        /// </summary>
+        public override string Domain { get; set; }
 
         /// <summary>
         /// UUID
         /// </summary>
         public string UUID { get; set; }
-
-        /// <summary>
-        /// 端口
-        /// </summary>
-        public int Port { get; set; }
-
-        /// <summary>
-        /// 域名
-        /// </summary>
-        public string Domain { get; set; }
 
         /// <summary>
         /// 伪装域名
@@ -46,7 +46,7 @@ namespace ProxySuper.Core.Models.Projects
         /// <summary>
         /// 安装类型
         /// </summary>
-        public List<XrayType> Types { get; set; }
+        public List<XrayType> Types { get; set; } = new List<XrayType>();
 
         /// <summary>
         /// 根据xray类型获取路径

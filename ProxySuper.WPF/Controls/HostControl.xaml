@@ -45,26 +45,26 @@
 
                 <Label Content="{DynamicResource HostTag}" Grid.Row="0" Grid.Column="0" />
                 <TextBox Grid.Row="0" Grid.Column="1"
-                         Width="180"
+                         Width="170"
                          Text="{Binding Host.Tag}"
                          VerticalContentAlignment="Center" />
 
 
                 <Label Content="{DynamicResource HostAddress}" Grid.Row="1" Grid.Column="0" />
                 <TextBox Grid.Row="1" Grid.Column="1"
-                         Width="180"
+                         Width="170"
                          Text="{Binding Host.Address}"
                          VerticalContentAlignment="Center" />
 
                 <Label Content="{DynamicResource HostUserName}" Grid.Row="2" Grid.Column="0" />
                 <TextBox Grid.Row="2" Grid.Column="1"
-                         Width="180"
+                         Width="170"
                          Text="{Binding Host.UserName}"
                          VerticalContentAlignment="Center" />
 
                 <Label Content="{DynamicResource HostPassword}" Grid.Row="3" Grid.Column="0" />
                 <TextBox Grid.Row="3" Grid.Column="1"
-                         Width="180"
+                         Width="170"
                          Text="{Binding Host.Password}"
                          VerticalContentAlignment="Center" />
 

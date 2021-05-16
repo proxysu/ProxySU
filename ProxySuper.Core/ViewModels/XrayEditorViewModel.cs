@@ -1,4 +1,6 @@
-﻿using MvvmCross.Commands;
+﻿using MvvmCross;
+using MvvmCross.Commands;
+using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 using Newtonsoft.Json;
 using ProxySuper.Core.Models;
@@ -15,21 +17,42 @@ using System.Windows.Input;
 
 namespace ProxySuper.Core.ViewModels
 {
-    public partial class XrayEditorViewModel : MvxViewModel<Record>
+    public partial class XrayEditorViewModel : MvxViewModel<Record, Record>
     {
-        public XrayEditorViewModel()
+        private IMvxNavigationService _navigationService;
+        public XrayEditorViewModel(IMvxNavigationService mvxNavigationService)
         {
+            _navigationService = mvxNavigationService;
             _randomUuid = new MvxCommand(() => GetUuid());
+            SaveCommand = new MvxCommand(() => Save());
         }
+
+
+        public string Id { get; set; }
 
         public Host Host { get; set; }
 
         public XraySettings Settings { get; set; }
 
+        public IMvxCommand SaveCommand { get; }
+
         public override void Prepare(Record parameter)
         {
-            Host = parameter.Host;
-            Settings = JsonConvert.DeserializeObject<XraySettings>(JsonConvert.SerializeObject(parameter.Settings));
+            var record = Utils.DeepClone(parameter);
+            Id = record.Id;
+            Host = record.Host;
+            Settings = record.XraySettings;
+        }
+
+        public void Save()
+        {
+            var result = new Record()
+            {
+                Id = Id,
+                Host = Host,
+                XraySettings = Settings,
+            };
+            _navigationService.Close(this, result);
         }
     }
 

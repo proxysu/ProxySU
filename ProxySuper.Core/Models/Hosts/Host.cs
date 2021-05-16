@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 
 namespace ProxySuper.Core.Models.Hosts
 {
-
-
     public class Host
     {
 

@@ -8,7 +8,7 @@ namespace ProxySuper.Core.Models.Projects
 {
     public class TrojanGoSettings : IProjectSettings
     {
-        public List<int> FreePorts
+        public override List<int> FreePorts
         {
             get
             {
@@ -16,17 +16,17 @@ namespace ProxySuper.Core.Models.Projects
             }
         }
 
-        public ProjectType Type { get; set; } = ProjectType.TrojanGo;
+        public override ProjectType Type { get; set; } = ProjectType.TrojanGo;
 
         /// <summary>
         /// 域名
         /// </summary>
-        public string Domain { get; set; }
+        public override string Domain { get; set; }
 
         /// <summary>
         /// 端口
         /// </summary>
-        public int Port { get; set; }
+        public override int Port { get; set; }
 
         /// <summary>
         /// 密码

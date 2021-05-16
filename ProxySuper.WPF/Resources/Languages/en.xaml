@@ -2,6 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     
+    <!--common-->
+    <sys:String x:Key="Random">Random</sys:String>
+    <sys:String x:Key="Save">Save</sys:String>
+
     <!--Main Menu-->
     <sys:String x:Key="MainMenuAddHost">Add Host</sys:String>
     <sys:String x:Key="MainMenuActions">Actions</sys:String>
@@ -49,7 +53,6 @@
 
     
     <!--Xray-->
-    <sys:String x:Key="Random">Random</sys:String>
     <sys:String x:Key="VlessXtlsDesc" xml:space="preserve">VLESS over TCP With XTLS&#x0a;Preferred</sys:String>
     <sys:String x:Key="VlessTcpDesc" xml:space="preserve">VLESS over TCP with TLS&#x0a;XTLS is Preferred</sys:String>
     <sys:String x:Key="VlessWsDesc" xml:space="preserve">VLESS over WS with TLS&#x0a;Support CDN</sys:String>

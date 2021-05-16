@@ -15,7 +15,7 @@
 
         <Menu Background="White" Grid.Row="0" BorderThickness="0,0,0,2" BorderBrush="#eee">
             <MenuItem Header="{DynamicResource MainMenuAddHost}" Padding="10,3">
-                <MenuItem Padding="0,5" Header="Xray"></MenuItem>
+                <MenuItem Padding="0,5" Header="Xray" Command="{Binding AddXrayCommand}"></MenuItem>
                 <MenuItem Padding="0,5" Header="Trojan-Go"></MenuItem>
                 <MenuItem Padding="0,5" Header="NaiveProxy"></MenuItem>
             </MenuItem>
@@ -65,14 +65,14 @@
 
                     <DataGridTemplateColumn Header="{DynamicResource MainDataGridColumnAction}" Width="400">
                         <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
+                            <ItemContainerTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <Button Click="NavToEditor" 
                                             Margin="5,0"
                                             Padding="12,3"
                                             Content="{DynamicResource MainDataGridColumnActionInstall}" />
-                                    
-                                    <Button Click="NavToEditor" 
+
+                                    <Button Command="{Binding NavToEditorCommand}"
                                             Margin="5,0"
                                             Padding="12,3"
                                             Content="{DynamicResource MainDataGridColumnActionEdit}" />
@@ -82,7 +82,7 @@
                                             Padding="12,3"
                                             Content="{DynamicResource MainDataGridColumnActionDelete}" />
                                 </StackPanel>
-                            </DataTemplate>
+                            </ItemContainerTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
