@@ -34,9 +34,9 @@ namespace ProxySuper.WPF.Views
 
         }
 
-        public HomeViewModel VM
+        public new HomeViewModel ViewModel
         {
-            get { return (HomeViewModel)ViewModel; }
+            get { return (HomeViewModel)base.ViewModel; }
         }
 
         private void LaunchGitHubSite(object sender, RoutedEventArgs e)
@@ -46,12 +46,12 @@ namespace ProxySuper.WPF.Views
 
         private void NavToEditor(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate<XrayEditorViewModel, Record, Record>(VM.Records[0]);
+            NavigationService.Navigate<XrayEditorViewModel, Record, Record>(ViewModel.Records[0]);
         }
 
         protected override void Dispose(bool disposing)
         {
-            VM.SaveRecords();
+            ViewModel.SaveRecords();
             base.Dispose(disposing);
         }
 

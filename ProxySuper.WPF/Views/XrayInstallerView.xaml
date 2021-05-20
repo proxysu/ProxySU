@@ -1,0 +1,42 @@
+﻿<views:MvxWindow x:Class="ProxySuper.WPF.Views.XrayInstallerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:MvvmCross.Platforms.Wpf.Views;assembly=MvvmCross.Platforms.Wpf"
+        xmlns:local="clr-namespace:ProxySuper.WPF.Views"
+        mc:Ignorable="d"
+        Icon="/Resources/ProxySU.ico"
+        Title="XrayInstallerView" Height="450" Width="800">
+    <StackPanel>
+        <TextBox IsReadOnly="True"
+                 Block.LineHeight="18"
+                 Background="#000" 
+                 Foreground="LawnGreen"
+                 FontSize="14"
+                 FontFamily="Consolas"
+                 x:Name="OutputTextBox"
+                 Height="260"
+                 Padding="10"
+                 BorderThickness="0"
+                 VerticalAlignment="Top"
+                 VerticalContentAlignment="Top"
+                 Text="{Binding Path=OutputText}"
+        />
+
+        <StackPanel Margin="10" Orientation="Horizontal">
+            <Label Content="安装" />
+            <Button Height="24" Padding="10,0" Margin="10,0,0,0" IsEnabled="{Binding Connected}" Click="Install">一键安装</Button>
+            <Button Height="24" Padding="10,0" Margin="10,0,0,0" IsEnabled="{Binding Connected}" Click="UpdateXraySettings">更新配置</Button>
+            <Button Height="24" Padding="10,0" Margin="10,0,0,0" IsEnabled="{Binding Connected}" Click="UpdateXrayCore">更新内核</Button>
+            <Button Height="24" Padding="10,0" Margin="10,0,0,0" IsEnabled="{Binding Connected}" Click="UninstallXray">卸载代理</Button>
+        </StackPanel>
+        
+        <StackPanel Margin="10" Orientation="Horizontal">
+            <Label Content="配置" />
+            <Button Height="24" Padding="10,0" Margin="10,0,0,0" IsEnabled="{Binding Connected}" Click="InstallCert">重新申请证书</Button>
+            <Button Height="24" Padding="10,0" Margin="10,0,0,0" IsEnabled="{Binding Connected}" Click="UploadWeb">上传伪装网站</Button>
+            <Button Height="24" Padding="10,0" Margin="10,0,0,0" IsEnabled="{Binding Connected}" Click="UploadCert">上传自有证书</Button>
+        </StackPanel>
+    </StackPanel>
+</views:MvxWindow>

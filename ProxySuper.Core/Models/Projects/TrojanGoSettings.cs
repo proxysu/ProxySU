@@ -8,7 +8,7 @@ namespace ProxySuper.Core.Models.Projects
 {
     public class TrojanGoSettings : IProjectSettings
     {
-        public override List<int> FreePorts
+        public List<int> FreePorts
         {
             get
             {
@@ -16,17 +16,17 @@ namespace ProxySuper.Core.Models.Projects
             }
         }
 
-        public override ProjectType Type { get; set; } = ProjectType.TrojanGo;
+        public ProjectType Type { get; set; } = ProjectType.TrojanGo;
 
         /// <summary>
         /// 域名
         /// </summary>
-        public override string Domain { get; set; }
+        public string Domain { get; set; }
 
         /// <summary>
         /// 端口
         /// </summary>
-        public override int Port { get; set; }
+        public int Port { get; set; }
 
         /// <summary>
         /// 密码
@@ -37,5 +37,26 @@ namespace ProxySuper.Core.Models.Projects
         /// 伪装域名
         /// </summary>
         public string MaskDomain { get; set; }
+
+        /// <summary>
+        /// 是否开启WebSocket
+        /// </summary>
+        public bool EnableWebSocket
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(WebSocketPath) && !string.IsNullOrEmpty(WebSocketDomain);
+            }
+        }
+
+        /// <summary>
+        /// websocket路径
+        /// </summary>
+        public string WebSocketPath { get; set; }
+
+        /// <summary>
+        /// websocket域名
+        /// </summary>
+        public string WebSocketDomain { get; set; }
     }
 }

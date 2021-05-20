@@ -6,26 +6,26 @@ using System.Threading.Tasks;
 
 namespace ProxySuper.Core.Models.Projects
 {
-    public class IProjectSettings
+    public interface IProjectSettings
     {
         /// <summary>
         /// 端口
         /// </summary>
-        public virtual int Port { get; set; }
+        int Port { get; set; }
 
         /// <summary>
         /// 域名
         /// </summary>
-        public virtual string Domain { get; set; }
+        string Domain { get; set; }
 
         /// <summary>
         /// 额外需要开放的端口
         /// </summary>
-        public virtual List<int> FreePorts { get; }
+        List<int> FreePorts { get; }
 
         /// <summary>
         /// 类型
         /// </summary>
-        public virtual ProjectType Type { get; set; }
+        ProjectType Type { get; set; }
     }
 }

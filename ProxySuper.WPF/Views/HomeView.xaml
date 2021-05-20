@@ -67,7 +67,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <ItemContainerTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Click="NavToEditor" 
+                                    <Button Command="{Binding NavToInstallerCommand}"
                                             Margin="5,0"
                                             Padding="12,3"
                                             Content="{DynamicResource MainDataGridColumnActionInstall}" />

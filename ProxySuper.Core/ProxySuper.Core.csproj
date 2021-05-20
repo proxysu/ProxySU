@@ -55,6 +55,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Models\Hosts\LoginSecretType.cs" />
     <Compile Include="Models\Projects\IProjectSettings.cs" />
     <Compile Include="Models\Hosts\LocalProxy.cs" />
+    <Compile Include="Models\Projects\NaiveProxySettings.cs" />
     <Compile Include="Models\Projects\ProjectType.cs" />
     <Compile Include="Models\Projects\TrojanGoSettings.cs" />
     <Compile Include="Models\Projects\XraySettings_SS.cs" />
@@ -86,7 +88,9 @@
     <Compile Include="Services\XrayProject.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\TrojanGoEditorViewModel.cs" />
+    <Compile Include="ViewModels\TrojanGoInstallerViewModel.cs" />
     <Compile Include="ViewModels\XrayEditorViewModel.cs" />
+    <Compile Include="ViewModels\XrayInstallerViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

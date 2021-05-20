@@ -78,4 +78,13 @@
     <sys:String x:Key="TrojanPassword">Trojan密码</sys:String>
     <sys:String x:Key="XrayPort">xray端口</sys:String>
     <sys:String x:Key="XrayPortDefault">默认端口443，不建议修改</sys:String>
+
+
+    <!--Trojan-GO-->
+    <sys:String x:Key="TrojanGoDomain">域名</sys:String>
+    <sys:String x:Key="TrojanGoPort">端口</sys:String>
+    <sys:String x:Key="TrojanGoPassword">密码</sys:String>
+    <sys:String x:Key="TrojanGoMaskDomain">伪装网址</sys:String>
+    <sys:String x:Key="TrojanGoWebSocketPath">WS 路径</sys:String>
+    <sys:String x:Key="TrojanGoWebSocketDomain">WS 域名</sys:String>
 </ResourceDictionary>

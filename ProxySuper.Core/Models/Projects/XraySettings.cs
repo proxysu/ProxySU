@@ -8,7 +8,7 @@ namespace ProxySuper.Core.Models.Projects
 {
     public partial class XraySettings : IProjectSettings
     {
-        public override List<int> FreePorts
+        public List<int> FreePorts
         {
             get
             {
@@ -21,17 +21,17 @@ namespace ProxySuper.Core.Models.Projects
             }
         }
 
-        public override ProjectType Type { get; set; } = ProjectType.Xray;
+        public ProjectType Type { get; set; } = ProjectType.Xray;
 
         /// <summary>
         /// 端口
         /// </summary>
-        public override int Port { get; set; }
+        public int Port { get; set; }
 
         /// <summary>
         /// 域名
         /// </summary>
-        public override string Domain { get; set; }
+        public string Domain { get; set; }
 
         /// <summary>
         /// UUID

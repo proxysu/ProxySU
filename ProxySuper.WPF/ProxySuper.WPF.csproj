@@ -43,6 +43,9 @@
     <Reference Include="MvvmCross.Platforms.Wpf, Version=7.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmCross.Platforms.Wpf.7.1.2\lib\net461\MvvmCross.Platforms.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="Renci.SshNet, Version=2020.0.1.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
+      <HintPath>..\packages\SSH.NET.2020.0.1\lib\net40\Renci.SshNet.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -88,8 +91,14 @@
     <Compile Include="Views\TrojanGoEditorView.xaml.cs">
       <DependentUpon>TrojanGoEditorView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\TrojanGoInstallerView.xaml.cs">
+      <DependentUpon>TrojanGoInstallerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\XrayEditorView.xaml.cs">
       <DependentUpon>XrayEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\XrayInstallerView.xaml.cs">
+      <DependentUpon>XrayInstallerView.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\HostControl.xaml">
       <SubType>Designer</SubType>
@@ -130,7 +139,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\TrojanGoInstallerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\XrayEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\XrayInstallerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

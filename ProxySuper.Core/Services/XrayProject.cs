@@ -245,7 +245,10 @@ namespace ProxySuper.Core.Services
             WriteOutput("************ 上传网站模板完成 ************");
         }
 
-
+        /// <summary>
+        /// 上传Caddy文件
+        /// </summary>
+        /// <param name="useCustomWeb"></param>
         private void UploadCaddyFile(bool useCustomWeb = false)
         {
             var configJson = XrayConfigBuilder.BuildCaddyConfig(Parameters, useCustomWeb);

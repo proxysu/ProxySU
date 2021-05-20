@@ -40,15 +40,34 @@ namespace ProxySuper.Core.Models
             }
         }
 
+        [JsonIgnore]
+        public IMvxNavigationService _navigationService;
 
+        [JsonIgnore]
+        public IMvxNavigationService NavigationService
+        {
+            get
+            {
+                if (_navigationService == null)
+                {
+                    _navigationService = Mvx.IoCProvider.Resolve<IMvxNavigationService>();
+                }
+                return _navigationService;
+            }
+        }
+
+
+        [JsonIgnore]
+        public IMvxCommand NavToInstallerCommand => new MvxAsyncCommand(NavigateToInstaller);
+
+        [JsonIgnore]
         public IMvxCommand NavToEditorCommand => new MvxAsyncCommand(NavigateToEditor);
 
         public async Task NavigateToEditor()
         {
-            var nav = Mvx.IoCProvider.Resolve<IMvxNavigationService>();
             if (Type == ProjectType.Xray)
             {
-                var result = await nav.Navigate<XrayEditorViewModel, Record, Record>(this);
+                var result = await NavigationService.Navigate<XrayEditorViewModel, Record, Record>(this);
                 if (result == null) return;
 
                 this.Host = result.Host;
@@ -59,11 +78,23 @@ namespace ProxySuper.Core.Models
 
             if (Type == ProjectType.TrojanGo)
             {
-                var result = await nav.Navigate<TrojanGoEditorViewModel, Record, Record>(this);
+                var result = await NavigationService.Navigate<TrojanGoEditorViewModel, Record, Record>(this);
                 if (result == null) return;
 
                 this.Host = result.Host;
                 this.TrojanGoSettings = result.TrojanGoSettings;
+            }
+        }
+
+        public async Task NavigateToInstaller()
+        {
+            if (Type == ProjectType.Xray)
+            {
+                await NavigationService.Navigate<XrayInstallerViewModel, Record>(this);
+            }
+            if (Type == ProjectType.TrojanGo)
+            {
+                await NavigationService.Navigate<TrojanGoInstallerViewModel, Record>(this);
             }
         }
     }

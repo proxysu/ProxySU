@@ -78,4 +78,12 @@
     <sys:String x:Key="TrojanPassword">Trojan Pwd</sys:String>
     <sys:String x:Key="XrayPort">xray Port</sys:String>
     <sys:String x:Key="XrayPortDefault">default port is 443</sys:String>
+    
+    <!--Trojan-GO-->
+    <sys:String x:Key="TrojanGoDomain">Address</sys:String>
+    <sys:String x:Key="TrojanGoPort">Port</sys:String>
+    <sys:String x:Key="TrojanGoPassword">Password</sys:String>
+    <sys:String x:Key="TrojanGoMaskDomain">GuiseHost</sys:String>
+    <sys:String x:Key="TrojanGoWebSocketPath">WS Path</sys:String>
+    <sys:String x:Key="TrojanGoWebSocketDomain">WS Domain</sys:String>
 </ResourceDictionary>

@@ -26,5 +26,10 @@ namespace ProxySuper.WPF.Views
         {
             InitializeComponent();
         }
+
+        protected override void OnInitialized(EventArgs e)
+        {
+            base.OnInitialized(e);
+        }
     }
 }
