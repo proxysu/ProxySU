@@ -38,7 +38,7 @@ namespace ProxySuper.Core.ViewModels
             set
             {
                 _connected = value;
-                RaisePropertyChanged("HasConnected");
+                RaisePropertyChanged("Connected");
             }
         }
 

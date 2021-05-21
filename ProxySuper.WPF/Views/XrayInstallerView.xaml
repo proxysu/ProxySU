@@ -6,6 +6,7 @@
         xmlns:views="clr-namespace:MvvmCross.Platforms.Wpf.Views;assembly=MvvmCross.Platforms.Wpf"
         xmlns:local="clr-namespace:ProxySuper.WPF.Views"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Icon="/Resources/ProxySU.ico"
         Title="XrayInstallerView" Height="450" Width="800">
     <StackPanel>
@@ -34,7 +35,7 @@
         
         <StackPanel Margin="10" Orientation="Horizontal">
             <Label Content="配置" />
-            <Button Height="24" Padding="10,0" Margin="10,0,0,0" IsEnabled="{Binding Connected}" Click="InstallCert">重新申请证书</Button>
+            <Button Height="24" Padding="10,0" Margin="10,0,0,0" IsEnabled="{Binding Connected}" Click="InstallCert">手动续签证书</Button>
             <Button Height="24" Padding="10,0" Margin="10,0,0,0" IsEnabled="{Binding Connected}" Click="UploadWeb">上传伪装网站</Button>
             <Button Height="24" Padding="10,0" Margin="10,0,0,0" IsEnabled="{Binding Connected}" Click="UploadCert">上传自有证书</Button>
         </StackPanel>

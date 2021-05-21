@@ -1,0 +1,27 @@
+{
+  "port": 443,
+  "listen": "127.0.0.1",
+  "protocol": "vmess",
+  "settings": {
+    "clients": [
+      {
+        "id": ""
+      }
+    ]
+  },
+  "streamSettings": {
+    "network": "tcp",
+    "security": "none",
+    "tcpSettings": {
+      "acceptProxyProtocol": true,
+      "header": {
+        "type": "http",
+        "request": {
+          "path": [
+            "/vmesstcp"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -17,15 +17,58 @@ namespace ProxySuper.Core.Services
         {
         }
 
+        public void InstallCertToTrojanGo()
+        {
+            EnsureRootAuth();
+            EnsureSystemEnv();
+            InstallCert(
+            dirPath: "/usr/local/etc/trojan-go",
+            certName: "trojan-go.crt",
+            keyName: "trojan-go.key");
+
+            RunCmd("systemctl restart trojan-go");
+            WriteOutput("************ 安装证书完成 ************");
+        }
+
+        public void UploadWeb(Stream stream)
+        {
+            EnsureRootAuth();
+            EnsureSystemEnv();
+            if (!FileExists("/usr/share/caddy"))
+            {
+                RunCmd("mkdir /usr/share/caddy");
+            }
+            RunCmd("rm -rf /usr/share/caddy/*");
+            UploadFile(stream, "/usr/share/caddy/caddy.zip");
+            RunCmd("unzip /usr/share/caddy/caddy.zip -d /usr/share/caddy");
+            RunCmd("chmod -R 777 /usr/share/caddy");
+            UploadCaddyFile(useCustomWeb: true);
+            WriteOutput("************ 上传网站模板完成 ************");
+        }
+
+        public void Uninstall()
+        {
+            RunCmd("systemctl stop trojan-go");
+            RunCmd("systemctl stop caddy");
+
+            RunCmd("rm -rf /usr/local/bin/trojan-go");
+            RunCmd("rm -rf /usr/local/etc/trojan-go");
+
+            RunCmd("acme.sh --uninstall");
+            RunCmd("rm -r  ~/.acme.sh");
+
+            WriteOutput("卸载Trojan-Go完成");
+        }
+
         public override void Install()
         {
             try
             {
                 EnsureRootAuth();
 
-                if (FileExists("/usr/local/bin/xray"))
+                if (FileExists("/usr/local/bin/trojan-go"))
                 {
-                    var btnResult = MessageBox.Show("已经安装Xray，是否需要重装？", "提示", MessageBoxButton.YesNo);
+                    var btnResult = MessageBox.Show("已经安装Trojan-Go，是否需要重装？", "提示", MessageBoxButton.YesNo);
                     if (btnResult == MessageBoxResult.No)
                     {
                         MessageBox.Show("安装终止", "提示");
@@ -89,7 +132,7 @@ namespace ProxySuper.Core.Services
         {
             WriteOutput("安装Trojan-Go");
             RunCmd(@"curl https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh yes | bash");
-            var success = FileExists("/usr/local/etc/trojan-go");
+            var success = FileExists("/usr/local/bin/trojan-go");
             if (success == false)
             {
                 throw new Exception("trojan-go 安装失败，请联系开发者！");
@@ -114,6 +157,11 @@ namespace ProxySuper.Core.Services
                 RunCmd("mv /usr/local/etc/trojan-go/config.json config.json.old");
             }
 
+            UploadTrojanGoSettings();
+        }
+
+        private void UploadTrojanGoSettings()
+        {
             // 上传配置
             var settings = TrojanGoConfigBuilder.BuildTrojanGoConfig(Parameters);
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(settings));

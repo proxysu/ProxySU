@@ -619,8 +619,8 @@ namespace ProxySuper.Core.Services
         /// <param name="keyPath"></param>
         protected void InstallCert(string dirPath, string certName, string keyName)
         {
-            string certPath = Path.Combine(dirPath, certName);
-            string keyPath = Path.Combine(dirPath, keyName);
+            string certPath = dirPath + "/" + certName;
+            string keyPath = dirPath + "/" + keyName;
 
             // 安装依赖
             RunCmd(GetInstallCmd("socat"));

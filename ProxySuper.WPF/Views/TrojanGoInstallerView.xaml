@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Icon="/Resources/ProxySU.ico"
         Title="TrojanGoInstallerView" Height="450" Width="800">
-    <Grid>
+    <StackPanel>
         <TextBox IsReadOnly="True"
                  Block.LineHeight="18"
                  Background="#000" 
@@ -27,15 +27,13 @@
         <StackPanel Margin="10" Orientation="Horizontal">
             <Label Content="安装" />
             <Button Height="24" Padding="10,0" Margin="10,0,0,0" IsEnabled="{Binding Connected}" Click="Install">一键安装</Button>
-            <Button Height="24" Padding="10,0" Margin="10,0,0,0" IsEnabled="{Binding Connected}" Click="UpdateSettings">更新配置</Button>
             <Button Height="24" Padding="10,0" Margin="10,0,0,0" IsEnabled="{Binding Connected}" Click="Uninstall">卸载代理</Button>
         </StackPanel>
 
         <StackPanel Margin="10" Orientation="Horizontal">
             <Label Content="配置" />
-            <Button Height="24" Padding="10,0" Margin="10,0,0,0" IsEnabled="{Binding Connected}" Click="InstallCert">重新申请证书</Button>
+            <Button Height="24" Padding="10,0" Margin="10,0,0,0" IsEnabled="{Binding Connected}" Click="InstallCert">手动续签证书</Button>
             <Button Height="24" Padding="10,0" Margin="10,0,0,0" IsEnabled="{Binding Connected}" Click="UploadWeb">上传伪装网站</Button>
-            <Button Height="24" Padding="10,0" Margin="10,0,0,0" IsEnabled="{Binding Connected}" Click="UploadCert">上传自有证书</Button>
         </StackPanel>
-    </Grid>
+    </StackPanel>
 </views:MvxWindow>

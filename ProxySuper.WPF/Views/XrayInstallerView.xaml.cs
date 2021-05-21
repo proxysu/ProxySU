@@ -17,7 +17,7 @@ namespace ProxySuper.WPF.Views
     /// <summary>
     /// XrayInstallerView.xaml 的交互逻辑
     /// </summary>
-    [MvxWindowPresentation(Identifier = nameof(XrayInstallerView), Modal = true)]
+    [MvxWindowPresentation(Identifier = nameof(XrayInstallerView), Modal = false)]
     public partial class XrayInstallerView : MvxWindow
     {
         public XrayInstallerView()

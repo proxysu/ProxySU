@@ -1,4 +1,5 @@
-﻿using MvvmCross.Platforms.Wpf.Presenters.Attributes;
+﻿using Microsoft.Win32;
+using MvvmCross.Platforms.Wpf.Presenters.Attributes;
 using MvvmCross.Platforms.Wpf.Views;
 using ProxySuper.Core.Models.Hosts;
 using ProxySuper.Core.Services;
@@ -6,6 +7,7 @@ using ProxySuper.Core.ViewModels;
 using Renci.SshNet;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +25,7 @@ namespace ProxySuper.WPF.Views
     /// <summary>
     /// TrojanGoInstallerView.xaml 的交互逻辑
     /// </summary>
-    [MvxWindowPresentation(Identifier = nameof(TrojanGoInstallerView), Modal = true)]
+    [MvxWindowPresentation(Identifier = nameof(TrojanGoInstallerView), Modal = false)]
     public partial class TrojanGoInstallerView : MvxWindow
     {
         public TrojanGoInstallerView()
@@ -120,17 +122,42 @@ namespace ProxySuper.WPF.Views
             };
         }
 
-        private void Install(object sender, RoutedEventArgs e) { }
+        private void Install(object sender, RoutedEventArgs e)
+        {
+            Task.Factory.StartNew(Project.Install);
+        }
 
-        private void UpdateSettings(object sender, RoutedEventArgs e) { }
 
-        private void Uninstall(object sender, RoutedEventArgs e) { }
+        private void Uninstall(object sender, RoutedEventArgs e)
+        {
+            Task.Factory.StartNew(Project.Uninstall);
+        }
 
-        private void UploadWeb(object sender, RoutedEventArgs e) { }
+        private void InstallCert(object sender, RoutedEventArgs e)
+        {
+            Task.Factory.StartNew(Project.InstallCertToTrojanGo);
+        }
 
-        private void UploadCert(object sender, RoutedEventArgs e) { }
 
-        private void InstallCert(object sender, RoutedEventArgs e) { }
+        private void UploadWeb(object sender, RoutedEventArgs e)
+        {
+            var fileDialog = new OpenFileDialog();
+            fileDialog.Filter = "压缩文件|*.zip";
+            fileDialog.FileOk += DoUploadWeb;
+            fileDialog.ShowDialog();
+        }
+
+        private void DoUploadWeb(object sender, CancelEventArgs e)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                var file = sender as OpenFileDialog;
+                using (var stream = file.OpenFile())
+                {
+                    Project.UploadWeb(stream);
+                }
+            });
+        }
 
     }
 }

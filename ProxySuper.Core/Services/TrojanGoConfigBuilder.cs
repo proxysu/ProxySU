@@ -37,8 +37,8 @@ namespace ProxySuper.Core.Services
         public static string BuildCaddyConfig(TrojanGoSettings parameters, bool useCustomWeb = false)
         {
             var caddyStr = File.ReadAllText(CaddyFilePath);
-            caddyStr.Replace("##domain##", parameters.Domain);
-            caddyStr.Replace("##port##", WebPort.ToString());
+            caddyStr = caddyStr.Replace("##domain##", parameters.Domain);
+            caddyStr = caddyStr.Replace("##port##", WebPort.ToString());
 
             if (!useCustomWeb && !string.IsNullOrEmpty(parameters.MaskDomain))
             {
