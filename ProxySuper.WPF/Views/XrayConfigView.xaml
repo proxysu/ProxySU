@@ -1,15 +1,15 @@
-﻿<metro:MetroWindow x:Class="ProxySuper.WPF.Controls.ClientInfoWindow"
+﻿<views:MvxWindow x:Class="ProxySuper.WPF.Views.XrayConfigView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"       
-        xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
-        xmlns:local="clr-namespace:ProxySuper.WPF.Controls"
-        xmlns:dev="clr-namespace:ProxySU_Core.Models.Developers"           
-        xmlns:models="clr-namespace:ProxySU_Core.Models"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProxySuper.WPF.Views"
+        xmlns:views="clr-namespace:MvvmCross.Platforms.Wpf.Views;assembly=MvvmCross.Platforms.Wpf"
+        xmlns:ctrl="clr-namespace:ProxySuper.WPF.Controls"
+        xmlns:models="clr-namespace:ProxySuper.Core.Models.Projects;assembly=ProxySuper.Core"
         mc:Ignorable="d"
-        Title="{DynamicResource ClientInfoTitle}" Height="500" Width="800">
-
+        WindowStartupLocation="CenterScreen"
+        Title="XrayInfoView" Height="600" Width="1000">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -26,82 +26,71 @@
             <TabItem Width="200" Height="40"
                      Tag="{x:Static models:XrayType.VLESS_TCP_XTLS}"
                      IsEnabled="{Binding Settings.Checked_VLESS_TCP_XTLS}"
-                     Style="{StaticResource MaterialDesignNavigationRailTabItem}"
                      Header="VLESS-TCP-XTLS">
-                <local:VLESS_XTLS_Control />
+                <ctrl:VLESS_XTLS_Control />
             </TabItem>
 
             <TabItem Width="200" Height="40"
                      Tag="{x:Static models:XrayType.VLESS_TCP}"
-                     IsEnabled="{Binding Settings.Checked_VLESS_TCP}" 
-                     metro:HeaderedControlHelper.HeaderMargin="0"
-                     Style="{StaticResource MaterialDesignNavigationRailTabItem}" 
+                     IsEnabled="{Binding Settings.Checked_VLESS_TCP}"
                      Header="VLESS-TCP-TLS">
-                <local:VLESS_TCP_TLS_Control />
+                <ctrl:VLESS_TCP_TLS_Control />
             </TabItem>
 
             <TabItem Width="200" Height="40"
                      Tag="{x:Static models:XrayType.VLESS_WS}"
-                     IsEnabled="{Binding Settings.Checked_VLESS_WS}" 
-                     Style="{StaticResource MaterialDesignNavigationRailTabItem}" 
+                     IsEnabled="{Binding Settings.Checked_VLESS_WS}"
                      Header="VLESS-WebSocket-TLS">
-                <local:VLESS_WS_TLS_Control />
+                <ctrl:VLESS_WS_TLS_Control />
             </TabItem>
 
             <TabItem Width="200" Height="40"
                      Tag="{x:Static models:XrayType.VLESS_KCP}"
-                     IsEnabled="{Binding Settings.Checked_VLESS_KCP}" 
-                     Style="{StaticResource MaterialDesignNavigationRailTabItem}" 
+                     IsEnabled="{Binding Settings.Checked_VLESS_KCP}"
                      Header="VLESS-mKCP">
-                <local:VLESS_KCP_Control />
+                <ctrl:VLESS_KCP_Control />
             </TabItem>
 
             <!--<TabItem Width="200"
                      Tag="{x:Static models:XrayType.VLESS_gRPC}"
-                     IsEnabled="{Binding Settings.Checked_VLESS_gRPC}" 
-                     Style="{StaticResource MaterialDesignNavigationRailTabItem}" 
+                     IsEnabled="{Binding Settings.Checked_VLESS_gRPC}"
                      Header="VLESS-gRPC">
-                <local:VLESS_gRPC_Control />
+                <ctrl:VLESS_gRPC_Control />
             </TabItem>-->
 
-            <!--<TabItem Width="200" Height="40"     
+            <TabItem Width="200" Height="40"     
                      Tag="{x:Static models:XrayType.VMESS_TCP}"                 
                      IsEnabled="{Binding Settings.Checked_VMESS_TCP}"
-                     Style="{StaticResource MaterialDesignNavigationRailTabItem}" 
                      Header="VMESS-TCP-TLS">
-                <local:VMESS_TCP_TLS_Control />
-            </TabItem>-->
+                <ctrl:VMESS_TCP_TLS_Control />
+            </TabItem>
 
             <TabItem Width="200" Height="40"     
                      Tag="{x:Static models:XrayType.VMESS_WS}"
                      IsEnabled="{Binding Settings.Checked_VMESS_WS}"
-                     Style="{StaticResource MaterialDesignNavigationRailTabItem}"
                      Header="VMESS-WebSocket-TLS">
-                <local:VMESS_WS_TLS_Control />
+                <ctrl:VMESS_WS_TLS_Control />
             </TabItem>
 
             <TabItem Width="200" Height="40"     
                      Tag="{x:Static models:XrayType.VMESS_KCP}"
                      IsEnabled="{Binding Settings.Checked_VMESS_KCP}"
-                     Style="{StaticResource MaterialDesignNavigationRailTabItem}"
                      Header="VMESS-mKCP">
-                <local:VMESS_KCP_Control />
+                <ctrl:VMESS_KCP_Control />
             </TabItem>
 
             <TabItem Width="200" Height="40"     
                      Tag="{x:Static models:XrayType.Trojan_TCP}"
                      IsEnabled="{Binding Settings.Checked_Trojan_TCP}"
-                     Style="{StaticResource MaterialDesignNavigationRailTabItem}"
                      Header="Trojan-TCP">
-                <local:Trojan_TCP_Control />
+                <ctrl:Trojan_TCP_Control />
             </TabItem>
 
             <TabItem Width="200" Height="40"     
                      Tag="{x:Static models:XrayType.ShadowsocksAEAD}"
                      IsEnabled="{Binding Settings.CheckedShadowSocks}"
-                     Style="{StaticResource MaterialDesignNavigationRailTabItem}"
                      Header="ShadowSocks">
-                <local:ShadowSocksControl />
+                <ctrl:ShadowSocksControl />
             </TabItem>
 
         </TabControl>
@@ -111,4 +100,4 @@
             <Button Click="SaveImage" Width="100" Content="{DynamicResource SaveAs}" />
         </StackPanel>
     </Grid>
-</metro:MetroWindow>
+</views:MvxWindow>

@@ -76,7 +76,12 @@
                                             Margin="5,0"
                                             Padding="12,3"
                                             Content="{DynamicResource MainDataGridColumnActionEdit}" />
-                                    
+
+                                    <Button Command="{Binding NavToConfigCommand}"
+                                            Margin="5,0"
+                                            Padding="12,3"
+                                            Content="{DynamicResource MainDataGridColumnActionViewConfig}" />
+
                                     <Button Click="NavToEditor" 
                                             Margin="5,0"
                                             Padding="12,3"

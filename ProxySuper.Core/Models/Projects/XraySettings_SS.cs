@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProxySuper.Core.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,5 +23,13 @@ namespace ProxySuper.Core.Models.Projects
         /// ss port
         /// </summary>
         public int ShadowSocksPort { get; set; }
+
+        public string ShadowSocksShareLink
+        {
+            get
+            {
+                return ShareLink.Build(XrayType.ShadowsocksAEAD, this);
+            }
+        }
     }
 }

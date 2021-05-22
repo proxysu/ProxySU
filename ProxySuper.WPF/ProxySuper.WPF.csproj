@@ -43,6 +43,9 @@
     <Reference Include="MvvmCross.Platforms.Wpf, Version=7.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmCross.Platforms.Wpf.7.1.2\lib\net461\MvvmCross.Platforms.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="QRCoder, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.4.1\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
     <Reference Include="Renci.SshNet, Version=2020.0.1.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
       <HintPath>..\packages\SSH.NET.2020.0.1\lib\net40\Renci.SshNet.dll</HintPath>
     </Reference>
@@ -53,6 +56,7 @@
       <HintPath>..\packages\System.Console.4.3.1\lib\net46\System.Console.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -79,6 +83,36 @@
     <Compile Include="Controls\HostControl.xaml.cs">
       <DependentUpon>HostControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ShadowSocksControl.xaml.cs">
+      <DependentUpon>ShadowSocksControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Trojan_TCP_Control.xaml.cs">
+      <DependentUpon>Trojan_TCP_Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\VLESS_gRPC_Control.xaml.cs">
+      <DependentUpon>VLESS_gRPC_Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\VLESS_KCP_Control.xaml.cs">
+      <DependentUpon>VLESS_KCP_Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\VLESS_TCP_TLS_Control.xaml.cs">
+      <DependentUpon>VLESS_TCP_TLS_Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\VLESS_WS_TLS_Control.xaml.cs">
+      <DependentUpon>VLESS_WS_TLS_Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\VLESS_XTLS_Control.xaml.cs">
+      <DependentUpon>VLESS_XTLS_Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\VMESS_KCP_Control.xaml.cs">
+      <DependentUpon>VMESS_KCP_Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\VMESS_TCP_TLS_Control.xaml.cs">
+      <DependentUpon>VMESS_TCP_TLS_Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\VMESS_WS_TLS_Control.xaml.cs">
+      <DependentUpon>VMESS_WS_TLS_Control.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\XraySettingsControl.xaml.cs">
       <DependentUpon>XraySettingsControl.xaml</DependentUpon>
     </Compile>
@@ -97,12 +131,55 @@
     <Compile Include="Views\XrayEditorView.xaml.cs">
       <DependentUpon>XrayEditorView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\XrayConfigView.xaml.cs">
+      <DependentUpon>XrayConfigView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\XrayInstallerView.xaml.cs">
       <DependentUpon>XrayInstallerView.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\HostControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ShadowSocksControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Trojan_TCP_Control.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\VLESS_gRPC_Control.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\VLESS_KCP_Control.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\VLESS_TCP_TLS_Control.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\VLESS_WS_TLS_Control.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\VLESS_XTLS_Control.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\VMESS_KCP_Control.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\VMESS_TCP_TLS_Control.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\VMESS_WS_TLS_Control.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\XraySettingsControl.xaml">
       <SubType>Designer</SubType>
@@ -144,6 +221,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\XrayEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\XrayConfigView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

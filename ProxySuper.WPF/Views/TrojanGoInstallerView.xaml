@@ -25,15 +25,15 @@
         />
 
         <StackPanel Margin="10" Orientation="Horizontal">
-            <Label Content="安装" />
-            <Button Height="24" Padding="10,0" Margin="10,0,0,0" IsEnabled="{Binding Connected}" Click="Install">一键安装</Button>
-            <Button Height="24" Padding="10,0" Margin="10,0,0,0" IsEnabled="{Binding Connected}" Click="Uninstall">卸载代理</Button>
+            <Label Content="{DynamicResource Install}" />
+            <Button Height="24" Padding="10,0" Margin="10,0,0,0" IsEnabled="{Binding Connected}" Click="Install" Content="{DynamicResource XrayInstallerInstall}" />
+            <Button Height="24" Padding="10,0" Margin="10,0,0,0" IsEnabled="{Binding Connected}" Click="Uninstall" Content="{DynamicResource XrayInstallerUninstall}" />
         </StackPanel>
 
         <StackPanel Margin="10" Orientation="Horizontal">
-            <Label Content="配置" />
-            <Button Height="24" Padding="10,0" Margin="10,0,0,0" IsEnabled="{Binding Connected}" Click="InstallCert">手动续签证书</Button>
-            <Button Height="24" Padding="10,0" Margin="10,0,0,0" IsEnabled="{Binding Connected}" Click="UploadWeb">上传伪装网站</Button>
+            <Label Content="{DynamicResource Settings}" />
+            <Button Height="24" Padding="10,0" Margin="10,0,0,0" IsEnabled="{Binding Connected}" Click="InstallCert" Content="{DynamicResource XrayInstallerInstallCert}" />
+            <Button Height="24" Padding="10,0" Margin="10,0,0,0" IsEnabled="{Binding Connected}" Click="UploadWeb" Content="{DynamicResource XrayInstallerUploadWeb}" />
         </StackPanel>
     </StackPanel>
 </views:MvxWindow>

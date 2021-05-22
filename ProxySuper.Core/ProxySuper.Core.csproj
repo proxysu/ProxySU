@@ -40,6 +40,9 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="QRCoder, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.4.1\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
     <Reference Include="Renci.SshNet, Version=2020.0.1.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
       <HintPath>..\packages\SSH.NET.2020.0.1\lib\net40\Renci.SshNet.dll</HintPath>
     </Reference>
@@ -89,6 +92,7 @@
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\TrojanGoEditorViewModel.cs" />
     <Compile Include="ViewModels\TrojanGoInstallerViewModel.cs" />
+    <Compile Include="ViewModels\XrayConfigViewModel.cs" />
     <Compile Include="ViewModels\XrayEditorViewModel.cs" />
     <Compile Include="ViewModels\XrayInstallerViewModel.cs" />
   </ItemGroup>

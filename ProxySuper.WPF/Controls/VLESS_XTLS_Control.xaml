@@ -7,57 +7,57 @@
              mc:Ignorable="d">
     <StackPanel Orientation="Vertical">
         <StackPanel Orientation="Horizontal">
-            <Label Content="地址(address)" Width="120" />
-            <TextBox Text="{Binding Settings.Domain}" IsReadOnly="True" Width="200" />
+            <Label Content="地址(address)" Width="140" />
+            <TextBox Text="{Binding Settings.Domain}" IsReadOnly="True" Width="300" />
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-            <Label Content="端口(port)" Width="120" />
-            <TextBox Text="443" IsReadOnly="True" Width="200" />
+            <Label Content="端口(port)" Width="140" />
+            <TextBox Text="443" IsReadOnly="True" Width="300" />
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-            <Label Content="用户ID(id)" Width="120" />
+            <Label Content="用户ID(id)" Width="140" />
             <TextBox Text="{Binding Settings.UUID}" IsReadOnly="True" Width="300" />
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-            <Label Content="流控(flow)" Width="120" />
-            <TextBox Text="xtls-rprx-direct" IsReadOnly="True" Width="200" />
+            <Label Content="流控(flow)" Width="140" />
+            <TextBox Text="xtls-rprx-direct" IsReadOnly="True" Width="300" />
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-            <Label Content="加密(encryption)" Width="120" />
-            <TextBox Text="none" IsReadOnly="True" Width="200" />
+            <Label Content="加密(encryption)" Width="140" />
+            <TextBox Text="none" IsReadOnly="True" Width="300" />
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-            <Label Content="传输协议(network)" Width="120" />
-            <TextBox Text="tcp" IsReadOnly="True" Width="200" />
+            <Label Content="传输协议(network)" Width="140" />
+            <TextBox Text="tcp" IsReadOnly="True" Width="300" />
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-            <Label Content="伪装类型(type)" Width="120" />
-            <TextBox Text="none" IsReadOnly="True" Width="200" />
+            <Label Content="伪装类型(type)" Width="140" />
+            <TextBox Text="none" IsReadOnly="True" Width="300" />
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-            <Label Content="伪装域名(host)" Width="120" />
-            <TextBox Text="{Binding Settings.Domain}" IsReadOnly="True" Width="200" />
+            <Label Content="伪装域名(host)" Width="140" />
+            <TextBox Text="{Binding Settings.Domain}" IsReadOnly="True" Width="300" />
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-            <Label Content="路径(path)" Width="120" />
-            <TextBox Text="" IsReadOnly="True" Width="200" />
+            <Label Content="路径(path)" Width="140" />
+            <TextBox Text="" IsReadOnly="True" Width="300" />
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-            <Label Content="传输安全(tls)" Width="120" />
-            <TextBox Text="xtls" IsReadOnly="True" Width="200" />
+            <Label Content="传输安全(tls)" Width="140" />
+            <TextBox Text="xtls" IsReadOnly="True" Width="300" />
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-            <Label Content="分享链接(ShareLink)" Width="120" />
+            <Label Content="分享链接(ShareLink)" Width="140" />
             <TextBox Text="{Binding Settings.VLESS_TCP_XTLS_ShareLink,Mode=OneTime}" Width="300" IsReadOnly="True" />
         </StackPanel>
     </StackPanel>

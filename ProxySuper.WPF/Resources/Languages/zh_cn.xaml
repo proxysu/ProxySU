@@ -5,6 +5,9 @@
     <!--common-->
     <sys:String x:Key="Random">随机</sys:String>
     <sys:String x:Key="Save">保存</sys:String>
+    <sys:String x:Key="SaveAs">另存为</sys:String>
+    <sys:String x:Key="Install">安装</sys:String>
+    <sys:String x:Key="Settings">配置</sys:String>
     
     <!--Main Menu-->
     <sys:String x:Key="MainMenuAddHost">添加主机</sys:String>
@@ -26,6 +29,7 @@
     <sys:String x:Key="MainDataGridColumnAction">操作</sys:String>
     <sys:String x:Key="MainDataGridColumnActionInstall">安装</sys:String>
     <sys:String x:Key="MainDataGridColumnActionEdit">编辑</sys:String>
+    <sys:String x:Key="MainDataGridColumnActionViewConfig">查看配置</sys:String>
     <sys:String x:Key="MainDataGridColumnActionDelete">删除</sys:String>
 
 
@@ -78,6 +82,15 @@
     <sys:String x:Key="TrojanPassword">Trojan密码</sys:String>
     <sys:String x:Key="XrayPort">xray端口</sys:String>
     <sys:String x:Key="XrayPortDefault">默认端口443，不建议修改</sys:String>
+
+    <!--xray installer-->
+    <sys:String x:Key="XrayInstallerInstall">一键安装</sys:String>
+    <sys:String x:Key="XrayInstallerUpdateSettings">更新配置</sys:String>
+    <sys:String x:Key="XrayInstallerUpdateCore">更新内核</sys:String>
+    <sys:String x:Key="XrayInstallerUninstall">卸载代理</sys:String>
+    <sys:String x:Key="XrayInstallerInstallCert">手动续签证书</sys:String>
+    <sys:String x:Key="XrayInstallerUploadWeb">上传伪装网站</sys:String>
+    <sys:String x:Key="XrayInstallerUploadCert">上传自有证书</sys:String>
 
 
     <!--Trojan-GO-->

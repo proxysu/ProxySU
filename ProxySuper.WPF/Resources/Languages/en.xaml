@@ -5,6 +5,9 @@
     <!--common-->
     <sys:String x:Key="Random">Random</sys:String>
     <sys:String x:Key="Save">Save</sys:String>
+    <sys:String x:Key="SaveAs">SaveAs</sys:String>
+    <sys:String x:Key="Install">Install</sys:String>
+    <sys:String x:Key="Settings">Settings</sys:String>
 
     <!--Main Menu-->
     <sys:String x:Key="MainMenuAddHost">Add Host</sys:String>
@@ -26,6 +29,7 @@
     <sys:String x:Key="MainDataGridColumnAction">Action</sys:String>
     <sys:String x:Key="MainDataGridColumnActionInstall">Install</sys:String>
     <sys:String x:Key="MainDataGridColumnActionEdit">Edit</sys:String>
+    <sys:String x:Key="MainDataGridColumnActionViewConfig">ViewConfig</sys:String>
     <sys:String x:Key="MainDataGridColumnActionDelete">Delete</sys:String>
 
 
@@ -78,6 +82,15 @@
     <sys:String x:Key="TrojanPassword">Trojan Pwd</sys:String>
     <sys:String x:Key="XrayPort">xray Port</sys:String>
     <sys:String x:Key="XrayPortDefault">default port is 443</sys:String>
+    
+    <!--xray installer-->
+    <sys:String x:Key="XrayInstallerInstall">Install</sys:String>
+    <sys:String x:Key="XrayInstallerUpdateSettings">UpdateSettings</sys:String>
+    <sys:String x:Key="XrayInstallerUpdateCore">UpdateCore</sys:String>
+    <sys:String x:Key="XrayInstallerUninstall">Uninstall</sys:String>
+    <sys:String x:Key="XrayInstallerInstallCert">InstallCert</sys:String>
+    <sys:String x:Key="XrayInstallerUploadWeb">UploadWeb</sys:String>
+    <sys:String x:Key="XrayInstallerUploadCert">UploadCert</sys:String>
     
     <!--Trojan-GO-->
     <sys:String x:Key="TrojanGoDomain">Address</sys:String>

@@ -50,11 +50,11 @@
                 <Label Content="{DynamicResource TrojanGoMaskDomain}" Grid.Row="3" Grid.Column="0" />
                 <TextBox Text="{Binding Settings.MaskDomain}" Grid.Row="3" Grid.Column="1" />
 
-                <Label Content="{DynamicResource TrojanGoWebSocketPath}" Grid.Row="4" Grid.Column="0" />
+                <!--<Label Content="{DynamicResource TrojanGoWebSocketPath}" Grid.Row="4" Grid.Column="0" />
                 <TextBox Text="{Binding Settings.WebSocketPath}" Grid.Row="4" Grid.Column="1" />
 
                 <Label Content="{DynamicResource TrojanGoWebSocketDomain}" Grid.Row="5" Grid.Column="0" />
-                <TextBox Text="{Binding Settings.WebSocketDomain}" Grid.Row="5" Grid.Column="1" />
+                <TextBox Text="{Binding Settings.WebSocketDomain}" Grid.Row="5" Grid.Column="1" />-->
             </Grid>
 
             <Border BorderBrush="#eee" BorderThickness="0,1,0,0">

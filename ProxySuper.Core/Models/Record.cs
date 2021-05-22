@@ -63,6 +63,9 @@ namespace ProxySuper.Core.Models
         [JsonIgnore]
         public IMvxCommand NavToEditorCommand => new MvxAsyncCommand(NavigateToEditor);
 
+        [JsonIgnore]
+        public IMvxCommand NavToConfigCommand => new MvxAsyncCommand(NavigateToConfig);
+
         public async Task NavigateToEditor()
         {
             if (Type == ProjectType.Xray)
@@ -95,6 +98,18 @@ namespace ProxySuper.Core.Models
             if (Type == ProjectType.TrojanGo)
             {
                 await NavigationService.Navigate<TrojanGoInstallerViewModel, Record>(this);
+            }
+        }
+
+        public async Task NavigateToConfig()
+        {
+            if (Type == ProjectType.Xray)
+            {
+                await NavigationService.Navigate<XrayConfigViewModel, XraySettings>(this.XraySettings);
+            }
+            if (Type == ProjectType.TrojanGo)
+            {
+                //await NavigationService.Navigate<TrojanGoInstallerViewModel, Record>(this);
             }
         }
     }
