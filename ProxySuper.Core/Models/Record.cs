@@ -9,6 +9,7 @@ using ProxySuper.Core.Models.Projects;
 using ProxySuper.Core.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,7 +57,6 @@ namespace ProxySuper.Core.Models
             }
         }
 
-
         [JsonIgnore]
         public IMvxCommand NavToInstallerCommand => new MvxAsyncCommand(NavigateToInstaller);
 
@@ -76,7 +76,6 @@ namespace ProxySuper.Core.Models
                 this.Host = result.Host;
                 this.XraySettings = result.XraySettings;
 
-                await RaisePropertyChanged("Host");
             }
 
             if (Type == ProjectType.TrojanGo)
@@ -87,6 +86,7 @@ namespace ProxySuper.Core.Models
                 this.Host = result.Host;
                 this.TrojanGoSettings = result.TrojanGoSettings;
             }
+            await RaisePropertyChanged("Host");
         }
 
         public async Task NavigateToInstaller()

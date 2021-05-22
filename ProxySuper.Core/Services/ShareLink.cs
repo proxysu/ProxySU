@@ -36,8 +36,8 @@ namespace ProxySuper.Core.Services
 
         private static string BuildShadowSocksShareLink(XraySettings settings)
         {
-            var _method = settings.ShadowsocksMethod;
-            var _password = settings.ShadowsocksPassword;
+            var _method = settings.ShadowSocksMethod;
+            var _password = settings.ShadowSocksPassword;
             var _server = settings.Domain;
             var _port = settings.ShadowSocksPort;
 

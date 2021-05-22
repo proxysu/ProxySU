@@ -44,16 +44,18 @@ namespace ProxySuper.WPF.Views
             System.Diagnostics.Process.Start("explorer.exe", "https://github.com/proxysu/ProxySU");
         }
 
-        private void NavToEditor(object sender, RoutedEventArgs e)
+
+        ResourceDictionary resource = new ResourceDictionary();
+        private void SetSimpleChinese(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate<XrayEditorViewModel, Record, Record>(ViewModel.Records[0]);
+            resource.Source = new Uri(@"Resources\Languages\zh_cn.xaml", UriKind.Relative);
+            Application.Current.Resources.MergedDictionaries[0] = resource;
         }
 
-        protected override void Dispose(bool disposing)
+        private void SetEnglish(object sender, RoutedEventArgs e)
         {
-            ViewModel.SaveRecords();
-            base.Dispose(disposing);
+            resource.Source = new Uri(@"Resources\Languages\en.xaml", UriKind.Relative);
+            Application.Current.Resources.MergedDictionaries[0] = resource;
         }
-
     }
 }

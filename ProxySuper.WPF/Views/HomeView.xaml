@@ -26,8 +26,8 @@
             </MenuItem>
 
             <MenuItem Header="{DynamicResource MainMenuLanguage}" Padding="10,3">
-                <MenuItem Padding="0,5" Header="{DynamicResource MainMenuLanguageEn}"></MenuItem>
-                <MenuItem Padding="0,5" Header="{DynamicResource MainMenuLanguageCn}"></MenuItem>
+                <MenuItem Padding="0,5" Header="{DynamicResource MainMenuLanguageEn}" Click="SetEnglish"></MenuItem>
+                <MenuItem Padding="0,5" Header="{DynamicResource MainMenuLanguageCn}" Click="SetSimpleChinese"></MenuItem>
             </MenuItem>
 
             <MenuItem Header="{DynamicResource MainMenuHelper}" Padding="10,3">
@@ -37,6 +37,7 @@
 
         <StackPanel Grid.Row="1" Margin="0,10">
             <DataGrid AutoGenerateColumns="False" 
+                      Name="DataGrid"
                       ItemsSource="{Binding Records}" 
                       VerticalContentAlignment="Bottom"
                       IsReadOnly="True" 
@@ -82,7 +83,7 @@
                                             Padding="12,3"
                                             Content="{DynamicResource MainDataGridColumnActionViewConfig}" />
 
-                                    <Button Click="NavToEditor" 
+                                    <Button Command="{Binding NavToEditorCommand}" 
                                             Margin="5,0"
                                             Padding="12,3"
                                             Content="{DynamicResource MainDataGridColumnActionDelete}" />

@@ -23,12 +23,27 @@ namespace ProxySuper.Core.ViewModels
         {
             _navigationService = navigationService;
             ReadRecords();
+            _navigationService.AfterClose += _navigationService_AfterClose;
+        }
+
+        private void _navigationService_AfterClose(object sender, MvvmCross.Navigation.EventArguments.IMvxNavigateEventArgs e)
+        {
+            if (e.ViewModel is XrayEditorViewModel ||
+                e.ViewModel is TrojanGoEditorViewModel)
+            {
+                SaveToJson();
+            }
         }
 
         public void ReadRecords()
         {
-            var json = File.ReadAllText("Data/Record.json");
-            var records = JsonConvert.DeserializeObject<List<Record>>(json);
+            List<Record> records = new List<Record>();
+            if (File.Exists("Data/Record.json"))
+            {
+                var json = File.ReadAllText("Data/Record.json");
+                records = JsonConvert.DeserializeObject<List<Record>>(json);
+            }
+
             this.Records = new MvxObservableCollection<Record>();
 
             records.ForEach(item =>
@@ -41,9 +56,9 @@ namespace ProxySuper.Core.ViewModels
             });
         }
 
-        public void SaveRecords()
+        public void SaveToJson()
         {
-            var json = JsonConvert.SerializeObject(Records);
+            var json = JsonConvert.SerializeObject(this);
             File.WriteAllText("Data/Record.json", json);
         }
 
@@ -64,6 +79,9 @@ namespace ProxySuper.Core.ViewModels
             if (result == null) return;
 
             Records.Add(result);
+            SaveToJson();
+
+
         }
 
         public async Task AddTrojanGoRecord()

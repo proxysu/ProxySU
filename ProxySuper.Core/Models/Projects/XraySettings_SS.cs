@@ -12,12 +12,12 @@ namespace ProxySuper.Core.Models.Projects
         /// <summary>
         /// ss password
         /// </summary>
-        public string ShadowsocksPassword { get; set; }
+        public string ShadowSocksPassword { get; set; }
 
         /// <summary>
         /// ss method
         /// </summary>
-        public string ShadowsocksMethod { get; set; }
+        public string ShadowSocksMethod { get; set; }
 
         /// <summary>
         /// ss port

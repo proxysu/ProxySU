@@ -174,18 +174,18 @@ namespace ProxySuper.Core.ViewModels
         }
         public string ShadowSocksPassword
         {
-            get => Settings.ShadowsocksPassword;
-            set => Settings.ShadowsocksPassword = value;
+            get => Settings.ShadowSocksPassword;
+            set => Settings.ShadowSocksPassword = value;
         }
         public string ShadowSocksMethod
         {
-            get => Settings.ShadowsocksMethod;
+            get => Settings.ShadowSocksMethod;
             set
             {
                 var namespaceStr = typeof(ComboBoxItem).FullName + ":";
                 var trimValue = value.Replace(namespaceStr, "");
                 trimValue = trimValue.Trim();
-                Settings.ShadowsocksMethod = trimValue;
+                Settings.ShadowSocksMethod = trimValue;
                 RaisePropertyChanged("ShadowSocksMethod");
             }
         }

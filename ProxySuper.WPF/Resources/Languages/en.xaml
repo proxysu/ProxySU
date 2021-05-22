@@ -34,13 +34,14 @@
 
 
     <!--Editor Window-->
+    <sys:String x:Key="HostGroupName">Host</sys:String>
     <sys:String x:Key="HostTag">Tag</sys:String>
     <sys:String x:Key="HostAddress">Address</sys:String>
     <sys:String x:Key="HostUserName">UserName</sys:String>
     <sys:String x:Key="HostPassword">Password</sys:String>
     <sys:String x:Key="HostPort">Port</sys:String>
     <sys:String x:Key="HostSecretType">SecretType</sys:String>
-    <sys:String x:Key="HostUploadSecretKey">UploadSecretKey</sys:String>
+    <sys:String x:Key="HostUploadSecretKey">UploadKey</sys:String>
     <sys:String  x:Key="HostSertTypePassword">Password</sys:String>
     <sys:String  x:Key="HostSertTypePrivateKey">PrivateKey</sys:String>
 
