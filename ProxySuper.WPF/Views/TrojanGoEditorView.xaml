@@ -9,6 +9,7 @@
         mc:Ignorable="d"
         BorderThickness="0,1,0,0"
         BorderBrush="#eee"
+        Icon="/Resources/ProxySU.ico"
         WindowStartupLocation="CenterScreen"
         Title="Trojan-Go" Height="600" Width="1000">
     <Grid>

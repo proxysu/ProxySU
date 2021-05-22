@@ -109,7 +109,7 @@ namespace ProxySuper.Core.Models
             }
             if (Type == ProjectType.TrojanGo)
             {
-                //await NavigationService.Navigate<TrojanGoInstallerViewModel, Record>(this);
+                await NavigationService.Navigate<TrojanGoConfigViewModel, TrojanGoSettings>(this.TrojanGoSettings);
             }
         }
     }
