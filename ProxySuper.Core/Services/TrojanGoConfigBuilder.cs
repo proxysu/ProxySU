@@ -28,6 +28,13 @@ namespace ProxySuper.Core.Services
             settings["password"][0] = parameters.Password;
             settings["ssl"]["sni"] = parameters.Domain;
 
+            if (parameters.EnableWebSocket)
+            {
+                settings["websocket"]["enabled"] = true;
+                settings["websocket"]["path"] = parameters.WebSocketPath;
+                settings["websocket"]["host"] = parameters.WebSocketDomain;
+            }
+
             return JsonConvert.SerializeObject(settings, Formatting.Indented, new JsonSerializerSettings()
             {
                 NullValueHandling = NullValueHandling.Ignore

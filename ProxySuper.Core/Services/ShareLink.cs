@@ -11,6 +11,18 @@ namespace ProxySuper.Core.Services
 {
     public class ShareLink
     {
+        public static string BuildTrojanGo(TrojanGoSettings settings)
+        {
+            throw new NotImplementedException();
+            StringBuilder strBuilder = new StringBuilder();
+            strBuilder.Append("trojan-go://");
+
+            strBuilder.Append($"{settings.Password}@{settings.Domain}:{settings.Port}/?");
+            strBuilder.Append($"sni={settings.Domain}&");
+
+            return strBuilder.ToString();
+        }
+
         public static string Build(XrayType xrayType, XraySettings settings)
         {
 

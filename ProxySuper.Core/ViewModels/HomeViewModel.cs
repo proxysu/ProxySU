@@ -111,15 +111,17 @@ namespace ProxySuper.Core.ViewModels
             if (record.Type == ProjectType.Xray)
             {
                 result = await _navigationService.Navigate<XrayEditorViewModel, Record, Record>(record);
+                record.Host = result.Host;
+                record.XraySettings = result.XraySettings;
             }
-            else
+            if (record.Type == ProjectType.TrojanGo)
             {
                 result = await _navigationService.Navigate<TrojanGoEditorViewModel, Record, Record>(record);
+                record.Host = result.Host;
+                record.TrojanGoSettings = result.TrojanGoSettings;
             }
             if (result == null) return;
 
-            record.Host = result.Host;
-            record.XraySettings = result.XraySettings;
             SaveToJson();
         }
 

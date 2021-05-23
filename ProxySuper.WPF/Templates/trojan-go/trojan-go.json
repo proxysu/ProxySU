@@ -10,7 +10,11 @@
   "ssl": {
     "cert": "/usr/local/etc/trojan-go/trojan-go.crt",
     "key": "/usr/local/etc/trojan-go/trojan-go.key",
-    "sni": ""
+    "sni": "example.com"
+  },
+  "websocket": {
+    "enabled": false,
+    "path": "/ws",
+    "host": "example.com"
   }
-
 }
