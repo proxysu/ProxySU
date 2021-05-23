@@ -15,7 +15,7 @@
     <sys:String x:Key="MainMenuActionsExportSettings">导出配置</sys:String>
     <sys:String x:Key="MainMenuActionsExportSubscribe">导出配置</sys:String>
 
-    <sys:String x:Key="MainMenuLanguage">语言</sys:String>
+    <sys:String x:Key="MainMenuLanguage">语言(Language)</sys:String>
     <sys:String x:Key="MainMenuLanguageEn">English</sys:String>
     <sys:String x:Key="MainMenuLanguageCn">中文</sys:String>
     <sys:String x:Key="MainMenuHelper">帮助</sys:String>

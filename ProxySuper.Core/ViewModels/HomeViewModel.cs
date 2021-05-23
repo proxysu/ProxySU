@@ -2,6 +2,7 @@
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using ProxySuper.Core.Models;
 using ProxySuper.Core.Models.Hosts;
 using ProxySuper.Core.Models.Projects;
@@ -12,6 +13,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ProxySuper.Core.ViewModels
 {
@@ -23,17 +25,9 @@ namespace ProxySuper.Core.ViewModels
         {
             _navigationService = navigationService;
             ReadRecords();
-            _navigationService.AfterClose += _navigationService_AfterClose;
         }
 
-        private void _navigationService_AfterClose(object sender, MvvmCross.Navigation.EventArguments.IMvxNavigateEventArgs e)
-        {
-            if (e.ViewModel is XrayEditorViewModel ||
-                e.ViewModel is TrojanGoEditorViewModel)
-            {
-                SaveToJson();
-            }
-        }
+
 
         public void ReadRecords()
         {
@@ -58,7 +52,10 @@ namespace ProxySuper.Core.ViewModels
 
         public void SaveToJson()
         {
-            var json = JsonConvert.SerializeObject(this);
+            var json = JsonConvert.SerializeObject(Records, Formatting.Indented, new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            });
             File.WriteAllText("Data/Record.json", json);
         }
 
@@ -67,6 +64,14 @@ namespace ProxySuper.Core.ViewModels
         public IMvxCommand AddXrayCommand => new MvxAsyncCommand(AddXrayRecord);
 
         public IMvxCommand AddTrojanGoCommand => new MvxAsyncCommand(AddTrojanGoRecord);
+
+        public IMvxCommand RemoveCommand => new MvxAsyncCommand<string>(DeleteRecord);
+
+        public IMvxCommand EditCommand => new MvxAsyncCommand<string>(EditRecord);
+
+        public IMvxCommand ViewConfigCommand => new MvxAsyncCommand<string>(ViewConfig);
+
+        public IMvxCommand InstallCommand => new MvxAsyncCommand<string>(GoToInstall);
 
         public async Task AddXrayRecord()
         {
@@ -80,8 +85,6 @@ namespace ProxySuper.Core.ViewModels
 
             Records.Add(result);
             SaveToJson();
-
-
         }
 
         public async Task AddTrojanGoRecord()
@@ -95,6 +98,74 @@ namespace ProxySuper.Core.ViewModels
             if (result == null) return;
 
             Records.Add(result);
+
+            SaveToJson();
+        }
+
+        public async Task EditRecord(string id)
+        {
+            var record = Records.FirstOrDefault(x => x.Id == id);
+            if (record == null) return;
+
+            Record result = null;
+            if (record.Type == ProjectType.Xray)
+            {
+                result = await _navigationService.Navigate<XrayEditorViewModel, Record, Record>(record);
+            }
+            else
+            {
+                result = await _navigationService.Navigate<TrojanGoEditorViewModel, Record, Record>(record);
+            }
+            if (result == null) return;
+
+            record.Host = result.Host;
+            record.XraySettings = result.XraySettings;
+            SaveToJson();
+        }
+
+        public async Task DeleteRecord(string id)
+        {
+            var result = MessageBox.Show($"您确认删除主机吗？", "提示", MessageBoxButton.OKCancel);
+            if (result == MessageBoxResult.OK)
+            {
+                var record = Records.FirstOrDefault(x => x.Id == id);
+                if (record != null)
+                {
+                    Records.Remove(record);
+                    SaveToJson();
+                }
+            }
+            await Task.CompletedTask;
+        }
+
+        public async Task ViewConfig(string id)
+        {
+            var record = Records.FirstOrDefault(x => x.Id == id);
+            if (record == null) return;
+
+            if (record.Type == ProjectType.Xray)
+            {
+                await _navigationService.Navigate<XrayConfigViewModel, XraySettings>(record.XraySettings);
+            }
+            if (record.Type == ProjectType.TrojanGo)
+            {
+                await _navigationService.Navigate<TrojanGoConfigViewModel, TrojanGoSettings>(record.TrojanGoSettings);
+            }
+        }
+
+        public async Task GoToInstall(string id)
+        {
+            var record = Records.FirstOrDefault(x => x.Id == id);
+            if (record == null) return;
+
+            if (record.Type == ProjectType.Xray)
+            {
+                await _navigationService.Navigate<XrayInstallerViewModel, Record>(record);
+            }
+            if (record.Type == ProjectType.TrojanGo)
+            {
+                await _navigationService.Navigate<TrojanGoInstallerViewModel, Record>(record);
+            }
         }
     }
 }

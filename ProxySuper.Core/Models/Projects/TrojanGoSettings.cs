@@ -8,6 +8,11 @@ namespace ProxySuper.Core.Models.Projects
 {
     public class TrojanGoSettings : IProjectSettings
     {
+        public TrojanGoSettings()
+        {
+            Port = 443;
+        }
+
         public List<int> FreePorts
         {
             get

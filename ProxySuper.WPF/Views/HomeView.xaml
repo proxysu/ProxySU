@@ -20,10 +20,10 @@
                 <MenuItem Padding="0,5" Header="NaiveProxy"></MenuItem>
             </MenuItem>
 
-            <MenuItem Header="{DynamicResource MainMenuActions}" Padding="10,3">
+            <!--<MenuItem Header="{DynamicResource MainMenuActions}" Padding="10,3">
                 <MenuItem Padding="0,5" Header="{DynamicResource MainMenuActionsExportSettings}"></MenuItem>
                 <MenuItem Padding="0,5" Header="{DynamicResource MainMenuActionsExportSubscribe}"></MenuItem>
-            </MenuItem>
+            </MenuItem>-->
 
             <MenuItem Header="{DynamicResource MainMenuLanguage}" Padding="10,3">
                 <MenuItem Padding="0,5" Header="{DynamicResource MainMenuLanguageEn}" Click="SetEnglish"></MenuItem>
@@ -53,37 +53,50 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTextColumn Binding="{Binding Host.Tag}" 
-                                        Header="{DynamicResource MainDataGridColumnTag}" 
-                                        Width="120" />
+                                        Width="120">
+                        <DataGridTextColumn.Header>
+                            <TextBlock Text="{DynamicResource MainDataGridColumnTag}" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
 
                     <DataGridTextColumn Binding="{Binding Host.Address}" 
-                                        Header="{DynamicResource MainDataGridColumnAddress}" 
-                                        Width="200" />
+                                        Width="200">
+                        <DataGridTextColumn.Header>
+                            <TextBlock Text="{DynamicResource MainDataGridColumnAddress}" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
 
                     <DataGridTextColumn Binding="{Binding Type}"
-                                        Header="{DynamicResource MainDataGridColumnType}"
-                                        Width="200" />
+                                        Width="200">
+                        <DataGridTextColumn.Header>
+                            <TextBlock Text="{DynamicResource MainDataGridColumnType}" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
 
                     <DataGridTemplateColumn Header="{DynamicResource MainDataGridColumnAction}" Width="400">
                         <DataGridTemplateColumn.CellTemplate>
                             <ItemContainerTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Command="{Binding NavToInstallerCommand}"
+                                    <Button Command="{Binding DataContext.InstallCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding Id}"
                                             Margin="5,0"
                                             Padding="12,3"
                                             Content="{DynamicResource MainDataGridColumnActionInstall}" />
 
-                                    <Button Command="{Binding NavToEditorCommand}"
+                                    <Button Command="{Binding DataContext.EditCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding Id}"
                                             Margin="5,0"
                                             Padding="12,3"
                                             Content="{DynamicResource MainDataGridColumnActionEdit}" />
 
-                                    <Button Command="{Binding NavToConfigCommand}"
+                                    <Button Command="{Binding DataContext.ViewConfigCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding Id}"
                                             Margin="5,0"
                                             Padding="12,3"
                                             Content="{DynamicResource MainDataGridColumnActionViewConfig}" />
 
-                                    <Button Command="{Binding NavToEditorCommand}" 
+                                    <Button Command="{Binding DataContext.RemoveCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" 
+                                            CommandParameter="{Binding Id}"
                                             Margin="5,0"
                                             Padding="12,3"
                                             Content="{DynamicResource MainDataGridColumnActionDelete}" />

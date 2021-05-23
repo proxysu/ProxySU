@@ -8,6 +8,34 @@ namespace ProxySuper.Core.Models.Projects
 {
     public partial class XraySettings : IProjectSettings
     {
+        public XraySettings()
+        {
+            var guid = Guid.NewGuid().ToString();
+            Port = 443;
+            VLESS_KCP_Port = 2001;
+            VLESS_gRPC_Port = 2002;
+            VMESS_KCP_Port = 3001;
+            ShadowSocksPort = 4001;
+
+            UUID = guid;
+            Types = new List<XrayType>();
+
+            VLESS_WS_Path = "/vlessws";
+            VLESS_KCP_Type = "none";
+            VLESS_KCP_Seed = guid;
+            VLESS_gRPC_ServiceName = "xray_gRPC";
+
+            VMESS_WS_Path = "/vmessws";
+            VMESS_TCP_Path = "/vmesstcp";
+            VMESS_KCP_Seed = guid;
+            VMESS_KCP_Type = "none";
+
+            TrojanPassword = guid;
+
+            ShadowSocksPassword = guid;
+            ShadowSocksMethod = "aes-128-gcm";
+        }
+
         public List<int> FreePorts
         {
             get

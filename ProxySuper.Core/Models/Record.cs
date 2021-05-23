@@ -16,13 +16,24 @@ using System.Threading.Tasks;
 
 namespace ProxySuper.Core.Models
 {
+    [JsonObject]
     public class Record : MvxViewModel
     {
+        private Host _host;
+
         [JsonProperty("id")]
         public string Id { get; set; }
 
         [JsonProperty("host")]
-        public Host Host { get; set; }
+        public Host Host
+        {
+            get { return _host; }
+            set
+            {
+                _host = value;
+                RaisePropertyChanged("Host");
+            }
+        }
 
         [JsonProperty("settings")]
         public XraySettings XraySettings { get; set; }
@@ -41,76 +52,6 @@ namespace ProxySuper.Core.Models
             }
         }
 
-        [JsonIgnore]
-        public IMvxNavigationService _navigationService;
 
-        [JsonIgnore]
-        public IMvxNavigationService NavigationService
-        {
-            get
-            {
-                if (_navigationService == null)
-                {
-                    _navigationService = Mvx.IoCProvider.Resolve<IMvxNavigationService>();
-                }
-                return _navigationService;
-            }
-        }
-
-        [JsonIgnore]
-        public IMvxCommand NavToInstallerCommand => new MvxAsyncCommand(NavigateToInstaller);
-
-        [JsonIgnore]
-        public IMvxCommand NavToEditorCommand => new MvxAsyncCommand(NavigateToEditor);
-
-        [JsonIgnore]
-        public IMvxCommand NavToConfigCommand => new MvxAsyncCommand(NavigateToConfig);
-
-        public async Task NavigateToEditor()
-        {
-            if (Type == ProjectType.Xray)
-            {
-                var result = await NavigationService.Navigate<XrayEditorViewModel, Record, Record>(this);
-                if (result == null) return;
-
-                this.Host = result.Host;
-                this.XraySettings = result.XraySettings;
-
-            }
-
-            if (Type == ProjectType.TrojanGo)
-            {
-                var result = await NavigationService.Navigate<TrojanGoEditorViewModel, Record, Record>(this);
-                if (result == null) return;
-
-                this.Host = result.Host;
-                this.TrojanGoSettings = result.TrojanGoSettings;
-            }
-            await RaisePropertyChanged("Host");
-        }
-
-        public async Task NavigateToInstaller()
-        {
-            if (Type == ProjectType.Xray)
-            {
-                await NavigationService.Navigate<XrayInstallerViewModel, Record>(this);
-            }
-            if (Type == ProjectType.TrojanGo)
-            {
-                await NavigationService.Navigate<TrojanGoInstallerViewModel, Record>(this);
-            }
-        }
-
-        public async Task NavigateToConfig()
-        {
-            if (Type == ProjectType.Xray)
-            {
-                await NavigationService.Navigate<XrayConfigViewModel, XraySettings>(this.XraySettings);
-            }
-            if (Type == ProjectType.TrojanGo)
-            {
-                await NavigationService.Navigate<TrojanGoConfigViewModel, TrojanGoSettings>(this.TrojanGoSettings);
-            }
-        }
     }
 }

@@ -74,6 +74,7 @@ namespace ProxySuper.WPF.Views
                 outShell += "\n";
             }
 
+            ViewModel.OutputText += outShell;
             Dispatcher.Invoke(() =>
             {
                 OutputTextBox.AppendText(outShell);
