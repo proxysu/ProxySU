@@ -1,5 +1,6 @@
 ﻿using MvvmCross.ViewModels;
 using ProxySuper.Core.Models.Projects;
+using ProxySuper.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,12 @@ namespace ProxySuper.Core.ViewModels
             Settings = parameter;
         }
 
-
+        public string Link
+        {
+            get
+            {
+                return ShareLink.BuildTrojanGo(Settings);
+            }
+        }
     }
 }

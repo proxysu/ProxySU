@@ -8,6 +8,7 @@ using Renci.SshNet;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -122,6 +123,13 @@ namespace ProxySuper.WPF.Views
             };
         }
 
+
+        private void OpenLink(object sender, RoutedEventArgs e)
+        {
+            Hyperlink link = sender as Hyperlink;
+            Process.Start(new ProcessStartInfo(link.NavigateUri.AbsoluteUri));
+        }
+
         private void Install(object sender, RoutedEventArgs e)
         {
             Task.Factory.StartNew(Project.Install);
@@ -130,7 +138,11 @@ namespace ProxySuper.WPF.Views
 
         private void Uninstall(object sender, RoutedEventArgs e)
         {
-            Task.Factory.StartNew(Project.Uninstall);
+            var result = MessageBox.Show("您确认要卸载代理吗？", "提示", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
+            {
+                Task.Factory.StartNew(Project.Uninstall);
+            }
         }
 
         private void InstallCert(object sender, RoutedEventArgs e)

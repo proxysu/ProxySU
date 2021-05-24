@@ -8,12 +8,21 @@ namespace ProxySuper.Core.Models.Projects
 {
     public class NaiveProxySettings : IProjectSettings
     {
+        public NaiveProxySettings()
+        {
+            Port = 443;
+        }
+
+        public List<int> FreePorts => new List<int>();
+
+        public ProjectType Type { get; set; } = ProjectType.NaiveProxy;
+
         public int Port { get; set; }
 
         public string Domain { get; set; }
 
-        public List<int> FreePorts => throw new NotImplementedException();
+        public string UserName { get; set; }
 
-        public ProjectType Type { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string Password { get; set; }
     }
 }

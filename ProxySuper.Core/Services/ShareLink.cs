@@ -13,12 +13,20 @@ namespace ProxySuper.Core.Services
     {
         public static string BuildTrojanGo(TrojanGoSettings settings)
         {
-            throw new NotImplementedException();
             StringBuilder strBuilder = new StringBuilder();
             strBuilder.Append("trojan-go://");
 
-            strBuilder.Append($"{settings.Password}@{settings.Domain}:{settings.Port}/?");
-            strBuilder.Append($"sni={settings.Domain}&");
+            strBuilder.Append($"{HttpUtility.UrlEncode(settings.Password)}@{settings.Domain}:{settings.Port}/?");
+            strBuilder.Append($"sni={HttpUtility.UrlEncode(settings.Domain)}&");
+            if (settings.EnableWebSocket)
+            {
+                strBuilder.Append($"type=ws&host={HttpUtility.UrlEncode(settings.Domain)}&path={HttpUtility.UrlEncode(settings.WebSocketPath)}&");
+            }
+            else
+            {
+                strBuilder.Append("type=original&");
+            }
+            strBuilder.Append($"#{HttpUtility.UrlEncode("trojan-go")}");
 
             return strBuilder.ToString();
         }

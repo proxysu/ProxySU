@@ -7,9 +7,11 @@ using ProxySuper.Core.ViewModels;
 using Renci.SshNet;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Automation.Peers;
+using System.Windows.Documents;
 using System.Windows.Threading;
 
 namespace ProxySuper.WPF.Views
@@ -113,6 +115,12 @@ namespace ProxySuper.WPF.Views
                     authenticationMethods: auth);
             }
 
+        }
+
+        private void OpenLink(object sender, RoutedEventArgs e)
+        {
+            Hyperlink link = sender as Hyperlink;
+            Process.Start(new ProcessStartInfo(link.NavigateUri.AbsoluteUri));
         }
 
         private void Install(object sender, RoutedEventArgs e)

@@ -8,7 +8,8 @@
     <sys:String x:Key="SaveAs">SaveAs</sys:String>
     <sys:String x:Key="Install">Install</sys:String>
     <sys:String x:Key="Settings">Settings</sys:String>
-
+    <sys:String x:Key="ReadmeWebsiteDemo">The following is a static web page connection provided by netizens, please check whether there is an index.html file by yourself</sys:String>
+    
     <!--Main Menu-->
     <sys:String x:Key="MainMenuAddHost">Add Host</sys:String>
     <sys:String x:Key="MainMenuActions">Actions</sys:String>

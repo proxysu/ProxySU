@@ -32,7 +32,7 @@ namespace ProxySuper.Core.Services
             {
                 settings["websocket"]["enabled"] = true;
                 settings["websocket"]["path"] = parameters.WebSocketPath;
-                settings["websocket"]["host"] = parameters.WebSocketDomain;
+                settings["websocket"]["host"] = parameters.Domain;
             }
 
             return JsonConvert.SerializeObject(settings, Formatting.Indented, new JsonSerializerSettings()

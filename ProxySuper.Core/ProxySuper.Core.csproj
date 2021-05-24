@@ -83,6 +83,7 @@
     <Compile Include="Models\Record.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\Utils.cs" />
+    <Compile Include="Services\NaiveProxyProject.cs" />
     <Compile Include="Services\ProjectBase.cs" />
     <Compile Include="Services\ShareLink.cs" />
     <Compile Include="Services\TrojanGoConfigBuilder.cs" />

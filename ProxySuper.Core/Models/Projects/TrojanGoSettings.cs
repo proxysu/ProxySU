@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using ProxySuper.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace ProxySuper.Core.Models.Projects
         public TrojanGoSettings()
         {
             Port = 443;
+            WebSocketPath = "/ws";
         }
 
         public List<int> FreePorts
@@ -52,7 +54,7 @@ namespace ProxySuper.Core.Models.Projects
         {
             get
             {
-                return !string.IsNullOrEmpty(WebSocketPath) && !string.IsNullOrEmpty(WebSocketDomain);
+                return !string.IsNullOrEmpty(WebSocketPath);
             }
         }
 
@@ -61,9 +63,5 @@ namespace ProxySuper.Core.Models.Projects
         /// </summary>
         public string WebSocketPath { get; set; }
 
-        /// <summary>
-        /// websocket域名
-        /// </summary>
-        public string WebSocketDomain { get; set; }
     }
 }

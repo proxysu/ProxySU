@@ -50,6 +50,7 @@ namespace ProxySuper.Core.Services
         {
             RunCmd("systemctl stop trojan-go");
             RunCmd("systemctl stop caddy");
+            base.UninstallCaddy();
 
             RunCmd("rm -rf /usr/local/bin/trojan-go");
             RunCmd("rm -rf /usr/local/etc/trojan-go");
@@ -110,12 +111,13 @@ namespace ProxySuper.Core.Services
 
                 WriteOutput("安装Caddy...");
                 InstallCaddy();
+                UploadCaddyFile();
                 WriteOutput("Caddy安装完成");
 
                 WriteOutput("启动BBR");
                 EnableBBR();
 
-                UploadCaddyFile();
+                RunCmd("systemctl restart trojan-go");
                 WriteOutput("************");
                 WriteOutput("安装完成，尽情享用吧......");
                 WriteOutput("************");
@@ -138,9 +140,9 @@ namespace ProxySuper.Core.Services
                 throw new Exception("trojan-go 安装失败，请联系开发者！");
             }
 
-            RunCmd($"sed -i 's/User=nobody/User=root/g' /etc/systemd/system/xray.service");
-            RunCmd($"sed -i 's/CapabilityBoundingSet=/#CapabilityBoundingSet=/g' /etc/systemd/system/xray.service");
-            RunCmd($"sed -i 's/AmbientCapabilities=/#AmbientCapabilities=/g' /etc/systemd/system/xray.service");
+            RunCmd($"sed -i 's/User=nobody/User=root/g' /etc/systemd/system/trojan-go.service");
+            RunCmd($"sed -i 's/CapabilityBoundingSet=/#CapabilityBoundingSet=/g' /etc/systemd/system/trojan-go.service");
+            RunCmd($"sed -i 's/AmbientCapabilities=/#AmbientCapabilities=/g' /etc/systemd/system/trojan-go.service");
             RunCmd($"systemctl daemon-reload");
 
             RunCmd("systemctl enable trojan-go");

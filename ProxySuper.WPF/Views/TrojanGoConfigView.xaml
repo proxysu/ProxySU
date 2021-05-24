@@ -19,6 +19,8 @@
             <RowDefinition Height="36" />
             <RowDefinition Height="36" />
             <RowDefinition Height="36" />
+            <RowDefinition Height="36" />
+            <RowDefinition Height="36" />
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Content="主机(Host)" />
@@ -32,5 +34,11 @@
 
         <Label Grid.Row="3" Grid.Column="0" Content="SNI" />
         <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Settings.Domain}" IsReadOnly="True" />
+
+        <Label Grid.Row="4" Grid.Column="0" Content="WebSocket(Path)" />
+        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Settings.WebSocketPath}" IsReadOnly="True" />
+
+        <Label Grid.Row="5" Grid.Column="0" Content="链接(ShareLink)" />
+        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Link, Mode=OneTime}" IsReadOnly="True" />
     </Grid>
 </views:MvxWindow>
