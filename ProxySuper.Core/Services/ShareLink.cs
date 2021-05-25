@@ -11,6 +11,17 @@ namespace ProxySuper.Core.Services
 {
     public class ShareLink
     {
+        public static string BuildNaiveProxy(NaiveProxySettings settings)
+        {
+            StringBuilder strBuilder = new StringBuilder();
+            strBuilder.Append("naive+https://");
+            strBuilder.Append($"{settings.UserName}:{settings.Password}");
+            strBuilder.Append($"@{settings.Domain}:{settings.Port}");
+            strBuilder.Append("?padding=true#naive_proxy");
+
+            return strBuilder.ToString();
+        }
+
         public static string BuildTrojanGo(TrojanGoSettings settings)
         {
             StringBuilder strBuilder = new StringBuilder();

@@ -14,11 +14,12 @@
     <sys:String x:Key="MainMenuAddHost">添加主机</sys:String>
     <sys:String x:Key="MainMenuActions">操作</sys:String>
     <sys:String x:Key="MainMenuActionsExportSettings">导出配置</sys:String>
-    <sys:String x:Key="MainMenuActionsExportSubscribe">导出配置</sys:String>
+    <sys:String x:Key="MainMenuActionsExportSubscribe">导出订阅</sys:String>
 
     <sys:String x:Key="MainMenuLanguage">语言(Language)</sys:String>
     <sys:String x:Key="MainMenuLanguageEn">English</sys:String>
     <sys:String x:Key="MainMenuLanguageCn">中文</sys:String>
+    <sys:String x:Key="MainMenuLanguageTw">正體</sys:String>
     <sys:String x:Key="MainMenuHelper">帮助</sys:String>
     <sys:String x:Key="MainMenuHelperGithub">Github</sys:String>
 
@@ -32,6 +33,7 @@
     <sys:String x:Key="MainDataGridColumnActionEdit">编辑</sys:String>
     <sys:String x:Key="MainDataGridColumnActionViewConfig">查看配置</sys:String>
     <sys:String x:Key="MainDataGridColumnActionDelete">删除</sys:String>
+
 
 
     <!--Editor Window-->
@@ -101,4 +103,11 @@
     <sys:String x:Key="TrojanGoMaskDomain">伪装网址</sys:String>
     <sys:String x:Key="TrojanGoWebSocketPath">WS 路径</sys:String>
     <sys:String x:Key="TrojanGoWebSocketDomain">WS 域名</sys:String>
+
+    <!--Naive Proxy-->
+    <sys:String x:Key="NaiveProxyDomain">地址</sys:String>
+    <sys:String x:Key="NaiveProxyPort">端口</sys:String>
+    <sys:String x:Key="NaiveProxyUserName">用户名</sys:String>
+    <sys:String x:Key="NaiveProxyPassword">密码</sys:String>
+    <sys:String x:Key="NaiveProxyMaskDomain">伪装网站</sys:String>
 </ResourceDictionary>

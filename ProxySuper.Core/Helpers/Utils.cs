@@ -28,5 +28,10 @@ namespace ProxySuper.Core.Services
             var serialized = JsonConvert.SerializeObject(obj);
             return JsonConvert.DeserializeObject<T>(serialized);
         }
+
+        public static string GetTickID()
+        {
+            return DateTime.Now.Ticks.ToString();
+        }
     }
 }

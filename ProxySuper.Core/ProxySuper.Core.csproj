@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ProxySuper.Core</RootNamespace>
     <AssemblyName>ProxySuper.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -91,6 +92,10 @@
     <Compile Include="Services\XrayConfigBuilder.cs" />
     <Compile Include="Services\XrayProject.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
+    <Compile Include="ViewModels\NaiveProxyConfigViewModel.cs" />
+    <Compile Include="ViewModels\NaiveProxyEditorViewModel.cs" />
+    <Compile Include="ViewModels\NaiveProxyInstallerViewModel.cs" />
+    <Compile Include="ViewModels\ShareLinkViewModel.cs" />
     <Compile Include="ViewModels\TrojanGoConfigViewModel.cs" />
     <Compile Include="ViewModels\TrojanGoEditorViewModel.cs" />
     <Compile Include="ViewModels\TrojanGoInstallerViewModel.cs" />

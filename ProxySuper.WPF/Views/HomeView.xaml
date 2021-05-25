@@ -17,16 +17,16 @@
             <MenuItem Header="{DynamicResource MainMenuAddHost}" Padding="10,3">
                 <MenuItem Padding="0,5" Header="Xray" Command="{Binding AddXrayCommand}"></MenuItem>
                 <MenuItem Padding="0,5" Header="Trojan-Go" Command="{Binding AddTrojanGoCommand}"></MenuItem>
-                <MenuItem Padding="0,5" Header="NaiveProxy"></MenuItem>
+                <MenuItem Padding="0,5" Header="NaiveProxy" Command="{Binding AddNaiveProxyCommand}"></MenuItem>
             </MenuItem>
 
-            <!--<MenuItem Header="{DynamicResource MainMenuActions}" Padding="10,3">
-                <MenuItem Padding="0,5" Header="{DynamicResource MainMenuActionsExportSettings}"></MenuItem>
-                <MenuItem Padding="0,5" Header="{DynamicResource MainMenuActionsExportSubscribe}"></MenuItem>
-            </MenuItem>-->
+            <MenuItem Header="{DynamicResource MainMenuActions}" Padding="10,3">
+                <MenuItem Padding="0,5" Header="{DynamicResource MainMenuActionsExportSettings}" Click="ShowShareLinks"></MenuItem>
+            </MenuItem>
 
             <MenuItem Header="{DynamicResource MainMenuLanguage}" Padding="10,3">
                 <MenuItem Padding="0,5" Header="{DynamicResource MainMenuLanguageEn}" Click="SetEnglish"></MenuItem>
+                <MenuItem Padding="0,5" Header="{DynamicResource MainMenuLanguageTw}" Click="SetTwCN"></MenuItem>
                 <MenuItem Padding="0,5" Header="{DynamicResource MainMenuLanguageCn}" Click="SetSimpleChinese"></MenuItem>
             </MenuItem>
 
@@ -48,7 +48,10 @@
                     <DataGridTemplateColumn Width="40">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox ></CheckBox>
+                                <CheckBox IsChecked="{Binding IsChecked,
+                                    Mode=TwoWay,
+                                    UpdateSourceTrigger=PropertyChanged
+                                }" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

@@ -19,6 +19,7 @@
     <sys:String x:Key="MainMenuLanguage">Language</sys:String>
     <sys:String x:Key="MainMenuLanguageEn">English</sys:String>
     <sys:String x:Key="MainMenuLanguageCn">中文</sys:String>
+    <sys:String x:Key="MainMenuLanguageTw">正體</sys:String>
 
     <sys:String x:Key="MainMenuHelper">Helper</sys:String>
     <sys:String x:Key="MainMenuHelperGithub">Github</sys:String>
@@ -101,4 +102,11 @@
     <sys:String x:Key="TrojanGoMaskDomain">GuiseHost</sys:String>
     <sys:String x:Key="TrojanGoWebSocketPath">WS Path</sys:String>
     <sys:String x:Key="TrojanGoWebSocketDomain">WS Domain</sys:String>
+    
+    <!--Naive Proxy-->
+    <sys:String x:Key="NaiveProxyDomain">Address</sys:String>
+    <sys:String x:Key="NaiveProxyPort">Port</sys:String>
+    <sys:String x:Key="NaiveProxyUserName">UserName</sys:String>
+    <sys:String x:Key="NaiveProxyPassword">Password</sys:String>
+    <sys:String x:Key="NaiveProxyMaskDomain">GuiseHost</sys:String>
 </ResourceDictionary>

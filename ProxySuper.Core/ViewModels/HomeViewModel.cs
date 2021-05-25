@@ -6,6 +6,7 @@ using Newtonsoft.Json.Serialization;
 using ProxySuper.Core.Models;
 using ProxySuper.Core.Models.Hosts;
 using ProxySuper.Core.Models.Projects;
+using ProxySuper.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,8 +27,6 @@ namespace ProxySuper.Core.ViewModels
             _navigationService = navigationService;
             ReadRecords();
         }
-
-
 
         public void ReadRecords()
         {
@@ -65,6 +64,8 @@ namespace ProxySuper.Core.ViewModels
 
         public IMvxCommand AddTrojanGoCommand => new MvxAsyncCommand(AddTrojanGoRecord);
 
+        public IMvxCommand AddNaiveProxyCommand => new MvxAsyncCommand(AddNaiveProxyRecord);
+
         public IMvxCommand RemoveCommand => new MvxAsyncCommand<string>(DeleteRecord);
 
         public IMvxCommand EditCommand => new MvxAsyncCommand<string>(EditRecord);
@@ -76,7 +77,7 @@ namespace ProxySuper.Core.ViewModels
         public async Task AddXrayRecord()
         {
             Record record = new Record();
-            record.Id = Guid.NewGuid().ToString();
+            record.Id = Utils.GetTickID();
             record.Host = new Host();
             record.XraySettings = new XraySettings();
 
@@ -90,7 +91,7 @@ namespace ProxySuper.Core.ViewModels
         public async Task AddTrojanGoRecord()
         {
             Record record = new Record();
-            record.Id = Guid.NewGuid().ToString();
+            record.Id = Utils.GetTickID();
             record.Host = new Host();
             record.TrojanGoSettings = new TrojanGoSettings();
 
@@ -101,6 +102,22 @@ namespace ProxySuper.Core.ViewModels
 
             SaveToJson();
         }
+
+        public async Task AddNaiveProxyRecord()
+        {
+            Record record = new Record();
+            record.Id = Utils.GetTickID();
+            record.Host = new Host();
+            record.NaiveProxySettings = new NaiveProxySettings();
+
+            var result = await _navigationService.Navigate<NaiveProxyEditorViewModel, Record, Record>(record);
+            if (result == null) return;
+
+            Records.Add(result);
+
+            SaveToJson();
+        }
+
 
         public async Task EditRecord(string id)
         {
@@ -124,7 +141,14 @@ namespace ProxySuper.Core.ViewModels
                 record.Host = result.Host;
                 record.TrojanGoSettings = result.TrojanGoSettings;
             }
-            if (result == null) return;
+            if (record.Type == ProjectType.NaiveProxy)
+            {
+                result = await _navigationService.Navigate<NaiveProxyEditorViewModel, Record, Record>(record);
+                if (result == null) return;
+
+                record.Host = result.Host;
+                record.NaiveProxySettings = result.NaiveProxySettings;
+            }
 
             SaveToJson();
         }
@@ -157,6 +181,10 @@ namespace ProxySuper.Core.ViewModels
             {
                 await _navigationService.Navigate<TrojanGoConfigViewModel, TrojanGoSettings>(record.TrojanGoSettings);
             }
+            if (record.Type == ProjectType.NaiveProxy)
+            {
+                await _navigationService.Navigate<NaiveProxyConfigViewModel, NaiveProxySettings>(record.NaiveProxySettings);
+            }
         }
 
         public async Task GoToInstall(string id)
@@ -171,6 +199,10 @@ namespace ProxySuper.Core.ViewModels
             if (record.Type == ProjectType.TrojanGo)
             {
                 await _navigationService.Navigate<TrojanGoInstallerViewModel, Record>(record);
+            }
+            if (record.Type == ProjectType.NaiveProxy)
+            {
+                await _navigationService.Navigate<NaiveProxyInstallerViewModel, Record>(record);
             }
         }
     }
