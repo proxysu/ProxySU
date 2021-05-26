@@ -646,12 +646,12 @@ namespace ProxySuper.Core.Services
             // 申请证书 
             if (OnlyIpv6)
             {
-                var cmd = $"/root/.acme.sh/acme.sh --force --debug --issue  --standalone  -d {Parameters.Domain} --listen-v6";
+                var cmd = $"/root/.acme.sh/acme.sh --force --debug --issue  --standalone  -d {Parameters.Domain} --listen-v6 --pre-hook \"service caddy stop\"  --post-hook  \"service caddy start\"";
                 result = RunCmd(cmd);
             }
             else
             {
-                var cmd = $"/root/.acme.sh/acme.sh --force --debug --issue  --standalone  -d {Parameters.Domain}";
+                var cmd = $"/root/.acme.sh/acme.sh --force --debug --issue  --standalone  -d {Parameters.Domain} --pre-hook \"service caddy stop\"  --post-hook  \"service caddy start\"";
                 result = RunCmd(cmd);
             }
 

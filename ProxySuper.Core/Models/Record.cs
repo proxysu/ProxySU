@@ -1,4 +1,5 @@
-﻿using MvvmCross;
+﻿using Microsoft.Win32;
+using MvvmCross;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
@@ -10,6 +11,7 @@ using ProxySuper.Core.Services;
 using ProxySuper.Core.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -79,7 +81,6 @@ namespace ProxySuper.Core.Models
             }
         }
 
-
         public string GetShareLink()
         {
             if (Type == ProjectType.Xray)
@@ -105,5 +106,6 @@ namespace ProxySuper.Core.Models
 
             return string.Empty;
         }
+
     }
 }

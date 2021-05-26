@@ -40,6 +40,8 @@
                       Name="DataGrid"
                       ItemsSource="{Binding Records}" 
                       VerticalContentAlignment="Bottom"
+                      VerticalScrollBarVisibility="Auto"
+                      MaxHeight="450"
                       IsReadOnly="True" 
                       SelectionUnit="Cell"
                       BorderBrush="#eee" 
@@ -70,7 +72,7 @@
                     </DataGridTextColumn>
 
                     <DataGridTextColumn Binding="{Binding Type}"
-                                        Width="200">
+                                        Width="120">
                         <DataGridTextColumn.Header>
                             <TextBlock Text="{DynamicResource MainDataGridColumnType}" />
                         </DataGridTextColumn.Header>

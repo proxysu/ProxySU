@@ -1,8 +1,12 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using MvvmCross.Commands;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ProxySuper.Core.Models.Hosts
 {
@@ -30,5 +34,25 @@ namespace ProxySuper.Core.Models.Hosts
         public LocalProxy Proxy { get; set; }
 
         public LoginSecretType SecretType { get; set; }
+
+        public IMvxCommand UploadPrivateKeyCommand => new MvxCommand(UploadPrivateKey);
+
+        private void UploadPrivateKey()
+        {
+            var fileDialog = new OpenFileDialog();
+            fileDialog.FileOk += OnFileOk;
+            fileDialog.ShowDialog();
+        }
+
+        private void OnFileOk(object sender, CancelEventArgs e)
+        {
+            var file = sender as OpenFileDialog;
+            PrivateKeyPath = file.FileName;
+
+            Task.Delay(300).ContinueWith((t) =>
+            {
+                MessageBox.Show("上传成功", "提示");
+            });
+        }
     }
 }
