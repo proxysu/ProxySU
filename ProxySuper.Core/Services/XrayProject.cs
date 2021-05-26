@@ -78,13 +78,13 @@ namespace ProxySuper.Core.Services
                 ValidateDomain();
                 WriteOutput("域名检测完成");
 
-                WriteOutput("安装Xray-Core...");
-                InstallXrayWithCert();
-                WriteOutput("Xray-Core安装完成");
-
                 WriteOutput("安装Caddy...");
                 InstallCaddy();
                 WriteOutput("Caddy安装完成");
+
+                WriteOutput("安装Xray-Core...");
+                InstallXrayWithCert();
+                WriteOutput("Xray-Core安装完成");
 
                 WriteOutput("启动BBR");
                 EnableBBR();

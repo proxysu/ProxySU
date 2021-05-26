@@ -22,6 +22,7 @@
                  BorderThickness="0"
                  VerticalAlignment="Top"
                  VerticalContentAlignment="Top"
+                 TextWrapping="WrapWithOverflow"
                  Text="{Binding Path=OutputText}"
         />
 

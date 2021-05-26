@@ -105,14 +105,15 @@ namespace ProxySuper.Core.Services
                 ValidateDomain();
                 WriteOutput("域名检测完成");
 
-                WriteOutput("安装Trojan-Go...");
-                InstallTrojanGo();
-                WriteOutput("Trojan-Go安装完成");
-
                 WriteOutput("安装Caddy...");
                 InstallCaddy();
                 UploadCaddyFile();
                 WriteOutput("Caddy安装完成");
+
+                WriteOutput("安装Trojan-Go...");
+                InstallTrojanGo();
+                WriteOutput("Trojan-Go安装完成");
+
 
                 WriteOutput("启动BBR");
                 EnableBBR();
