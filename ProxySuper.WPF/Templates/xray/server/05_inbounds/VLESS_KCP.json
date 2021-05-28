@@ -1,0 +1,24 @@
+{
+  "port": 3456,
+  "protocol": "vless",
+  "settings": {
+    "clients": [
+      {
+        "id": ""
+      }
+    ],
+    "decryption": "none"
+  },
+  "streamSettings": {
+    "network": "mkcp",
+    "kcpSettings": {
+      "uplinkCapacity": 100,
+      "downlinkCapacity": 100,
+      "congestion": true,
+      "header": {
+        "type": "none"
+      },
+      "seed": null
+    }
+  }
+}

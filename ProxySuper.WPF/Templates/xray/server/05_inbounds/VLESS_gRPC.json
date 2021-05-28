@@ -1,0 +1,25 @@
+{
+  "port": 2002,
+  "listen": "127.0.0.1",
+  "protocol": "vless",
+  "settings": {
+    "clients": [
+      {
+        "id": ""
+      }
+    ],
+    "decryption": "none"
+  },
+  "streamSettings": {
+    "network": "grpc",
+    "grpcSettings": {
+      "serviceName": "",
+      "certificates": [
+        {
+          "certificateFile": "/usr/local/etc/xray/ssl/xray_ssl.crt",
+          "keyFile": "/usr/local/etc/xray/ssl/xray_ssl.key"
+        }
+      ]
+    }
+  }
+}
