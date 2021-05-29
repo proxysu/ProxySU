@@ -22,6 +22,9 @@
     <sys:String x:Key="MainMenuLanguageTw">正體</sys:String>
     <sys:String x:Key="MainMenuHelper">幫助</sys:String>
     <sys:String x:Key="MainMenuHelperGithub">Github</sys:String>
+    <sys:String x:Key="MainMenuHelperUseRoot">啓用Root賬戶</sys:String>
+    <sys:String x:Key="MainMenuHelperCertQuestion">證書問題</sys:String>
+    <sys:String x:Key="MainMenuHelperPrivateKey">私鑰問題</sys:String>
 
 
     <!--Main DataGrid-->

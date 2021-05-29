@@ -32,6 +32,9 @@
 
             <MenuItem Header="{DynamicResource MainMenuHelper}" Padding="10,3">
                 <MenuItem Padding="0,5" Header="{DynamicResource MainMenuHelperGithub}" Click="LaunchGitHubSite"></MenuItem>
+                <MenuItem Padding="0,5" Header="{DynamicResource MainMenuHelperUseRoot}" Click="LaunchUseRootSite"></MenuItem>
+                <MenuItem Padding="0,5" Header="{DynamicResource MainMenuHelperCertQuestion}" Click="LaunchCertQuestion"></MenuItem>
+                <MenuItem Padding="0,5" Header="{DynamicResource MainMenuHelperPrivateKey}" Click="LaunchPrivateKeyQuestion"></MenuItem>
             </MenuItem>
         </Menu>
 

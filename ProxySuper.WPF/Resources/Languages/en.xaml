@@ -23,6 +23,9 @@
 
     <sys:String x:Key="MainMenuHelper">Helper</sys:String>
     <sys:String x:Key="MainMenuHelperGithub">Github</sys:String>
+    <sys:String x:Key="MainMenuHelperUseRoot">UseRoot</sys:String>
+    <sys:String x:Key="MainMenuHelperCertQuestion">CertQuestion</sys:String>
+    <sys:String x:Key="MainMenuHelperPrivateKey">PrivateKey</sys:String>
 
     <!--Main DataGrid-->
     <sys:String x:Key="MainDataGridColumnTag">Tag</sys:String>
