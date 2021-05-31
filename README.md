@@ -6,6 +6,7 @@ BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）,支持语�
 
 编译环境Visual Studio 2017  使用WPF界面。可一键安装V2ray、Xray,Trojan、NaiveProxy，Trojan-Go,ShadowsocksR(SSR),Shadowsocks-libev and Plugins、MTProto+TLS 后续还会再添加其他。  
 
+![photo_2021-05-31_17-23-29](https://user-images.githubusercontent.com/73510229/120171754-f46ffd00-c234-11eb-8105-4e6a941a65bb.jpg)
 
 
 #### 免责声明：ProxySU属于自用分享工具，请勿用于违背良知与道德之事，否则后果自负。  
