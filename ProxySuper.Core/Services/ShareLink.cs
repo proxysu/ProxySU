@@ -28,10 +28,9 @@ namespace ProxySuper.Core.Services
             strBuilder.Append("trojan-go://");
 
             strBuilder.Append($"{HttpUtility.UrlEncode(settings.Password)}@{settings.Domain}:{settings.Port}/?");
-            strBuilder.Append($"sni={HttpUtility.UrlEncode(settings.Domain)}&");
             if (settings.EnableWebSocket)
             {
-                strBuilder.Append($"type=ws&host={HttpUtility.UrlEncode(settings.Domain)}&path={HttpUtility.UrlEncode(settings.WebSocketPath)}&");
+                strBuilder.Append($"type=ws&path={HttpUtility.UrlEncode(settings.WebSocketPath)}&");
             }
             else
             {
@@ -87,7 +86,7 @@ namespace ProxySuper.Core.Services
                 aid = "0",
                 net = "",
                 type = "none",
-                host = settings.Domain,
+                host = "",
                 path = "",
                 tls = "tls",
                 ps = "",
