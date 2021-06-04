@@ -1,0 +1,158 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <sys:Double x:Key="DataGridRow.Height">33</sys:Double>
+
+    <!--  表格外边框线粗细，一般不修改  -->
+    <Thickness x:Key="DataGrid.BorderThickness" Bottom="1" Left="1" Right="1" Top="1" />
+    <!--  列头边框粗细，一般不修改  -->
+    <Thickness x:Key="ColumnHeader.BorderThickness" Bottom="0" Left="0" Right="1" Top="0" />
+    <!--  行边框粗细，一般不修改  -->
+    <Thickness x:Key="DataGridRow.BorderThickness" Bottom="0" Left="0" Right="0" Top="1" />
+
+    <!--  表格外边框颜色  -->
+    <SolidColorBrush x:Key="DataGrid.BorderBrush" Color="#E9ECF1" />
+    <!--  列头背景色  -->
+    <SolidColorBrush x:Key="ColumnHeader.Background" Color="#F6F7FB" />
+    <!--  列头边框颜色  -->
+    <SolidColorBrush x:Key="ColumnHeader.BorderBrush" Color="#E9ECF1" />
+    <!--  行边框颜色  -->
+    <SolidColorBrush x:Key="DataGridRow.BorderBrush" Color="#E9ECF1" />
+    <!--  行默认背景颜色  -->
+    <SolidColorBrush x:Key="DataGridRow.Normal.Background" Color="#FFFFFF" />
+    <!--  行默认文字颜色  -->
+    <SolidColorBrush x:Key="DataGridRow.Normal.Foreground" Color="#000000" />
+    <!--  行悬浮背景颜色  -->
+    <SolidColorBrush x:Key="DataGridRow.MouseOver.Background" Color="#F6F7FB" />
+    <!--  行悬浮文字颜色  -->
+    <SolidColorBrush x:Key="DataGridRow.MouseOver.Foreground" Color="#000000" />
+    <!--  行选中背景颜色  -->
+    <SolidColorBrush x:Key="DataGridRow.Selected.Background" Color="#F6F7FB" />
+    <!--  行选中文字颜色  -->
+    <SolidColorBrush x:Key="DataGridRow.Selected.Foreground" Color="#000000" />
+
+    <Style TargetType="DataGrid">
+        <!--  网格线颜色  -->
+        <Setter Property="RowHeaderWidth" Value="0" />
+        <Setter Property="BorderThickness" Value="{StaticResource DataGrid.BorderThickness}" />
+        <Setter Property="HeadersVisibility" Value="Column" />
+        <Setter Property="Background" Value="{StaticResource ColumnHeader.Background}" />
+        <Setter Property="BorderBrush" Value="{StaticResource DataGrid.BorderBrush}" />
+        <Setter Property="HorizontalGridLinesBrush" Value="#00E9ECF1" />
+        <Setter Property="VerticalGridLinesBrush" Value="#00E9ECF1" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="AutoGenerateColumns" Value="False" />
+        <Setter Property="CanUserAddRows" Value="False" />
+        <Setter Property="CanUserReorderColumns" Value="False" />
+        <Setter Property="CanUserResizeColumns" Value="False" />
+        <Setter Property="CanUserResizeRows" Value="False" />
+        <Setter Property="CanUserSortColumns" Value="False" />
+        <Setter Property="GridLinesVisibility" Value="None" />
+        <Setter Property="IsReadOnly" Value="True" />
+        <Setter Property="RowHeight" Value="{StaticResource DataGridRow.Height}" />
+        <Setter Property="SelectionMode" Value="Single" />
+    </Style>
+    <!--列头样式-->
+    <Style TargetType="DataGridColumnHeader">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Foreground" Value="#000000" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Height" Value="28" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DataGridColumnHeader">
+                    <Border x:Name="BackgroundBorder" Width="Auto" Margin="-1,0"
+                            BorderBrush="{StaticResource ColumnHeader.BorderBrush}"
+                            BorderThickness="{StaticResource ColumnHeader.BorderThickness}"
+                            SnapsToDevicePixels="True" UseLayoutRounding="True">
+                        <ContentPresenter Margin="5,0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--  行样式触发  背景色改变必须先设置cellStyle 因为cellStyle会覆盖rowStyle样式  -->
+    <Style TargetType="{x:Type DataGridRow}">
+        <Setter Property="Background" Value="{StaticResource DataGridRow.Normal.Background}" />
+        <Setter Property="Foreground" Value="{StaticResource DataGridRow.MouseOver.Foreground}" />
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="{StaticResource DataGridRow.BorderThickness}" />
+        <Setter Property="BorderBrush" Value="{StaticResource DataGridRow.BorderBrush}" />
+        <Setter Property="ValidationErrorTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <TextBlock Margin="0,0,0,0" VerticalAlignment="Center" Foreground="Red" Text="!" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DataGridRow}">
+                    <Border x:Name="DGR_Border" Margin="0,0,0,-1"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            SnapsToDevicePixels="True" UseLayoutRounding="True">
+                        <SelectiveScrollingGrid>
+                            <SelectiveScrollingGrid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </SelectiveScrollingGrid.ColumnDefinitions>
+                            <SelectiveScrollingGrid.RowDefinitions>
+                                <RowDefinition Height="*" MinHeight="{StaticResource DataGridRow.Height}" />
+                                <RowDefinition Height="Auto" />
+                            </SelectiveScrollingGrid.RowDefinitions>
+                            <DataGridCellsPresenter Grid.Column="1"
+                                                    ItemsPanel="{TemplateBinding ItemsPanel}"
+                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            <DataGridDetailsPresenter Grid.Row="1" Grid.Column="1"
+                                                      SelectiveScrollingGrid.SelectiveScrollingOrientation="{Binding AreRowDetailsFrozen,
+                                                                                                                     ConverterParameter={x:Static SelectiveScrollingOrientation.Vertical},
+                                                                                                                     Converter={x:Static DataGrid.RowDetailsScrollingConverter},
+                                                                                                                     RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                      Visibility="{TemplateBinding DetailsVisibility}" />
+                            <DataGridRowHeader Grid.RowSpan="2" SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
+                                               Visibility="{Binding HeadersVisibility,
+                                                                    ConverterParameter={x:Static DataGridHeadersVisibility.Row},
+                                                                    Converter={x:Static DataGrid.HeadersVisibilityConverter},
+                                                                    RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                        </SelectiveScrollingGrid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource DataGridRow.MouseOver.Foreground}" />
+                            <Setter Property="Background" Value="{StaticResource DataGridRow.MouseOver.Background}" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource DataGridRow.Selected.Foreground}" />
+                            <Setter Property="Background" Value="{StaticResource DataGridRow.Selected.Background}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--  单元格样式触发  -->
+    <Style TargetType="DataGridCell">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DataGridCell">
+                    <Border x:Name="Bg" Background="Transparent" UseLayoutRounding="True">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Foreground" Value="#000000" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

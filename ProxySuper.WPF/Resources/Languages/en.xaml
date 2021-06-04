@@ -1,0 +1,115 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    
+    <!--common-->
+    <sys:String x:Key="Random">Random</sys:String>
+    <sys:String x:Key="Save">Save</sys:String>
+    <sys:String x:Key="SaveAs">SaveAs</sys:String>
+    <sys:String x:Key="Install">Install</sys:String>
+    <sys:String x:Key="Settings">Settings</sys:String>
+    <sys:String x:Key="ReadmeWebsiteDemo">The following is a static web page connection provided by netizens, please check whether there is an index.html file by yourself</sys:String>
+    
+    <!--Main Menu-->
+    <sys:String x:Key="MainMenuAddHost">Add Host</sys:String>
+    <sys:String x:Key="MainMenuActions">Actions</sys:String>
+    <sys:String x:Key="MainMenuActionsExportSettings">Export Settings</sys:String>
+    <sys:String x:Key="MainMenuActionsExportSubscribe">Export Subscribe</sys:String>
+
+    <sys:String x:Key="MainMenuLanguage">Language</sys:String>
+    <sys:String x:Key="MainMenuLanguageEn">English</sys:String>
+    <sys:String x:Key="MainMenuLanguageCn">中文</sys:String>
+    <sys:String x:Key="MainMenuLanguageTw">正體</sys:String>
+
+    <sys:String x:Key="MainMenuHelper">Helper</sys:String>
+    <sys:String x:Key="MainMenuHelperGithub">Github</sys:String>
+    <sys:String x:Key="MainMenuHelperUseRoot">UseRoot</sys:String>
+    <sys:String x:Key="MainMenuHelperCertQuestion">CertQuestion</sys:String>
+    <sys:String x:Key="MainMenuHelperPrivateKey">PrivateKey</sys:String>
+
+    <!--Main DataGrid-->
+    <sys:String x:Key="MainDataGridColumnTag">Tag</sys:String>
+    <sys:String x:Key="MainDataGridColumnAddress">Address</sys:String>
+    <sys:String x:Key="MainDataGridColumnType">Type</sys:String>
+    <sys:String x:Key="MainDataGridColumnAction">Action</sys:String>
+    <sys:String x:Key="MainDataGridColumnActionInstall">Install</sys:String>
+    <sys:String x:Key="MainDataGridColumnActionEdit">Edit</sys:String>
+    <sys:String x:Key="MainDataGridColumnActionViewConfig">ViewConfig</sys:String>
+    <sys:String x:Key="MainDataGridColumnActionDelete">Delete</sys:String>
+
+
+    <!--Editor Window-->
+    <sys:String x:Key="HostGroupName">Host</sys:String>
+    <sys:String x:Key="HostTag">Tag</sys:String>
+    <sys:String x:Key="HostAddress">Address</sys:String>
+    <sys:String x:Key="HostUserName">UserName</sys:String>
+    <sys:String x:Key="HostPassword">Password</sys:String>
+    <sys:String x:Key="HostPort">Port</sys:String>
+    <sys:String x:Key="HostSecretType">SecretType</sys:String>
+    <sys:String x:Key="HostUploadSecretKey">UploadKey</sys:String>
+    <sys:String  x:Key="HostSertTypePassword">Password</sys:String>
+    <sys:String  x:Key="HostSertTypePrivateKey">PrivateKey</sys:String>
+
+
+    <sys:String x:Key="ProxyGroupName">Proxy</sys:String>
+    <sys:String x:Key="ProxyAddress">Address</sys:String>
+    <sys:String x:Key="ProxyPort">Port</sys:String>
+    <sys:String x:Key="ProxyUserName">UserName</sys:String>
+    <sys:String x:Key="ProxyPassword">Password</sys:String>
+    <sys:String x:Key="ProxyType">Type</sys:String>
+    <sys:String x:Key="ProxyTypeNone">None</sys:String>
+    <sys:String x:Key="ProxyTypeHttp">Http</sys:String>
+    <sys:String x:Key="ProxyTypeSocks5">Socks5</sys:String>
+
+    
+    <!--Xray-->
+    <sys:String x:Key="VlessXtlsDesc" xml:space="preserve">VLESS over TCP With XTLS&#x0a;Preferred</sys:String>
+    <sys:String x:Key="VlessTcpDesc" xml:space="preserve">VLESS over TCP with TLS&#x0a;XTLS is Preferred</sys:String>
+    <sys:String x:Key="VlessWsDesc" xml:space="preserve">VLESS over WS with TLS&#x0a;Support CDN</sys:String>
+    <sys:String x:Key="VlessKcpDesc" xml:space="preserve">VLESS mKCP&#x0a;low delay</sys:String>
+    <sys:String x:Key="VmessWsDesc" xml:space="preserve">VMESS over WS with TLS&#x0a;Support CDN</sys:String>
+    <sys:String x:Key="VmessKcpDesc" xml:space="preserve">VMESS mKCP&#x0a;low delay</sys:String>
+    <sys:String x:Key="SSDesc" xml:space="preserve">ShadowSocks&#x0a;Support CDN</sys:String>
+    <sys:String x:Key="TrojanDesc" xml:space="preserve">Trojan over TCP with TLS&#x0a;Trojan</sys:String>
+
+    <sys:String x:Key="XrayDomain">Address</sys:String>
+    <sys:String x:Key="XrayMarkDomain">GuiseHost</sys:String>
+    <sys:String x:Key="XrayUUID">UUID</sys:String>
+    <sys:String x:Key="VlessWsPath">VLESS WS Path</sys:String>
+    <sys:String x:Key="VlessKcpSeed">VLESS KCP Seed</sys:String>
+    <sys:String x:Key="VlessKcpType">VLESS KCP Type</sys:String>
+    <sys:String x:Key="VlessKcpPort">VLESS KCP Port</sys:String>
+    <sys:String x:Key="VmessWsPath">VMESS WS Path</sys:String>
+    <sys:String x:Key="VmessKcpSeed">VMESS KCP Seed</sys:String>
+    <sys:String x:Key="VmessKcpType">VMESS KCP Type</sys:String>
+    <sys:String x:Key="VmessKcpPort">VMESS KCP Port</sys:String>
+    <sys:String x:Key="SSPassword">SS Pwd</sys:String>
+    <sys:String x:Key="SSMethods">SS Method</sys:String>
+    <sys:String x:Key="TrojanPassword">Trojan Pwd</sys:String>
+    <sys:String x:Key="XrayPort">xray Port</sys:String>
+    <sys:String x:Key="XrayPortDefault">default port is 443</sys:String>
+    
+    <!--xray installer-->
+    <sys:String x:Key="XrayInstallerInstall">Install</sys:String>
+    <sys:String x:Key="XrayInstallerUpdateSettings">UpdateSettings</sys:String>
+    <sys:String x:Key="XrayInstallerUpdateCore">UpdateCore</sys:String>
+    <sys:String x:Key="XrayInstallerUninstall">Uninstall</sys:String>
+    <sys:String x:Key="XrayInstallerInstallCert">InstallCert</sys:String>
+    <sys:String x:Key="XrayInstallerUploadWeb">UploadWeb</sys:String>
+    <sys:String x:Key="XrayInstallerUploadCert">UploadCert</sys:String>
+    
+    <!--Trojan-GO-->
+    <sys:String x:Key="TrojanGoDomain">Address</sys:String>
+    <sys:String x:Key="TrojanGoPort">Port</sys:String>
+    <sys:String x:Key="TrojanGoPassword">Password</sys:String>
+    <sys:String x:Key="TrojanGoMaskDomain">GuiseHost</sys:String>
+    <sys:String x:Key="TrojanGoWebSocketPath">WS Path</sys:String>
+    <sys:String x:Key="TrojanGoWebSocketDomain">WS Domain</sys:String>
+    
+    <!--Naive Proxy-->
+    <sys:String x:Key="NaiveProxyDomain">Address</sys:String>
+    <sys:String x:Key="NaiveProxyPort">Port</sys:String>
+    <sys:String x:Key="NaiveProxyUserName">UserName</sys:String>
+    <sys:String x:Key="NaiveProxyPassword">Password</sys:String>
+    <sys:String x:Key="NaiveProxyMaskDomain">GuiseHost</sys:String>
+</ResourceDictionary>

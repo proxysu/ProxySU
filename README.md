@@ -1,10 +1,12 @@
-
 # ProxySU
 V2ray, Xray,Trojan, NaiveProxy, Trojan-Go, ShadowsocksR(SSR),Shadowsocks-libev and Plugins,MTProto+TLS,BBR install tools for windows。  
 V2ray，Xray,Trojan，NaiveProxy, Trojan-Go, ShadowsocksR(SSR),Shadowsocks-libev及相关插件,MTProto+TLS 一键安装工具。支持纯ipv6主机一键安装代理。  
 BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）,支持语言:English、简体中文、正体（繁体）中文。
 
 编译环境Visual Studio 2017  使用WPF界面。可一键安装V2ray、Xray,Trojan、NaiveProxy，Trojan-Go,ShadowsocksR(SSR),Shadowsocks-libev and Plugins、MTProto+TLS 后续还会再添加其他。  
+
+![photo_2021-05-31_17-23-29](https://user-images.githubusercontent.com/73510229/120171754-f46ffd00-c234-11eb-8105-4e6a941a65bb.jpg)
+![photo_2021-05-31_17-24-29](https://user-images.githubusercontent.com/73510229/120171966-297c4f80-c235-11eb-921a-2ddebad5dc58.jpg)
 
 
 
@@ -248,9 +250,9 @@ Let's Encrypt证书申请频率的限制
 * 正式版（正式发布的版本，新功能完善后发布）  
 [下载](https://github.com/proxysu/windows/releases)
 
-## Windows系统需要安装net4.0及以上
+## Windows系统需要安装net4.7.2或以上
 
-Microsoft [.NET Framework 4.0](https://dotnet.microsoft.com/download/dotnet-framework/thank-you/net40-offline-installer) or higher
+Microsoft [.NET Framework 4.7.2](https://dotnet.microsoft.com/download/dotnet-framework/thank-you/net472-offline-installer) or higher
 
 ## 使用的C# 库  
 [SSH.NET --------------- https://github.com/sshnet/SSH.NET](https://github.com/sshnet/SSH.NET)  
@@ -272,3 +274,7 @@ Microsoft [.NET Framework 4.0](https://dotnet.microsoft.com/download/dotnet-fram
   （记于2020.4.18）
 ## V2.0.0发布小记  
    哎呀吗！增加一个多语言切换，真是麻烦啊，最初就没有想支持多语言（PS:其实是不会`^_^`) 。中途再添加，真的是累啊！整了一个星期才完事。主要代码简单，就是把所有的中文显示信息替换，那真是一个晕！！英文水平太菜，用谷歌翻译做的，凑合着用吧。
+## V3.0.0发布小记
+    旧版本功能大而全，如果配置需要修改，或操作多个主机，就没办法做了。也总结了开发WPF经验后，尝试着改变一下，结果衍生了一个尝试的版本。
+## V4.0.1发布小记
+   在V3.x.x版本中，属于尝试性的改进和开发，应大家要求，在v4版本中保留了TrojanGo、NaiveProxy。

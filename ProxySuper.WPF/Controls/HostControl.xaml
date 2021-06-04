@@ -1,0 +1,165 @@
+﻿<UserControl x:Class="ProxySuper.WPF.Controls.HostControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProxySuper.WPF.Controls"
+             xmlns:convert="clr-namespace:ProxySuper.Core.Converters;assembly=ProxySuper.Core"
+             xmlns:host="clr-namespace:ProxySuper.Core.Models.Hosts;assembly=ProxySuper.Core"
+             mc:Ignorable="d">
+
+
+    <UserControl.Resources>
+        <convert:LoginSecretTypeConverter x:Key="SecretTypeConverter" />
+        <convert:ProxyTypeConverter x:Key="ProxyTypeConverter" />
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        
+        <GroupBox Padding="10" Header="{DynamicResource HostGroupName}" Grid.Row="0">
+            <Grid>
+                <Grid.Resources >
+                    <Style TargetType="Border" >
+                        <Setter Property="Padding" Value="5,5,5,5" />
+                    </Style>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="36" />
+                    <RowDefinition Height="36" />
+                    <RowDefinition Height="36" />
+                    <RowDefinition Height="36" />
+                    <RowDefinition Height="36" />
+                    <RowDefinition Height="36" />
+                    <RowDefinition Height="36" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+
+                <Label Content="{DynamicResource HostTag}" Grid.Row="0" Grid.Column="0" />
+                <TextBox Grid.Row="0" Grid.Column="1"
+                         Width="170"
+                         Text="{Binding Host.Tag}"
+                         VerticalContentAlignment="Center" />
+
+
+                <Label Content="{DynamicResource HostAddress}" Grid.Row="1" Grid.Column="0" />
+                <TextBox Grid.Row="1" Grid.Column="1"
+                         Width="170"
+                         Text="{Binding Host.Address}"
+                         VerticalContentAlignment="Center" />
+
+                <Label Content="{DynamicResource HostPort}" Grid.Row="2" Grid.Column="0" />
+                <TextBox Grid.Row="2" Grid.Column="1"
+                         Width="170"
+                         Text="{Binding Host.Port}"
+                         VerticalContentAlignment="Center" />
+
+                <Label Content="{DynamicResource HostUserName}" Grid.Row="3" Grid.Column="0" />
+                <TextBox Grid.Row="3" Grid.Column="1"
+                         Width="170"
+                         Text="{Binding Host.UserName}"
+                         VerticalContentAlignment="Center" />
+
+                <Label Content="{DynamicResource HostPassword}" Grid.Row="4" Grid.Column="0" />
+                <TextBox Grid.Row="4" Grid.Column="1"
+                         Width="170"
+                         Text="{Binding Host.Password}"
+                         VerticalContentAlignment="Center" />
+
+                <Label Content="{DynamicResource HostSecretType}" Grid.Row="5" Grid.Column="0" />
+                <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center">
+                    <RadioButton GroupName="LoginSecretType"
+                                 Content="{DynamicResource HostSertTypePassword}"
+                                 IsChecked="{
+                                        Binding Host.SecretType,
+                                        Converter={StaticResource SecretTypeConverter},
+                                        ConverterParameter={x:Static host:LoginSecretType.Password}
+                                 }" />
+                    <RadioButton GroupName="LoginSecretType"
+                                 Margin="20,0"
+                                 Content="{DynamicResource HostSertTypePrivateKey}"
+                                 IsChecked="{
+                                        Binding Host.SecretType,
+                                        Converter={StaticResource SecretTypeConverter},
+                                        ConverterParameter={x:Static host:LoginSecretType.PrivateKey}
+                                 }" />
+                </StackPanel>
+
+                <Label Content="{DynamicResource HostUploadSecretKey}" Grid.Row="6" Grid.Column="0" /> 
+                <Button Height="24"
+                        Width="100"
+                        HorizontalAlignment="Left"
+                        Grid.Row="6" Grid.Column="1"
+                        Command="{Binding Host.UploadPrivateKeyCommand}"
+                        IsEnabled="{
+                            Binding Host.SecretType,
+                            Converter={StaticResource SecretTypeConverter},
+                            ConverterParameter={x:Static host:LoginSecretType.PrivateKey}
+                        }"
+                        Content="{DynamicResource HostUploadSecretKey}" /> 
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Padding="10" Header="{DynamicResource ProxyGroupName}" Grid.Row="1" Margin="0,10,0,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="36" />
+                    <RowDefinition Height="36" />
+                    <RowDefinition Height="36" />
+                    <RowDefinition Height="36" />
+                    <RowDefinition Height="36" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Content="{DynamicResource ProxyType}" Grid.Row="0" Grid.Column="0" />
+                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
+                    <RadioButton Content="{DynamicResource ProxyTypeNone}"
+                                 Margin="0,0,5,0"
+                                 IsChecked="{
+                                    Binding Host.Proxy.Type,
+                                    Converter={StaticResource ProxyTypeConverter},
+                                    ConverterParameter={x:Static host:LocalProxyType.None}
+                                 }"/>
+                    <RadioButton Content="{DynamicResource ProxyTypeHttp}"
+                                 Margin="5,0"
+                                 IsChecked="{
+                                    Binding Host.Proxy.Type,
+                                    Converter={StaticResource ProxyTypeConverter},
+                                    ConverterParameter={x:Static host:LocalProxyType.Http}
+                                 }"/>
+                    <RadioButton Content="{DynamicResource ProxyTypeSocks5}"
+                                 Margin="5,0"
+                                 IsChecked="{
+                                    Binding Host.Proxy.Type,
+                                    Converter={StaticResource ProxyTypeConverter},
+                                    ConverterParameter={x:Static host:LocalProxyType.Socks5}
+                                 }"/>
+                </StackPanel>
+
+                <Label Content="{DynamicResource ProxyAddress}" Grid.Row="1" Grid.Column="0" />
+                <TextBox Text="{Binding Host.Proxy.Address}" Grid.Row="1" Grid.Column="1" />
+
+                <Label Content="{DynamicResource ProxyUserName}" Grid.Row="2" Grid.Column="0" />
+                <TextBox Text="{Binding Host.Proxy.UserName}" Grid.Row="2" Grid.Column="1" />
+
+                <Label Content="{DynamicResource HostPort}" Grid.Row="3" Grid.Column="0" />
+                <TextBox Text="{Binding Host.Proxy.Port}" Grid.Row="3" Grid.Column="1" />
+
+                <Label Content="{DynamicResource ProxyPassword}" Grid.Row="4" Grid.Column="0" />
+                <TextBox Text="{Binding Host.Proxy.Password}" Grid.Row="4" Grid.Column="1" />
+
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>

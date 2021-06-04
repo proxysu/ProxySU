@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="ProxySuper.WPF.Controls.VLESS_KCP_Control"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProxySuper.WPF.Controls"
+             mc:Ignorable="d">
+    <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Horizontal">
+            <Label Content="地址(address)" Width="140" />
+            <TextBox Text="{Binding Settings.Domain}" IsReadOnly="True" Width="300" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+            <Label Content="端口(port)" Width="140" />
+            <TextBox Text="{Binding Path=Settings.VLESS_KCP_Port,Mode=OneTime}" IsReadOnly="True" Width="300" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+            <Label Content="用户ID(id)" Width="140" />
+            <TextBox Text="{Binding Settings.UUID}" IsReadOnly="True" Width="300" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+            <Label Content="加密(security)" Width="140" />
+            <TextBox Text="none" IsReadOnly="True" Width="300" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+            <Label Content="传输协议(network)" Width="140" />
+            <TextBox Text="kcp" IsReadOnly="True" Width="300" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+            <Label Content="伪装类型(type)" Width="140" />
+            <TextBox Text="{Binding Settings.VLESS_KCP_Type}" IsReadOnly="True" Width="300" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+            <Label Content="伪装域名(host)" Width="140" />
+            <TextBox Text="{Binding Settings.Domain}" IsReadOnly="True" Width="300" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+            <Label Content="路径(path)" Width="140" />
+            <TextBox Text="{Binding Settings.VLESS_KCP_Seed}" IsReadOnly="True" Width="300" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+            <Label Content="传输安全(tls)" Width="140" />
+            <TextBox Text="" IsReadOnly="True" Width="300" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+            <Label Content="分享链接(ShareLink)" Width="140" />
+            <TextBox Text="{Binding Settings.VLESS_KCP_ShareLink,Mode=OneTime}" Width="300" IsReadOnly="True" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>
