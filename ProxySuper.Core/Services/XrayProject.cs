@@ -105,6 +105,7 @@ namespace ProxySuper.Core.Services
         public void UninstallProxy()
         {
             EnsureRootAuth();
+            EnsureSystemEnv();
             WriteOutput("卸载Caddy");
             UninstallCaddy();
             WriteOutput("卸载Xray");
@@ -153,6 +154,7 @@ namespace ProxySuper.Core.Services
         public void DoUninstallCaddy()
         {
             EnsureRootAuth();
+            EnsureSystemEnv();
             UninstallCaddy();
             WriteOutput("************ 卸载Caddy完成 ************");
         }

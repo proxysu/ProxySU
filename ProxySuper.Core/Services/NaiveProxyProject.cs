@@ -20,7 +20,10 @@ namespace ProxySuper.Core.Services
 
         public void Uninstall()
         {
-            UninstallCaddy();
+            RunCmd("rm -rf caddy_install.sh");
+            RunCmd("curl -o caddy_install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/Caddy-Naive/caddy-naive-install.sh");
+            RunCmd("yes | bash caddy_install.sh uninstall");
+            RunCmd("rm -rf caddy_install.sh");
             WriteOutput("ProxyNaive卸载完成");
         }
 

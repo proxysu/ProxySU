@@ -395,10 +395,29 @@ namespace ProxySuper.Core.Services
         /// </summary>
         protected void InstallCaddy()
         {
-            RunCmd("rm -rf caddy_install.sh");
-            RunCmd("curl -o caddy_install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/Caddy-Naive/caddy-naive-install.sh");
-            RunCmd("yes | bash caddy_install.sh");
-            RunCmd("rm -rf caddy_install.sh");
+            if (CmdType == CmdType.Apt)
+            {
+                RunCmd("sudo apt -y install debian-keyring debian-archive-keyring apt-transport-https");
+                RunCmd("echo yes | curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo apt-key add -");
+                RunCmd("echo yes | curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list");
+                RunCmd("sudo apt -y update");
+                RunCmd("sudo apt -y install caddy");
+            }
+
+            if (CmdType == CmdType.Dnf)
+            {
+                RunCmd("dnf -y install 'dnf-command(copr)'");
+                RunCmd("dnf -y copr enable @caddy/caddy");
+                RunCmd("dnf -y install caddy");
+            }
+
+            if (CmdType == CmdType.Yum)
+            {
+                RunCmd("yum -y install yum-plugin-copr");
+                RunCmd("yum -y copr enable @caddy/caddy");
+                RunCmd("yum -y install caddy");
+            }
+
             RunCmd("systemctl enable caddy.service");
         }
 
@@ -407,11 +426,25 @@ namespace ProxySuper.Core.Services
         /// </summary>
         protected void UninstallCaddy()
         {
-            RunCmd("rm -rf caddy_install.sh");
-            RunCmd("curl -o caddy_install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/Caddy-Naive/caddy-naive-install.sh");
-            RunCmd("yes | bash caddy_install.sh uninstall");
-            RunCmd("rm -rf caddy_install.sh");
+            RunCmd("systemctl stop caddy");
+            if (CmdType == CmdType.Apt)
+            {
+                RunCmd("sudo apt -y remove caddy");
+            }
+
+            if (CmdType == CmdType.Dnf)
+            {
+                RunCmd("dnf -y remove caddy");
+            }
+
+            if (CmdType == CmdType.Yum)
+            {
+                RunCmd("yum -y remove caddy");
+            }
+
+            RunCmd("rm -rf /usr/bin/caddy");
             RunCmd("rm -rf /usr/share/caddy");
+            RunCmd("rm -rf /etc/caddy");
         }
 
 
@@ -435,7 +468,7 @@ namespace ProxySuper.Core.Services
 
             if (string.IsNullOrEmpty(IPv6))
             {
-                throw new Exception("未检测可用的的IP地址");
+                throw new Exception("未检测到可用的的IP地址");
             }
 
             OnlyIpv6 = true;
@@ -646,12 +679,12 @@ namespace ProxySuper.Core.Services
             // 申请证书 
             if (OnlyIpv6)
             {
-                var cmd = $"/root/.acme.sh/acme.sh --force --debug --issue  --standalone  -d {Parameters.Domain} --listen-v6 --pre-hook \"service caddy stop\"  --post-hook  \"service caddy start\"";
+                var cmd = $"/root/.acme.sh/acme.sh --force --debug --issue  --standalone  -d {Parameters.Domain} --listen-v6 --pre-hook \"systemctl stop caddy\"  --post-hook  \"systemctl start caddy\"";
                 result = RunCmd(cmd);
             }
             else
             {
-                var cmd = $"/root/.acme.sh/acme.sh --force --debug --issue  --standalone  -d {Parameters.Domain} --pre-hook \"service caddy stop\"  --post-hook  \"service caddy start\"";
+                var cmd = $"/root/.acme.sh/acme.sh --force --debug --issue  --standalone  -d {Parameters.Domain} --pre-hook \"systemctl stop caddy\"  --post-hook  \"systemctl start caddy\"";
                 result = RunCmd(cmd);
             }
 
@@ -730,15 +763,15 @@ namespace ProxySuper.Core.Services
         {
             if (CmdType == CmdType.Apt)
             {
-                return "echo y | apt-get install " + soft;
+                return "apt-get -y install " + soft;
             }
             else if (CmdType == CmdType.Dnf)
             {
-                return "echo y | dnf -y install " + soft;
+                return "dnf -y install " + soft;
             }
             else if (CmdType == CmdType.Yum)
             {
-                return "echo y | yum -y install " + soft;
+                return "yum -y install " + soft;
             }
 
             throw new Exception("未识别的系统");

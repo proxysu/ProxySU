@@ -43,7 +43,5 @@ namespace ProxySuper.Core.ViewModels
         }
 
         public string CommandText { get; set; }
-
-        public string OutputText { get; set; }
     }
 }

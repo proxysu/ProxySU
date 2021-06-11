@@ -48,8 +48,10 @@ namespace ProxySuper.Core.Services
 
         public void Uninstall()
         {
+            EnsureRootAuth();
+            EnsureSystemEnv();
+
             RunCmd("systemctl stop trojan-go");
-            RunCmd("systemctl stop caddy");
             base.UninstallCaddy();
 
             RunCmd("rm -rf /usr/local/bin/trojan-go");
@@ -133,7 +135,6 @@ namespace ProxySuper.Core.Services
 
         private void InstallTrojanGo()
         {
-            WriteOutput("安装Trojan-Go");
             RunCmd(@"curl https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh yes | bash");
             var success = FileExists("/usr/local/bin/trojan-go");
             if (success == false)
