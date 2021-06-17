@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,5 +27,24 @@ namespace ProxySuper.Core.Models.Projects
         public string Password { get; set; }
 
         public string MaskDomain { get; set; }
+
+        [JsonIgnore]
+        public string Email
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(Domain))
+                {
+                    var arr = Domain.Split('.');
+                    if (arr.Length == 3)
+                    {
+                        return $"{arr[0]}@{arr[1]}.{arr[2]}";
+                    }
+                }
+
+
+                return $"{UserName + Port.ToString()}@gmail.com";
+            }
+        }
     }
 }

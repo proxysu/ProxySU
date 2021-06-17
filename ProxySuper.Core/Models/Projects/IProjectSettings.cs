@@ -27,5 +27,10 @@ namespace ProxySuper.Core.Models.Projects
         /// 类型
         /// </summary>
         ProjectType Type { get; set; }
+
+        /// <summary>
+        /// 邮箱
+        /// </summary>
+        string Email { get; }
     }
 }

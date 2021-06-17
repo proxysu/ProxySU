@@ -70,7 +70,7 @@ namespace ProxySuper.Core.Services
             // 确认安装命令
             if (CmdType == CmdType.None)
             {
-                cmd = RunCmd("command -v apt-get");
+                cmd = RunCmd("command -v apt");
                 if (!string.IsNullOrEmpty(cmd))
                 {
                     CmdType = CmdType.Apt;
@@ -105,7 +105,7 @@ namespace ProxySuper.Core.Services
 
             if (CmdType == CmdType.None || !hasSystemCtl)
             {
-                throw new Exception("系统缺乏必要的安装组件如:apt-get||dnf||yum||Syetemd，主机系统推荐使用：CentOS 7/8,Debian 8/9/10,Ubuntu 16.04及以上版本");
+                throw new Exception("系统缺乏必要的安装组件如:apt||dnf||yum||Syetemd，主机系统推荐使用：CentOS 7/8,Debian 8/9/10,Ubuntu 16.04及以上版本");
             }
 
 
@@ -157,6 +157,8 @@ namespace ProxySuper.Core.Services
         /// </summary>
         protected void ConfigureSoftware()
         {
+            RunCmd(GetUpdateCmd());
+
             string cmd = RunCmd("command -v sudo");
             if (string.IsNullOrEmpty(cmd))
             {
@@ -188,17 +190,14 @@ namespace ProxySuper.Core.Services
             {
                 if (CmdType == CmdType.Apt)
                 {
-                    RunCmd(GetUpdateCmd());
                     RunCmd(GetInstallCmd("dnsutils"));
                 }
                 else if (CmdType == CmdType.Dnf)
                 {
-                    RunCmd(GetUpdateCmd());
                     RunCmd(GetInstallCmd("bind-utils"));
                 }
                 else if (CmdType == CmdType.Yum)
                 {
-                    RunCmd(GetUpdateCmd());
                     RunCmd(GetInstallCmd("bind-utils"));
                 }
             }
@@ -397,25 +396,25 @@ namespace ProxySuper.Core.Services
         {
             if (CmdType == CmdType.Apt)
             {
-                RunCmd("sudo apt -y install debian-keyring debian-archive-keyring apt-transport-https");
+                RunCmd("apt install -y debian-keyring debian-archive-keyring apt-transport-https");
                 RunCmd("echo yes | curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo apt-key add -");
                 RunCmd("echo yes | curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list");
                 RunCmd("sudo apt -y update");
-                RunCmd("sudo apt -y install caddy");
+                RunCmd("sudo apt install -y caddy");
             }
 
             if (CmdType == CmdType.Dnf)
             {
-                RunCmd("dnf -y install 'dnf-command(copr)'");
-                RunCmd("dnf -y copr enable @caddy/caddy");
-                RunCmd("dnf -y install caddy");
+                RunCmd("dnf install -y 'dnf-command(copr)'");
+                RunCmd("dnf copr enable @caddy/caddy");
+                RunCmd("dnf install -y caddy");
             }
 
             if (CmdType == CmdType.Yum)
             {
-                RunCmd("yum -y install yum-plugin-copr");
-                RunCmd("yum -y copr enable @caddy/caddy");
-                RunCmd("yum -y install caddy");
+                RunCmd("yum install -y yum-plugin-copr");
+                RunCmd("yum copr enable @caddy/caddy");
+                RunCmd("yum install -y caddy");
             }
 
             RunCmd("systemctl enable caddy.service");
@@ -468,7 +467,7 @@ namespace ProxySuper.Core.Services
 
             if (string.IsNullOrEmpty(IPv6))
             {
-                throw new Exception("未检测到可用的的IP地址");
+                throw new Exception("未检测到可用的的IP地址，请重试安装");
             }
 
             OnlyIpv6 = true;
@@ -662,7 +661,8 @@ namespace ProxySuper.Core.Services
             RunCmd(GetInstallCmd("automake autoconf libtool"));
 
             // 安装Acme
-            var result = RunCmd($"curl  https://get.acme.sh yes | sh");
+
+            var result = RunCmd($"curl  https://get.acme.sh yes | sh -s email={Parameters.Email}");
             if (result.Contains("Install success"))
             {
                 WriteOutput("安装 acme.sh 成功");
@@ -740,7 +740,7 @@ namespace ProxySuper.Core.Services
         {
             if (CmdType == CmdType.Apt)
             {
-                return "apt-get update";
+                return "apt update";
             }
             else if (CmdType == CmdType.Dnf)
             {
@@ -763,15 +763,15 @@ namespace ProxySuper.Core.Services
         {
             if (CmdType == CmdType.Apt)
             {
-                return "apt-get -y install " + soft;
+                return "apt install -y " + soft;
             }
             else if (CmdType == CmdType.Dnf)
             {
-                return "dnf -y install " + soft;
+                return "dnf install -y " + soft;
             }
             else if (CmdType == CmdType.Yum)
             {
-                return "yum -y install " + soft;
+                return "yum install -y " + soft;
             }
 
             throw new Exception("未识别的系统");

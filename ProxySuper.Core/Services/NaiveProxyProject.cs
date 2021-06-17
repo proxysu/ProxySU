@@ -101,6 +101,8 @@ namespace ProxySuper.Core.Services
         {
             WriteOutput("安装 NaiveProxy");
             RunCmd(@"curl https://raw.githubusercontent.com/proxysu/shellscript/master/Caddy-Naive/caddy-naive-install.sh yes | bash");
+            // 允许开机启动
+            RunCmd("systemctl enable caddy");
             UploadCaddyFile(false);
             ConfigNetwork();
             WriteOutput("NaiveProxy 安装完成");
