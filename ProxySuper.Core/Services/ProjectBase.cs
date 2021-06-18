@@ -662,7 +662,7 @@ namespace ProxySuper.Core.Services
 
             // 安装Acme
 
-            var result = RunCmd($"curl  https://get.acme.sh yes | sh -s email={Parameters.Email}");
+            var result = RunCmd($"curl  https://get.acme.sh yes | sh");
             if (result.Contains("Install success"))
             {
                 WriteOutput("安装 acme.sh 成功");
@@ -679,12 +679,12 @@ namespace ProxySuper.Core.Services
             // 申请证书 
             if (OnlyIpv6)
             {
-                var cmd = $"/root/.acme.sh/acme.sh --force --debug --issue  --standalone  -d {Parameters.Domain} --listen-v6 --pre-hook \"systemctl stop caddy\"  --post-hook  \"systemctl start caddy\"";
+                var cmd = $"/root/.acme.sh/acme.sh --force --debug --issue  --standalone  -d {Parameters.Domain} --listen-v6 --pre-hook \"systemctl stop caddy\"  --post-hook  \"systemctl start caddy\" --server letsencrypt";
                 result = RunCmd(cmd);
             }
             else
             {
-                var cmd = $"/root/.acme.sh/acme.sh --force --debug --issue  --standalone  -d {Parameters.Domain} --pre-hook \"systemctl stop caddy\"  --post-hook  \"systemctl start caddy\"";
+                var cmd = $"/root/.acme.sh/acme.sh --force --debug --issue  --standalone  -d {Parameters.Domain} --pre-hook \"systemctl stop caddy\"  --post-hook  \"systemctl start caddy\" --server letsencrypt";
                 result = RunCmd(cmd);
             }
 
