@@ -83,6 +83,8 @@ namespace ProxySuper.Core.Services
                 if (!string.IsNullOrEmpty(cmd))
                 {
                     CmdType = CmdType.Dnf;
+                    //RunCmd("echo \"export LC_ALL=en_US.UTF-8\"  >>  /etc/profile");
+                    //RunCmd("source /etc/profile");
                 }
             }
 
@@ -406,14 +408,14 @@ namespace ProxySuper.Core.Services
             if (CmdType == CmdType.Dnf)
             {
                 RunCmd("dnf install -y 'dnf-command(copr)'");
-                RunCmd("dnf copr enable @caddy/caddy");
+                RunCmd("dnf copr -y enable @caddy/caddy");
                 RunCmd("dnf install -y caddy");
             }
 
             if (CmdType == CmdType.Yum)
             {
                 RunCmd("yum install -y yum-plugin-copr");
-                RunCmd("yum copr enable @caddy/caddy");
+                RunCmd("yum copr -y enable @caddy/caddy");
                 RunCmd("yum install -y caddy");
             }
 
