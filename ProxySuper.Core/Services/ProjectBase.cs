@@ -215,6 +215,13 @@ namespace ProxySuper.Core.Services
                 RunCmd(GetInstallCmd("xz-devel"));
             }
 
+            // 检测是否安装cron
+            cmd = RunCmd("command -v cron");
+            if (string.IsNullOrEmpty(cmd))
+            {
+                RunCmd(GetInstallCmd("cron"));
+            }
+
             // 检测是否安装lsof
             cmd = RunCmd("command -v lsof");
             if (string.IsNullOrEmpty(cmd))

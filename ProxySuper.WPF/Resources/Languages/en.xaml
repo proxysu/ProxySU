@@ -85,7 +85,9 @@
     <sys:String x:Key="VmessKcpPort">VMESS KCP Port</sys:String>
     <sys:String x:Key="SSPassword">SS Pwd</sys:String>
     <sys:String x:Key="SSMethods">SS Method</sys:String>
+    <sys:String x:Key="SSPort">SS Port</sys:String>
     <sys:String x:Key="TrojanPassword">Trojan Pwd</sys:String>
+    <sys:String x:Key="TrojanPort">Trojan Port</sys:String>
     <sys:String x:Key="XrayPort">xray Port</sys:String>
     <sys:String x:Key="XrayPortDefault">default port is 443</sys:String>
     

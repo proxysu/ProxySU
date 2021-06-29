@@ -67,6 +67,7 @@
     <Compile Include="Converters\ProxyTypeConverter.cs" />
     <Compile Include="Converters\VisibleConverter.cs" />
     <Compile Include="Helpers\DateTimeUtils.cs" />
+    <Compile Include="Helpers\Rand.cs" />
     <Compile Include="Models\Hosts\Host.cs" />
     <Compile Include="Models\Hosts\LocalProxyType.cs" />
     <Compile Include="Models\Hosts\LoginSecretType.cs" />
