@@ -79,6 +79,8 @@
     <sys:String x:Key="VlessKcpSeed">VLESS KCP Seed</sys:String>
     <sys:String x:Key="VlessKcpType">VLESS KCP伪装</sys:String>
     <sys:String x:Key="VlessKcpPort">VLESS KCP端口</sys:String>
+    <sys:String x:Key="VlessRPCName">gRPC路径</sys:String>
+    <sys:String x:Key="VlessRPCPort">gRPC端口</sys:String>
     <sys:String x:Key="VmessWsPath">VMESS WS路径</sys:String>
     <sys:String x:Key="VmessKcpSeed">VMESS KCP Seed</sys:String>
     <sys:String x:Key="VmessKcpType">VMESS KCP伪装</sys:String>

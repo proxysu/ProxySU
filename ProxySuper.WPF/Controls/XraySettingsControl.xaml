@@ -42,6 +42,14 @@
                 <Label Content="{DynamicResource VlessKcpDesc}"  FontSize="13" Foreground="LimeGreen" />
             </CheckBox>
 
+            <!--gRPC-->
+            <CheckBox Margin="0,15,0,0"
+                      VerticalContentAlignment="Center"
+                      Foreground="LimeGreen"
+                      IsChecked="{Binding Path=Checked_VLESS_gRPC}">
+                <Label  Content="VLESS gRPC&#x0a;基于http2，多路复用。" FontSize="13" Foreground="LimeGreen" />
+            </CheckBox>
+
             <!--TCP-->
             <!--<CheckBox Content="VMESS over TCP with TLS&#x0a;不推荐" 
                     Margin="0,15,0,0"
@@ -77,13 +85,6 @@
                       IsChecked="{Binding Path=Checked_Trojan_TCP}">
                 <Label Content="{DynamicResource TrojanDesc}"  FontSize="13" Foreground="CadetBlue" />
             </CheckBox>
-
-            <!--gRPC-->
-            <!--<CheckBox Content="VLESS gRPC&#x0a;基于http2，多路复用。"
-                    Margin="0,15,0,0"
-                    Grid.Column="0"
-                    Style="{StaticResource MahApps.Styles.CheckBox}"
-                    IsChecked="{Binding Path=Checked_VLESS_gRPC}"/>-->
 
         </StackPanel>
 
@@ -168,21 +169,28 @@
             </StackPanel>
 
             <!--gRPC Port-->
-            <!--<StackPanel Margin="30,15,0,0"
+            <StackPanel Margin="30,15,0,0"
                     Orientation="Horizontal"
                     Visibility="{
                         Binding Path=Checked_VLESS_gRPC,
                         Converter={StaticResource VisibleConverter}
                     }">
-                <Label Content="gRPC端口" Width="120"  Foreground="LimeGreen" />
-                <TextBox Text="{Binding Path=VLESS_gRPC_Port}" Width="120"  />
+                <Label Content="{DynamicResource VlessRPCPort}" Width="120"  Foreground="LimeGreen" />
+                <TextBox Text="{Binding Path=VLESS_gRPC_Port}" Width="200"  />
+            </StackPanel>
 
-                <Label Content="服务器" Width="120"  Margin="10,0,0,0"  Foreground="LimeGreen" />
-                <TextBox Text="{Binding Path=VLESS_gRPC_ServiceName}" Width="120"  />
-            </StackPanel>-->
+            <StackPanel Margin="30,15,0,0" 
+                        Orientation="Horizontal" 
+                        Visibility="{
+                            Binding Path=Checked_VLESS_gRPC,
+                            Converter={StaticResource VisibleConverter}
+                        }">
+                <Label Content="{DynamicResource VlessRPCName}" Width="120"  Foreground="LimeGreen" />
+                <TextBox Text="{Binding Path=VLESS_gRPC_ServiceName}" Width="200"  />
+            </StackPanel>
 
-            <!--Tcp Path-->
-            <!--<StackPanel Margin="30,15,0,0" 
+            <!--Tcp Path
+            <StackPanel Margin="30,15,0,0" 
                     Orientation="Horizontal"
                     Visibility="{
                         Binding Path=Checked_VMESS_TCP,

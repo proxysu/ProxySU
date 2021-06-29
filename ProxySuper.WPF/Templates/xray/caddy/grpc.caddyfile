@@ -1,0 +1,10 @@
+##domain##:##port## {
+    @grpc {
+        protocol grpc
+        path ##path##
+    }
+    
+    reverse_proxy @grpc h2c://127.0.0.1:##local_port##
+    root * /var/www
+    file_server
+}

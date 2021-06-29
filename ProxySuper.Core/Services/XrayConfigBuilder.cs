@@ -29,6 +29,7 @@ namespace ProxySuper.Core.Services
         public static int VLESS_WS_Port = 1111;
         public static int VLESS_H2_Port = 1112;
         public static int VLESS_mKCP_Port = 1113;
+        public static int VLESS_gRPC_Port = 1114;
 
         public static int VMESS_TCP_Port = 1210;
         public static int VMESS_WS_Port = 1211;
@@ -93,6 +94,18 @@ namespace ProxySuper.Core.Services
                 caddyStr = caddyStr.Replace("##reverse_proxy##", "");
             }
 
+            if (parameters.Types.Contains(XrayType.VLESS_gRPC))
+            {
+                var grpcCaddyfile = File.ReadAllText(Path.Combine(CaddyFileDir, "grpc.caddyfile"));
+                grpcCaddyfile = grpcCaddyfile.Replace("##domain##", parameters.Domain);
+                grpcCaddyfile = grpcCaddyfile.Replace("##port##", parameters.VLESS_gRPC_Port.ToString());
+                grpcCaddyfile = grpcCaddyfile.Replace("##local_port##", VLESS_gRPC_Port.ToString());
+                grpcCaddyfile = grpcCaddyfile.Replace("##path##", parameters.VLESS_gRPC_ServiceName);
+
+                caddyStr += "\n";
+                caddyStr += grpcCaddyfile;
+            }
+
             return caddyStr;
         }
 
@@ -126,7 +139,7 @@ namespace ProxySuper.Core.Services
             if (parameters.Types.Contains(XrayType.VLESS_gRPC))
             {
                 var gRPCInBound = GetBound("VLESS_gRPC.json");
-                gRPCInBound.port = parameters.VLESS_gRPC_Port;
+                gRPCInBound.port = VLESS_gRPC_Port;
                 gRPCInBound.settings.clients[0].id = parameters.UUID;
                 gRPCInBound.streamSettings.grpcSettings.serviceName = parameters.VLESS_gRPC_ServiceName;
                 xrayConfig.inbounds.Add(JToken.FromObject(gRPCInBound));
