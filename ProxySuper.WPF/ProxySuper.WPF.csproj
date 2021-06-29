@@ -303,9 +303,6 @@
     <None Include="Templates\xray\caddy\base.caddyfile">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Templates\xray\caddy\grpc.caddyfile">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Templates\xray\client\00_log\00_log.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

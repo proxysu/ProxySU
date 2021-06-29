@@ -94,18 +94,6 @@ namespace ProxySuper.Core.Services
                 caddyStr = caddyStr.Replace("##reverse_proxy##", "");
             }
 
-            if (parameters.Types.Contains(XrayType.VLESS_gRPC))
-            {
-                var grpcCaddyfile = File.ReadAllText(Path.Combine(CaddyFileDir, "grpc.caddyfile"));
-                grpcCaddyfile = grpcCaddyfile.Replace("##domain##", parameters.Domain);
-                grpcCaddyfile = grpcCaddyfile.Replace("##port##", parameters.VLESS_gRPC_Port.ToString());
-                grpcCaddyfile = grpcCaddyfile.Replace("##local_port##", VLESS_gRPC_Port.ToString());
-                grpcCaddyfile = grpcCaddyfile.Replace("##path##", parameters.VLESS_gRPC_ServiceName);
-
-                caddyStr += "\n";
-                caddyStr += grpcCaddyfile;
-            }
-
             return caddyStr;
         }
 
@@ -142,6 +130,7 @@ namespace ProxySuper.Core.Services
                 gRPCInBound.port = VLESS_gRPC_Port;
                 gRPCInBound.settings.clients[0].id = parameters.UUID;
                 gRPCInBound.streamSettings.grpcSettings.serviceName = parameters.VLESS_gRPC_ServiceName;
+                gRPCInBound.streamSettings.tlsSettings.serverName = parameters.Domain;
                 xrayConfig.inbounds.Add(JToken.FromObject(gRPCInBound));
             }
 

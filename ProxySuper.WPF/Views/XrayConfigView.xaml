@@ -51,12 +51,12 @@
                 <ctrl:VLESS_KCP_Control />
             </TabItem>
 
-            <!--<TabItem Width="200"
+            <TabItem Width="200"
                      Tag="{x:Static models:XrayType.VLESS_gRPC}"
                      IsEnabled="{Binding Checked_VLESS_gRPC}"
                      Header="VLESS-gRPC">
                 <ctrl:VLESS_gRPC_Control />
-            </TabItem>-->
+            </TabItem>
 
             <!--<TabItem Width="200" Height="40"     
                      Tag="{x:Static models:XrayType.VMESS_TCP}"                 
