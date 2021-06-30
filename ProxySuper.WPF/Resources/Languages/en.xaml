@@ -76,6 +76,8 @@
     <sys:String x:Key="XrayDomain">Address</sys:String>
     <sys:String x:Key="XrayMarkDomain">GuiseHost</sys:String>
     <sys:String x:Key="XrayUUID">UUID</sys:String>
+    <sys:String x:Key="MultiUser">Multi User</sys:String>
+    <sys:String x:Key="MultiUserHelp">Multi Id split with ","</sys:String>
     <sys:String x:Key="VlessWsPath">VLESS WS Path</sys:String>
     <sys:String x:Key="VlessKcpSeed">VLESS KCP Seed</sys:String>
     <sys:String x:Key="VlessKcpType">VLESS KCP Type</sys:String>

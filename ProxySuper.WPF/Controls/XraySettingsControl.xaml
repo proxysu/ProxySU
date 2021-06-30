@@ -319,6 +319,22 @@
                 <TextBox Text="{Binding Path=Port}" Width="120"  />
                 <Label Content="{DynamicResource XrayPortDefault}"  Foreground="Red" />
             </StackPanel>
+
+            <!--多用户-->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="{DynamicResource MultiUser}" Width="120" />
+
+                    <TextBox Text="{Binding Path=MultiUUID}"
+                             Height="60"
+                             TextWrapping="Wrap"
+                             Width="200" />
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Margin="120,3,0,0" Text="{DynamicResource MultiUserHelp}" />
+                </StackPanel>
+            </StackPanel>
         </StackPanel>
     </StackPanel>
 

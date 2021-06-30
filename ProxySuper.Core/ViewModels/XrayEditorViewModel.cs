@@ -110,6 +110,18 @@ namespace ProxySuper.Core.ViewModels
             }
         }
 
+        public string MultiUUID
+        {
+            get => string.Join(",", Settings.MulitUUID);
+            set
+            {
+                var input = value.Replace('，', ',');
+                var arr = input.Split(',').ToList();
+                Settings.MulitUUID = arr;
+                RaisePropertyChanged("MultiUUID");
+            }
+        }
+
         public string Domain
         {
             get => Settings.Domain;

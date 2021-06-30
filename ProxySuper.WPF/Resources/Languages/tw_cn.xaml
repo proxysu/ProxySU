@@ -75,6 +75,8 @@
     <sys:String x:Key="XrayDomain">域名</sys:String>
     <sys:String x:Key="XrayMarkDomain">偽裝域名</sys:String>
     <sys:String x:Key="XrayUUID">UUID</sys:String>
+    <sys:String x:Key="MultiUser">多用戶</sys:String>
+    <sys:String x:Key="MultiUserHelp">多個UUID用“,”分隔</sys:String>
     <sys:String x:Key="VlessWsPath">VLESS WS路徑</sys:String>
     <sys:String x:Key="VlessKcpSeed">VLESS KCP Seed</sys:String>
     <sys:String x:Key="VlessKcpType">VLESS KCP偽裝</sys:String>

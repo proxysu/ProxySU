@@ -85,6 +85,11 @@ namespace ProxySuper.Core.Models.Projects
         public string UUID { get; set; }
 
         /// <summary>
+        /// 多用户
+        /// </summary>
+        public List<string> MulitUUID { get; set; } = new List<string>();
+
+        /// <summary>
         /// 伪装域名
         /// </summary>
         public string MaskDomain { get; set; }
