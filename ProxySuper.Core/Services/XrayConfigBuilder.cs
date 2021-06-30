@@ -28,8 +28,6 @@ namespace ProxySuper.Core.Services
         public static int VLESS_TCP_Port = 1110;
         public static int VLESS_WS_Port = 1111;
         public static int VLESS_H2_Port = 1112;
-        public static int VLESS_mKCP_Port = 1113;
-        public static int VLESS_gRPC_Port = 1114;
 
         public static int VMESS_TCP_Port = 1210;
         public static int VMESS_WS_Port = 1211;
@@ -127,7 +125,7 @@ namespace ProxySuper.Core.Services
             if (parameters.Types.Contains(XrayType.VLESS_gRPC))
             {
                 var gRPCInBound = GetBound("VLESS_gRPC.json");
-                gRPCInBound.port = VLESS_gRPC_Port;
+                gRPCInBound.port = parameters.VLESS_gRPC_Port;
                 gRPCInBound.settings.clients[0].id = parameters.UUID;
                 gRPCInBound.streamSettings.grpcSettings.serviceName = parameters.VLESS_gRPC_ServiceName;
                 gRPCInBound.streamSettings.tlsSettings.serverName = parameters.Domain;

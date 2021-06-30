@@ -15,6 +15,7 @@
     <sys:String x:Key="MainMenuActions">Actions</sys:String>
     <sys:String x:Key="MainMenuActionsExportSettings">Export Settings</sys:String>
     <sys:String x:Key="MainMenuActionsExportSubscribe">Export Subscribe</sys:String>
+    <sys:String x:Key="MainMenuActionsGetRoot">Get Root</sys:String>
 
     <sys:String x:Key="MainMenuLanguage">Language</sys:String>
     <sys:String x:Key="MainMenuLanguageEn">English</sys:String>

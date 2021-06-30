@@ -15,6 +15,7 @@
     <sys:String x:Key="MainMenuActions">操作</sys:String>
     <sys:String x:Key="MainMenuActionsExportSettings">導出配置</sys:String>
     <sys:String x:Key="MainMenuActionsExportSubscribe">導出訂閲</sys:String>
+    <sys:String x:Key="MainMenuActionsGetRoot">啓用Root賬戶</sys:String>
 
     <sys:String x:Key="MainMenuLanguage">語言(Language)</sys:String>
     <sys:String x:Key="MainMenuLanguageEn">English</sys:String>

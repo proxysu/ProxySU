@@ -42,13 +42,28 @@ namespace ProxySuper.Core.Models.Projects
         {
             get
             {
-                return new List<int>
+                var list = new List<int>();
+                if (Types.Contains(XrayType.VLESS_KCP))
                 {
-                    VLESS_KCP_Port,
-                    VMESS_KCP_Port,
-                    ShadowSocksPort,
-                    VLESS_gRPC_Port,
-                };
+                    list.Add(VLESS_KCP_Port);
+                }
+
+                if (Types.Contains(XrayType.VMESS_KCP))
+                {
+                    list.Add(VMESS_KCP_Port);
+                }
+
+                if (Types.Contains(XrayType.ShadowsocksAEAD))
+                {
+                    list.Add(ShadowSocksPort);
+                }
+
+                if (Types.Contains(XrayType.VLESS_gRPC))
+                {
+                    list.Add(VLESS_gRPC_Port);
+                }
+
+                return list;
             }
         }
 

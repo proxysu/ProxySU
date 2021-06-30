@@ -113,7 +113,7 @@ namespace ProxySuper.Core.Services
             WriteOutput("卸载证书");
             UninstallAcme();
             WriteOutput("关闭端口");
-            ClosePort(Parameters.ShadowSocksPort, Parameters.VMESS_KCP_Port);
+            ClosePort(Parameters.FreePorts.ToArray());
 
             WriteOutput("************ 卸载完成 ************");
         }
@@ -137,12 +137,13 @@ namespace ProxySuper.Core.Services
         {
             EnsureRootAuth();
             EnsureSystemEnv();
+            ConfigurePort();
             ConfigureFirewall();
             var configJson = XrayConfigBuilder.BuildXrayConfig(Parameters);
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(configJson));
             RunCmd("rm -rf /usr/local/etc/xray/config.json");
             UploadFile(stream, "/usr/local/etc/xray/config.json");
-            ConfigurePort();
+
             UploadCaddyFile(string.IsNullOrEmpty(Parameters.MaskDomain));
             RunCmd("systemctl restart xray");
             WriteOutput("************ 更新Xray配置成功，更新配置不包含域名，如果域名更换请重新安装。 ************");

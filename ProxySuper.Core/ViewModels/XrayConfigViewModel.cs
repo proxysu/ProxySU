@@ -56,6 +56,14 @@ namespace ProxySuper.Core.ViewModels
             }
         }
 
+        public bool Checked_VLESS_gRPC
+        {
+            get
+            {
+                return Settings.Types.Contains(XrayType.VLESS_gRPC);
+            }
+        }
+
         public bool Checked_VMESS_TCP
         {
             get
