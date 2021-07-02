@@ -18,6 +18,7 @@
                 <MenuItem Padding="0,5" Header="Xray" Command="{Binding AddXrayCommand}"></MenuItem>
                 <MenuItem Padding="0,5" Header="Trojan-Go" Command="{Binding AddTrojanGoCommand}"></MenuItem>
                 <MenuItem Padding="0,5" Header="NaiveProxy" Command="{Binding AddNaiveProxyCommand}"></MenuItem>
+                <MenuItem Padding="0,5" Header="Brook" Command="{Binding AddBrookCommand}"></MenuItem>
             </MenuItem>
 
             <MenuItem Header="{DynamicResource MainMenuActions}" Padding="10,3">

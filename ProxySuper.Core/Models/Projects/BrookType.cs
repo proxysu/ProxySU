@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace ProxySuper.Core.Models.Projects
 {
-    public enum ProjectType
+    public enum BrookType
     {
-        Xray = 0,
-        TrojanGo = 1,
-        NaiveProxy = 2,
-        Brook = 3,
+        server,
+        wsserver,
+        wssserver
     }
 }

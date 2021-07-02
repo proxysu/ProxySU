@@ -20,6 +20,12 @@ namespace ProxySuper.Core.Services
         Yum
     }
 
+    public enum ArchType
+    {
+        x86,
+        arm,
+    }
+
     public abstract class ProjectBase<TSettings> where TSettings : IProjectSettings
     {
         private SshClient _sshClient;
@@ -27,6 +33,8 @@ namespace ProxySuper.Core.Services
         protected Action<string> WriteOutput;
 
         protected CmdType CmdType { get; set; }
+
+        protected ArchType ArchType { get; set; }
 
         protected bool IsSELinux { get; set; }
 
@@ -66,6 +74,21 @@ namespace ProxySuper.Core.Services
         protected void EnsureSystemEnv()
         {
             string cmd;
+
+            // cpu架构
+            var result = RunCmd("uname -m");
+            if (result.Contains("x86"))
+            {
+                ArchType = ArchType.x86;
+            }
+            else if (result.Contains("arm") || result.Contains("arch"))
+            {
+                ArchType = ArchType.arm;
+            }
+            else
+            {
+                throw new Exception($"未识别的架构处理器架构:{result}");
+            }
 
             // 确认安装命令
             if (CmdType == CmdType.None)
