@@ -8,6 +8,7 @@ using Renci.SshNet;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Automation.Peers;
@@ -45,6 +46,19 @@ namespace ProxySuper.WPF.Views
             {
                 Task.Factory.StartNew(OpenConnect);
             };
+
+            base.Closed += SaveInstallLog;
+        }
+
+        private void SaveInstallLog(object sender, EventArgs e)
+        {
+            if (!Directory.Exists("Logs"))
+            {
+                Directory.CreateDirectory("Logs");
+            }
+
+            var fileName = Path.Combine("Logs", DateTime.Now.ToString("yyyy-MM-dd hh-mm") + ".xary.txt");
+            File.WriteAllText(fileName, ViewModel.CommandText);
         }
 
         private SshClient _sshClient;
@@ -75,8 +89,8 @@ namespace ProxySuper.WPF.Views
             {
                 outShell += "\n";
             }
+            ViewModel.CommandText += outShell;
 
-            ViewModel.OutputText += outShell;
             Dispatcher.Invoke(() =>
             {
                 OutputTextBox.AppendText(outShell);
@@ -116,6 +130,8 @@ namespace ProxySuper.WPF.Views
             }
 
         }
+
+        #region 功能
 
         private void OpenLink(object sender, RoutedEventArgs e)
         {
@@ -187,6 +203,7 @@ namespace ProxySuper.WPF.Views
                 }
             });
         }
+        #endregion
 
     }
 }

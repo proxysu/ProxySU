@@ -66,6 +66,8 @@ namespace ProxySuper.Core.ViewModels
 
         public IMvxCommand AddNaiveProxyCommand => new MvxAsyncCommand(AddNaiveProxyRecord);
 
+        public IMvxCommand AddBrookCommand => new MvxAsyncCommand(AddBrookRecord);
+
         public IMvxCommand RemoveCommand => new MvxAsyncCommand<string>(DeleteRecord);
 
         public IMvxCommand EditCommand => new MvxAsyncCommand<string>(EditRecord);
@@ -111,6 +113,21 @@ namespace ProxySuper.Core.ViewModels
             record.NaiveProxySettings = new NaiveProxySettings();
 
             var result = await _navigationService.Navigate<NaiveProxyEditorViewModel, Record, Record>(record);
+            if (result == null) return;
+
+            Records.Add(result);
+
+            SaveToJson();
+        }
+
+        public async Task AddBrookRecord()
+        {
+            Record record = new Record();
+            record.Id = Utils.GetTickID();
+            record.Host = new Host();
+            record.BrookSettings = new BrookSettings();
+
+            var result = await _navigationService.Navigate<BrookEditorViewModel, Record, Record>(record);
             if (result == null) return;
 
             Records.Add(result);

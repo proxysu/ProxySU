@@ -15,6 +15,7 @@
     <sys:String x:Key="MainMenuActions">Actions</sys:String>
     <sys:String x:Key="MainMenuActionsExportSettings">Export Settings</sys:String>
     <sys:String x:Key="MainMenuActionsExportSubscribe">Export Subscribe</sys:String>
+    <sys:String x:Key="MainMenuActionsGetRoot">Get Root</sys:String>
 
     <sys:String x:Key="MainMenuLanguage">Language</sys:String>
     <sys:String x:Key="MainMenuLanguageEn">English</sys:String>
@@ -75,17 +76,23 @@
     <sys:String x:Key="XrayDomain">Address</sys:String>
     <sys:String x:Key="XrayMarkDomain">GuiseHost</sys:String>
     <sys:String x:Key="XrayUUID">UUID</sys:String>
+    <sys:String x:Key="MultiUser">Multi User</sys:String>
+    <sys:String x:Key="MultiUserHelp">Multi Id split with ","</sys:String>
     <sys:String x:Key="VlessWsPath">VLESS WS Path</sys:String>
     <sys:String x:Key="VlessKcpSeed">VLESS KCP Seed</sys:String>
     <sys:String x:Key="VlessKcpType">VLESS KCP Type</sys:String>
     <sys:String x:Key="VlessKcpPort">VLESS KCP Port</sys:String>
+    <sys:String x:Key="VlessRPCName">gRPC Service Name</sys:String>
+    <sys:String x:Key="VlessRPCPort">gRPC Port</sys:String>
     <sys:String x:Key="VmessWsPath">VMESS WS Path</sys:String>
     <sys:String x:Key="VmessKcpSeed">VMESS KCP Seed</sys:String>
     <sys:String x:Key="VmessKcpType">VMESS KCP Type</sys:String>
     <sys:String x:Key="VmessKcpPort">VMESS KCP Port</sys:String>
     <sys:String x:Key="SSPassword">SS Pwd</sys:String>
     <sys:String x:Key="SSMethods">SS Method</sys:String>
+    <sys:String x:Key="SSPort">SS Port</sys:String>
     <sys:String x:Key="TrojanPassword">Trojan Pwd</sys:String>
+    <sys:String x:Key="TrojanPort">Trojan Port</sys:String>
     <sys:String x:Key="XrayPort">xray Port</sys:String>
     <sys:String x:Key="XrayPortDefault">default port is 443</sys:String>
     

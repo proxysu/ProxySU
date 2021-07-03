@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using ProxySuper.Core.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,13 +22,13 @@ namespace ProxySuper.Core.Models.Projects
             UUID = guid;
             Types = new List<XrayType>();
 
-            VLESS_WS_Path = "/vlessws";
+            VLESS_WS_Path = "/" + Utils.RandomString(6);
             VLESS_KCP_Type = "none";
             VLESS_KCP_Seed = guid;
-            VLESS_gRPC_ServiceName = "xray_gRPC";
+            VLESS_gRPC_ServiceName = "/" + Utils.RandomString(7);
 
-            VMESS_WS_Path = "/vmessws";
-            VMESS_TCP_Path = "/vmesstcp";
+            VMESS_WS_Path = "/" + Utils.RandomString(8);
+            VMESS_TCP_Path = "/" + Utils.RandomString(9);
             VMESS_KCP_Seed = guid;
             VMESS_KCP_Type = "none";
 
@@ -40,12 +42,28 @@ namespace ProxySuper.Core.Models.Projects
         {
             get
             {
-                return new List<int>
+                var list = new List<int>();
+                if (Types.Contains(XrayType.VLESS_KCP))
                 {
-                    VLESS_KCP_Port,
-                    VMESS_KCP_Port,
-                    ShadowSocksPort,
-                };
+                    list.Add(VLESS_KCP_Port);
+                }
+
+                if (Types.Contains(XrayType.VMESS_KCP))
+                {
+                    list.Add(VMESS_KCP_Port);
+                }
+
+                if (Types.Contains(XrayType.ShadowsocksAEAD))
+                {
+                    list.Add(ShadowSocksPort);
+                }
+
+                if (Types.Contains(XrayType.VLESS_gRPC))
+                {
+                    list.Add(VLESS_gRPC_Port);
+                }
+
+                return list;
             }
         }
 
@@ -67,9 +85,32 @@ namespace ProxySuper.Core.Models.Projects
         public string UUID { get; set; }
 
         /// <summary>
+        /// 多用户
+        /// </summary>
+        public List<string> MulitUUID { get; set; } = new List<string>();
+
+        /// <summary>
         /// 伪装域名
         /// </summary>
         public string MaskDomain { get; set; }
+
+        [JsonIgnore]
+        public string Email
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(Domain))
+                {
+                    var arr = Domain.Split('.');
+                    if (arr.Length == 3)
+                    {
+                        return $"{arr[0]}@{arr[1]}.{arr[2]}";
+                    }
+                }
+
+                return $"{UUID.Substring(2, 6)}@gmail.com";
+            }
+        }
 
         /// <summary>
         /// 安装类型

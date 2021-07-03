@@ -20,7 +20,10 @@ namespace ProxySuper.Core.Services
 
         public void Uninstall()
         {
-            UninstallCaddy();
+            RunCmd("rm -rf caddy_install.sh");
+            RunCmd("curl -o caddy_install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/Caddy-Naive/caddy-naive-install.sh");
+            RunCmd("yes | bash caddy_install.sh uninstall");
+            RunCmd("rm -rf caddy_install.sh");
             WriteOutput("ProxyNaive卸载完成");
         }
 
@@ -90,7 +93,7 @@ namespace ProxySuper.Core.Services
             {
                 var errorLog = "安装终止，" + ex.Message;
                 WriteOutput(errorLog);
-                MessageBox.Show(errorLog);
+                MessageBox.Show("安装失败，请联系开发者或上传日志文件(Logs文件夹下)到github提问。");
             }
         }
 
@@ -98,6 +101,8 @@ namespace ProxySuper.Core.Services
         {
             WriteOutput("安装 NaiveProxy");
             RunCmd(@"curl https://raw.githubusercontent.com/proxysu/shellscript/master/Caddy-Naive/caddy-naive-install.sh yes | bash");
+            // 允许开机启动
+            RunCmd("systemctl enable caddy");
             UploadCaddyFile(false);
             ConfigNetwork();
             WriteOutput("NaiveProxy 安装完成");

@@ -28,7 +28,6 @@ namespace ProxySuper.Core.Services
         public static int VLESS_TCP_Port = 1110;
         public static int VLESS_WS_Port = 1111;
         public static int VLESS_H2_Port = 1112;
-        public static int VLESS_mKCP_Port = 1113;
 
         public static int VMESS_TCP_Port = 1210;
         public static int VMESS_WS_Port = 1211;
@@ -96,8 +95,31 @@ namespace ProxySuper.Core.Services
             return caddyStr;
         }
 
+        private static void SetClients(dynamic bound, List<string> uuidList, bool withXtls = false)
+        {
+            bound.settings.clients.Clear();
+            uuidList.ForEach(id =>
+            {
+                object obj;
+                if (!withXtls)
+                {
+                    obj = new { id = id };
+                }
+                else
+                {
+                    obj = new { id = id, flow = "xtls-rprx-direct" };
+                }
+
+                bound.settings.clients.Add(JToken.FromObject(obj));
+            });
+        }
+
+
         public static string BuildXrayConfig(XraySettings parameters)
         {
+            var uuidList = parameters.MulitUUID;
+            uuidList.Insert(0, parameters.UUID);
+
             var xrayConfig = LoadXrayConfig();
             var baseBound = GetBound("VLESS_TCP_XTLS.json");
             baseBound.port = parameters.Port;
@@ -106,13 +128,13 @@ namespace ProxySuper.Core.Services
                 dest = FullbackPort
             }));
             xrayConfig.inbounds.Add(baseBound);
-            baseBound.settings.clients[0].id = parameters.UUID;
+            SetClients(baseBound, uuidList, withXtls: true);
 
             if (parameters.Types.Contains(XrayType.VLESS_WS))
             {
                 var wsInbound = GetBound("VLESS_WS.json");
                 wsInbound.port = VLESS_WS_Port;
-                wsInbound.settings.clients[0].id = parameters.UUID;
+                SetClients(wsInbound, uuidList);
                 wsInbound.streamSettings.wsSettings.path = parameters.VLESS_WS_Path;
                 baseBound.settings.fallbacks.Add(JToken.FromObject(new
                 {
@@ -127,8 +149,9 @@ namespace ProxySuper.Core.Services
             {
                 var gRPCInBound = GetBound("VLESS_gRPC.json");
                 gRPCInBound.port = parameters.VLESS_gRPC_Port;
-                gRPCInBound.settings.clients[0].id = parameters.UUID;
+                SetClients(gRPCInBound, uuidList);
                 gRPCInBound.streamSettings.grpcSettings.serviceName = parameters.VLESS_gRPC_ServiceName;
+                gRPCInBound.streamSettings.tlsSettings.serverName = parameters.Domain;
                 xrayConfig.inbounds.Add(JToken.FromObject(gRPCInBound));
             }
 
@@ -136,7 +159,7 @@ namespace ProxySuper.Core.Services
             {
                 var kcpBound = GetBound("VLESS_KCP.json");
                 kcpBound.port = parameters.VLESS_KCP_Port;
-                kcpBound.settings.clients[0].id = parameters.UUID;
+                SetClients(kcpBound, uuidList);
                 kcpBound.streamSettings.kcpSettings.header.type = parameters.VLESS_KCP_Type;
                 kcpBound.streamSettings.kcpSettings.seed = parameters.VLESS_KCP_Seed;
                 xrayConfig.inbounds.Add(JToken.FromObject(kcpBound));
@@ -146,7 +169,7 @@ namespace ProxySuper.Core.Services
             {
                 var mtcpBound = GetBound("VMESS_TCP.json");
                 mtcpBound.port = VMESS_TCP_Port;
-                mtcpBound.settings.clients[0].id = parameters.UUID;
+                SetClients(mtcpBound, uuidList);
                 mtcpBound.streamSettings.tcpSettings.header.request.path = parameters.VMESS_TCP_Path;
                 baseBound.settings.fallbacks.Add(JToken.FromObject(new
                 {
@@ -161,7 +184,7 @@ namespace ProxySuper.Core.Services
             {
                 var mwsBound = GetBound("VMESS_WS.json");
                 mwsBound.port = VMESS_WS_Port;
-                mwsBound.settings.clients[0].id = parameters.UUID;
+                SetClients(mwsBound, uuidList);
                 mwsBound.streamSettings.wsSettings.path = parameters.VMESS_WS_Path;
                 baseBound.settings.fallbacks.Add(JToken.FromObject(new
                 {
@@ -176,7 +199,7 @@ namespace ProxySuper.Core.Services
             {
                 var kcpBound = GetBound("VMESS_KCP.json");
                 kcpBound.port = parameters.VMESS_KCP_Port;
-                kcpBound.settings.clients[0].id = parameters.UUID;
+                SetClients(kcpBound, uuidList);
                 kcpBound.streamSettings.kcpSettings.header.type = parameters.VMESS_KCP_Type;
                 kcpBound.streamSettings.kcpSettings.seed = parameters.VMESS_KCP_Seed;
                 xrayConfig.inbounds.Add(JToken.FromObject(kcpBound));

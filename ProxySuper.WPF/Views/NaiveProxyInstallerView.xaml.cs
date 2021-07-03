@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -71,6 +72,7 @@ namespace ProxySuper.WPF.Views
             {
                 outShell += "\n";
             }
+            ViewModel.CommandText += outShell;
 
             Dispatcher.Invoke(() =>
             {
@@ -119,8 +121,19 @@ namespace ProxySuper.WPF.Views
             {
                 Task.Factory.StartNew(OpenConnect);
             };
+            base.Closed += SaveInstallLog;
         }
 
+        private void SaveInstallLog(object sender, EventArgs e)
+        {
+            if (!Directory.Exists("Logs"))
+            {
+                Directory.CreateDirectory("Logs");
+            }
+
+            var fileName = System.IO.Path.Combine("Logs", DateTime.Now.ToString("yyyy-MM-dd hh-mm") + ".naiveproxy.txt");
+            File.WriteAllText(fileName, ViewModel.CommandText);
+        }
 
         private void OpenLink(object sender, RoutedEventArgs e)
         {

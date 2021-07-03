@@ -53,6 +53,9 @@ namespace ProxySuper.Core.Models
         [JsonProperty("naiveProxySettings")]
         public NaiveProxySettings NaiveProxySettings { get; set; }
 
+        [JsonProperty("brook")]
+        public BrookSettings BrookSettings { get; set; }
+
 
         [JsonIgnore]
         public ProjectType Type
@@ -63,7 +66,9 @@ namespace ProxySuper.Core.Models
 
                 if (TrojanGoSettings != null) return ProjectType.TrojanGo;
 
-                return ProjectType.NaiveProxy;
+                if (NaiveProxySettings != null) return ProjectType.NaiveProxy;
+
+                return ProjectType.Brook;
             }
         }
 

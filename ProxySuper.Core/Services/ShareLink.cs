@@ -168,7 +168,7 @@ namespace ProxySuper.Core.Services
                 case XrayType.VLESS_gRPC:
                     _protocol = "vless";
                     _type = "grpc";
-                    _path = settings.VLESS_gRPC_ServiceName;
+                    _port = settings.VLESS_gRPC_Port;
                     _descriptiveText = "vless-gRPC";
                     break;
                 case XrayType.Trojan_TCP:
@@ -197,6 +197,12 @@ namespace ProxySuper.Core.Services
                 if (xrayType == XrayType.VLESS_TCP_XTLS)
                 {
                     parametersURL += "&flow=xtls-rprx-direct";
+                }
+
+
+                if (xrayType == XrayType.VLESS_gRPC)
+                {
+                    parametersURL += $"&serviceName={settings.VLESS_gRPC_ServiceName}&mode=gun";
                 }
             }
 

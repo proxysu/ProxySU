@@ -1,6 +1,6 @@
 # ProxySU
-V2ray, Xray,Trojan, NaiveProxy, Trojan-Go, ShadowsocksR(SSR),Shadowsocks-libev and Plugins,MTProto+TLS,BBR install tools for windows。  
-V2ray，Xray,Trojan，NaiveProxy, Trojan-Go, ShadowsocksR(SSR),Shadowsocks-libev及相关插件,MTProto+TLS 一键安装工具。支持纯ipv6主机一键安装代理。  
+V2ray, Xray,Trojan, NaiveProxy, Trojan-Go,BBR install tools for windows。  
+V2ray，Xray,Trojan，NaiveProxy, Trojan-Go, 及相关插件。支持纯ipv6主机一键安装代理。  
 BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）,支持语言:English、简体中文、正体（繁体）中文。
 
 编译环境Visual Studio 2017  使用WPF界面。可一键安装V2ray、Xray,Trojan、NaiveProxy，Trojan-Go,ShadowsocksR(SSR),Shadowsocks-libev and Plugins、MTProto+TLS 后续还会再添加其他。  
@@ -16,7 +16,6 @@ BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）,支持语�
 ##### ProxySU本着技术中立的原则，没有任何立场，也不持任何见解，更不涉及任何政治因素。ProxySU仅仅主张人的知情权，这是一项天赋人权，也是各国宪法所保障的最基本人权。知情权包含对同一事物正负两方面评价的知情，至于相信哪个，由人自己选择。正如李文亮医生临终所言：一个正常的社会是不应该只有一种声音的。如果真的存在对某一事物只有一种声音的评价，无论其评价是正面还是负面，都是要慎重对待，并需要重新审视的。  
 
 ##### Xray可一键安装的模式有： 
-当前Xray是V2Ray的超集，未来Xray会有不同的发展方向。  
 * VLESS+TCP+XTLS+Web (最新黑科技)  
 * Vless+tcp+TLS+Web (新热门协议)  
 * VLESS+WebSocket+TLS+Web  
@@ -30,57 +29,10 @@ BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）,支持语�
 * WebSocket+TLS 
 * WebSocket+TLS+Web 
 * WebSocket+TLS（自签证书） 
-* http2  
-* http2+TLS+Web
-* http2（自签证书）  
 * mKCP及各种伪装 
-* QUIC及各种伪装。  
 
-##### V2ray可一键安装的模式有： 
-
-* Vless+tcp+TLS+Web (新热门协议)  
-* VLESS+WebSocket+TLS+Web  
-* VLESS+http2+TLS+Web  
-* VLESS+mKCP
-* tcp 
-* tcp+http伪装  
-* tcp+TLS 
-* tcp+TLS （自签证书）
-* WebSocket
-* WebSocket+TLS 
-* WebSocket+TLS+Web 
-* WebSocket+TLS（自签证书） 
-* http2  
-* http2+TLS+Web
-* http2（自签证书）  
-* mKCP及各种伪装 
-* QUIC及各种伪装。  
-注：mKCP和QUIC模式使用udp协议，可以有效减少网络延时，有加速的作用，但在网络管控严厉时期，会导致端口或IP被封。以上模式最推荐的是WebSocket+TLS+Web 和http2+TLS+Web 需要有一个域名。如果能加上CDN则稳定性更好。加上CDN后，是加速还是减速，与线路有关，也与当前所用的CDN的IP有关，这里是一个筛选CDN最优IP的工具： [better-cloudflare-ip](https://github.com/badafans/better-cloudflare-ip) -----适用于使用 Cloudflare 的CDN。
-
-##### Trojan 可一键安装：  
-* Trojan + TLS + Web
-
-##### Trojan-Go 可一键安装：  
-* Trojan-Go + TLS + Web  
-* Trojan-Go + WebSocket + TLS + Web
-
-##### NaiveProxy一键安装：  
-* NaiveProxy + TLS +Web  
-
-##### ShadowsocksR(SSR)一键安装：  
-* SSR+TLS+Caddy  
-
-##### SS (Shadowsocks-libev) 及相关插件一键安装：  
-* SS 经典模式  
-* SS+WebSocket+TLS+Caddy(Web前置) (推荐)  
-* SS+WebSocket  
-* SS+QUIC  
-* SS+kcptun  
-* SS+obfs+http+Web  
-* SS+obfs+TLS+Web  
-
-##### MTProto+TLS电报代理一键安装：
-* MTProto+TLS
+##### 上传自有证书 #####
+需要将crt和key文件打包成zip，在安装界面选择“上传自有证书”
 
 ##### 支持的VPS系统为：  
 * CentOS 7/8   
@@ -183,18 +135,6 @@ Let's Encrypt证书申请频率的限制
 * [Qv2ray (windows)](https://github.com/Qv2ray/Qv2ray)客户端导入二维码和URL  
 注：这里多说几句NaiveProxy，现在墙越来越高，翻墙软件需要隐藏访问目标网址和加密数据的同时，还要隐藏自己的流量特征，不被识别出是代理流量。V2ray，Trojan都有其自己的实现。而NaiveProxy是配合Caddy的一个http.forwardproxy插件，插件有防嗅探，转发流量的功能。代理http流量很完美，但是在代理https流量时，会出现长度特征，NaiverProxy则弥补了这一点，消除了代理https时的流量特征，另外还应用 [Chrome's network stack](https://www.chromium.org/developers/design-documents/network-stack).更好的消除TLS的指纹特征。详细介绍请看项目官方介绍：[NaiveProxy官方文档](https://github.com/klzgrad/naiveproxy)。有兴趣的不妨一试。
 
-###### SSR+TLS+Caddy 模式目前已支持生成用于  
-
-* [ShadowsocksR (windows)](https://github.com/shadowsocksrr/shadowsocksr-csharp/releases)客户端导入二维码和URL  
-* [SSRR（Android）](https://github.com/shadowsocksrr/shadowsocksr-android/releases)导入二维码和URL  
-* [Shadowrocket (ios)](https://apps.apple.com/us/app/shadowrocket/id932747118)导入二维码和URL  
-
-###### SS (Shadowsocks-libev) 目前已支持生成用于  
-
-* [Shadowsocks (windows)](https://github.com/shadowsocks/shadowsocks-windows/releases)客户端导入二维码和URL  
-* [shadowsocks（Android）](https://github.com/shadowsocks/shadowsocks-android/releases)导入二维码和URL  
-* [Shadowrocket (ios)](https://apps.apple.com/us/app/shadowrocket/id932747118)导入二维码和URL  
-
 ## 程序工作流程：  
 1. 使用[SSH.NET](https://github.com/sshnet/SSH.NET)登录远程主机  
 2. 根据选择的代理来调用相应的脚本：  
@@ -204,8 +144,6 @@ Let's Encrypt证书申请频率的限制
   * 选择Trojan-Go，则调用本项目内的trojan-go.sh安装， `curl -o /tmp/trojan-go.sh https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh` `yes | bash /tmp/trojan-go.sh -f` 安装Trojan-GO。  
   * 选择NaiveProxy，先安装Caddy2,方法源自[Caddy官方文档](https://caddyserver.com/docs/download)。再用自编译的Caddy2(带forward_proxy插件)替换原来的Caddy运行文件。自编译Caddy2文件方法源自[NaiveProxy官方文档](https://github.com/klzgrad/naiveproxy#setup)。  
   * 选择SSR+TLS+Caddy模式，则调用本项目内的ssr.sh安装， `curl -o /tmp/ssr.sh https://raw.githubusercontent.com/proxysu/shellscript/master/ssr/ssr.sh` `yes | bash /tmp/ssr.sh -f` 安装SSR。  
-  * 选择Shadowsocks-libev与插件模式，则调用本项目内的ss-install.sh安装，`curl -o /tmp/install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/ss/ss-install.sh` `yes | bash /tmp/install.sh`  
-  * 先择MTProto+TLS模式，则调用本项目内的mtg_install.sh安装，`curl -o /tmp/mtg_install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/MTProto/mtg_install.sh` `yes | bash /tmp/mtg_install.sh`  
 3. 根据选择读取相应配置模板，调用[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)生成相应配置文件，并上传到服务器。所有模板及配置文件 [在这里](https://github.com/proxysu/windows/tree/master/TemplateConfg)  
 4. 如果使用WebSocket+TLS+Web/http2+TLS+Web/Trojan+TLS+Web/Trojan-go+TLS+Web/SSR+TLS+Caddy/SS+WebSocket+TLS+Caddy/SS+obfs+http+Web/SS+obfs+TLS+Web 模式，则安装Caddy2,方法源自[Caddy官方文档](https://caddyserver.com/docs/download)。  
 5. 如果使用Http2/tcp+TLS/WebSocket+TLS/Trojan+TLS+Web/Trojan-go+TLS+Web/SS+QUIC模式，则调用  `curl https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh  | INSTALLONLINE=1  sh` 安装acme.sh，使用acme.sh申请证书.  
