@@ -114,6 +114,9 @@
     <Compile Include="Views\BrookEditorView.xaml.cs">
       <DependentUpon>BrookEditorView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\BrookInstallerView.xaml.cs">
+      <DependentUpon>BrookInstallerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
     </Compile>
@@ -205,6 +208,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="Views\BrookEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BrookInstallerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

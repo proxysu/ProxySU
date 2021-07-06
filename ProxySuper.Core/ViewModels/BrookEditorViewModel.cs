@@ -15,6 +15,13 @@ namespace ProxySuper.Core.ViewModels
 {
     public class BrookEditorViewModel : MvxViewModel<Record, Record>
     {
+        public BrookEditorViewModel(IMvxNavigationService navigationService)
+        {
+            NavigationService = navigationService;
+        }
+
+        public IMvxNavigationService NavigationService { get; }
+
         public string Id { get; set; }
 
         public Host Host { get; set; }
@@ -29,6 +36,7 @@ namespace ProxySuper.Core.ViewModels
                     BrookType.server.ToString(),
                     BrookType.wsserver.ToString(),
                     BrookType.wssserver.ToString(),
+                    BrookType.socks5.ToString(),
                 };
             }
         }
@@ -52,8 +60,6 @@ namespace ProxySuper.Core.ViewModels
         public bool EnableDomain => Settings.BrookType == BrookType.wssserver;
 
         public IMvxCommand SaveCommand => new MvxCommand(() => Save());
-
-        public IMvxNavigationService NavigationService { get; }
 
         public override void Prepare(Record parameter)
         {

@@ -166,6 +166,14 @@ namespace ProxySuper.Core.ViewModels
                 record.Host = result.Host;
                 record.NaiveProxySettings = result.NaiveProxySettings;
             }
+            if (record.Type == ProjectType.Brook)
+            {
+                result = await _navigationService.Navigate<BrookEditorViewModel, Record, Record>(record);
+                if (result == null) return;
+
+                record.Host = result.Host;
+                record.BrookSettings = result.BrookSettings;
+            }
 
             SaveToJson();
         }
@@ -220,6 +228,10 @@ namespace ProxySuper.Core.ViewModels
             if (record.Type == ProjectType.NaiveProxy)
             {
                 await _navigationService.Navigate<NaiveProxyInstallerViewModel, Record>(record);
+            }
+            if (record.Type == ProjectType.Brook)
+            {
+                await _navigationService.Navigate<BrookInstallerViewModel, Record>(record);
             }
         }
     }

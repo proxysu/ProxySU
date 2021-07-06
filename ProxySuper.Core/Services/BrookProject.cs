@@ -44,64 +44,53 @@ namespace ProxySuper.Core.Services
                 WriteOutput("域名检测完成");
             }
 
+            InstallBrook();
 
 
+            Console.WriteLine("*************安装完成，尽情享用吧**********");
         }
 
         public void InstallBrook()
         {
-            Console.WriteLine("安装nami");
-            RunCmd("source <(curl -L https://git.io/getnami)");
-            Console.WriteLine("安装nami完成");
-
             Console.WriteLine("安装Brook");
-            RunCmd("echo y | nami install github.com/txthinking/brook");
+
+            string url = "https://github.com/txthinking/brook/releases/latest/download/brook_linux_amd64";
+            if (ArchType == ArchType.arm)
+            {
+                url = url.Replace("brook_linux_amd64", "brook_linux_arm7");
+            }
+
+            RunCmd($"curl -L {url} -o /usr/bin/brook");
+            RunCmd("chmod +x /usr/bin/brook");
             Console.WriteLine("安装Brook完成");
-
-            Console.WriteLine("安装joker");
-            RunCmd("echo y | nami install github.com/txthinking/joker");
-            Console.WriteLine("安装joker完成");
-
-            Console.WriteLine("安装jinbe");
-            RunCmd("echo y | nami install github.com/txthinking/jinbe");
-            Console.WriteLine("安装jinbe完成");
 
 
             var runBrookCmd = string.Empty;
 
             if (Parameters.BrookType == BrookType.server)
             {
-                runBrookCmd = $"joker brook server --listen :{Parameters.Port} --password {Parameters.Password}";
+                runBrookCmd = $"nohup /usr/bin/brook server --listen :{Parameters.Port} --password {Parameters.Password} &";
             }
 
             if (Parameters.BrookType == BrookType.wsserver)
             {
-                runBrookCmd = $"joker brook wsserver --listen :{Parameters.Port} --password {Parameters.Password}";
+                runBrookCmd = $"nohup /usr/bin/brook wsserver --listen :{Parameters.Port} --password {Parameters.Password} &";
             }
 
             if (Parameters.BrookType == BrookType.wsserver)
             {
-                runBrookCmd = $"joker brook wssserver --domain {Parameters.Domain} --password {Parameters.Password}";
+                runBrookCmd = $"nohup /usr/bin/brook wssserver --domain {Parameters.Domain} --password {Parameters.Password} &";
             }
 
-            RunCmd("jinbe " + runBrookCmd);
-
-            Console.WriteLine("*************安装完成，尽情享用吧**********");
+            if (Parameters.BrookType == BrookType.socks5)
+            {
+                runBrookCmd = $"nohup /usr/bin/brook socks5 --socks5 :{Parameters.Port} &";
+            }
         }
 
         public void Uninstall()
         {
-            RunCmd("jinbe remove 0");
-            RunCmd("killall joker");
-
-            Console.WriteLine("卸载jinbe");
-            RunCmd("echo y | nami remove github.com/txthinking/jinbe");
-
-            Console.WriteLine("卸载joker");
-            RunCmd("echo y | nami remove github.com/txthinking/joker");
-
-            Console.WriteLine("卸载brook");
-            RunCmd("echo y | nami remove github.com/txthinking/brook");
+            RunCmd("killall brook");
 
             Console.WriteLine("关闭端口");
             ClosePort(Parameters.FreePorts.ToArray());
