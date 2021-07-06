@@ -10,6 +10,7 @@ namespace ProxySuper.Core.Models.Projects
     {
         server,
         wsserver,
-        wssserver
+        wssserver,
+        socks5
     }
 }
