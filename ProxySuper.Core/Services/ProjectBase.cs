@@ -146,6 +146,8 @@ namespace ProxySuper.Core.Services
                     RunCmd(@"sed -i 's/SELINUX=enforcing/SELINUX=permissive/' /etc/selinux/config");
                 }
             }
+
+            EnsureIP();
         }
 
         /// <summary>
@@ -169,7 +171,7 @@ namespace ProxySuper.Core.Services
         /// <summary>
         /// 配置IPV6环境
         /// </summary>
-        protected void ConfigureIPv6()
+        protected void EnsureIP()
         {
             if (IsOnlyIpv6())
             {
@@ -506,7 +508,7 @@ namespace ProxySuper.Core.Services
             return OnlyIpv6;
         }
 
-        private bool SetPortFree(int port, bool force = true)
+        protected bool SetPortFree(int port, bool force = true)
         {
             string result = RunCmd($"lsof -n -P -i :{port} | grep LISTEN");
 

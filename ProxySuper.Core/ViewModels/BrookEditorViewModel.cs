@@ -50,6 +50,12 @@ namespace ProxySuper.Core.ViewModels
             set
             {
                 Settings.BrookType = (BrookType)Enum.Parse(typeof(BrookType), value);
+
+                if (Settings.BrookType == BrookType.wssserver)
+                {
+                    Settings.Port = 443;
+                    RaisePropertyChanged("Settings");
+                }
                 RaisePropertyChanged("EnablePort");
                 RaisePropertyChanged("EnableDomain");
             }

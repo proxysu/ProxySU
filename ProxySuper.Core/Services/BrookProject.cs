@@ -10,6 +10,19 @@ namespace ProxySuper.Core.Services
 {
     public class BrookProject : ProjectBase<BrookSettings>
     {
+        private string brookServiceTemp = @"
+                                        [Unit]
+                                        Description=brook service
+                                        After=network.target syslog.target
+                                        Wants=network.target
+
+                                        [Service]
+                                        Type=simple
+                                        ExecStart=##run_cmd##
+
+                                        [Install]
+                                        WantedBy=multi-user.target";
+
         public BrookProject(SshClient sshClient, BrookSettings parameters, Action<string> writeOutput) : base(sshClient, parameters, writeOutput)
         {
         }
@@ -22,20 +35,16 @@ namespace ProxySuper.Core.Services
             WriteOutput("检测安装系统环境完成");
 
             WriteOutput("配置服务器端口...");
-            ConfigurePort();
+            OpenPort(Parameters.FreePorts.ToArray());
+            Parameters.FreePorts.ForEach(port =>
+            {
+                SetPortFree(port);
+            });
             WriteOutput("端口配置完成");
 
             WriteOutput("安装必要的系统工具...");
             ConfigureSoftware();
             WriteOutput("系统工具安装完成");
-
-            WriteOutput("检测IP6...");
-            ConfigureIPv6();
-            WriteOutput("检测IP6完成");
-
-            WriteOutput("配置防火墙...");
-            ConfigureFirewall();
-            WriteOutput("防火墙配置完成");
 
             if (Parameters.BrookType == BrookType.wssserver)
             {
@@ -64,28 +73,46 @@ namespace ProxySuper.Core.Services
             RunCmd("chmod +x /usr/bin/brook");
             Console.WriteLine("安装Brook完成");
 
+            var brookService = brookServiceTemp.Replace("##run_cmd##", GetRunBrookCommand());
 
+            RunCmd("rm -rf /etc/systemd/system/brook.service");
+            RunCmd("touch /etc/systemd/system/brook.service");
+            RunCmd($"echo \"{brookService}\" > /etc/systemd/system/brook.service");
+            RunCmd("sudo chmod 777 /etc/systemd/system/brook.service");
+
+            RunCmd("systemctl enable brook");
+            RunCmd("systemctl restart brook");
+
+            WriteOutput("********************");
+            WriteOutput("安装完成，尽情想用吧~ ");
+            WriteOutput("*********************");
+        }
+
+        private string GetRunBrookCommand()
+        {
             var runBrookCmd = string.Empty;
 
             if (Parameters.BrookType == BrookType.server)
             {
-                runBrookCmd = $"nohup /usr/bin/brook server --listen :{Parameters.Port} --password {Parameters.Password} &";
+                return $"/usr/bin/brook server --listen :{Parameters.Port} --password {Parameters.Password}";
             }
 
             if (Parameters.BrookType == BrookType.wsserver)
             {
-                runBrookCmd = $"nohup /usr/bin/brook wsserver --listen :{Parameters.Port} --password {Parameters.Password} &";
+                return $"/usr/bin/brook wsserver --listen :{Parameters.Port} --password {Parameters.Password}";
             }
 
-            if (Parameters.BrookType == BrookType.wsserver)
+            if (Parameters.BrookType == BrookType.wssserver)
             {
-                runBrookCmd = $"nohup /usr/bin/brook wssserver --domain {Parameters.Domain} --password {Parameters.Password} &";
+                return $"/usr/bin/brook wssserver --domain {Parameters.Domain} --password {Parameters.Password}";
             }
 
             if (Parameters.BrookType == BrookType.socks5)
             {
-                runBrookCmd = $"nohup /usr/bin/brook socks5 --socks5 :{Parameters.Port} &";
+                return $"/usr/bin/brook socks5 --socks5 :{Parameters.Port}";
             }
+
+            return runBrookCmd;
         }
 
         public void Uninstall()

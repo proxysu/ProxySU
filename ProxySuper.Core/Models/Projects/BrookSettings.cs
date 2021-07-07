@@ -20,10 +20,11 @@ namespace ProxySuper.Core.Models.Projects
         {
             get
             {
-                return new List<int>()
+                if (Port == 443)
                 {
-                    Port
-                };
+                    return new List<int> { 80, 443 };
+                }
+                return new List<int> { Port };
             }
         }
 

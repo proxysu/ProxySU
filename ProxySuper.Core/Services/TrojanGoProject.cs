@@ -91,10 +91,6 @@ namespace ProxySuper.Core.Services
                 ConfigureSoftware();
                 WriteOutput("系统工具安装完成");
 
-                WriteOutput("检测IP6...");
-                ConfigureIPv6();
-                WriteOutput("检测IP6完成");
-
                 WriteOutput("配置防火墙...");
                 ConfigureFirewall();
                 WriteOutput("防火墙配置完成");
