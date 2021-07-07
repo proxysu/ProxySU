@@ -94,6 +94,7 @@
     <Compile Include="Services\TrojanGoProject.cs" />
     <Compile Include="Services\XrayConfigBuilder.cs" />
     <Compile Include="Services\XrayProject.cs" />
+    <Compile Include="ViewModels\BrookConfigViewModel.cs" />
     <Compile Include="ViewModels\BrookEditorViewModel.cs" />
     <Compile Include="ViewModels\BrookInstallerViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />

@@ -111,11 +111,17 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\BrookConfigView.xaml.cs">
+      <DependentUpon>BrookConfigView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\BrookEditorView.xaml.cs">
       <DependentUpon>BrookEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BrookInstallerView.xaml.cs">
       <DependentUpon>BrookInstallerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EnableRootView.xaml.cs">
+      <DependentUpon>EnableRootView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
@@ -207,11 +213,19 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
+    <Page Include="Views\BrookConfigView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\BrookEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\BrookInstallerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EnableRootView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

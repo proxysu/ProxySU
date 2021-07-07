@@ -48,14 +48,17 @@
                           SelectedValue="{Binding CheckedBrookType,Mode=TwoWay}">
                 </ComboBox>
 
-                <Label Content="端口" Grid.Row="1" Grid.Column="0" />
+                <Label Content="端口" Grid.Row="1" Grid.Column="0" IsEnabled="{Binding EnablePort}" />
                 <TextBox IsEnabled="{Binding EnablePort}" Text="{Binding Settings.Port}" Grid.Row="1" Grid.Column="1" />
 
                 <Label Content="密码" Grid.Row="2" Grid.Column="0" />
                 <TextBox Text="{Binding Settings.Password}" Grid.Row="2" Grid.Column="1" />
 
-                <Label Content="域名" Grid.Row="3" Grid.Column="0" />
-                <TextBox IsEnabled="{Binding EnableDomain}" Text="{Binding Settings.Domain}" Grid.Row="3" Grid.Column="1" />
+                <Label Content="IP" Grid.Row="3" Grid.Column="0" IsEnabled="{Binding EnableIP}" />
+                <TextBox IsEnabled="{Binding EnableIP}" Text="{Binding Settings.IP}" Grid.Row="3" Grid.Column="1" />
+
+                <Label Content="域名" Grid.Row="4" Grid.Column="0" IsEnabled="{Binding EnableDomain}" />
+                <TextBox IsEnabled="{Binding EnableDomain}" Text="{Binding Settings.Domain}" Grid.Row="4" Grid.Column="1" />
             </Grid>
             
             <Border BorderBrush="#eee" BorderThickness="0,1,0,0">

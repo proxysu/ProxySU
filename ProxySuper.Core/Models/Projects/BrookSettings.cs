@@ -10,6 +10,8 @@ namespace ProxySuper.Core.Models.Projects
     {
         public string Domain { get; set; }
 
+        public string IP { get; set; }
+
         public string Password { get; set; }
 
         public BrookType BrookType { get; set; }

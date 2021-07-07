@@ -210,6 +210,10 @@ namespace ProxySuper.Core.ViewModels
             {
                 await _navigationService.Navigate<NaiveProxyConfigViewModel, NaiveProxySettings>(record.NaiveProxySettings);
             }
+            if (record.Type == ProjectType.Brook)
+            {
+                await _navigationService.Navigate<BrookConfigViewModel, BrookSettings>(record.BrookSettings);
+            }
         }
 
         public async Task GoToInstall(string id)

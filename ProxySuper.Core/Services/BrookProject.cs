@@ -109,7 +109,8 @@ namespace ProxySuper.Core.Services
 
             if (Parameters.BrookType == BrookType.socks5)
             {
-                return $"/usr/bin/brook socks5 --socks5 :{Parameters.Port}";
+                var ip = OnlyIpv6 ? IPv6 : IPv4;
+                return $"/usr/bin/brook socks5 --socks5 {ip}:{Parameters.Port}";
             }
 
             return runBrookCmd;
@@ -117,12 +118,15 @@ namespace ProxySuper.Core.Services
 
         public void Uninstall()
         {
-            RunCmd("killall brook");
+            RunCmd("systemctl stop brook");
+            RunCmd("systemctl disable brook");
+            RunCmd("rm -rf /etc/systemd/system/brook.service");
+            RunCmd("rm -rf /usr/bin/brook");
 
             Console.WriteLine("关闭端口");
             ClosePort(Parameters.FreePorts.ToArray());
 
-            Console.WriteLine("******卸载完成******");
+            WriteOutput("******卸载完成******");
         }
     }
 }

@@ -11,6 +11,37 @@ namespace ProxySuper.Core.Services
 {
     public class ShareLink
     {
+        public static string BuildBrook(BrookSettings settings)
+        {
+            var password = HttpUtility.UrlEncode(settings.Password);
+
+            if (settings.BrookType == BrookType.server)
+            {
+                var address = HttpUtility.UrlEncode($"{settings.IP}:{settings.Port}");
+                return $"brook://server?password={password}&server={address}";
+            }
+
+            if (settings.BrookType == BrookType.wsserver)
+            {
+                var address = HttpUtility.UrlEncode($"ws://{settings.IP}:{settings.Port}");
+                return $"brook://wsserver?password={password}&ws={address}";
+            }
+
+            if (settings.BrookType == BrookType.wssserver)
+            {
+                var address = HttpUtility.UrlEncode($"wss://{settings.Domain}:{settings.Port}");
+                return $"brook://wssserver?password={password}&wss={address}";
+            }
+
+            if (settings.BrookType == BrookType.socks5)
+            {
+                var address = HttpUtility.UrlEncode($"socks5://{settings.IP}:{settings.Port}");
+                return $"brook://socks5?password={password}&socks5={address}";
+            }
+
+            return string.Empty;
+        }
+
         public static string BuildNaiveProxy(NaiveProxySettings settings)
         {
             StringBuilder strBuilder = new StringBuilder();
