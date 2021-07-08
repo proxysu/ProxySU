@@ -1,13 +1,10 @@
 ﻿using ProxySuper.Core.Helpers;
-using ProxySuper.Core.Models;
 using ProxySuper.Core.Models.Projects;
 using Renci.SshNet;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace ProxySuper.Core.Services

@@ -5,21 +5,12 @@ using ProxySuper.Core.Services;
 using ProxySuper.Core.ViewModels;
 using Renci.SshNet;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace ProxySuper.WPF.Views
 {
@@ -42,6 +33,13 @@ namespace ProxySuper.WPF.Views
         }
 
         public NaiveProxyProject Project { get; set; }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            _sshClient.Disconnect();
+            _sshClient.Dispose();
+        }
 
         private SshClient _sshClient;
         private void OpenConnect()
@@ -122,6 +120,16 @@ namespace ProxySuper.WPF.Views
                 Task.Factory.StartNew(OpenConnect);
             };
             base.Closed += SaveInstallLog;
+            base.Closed += Disconnect;
+        }
+
+        private void Disconnect(object sender, EventArgs e)
+        {
+            if (_sshClient != null)
+            {
+                _sshClient.Disconnect();
+                _sshClient.Dispose();
+            }
         }
 
         private void SaveInstallLog(object sender, EventArgs e)

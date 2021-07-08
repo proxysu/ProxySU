@@ -1,27 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using MvvmCross.Platforms.Wpf.Views;
 
 namespace ProxySuper.WPF.Views
 {
     /// <summary>
     /// EnableRootView.xaml 的交互逻辑
     /// </summary>
-    public partial class EnableRootView : Window
+    public partial class EnableRootView : MvxWindow
     {
         public EnableRootView()
         {
             InitializeComponent();
+        }
+
+        private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            OutputText.ScrollToEnd();
         }
     }
 }

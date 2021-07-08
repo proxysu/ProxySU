@@ -1,21 +1,9 @@
-﻿using Microsoft.Win32;
-using MvvmCross;
-using MvvmCross.Commands;
-using MvvmCross.Navigation;
-using MvvmCross.ViewModels;
+﻿using MvvmCross.ViewModels;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using ProxySuper.Core.Models.Hosts;
 using ProxySuper.Core.Models.Projects;
 using ProxySuper.Core.Services;
-using ProxySuper.Core.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ProxySuper.Core.Models
 {

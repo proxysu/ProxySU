@@ -6,7 +6,6 @@ using ProxySuper.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 
 namespace ProxySuper.WPF.Views
@@ -96,6 +95,10 @@ namespace ProxySuper.WPF.Views
             NavigationService.Navigate<ShareLinkViewModel, List<Record>>(checkedRecords);
         }
 
+        private void GetRoot(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate<EnableRootViewModel>();
+        }
 
     }
 }

@@ -97,6 +97,7 @@
     <Compile Include="ViewModels\BrookConfigViewModel.cs" />
     <Compile Include="ViewModels\BrookEditorViewModel.cs" />
     <Compile Include="ViewModels\BrookInstallerViewModel.cs" />
+    <Compile Include="ViewModels\EnableRootViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\NaiveProxyConfigViewModel.cs" />
     <Compile Include="ViewModels\NaiveProxyEditorViewModel.cs" />

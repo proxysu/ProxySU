@@ -3,13 +3,6 @@ using ProxySuper.Core.Models;
 using ProxySuper.Core.Models.Hosts;
 using ProxySuper.Core.Models.Projects;
 using ProxySuper.Core.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Renci.SshNet;
-using System.Windows.Threading;
 
 namespace ProxySuper.Core.ViewModels
 {

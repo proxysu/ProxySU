@@ -11,7 +11,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Automation.Peers;
 using System.Windows.Documents;
 using System.Windows.Threading;
 
@@ -48,6 +47,16 @@ namespace ProxySuper.WPF.Views
             };
 
             base.Closed += SaveInstallLog;
+            base.Closed += Disconnect;
+        }
+
+        private void Disconnect(object sender, EventArgs e)
+        {
+            if (_sshClient != null)
+            {
+                _sshClient.Disconnect();
+                _sshClient.Dispose();
+            }
         }
 
         private void SaveInstallLog(object sender, EventArgs e)
