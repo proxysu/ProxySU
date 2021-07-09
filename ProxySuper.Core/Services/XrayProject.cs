@@ -1,13 +1,9 @@
 ﻿using Newtonsoft.Json;
-using ProxySuper.Core.Models;
 using ProxySuper.Core.Models.Projects;
 using Renci.SshNet;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace ProxySuper.Core.Services
@@ -61,10 +57,6 @@ namespace ProxySuper.Core.Services
                 WriteOutput("安装必要的系统工具...");
                 ConfigureSoftware();
                 WriteOutput("系统工具安装完成");
-
-                WriteOutput("检测IP6...");
-                ConfigureIPv6();
-                WriteOutput("检测IP6完成");
 
                 WriteOutput("配置防火墙...");
                 ConfigureFirewall();

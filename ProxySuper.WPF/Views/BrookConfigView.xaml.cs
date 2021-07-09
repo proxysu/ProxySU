@@ -3,11 +3,11 @@
 namespace ProxySuper.WPF.Views
 {
     /// <summary>
-    /// NaiveProxyEditorView.xaml 的交互逻辑
+    /// BrookConfigView.xaml 的交互逻辑
     /// </summary>
-    public partial class NaiveProxyEditorView : MvxWindow
+    public partial class BrookConfigView : MvxWindow
     {
-        public NaiveProxyEditorView()
+        public BrookConfigView()
         {
             InitializeComponent();
         }

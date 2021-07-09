@@ -4,11 +4,11 @@ using ProxySuper.Core.Services;
 
 namespace ProxySuper.Core.ViewModels
 {
-    public class NaiveProxyConfigViewModel : MvxViewModel<NaiveProxySettings>
+    public class BrookConfigViewModel : MvxViewModel<BrookSettings>
     {
-        public NaiveProxySettings Settings { get; set; }
+        public BrookSettings Settings { get; set; }
 
-        public override void Prepare(NaiveProxySettings parameter)
+        public override void Prepare(BrookSettings parameter)
         {
             Settings = parameter;
         }
@@ -17,7 +17,7 @@ namespace ProxySuper.Core.ViewModels
         {
             get
             {
-                return ShareLink.BuildNaiveProxy(Settings);
+                return ShareLink.BuildBrook(Settings);
             }
         }
     }

@@ -23,6 +23,7 @@
 
             <MenuItem Header="{DynamicResource MainMenuActions}" Padding="10,3">
                 <MenuItem Padding="0,5" Header="{DynamicResource MainMenuActionsExportSettings}" Click="ShowShareLinks"></MenuItem>
+                <MenuItem Padding="0,5" Header="{DynamicResource MainMenuActionsGetRoot}" Click="GetRoot"></MenuItem>
             </MenuItem>
 
             <MenuItem Header="{DynamicResource MainMenuLanguage}" Padding="10,3">

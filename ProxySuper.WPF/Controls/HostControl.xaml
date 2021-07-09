@@ -16,8 +16,8 @@
     
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="300" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         
         <GroupBox Padding="10" Header="{DynamicResource HostGroupName}" Grid.Row="0">

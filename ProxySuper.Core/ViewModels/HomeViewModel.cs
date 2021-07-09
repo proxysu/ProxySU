@@ -11,8 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -209,6 +207,10 @@ namespace ProxySuper.Core.ViewModels
             if (record.Type == ProjectType.NaiveProxy)
             {
                 await _navigationService.Navigate<NaiveProxyConfigViewModel, NaiveProxySettings>(record.NaiveProxySettings);
+            }
+            if (record.Type == ProjectType.Brook)
+            {
+                await _navigationService.Navigate<BrookConfigViewModel, BrookSettings>(record.BrookSettings);
             }
         }
 

@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ProxySuper.Core.Models.Projects
 {
     public class BrookSettings : IProjectSettings
     {
         public string Domain { get; set; }
+
+        public string IP { get; set; }
 
         public string Password { get; set; }
 
@@ -20,10 +18,11 @@ namespace ProxySuper.Core.Models.Projects
         {
             get
             {
-                return new List<int>()
+                if (Port == 443)
                 {
-                    Port
-                };
+                    return new List<int> { 80, 443 };
+                }
+                return new List<int> { Port };
             }
         }
 

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ProxySuper.Core.Models.Hosts
+﻿namespace ProxySuper.Core.Models.Hosts
 {
     public enum LocalProxyType
     {
