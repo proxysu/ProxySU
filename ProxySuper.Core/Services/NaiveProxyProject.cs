@@ -127,13 +127,13 @@ namespace ProxySuper.Core.Services
         private void UploadCaddyFile(bool useCustomWeb = false)
         {
             var caddyStr = BuildConfig(useCustomWeb);
-            var stream = new MemoryStream(Encoding.UTF8.GetBytes(caddyStr));
 
             if (FileExists("/etc/caddy/Caddyfile"))
             {
                 RunCmd("mv /etc/caddy/Caddyfile /etc/caddy/Caddyfile.back");
             }
-            UploadFile(stream, "/etc/caddy/Caddyfile");
+
+            RunCmd($"echo {caddyStr} > /etc/caddy/Caddyfile");
             RunCmd("systemctl restart caddy");
         }
 

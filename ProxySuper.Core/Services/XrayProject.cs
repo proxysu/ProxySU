@@ -164,7 +164,6 @@ namespace ProxySuper.Core.Services
                 certName: "xray_ssl.crt",
                 keyName: "xray_ssl.key");
 
-            RunCmd("systemctl restart xray");
             WriteOutput("************ 安装证书完成 ************");
         }
 
@@ -247,12 +246,12 @@ namespace ProxySuper.Core.Services
         private void UploadCaddyFile(bool useCustomWeb = false)
         {
             var configJson = XrayConfigBuilder.BuildCaddyConfig(Parameters, useCustomWeb);
-            var stream = new MemoryStream(Encoding.UTF8.GetBytes(configJson));
+
             if (FileExists("/etc/caddy/Caddyfile"))
             {
                 RunCmd("mv /etc/caddy/Caddyfile /etc/caddy/Caddyfile.back");
             }
-            UploadFile(stream, "/etc/caddy/Caddyfile");
+            WriteToFile(configJson, "/etc/caddy/Caddyfile");
             RunCmd("systemctl restart caddy");
         }
 
@@ -295,8 +294,7 @@ namespace ProxySuper.Core.Services
 
 
             var configJson = XrayConfigBuilder.BuildXrayConfig(Parameters);
-            var stream = new MemoryStream(Encoding.UTF8.GetBytes(configJson));
-            UploadFile(stream, "/usr/local/etc/xray/config.json");
+            WriteToFile(configJson, "/usr/local/etc/xray/config.json");
             RunCmd("systemctl restart xray");
         }
 

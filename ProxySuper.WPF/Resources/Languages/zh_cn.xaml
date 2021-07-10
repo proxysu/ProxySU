@@ -9,7 +9,7 @@
     <sys:String x:Key="Install">安装</sys:String>
     <sys:String x:Key="Settings">配置</sys:String>
     <sys:String x:Key="ReadmeWebsiteDemo">如下是网友提供的静态网页连接，请自行检查是否有index.html文件</sys:String>
-    
+
     <!--Main Menu-->
     <sys:String x:Key="MainMenuAddHost">添加主机</sys:String>
     <sys:String x:Key="MainMenuActions">操作</sys:String>

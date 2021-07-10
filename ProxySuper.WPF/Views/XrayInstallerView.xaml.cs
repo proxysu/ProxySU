@@ -75,6 +75,7 @@ namespace ProxySuper.WPF.Views
         {
             WriteOutput("正在登陆服务器 ...");
             var conneInfo = CreateConnectionInfo(ViewModel.Host);
+            conneInfo.Timeout = TimeSpan.FromSeconds(60);
             _sshClient = new SshClient(conneInfo);
             try
             {

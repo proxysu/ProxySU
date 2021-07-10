@@ -1,10 +1,13 @@
 ﻿using ProxySuper.Core.Helpers;
+using ProxySuper.Core.Models;
+using ProxySuper.Core.Models.Hosts;
 using ProxySuper.Core.Models.Projects;
 using Renci.SshNet;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows;
 
 namespace ProxySuper.Core.Services
@@ -25,6 +28,8 @@ namespace ProxySuper.Core.Services
 
     public abstract class ProjectBase<TSettings> where TSettings : IProjectSettings
     {
+
+
         private SshClient _sshClient;
 
         protected Action<string> WriteOutput;
@@ -55,7 +60,9 @@ namespace ProxySuper.Core.Services
             var cmd = _sshClient.CreateCommand(cmdStr);
             WriteOutput(cmdStr);
 
-            var result = cmd.Execute();
+            var exe = cmd.BeginExecute();
+            var result = cmd.EndExecute(exe);
+            //var result = cmd.Execute();
             WriteOutput(result);
             return result;
         }
@@ -299,7 +306,6 @@ namespace ProxySuper.Core.Services
         /// <param name="portList"></param>
         protected void OpenPort(params int[] portList)
         {
-
             string cmd;
 
             cmd = RunCmd("command -v firewall-cmd");
@@ -323,15 +329,19 @@ namespace ProxySuper.Core.Services
             else
             {
                 cmd = RunCmd("command -v ufw");
-                if (!string.IsNullOrEmpty(cmd))
+                if (string.IsNullOrEmpty(cmd))
                 {
-                    foreach (var port in portList)
-                    {
-                        RunCmd($"ufw allow {port}/tcp");
-                        RunCmd($"ufw allow {port}/udp");
-                    }
-                    RunCmd("yes | ufw reload");
+                    RunCmd(GetInstallCmd("ufw"));
+                    RunCmd("echo y | ufw enable");
                 }
+
+                foreach (var port in portList)
+                {
+                    RunCmd($"ufw allow {port}/tcp");
+                    RunCmd($"ufw allow {port}/udp");
+                }
+                RunCmd("yes | ufw reload");
+
             }
         }
 
@@ -425,30 +435,55 @@ namespace ProxySuper.Core.Services
         /// </summary>
         protected void InstallCaddy()
         {
-            if (CmdType == CmdType.Apt)
+            #region 二进制文件安装
+            RunCmd("rm -rf caddy.tar.gz");
+            RunCmd("rm -rf /etc/caddy");
+            RunCmd("rm -rf /usr/share/caddy");
+
+            var url = "https://github.com/caddyserver/caddy/releases/download/v2.4.3/caddy_2.4.3_linux_amd64.tar.gz";
+            if (ArchType == ArchType.arm)
             {
-                RunCmd("apt install -y debian-keyring debian-archive-keyring apt-transport-https");
-                RunCmd("echo yes | curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo apt-key add -");
-                RunCmd("echo yes | curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list");
-                RunCmd("sudo apt -y update");
-                RunCmd("sudo apt install -y caddy");
+                url = "https://github.com/caddyserver/caddy/releases/download/v2.4.3/caddy_2.4.3_linux_armv7.tar.gz";
             }
 
-            if (CmdType == CmdType.Dnf)
-            {
-                RunCmd("dnf install -y 'dnf-command(copr)'");
-                RunCmd("dnf copr -y enable @caddy/caddy");
-                RunCmd("dnf install -y caddy");
-            }
+            RunCmd($"wget -O caddy.tar.gz {url}");
+            RunCmd("mkdir /etc/caddy");
+            RunCmd("tar -zxvf caddy.tar.gz caddy -C /etc/caddy");
+            RunCmd("cp -rf /etc/caddy/caddy /usr/bin");
+            WriteToFile(Caddy.DefaultCaddyFile, "/etc/caddy/Caddyfile");
+            WriteToFile(Caddy.Service, "/etc/systemd/system/caddy.service");
+            RunCmd("systemctl daemon-reload");
+            RunCmd("systemctl enable caddy");
 
-            if (CmdType == CmdType.Yum)
-            {
-                RunCmd("yum install -y yum-plugin-copr");
-                RunCmd("yum copr -y enable @caddy/caddy");
-                RunCmd("yum install -y caddy");
-            }
+            RunCmd("mkdir /usr/share/caddy");
+            #endregion
 
-            RunCmd("systemctl enable caddy.service");
+            #region 官方安装步骤
+            //if (CmdType == CmdType.Apt)
+            //{
+            //    RunCmd("apt install -y debian-keyring debian-archive-keyring apt-transport-https");
+            //    RunCmd("echo yes | curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo apt-key add -");
+            //    RunCmd("echo yes | curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list");
+            //    RunCmd("sudo apt -y update");
+            //    RunCmd("sudo apt install -y caddy");
+            //}
+
+            //if (CmdType == CmdType.Dnf)
+            //{
+            //    RunCmd("dnf install -y 'dnf-command(copr)'");
+            //    RunCmd("dnf copr -y enable @caddy/caddy");
+            //    RunCmd("dnf install -y caddy");
+            //}
+
+            //if (CmdType == CmdType.Yum)
+            //{
+            //    RunCmd("yum install -y yum-plugin-copr");
+            //    RunCmd("yum copr -y enable @caddy/caddy");
+            //    RunCmd("yum install -y caddy");
+            //}
+
+            //RunCmd("systemctl enable caddy.service"); 
+            #endregion
         }
 
         /// <summary>
@@ -457,21 +492,8 @@ namespace ProxySuper.Core.Services
         protected void UninstallCaddy()
         {
             RunCmd("systemctl stop caddy");
-            if (CmdType == CmdType.Apt)
-            {
-                RunCmd("sudo apt -y remove caddy");
-            }
-
-            if (CmdType == CmdType.Dnf)
-            {
-                RunCmd("dnf -y remove caddy");
-            }
-
-            if (CmdType == CmdType.Yum)
-            {
-                RunCmd("yum -y remove caddy");
-            }
-
+            RunCmd("systemctl disable caddy");
+            RunCmd("rm -rf /etc/systemd/system/caddy.service");
             RunCmd("rm -rf /usr/bin/caddy");
             RunCmd("rm -rf /usr/share/caddy");
             RunCmd("rm -rf /etc/caddy");
@@ -746,6 +768,25 @@ namespace ProxySuper.Core.Services
             }
 
             RunCmd($"chmod 755 {dirPath}");
+        }
+
+        protected void WriteToFile(string text, string path)
+        {
+            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(text)))
+            {
+                using (var sftp = new SftpClient(_sshClient.ConnectionInfo))
+                {
+                    sftp.Connect();
+                    try
+                    {
+                        sftp.UploadFile(stream, path, true);
+                    }
+                    finally
+                    {
+                        sftp.Disconnect();
+                    }
+                }
+            }
         }
 
         /// <summary>

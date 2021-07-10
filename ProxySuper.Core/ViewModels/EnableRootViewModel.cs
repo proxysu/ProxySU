@@ -76,8 +76,8 @@ namespace ProxySuper.Core.ViewModels
 
                 result = RunCmd(@"cat /dev/urandom | tr -dc '_A-Z#\-+=a-z(0-9%^>)]{<|' | head -c 20 ; echo ''");
                 string setPassword = result.TrimEnd('\r', '\n') + '\n';
-                RunCmd(cmdPre + $"echo -e \"{setPassword}{setPassword}\" | sudo passwd root");
-                RunCmd("sudo systemctl restart sshd ");
+                RunCmd(cmdPre + $"echo \"{setPassword}{setPassword}\" | sudo passwd root");
+                RunCmd("sudo systemctl restart sshd");
 
                 RootUserName = "root";
                 RootPassword = setPassword.Trim('\n');

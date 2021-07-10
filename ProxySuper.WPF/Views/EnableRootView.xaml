@@ -62,7 +62,7 @@
                     <Label Content="{DynamicResource HostPassword}" Grid.Row="2" Grid.Column="0" />
                     <TextBox IsReadOnly="True" Text="{Binding RootPassword}" Grid.Row="2" Grid.Column="1" />
 
-                    <Button Height="28" Grid.Row="3" Grid.Column="3" Command="{Binding ExecuteCommand}">一键Root</Button>
+                    <Button Height="28" Grid.Row="3" Grid.Column="3" Command="{Binding ExecuteCommand}" Content="{DynamicResource MainMenuActionsGetRoot}" />
                 </Grid>
             </GroupBox>
         </StackPanel>
