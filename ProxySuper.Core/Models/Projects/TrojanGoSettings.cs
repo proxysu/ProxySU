@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ProxySuper.Core.Models.Projects
 {
@@ -17,7 +18,7 @@ namespace ProxySuper.Core.Models.Projects
         {
             get
             {
-                return new List<int>();
+                return new List<int> { 80, 443, Port }.Distinct().ToList();
             }
         }
 

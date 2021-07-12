@@ -260,102 +260,29 @@ namespace ProxySuper.Core.Services
         }
 
         /// <summary>
-        /// 关闭端口
-        /// </summary>
-        /// <param name="portList"></param>
-        protected void ClosePort(params int[] portList)
-        {
-            string cmd;
-
-            cmd = RunCmd("command -v firewall-cmd");
-            if (!string.IsNullOrEmpty(cmd))
-            {
-                //有很奇怪的vps主机，在firewalld未运行时，端口是关闭的，无法访问。所以要先启动firewalld
-                //用于保证acme.sh申请证书成功
-                cmd = RunCmd("firewall-cmd --state");
-                if (cmd.Trim() != "running")
-                {
-                    RunCmd("systemctl restart firewalld");
-                }
-
-                foreach (var port in portList)
-                {
-                    RunCmd($"firewall-cmd --zone=public --remove-port={port}/tcp --permanent");
-                    RunCmd($"firewall-cmd --zone=public --remove-port={port}/udp --permanent");
-                }
-                RunCmd("yes | firewall-cmd --reload");
-            }
-            else
-            {
-                cmd = RunCmd("command -v ufw");
-                if (!string.IsNullOrEmpty(cmd))
-                {
-                    foreach (var port in portList)
-                    {
-                        RunCmd($"ufw delete allow {port}/tcp");
-                        RunCmd($"ufw delete allow {port}/udp");
-                    }
-                    RunCmd("yes | ufw reload");
-                }
-            }
-        }
-
-        /// <summary>
-        /// 开放端口
-        /// </summary>
-        /// <param name="portList"></param>
-        protected void OpenPort(params int[] portList)
-        {
-            string cmd;
-
-            cmd = RunCmd("command -v firewall-cmd");
-            if (!string.IsNullOrEmpty(cmd))
-            {
-                //有很奇怪的vps主机，在firewalld未运行时，端口是关闭的，无法访问。所以要先启动firewalld
-                //用于保证acme.sh申请证书成功
-                cmd = RunCmd("firewall-cmd --state");
-                if (cmd.Trim() != "running")
-                {
-                    RunCmd("systemctl restart firewalld");
-                }
-
-                foreach (var port in portList)
-                {
-                    RunCmd($"firewall-cmd --zone=public --add-port={port}/tcp --permanent");
-                    RunCmd($"firewall-cmd --zone=public --add-port={port}/udp --permanent");
-                }
-                RunCmd("yes | firewall-cmd --reload");
-            }
-            else
-            {
-                cmd = RunCmd("command -v ufw");
-                if (string.IsNullOrEmpty(cmd))
-                {
-                    RunCmd(GetInstallCmd("ufw"));
-                    RunCmd("echo y | ufw enable");
-                }
-
-                foreach (var port in portList)
-                {
-                    RunCmd($"ufw allow {port}/tcp");
-                    RunCmd($"ufw allow {port}/udp");
-                }
-                RunCmd("yes | ufw reload");
-
-            }
-        }
-
-        /// <summary>
         /// 配置防火墙
         /// </summary>
-        protected void ConfigureFirewall()
+        protected void ConfigFirewalld()
         {
-            var portList = new List<int>();
-            portList.Add(80);
-            portList.Add(Parameters.Port);
-            portList.AddRange(Parameters.FreePorts);
+            Parameters.FreePorts.ForEach(port =>
+            {
+                SetPortFree(port);
+            });
 
-            OpenPort(portList.ToArray());
+            OpenPort(_sshClient.ConnectionInfo.Port);
+            OpenPort(Parameters.FreePorts.ToArray());
+        }
+
+        /// <summary>
+        /// 重置防火墙
+        /// </summary>
+        protected void ResetFirewalld()
+        {
+            Parameters.FreePorts.ForEach(port =>
+            {
+                SetPortFree(port);
+            });
+            ClosePort(Parameters.FreePorts.ToArray());
         }
 
         /// <summary>
@@ -448,7 +375,7 @@ namespace ProxySuper.Core.Services
 
             RunCmd($"wget -O caddy.tar.gz {url}");
             RunCmd("mkdir /etc/caddy");
-            RunCmd("tar -zxvf caddy.tar.gz caddy -C /etc/caddy");
+            RunCmd("tar -zxvf caddy.tar.gz -C /etc/caddy");
             RunCmd("cp -rf /etc/caddy/caddy /usr/bin");
             WriteToFile(Caddy.DefaultCaddyFile, "/etc/caddy/Caddyfile");
             WriteToFile(Caddy.Service, "/etc/systemd/system/caddy.service");
@@ -456,6 +383,11 @@ namespace ProxySuper.Core.Services
             RunCmd("systemctl enable caddy");
 
             RunCmd("mkdir /usr/share/caddy");
+
+            if (!FileExists("/usr/bin/caddy"))
+            {
+                throw new Exception("Caddy服务器安装失败，请联系开发者！");
+            }
             #endregion
 
             #region 官方安装步骤
@@ -527,55 +459,6 @@ namespace ProxySuper.Core.Services
             return OnlyIpv6;
         }
 
-        protected bool SetPortFree(int port, bool force = true)
-        {
-            string result = RunCmd($"lsof -n -P -i :{port} | grep LISTEN");
-
-            if (!string.IsNullOrEmpty(result))
-            {
-                if (force)
-                {
-                    var btnResult = MessageBox.Show($"{port}端口被占用，将强制停止占用{port}端口的程序?", "提示", MessageBoxButton.YesNo);
-                    if (btnResult == MessageBoxResult.No)
-                    {
-                        throw new Exception($"{port}端口被占用，安装停止!");
-                    }
-
-                    string[] process = result.Split(' ');
-                    RunCmd($"systemctl stop {process[0]}");
-                    RunCmd($"systemctl disable {process[0]}");
-                    RunCmd($"pkill {process[0]}");
-                    return SetPortFree(port, force: false);
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        public void ConfigurePort()
-        {
-            if (Parameters.Port == 80 || Parameters.Port == 443)
-            {
-                SetPortFree(80);
-                SetPortFree(443);
-            }
-            else
-            {
-                SetPortFree(80);
-                SetPortFree(443);
-                SetPortFree(Parameters.Port);
-
-                Parameters.FreePorts.ForEach(port =>
-                {
-                    SetPortFree(port);
-                });
-            }
-        }
-
         protected void SetNat64()
         {
             var dns64List = FilterFastestIP();
@@ -636,6 +519,121 @@ namespace ProxySuper.Core.Services
             }
 
             return dns64List.Keys.ToList();
+        }
+
+        private bool SetPortFree(int port, bool force = true)
+        {
+            string result = RunCmd($"lsof -n -P -i :{port} | grep LISTEN");
+
+            if (!string.IsNullOrEmpty(result))
+            {
+                if (force)
+                {
+                    var btnResult = MessageBox.Show($"{port}端口被占用，将强制停止占用{port}端口的程序?", "提示", MessageBoxButton.YesNo);
+                    if (btnResult == MessageBoxResult.No)
+                    {
+                        throw new Exception($"{port}端口被占用，安装停止!");
+                    }
+
+                    string[] process = result.Split(' ');
+                    RunCmd($"systemctl stop {process[0]}");
+                    RunCmd($"systemctl disable {process[0]}");
+                    RunCmd($"pkill {process[0]}");
+                    return SetPortFree(port, force: false);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 关闭端口
+        /// </summary>
+        /// <param name="portList"></param>
+        private void ClosePort(params int[] portList)
+        {
+            string cmd;
+
+            cmd = RunCmd("command -v firewall-cmd");
+            if (!string.IsNullOrEmpty(cmd))
+            {
+                //有很奇怪的vps主机，在firewalld未运行时，端口是关闭的，无法访问。所以要先启动firewalld
+                //用于保证acme.sh申请证书成功
+                cmd = RunCmd("firewall-cmd --state");
+                if (cmd.Trim() != "running")
+                {
+                    RunCmd("systemctl restart firewalld");
+                }
+
+                foreach (var port in portList)
+                {
+                    RunCmd($"firewall-cmd --zone=public --remove-port={port}/tcp --permanent");
+                    RunCmd($"firewall-cmd --zone=public --remove-port={port}/udp --permanent");
+                }
+                RunCmd("yes | firewall-cmd --reload");
+            }
+            else
+            {
+                cmd = RunCmd("command -v ufw");
+                if (!string.IsNullOrEmpty(cmd))
+                {
+                    foreach (var port in portList)
+                    {
+                        RunCmd($"ufw delete allow {port}/tcp");
+                        RunCmd($"ufw delete allow {port}/udp");
+                    }
+                    RunCmd("yes | ufw reload");
+                }
+            }
+        }
+
+        /// <summary>
+        /// 开放端口
+        /// </summary>
+        /// <param name="portList"></param>
+        private void OpenPort(params int[] portList)
+        {
+            string cmd;
+
+            cmd = RunCmd("command -v firewall-cmd");
+            if (!string.IsNullOrEmpty(cmd))
+            {
+                //有很奇怪的vps主机，在firewalld未运行时，端口是关闭的，无法访问。所以要先启动firewalld
+                //用于保证acme.sh申请证书成功
+                cmd = RunCmd("firewall-cmd --state");
+                if (cmd.Trim() != "running")
+                {
+                    RunCmd("systemctl restart firewalld");
+                }
+
+                foreach (var port in portList)
+                {
+                    RunCmd($"firewall-cmd --zone=public --add-port={port}/tcp --permanent");
+                    RunCmd($"firewall-cmd --zone=public --add-port={port}/udp --permanent");
+                }
+                RunCmd("yes | firewall-cmd --reload");
+            }
+            else
+            {
+                cmd = RunCmd("command -v ufw");
+                if (string.IsNullOrEmpty(cmd))
+                {
+                    RunCmd(GetInstallCmd("ufw"));
+                    RunCmd("echo y | ufw enable");
+                }
+
+                foreach (var port in portList)
+                {
+                    RunCmd($"ufw allow {port}/tcp");
+                    RunCmd($"ufw allow {port}/udp");
+                }
+                RunCmd("yes | ufw reload");
+
+            }
         }
 
         #endregion
@@ -776,10 +774,14 @@ namespace ProxySuper.Core.Services
             {
                 using (var sftp = new SftpClient(_sshClient.ConnectionInfo))
                 {
-                    sftp.Connect();
                     try
                     {
+                        sftp.Connect();
                         sftp.UploadFile(stream, path, true);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
                     }
                     finally
                     {

@@ -3,6 +3,8 @@ using ProxySuper.Core.Models.Projects;
 using Renci.SshNet;
 using System;
 using System.IO;
+using System.Linq;
+using System.Net;
 using System.Text;
 using System.Windows;
 
@@ -50,25 +52,24 @@ namespace ProxySuper.Core.Services
                 EnsureSystemEnv();
                 WriteOutput("检测安装系统环境完成");
 
-                WriteOutput("配置服务器端口...");
-                ConfigurePort();
-                WriteOutput("端口配置完成");
-
                 WriteOutput("安装必要的系统工具...");
                 ConfigureSoftware();
                 WriteOutput("系统工具安装完成");
 
                 WriteOutput("配置防火墙...");
-                ConfigureFirewall();
+                ConfigFirewalld();
                 WriteOutput("防火墙配置完成");
 
                 WriteOutput("同步系统和本地时间...");
                 SyncTimeDiff();
                 WriteOutput("时间同步完成");
 
-                WriteOutput("检测域名是否绑定本机IP...");
-                ValidateDomain();
-                WriteOutput("域名检测完成");
+                if (Parameters.WithTLS)
+                {
+                    WriteOutput("检测域名是否绑定本机IP...");
+                    ValidateDomain();
+                    WriteOutput("域名检测完成");
+                }
 
                 WriteOutput("安装Caddy...");
                 InstallCaddy();
@@ -105,7 +106,7 @@ namespace ProxySuper.Core.Services
             WriteOutput("卸载证书");
             UninstallAcme();
             WriteOutput("关闭端口");
-            ClosePort(Parameters.FreePorts.ToArray());
+            ResetFirewalld();
 
             WriteOutput("************ 卸载完成 ************");
         }
@@ -129,8 +130,11 @@ namespace ProxySuper.Core.Services
         {
             EnsureRootAuth();
             EnsureSystemEnv();
-            ConfigurePort();
-            ConfigureFirewall();
+
+            RunCmd("systemctl stop caddy");
+            RunCmd("systemctl stop xray");
+
+            ConfigFirewalld();
             var configJson = XrayConfigBuilder.BuildXrayConfig(Parameters);
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(configJson));
             RunCmd("rm -rf /usr/local/etc/xray/config.json");
@@ -288,10 +292,12 @@ namespace ProxySuper.Core.Services
                 RunCmd(@"mv /usr/local/etc/xray/config.json /usr/local/etc/xray/config.json.1");
             }
 
-            WriteOutput("安装TLS证书");
-            InstallCertToXray();
-            WriteOutput("TLS证书安装完成");
-
+            if (Parameters.WithTLS)
+            {
+                WriteOutput("安装TLS证书");
+                InstallCertToXray();
+                WriteOutput("TLS证书安装完成");
+            }
 
             var configJson = XrayConfigBuilder.BuildXrayConfig(Parameters);
             WriteToFile(configJson, "/usr/local/etc/xray/config.json");

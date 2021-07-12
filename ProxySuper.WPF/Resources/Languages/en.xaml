@@ -67,13 +67,13 @@
     <sys:String x:Key="VlessXtlsDesc" xml:space="preserve">VLESS over TCP With XTLS&#x0a;Preferred</sys:String>
     <sys:String x:Key="VlessTcpDesc" xml:space="preserve">VLESS over TCP with TLS&#x0a;XTLS is Preferred</sys:String>
     <sys:String x:Key="VlessWsDesc" xml:space="preserve">VLESS over WS with TLS&#x0a;Support CDN</sys:String>
-    <sys:String x:Key="VlessKcpDesc" xml:space="preserve">VLESS mKCP&#x0a;low delay</sys:String>
+    <sys:String x:Key="VlessKcpDesc" xml:space="preserve">VLESS mKCP&#x0a;low delay，without Domain</sys:String>
     <sys:String x:Key="VmessWsDesc" xml:space="preserve">VMESS over WS with TLS&#x0a;Support CDN</sys:String>
-    <sys:String x:Key="VmessKcpDesc" xml:space="preserve">VMESS mKCP&#x0a;low delay</sys:String>
-    <sys:String x:Key="SSDesc" xml:space="preserve">ShadowSocks&#x0a;Support CDN</sys:String>
+    <sys:String x:Key="VmessKcpDesc" xml:space="preserve">VMESS mKCP&#x0a;low delay，without Domian</sys:String>
+    <sys:String x:Key="SSDesc" xml:space="preserve">ShadowSocks&#x0a;Support UDP，without Domain</sys:String>
     <sys:String x:Key="TrojanDesc" xml:space="preserve">Trojan over TCP with TLS&#x0a;Trojan</sys:String>
 
-    <sys:String x:Key="XrayDomain">Address</sys:String>
+    <sys:String x:Key="XrayDomain">Domain/IP</sys:String>
     <sys:String x:Key="XrayMarkDomain">GuiseHost</sys:String>
     <sys:String x:Key="XrayUUID">UUID</sys:String>
     <sys:String x:Key="MultiUser">Multi User</sys:String>

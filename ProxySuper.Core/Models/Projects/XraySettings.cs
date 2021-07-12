@@ -2,6 +2,7 @@
 using ProxySuper.Core.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ProxySuper.Core.Models.Projects
 {
@@ -35,11 +36,46 @@ namespace ProxySuper.Core.Models.Projects
             ShadowSocksMethod = "aes-128-gcm";
         }
 
+        [JsonIgnore]
+        public bool WithTLS
+        {
+            get
+            {
+                var withOutTLSList = new List<XrayType> {
+                    XrayType.ShadowsocksAEAD,
+                    XrayType.VLESS_KCP,
+                    XrayType.VMESS_KCP
+                };
+
+                return Types.Except(withOutTLSList).Count() > 0;
+            }
+        }
+
+        [JsonIgnore]
+        public bool IsFullbackMode
+        {
+            get
+            {
+                var withoutFullback = new List<XrayType> {
+                    XrayType.ShadowsocksAEAD,
+                    XrayType.VLESS_KCP,
+                    XrayType.VMESS_KCP,
+                    XrayType.VLESS_gRPC,
+                };
+
+                return Types.Except(withoutFullback).Count() > 0;
+            }
+        }
+
+        [JsonIgnore]
         public List<int> FreePorts
         {
             get
             {
                 var list = new List<int>();
+                list.Add(80);
+                list.Add(443);
+
                 if (Types.Contains(XrayType.VLESS_KCP))
                 {
                     list.Add(VLESS_KCP_Port);
@@ -60,7 +96,7 @@ namespace ProxySuper.Core.Models.Projects
                     list.Add(VLESS_gRPC_Port);
                 }
 
-                return list;
+                return list.Distinct().ToList();
             }
         }
 

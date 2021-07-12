@@ -7,17 +7,17 @@ namespace ProxySuper.Core.Services
     public class BrookProject : ProjectBase<BrookSettings>
     {
         private string brookServiceTemp = @"
-                                        [Unit]
-                                        Description=brook service
-                                        After=network.target syslog.target
-                                        Wants=network.target
+        [Unit]
+        Description=brook service
+        After=network.target syslog.target
+        Wants=network.target
 
-                                        [Service]
-                                        Type=simple
-                                        ExecStart=##run_cmd##
+        [Service]
+        Type=simple
+        ExecStart=##run_cmd##
 
-                                        [Install]
-                                        WantedBy=multi-user.target";
+        [Install]
+        WantedBy=multi-user.target";
 
         public BrookProject(SshClient sshClient, BrookSettings parameters, Action<string> writeOutput) : base(sshClient, parameters, writeOutput)
         {
@@ -31,11 +31,7 @@ namespace ProxySuper.Core.Services
             WriteOutput("检测安装系统环境完成");
 
             WriteOutput("配置服务器端口...");
-            OpenPort(Parameters.FreePorts.ToArray());
-            Parameters.FreePorts.ForEach(port =>
-            {
-                SetPortFree(port);
-            });
+            ConfigFirewalld();
             WriteOutput("端口配置完成");
 
             WriteOutput("安装必要的系统工具...");
@@ -120,7 +116,7 @@ namespace ProxySuper.Core.Services
             RunCmd("rm -rf /usr/bin/brook");
 
             Console.WriteLine("关闭端口");
-            ClosePort(Parameters.FreePorts.ToArray());
+            ResetFirewalld();
 
             WriteOutput("******卸载完成******");
         }

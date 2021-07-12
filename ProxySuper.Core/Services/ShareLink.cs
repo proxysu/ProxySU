@@ -21,13 +21,13 @@ namespace ProxySuper.Core.Services
             if (settings.BrookType == BrookType.wsserver)
             {
                 var address = HttpUtility.UrlEncode($"ws://{settings.IP}:{settings.Port}");
-                return $"brook://wsserver?password={password}&ws={address}";
+                return $"brook://wsserver?password={password}&wsserver={address}";
             }
 
             if (settings.BrookType == BrookType.wssserver)
             {
                 var address = HttpUtility.UrlEncode($"wss://{settings.Domain}:{settings.Port}");
-                return $"brook://wssserver?password={password}&wss={address}";
+                return $"brook://wssserver?password={password}&wssserver={address}";
             }
 
             if (settings.BrookType == BrookType.socks5)

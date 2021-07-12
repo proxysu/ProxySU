@@ -65,14 +65,14 @@
     <sys:String x:Key="VlessXtlsDesc" xml:space="preserve">VLESS Over TCP With XTLS&#x0a;性能數倍，首選方式。</sys:String>
     <sys:String x:Key="VlessTcpDesc" xml:space="preserve">VLESS over TCP with TLS&#x0a;仍推薦XTLS。</sys:String>
     <sys:String x:Key="VlessWsDesc" xml:space="preserve">VLESS over WS with TLS&#x0a;推薦，支持CDN。</sys:String>
-    <sys:String x:Key="VlessKcpDesc" xml:space="preserve">VLESS mKCP&#x0a;遊戲推薦，延遲低。</sys:String>
+    <sys:String x:Key="VlessKcpDesc" xml:space="preserve">VLESS mKCP&#x0a;遊戲推薦，延遲低，免域名。</sys:String>
     <sys:String x:Key="VmessWsDesc" xml:space="preserve">VMESS over WS with TLS&#x0a;推薦，支持CDN。</sys:String>
-    <sys:String x:Key="VmessKcpDesc" xml:space="preserve">VMESS mKCP&#x0a;遊戲推薦，延遲低。</sys:String>
-    <sys:String x:Key="SSDesc" xml:space="preserve">ShadowSocks&#x0a;SS，支持udp。</sys:String>
+    <sys:String x:Key="VmessKcpDesc" xml:space="preserve">VMESS mKCP&#x0a;遊戲推薦，延遲低，免域名。</sys:String>
+    <sys:String x:Key="SSDesc" xml:space="preserve">ShadowSocks&#x0a;SS，支持udp，免域名。</sys:String>
     <sys:String x:Key="TrojanDesc" xml:space="preserve">Trojan over TCP with TLS&#x0a;Trojan。</sys:String>
 
 
-    <sys:String x:Key="XrayDomain">域名</sys:String>
+    <sys:String x:Key="XrayDomain">域名/IP</sys:String>
     <sys:String x:Key="XrayMarkDomain">偽裝域名</sys:String>
     <sys:String x:Key="XrayUUID">UUID</sys:String>
     <sys:String x:Key="MultiUser">多用戶</sys:String>

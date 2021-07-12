@@ -77,18 +77,14 @@ namespace ProxySuper.Core.Services
 
                 WriteOutput("检测安装系统环境...");
                 EnsureSystemEnv();
-                WriteOutput("检测安装系统环境完成");
-
-                WriteOutput("配置服务器端口...");
-                ConfigurePort();
-                WriteOutput("端口配置完成");
+                WriteOutput("检测安装系统环境完成"); 
 
                 WriteOutput("安装必要的系统工具...");
                 ConfigureSoftware();
                 WriteOutput("系统工具安装完成");
 
                 WriteOutput("配置防火墙...");
-                ConfigureFirewall();
+                ConfigFirewalld();
                 WriteOutput("防火墙配置完成");
 
                 WriteOutput("同步系统和本地时间...");
