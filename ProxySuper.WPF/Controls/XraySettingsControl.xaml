@@ -301,17 +301,6 @@
                                 Width="200" />
             </StackPanel>
 
-            <!--Trojan端口-->
-            <StackPanel Margin="30,15,0,0" 
-                        Orientation="Horizontal" 
-                        Visibility="{
-                            Binding Path=Checked_Trojan_TCP,
-                            Converter={StaticResource VisibleConverter}
-                        }">
-                <Label Content="{DynamicResource TrojanPassword}" Foreground="CadetBlue" Width="120" />
-                <TextBox Text="{Binding Path=TrojanPassword}" Width="200" />
-            </StackPanel>
-
             <!--xray prot-->
             <StackPanel Margin="30,15,0,0"
                     Orientation="Horizontal">

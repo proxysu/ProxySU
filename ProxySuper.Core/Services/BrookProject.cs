@@ -38,6 +38,10 @@ namespace ProxySuper.Core.Services
             ConfigureSoftware();
             WriteOutput("系统工具安装完成");
 
+            WriteOutput("检测网络环境");
+            EnsureIP();
+            WriteOutput("检测网络环境完成");
+
             if (Parameters.BrookType == BrookType.wssserver)
             {
                 WriteOutput("检测域名是否绑定本机IP...");

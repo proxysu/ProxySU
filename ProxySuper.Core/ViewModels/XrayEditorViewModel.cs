@@ -89,7 +89,7 @@ namespace ProxySuper.Core.ViewModels
             get => Settings.ShadowSocksPort;
             set
             {
-                Settings.VMESS_KCP_Port = value;
+                Settings.ShadowSocksPort = value;
                 RaisePropertyChanged("ShadowSocksPort");
             }
         }
@@ -142,6 +142,7 @@ namespace ProxySuper.Core.ViewModels
             get => Settings.TrojanPassword;
             set => Settings.TrojanPassword = value;
         }
+
         public bool Checked_Trojan_TCP
         {
             get

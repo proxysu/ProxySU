@@ -150,8 +150,6 @@ namespace ProxySuper.Core.Services
                     RunCmd(@"sed -i 's/SELINUX=enforcing/SELINUX=permissive/' /etc/selinux/config");
                 }
             }
-
-            EnsureIP();
         }
 
         /// <summary>

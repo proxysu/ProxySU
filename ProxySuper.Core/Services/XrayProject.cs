@@ -60,6 +60,10 @@ namespace ProxySuper.Core.Services
                 ConfigFirewalld();
                 WriteOutput("防火墙配置完成");
 
+                WriteOutput("检测网络环境");
+                EnsureIP();
+                WriteOutput("检测网络环境完成");
+
                 WriteOutput("同步系统和本地时间...");
                 SyncTimeDiff();
                 WriteOutput("时间同步完成");
@@ -69,11 +73,12 @@ namespace ProxySuper.Core.Services
                     WriteOutput("检测域名是否绑定本机IP...");
                     ValidateDomain();
                     WriteOutput("域名检测完成");
-                }
 
-                WriteOutput("安装Caddy...");
-                InstallCaddy();
-                WriteOutput("Caddy安装完成");
+
+                    WriteOutput("安装Caddy...");
+                    InstallCaddy();
+                    WriteOutput("Caddy安装完成");
+                }
 
                 WriteOutput("安装Xray-Core...");
                 InstallXrayWithCert();
