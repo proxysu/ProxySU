@@ -68,17 +68,16 @@ namespace ProxySuper.Core.Services
                 SyncTimeDiff();
                 WriteOutput("时间同步完成");
 
-                if (Parameters.WithTLS)
+                if (!Parameters.IsIPAddress)
                 {
                     WriteOutput("检测域名是否绑定本机IP...");
                     ValidateDomain();
                     WriteOutput("域名检测完成");
-
-
-                    WriteOutput("安装Caddy...");
-                    InstallCaddy();
-                    WriteOutput("Caddy安装完成");
                 }
+
+                WriteOutput("安装Caddy...");
+                InstallCaddy();
+                WriteOutput("Caddy安装完成");
 
                 WriteOutput("安装Xray-Core...");
                 InstallXrayWithCert();
@@ -297,7 +296,7 @@ namespace ProxySuper.Core.Services
                 RunCmd(@"mv /usr/local/etc/xray/config.json /usr/local/etc/xray/config.json.1");
             }
 
-            if (Parameters.WithTLS)
+            if (!Parameters.IsIPAddress)
             {
                 WriteOutput("安装TLS证书");
                 InstallCertToXray();

@@ -722,7 +722,6 @@ namespace ProxySuper.Core.Services
                 throw new Exception("安装 acme.sh 失败，请联系开发者！");
             }
 
-            RunCmd("cd ~/.acme.sh/");
             RunCmd("alias acme.sh=~/.acme.sh/acme.sh");
 
             // 申请证书 

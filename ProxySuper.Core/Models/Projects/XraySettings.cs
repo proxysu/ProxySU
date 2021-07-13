@@ -3,6 +3,7 @@ using ProxySuper.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 
 namespace ProxySuper.Core.Models.Projects
 {
@@ -37,33 +38,11 @@ namespace ProxySuper.Core.Models.Projects
         }
 
         [JsonIgnore]
-        public bool WithTLS
+        public bool IsIPAddress
         {
             get
             {
-                var withOutTLSList = new List<XrayType> {
-                    XrayType.ShadowsocksAEAD,
-                    XrayType.VLESS_KCP,
-                    XrayType.VMESS_KCP
-                };
-
-                return Types.Except(withOutTLSList).Count() > 0;
-            }
-        }
-
-        [JsonIgnore]
-        public bool IsFullbackMode
-        {
-            get
-            {
-                var withoutFullback = new List<XrayType> {
-                    XrayType.ShadowsocksAEAD,
-                    XrayType.VLESS_KCP,
-                    XrayType.VMESS_KCP,
-                    XrayType.VLESS_gRPC,
-                };
-
-                return Types.Except(withoutFullback).Count() > 0;
+                return IPAddress.TryParse(Domain, out _);
             }
         }
 
