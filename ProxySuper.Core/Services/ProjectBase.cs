@@ -815,10 +815,14 @@ namespace ProxySuper.Core.Services
             }
             else if (CmdType == CmdType.Dnf)
             {
+                RunCmd("echo \"export LC_ALL=en_US.UTF-8\"  >>  /etc/profile");
+                RunCmd("source /etc/profile");
                 return "dnf clean all;dnf makecache";
             }
             else if (CmdType == CmdType.Yum)
             {
+                RunCmd("echo \"export LC_ALL=en_US.UTF-8\"  >>  /etc/profile");
+                RunCmd("source /etc/profile");
                 return "yum clean all;yum makecache";
             }
 

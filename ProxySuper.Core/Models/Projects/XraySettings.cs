@@ -53,7 +53,7 @@ namespace ProxySuper.Core.Models.Projects
             {
                 var list = new List<int>();
                 list.Add(80);
-                list.Add(443);
+                list.Add(Port);
 
                 if (Types.Contains(XrayType.VLESS_KCP))
                 {
