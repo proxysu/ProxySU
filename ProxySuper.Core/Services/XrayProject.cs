@@ -163,7 +163,7 @@ namespace ProxySuper.Core.Services
         /// <summary>
         /// 安装证书
         /// </summary>
-        public void InstallCertToXray()
+        public void InstallCertToXray(bool restartXray = false)
         {
             EnsureRootAuth();
             EnsureSystemEnv();
@@ -173,6 +173,7 @@ namespace ProxySuper.Core.Services
                 keyName: "xray_ssl.key");
 
             WriteOutput("************ 安装证书完成 ************");
+            RunCmd("systemctl restart xray");
         }
 
         /// <summary>

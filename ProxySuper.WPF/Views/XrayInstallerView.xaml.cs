@@ -166,7 +166,7 @@ namespace ProxySuper.WPF.Views
 
         private void InstallCert(object sender, RoutedEventArgs e)
         {
-            Task.Factory.StartNew(Project.InstallCertToXray);
+            Task.Factory.StartNew(() => Project.InstallCertToXray(restartXray: true));
         }
 
         private void UninstallXray(object sender, RoutedEventArgs e)
