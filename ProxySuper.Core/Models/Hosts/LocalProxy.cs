@@ -1,4 +1,6 @@
-﻿namespace ProxySuper.Core.Models.Hosts
+﻿using Renci.SshNet;
+
+namespace ProxySuper.Core.Models.Hosts
 {
     public class LocalProxy
     {
@@ -6,7 +8,7 @@
 
         public int Port { get; set; } = 1080;
 
-        public LocalProxyType Type { get; set; }
+        public ProxyTypes Type { get; set; }
 
         public string UserName { get; set; }
 

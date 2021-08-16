@@ -69,8 +69,8 @@
     <Compile Include="Helpers\DateTimeUtils.cs" />
     <Compile Include="Models\Caddy.cs" />
     <Compile Include="Models\Hosts\Host.cs" />
-    <Compile Include="Models\Hosts\LocalProxyType.cs" />
     <Compile Include="Models\Hosts\LoginSecretType.cs" />
+    <Compile Include="Models\ProjectProgress.cs" />
     <Compile Include="Models\Projects\BrookSettings.cs" />
     <Compile Include="Models\Projects\BrookType.cs" />
     <Compile Include="Models\Projects\IProjectSettings.cs" />
@@ -90,11 +90,13 @@
     <Compile Include="Services\BrookProject.cs" />
     <Compile Include="Services\NaiveProxyProject.cs" />
     <Compile Include="Services\ProjectBase.cs" />
+    <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="Services\ShareLink.cs" />
     <Compile Include="Services\TrojanGoConfigBuilder.cs" />
     <Compile Include="Services\TrojanGoProject.cs" />
     <Compile Include="Services\XrayConfigBuilder.cs" />
     <Compile Include="Services\XrayProject.cs" />
+    <Compile Include="Services\XrayService.cs" />
     <Compile Include="ViewModels\BrookConfigViewModel.cs" />
     <Compile Include="ViewModels\BrookEditorViewModel.cs" />
     <Compile Include="ViewModels\BrookInstallerViewModel.cs" />
@@ -110,6 +112,7 @@
     <Compile Include="ViewModels\XrayConfigViewModel.cs" />
     <Compile Include="ViewModels\XrayEditorViewModel.cs" />
     <Compile Include="ViewModels\XrayInstallerViewModel.cs" />
+    <Compile Include="ViewModels\XrayInstallViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

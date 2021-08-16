@@ -1,0 +1,38 @@
+﻿<views:MvxWindow x:Class="ProxySuper.WPF.Views.XrayInstallView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProxySuper.WPF.Views"
+        xmlns:ctrl="clr-namespace:ProxySuper.WPF.Controls"
+        xmlns:views="clr-namespace:MvvmCross.Platforms.Wpf.Views;assembly=MvvmCross.Platforms.Wpf"
+        mc:Ignorable="d"
+        Title="XrayInstallView" Height="700" Width="1000">
+    <StackPanel>
+        <ctrl:ProgressControl />
+
+        <StackPanel Orientation="Horizontal" Margin="20,10,0,0">
+            <Label Content="{DynamicResource Install}" FontWeight="Bold" FontSize="14" />
+            <Button Command="{Binding Path=InstallCommand}" Content="{DynamicResource XrayInstallerInstall}" Padding="10,3" Margin="10,0,0,0" />
+            <Button Content="{DynamicResource XrayInstallerUpdateSettings}" Padding="10,3" Margin="10,0,0,0" />
+            <Button Content="{DynamicResource XrayInstallerUpdateCore}" Padding="10,3" Margin="10,0,0,0" />
+            <Button Content="{DynamicResource XrayInstallerUninstall}" Padding="10,3" Margin="10,0,0,0" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="20,20,0,0">
+            <Label Content="{DynamicResource Settings}" FontWeight="Bold" FontSize="14" />
+            <Button Content="{DynamicResource XrayInstallerUploadCert}" Padding="10,3" Margin="10,0,0,0" />
+            <Button Content="{DynamicResource XrayInstallerInstallCert}" Padding="10,3" Margin="10,0,0,0" />
+            <Button Content="{DynamicResource XrayInstallerUploadWeb}" Padding="10,3" Margin="10,0,0,0" />
+        </StackPanel>
+
+        <StackPanel Margin="20,10,0,0">
+            <Label Content="说明：" FontWeight="Bold" FontSize="14" />
+            <Label Content="【更新配置】 修改Xray参数后，只需使用此功能即可，不需要重新安装。" FontSize="14" />
+            <Label Content="【更新内核】 官方Xray修补漏洞或新功能，可用此更新Xray内核。" FontSize="14" />
+            <Label Content="【上传自有证书】 将 (.crt和.key) 文件打包成.zip，文件名称随意，后缀名不能变。" FontSize="14" />
+            <Label Content="【手动续签证书】 ProxySU会在证书到期时间，自动续期，此功能可手动提前续期。" FontSize="14" />
+            <Label Content="【上传伪装网站】 将根目录包含 (index.html) 的文件夹，打包为.zip文件。" FontSize="14" />
+        </StackPanel>
+    </StackPanel>
+</views:MvxWindow>

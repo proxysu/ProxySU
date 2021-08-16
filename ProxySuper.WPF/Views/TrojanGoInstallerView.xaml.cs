@@ -90,7 +90,7 @@ namespace ProxySuper.WPF.Views
                 auth = new PrivateKeyAuthenticationMethod(host.UserName, new PrivateKeyFile(host.PrivateKeyPath));
             }
 
-            if (host.Proxy.Type == LocalProxyType.None)
+            if (host.Proxy.Type == ProxyTypes.None)
             {
                 return new ConnectionInfo(host.Address, host.Port, host.UserName, auth);
             }
@@ -100,7 +100,7 @@ namespace ProxySuper.WPF.Views
                     host: host.Address,
                     port: host.Port,
                     username: host.UserName,
-                    proxyType: (ProxyTypes)(int)host.Proxy.Type,
+                    proxyType: host.Proxy.Type,
                     proxyHost: host.Proxy.Address,
                     proxyPort: host.Proxy.Port,
                     proxyUsername: host.Proxy.UserName,

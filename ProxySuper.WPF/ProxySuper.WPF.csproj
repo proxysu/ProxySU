@@ -10,7 +10,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -27,6 +27,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>ProxySU.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>ProxySuper.WPF.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MvvmCross, Version=7.1.2.0, Culture=neutral, processorArchitecture=MSIL">
@@ -74,6 +77,9 @@
     </ApplicationDefinition>
     <Compile Include="Controls\HostControl.xaml.cs">
       <DependentUpon>HostControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ProgressControl.xaml.cs">
+      <DependentUpon>ProgressControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ShadowSocksControl.xaml.cs">
       <DependentUpon>ShadowSocksControl.xaml</DependentUpon>
@@ -156,7 +162,14 @@
     <Compile Include="Views\XrayInstallerView.xaml.cs">
       <DependentUpon>XrayInstallerView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\XrayInstallView.xaml.cs">
+      <DependentUpon>XrayInstallView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Controls\HostControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ProgressControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -289,6 +302,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\XrayInstallerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\XrayInstallView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

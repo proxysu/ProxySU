@@ -221,7 +221,7 @@ namespace ProxySuper.Core.ViewModels
 
             if (record.Type == ProjectType.Xray)
             {
-                await _navigationService.Navigate<XrayInstallerViewModel, Record>(record);
+                await _navigationService.Navigate<XrayInstallViewModel, Record>(record);
             }
             if (record.Type == ProjectType.TrojanGo)
             {
