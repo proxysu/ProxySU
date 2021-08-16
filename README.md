@@ -119,4 +119,4 @@ Microsoft [.NET Framework 4.7.2](https://dotnet.microsoft.com/download/dotnet-fr
 ## V3.0.0发布小记
     旧版本功能大而全，如果配置需要修改，或操作多个主机，就没办法做了。也总结了开发WPF经验后，尝试着改变一下，结果衍生了一个尝试的版本。
 ## V4.0.1发布小记
-   在V3.x.x版本中，属于尝试性的改进和开发，应大家要求，在v4版本中保留了TrojanGo、NaiveProxy。
+   在V3.x.x版本中，属于尝试性的改进和开发，应大家要求，在v4版本中保留了TrojanGo、NaiveProxy...。
