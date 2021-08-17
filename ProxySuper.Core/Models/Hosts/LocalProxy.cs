@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Renci.SshNet;
 
 namespace ProxySuper.Core.Models.Hosts
 {
@@ -12,7 +8,7 @@ namespace ProxySuper.Core.Models.Hosts
 
         public int Port { get; set; } = 1080;
 
-        public LocalProxyType Type { get; set; }
+        public ProxyTypes Type { get; set; }
 
         public string UserName { get; set; }
 
@@ -20,5 +16,5 @@ namespace ProxySuper.Core.Models.Hosts
 
     }
 
-   
+
 }

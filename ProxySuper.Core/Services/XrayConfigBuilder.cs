@@ -1,13 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using ProxySuper.Core.Models;
 using ProxySuper.Core.Models.Projects;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ProxySuper.Core.Services
 {
@@ -28,7 +24,6 @@ namespace ProxySuper.Core.Services
         public static int VLESS_TCP_Port = 1110;
         public static int VLESS_WS_Port = 1111;
         public static int VLESS_H2_Port = 1112;
-        public static int VLESS_mKCP_Port = 1113;
 
         public static int VMESS_TCP_Port = 1210;
         public static int VMESS_WS_Port = 1211;
@@ -72,7 +67,7 @@ namespace ProxySuper.Core.Services
         public static string BuildCaddyConfig(XraySettings parameters, bool useCustomWeb = false)
         {
             var caddyStr = File.ReadAllText(Path.Combine(CaddyFileDir, "base.caddyfile"));
-            caddyStr = caddyStr.Replace("##domain##", parameters.Domain);
+            caddyStr = caddyStr.Replace("##domain##", parameters.IsIPAddress ? "" : parameters.Domain);
             caddyStr = caddyStr.Replace("##port##", FullbackPort.ToString());
 
             if (!useCustomWeb && !string.IsNullOrEmpty(parameters.MaskDomain))
@@ -96,9 +91,33 @@ namespace ProxySuper.Core.Services
             return caddyStr;
         }
 
+        private static void SetClients(dynamic bound, List<string> uuidList, bool withXtls = false)
+        {
+            bound.settings.clients.Clear();
+            uuidList.ForEach(id =>
+            {
+                object obj;
+                if (!withXtls)
+                {
+                    obj = new { id = id };
+                }
+                else
+                {
+                    obj = new { id = id, flow = "xtls-rprx-direct" };
+                }
+
+                bound.settings.clients.Add(JToken.FromObject(obj));
+            });
+        }
+
+
         public static string BuildXrayConfig(XraySettings parameters)
         {
+            var uuidList = parameters.MulitUUID;
+            uuidList.Insert(0, parameters.UUID);
+
             var xrayConfig = LoadXrayConfig();
+
             var baseBound = GetBound("VLESS_TCP_XTLS.json");
             baseBound.port = parameters.Port;
             baseBound.settings.fallbacks.Add(JToken.FromObject(new
@@ -106,13 +125,15 @@ namespace ProxySuper.Core.Services
                 dest = FullbackPort
             }));
             xrayConfig.inbounds.Add(baseBound);
-            baseBound.settings.clients[0].id = parameters.UUID;
+            SetClients(baseBound, uuidList, withXtls: true);
+
+            #region Fullbacks
 
             if (parameters.Types.Contains(XrayType.VLESS_WS))
             {
                 var wsInbound = GetBound("VLESS_WS.json");
                 wsInbound.port = VLESS_WS_Port;
-                wsInbound.settings.clients[0].id = parameters.UUID;
+                SetClients(wsInbound, uuidList);
                 wsInbound.streamSettings.wsSettings.path = parameters.VLESS_WS_Path;
                 baseBound.settings.fallbacks.Add(JToken.FromObject(new
                 {
@@ -123,30 +144,11 @@ namespace ProxySuper.Core.Services
                 xrayConfig.inbounds.Add(JToken.FromObject(wsInbound));
             }
 
-            if (parameters.Types.Contains(XrayType.VLESS_gRPC))
-            {
-                var gRPCInBound = GetBound("VLESS_gRPC.json");
-                gRPCInBound.port = parameters.VLESS_gRPC_Port;
-                gRPCInBound.settings.clients[0].id = parameters.UUID;
-                gRPCInBound.streamSettings.grpcSettings.serviceName = parameters.VLESS_gRPC_ServiceName;
-                xrayConfig.inbounds.Add(JToken.FromObject(gRPCInBound));
-            }
-
-            if (parameters.Types.Contains(XrayType.VLESS_KCP))
-            {
-                var kcpBound = GetBound("VLESS_KCP.json");
-                kcpBound.port = parameters.VLESS_KCP_Port;
-                kcpBound.settings.clients[0].id = parameters.UUID;
-                kcpBound.streamSettings.kcpSettings.header.type = parameters.VLESS_KCP_Type;
-                kcpBound.streamSettings.kcpSettings.seed = parameters.VLESS_KCP_Seed;
-                xrayConfig.inbounds.Add(JToken.FromObject(kcpBound));
-            }
-
             if (parameters.Types.Contains(XrayType.VMESS_TCP))
             {
                 var mtcpBound = GetBound("VMESS_TCP.json");
                 mtcpBound.port = VMESS_TCP_Port;
-                mtcpBound.settings.clients[0].id = parameters.UUID;
+                SetClients(mtcpBound, uuidList);
                 mtcpBound.streamSettings.tcpSettings.header.request.path = parameters.VMESS_TCP_Path;
                 baseBound.settings.fallbacks.Add(JToken.FromObject(new
                 {
@@ -161,7 +163,7 @@ namespace ProxySuper.Core.Services
             {
                 var mwsBound = GetBound("VMESS_WS.json");
                 mwsBound.port = VMESS_WS_Port;
-                mwsBound.settings.clients[0].id = parameters.UUID;
+                SetClients(mwsBound, uuidList);
                 mwsBound.streamSettings.wsSettings.path = parameters.VMESS_WS_Path;
                 baseBound.settings.fallbacks.Add(JToken.FromObject(new
                 {
@@ -170,16 +172,6 @@ namespace ProxySuper.Core.Services
                     xver = 1,
                 }));
                 xrayConfig.inbounds.Add(JToken.FromObject(mwsBound));
-            }
-
-            if (parameters.Types.Contains(XrayType.VMESS_KCP))
-            {
-                var kcpBound = GetBound("VMESS_KCP.json");
-                kcpBound.port = parameters.VMESS_KCP_Port;
-                kcpBound.settings.clients[0].id = parameters.UUID;
-                kcpBound.streamSettings.kcpSettings.header.type = parameters.VMESS_KCP_Type;
-                kcpBound.streamSettings.kcpSettings.seed = parameters.VMESS_KCP_Seed;
-                xrayConfig.inbounds.Add(JToken.FromObject(kcpBound));
             }
 
             if (parameters.Types.Contains(XrayType.Trojan_TCP))
@@ -195,7 +187,37 @@ namespace ProxySuper.Core.Services
                 });
                 xrayConfig.inbounds.Add(JToken.FromObject(trojanTcpBound));
             }
+            #endregion
 
+            if (parameters.Types.Contains(XrayType.VLESS_gRPC))
+            {
+                var gRPCInBound = GetBound("VLESS_gRPC.json");
+                gRPCInBound.port = parameters.VLESS_gRPC_Port;
+                SetClients(gRPCInBound, uuidList);
+                gRPCInBound.streamSettings.grpcSettings.serviceName = parameters.VLESS_gRPC_ServiceName;
+                gRPCInBound.streamSettings.tlsSettings.serverName = parameters.Domain;
+                xrayConfig.inbounds.Add(JToken.FromObject(gRPCInBound));
+            }
+
+            if (parameters.Types.Contains(XrayType.VLESS_KCP))
+            {
+                var kcpBound = GetBound("VLESS_KCP.json");
+                kcpBound.port = parameters.VLESS_KCP_Port;
+                SetClients(kcpBound, uuidList);
+                kcpBound.streamSettings.kcpSettings.header.type = parameters.VLESS_KCP_Type;
+                kcpBound.streamSettings.kcpSettings.seed = parameters.VLESS_KCP_Seed;
+                xrayConfig.inbounds.Add(JToken.FromObject(kcpBound));
+            }
+
+            if (parameters.Types.Contains(XrayType.VMESS_KCP))
+            {
+                var kcpBound = GetBound("VMESS_KCP.json");
+                kcpBound.port = parameters.VMESS_KCP_Port;
+                SetClients(kcpBound, uuidList);
+                kcpBound.streamSettings.kcpSettings.header.type = parameters.VMESS_KCP_Type;
+                kcpBound.streamSettings.kcpSettings.seed = parameters.VMESS_KCP_Seed;
+                xrayConfig.inbounds.Add(JToken.FromObject(kcpBound));
+            }
 
             if (parameters.Types.Contains(XrayType.ShadowsocksAEAD))
             {

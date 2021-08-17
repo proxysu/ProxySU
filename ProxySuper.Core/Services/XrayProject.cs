@@ -1,13 +1,11 @@
 ﻿using Newtonsoft.Json;
-using ProxySuper.Core.Models;
 using ProxySuper.Core.Models.Projects;
 using Renci.SshNet;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace ProxySuper.Core.Services
@@ -54,29 +52,28 @@ namespace ProxySuper.Core.Services
                 EnsureSystemEnv();
                 WriteOutput("检测安装系统环境完成");
 
-                WriteOutput("配置服务器端口...");
-                ConfigurePort();
-                WriteOutput("端口配置完成");
-
                 WriteOutput("安装必要的系统工具...");
                 ConfigureSoftware();
                 WriteOutput("系统工具安装完成");
 
-                WriteOutput("检测IP6...");
-                ConfigureIPv6();
-                WriteOutput("检测IP6完成");
-
                 WriteOutput("配置防火墙...");
-                ConfigureFirewall();
+                ConfigFirewalld();
                 WriteOutput("防火墙配置完成");
+
+                WriteOutput("检测网络环境");
+                EnsureIP();
+                WriteOutput("检测网络环境完成");
 
                 WriteOutput("同步系统和本地时间...");
                 SyncTimeDiff();
                 WriteOutput("时间同步完成");
 
-                WriteOutput("检测域名是否绑定本机IP...");
-                ValidateDomain();
-                WriteOutput("域名检测完成");
+                if (!Parameters.IsIPAddress)
+                {
+                    WriteOutput("检测域名是否绑定本机IP...");
+                    ValidateDomain();
+                    WriteOutput("域名检测完成");
+                }
 
                 WriteOutput("安装Caddy...");
                 InstallCaddy();
@@ -98,13 +95,14 @@ namespace ProxySuper.Core.Services
             {
                 var errorLog = "安装终止，" + ex.Message;
                 WriteOutput(errorLog);
-                MessageBox.Show(errorLog);
+                MessageBox.Show("安装失败，请联系开发者或上传日志文件(Logs文件夹下)到github提问。");
             }
         }
 
         public void UninstallProxy()
         {
             EnsureRootAuth();
+            EnsureSystemEnv();
             WriteOutput("卸载Caddy");
             UninstallCaddy();
             WriteOutput("卸载Xray");
@@ -112,7 +110,7 @@ namespace ProxySuper.Core.Services
             WriteOutput("卸载证书");
             UninstallAcme();
             WriteOutput("关闭端口");
-            ClosePort(Parameters.ShadowSocksPort, Parameters.VMESS_KCP_Port);
+            ResetFirewalld();
 
             WriteOutput("************ 卸载完成 ************");
         }
@@ -136,12 +134,16 @@ namespace ProxySuper.Core.Services
         {
             EnsureRootAuth();
             EnsureSystemEnv();
-            ConfigureFirewall();
+
+            RunCmd("systemctl stop caddy");
+            RunCmd("systemctl stop xray");
+
+            ConfigFirewalld();
             var configJson = XrayConfigBuilder.BuildXrayConfig(Parameters);
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(configJson));
             RunCmd("rm -rf /usr/local/etc/xray/config.json");
             UploadFile(stream, "/usr/local/etc/xray/config.json");
-            ConfigurePort();
+
             UploadCaddyFile(string.IsNullOrEmpty(Parameters.MaskDomain));
             RunCmd("systemctl restart xray");
             WriteOutput("************ 更新Xray配置成功，更新配置不包含域名，如果域名更换请重新安装。 ************");
@@ -153,6 +155,7 @@ namespace ProxySuper.Core.Services
         public void DoUninstallCaddy()
         {
             EnsureRootAuth();
+            EnsureSystemEnv();
             UninstallCaddy();
             WriteOutput("************ 卸载Caddy完成 ************");
         }
@@ -160,7 +163,7 @@ namespace ProxySuper.Core.Services
         /// <summary>
         /// 安装证书
         /// </summary>
-        public void InstallCertToXray()
+        public void InstallCertToXray(bool restartXray = false)
         {
             EnsureRootAuth();
             EnsureSystemEnv();
@@ -169,8 +172,8 @@ namespace ProxySuper.Core.Services
                 certName: "xray_ssl.crt",
                 keyName: "xray_ssl.key");
 
-            RunCmd("systemctl restart xray");
             WriteOutput("************ 安装证书完成 ************");
+            RunCmd("systemctl restart xray");
         }
 
         /// <summary>
@@ -252,12 +255,12 @@ namespace ProxySuper.Core.Services
         private void UploadCaddyFile(bool useCustomWeb = false)
         {
             var configJson = XrayConfigBuilder.BuildCaddyConfig(Parameters, useCustomWeb);
-            var stream = new MemoryStream(Encoding.UTF8.GetBytes(configJson));
+
             if (FileExists("/etc/caddy/Caddyfile"))
             {
                 RunCmd("mv /etc/caddy/Caddyfile /etc/caddy/Caddyfile.back");
             }
-            UploadFile(stream, "/etc/caddy/Caddyfile");
+            WriteToFile(configJson, "/etc/caddy/Caddyfile");
             RunCmd("systemctl restart caddy");
         }
 
@@ -294,14 +297,15 @@ namespace ProxySuper.Core.Services
                 RunCmd(@"mv /usr/local/etc/xray/config.json /usr/local/etc/xray/config.json.1");
             }
 
-            WriteOutput("安装TLS证书");
-            InstallCertToXray();
-            WriteOutput("TLS证书安装完成");
-
+            if (!Parameters.IsIPAddress)
+            {
+                WriteOutput("安装TLS证书");
+                InstallCertToXray();
+                WriteOutput("TLS证书安装完成");
+            }
 
             var configJson = XrayConfigBuilder.BuildXrayConfig(Parameters);
-            var stream = new MemoryStream(Encoding.UTF8.GetBytes(configJson));
-            UploadFile(stream, "/usr/local/etc/xray/config.json");
+            WriteToFile(configJson, "/usr/local/etc/xray/config.json");
             RunCmd("systemctl restart xray");
         }
 

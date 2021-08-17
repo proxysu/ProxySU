@@ -1,16 +1,44 @@
 ﻿using Newtonsoft.Json;
 using ProxySuper.Core.Models.Projects;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 
 namespace ProxySuper.Core.Services
 {
     public class ShareLink
     {
+        public static string BuildBrook(BrookSettings settings)
+        {
+            var password = HttpUtility.UrlEncode(settings.Password);
+
+            if (settings.BrookType == BrookType.server)
+            {
+                var address = HttpUtility.UrlEncode($"{settings.IP}:{settings.Port}");
+                return $"brook://server?password={password}&server={address}";
+            }
+
+            if (settings.BrookType == BrookType.wsserver)
+            {
+                var address = HttpUtility.UrlEncode($"ws://{settings.IP}:{settings.Port}");
+                return $"brook://wsserver?password={password}&wsserver={address}";
+            }
+
+            if (settings.BrookType == BrookType.wssserver)
+            {
+                var address = HttpUtility.UrlEncode($"wss://{settings.Domain}:{settings.Port}");
+                return $"brook://wssserver?password={password}&wssserver={address}";
+            }
+
+            if (settings.BrookType == BrookType.socks5)
+            {
+                var address = HttpUtility.UrlEncode($"socks5://{settings.IP}:{settings.Port}");
+                return $"brook://socks5?password={password}&socks5={address}";
+            }
+
+            return string.Empty;
+        }
+
         public static string BuildNaiveProxy(NaiveProxySettings settings)
         {
             StringBuilder strBuilder = new StringBuilder();
@@ -28,10 +56,9 @@ namespace ProxySuper.Core.Services
             strBuilder.Append("trojan-go://");
 
             strBuilder.Append($"{HttpUtility.UrlEncode(settings.Password)}@{settings.Domain}:{settings.Port}/?");
-            strBuilder.Append($"sni={HttpUtility.UrlEncode(settings.Domain)}&");
             if (settings.EnableWebSocket)
             {
-                strBuilder.Append($"type=ws&host={HttpUtility.UrlEncode(settings.Domain)}&path={HttpUtility.UrlEncode(settings.WebSocketPath)}&");
+                strBuilder.Append($"type=ws&path={HttpUtility.UrlEncode(settings.WebSocketPath)}&");
             }
             else
             {
@@ -87,7 +114,7 @@ namespace ProxySuper.Core.Services
                 aid = "0",
                 net = "",
                 type = "none",
-                host = settings.Domain,
+                host = "",
                 path = "",
                 tls = "tls",
                 ps = "",
@@ -169,7 +196,7 @@ namespace ProxySuper.Core.Services
                 case XrayType.VLESS_gRPC:
                     _protocol = "vless";
                     _type = "grpc";
-                    _path = settings.VLESS_gRPC_ServiceName;
+                    _port = settings.VLESS_gRPC_Port;
                     _descriptiveText = "vless-gRPC";
                     break;
                 case XrayType.Trojan_TCP:
@@ -198,6 +225,12 @@ namespace ProxySuper.Core.Services
                 if (xrayType == XrayType.VLESS_TCP_XTLS)
                 {
                     parametersURL += "&flow=xtls-rprx-direct";
+                }
+
+
+                if (xrayType == XrayType.VLESS_gRPC)
+                {
+                    parametersURL += $"&serviceName={settings.VLESS_gRPC_ServiceName}&mode=gun";
                 }
             }
 

@@ -18,10 +18,12 @@
                 <MenuItem Padding="0,5" Header="Xray" Command="{Binding AddXrayCommand}"></MenuItem>
                 <MenuItem Padding="0,5" Header="Trojan-Go" Command="{Binding AddTrojanGoCommand}"></MenuItem>
                 <MenuItem Padding="0,5" Header="NaiveProxy" Command="{Binding AddNaiveProxyCommand}"></MenuItem>
+                <MenuItem Padding="0,5" Header="Brook" Command="{Binding AddBrookCommand}"></MenuItem>
             </MenuItem>
 
             <MenuItem Header="{DynamicResource MainMenuActions}" Padding="10,3">
                 <MenuItem Padding="0,5" Header="{DynamicResource MainMenuActionsExportSettings}" Click="ShowShareLinks"></MenuItem>
+                <MenuItem Padding="0,5" Header="{DynamicResource MainMenuActionsGetRoot}" Click="GetRoot"></MenuItem>
             </MenuItem>
 
             <MenuItem Header="{DynamicResource MainMenuLanguage}" Padding="10,3">
@@ -32,6 +34,9 @@
 
             <MenuItem Header="{DynamicResource MainMenuHelper}" Padding="10,3">
                 <MenuItem Padding="0,5" Header="{DynamicResource MainMenuHelperGithub}" Click="LaunchGitHubSite"></MenuItem>
+                <MenuItem Padding="0,5" Header="{DynamicResource MainMenuHelperUseRoot}" Click="LaunchUseRootSite"></MenuItem>
+                <MenuItem Padding="0,5" Header="{DynamicResource MainMenuHelperCertQuestion}" Click="LaunchCertQuestion"></MenuItem>
+                <MenuItem Padding="0,5" Header="{DynamicResource MainMenuHelperPrivateKey}" Click="LaunchPrivateKeyQuestion"></MenuItem>
             </MenuItem>
         </Menu>
 

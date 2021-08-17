@@ -1,16 +1,5 @@
-﻿using Microsoft.Win32;
-using MvvmCross.ViewModels;
+﻿using MvvmCross.ViewModels;
 using ProxySuper.Core.Models.Projects;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media.Imaging;
-using QRCoder;
 
 namespace ProxySuper.Core.ViewModels
 {
@@ -53,6 +42,14 @@ namespace ProxySuper.Core.ViewModels
             get
             {
                 return Settings.Types.Contains(XrayType.VLESS_KCP);
+            }
+        }
+
+        public bool Checked_VLESS_gRPC
+        {
+            get
+            {
+                return Settings.Types.Contains(XrayType.VLESS_gRPC);
             }
         }
 

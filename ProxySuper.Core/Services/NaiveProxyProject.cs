@@ -1,13 +1,8 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using ProxySuper.Core.Models.Projects;
+﻿using ProxySuper.Core.Models.Projects;
 using Renci.SshNet;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace ProxySuper.Core.Services
@@ -20,7 +15,10 @@ namespace ProxySuper.Core.Services
 
         public void Uninstall()
         {
-            UninstallCaddy();
+            RunCmd("rm -rf caddy_install.sh");
+            RunCmd("curl -o caddy_install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/Caddy-Naive/caddy-naive-install.sh");
+            RunCmd("yes | bash caddy_install.sh uninstall");
+            RunCmd("rm -rf caddy_install.sh");
             WriteOutput("ProxyNaive卸载完成");
         }
 
@@ -51,21 +49,17 @@ namespace ProxySuper.Core.Services
                 EnsureSystemEnv();
                 WriteOutput("检测安装系统环境完成");
 
-                WriteOutput("配置服务器端口...");
-                ConfigurePort();
-                WriteOutput("端口配置完成");
-
                 WriteOutput("安装必要的系统工具...");
                 ConfigureSoftware();
                 WriteOutput("系统工具安装完成");
 
-                WriteOutput("检测IP6...");
-                ConfigureIPv6();
-                WriteOutput("检测IP6完成");
-
                 WriteOutput("配置防火墙...");
-                ConfigureFirewall();
+                ConfigFirewalld();
                 WriteOutput("防火墙配置完成");
+
+                WriteOutput("检测网络环境");
+                EnsureIP();
+                WriteOutput("检测网络环境完成");
 
                 WriteOutput("同步系统和本地时间...");
                 SyncTimeDiff();
@@ -90,7 +84,7 @@ namespace ProxySuper.Core.Services
             {
                 var errorLog = "安装终止，" + ex.Message;
                 WriteOutput(errorLog);
-                MessageBox.Show(errorLog);
+                MessageBox.Show("安装失败，请联系开发者或上传日志文件(Logs文件夹下)到github提问。");
             }
         }
 
@@ -98,6 +92,8 @@ namespace ProxySuper.Core.Services
         {
             WriteOutput("安装 NaiveProxy");
             RunCmd(@"curl https://raw.githubusercontent.com/proxysu/shellscript/master/Caddy-Naive/caddy-naive-install.sh yes | bash");
+            // 允许开机启动
+            RunCmd("systemctl enable caddy");
             UploadCaddyFile(false);
             ConfigNetwork();
             WriteOutput("NaiveProxy 安装完成");
@@ -131,13 +127,13 @@ namespace ProxySuper.Core.Services
         private void UploadCaddyFile(bool useCustomWeb = false)
         {
             var caddyStr = BuildConfig(useCustomWeb);
-            var stream = new MemoryStream(Encoding.UTF8.GetBytes(caddyStr));
 
             if (FileExists("/etc/caddy/Caddyfile"))
             {
                 RunCmd("mv /etc/caddy/Caddyfile /etc/caddy/Caddyfile.back");
             }
-            UploadFile(stream, "/etc/caddy/Caddyfile");
+
+            RunCmd($"echo {caddyStr} > /etc/caddy/Caddyfile");
             RunCmd("systemctl restart caddy");
         }
 

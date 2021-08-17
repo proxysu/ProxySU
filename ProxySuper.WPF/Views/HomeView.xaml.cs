@@ -6,7 +6,6 @@ using ProxySuper.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 
 namespace ProxySuper.WPF.Views
@@ -47,6 +46,21 @@ namespace ProxySuper.WPF.Views
             System.Diagnostics.Process.Start("explorer.exe", "https://github.com/proxysu/ProxySU");
         }
 
+        private void LaunchUseRootSite(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("explorer.exe", "https://github.com/proxysu/ProxySU/wiki/%E8%B0%B7%E6%AD%8C%E4%BA%91%E5%BC%80%E5%90%AFroot%E8%B4%A6%E6%88%B7%E4%B8%8E%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95");
+        }
+
+        private void LaunchCertQuestion(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("explorer.exe", "https://github.com/proxysu/ProxySU/wiki/%E5%B8%B8%E8%A7%81%E8%AF%81%E4%B9%A6%E7%94%B3%E8%AF%B7%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98");
+        }
+
+        private void LaunchPrivateKeyQuestion(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("explorer.exe", "https://github.com/proxysu/ProxySU/wiki/PrivateKey%E8%BD%AC%E6%8D%A2");
+        }
+
 
         ResourceDictionary resource = new ResourceDictionary();
         private void SetSimpleChinese(object sender, RoutedEventArgs e)
@@ -80,5 +94,11 @@ namespace ProxySuper.WPF.Views
 
             NavigationService.Navigate<ShareLinkViewModel, List<Record>>(checkedRecords);
         }
+
+        private void GetRoot(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate<EnableRootViewModel>();
+        }
+
     }
 }

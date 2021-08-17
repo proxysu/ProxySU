@@ -15,6 +15,7 @@
     <sys:String x:Key="MainMenuActions">操作</sys:String>
     <sys:String x:Key="MainMenuActionsExportSettings">導出配置</sys:String>
     <sys:String x:Key="MainMenuActionsExportSubscribe">導出訂閲</sys:String>
+    <sys:String x:Key="MainMenuActionsGetRoot">啓用Root賬戶</sys:String>
 
     <sys:String x:Key="MainMenuLanguage">語言(Language)</sys:String>
     <sys:String x:Key="MainMenuLanguageEn">English</sys:String>
@@ -22,6 +23,9 @@
     <sys:String x:Key="MainMenuLanguageTw">正體</sys:String>
     <sys:String x:Key="MainMenuHelper">幫助</sys:String>
     <sys:String x:Key="MainMenuHelperGithub">Github</sys:String>
+    <sys:String x:Key="MainMenuHelperUseRoot">啓用Root賬戶</sys:String>
+    <sys:String x:Key="MainMenuHelperCertQuestion">證書問題</sys:String>
+    <sys:String x:Key="MainMenuHelperPrivateKey">私鑰問題</sys:String>
 
 
     <!--Main DataGrid-->
@@ -61,27 +65,33 @@
     <sys:String x:Key="VlessXtlsDesc" xml:space="preserve">VLESS Over TCP With XTLS&#x0a;性能數倍，首選方式。</sys:String>
     <sys:String x:Key="VlessTcpDesc" xml:space="preserve">VLESS over TCP with TLS&#x0a;仍推薦XTLS。</sys:String>
     <sys:String x:Key="VlessWsDesc" xml:space="preserve">VLESS over WS with TLS&#x0a;推薦，支持CDN。</sys:String>
-    <sys:String x:Key="VlessKcpDesc" xml:space="preserve">VLESS mKCP&#x0a;遊戲推薦，延遲低。</sys:String>
+    <sys:String x:Key="VlessKcpDesc" xml:space="preserve">VLESS mKCP&#x0a;遊戲推薦，延遲低，免域名。</sys:String>
     <sys:String x:Key="VmessWsDesc" xml:space="preserve">VMESS over WS with TLS&#x0a;推薦，支持CDN。</sys:String>
-    <sys:String x:Key="VmessKcpDesc" xml:space="preserve">VMESS mKCP&#x0a;遊戲推薦，延遲低。</sys:String>
-    <sys:String x:Key="SSDesc" xml:space="preserve">ShadowSocks&#x0a;SS，支持udp。</sys:String>
+    <sys:String x:Key="VmessKcpDesc" xml:space="preserve">VMESS mKCP&#x0a;遊戲推薦，延遲低，免域名。</sys:String>
+    <sys:String x:Key="SSDesc" xml:space="preserve">ShadowSocks&#x0a;SS，支持udp，免域名。</sys:String>
     <sys:String x:Key="TrojanDesc" xml:space="preserve">Trojan over TCP with TLS&#x0a;Trojan。</sys:String>
 
 
-    <sys:String x:Key="XrayDomain">域名</sys:String>
+    <sys:String x:Key="XrayDomain">域名/IP</sys:String>
     <sys:String x:Key="XrayMarkDomain">偽裝域名</sys:String>
     <sys:String x:Key="XrayUUID">UUID</sys:String>
+    <sys:String x:Key="MultiUser">多用戶</sys:String>
+    <sys:String x:Key="MultiUserHelp">多個UUID用“,”分隔</sys:String>
     <sys:String x:Key="VlessWsPath">VLESS WS路徑</sys:String>
     <sys:String x:Key="VlessKcpSeed">VLESS KCP Seed</sys:String>
     <sys:String x:Key="VlessKcpType">VLESS KCP偽裝</sys:String>
     <sys:String x:Key="VlessKcpPort">VLESS KCP端口</sys:String>
+    <sys:String x:Key="VlessRPCName">gRPC路徑</sys:String>
+    <sys:String x:Key="VlessRPCPort">gRPC端口</sys:String>
     <sys:String x:Key="VmessWsPath">VMESS WS路徑</sys:String>
     <sys:String x:Key="VmessKcpSeed">VMESS KCP Seed</sys:String>
     <sys:String x:Key="VmessKcpType">VMESS KCP偽裝</sys:String>
     <sys:String x:Key="VmessKcpPort">VMESS KCP端口</sys:String>
     <sys:String x:Key="SSPassword">SS密碼</sys:String>
     <sys:String x:Key="SSMethods">SS加密方式</sys:String>
+    <sys:String x:Key="SSPort">SS端口</sys:String>
     <sys:String x:Key="TrojanPassword">Trojan密碼</sys:String>
+    <sys:String x:Key="TrojanPort">Trojan端口</sys:String>
     <sys:String x:Key="XrayPort">xray端口</sys:String>
     <sys:String x:Key="XrayPortDefault">默認端口443，不建議修改</sys:String>
 

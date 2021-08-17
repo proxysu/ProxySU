@@ -1,24 +1,13 @@
 ﻿using Microsoft.Win32;
 using MvvmCross.Platforms.Wpf.Views;
 using ProxySuper.Core.Models.Projects;
-using ProxySuper.Core.Services;
 using ProxySuper.Core.ViewModels;
 using QRCoder;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace ProxySuper.WPF.Views
 {

@@ -8,9 +8,9 @@ using Renci.SshNet;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Automation.Peers;
 using System.Windows.Documents;
 using System.Windows.Threading;
 
@@ -45,6 +45,29 @@ namespace ProxySuper.WPF.Views
             {
                 Task.Factory.StartNew(OpenConnect);
             };
+
+            base.Closed += SaveInstallLog;
+            base.Closed += Disconnect;
+        }
+
+        private void Disconnect(object sender, EventArgs e)
+        {
+            if (_sshClient != null)
+            {
+                _sshClient.Disconnect();
+                _sshClient.Dispose();
+            }
+        }
+
+        private void SaveInstallLog(object sender, EventArgs e)
+        {
+            if (!Directory.Exists("Logs"))
+            {
+                Directory.CreateDirectory("Logs");
+            }
+
+            var fileName = Path.Combine("Logs", DateTime.Now.ToString("yyyy-MM-dd hh-mm") + ".xary.txt");
+            File.WriteAllText(fileName, ViewModel.CommandText);
         }
 
         private SshClient _sshClient;
@@ -52,6 +75,7 @@ namespace ProxySuper.WPF.Views
         {
             WriteOutput("正在登陆服务器 ...");
             var conneInfo = CreateConnectionInfo(ViewModel.Host);
+            conneInfo.Timeout = TimeSpan.FromSeconds(60);
             _sshClient = new SshClient(conneInfo);
             try
             {
@@ -75,8 +99,8 @@ namespace ProxySuper.WPF.Views
             {
                 outShell += "\n";
             }
+            ViewModel.CommandText += outShell;
 
-            ViewModel.OutputText += outShell;
             Dispatcher.Invoke(() =>
             {
                 OutputTextBox.AppendText(outShell);
@@ -97,7 +121,7 @@ namespace ProxySuper.WPF.Views
                 auth = new PrivateKeyAuthenticationMethod(host.UserName, new PrivateKeyFile(host.PrivateKeyPath));
             }
 
-            if (host.Proxy.Type == LocalProxyType.None)
+            if (host.Proxy.Type == ProxyTypes.None)
             {
                 return new ConnectionInfo(host.Address, host.Port, host.UserName, auth);
             }
@@ -107,7 +131,7 @@ namespace ProxySuper.WPF.Views
                     host: host.Address,
                     port: host.Port,
                     username: host.UserName,
-                    proxyType: (ProxyTypes)(int)host.Proxy.Type,
+                    proxyType: host.Proxy.Type,
                     proxyHost: host.Proxy.Address,
                     proxyPort: host.Proxy.Port,
                     proxyUsername: host.Proxy.UserName,
@@ -116,6 +140,8 @@ namespace ProxySuper.WPF.Views
             }
 
         }
+
+        #region 功能
 
         private void OpenLink(object sender, RoutedEventArgs e)
         {
@@ -140,7 +166,7 @@ namespace ProxySuper.WPF.Views
 
         private void InstallCert(object sender, RoutedEventArgs e)
         {
-            Task.Factory.StartNew(Project.InstallCertToXray);
+            Task.Factory.StartNew(() => Project.InstallCertToXray(restartXray: true));
         }
 
         private void UninstallXray(object sender, RoutedEventArgs e)
@@ -187,6 +213,7 @@ namespace ProxySuper.WPF.Views
                 }
             });
         }
+        #endregion
 
     }
 }

@@ -1,21 +1,9 @@
-﻿using Microsoft.Win32;
-using MvvmCross;
-using MvvmCross.Commands;
-using MvvmCross.Navigation;
-using MvvmCross.ViewModels;
+﻿using MvvmCross.ViewModels;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using ProxySuper.Core.Models.Hosts;
 using ProxySuper.Core.Models.Projects;
 using ProxySuper.Core.Services;
-using ProxySuper.Core.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ProxySuper.Core.Models
 {
@@ -53,6 +41,9 @@ namespace ProxySuper.Core.Models
         [JsonProperty("naiveProxySettings")]
         public NaiveProxySettings NaiveProxySettings { get; set; }
 
+        [JsonProperty("brook")]
+        public BrookSettings BrookSettings { get; set; }
+
 
         [JsonIgnore]
         public ProjectType Type
@@ -63,7 +54,9 @@ namespace ProxySuper.Core.Models
 
                 if (TrojanGoSettings != null) return ProjectType.TrojanGo;
 
-                return ProjectType.NaiveProxy;
+                if (NaiveProxySettings != null) return ProjectType.NaiveProxy;
+
+                return ProjectType.Brook;
             }
         }
 

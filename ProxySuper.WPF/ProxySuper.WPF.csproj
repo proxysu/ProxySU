@@ -5,43 +5,12 @@
   　　<AllowedReferenceRelatedFileExtensions>
 　　　　<!-- 阻止默认的 XML 和 PDB 文件复制到 RELEASE 的输出目录. 只有*.allowedextension 扩展名的文件可以被包含, 当然这个扩展的文件并不存在.-->
 　　　　.allowedextension
-　　</AllowedReferenceRelatedFileExtensions>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B083EBFD-2925-46C9-8B00-E2C1300CEBA1}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <RootNamespace>ProxySuper.WPF</RootNamespace>
-    <AssemblyName>ProxySuper.WPF</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <TargetFrameworkProfile />
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-  </PropertyGroup>
+　　</AllowedReferenceRelatedFileExtensions><Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration><Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform><ProjectGuid>{B083EBFD-2925-46C9-8B00-E2C1300CEBA1}</ProjectGuid><OutputType>WinExe</OutputType><RootNamespace>ProxySuper.WPF</RootNamespace><AssemblyName>ProxySuper.WPF</AssemblyName><TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion><FileAlignment>512</FileAlignment><ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids><WarningLevel>4</WarningLevel><AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects><Deterministic>true</Deterministic><NuGetPackageImportStamp></NuGetPackageImportStamp><IsWebBootstrapper>false</IsWebBootstrapper><TargetFrameworkProfile /><PublishUrl>publish\</PublishUrl><Install>true</Install><InstallFrom>Disk</InstallFrom><UpdateEnabled>false</UpdateEnabled><UpdateMode>Foreground</UpdateMode><UpdateInterval>7</UpdateInterval><UpdateIntervalUnits>Days</UpdateIntervalUnits><UpdatePeriodically>false</UpdatePeriodically><UpdateRequired>false</UpdateRequired><MapFileExtensions>true</MapFileExtensions><ApplicationRevision>0</ApplicationRevision><ApplicationVersion>1.0.0.%2a</ApplicationVersion><UseApplicationTrust>false</UseApplicationTrust><BootstrapperEnabled>true</BootstrapperEnabled></PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -58,6 +27,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>ProxySU.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>ProxySuper.WPF.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MvvmCross, Version=7.1.2.0, Culture=neutral, processorArchitecture=MSIL">
@@ -106,6 +78,9 @@
     <Compile Include="Controls\HostControl.xaml.cs">
       <DependentUpon>HostControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ProgressControl.xaml.cs">
+      <DependentUpon>ProgressControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ShadowSocksControl.xaml.cs">
       <DependentUpon>ShadowSocksControl.xaml</DependentUpon>
     </Compile>
@@ -142,6 +117,18 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\BrookConfigView.xaml.cs">
+      <DependentUpon>BrookConfigView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BrookEditorView.xaml.cs">
+      <DependentUpon>BrookEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BrookInstallerView.xaml.cs">
+      <DependentUpon>BrookInstallerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EnableRootView.xaml.cs">
+      <DependentUpon>EnableRootView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
     </Compile>
@@ -175,7 +162,14 @@
     <Compile Include="Views\XrayInstallerView.xaml.cs">
       <DependentUpon>XrayInstallerView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\XrayInstallView.xaml.cs">
+      <DependentUpon>XrayInstallView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Controls\HostControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ProgressControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -231,6 +225,22 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Views\BrookConfigView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BrookEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BrookInstallerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EnableRootView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\HomeView.xaml">
       <SubType>Designer</SubType>
@@ -292,6 +302,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\XrayInstallerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\XrayInstallView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

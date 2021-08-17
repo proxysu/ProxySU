@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ProxySuper.Core.Models.Projects
 {
@@ -27,5 +23,10 @@ namespace ProxySuper.Core.Models.Projects
         /// 类型
         /// </summary>
         ProjectType Type { get; set; }
+
+        /// <summary>
+        /// 邮箱
+        /// </summary>
+        string Email { get; }
     }
 }

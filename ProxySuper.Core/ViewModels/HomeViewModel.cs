@@ -11,8 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -66,6 +64,8 @@ namespace ProxySuper.Core.ViewModels
 
         public IMvxCommand AddNaiveProxyCommand => new MvxAsyncCommand(AddNaiveProxyRecord);
 
+        public IMvxCommand AddBrookCommand => new MvxAsyncCommand(AddBrookRecord);
+
         public IMvxCommand RemoveCommand => new MvxAsyncCommand<string>(DeleteRecord);
 
         public IMvxCommand EditCommand => new MvxAsyncCommand<string>(EditRecord);
@@ -118,6 +118,21 @@ namespace ProxySuper.Core.ViewModels
             SaveToJson();
         }
 
+        public async Task AddBrookRecord()
+        {
+            Record record = new Record();
+            record.Id = Utils.GetTickID();
+            record.Host = new Host();
+            record.BrookSettings = new BrookSettings();
+
+            var result = await _navigationService.Navigate<BrookEditorViewModel, Record, Record>(record);
+            if (result == null) return;
+
+            Records.Add(result);
+
+            SaveToJson();
+        }
+
 
         public async Task EditRecord(string id)
         {
@@ -148,6 +163,14 @@ namespace ProxySuper.Core.ViewModels
 
                 record.Host = result.Host;
                 record.NaiveProxySettings = result.NaiveProxySettings;
+            }
+            if (record.Type == ProjectType.Brook)
+            {
+                result = await _navigationService.Navigate<BrookEditorViewModel, Record, Record>(record);
+                if (result == null) return;
+
+                record.Host = result.Host;
+                record.BrookSettings = result.BrookSettings;
             }
 
             SaveToJson();
@@ -185,6 +208,10 @@ namespace ProxySuper.Core.ViewModels
             {
                 await _navigationService.Navigate<NaiveProxyConfigViewModel, NaiveProxySettings>(record.NaiveProxySettings);
             }
+            if (record.Type == ProjectType.Brook)
+            {
+                await _navigationService.Navigate<BrookConfigViewModel, BrookSettings>(record.BrookSettings);
+            }
         }
 
         public async Task GoToInstall(string id)
@@ -194,7 +221,7 @@ namespace ProxySuper.Core.ViewModels
 
             if (record.Type == ProjectType.Xray)
             {
-                await _navigationService.Navigate<XrayInstallerViewModel, Record>(record);
+                await _navigationService.Navigate<XrayInstallViewModel, Record>(record);
             }
             if (record.Type == ProjectType.TrojanGo)
             {
@@ -203,6 +230,10 @@ namespace ProxySuper.Core.ViewModels
             if (record.Type == ProjectType.NaiveProxy)
             {
                 await _navigationService.Navigate<NaiveProxyInstallerViewModel, Record>(record);
+            }
+            if (record.Type == ProjectType.Brook)
+            {
+                await _navigationService.Navigate<BrookInstallerViewModel, Record>(record);
             }
         }
     }

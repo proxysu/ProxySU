@@ -1,6 +1,6 @@
 {
   "port": 2002,
-  "listen": "127.0.0.1",
+  "listen": "0.0.0.0",
   "protocol": "vless",
   "settings": {
     "clients": [
@@ -11,15 +11,22 @@
     "decryption": "none"
   },
   "streamSettings": {
-    "network": "grpc",
-    "grpcSettings": {
-      "serviceName": "",
+    "network": "gun",
+    "security": "tls",
+    "tlsSettings": {
+      "serverName": "domain",
+      "alpn": [
+        "h2"
+      ],
       "certificates": [
         {
           "certificateFile": "/usr/local/etc/xray/ssl/xray_ssl.crt",
           "keyFile": "/usr/local/etc/xray/ssl/xray_ssl.key"
         }
       ]
+    },
+    "grpcSettings": {
+      "serviceName": "service_name"
     }
   }
 }

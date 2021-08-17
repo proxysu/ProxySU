@@ -1,5 +1,6 @@
 ﻿using ProxySuper.Core.Helpers;
 using ProxySuper.Core.Models;
+using ProxySuper.Core.Models.Hosts;
 using ProxySuper.Core.Models.Projects;
 using Renci.SshNet;
 using System;
@@ -7,7 +8,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace ProxySuper.Core.Services
@@ -20,13 +20,23 @@ namespace ProxySuper.Core.Services
         Yum
     }
 
+    public enum ArchType
+    {
+        x86,
+        arm,
+    }
+
     public abstract class ProjectBase<TSettings> where TSettings : IProjectSettings
     {
+
+
         private SshClient _sshClient;
 
         protected Action<string> WriteOutput;
 
         protected CmdType CmdType { get; set; }
+
+        protected ArchType ArchType { get; set; }
 
         protected bool IsSELinux { get; set; }
 
@@ -50,7 +60,9 @@ namespace ProxySuper.Core.Services
             var cmd = _sshClient.CreateCommand(cmdStr);
             WriteOutput(cmdStr);
 
-            var result = cmd.Execute();
+            var exe = cmd.BeginExecute();
+            var result = cmd.EndExecute(exe);
+            //var result = cmd.Execute();
             WriteOutput(result);
             return result;
         }
@@ -67,10 +79,25 @@ namespace ProxySuper.Core.Services
         {
             string cmd;
 
+            // cpu架构
+            var result = RunCmd("uname -m");
+            if (result.Contains("x86"))
+            {
+                ArchType = ArchType.x86;
+            }
+            else if (result.Contains("arm") || result.Contains("arch"))
+            {
+                ArchType = ArchType.arm;
+            }
+            else
+            {
+                throw new Exception($"未识别的架构处理器架构:{result}");
+            }
+
             // 确认安装命令
             if (CmdType == CmdType.None)
             {
-                cmd = RunCmd("command -v apt-get");
+                cmd = RunCmd("command -v apt");
                 if (!string.IsNullOrEmpty(cmd))
                 {
                     CmdType = CmdType.Apt;
@@ -83,6 +110,8 @@ namespace ProxySuper.Core.Services
                 if (!string.IsNullOrEmpty(cmd))
                 {
                     CmdType = CmdType.Dnf;
+                    //RunCmd("echo \"export LC_ALL=en_US.UTF-8\"  >>  /etc/profile");
+                    //RunCmd("source /etc/profile");
                 }
             }
 
@@ -105,7 +134,7 @@ namespace ProxySuper.Core.Services
 
             if (CmdType == CmdType.None || !hasSystemCtl)
             {
-                throw new Exception("系统缺乏必要的安装组件如:apt-get||dnf||yum||Syetemd，主机系统推荐使用：CentOS 7/8,Debian 8/9/10,Ubuntu 16.04及以上版本");
+                throw new Exception("系统缺乏必要的安装组件如:apt||dnf||yum||Syetemd，主机系统推荐使用：CentOS 7/8,Debian 8/9/10,Ubuntu 16.04及以上版本");
             }
 
 
@@ -144,7 +173,7 @@ namespace ProxySuper.Core.Services
         /// <summary>
         /// 配置IPV6环境
         /// </summary>
-        protected void ConfigureIPv6()
+        protected void EnsureIP()
         {
             if (IsOnlyIpv6())
             {
@@ -157,6 +186,8 @@ namespace ProxySuper.Core.Services
         /// </summary>
         protected void ConfigureSoftware()
         {
+            RunCmd(GetUpdateCmd());
+
             string cmd = RunCmd("command -v sudo");
             if (string.IsNullOrEmpty(cmd))
             {
@@ -188,17 +219,14 @@ namespace ProxySuper.Core.Services
             {
                 if (CmdType == CmdType.Apt)
                 {
-                    RunCmd(GetUpdateCmd());
                     RunCmd(GetInstallCmd("dnsutils"));
                 }
                 else if (CmdType == CmdType.Dnf)
                 {
-                    RunCmd(GetUpdateCmd());
                     RunCmd(GetInstallCmd("bind-utils"));
                 }
                 else if (CmdType == CmdType.Yum)
                 {
-                    RunCmd(GetUpdateCmd());
                     RunCmd(GetInstallCmd("bind-utils"));
                 }
             }
@@ -214,6 +242,13 @@ namespace ProxySuper.Core.Services
                 RunCmd(GetInstallCmd("xz-devel"));
             }
 
+            // 检测是否安装cron
+            cmd = RunCmd("command -v cron");
+            if (string.IsNullOrEmpty(cmd))
+            {
+                RunCmd(GetInstallCmd("cron"));
+            }
+
             // 检测是否安装lsof
             cmd = RunCmd("command -v lsof");
             if (string.IsNullOrEmpty(cmd))
@@ -223,99 +258,29 @@ namespace ProxySuper.Core.Services
         }
 
         /// <summary>
-        /// 关闭端口
-        /// </summary>
-        /// <param name="portList"></param>
-        protected void ClosePort(params int[] portList)
-        {
-            string cmd;
-
-            cmd = RunCmd("command -v firewall-cmd");
-            if (!string.IsNullOrEmpty(cmd))
-            {
-                //有很奇怪的vps主机，在firewalld未运行时，端口是关闭的，无法访问。所以要先启动firewalld
-                //用于保证acme.sh申请证书成功
-                cmd = RunCmd("firewall-cmd --state");
-                if (cmd.Trim() != "running")
-                {
-                    RunCmd("systemctl restart firewalld");
-                }
-
-                foreach (var port in portList)
-                {
-                    RunCmd($"firewall-cmd --zone=public --remove-port={port}/tcp --permanent");
-                    RunCmd($"firewall-cmd --zone=public --remove-port={port}/udp --permanent");
-                }
-                RunCmd("yes | firewall-cmd --reload");
-            }
-            else
-            {
-                cmd = RunCmd("command -v ufw");
-                if (!string.IsNullOrEmpty(cmd))
-                {
-                    foreach (var port in portList)
-                    {
-                        RunCmd($"ufw delete allow {port}/tcp");
-                        RunCmd($"ufw delete allow {port}/udp");
-                    }
-                    RunCmd("yes | ufw reload");
-                }
-            }
-        }
-
-        /// <summary>
-        /// 开放端口
-        /// </summary>
-        /// <param name="portList"></param>
-        protected void OpenPort(params int[] portList)
-        {
-
-            string cmd;
-
-            cmd = RunCmd("command -v firewall-cmd");
-            if (!string.IsNullOrEmpty(cmd))
-            {
-                //有很奇怪的vps主机，在firewalld未运行时，端口是关闭的，无法访问。所以要先启动firewalld
-                //用于保证acme.sh申请证书成功
-                cmd = RunCmd("firewall-cmd --state");
-                if (cmd.Trim() != "running")
-                {
-                    RunCmd("systemctl restart firewalld");
-                }
-
-                foreach (var port in portList)
-                {
-                    RunCmd($"firewall-cmd --zone=public --add-port={port}/tcp --permanent");
-                    RunCmd($"firewall-cmd --zone=public --add-port={port}/udp --permanent");
-                }
-                RunCmd("yes | firewall-cmd --reload");
-            }
-            else
-            {
-                cmd = RunCmd("command -v ufw");
-                if (!string.IsNullOrEmpty(cmd))
-                {
-                    foreach (var port in portList)
-                    {
-                        RunCmd($"ufw allow {port}/tcp");
-                        RunCmd($"ufw allow {port}/udp");
-                    }
-                    RunCmd("yes | ufw reload");
-                }
-            }
-        }
-
-        /// <summary>
         /// 配置防火墙
         /// </summary>
-        protected void ConfigureFirewall()
+        protected void ConfigFirewalld()
         {
-            var portList = new List<int>();
-            portList.Add(80);
-            portList.Add(Parameters.Port);
-            portList.AddRange(Parameters.FreePorts);
+            Parameters.FreePorts.ForEach(port =>
+            {
+                SetPortFree(port);
+            });
 
-            OpenPort(portList.ToArray());
+            OpenPort(_sshClient.ConnectionInfo.Port);
+            OpenPort(Parameters.FreePorts.ToArray());
+        }
+
+        /// <summary>
+        /// 重置防火墙
+        /// </summary>
+        protected void ResetFirewalld()
+        {
+            Parameters.FreePorts.ForEach(port =>
+            {
+                SetPortFree(port);
+            });
+            ClosePort(Parameters.FreePorts.ToArray());
         }
 
         /// <summary>
@@ -395,11 +360,60 @@ namespace ProxySuper.Core.Services
         /// </summary>
         protected void InstallCaddy()
         {
-            RunCmd("rm -rf caddy_install.sh");
-            RunCmd("curl -o caddy_install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/Caddy-Naive/caddy-naive-install.sh");
-            RunCmd("yes | bash caddy_install.sh");
-            RunCmd("rm -rf caddy_install.sh");
-            RunCmd("systemctl enable caddy.service");
+            #region 二进制文件安装
+            RunCmd("rm -rf caddy.tar.gz");
+            RunCmd("rm -rf /etc/caddy");
+            RunCmd("rm -rf /usr/share/caddy");
+
+            var url = "https://github.com/caddyserver/caddy/releases/download/v2.4.3/caddy_2.4.3_linux_amd64.tar.gz";
+            if (ArchType == ArchType.arm)
+            {
+                url = "https://github.com/caddyserver/caddy/releases/download/v2.4.3/caddy_2.4.3_linux_armv7.tar.gz";
+            }
+
+            RunCmd($"wget -O caddy.tar.gz {url}");
+            RunCmd("mkdir /etc/caddy");
+            RunCmd("tar -zxvf caddy.tar.gz -C /etc/caddy");
+            RunCmd("cp -rf /etc/caddy/caddy /usr/bin");
+            WriteToFile(Caddy.DefaultCaddyFile, "/etc/caddy/Caddyfile");
+            WriteToFile(Caddy.Service, "/etc/systemd/system/caddy.service");
+            RunCmd("systemctl daemon-reload");
+            RunCmd("systemctl enable caddy");
+
+            RunCmd("mkdir /usr/share/caddy");
+
+            if (!FileExists("/usr/bin/caddy"))
+            {
+                throw new Exception("Caddy服务器安装失败，请联系开发者！");
+            }
+            #endregion
+
+            #region 官方安装步骤
+            //if (CmdType == CmdType.Apt)
+            //{
+            //    RunCmd("apt install -y debian-keyring debian-archive-keyring apt-transport-https");
+            //    RunCmd("echo yes | curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo apt-key add -");
+            //    RunCmd("echo yes | curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list");
+            //    RunCmd("sudo apt -y update");
+            //    RunCmd("sudo apt install -y caddy");
+            //}
+
+            //if (CmdType == CmdType.Dnf)
+            //{
+            //    RunCmd("dnf install -y 'dnf-command(copr)'");
+            //    RunCmd("dnf copr -y enable @caddy/caddy");
+            //    RunCmd("dnf install -y caddy");
+            //}
+
+            //if (CmdType == CmdType.Yum)
+            //{
+            //    RunCmd("yum install -y yum-plugin-copr");
+            //    RunCmd("yum copr -y enable @caddy/caddy");
+            //    RunCmd("yum install -y caddy");
+            //}
+
+            //RunCmd("systemctl enable caddy.service"); 
+            #endregion
         }
 
         /// <summary>
@@ -407,11 +421,12 @@ namespace ProxySuper.Core.Services
         /// </summary>
         protected void UninstallCaddy()
         {
-            RunCmd("rm -rf caddy_install.sh");
-            RunCmd("curl -o caddy_install.sh https://raw.githubusercontent.com/proxysu/shellscript/master/Caddy-Naive/caddy-naive-install.sh");
-            RunCmd("yes | bash caddy_install.sh uninstall");
-            RunCmd("rm -rf caddy_install.sh");
+            RunCmd("systemctl stop caddy");
+            RunCmd("systemctl disable caddy");
+            RunCmd("rm -rf /etc/systemd/system/caddy.service");
+            RunCmd("rm -rf /usr/bin/caddy");
             RunCmd("rm -rf /usr/share/caddy");
+            RunCmd("rm -rf /etc/caddy");
         }
 
 
@@ -435,60 +450,11 @@ namespace ProxySuper.Core.Services
 
             if (string.IsNullOrEmpty(IPv6))
             {
-                throw new Exception("未检测可用的的IP地址");
+                throw new Exception("未检测到可用的的IP地址，请重试安装");
             }
 
             OnlyIpv6 = true;
             return OnlyIpv6;
-        }
-
-        private bool SetPortFree(int port, bool force = true)
-        {
-            string result = RunCmd($"lsof -n -P -i :{port} | grep LISTEN");
-
-            if (!string.IsNullOrEmpty(result))
-            {
-                if (force)
-                {
-                    var btnResult = MessageBox.Show($"{port}端口被占用，将强制停止占用{port}端口的程序?", "提示", MessageBoxButton.YesNo);
-                    if (btnResult == MessageBoxResult.No)
-                    {
-                        throw new Exception($"{port}端口被占用，安装停止!");
-                    }
-
-                    string[] process = result.Split(' ');
-                    RunCmd($"systemctl stop {process[0]}");
-                    RunCmd($"systemctl disable {process[0]}");
-                    RunCmd($"pkill {process[0]}");
-                    return SetPortFree(port, force: false);
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        public void ConfigurePort()
-        {
-            if (Parameters.Port == 80 || Parameters.Port == 443)
-            {
-                SetPortFree(80);
-                SetPortFree(443);
-            }
-            else
-            {
-                SetPortFree(80);
-                SetPortFree(443);
-                SetPortFree(Parameters.Port);
-
-                Parameters.FreePorts.ForEach(port =>
-                {
-                    SetPortFree(port);
-                });
-            }
         }
 
         protected void SetNat64()
@@ -551,6 +517,121 @@ namespace ProxySuper.Core.Services
             }
 
             return dns64List.Keys.ToList();
+        }
+
+        private bool SetPortFree(int port, bool force = true)
+        {
+            string result = RunCmd($"lsof -n -P -i :{port} | grep LISTEN");
+
+            if (!string.IsNullOrEmpty(result))
+            {
+                if (force)
+                {
+                    var btnResult = MessageBox.Show($"{port}端口被占用，将强制停止占用{port}端口的程序?", "提示", MessageBoxButton.YesNo);
+                    if (btnResult == MessageBoxResult.No)
+                    {
+                        throw new Exception($"{port}端口被占用，安装停止!");
+                    }
+
+                    string[] process = result.Split(' ');
+                    RunCmd($"systemctl stop {process[0]}");
+                    RunCmd($"systemctl disable {process[0]}");
+                    RunCmd($"pkill {process[0]}");
+                    return SetPortFree(port, force: false);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 关闭端口
+        /// </summary>
+        /// <param name="portList"></param>
+        private void ClosePort(params int[] portList)
+        {
+            string cmd;
+
+            cmd = RunCmd("command -v firewall-cmd");
+            if (!string.IsNullOrEmpty(cmd))
+            {
+                //有很奇怪的vps主机，在firewalld未运行时，端口是关闭的，无法访问。所以要先启动firewalld
+                //用于保证acme.sh申请证书成功
+                cmd = RunCmd("firewall-cmd --state");
+                if (cmd.Trim() != "running")
+                {
+                    RunCmd("systemctl restart firewalld");
+                }
+
+                foreach (var port in portList)
+                {
+                    RunCmd($"firewall-cmd --zone=public --remove-port={port}/tcp --permanent");
+                    RunCmd($"firewall-cmd --zone=public --remove-port={port}/udp --permanent");
+                }
+                RunCmd("yes | firewall-cmd --reload");
+            }
+            else
+            {
+                cmd = RunCmd("command -v ufw");
+                if (!string.IsNullOrEmpty(cmd))
+                {
+                    foreach (var port in portList)
+                    {
+                        RunCmd($"ufw delete allow {port}/tcp");
+                        RunCmd($"ufw delete allow {port}/udp");
+                    }
+                    RunCmd("yes | ufw reload");
+                }
+            }
+        }
+
+        /// <summary>
+        /// 开放端口
+        /// </summary>
+        /// <param name="portList"></param>
+        private void OpenPort(params int[] portList)
+        {
+            string cmd;
+
+            cmd = RunCmd("command -v firewall-cmd");
+            if (!string.IsNullOrEmpty(cmd))
+            {
+                //有很奇怪的vps主机，在firewalld未运行时，端口是关闭的，无法访问。所以要先启动firewalld
+                //用于保证acme.sh申请证书成功
+                cmd = RunCmd("firewall-cmd --state");
+                if (cmd.Trim() != "running")
+                {
+                    RunCmd("systemctl restart firewalld");
+                }
+
+                foreach (var port in portList)
+                {
+                    RunCmd($"firewall-cmd --zone=public --add-port={port}/tcp --permanent");
+                    RunCmd($"firewall-cmd --zone=public --add-port={port}/udp --permanent");
+                }
+                RunCmd("yes | firewall-cmd --reload");
+            }
+            else
+            {
+                cmd = RunCmd("command -v ufw");
+                if (string.IsNullOrEmpty(cmd))
+                {
+                    RunCmd(GetInstallCmd("ufw"));
+                    RunCmd("echo y | ufw enable");
+                }
+
+                foreach (var port in portList)
+                {
+                    RunCmd($"ufw allow {port}/tcp");
+                    RunCmd($"ufw allow {port}/udp");
+                }
+                RunCmd("yes | ufw reload");
+
+            }
         }
 
         #endregion
@@ -629,6 +710,7 @@ namespace ProxySuper.Core.Services
             RunCmd(GetInstallCmd("automake autoconf libtool"));
 
             // 安装Acme
+
             var result = RunCmd($"curl  https://get.acme.sh yes | sh");
             if (result.Contains("Install success"))
             {
@@ -640,18 +722,17 @@ namespace ProxySuper.Core.Services
                 throw new Exception("安装 acme.sh 失败，请联系开发者！");
             }
 
-            RunCmd("cd ~/.acme.sh/");
             RunCmd("alias acme.sh=~/.acme.sh/acme.sh");
 
             // 申请证书 
             if (OnlyIpv6)
             {
-                var cmd = $"/root/.acme.sh/acme.sh --force --debug --issue  --standalone  -d {Parameters.Domain} --listen-v6 --pre-hook \"service caddy stop\"  --post-hook  \"service caddy start\"";
+                var cmd = $"/root/.acme.sh/acme.sh --force --debug --issue  --standalone  -d {Parameters.Domain} --listen-v6 --pre-hook \"systemctl stop caddy\"  --post-hook  \"systemctl start caddy\" --server letsencrypt";
                 result = RunCmd(cmd);
             }
             else
             {
-                var cmd = $"/root/.acme.sh/acme.sh --force --debug --issue  --standalone  -d {Parameters.Domain} --pre-hook \"service caddy stop\"  --post-hook  \"service caddy start\"";
+                var cmd = $"/root/.acme.sh/acme.sh --force --debug --issue  --standalone  -d {Parameters.Domain} --pre-hook \"systemctl stop caddy\"  --post-hook  \"systemctl start caddy\" --server letsencrypt";
                 result = RunCmd(cmd);
             }
 
@@ -684,6 +765,29 @@ namespace ProxySuper.Core.Services
             RunCmd($"chmod 755 {dirPath}");
         }
 
+        protected void WriteToFile(string text, string path)
+        {
+            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(text)))
+            {
+                using (var sftp = new SftpClient(_sshClient.ConnectionInfo))
+                {
+                    try
+                    {
+                        sftp.Connect();
+                        sftp.UploadFile(stream, path, true);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                    finally
+                    {
+                        sftp.Disconnect();
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// 上传文件
         /// </summary>
@@ -707,14 +811,18 @@ namespace ProxySuper.Core.Services
         {
             if (CmdType == CmdType.Apt)
             {
-                return "apt-get update";
+                return "apt update";
             }
             else if (CmdType == CmdType.Dnf)
             {
+                RunCmd("echo \"export LC_ALL=en_US.UTF-8\"  >>  /etc/profile");
+                RunCmd("source /etc/profile");
                 return "dnf clean all;dnf makecache";
             }
             else if (CmdType == CmdType.Yum)
             {
+                RunCmd("echo \"export LC_ALL=en_US.UTF-8\"  >>  /etc/profile");
+                RunCmd("source /etc/profile");
                 return "yum clean all;yum makecache";
             }
 
@@ -730,15 +838,15 @@ namespace ProxySuper.Core.Services
         {
             if (CmdType == CmdType.Apt)
             {
-                return "echo y | apt-get install " + soft;
+                return "apt install -y " + soft;
             }
             else if (CmdType == CmdType.Dnf)
             {
-                return "echo y | dnf -y install " + soft;
+                return "dnf install -y " + soft;
             }
             else if (CmdType == CmdType.Yum)
             {
-                return "echo y | yum -y install " + soft;
+                return "yum install -y " + soft;
             }
 
             throw new Exception("未识别的系统");

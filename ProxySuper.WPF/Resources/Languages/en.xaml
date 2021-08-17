@@ -9,12 +9,13 @@
     <sys:String x:Key="Install">Install</sys:String>
     <sys:String x:Key="Settings">Settings</sys:String>
     <sys:String x:Key="ReadmeWebsiteDemo">The following is a static web page connection provided by netizens, please check whether there is an index.html file by yourself</sys:String>
-    
+
     <!--Main Menu-->
     <sys:String x:Key="MainMenuAddHost">Add Host</sys:String>
     <sys:String x:Key="MainMenuActions">Actions</sys:String>
     <sys:String x:Key="MainMenuActionsExportSettings">Export Settings</sys:String>
     <sys:String x:Key="MainMenuActionsExportSubscribe">Export Subscribe</sys:String>
+    <sys:String x:Key="MainMenuActionsGetRoot">Get Root</sys:String>
 
     <sys:String x:Key="MainMenuLanguage">Language</sys:String>
     <sys:String x:Key="MainMenuLanguageEn">English</sys:String>
@@ -23,6 +24,9 @@
 
     <sys:String x:Key="MainMenuHelper">Helper</sys:String>
     <sys:String x:Key="MainMenuHelperGithub">Github</sys:String>
+    <sys:String x:Key="MainMenuHelperUseRoot">UseRoot</sys:String>
+    <sys:String x:Key="MainMenuHelperCertQuestion">CertQuestion</sys:String>
+    <sys:String x:Key="MainMenuHelperPrivateKey">PrivateKey</sys:String>
 
     <!--Main DataGrid-->
     <sys:String x:Key="MainDataGridColumnTag">Tag</sys:String>
@@ -63,26 +67,32 @@
     <sys:String x:Key="VlessXtlsDesc" xml:space="preserve">VLESS over TCP With XTLS&#x0a;Preferred</sys:String>
     <sys:String x:Key="VlessTcpDesc" xml:space="preserve">VLESS over TCP with TLS&#x0a;XTLS is Preferred</sys:String>
     <sys:String x:Key="VlessWsDesc" xml:space="preserve">VLESS over WS with TLS&#x0a;Support CDN</sys:String>
-    <sys:String x:Key="VlessKcpDesc" xml:space="preserve">VLESS mKCP&#x0a;low delay</sys:String>
+    <sys:String x:Key="VlessKcpDesc" xml:space="preserve">VLESS mKCP&#x0a;low delay，without Domain</sys:String>
     <sys:String x:Key="VmessWsDesc" xml:space="preserve">VMESS over WS with TLS&#x0a;Support CDN</sys:String>
-    <sys:String x:Key="VmessKcpDesc" xml:space="preserve">VMESS mKCP&#x0a;low delay</sys:String>
-    <sys:String x:Key="SSDesc" xml:space="preserve">ShadowSocks&#x0a;Support CDN</sys:String>
+    <sys:String x:Key="VmessKcpDesc" xml:space="preserve">VMESS mKCP&#x0a;low delay，without Domian</sys:String>
+    <sys:String x:Key="SSDesc" xml:space="preserve">ShadowSocks&#x0a;Support UDP，without Domain</sys:String>
     <sys:String x:Key="TrojanDesc" xml:space="preserve">Trojan over TCP with TLS&#x0a;Trojan</sys:String>
 
-    <sys:String x:Key="XrayDomain">Address</sys:String>
+    <sys:String x:Key="XrayDomain">Domain/IP</sys:String>
     <sys:String x:Key="XrayMarkDomain">GuiseHost</sys:String>
     <sys:String x:Key="XrayUUID">UUID</sys:String>
+    <sys:String x:Key="MultiUser">Multi User</sys:String>
+    <sys:String x:Key="MultiUserHelp">Multi Id split with ","</sys:String>
     <sys:String x:Key="VlessWsPath">VLESS WS Path</sys:String>
     <sys:String x:Key="VlessKcpSeed">VLESS KCP Seed</sys:String>
     <sys:String x:Key="VlessKcpType">VLESS KCP Type</sys:String>
     <sys:String x:Key="VlessKcpPort">VLESS KCP Port</sys:String>
+    <sys:String x:Key="VlessRPCName">gRPC Service Name</sys:String>
+    <sys:String x:Key="VlessRPCPort">gRPC Port</sys:String>
     <sys:String x:Key="VmessWsPath">VMESS WS Path</sys:String>
     <sys:String x:Key="VmessKcpSeed">VMESS KCP Seed</sys:String>
     <sys:String x:Key="VmessKcpType">VMESS KCP Type</sys:String>
     <sys:String x:Key="VmessKcpPort">VMESS KCP Port</sys:String>
     <sys:String x:Key="SSPassword">SS Pwd</sys:String>
     <sys:String x:Key="SSMethods">SS Method</sys:String>
+    <sys:String x:Key="SSPort">SS Port</sys:String>
     <sys:String x:Key="TrojanPassword">Trojan Pwd</sys:String>
+    <sys:String x:Key="TrojanPort">Trojan Port</sys:String>
     <sys:String x:Key="XrayPort">xray Port</sys:String>
     <sys:String x:Key="XrayPortDefault">default port is 443</sys:String>
     
