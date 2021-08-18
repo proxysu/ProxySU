@@ -225,15 +225,15 @@ namespace ProxySuper.Core.ViewModels
             }
             if (record.Type == ProjectType.TrojanGo)
             {
-                await _navigationService.Navigate<TrojanGoInstallerViewModel, Record>(record);
+                await _navigationService.Navigate<TrojanGoInstallViewModel, Record>(record);
             }
             if (record.Type == ProjectType.NaiveProxy)
             {
-                await _navigationService.Navigate<NaiveProxyInstallerViewModel, Record>(record);
+                await _navigationService.Navigate<NaiveProxyInstallViewModel, Record>(record);
             }
             if (record.Type == ProjectType.Brook)
             {
-                await _navigationService.Navigate<BrookInstallerViewModel, Record>(record);
+                await _navigationService.Navigate<BrookInstallViewModel, Record>(record);
             }
         }
     }

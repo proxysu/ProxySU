@@ -26,7 +26,9 @@ namespace ProxySuper.Core.ViewModels
 
         public XraySettings Settings { get; set; }
 
-        public IMvxCommand SaveCommand => new MvxCommand(() => Save());
+        public IMvxCommand SaveCommand => new MvxCommand(Save);
+
+        public IMvxCommand SaveAndInstallCommand => new MvxCommand(SaveAndInstall);
 
         public IMvxNavigationService NavigationService { get; }
 
@@ -46,6 +48,18 @@ namespace ProxySuper.Core.ViewModels
                 Host = Host,
                 XraySettings = Settings,
             });
+        }
+
+        public void SaveAndInstall()
+        {
+            var record = new Record()
+            {
+                Id = Id,
+                Host = Host,
+                XraySettings = Settings,
+            };
+            NavigationService.Close(this, record);
+            NavigationService.Navigate<XrayInstallViewModel, Record>(record);
         }
     }
 

@@ -5,6 +5,7 @@
     <!--common-->
     <sys:String x:Key="Random">随机</sys:String>
     <sys:String x:Key="Save">保存</sys:String>
+    <sys:String x:Key="SaveAndInstall">保存并安装</sys:String>
     <sys:String x:Key="SaveAs">另存为</sys:String>
     <sys:String x:Key="Install">安装</sys:String>
     <sys:String x:Key="Settings">配置</sys:String>
@@ -74,7 +75,7 @@
 
 
     <sys:String x:Key="XrayDomain">域名/IP</sys:String>
-    <sys:String x:Key="XrayMarkDomain">伪装域名</sys:String>
+    <sys:String x:Key="XrayMarkDomain">伪装网址</sys:String>
     <sys:String x:Key="XrayUUID">UUID</sys:String>
     <sys:String x:Key="MultiUser">多用户</sys:String>
     <sys:String x:Key="MultiUserHelp">多个UUID用“,”分隔</sys:String>

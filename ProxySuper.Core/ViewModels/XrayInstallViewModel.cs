@@ -20,8 +20,6 @@ namespace ProxySuper.Core.ViewModels
 
         XrayService _xrayService;
 
-        MvxInteraction _refreshLogInteraction = new MvxInteraction();
-
         public override void ViewDestroy(bool viewFinishing = true)
         {
             _xrayService.Disconnect();
@@ -38,11 +36,7 @@ namespace ProxySuper.Core.ViewModels
         {
             _xrayService = new XrayService(_host, _settings);
             _xrayService.Progress.StepUpdate = () => RaisePropertyChanged("Progress");
-            _xrayService.Progress.LogsUpdate = () =>
-            {
-                RaisePropertyChanged("Logs");
-                _refreshLogInteraction.Raise();
-            };
+            _xrayService.Progress.LogsUpdate = () => RaisePropertyChanged("Logs");
             _xrayService.Connect();
 
             return base.Initialize();
@@ -58,11 +52,24 @@ namespace ProxySuper.Core.ViewModels
             get => _xrayService.Progress.Logs;
         }
 
-        public IMvxInteraction LogsInteraction
-        {
-            get => _refreshLogInteraction;
-        }
+
+
+        #region Command
 
         public IMvxCommand InstallCommand => new MvxCommand(_xrayService.Install);
+
+        public IMvxCommand UpdateSettingsCommand => new MvxCommand(_xrayService.UpdateSettings);
+
+        public IMvxCommand UpdateXrayCoreCommand => new MvxCommand(_xrayService.UpdateXrayCore);
+
+        public IMvxCommand UninstallCommand => new MvxCommand(_xrayService.Uninstall);
+
+        public IMvxCommand UploadCertCommand => new MvxCommand(_xrayService.UploadCert);
+
+        public IMvxCommand UploadWebCommand => new MvxCommand(_xrayService.UploadWeb);
+
+        public IMvxCommand ApplyForCertCommand => new MvxCommand(_xrayService.ApplyForCert);
+
+        #endregion
     }
 }

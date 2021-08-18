@@ -277,15 +277,41 @@ namespace ProxySuper.Core.Services
             RunCmd($"chmod 755 {dirPath}");
         }
 
+        protected void UploadFile(Stream stream, string path)
+        {
+            using (var sftp = new SftpClient(_sshClient.ConnectionInfo))
+            {
+                sftp.Connect();
+                sftp.UploadFile(stream, path, true);
+                sftp.Disconnect();
+            }
+        }
 
-        public bool IsRootUser()
+        public void EnsureRootUser()
         {
             // 禁止一些可能产生的干扰信息
             RunCmd(@"sed -i 's/echo/#echo/g' ~/.bashrc");
             RunCmd(@"sed -i 's/echo/#echo/g' ~/.profile");
 
             var result = RunCmd("id -u");
-            return result.Equals("0\n");
+            if (!result.Equals("0\n"))
+            {
+                throw new Exception("ProxySU需要使用Root用户进行安装！");
+            }
+        }
+
+
+        public void UninstallCaddy()
+        {
+            Progress.Desc = "关闭Caddy服务";
+            RunCmd("systemctl stop caddy");
+            RunCmd("systemctl disable caddy");
+
+            Progress.Desc = "彻底删除Caddy文件";
+            RunCmd("rm -rf /etc/systemd/system/caddy.service");
+            RunCmd("rm -rf /usr/bin/caddy");
+            RunCmd("rm -rf /usr/share/caddy");
+            RunCmd("rm -rf /etc/caddy");
         }
 
         public void EnsureSystemEnv()
@@ -341,6 +367,11 @@ namespace ProxySuper.Core.Services
 
             Progress.Desc = ("开放需要的端口");
             OpenPort(Settings.FreePorts.ToArray());
+        }
+
+        public void ResetFirewalld()
+        {
+            ClosePort(Settings.FreePorts.ToArray());
         }
 
         public void EnsureNetwork()
