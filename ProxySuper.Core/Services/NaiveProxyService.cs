@@ -143,7 +143,7 @@ namespace ProxySuper.Core.Services
         }
 
 
-        #region 似有方法
+        #region 私有方法
 
         private void DoUploadWeb(object sender, CancelEventArgs e)
         {

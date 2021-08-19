@@ -55,13 +55,22 @@
             </Grid>
 
             <Border BorderBrush="#eee" BorderThickness="0,1,0,0">
-                <Button Content="{DynamicResource Save}" 
-                        Command="{Binding SaveCommand}"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Height="30"
-                        Width="100" 
-                        Margin="40,20" />
+                <StackPanel Orientation="Horizontal" 
+                            HorizontalAlignment="Right"
+                            Margin="0,20,0,0">
+                    <Button Content="{DynamicResource Save}" 
+                            Command="{Binding SaveCommand}"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Padding="10,5" />
+
+                    <Button Content="{DynamicResource SaveAndInstall}"
+                            Command="{Binding SaveAndInstallCommand}"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Padding="10,5"
+                            Margin="20,0,40,0" />
+                </StackPanel>
             </Border>
         </StackPanel>
     </Grid>

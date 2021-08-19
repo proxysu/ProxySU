@@ -67,6 +67,15 @@ namespace ProxySuper.Core.ViewModels
     {
         public IMvxCommand RandomUuid => new MvxCommand(() => GetUuid());
 
+        public bool WithTLS
+        {
+            get => Settings.WithTLS;
+            set
+            {
+                Settings.WithTLS = value;
+                RaisePropertyChanged("Port");
+            }
+        }
 
         public int Port
         {

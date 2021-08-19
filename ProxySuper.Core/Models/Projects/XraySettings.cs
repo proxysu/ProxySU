@@ -11,6 +11,8 @@ namespace ProxySuper.Core.Models.Projects
     {
         public XraySettings()
         {
+            WithTLS = true;
+
             var guid = Guid.NewGuid().ToString();
             Port = 443;
             VLESS_KCP_Port = 2001;
@@ -80,6 +82,12 @@ namespace ProxySuper.Core.Models.Projects
         }
 
         public ProjectType Type { get; set; } = ProjectType.Xray;
+
+        /// <summary>
+        /// 是否安装证书，
+        /// 上传自有证书时选False，则不会自动安装证书。
+        /// </summary>
+        public bool WithTLS { get; set; }
 
         /// <summary>
         /// 端口

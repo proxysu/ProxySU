@@ -12,6 +12,20 @@ using System.Threading.Tasks;
 
 namespace ProxySuper.Core.Services
 {
+    public enum ArchType
+    {
+        x86,
+        arm
+    }
+
+    public enum CmdType
+    {
+        None,
+        Yum,
+        Apt,
+        Dnf
+    }
+
     public abstract class ServiceBase<TSettings> where TSettings : IProjectSettings
     {
         private Host _host;

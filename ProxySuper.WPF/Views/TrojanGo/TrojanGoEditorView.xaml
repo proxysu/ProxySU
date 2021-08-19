@@ -33,6 +33,7 @@
                     <RowDefinition Height="36" />
                     <RowDefinition Height="36" />
                     <RowDefinition Height="36" />
+                    <RowDefinition Height="36" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="120" />
@@ -53,16 +54,37 @@
 
                 <Label Content="{DynamicResource TrojanGoWebSocketPath}" Grid.Row="4" Grid.Column="0" />
                 <TextBox Text="{Binding Settings.WebSocketPath}" Grid.Row="4" Grid.Column="1" />
+
+
+                <Label Content="{DynamicResource XrayWithTLS}" Width="120" Grid.Row="5" Grid.Column="0" />
+                <CheckBox IsChecked="{Binding Path=Settings.WithTLS}" 
+                          Grid.Row="5"
+                          Grid.Column="1"
+                          Content="{DynamicResource XrayWithTLSDesc}"
+                          VerticalContentAlignment="Center"
+                          VerticalAlignment="Center" />
             </Grid>
 
-            <Border BorderBrush="#eee" BorderThickness="0,1,0,0">
-                <Button Content="{DynamicResource Save}" 
-                        Command="{Binding SaveCommand}"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Height="30"
-                        Width="100" 
-                        Margin="40,20" />
+
+            <Border Grid.Row="1"
+                    BorderBrush="#eee"
+                    BorderThickness="0,1,0,0">
+                <StackPanel Orientation="Horizontal" 
+                            Margin="0,20,0,0"
+                            HorizontalAlignment="Right">
+                    <Button Content="{DynamicResource Save}" 
+                            Command="{Binding SaveCommand}"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Padding="10,5" />
+
+                    <Button Content="{DynamicResource SaveAndInstall}"
+                            Command="{Binding SaveAndInstallCommand}"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Padding="10,5"
+                            Margin="20,0,40,0" />
+                </StackPanel>
             </Border>
         </StackPanel>
     </Grid>

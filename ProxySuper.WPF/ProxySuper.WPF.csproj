@@ -123,9 +123,6 @@
     <Compile Include="Views\Brook\BrookEditorView.xaml.cs">
       <DependentUpon>BrookEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Brook\BrookInstallerView.xaml.cs">
-      <DependentUpon>BrookInstallerView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Brook\BrookInstallView.xaml.cs">
       <DependentUpon>BrookInstallView.xaml</DependentUpon>
     </Compile>
@@ -141,9 +138,6 @@
     <Compile Include="Views\NaiveProxy\NaiveProxyEditorView.xaml.cs">
       <DependentUpon>NaiveProxyEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NaiveProxy\NaiveProxyInstallerView.xaml.cs">
-      <DependentUpon>NaiveProxyInstallerView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\NaiveProxy\NaiveProxyInstallView.xaml.cs">
       <DependentUpon>NaiveProxyInstallView.xaml</DependentUpon>
     </Compile>
@@ -156,9 +150,6 @@
     <Compile Include="Views\TrojanGo\TrojanGoEditorView.xaml.cs">
       <DependentUpon>TrojanGoEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TrojanGo\TrojanGoInstallerView.xaml.cs">
-      <DependentUpon>TrojanGoInstallerView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\TrojanGo\TrojanGoInstallView.xaml.cs">
       <DependentUpon>TrojanGoInstallView.xaml</DependentUpon>
     </Compile>
@@ -167,9 +158,6 @@
     </Compile>
     <Compile Include="Views\Xray\XrayConfigView.xaml.cs">
       <DependentUpon>XrayConfigView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Xray\XrayInstallerView.xaml.cs">
-      <DependentUpon>XrayInstallerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Xray\XrayInstallView.xaml.cs">
       <DependentUpon>XrayInstallView.xaml</DependentUpon>
@@ -243,10 +231,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Brook\BrookInstallerView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\Brook\BrookInstallView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -286,10 +270,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\NaiveProxy\NaiveProxyInstallerView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\NaiveProxy\NaiveProxyInstallView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -306,10 +286,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TrojanGo\TrojanGoInstallerView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\TrojanGo\TrojanGoInstallView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -319,10 +295,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Xray\XrayConfigView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Xray\XrayInstallerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

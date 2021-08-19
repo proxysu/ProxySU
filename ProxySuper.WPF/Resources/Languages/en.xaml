@@ -76,6 +76,8 @@
 
     <sys:String x:Key="XrayDomain">Domain/IP</sys:String>
     <sys:String x:Key="XrayMarkDomain">Redir Url</sys:String>
+    <sys:String x:Key="XrayWithTLS">With TLS</sys:String>
+    <sys:String x:Key="XrayWithTLSDesc">Unchecked means upload your own TLS.</sys:String>
     <sys:String x:Key="XrayUUID">UUID</sys:String>
     <sys:String x:Key="MultiUser">Multi User</sys:String>
     <sys:String x:Key="MultiUserHelp">Multi Id split with ","</sys:String>
@@ -105,8 +107,10 @@
     <sys:String x:Key="XrayInstallerInstallCert">InstallCert</sys:String>
     <sys:String x:Key="XrayInstallerUploadWeb">UploadWeb</sys:String>
     <sys:String x:Key="XrayInstallerUploadCert">UploadCert</sys:String>
-    
+
     <!--Trojan-GO-->
+    <sys:String x:Key="TrojanGoWithTLS">With TLS</sys:String>
+    <sys:String x:Key="TrojanGoWithTLSDesc">Unchecked means upload your own TLS.</sys:String>
     <sys:String x:Key="TrojanGoDomain">Address</sys:String>
     <sys:String x:Key="TrojanGoPort">Port</sys:String>
     <sys:String x:Key="TrojanGoPassword">Password</sys:String>

@@ -75,6 +75,8 @@
 
     <sys:String x:Key="XrayDomain">域名/IP</sys:String>
     <sys:String x:Key="XrayMarkDomain">偽裝網址</sys:String>
+    <sys:String x:Key="XrayWithTLS">自動申請證書</sys:String>
+    <sys:String x:Key="XrayWithTLSDesc">如上傳自有證書，則取消對勾。</sys:String>
     <sys:String x:Key="XrayUUID">UUID</sys:String>
     <sys:String x:Key="MultiUser">多用戶</sys:String>
     <sys:String x:Key="MultiUserHelp">多個UUID用“,”分隔</sys:String>
@@ -107,6 +109,8 @@
 
 
     <!--Trojan-GO-->
+    <sys:String x:Key="TrojanGoWithTLS">自動申請證書</sys:String>
+    <sys:String x:Key="TrojanGoWithTLSDesc">如上傳自有證書，則取消對勾。</sys:String>
     <sys:String x:Key="TrojanGoDomain">域名</sys:String>
     <sys:String x:Key="TrojanGoPort">端口</sys:String>
     <sys:String x:Key="TrojanGoPassword">密碼</sys:String>

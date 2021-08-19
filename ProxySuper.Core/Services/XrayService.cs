@@ -85,6 +85,11 @@ namespace ProxySuper.Core.Services
                     Progress.Percentage = 100;
                     Progress.Step = "安装成功";
                     Progress.Desc = string.Empty;
+
+                    if (!Settings.WithTLS)
+                    {
+                        Progress.Step = "安装成功，请上传您的 TLS 证书。";
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -379,7 +384,7 @@ namespace ProxySuper.Core.Services
             }
             Progress.Percentage = 60;
 
-            if (!Settings.IsIPAddress)
+            if (Settings.WithTLS && !Settings.IsIPAddress)
             {
                 Progress.Desc = ("安装TLS证书");
                 InstallCert(

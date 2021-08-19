@@ -67,6 +67,8 @@ namespace ProxySuper.Core.ViewModels
 
         public IMvxCommand SaveCommand => new MvxCommand(() => Save());
 
+        public IMvxCommand SaveAndInstallCommand => new MvxCommand(SaveAndInstall);
+
         public override void Prepare(Record parameter)
         {
             var record = Utils.DeepClone(parameter);
@@ -83,6 +85,18 @@ namespace ProxySuper.Core.ViewModels
                 Host = Host,
                 BrookSettings = Settings,
             });
+        }
+
+        private void SaveAndInstall()
+        {
+            var record = new Record
+            {
+                Id = this.Id,
+                Host = this.Host,
+                BrookSettings = Settings,
+            };
+            NavigationService.Close(this, record);
+            NavigationService.Navigate<BrookInstallViewModel, Record>(record);
         }
     }
 }

@@ -9,6 +9,7 @@ namespace ProxySuper.Core.Models.Projects
     {
         public TrojanGoSettings()
         {
+            WithTLS = true;
             Port = 443;
             WebSocketPath = "/ws";
             Password = Guid.NewGuid().ToString();
@@ -23,6 +24,11 @@ namespace ProxySuper.Core.Models.Projects
         }
 
         public ProjectType Type { get; set; } = ProjectType.TrojanGo;
+
+        /// <summary>
+        /// 是否安装TLS证书
+        /// </summary>
+        public bool WithTLS { get; set; }
 
         /// <summary>
         /// 域名
