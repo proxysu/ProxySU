@@ -6,6 +6,7 @@ using ProxySuper.Core.Models.Projects;
 using ProxySuper.Core.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ namespace ProxySuper.Core.ViewModels
         public override void ViewDestroy(bool viewFinishing = true)
         {
             _xrayService.Disconnect();
+            this.SaveInstallLog();
             base.ViewDestroy(viewFinishing);
         }
 
@@ -71,5 +73,16 @@ namespace ProxySuper.Core.ViewModels
         public IMvxCommand ApplyForCertCommand => new MvxCommand(_xrayService.ApplyForCert);
 
         #endregion
+
+        private void SaveInstallLog()
+        {
+            if (!Directory.Exists("Logs"))
+            {
+                Directory.CreateDirectory("Logs");
+            }
+
+            var fileName = Path.Combine("Logs", DateTime.Now.ToString("yyyy-MM-dd hh-mm") + ".xary.txt");
+            File.WriteAllText(fileName, Logs);
+        }
     }
 }

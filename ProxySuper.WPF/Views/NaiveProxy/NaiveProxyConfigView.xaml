@@ -30,7 +30,7 @@
         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Settings.Port}" IsReadOnly="True" />
 
         <Label Grid.Row="2" Grid.Column="0" Content="用户名(UserName)" />
-        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Settings.Domain}" IsReadOnly="True" />
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Settings.UserName}" IsReadOnly="True" />
 
         <Label Grid.Row="3" Grid.Column="0" Content="密码(Password)" />
         <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Settings.Password}" IsReadOnly="True" />

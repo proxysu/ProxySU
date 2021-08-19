@@ -72,13 +72,16 @@ namespace ProxySuper.Core.Services
                     UploadCaddySettings();
                     Progress.Percentage = 90;
 
-
                     Progress.Step = $"{index++}. 启动BBR";
                     EnableBBR();
 
+                    Progress.Desc = "启用Trojan-Go开机启动";
+                    RunCmd("systemctl enable trojan-go");
+                    RunCmd("systemctl restart trojan-go");
+
                     Progress.Percentage = 100;
                     Progress.Step = "安装成功";
-                    Progress.Desc = "安装成功";
+                    Progress.Desc = string.Empty;
                 }
                 catch (Exception ex)
                 {
@@ -122,7 +125,7 @@ namespace ProxySuper.Core.Services
 
                     Progress.Percentage = 100;
                     Progress.Step = "卸载Trojan-Go成功";
-                    Progress.Desc = "卸载Trojan-Go成功";
+                    Progress.Desc = string.Empty;
                 }
                 catch (Exception ex)
                 {
@@ -144,8 +147,10 @@ namespace ProxySuper.Core.Services
             Progress.Desc = "更新配置文件";
             UploadTrojanGoSettings();
 
+            Progress.Desc = "重启Trojan-Go服务器";
+            RunCmd("systemctl restart trojan-go");
+
             Progress.Percentage = 100;
-            Progress.Step = "更新配置成功";
             Progress.Desc = "更新配置成功";
         }
 
@@ -331,10 +336,6 @@ namespace ProxySuper.Core.Services
             RunCmd($"sed -i 's/AmbientCapabilities=/#AmbientCapabilities=/g' /etc/systemd/system/trojan-go.service");
             RunCmd($"systemctl daemon-reload");
 
-            Progress.Desc = "启用Trojan-Go开机启动";
-            RunCmd("systemctl enable trojan-go");
-            RunCmd("systemctl start trojan-go");
-
             Progress.Desc = "Trojan-Go 安装完成";
 
             Progress.Desc = "安装TLS证书";
@@ -358,8 +359,6 @@ namespace ProxySuper.Core.Services
             Progress.Desc = "正在上传配置文件";
             UploadFile(stream, "/usr/local/etc/trojan-go/config.json");
 
-            Progress.Desc = "重启Trojan-Go服务器";
-            RunCmd("systemctl restart trojan-go");
         }
 
         #endregion

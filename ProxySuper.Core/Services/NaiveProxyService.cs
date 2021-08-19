@@ -60,9 +60,12 @@ namespace ProxySuper.Core.Services
                     Progress.Step = $"{index++}. 启动BBR";
                     EnableBBR();
 
+                    Progress.Desc = "重启Caddy服务";
+                    RunCmd("systemctl restart caddy");
+
                     Progress.Percentage = 100;
                     Progress.Step = "NaiveProxy安装成功";
-                    Progress.Desc = "NaiveProxy安装成功";
+                    Progress.Desc = string.Empty;
                 }
                 catch (Exception ex)
                 {
@@ -117,10 +120,12 @@ namespace ProxySuper.Core.Services
                     Progress.Percentage = 30;
 
                     UploadCaddySettings();
+                    Progress.Desc = "重启Caddy服务";
+                    RunCmd("systemctl restart caddy");
                     Progress.Percentage = 100;
 
                     Progress.Step = "更新配置成功";
-                    Progress.Desc = "更新配置成功";
+                    Progress.Desc = string.Empty;
                 }
                 catch (Exception ex)
                 {
@@ -233,9 +238,6 @@ namespace ProxySuper.Core.Services
 
             Progress.Desc = "上传配置文件";
             WriteToFile(caddyStr, "/etc/caddy/Caddyfile");
-
-            Progress.Desc = "重启Caddy服务";
-            RunCmd("systemctl restart caddy");
         }
 
         private string BuildConfig(bool useCustomWeb = false)

@@ -6,6 +6,7 @@ using ProxySuper.Core.Models.Projects;
 using ProxySuper.Core.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,12 +32,14 @@ namespace ProxySuper.Core.ViewModels
             _service = new NaiveProxyService(_host, _settings);
             _service.Progress.StepUpdate = () => RaisePropertyChanged("Progress");
             _service.Progress.LogsUpdate = () => RaisePropertyChanged("Logs");
+            _service.Connect();
             return base.Initialize();
         }
 
         public override void ViewDestroy(bool viewFinishing = true)
         {
             _service.Disconnect();
+            this.SaveInstallLog();
             base.ViewDestroy(viewFinishing);
         }
 
@@ -57,5 +60,16 @@ namespace ProxySuper.Core.ViewModels
         public IMvxCommand UploadWebCommand => new MvxCommand(_service.UploadWeb);
 
         #endregion
+
+        private void SaveInstallLog()
+        {
+            if (!Directory.Exists("Logs"))
+            {
+                Directory.CreateDirectory("Logs");
+            }
+
+            var fileName = System.IO.Path.Combine("Logs", DateTime.Now.ToString("yyyy-MM-dd hh-mm") + ".naiveproxy.txt");
+            File.WriteAllText(fileName, Logs);
+        }
     }
 }

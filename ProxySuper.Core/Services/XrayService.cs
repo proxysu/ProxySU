@@ -78,9 +78,13 @@ namespace ProxySuper.Core.Services
                     Progress.Step = $"{index++}. 启动BBR";
                     EnableBBR();
 
+                    Progress.Desc = "重启Xray服务";
+                    RunCmd("systemctl restart caddy");
+                    RunCmd("systemctl restart xray");
+
                     Progress.Percentage = 100;
                     Progress.Step = "安装成功";
-                    Progress.Desc = "安装成功";
+                    Progress.Desc = string.Empty;
                 }
                 catch (Exception ex)
                 {
@@ -388,7 +392,6 @@ namespace ProxySuper.Core.Services
             Progress.Desc = ("生成Xray服务器配置文件");
             var configJson = XrayConfigBuilder.BuildXrayConfig(Settings);
             WriteToFile(configJson, "/usr/local/etc/xray/config.json");
-            RunCmd("systemctl restart xray");
         }
 
         private void UploadCaddyFile(bool useCustomWeb = false)
@@ -400,7 +403,6 @@ namespace ProxySuper.Core.Services
                 RunCmd("mv /etc/caddy/Caddyfile /etc/caddy/Caddyfile.back");
             }
             WriteToFile(configJson, "/etc/caddy/Caddyfile");
-            RunCmd("systemctl restart caddy");
         }
 
 
