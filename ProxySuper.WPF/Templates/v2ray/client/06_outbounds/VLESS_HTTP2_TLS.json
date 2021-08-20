@@ -1,0 +1,31 @@
+{
+  "outbounds": [
+    {
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "",
+            "port": 443,
+            "users": [
+              {
+                "id": "",
+                "encryption": "none"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "h2",
+        "security": "tls",
+        "httpSettings": {
+          "host": [
+            ""
+          ],
+          "path": null
+        }
+      }
+    }
+  ]
+}

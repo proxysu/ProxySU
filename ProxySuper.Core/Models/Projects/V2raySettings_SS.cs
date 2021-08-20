@@ -2,7 +2,7 @@
 
 namespace ProxySuper.Core.Models.Projects
 {
-    public partial class XraySettings
+    public partial class V2raySettings
     {
         /// <summary>
         /// ss password
@@ -23,7 +23,7 @@ namespace ProxySuper.Core.Models.Projects
         {
             get
             {
-                return ShareLink.Build(XrayType.ShadowsocksAEAD, this);
+                return ShareLink.Build(RayType.ShadowsocksAEAD, this);
             }
         }
     }

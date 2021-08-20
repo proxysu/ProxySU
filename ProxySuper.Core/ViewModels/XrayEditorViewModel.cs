@@ -170,25 +170,25 @@ namespace ProxySuper.Core.ViewModels
         {
             get
             {
-                return Settings.Types.Contains(XrayType.Trojan_TCP);
+                return Settings.Types.Contains(RayType.Trojan_TCP);
             }
             set
             {
                 if (value == true)
                 {
-                    if (!Settings.Types.Contains(XrayType.Trojan_TCP))
-                        Settings.Types.Add(XrayType.Trojan_TCP);
+                    if (!Settings.Types.Contains(RayType.Trojan_TCP))
+                        Settings.Types.Add(RayType.Trojan_TCP);
                 }
                 else
                 {
-                    Settings.Types.Remove(XrayType.Trojan_TCP);
+                    Settings.Types.Remove(RayType.Trojan_TCP);
                 }
                 RaisePropertyChanged("Checked_Trojan_TCP");
             }
         }
         public string Trojan_TCP_ShareLink
         {
-            get => ShareLink.Build(XrayType.Trojan_TCP, Settings);
+            get => ShareLink.Build(RayType.Trojan_TCP, Settings);
         }
 
         private List<string> _ssMethods = new List<string> { "aes-256-gcm", "aes-128-gcm", "chacha20-poly1305", "chacha20-ietf-poly1305" };
@@ -196,10 +196,10 @@ namespace ProxySuper.Core.ViewModels
         public bool CheckedShadowSocks
         {
 
-            get => Settings.Types.Contains(XrayType.ShadowsocksAEAD);
+            get => Settings.Types.Contains(RayType.ShadowsocksAEAD);
             set
             {
-                CheckBoxChanged(value, XrayType.ShadowsocksAEAD);
+                CheckBoxChanged(value, RayType.ShadowsocksAEAD);
                 RaisePropertyChanged("CheckedShadowSocks");
             }
         }
@@ -222,11 +222,11 @@ namespace ProxySuper.Core.ViewModels
         }
         public string ShadowSocksShareLink
         {
-            get => ShareLink.Build(XrayType.ShadowsocksAEAD, Settings);
+            get => ShareLink.Build(RayType.ShadowsocksAEAD, Settings);
         }
 
 
-        private void CheckBoxChanged(bool value, XrayType type)
+        private void CheckBoxChanged(bool value, RayType type)
         {
             if (value == true)
             {
@@ -259,10 +259,10 @@ namespace ProxySuper.Core.ViewModels
         // vmess tcp
         public bool Checked_VMESS_TCP
         {
-            get => Settings.Types.Contains(XrayType.VMESS_TCP);
+            get => Settings.Types.Contains(RayType.VMESS_TCP);
             set
             {
-                CheckBoxChanged(value, XrayType.VMESS_TCP);
+                CheckBoxChanged(value, RayType.VMESS_TCP);
                 RaisePropertyChanged("Checked_VMESS_TCP");
             }
         }
@@ -273,16 +273,16 @@ namespace ProxySuper.Core.ViewModels
         }
         public string VMESS_TCP_ShareLink
         {
-            get => ShareLink.Build(XrayType.VMESS_TCP, Settings);
+            get => ShareLink.Build(RayType.VMESS_TCP, Settings);
         }
 
         // vmess ws
         public bool Checked_VMESS_WS
         {
-            get => Settings.Types.Contains(XrayType.VMESS_WS);
+            get => Settings.Types.Contains(RayType.VMESS_WS);
             set
             {
-                CheckBoxChanged(value, XrayType.VMESS_WS);
+                CheckBoxChanged(value, RayType.VMESS_WS);
                 RaisePropertyChanged("Checked_VMESS_WS");
             }
         }
@@ -293,7 +293,7 @@ namespace ProxySuper.Core.ViewModels
         }
         public string VMESS_WS_ShareLink
         {
-            get => ShareLink.Build(XrayType.VMESS_WS, Settings);
+            get => ShareLink.Build(RayType.VMESS_WS, Settings);
         }
 
         // vmess kcp
@@ -316,16 +316,16 @@ namespace ProxySuper.Core.ViewModels
         }
         public bool Checked_VMESS_KCP
         {
-            get => Settings.Types.Contains(XrayType.VMESS_KCP);
+            get => Settings.Types.Contains(RayType.VMESS_KCP);
             set
             {
-                CheckBoxChanged(value, XrayType.VMESS_KCP);
+                CheckBoxChanged(value, RayType.VMESS_KCP);
                 RaisePropertyChanged("Checked_VMESS_KCP");
             }
         }
         public string VMESS_KCP_ShareLink
         {
-            get => ShareLink.Build(XrayType.VMESS_KCP, Settings);
+            get => ShareLink.Build(RayType.VMESS_KCP, Settings);
         }
 
 
@@ -342,31 +342,31 @@ namespace ProxySuper.Core.ViewModels
         // vless xtls
         public bool Checked_VLESS_TCP_XTLS
         {
-            get => Settings.Types.Contains(XrayType.VLESS_TCP_XTLS);
+            get => Settings.Types.Contains(RayType.VLESS_TCP_XTLS);
             set
             {
-                CheckBoxChanged(value, XrayType.VLESS_TCP_XTLS);
+                CheckBoxChanged(value, RayType.VLESS_TCP_XTLS);
                 RaisePropertyChanged("Checked_VLESS_TCP_XTLS");
             }
         }
         public string VLESS_TCP_XTLS_ShareLink
         {
-            get => ShareLink.Build(XrayType.VLESS_TCP_XTLS, Settings);
+            get => ShareLink.Build(RayType.VLESS_TCP_XTLS, Settings);
         }
 
         // vless tcp
         public bool Checked_VLESS_TCP
         {
-            get => Settings.Types.Contains(XrayType.VLESS_TCP);
+            get => Settings.Types.Contains(RayType.VLESS_TCP);
             set
             {
-                CheckBoxChanged(value, XrayType.VLESS_TCP);
+                CheckBoxChanged(value, RayType.VLESS_TCP);
                 RaisePropertyChanged("Checked_VLESS_TCP");
             }
         }
         public string VLESS_TCP_ShareLink
         {
-            get => ShareLink.Build(XrayType.VLESS_TCP, Settings);
+            get => ShareLink.Build(RayType.VLESS_TCP, Settings);
         }
 
 
@@ -380,17 +380,17 @@ namespace ProxySuper.Core.ViewModels
         {
             get
             {
-                return Settings.Types.Contains(XrayType.VLESS_WS);
+                return Settings.Types.Contains(RayType.VLESS_WS);
             }
             set
             {
-                CheckBoxChanged(value, XrayType.VLESS_WS);
+                CheckBoxChanged(value, RayType.VLESS_WS);
                 RaisePropertyChanged("Checked_VLESS_WS");
             }
         }
         public string VLESS_WS_ShareLink
         {
-            get => ShareLink.Build(XrayType.VLESS_WS, Settings);
+            get => ShareLink.Build(RayType.VLESS_WS, Settings);
         }
 
         // vless kcp
@@ -413,16 +413,16 @@ namespace ProxySuper.Core.ViewModels
         }
         public bool Checked_VLESS_KCP
         {
-            get => Settings.Types.Contains(XrayType.VLESS_KCP);
+            get => Settings.Types.Contains(RayType.VLESS_KCP);
             set
             {
-                CheckBoxChanged(value, XrayType.VLESS_KCP);
+                CheckBoxChanged(value, RayType.VLESS_KCP);
                 RaisePropertyChanged("Checked_VLESS_KCP");
             }
         }
         public string VLESS_KCP_ShareLink
         {
-            get => ShareLink.Build(XrayType.VLESS_KCP, Settings);
+            get => ShareLink.Build(RayType.VLESS_KCP, Settings);
         }
 
         // vless grpc
@@ -438,16 +438,16 @@ namespace ProxySuper.Core.ViewModels
         }
         public bool Checked_VLESS_gRPC
         {
-            get => Settings.Types.Contains(XrayType.VLESS_gRPC);
+            get => Settings.Types.Contains(RayType.VLESS_gRPC);
             set
             {
-                CheckBoxChanged(value, XrayType.VLESS_gRPC);
+                CheckBoxChanged(value, RayType.VLESS_gRPC);
                 RaisePropertyChanged("Checked_VLESS_gRPC");
             }
         }
         public string VLESS_gRPC_ShareLink
         {
-            get => ShareLink.Build(XrayType.VLESS_gRPC, Settings);
+            get => ShareLink.Build(RayType.VLESS_gRPC, Settings);
         }
     }
 

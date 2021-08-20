@@ -32,6 +32,9 @@ namespace ProxySuper.Core.Models
             }
         }
 
+        [JsonProperty("v2raySettings")]
+        public V2raySettings V2raySettings { get; set; }
+
         [JsonProperty("settings")]
         public XraySettings XraySettings { get; set; }
 
@@ -51,6 +54,8 @@ namespace ProxySuper.Core.Models
             get
             {
                 if (XraySettings != null) return ProjectType.Xray;
+
+                if (V2raySettings != null) return ProjectType.V2ray;
 
                 if (TrojanGoSettings != null) return ProjectType.TrojanGo;
 
@@ -76,6 +81,17 @@ namespace ProxySuper.Core.Models
 
         public string GetShareLink()
         {
+            if (Type == ProjectType.V2ray)
+            {
+                StringBuilder strBuilder = new StringBuilder();
+                XraySettings.Types.ForEach(type =>
+                {
+                    var link = ShareLink.Build(type, V2raySettings);
+                    strBuilder.AppendLine(link);
+                });
+                return strBuilder.ToString();
+            }
+
             if (Type == ProjectType.Xray)
             {
                 StringBuilder strBuilder = new StringBuilder();

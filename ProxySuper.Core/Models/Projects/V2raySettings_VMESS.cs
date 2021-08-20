@@ -2,7 +2,7 @@
 
 namespace ProxySuper.Core.Models.Projects
 {
-    public partial class XraySettings
+    public partial class V2raySettings
     {
         /// <summary>
         /// vmess websocket path
@@ -16,7 +16,7 @@ namespace ProxySuper.Core.Models.Projects
         {
             get
             {
-                return ShareLink.Build(XrayType.VMESS_WS, this);
+                return ShareLink.Build(RayType.VMESS_WS, this);
             }
         }
 
@@ -32,7 +32,7 @@ namespace ProxySuper.Core.Models.Projects
         {
             get
             {
-                return ShareLink.Build(XrayType.VMESS_TCP, this);
+                return ShareLink.Build(RayType.VMESS_TCP, this);
             }
         }
 
@@ -58,7 +58,7 @@ namespace ProxySuper.Core.Models.Projects
         {
             get
             {
-                return ShareLink.Build(XrayType.VMESS_KCP, this);
+                return ShareLink.Build(RayType.VMESS_KCP, this);
             }
         }
     }

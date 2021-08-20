@@ -11,7 +11,7 @@
         Icon="/Resources/ProxySU.ico"
         BorderThickness="0,1,0,0"
         BorderBrush="#EEE"
-        Title="Xray" Height="610" Width="1015">
+        Title="Xray编辑配置" Height="610" Width="1015">
 
     <Grid>
         <Grid.ColumnDefinitions>

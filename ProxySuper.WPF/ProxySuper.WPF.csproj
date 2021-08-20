@@ -87,6 +87,9 @@
     <Compile Include="Controls\Trojan_TCP_Control.xaml.cs">
       <DependentUpon>Trojan_TCP_Control.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\V2raySettingsControl.xaml.cs">
+      <DependentUpon>V2raySettingsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\VLESS_gRPC_Control.xaml.cs">
       <DependentUpon>VLESS_gRPC_Control.xaml</DependentUpon>
     </Compile>
@@ -153,6 +156,15 @@
     <Compile Include="Views\TrojanGo\TrojanGoInstallView.xaml.cs">
       <DependentUpon>TrojanGoInstallView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\V2ray\V2rayConfigView.xaml.cs">
+      <DependentUpon>V2rayConfigView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\V2ray\V2rayEditorView.xaml.cs">
+      <DependentUpon>V2rayEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\V2ray\V2rayInstallView.xaml.cs">
+      <DependentUpon>V2rayInstallView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Xray\XrayEditorView.xaml.cs">
       <DependentUpon>XrayEditorView.xaml</DependentUpon>
     </Compile>
@@ -177,6 +189,10 @@
     <Page Include="Controls\Trojan_TCP_Control.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\V2raySettingsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\VLESS_gRPC_Control.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -290,6 +306,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\V2ray\V2rayConfigView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\V2ray\V2rayEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\V2ray\V2rayInstallView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Xray\XrayEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -333,6 +361,114 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Templates\trojan-go\trojan-go.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\base.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\caddy\base.caddyfile">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\client\00_log\00_log.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\client\01_api\01_api.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\client\02_dns\02_dns.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\client\03_routing\03_routing.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\client\04_policy\04_policy.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\client\05_inbounds\05_inbounds.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\client\06_outbounds\06_outbounds.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\client\06_outbounds\VLESS_HTTP2_TLS.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\client\06_outbounds\VLESS_TCP_TLS_WS.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\client\07_transport\07_transport.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\client\08_stats\08_stats.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\client\09_reverse\09_reverse.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\server\00_log\00_log.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\server\01_api\01_api.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\server\02_dns\02_dns.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\server\03_routing\03_routing.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\server\04_policy\04_policy.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\server\05_inbounds\05_inbounds.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\server\05_inbounds\Shadowsocks-AEAD.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\server\05_inbounds\Trojan_TCP.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\server\05_inbounds\Trojan_WS.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\server\05_inbounds\VLESS_gRPC.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\server\05_inbounds\VLESS_HTTP2.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\server\05_inbounds\VLESS_KCP.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\server\05_inbounds\VLESS_TCP_TLS.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\server\05_inbounds\VLESS_WS.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\server\05_inbounds\VMESS_HTTP2.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\server\05_inbounds\VMESS_KCP.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\server\05_inbounds\VMESS_TCP.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\server\05_inbounds\VMESS_WS.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\server\06_outbounds\06_outbounds.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\server\07_transport\07_transport.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\server\08_stats\08_stats.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\server\09_reverse\09_reverse.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Templates\xray\base.json">

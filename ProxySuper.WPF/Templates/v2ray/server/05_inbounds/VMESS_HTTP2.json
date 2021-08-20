@@ -1,0 +1,18 @@
+{
+  "port": 1234,
+  "listen": "127.0.0.1",
+  "protocol": "vmess",
+  "settings": {
+    "clients": [
+      {
+        "id": ""
+      }
+    ]
+  },
+  "streamSettings": {
+    "network": "h2",
+    "httpSettings": {
+      "path": ""
+    }
+  }
+}

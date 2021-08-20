@@ -36,7 +36,7 @@ namespace ProxySuper.WPF.Views
             var tabControl = e.Source as TabControl;
             var item = (tabControl.SelectedItem as TabItem);
             if (item == null) return;
-            var type = (XrayType)item.Tag;
+            var type = (RayType)item.Tag;
             BuildQrCode(type);
         }
 
@@ -55,45 +55,45 @@ namespace ProxySuper.WPF.Views
             }
         }
 
-        private void BuildQrCode(XrayType type)
+        private void BuildQrCode(RayType type)
         {
             string shareLink = string.Empty;
             switch (type)
             {
-                case XrayType.VLESS_TCP_XTLS:
+                case RayType.VLESS_TCP_XTLS:
                     shareLink = Settings.VLESS_TCP_XTLS_ShareLink;
                     break;
-                case XrayType.VLESS_TCP:
+                case RayType.VLESS_TCP:
                     shareLink = Settings.VLESS_TCP_ShareLink;
                     break;
-                case XrayType.VLESS_WS:
+                case RayType.VLESS_WS:
                     shareLink = Settings.VLESS_WS_ShareLink;
                     break;
-                case XrayType.VLESS_H2:
+                case RayType.VLESS_H2:
                     break;
-                case XrayType.VLESS_KCP:
+                case RayType.VLESS_KCP:
                     shareLink = Settings.VLESS_KCP_ShareLink;
                     break;
-                case XrayType.VLESS_gRPC:
+                case RayType.VLESS_gRPC:
                     shareLink = Settings.VLESS_gRPC_ShareLink;
                     break;
-                case XrayType.VMESS_TCP:
+                case RayType.VMESS_TCP:
                     shareLink = Settings.VMESS_TCP_ShareLink;
                     break;
-                case XrayType.VMESS_WS:
+                case RayType.VMESS_WS:
                     shareLink = Settings.VMESS_WS_ShareLink;
                     break;
-                case XrayType.VMESS_H2:
+                case RayType.VMESS_H2:
                     break;
-                case XrayType.VMESS_KCP:
+                case RayType.VMESS_KCP:
                     shareLink = Settings.VMESS_KCP_ShareLink;
                     break;
-                case XrayType.Trojan_TCP:
+                case RayType.Trojan_TCP:
                     shareLink = Settings.Trojan_TCP_ShareLink;
                     break;
-                case XrayType.Trojan_WS:
+                case RayType.Trojan_WS:
                     break;
-                case XrayType.ShadowsocksAEAD:
+                case RayType.ShadowsocksAEAD:
                     shareLink = Settings.ShadowSocksShareLink;
                     break;
                 default:

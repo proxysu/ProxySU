@@ -6,5 +6,6 @@
         TrojanGo = 1,
         NaiveProxy = 2,
         Brook = 3,
+        V2ray = 4,
     }
 }

@@ -2,7 +2,7 @@
 
 namespace ProxySuper.Core.Models.Projects
 {
-    public partial class XraySettings
+    public partial class V2raySettings
     {
         public string TrojanPassword { get; set; }
 
@@ -10,7 +10,7 @@ namespace ProxySuper.Core.Models.Projects
         {
             get
             {
-                return ShareLink.Build(XrayType.Trojan_TCP, this);
+                return ShareLink.Build(RayType.Trojan_TCP, this);
             }
         }
     }

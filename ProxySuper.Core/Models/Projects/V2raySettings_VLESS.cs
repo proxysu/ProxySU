@@ -2,19 +2,8 @@
 
 namespace ProxySuper.Core.Models.Projects
 {
-    public partial class XraySettings
+    public partial class V2raySettings
     {
-        /// <summary>
-        /// vless xtls shareLink
-        /// </summary>
-        public string VLESS_TCP_XTLS_ShareLink
-        {
-            get
-            {
-                return ShareLink.Build(XrayType.VLESS_TCP_XTLS, this);
-            }
-        }
-
         /// <summary>
         /// vless tcp shareLink
         /// </summary>
@@ -22,7 +11,7 @@ namespace ProxySuper.Core.Models.Projects
         {
             get
             {
-                return ShareLink.Build(XrayType.VLESS_TCP, this);
+                return ShareLink.Build(RayType.VLESS_TCP, this);
             }
         }
 
@@ -38,7 +27,7 @@ namespace ProxySuper.Core.Models.Projects
         {
             get
             {
-                return ShareLink.Build(XrayType.VLESS_WS, this);
+                return ShareLink.Build(RayType.VLESS_WS, this);
             }
         }
 
@@ -64,7 +53,7 @@ namespace ProxySuper.Core.Models.Projects
         {
             get
             {
-                return ShareLink.Build(XrayType.VLESS_KCP, this);
+                return ShareLink.Build(RayType.VLESS_KCP, this);
             }
         }
 
@@ -85,7 +74,7 @@ namespace ProxySuper.Core.Models.Projects
         {
             get
             {
-                return ShareLink.Build(XrayType.VLESS_gRPC, this);
+                return ShareLink.Build(RayType.VLESS_gRPC, this);
             }
         }
     }

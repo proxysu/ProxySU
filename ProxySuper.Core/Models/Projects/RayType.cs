@@ -1,6 +1,6 @@
 ﻿namespace ProxySuper.Core.Models.Projects
 {
-    public enum XrayType
+    public enum RayType
     {
         // 入口
         VLESS_TCP_XTLS = 100,
@@ -25,4 +25,6 @@
         // SS
         ShadowsocksAEAD = 401
     }
+
+    
 }

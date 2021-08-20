@@ -1,0 +1,24 @@
+{
+  "port": 1310,
+  "listen": "127.0.0.1",
+  "protocol": "trojan",
+  "settings": {
+    "clients": [
+      {
+        "password": ""
+      }
+    ],
+    "fallbacks": [
+      {
+        "dest": 8080
+      }
+    ]
+  },
+  "streamSettings": {
+    "network": "tcp",
+    "security": "none",
+    "tcpSettings": {
+      "acceptProxyProtocol": true
+    }
+  }
+}
