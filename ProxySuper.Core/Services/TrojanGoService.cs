@@ -75,6 +75,9 @@ namespace ProxySuper.Core.Services
                     Progress.Step = $"{index++}. 启动BBR";
                     EnableBBR();
 
+                    Progress.Step = $"{index++}. 重启caddy服务";
+                    RunCmd("systemctl restart caddy");
+
                     Progress.Desc = "启用Trojan-Go开机启动";
                     RunCmd("systemctl enable trojan-go");
                     RunCmd("systemctl restart trojan-go");
@@ -156,6 +159,11 @@ namespace ProxySuper.Core.Services
 
                     Progress.Desc = "更新配置文件";
                     UploadTrojanGoSettings();
+                    Progress.Percentage = 70;
+
+                    Progress.Desc = "重启caddy服务";
+                    RunCmd("systemctl restart caddy");
+                    Progress.Percentage = 80;
 
                     Progress.Desc = "重启Trojan-Go服务器";
                     RunCmd("systemctl restart trojan-go");
@@ -313,8 +321,11 @@ namespace ProxySuper.Core.Services
                     }
 
                     Progress.Desc = "上传Caddy配置文件";
-                    UploadCaddySettings();
+                    UploadCaddySettings(useCustomWeb: true);
+                    Progress.Percentage = 90;
 
+                    Progress.Desc = "重启caddy服务";
+                    RunCmd("systemctl restart caddy");
                     Progress.Percentage = 100;
                     Progress.Desc = "上传静态网站成功";
                 }
@@ -334,7 +345,6 @@ namespace ProxySuper.Core.Services
                 RunCmd("mv /etc/caddy/Caddyfile /etc/caddy/Caddyfile.back");
             }
             UploadFile(stream, "/etc/caddy/Caddyfile");
-            RunCmd("systemctl restart caddy");
         }
 
         private void InstallTrojanGo()
@@ -356,7 +366,7 @@ namespace ProxySuper.Core.Services
             {
                 Progress.Desc = "安装TLS证书";
                 InstallCert(
-                    dirPath: "/usr/local/etc/trojan-go",
+                    dirPath: "/usr/local/etc/trojan-go/ssl",
                     certName: "trojan-go.crt",
                     keyName: "trojan-go.key");
             }

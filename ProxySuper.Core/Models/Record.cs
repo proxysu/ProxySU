@@ -84,7 +84,7 @@ namespace ProxySuper.Core.Models
             if (Type == ProjectType.V2ray)
             {
                 StringBuilder strBuilder = new StringBuilder();
-                XraySettings.Types.ForEach(type =>
+                V2raySettings.Types.ForEach(type =>
                 {
                     var link = ShareLink.Build(type, V2raySettings);
                     strBuilder.AppendLine(link);

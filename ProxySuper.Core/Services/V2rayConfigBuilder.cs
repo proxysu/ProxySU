@@ -220,8 +220,8 @@ namespace ProxySuper.Core.Services
             {
                 var ssBound = GetBound("Shadowsocks-AEAD.json");
                 ssBound.port = parameters.ShadowSocksPort;
-                ssBound.settings.clients[0].password = parameters.ShadowSocksPassword;
-                ssBound.settings.clients[0].method = parameters.ShadowSocksMethod;
+                ssBound.settings.password = parameters.ShadowSocksPassword;
+                ssBound.settings.method = parameters.ShadowSocksMethod;
                 xrayConfig.inbounds.Add(JToken.FromObject(ssBound));
             }
 

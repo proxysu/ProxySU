@@ -20,8 +20,8 @@
       ],
       "certificates": [
         {
-          "certificateFile": "/usr/local/etc/xray/ssl/xray_ssl.crt",
-          "keyFile": "/usr/local/etc/xray/ssl/xray_ssl.key"
+          "certificateFile": "/usr/local/etc/v2ray/ssl/v2ray_ssl.crt",
+          "keyFile": "/usr/local/etc/v2ray/ssl/v2ray_ssl.key"
         }
       ]
     },

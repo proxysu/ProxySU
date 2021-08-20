@@ -78,7 +78,7 @@ namespace ProxySuper.Core.Services
 
                     Progress.Desc = "重启V2ray服务";
                     RunCmd("systemctl restart caddy");
-                    RunCmd("systemctl restart V2ray");
+                    RunCmd("systemctl restart v2ray");
 
                     Progress.Percentage = 100;
                     Progress.Step = "安装成功";
@@ -348,6 +348,10 @@ namespace ProxySuper.Core.Services
 
                     Progress.Desc = "上传Web配置文件";
                     UploadCaddyFile(useCustomWeb: true);
+                    Progress.Percentage = 90;
+
+                    Progress.Desc = "重启caddy服务";
+                    RunCmd("systemctl restart caddy");
                     Progress.Percentage = 100;
 
                     Progress.Desc = "上传静态网站成功";

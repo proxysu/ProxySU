@@ -766,7 +766,7 @@ namespace ProxySuper.Core.Services
             {
                 return new ConnectionInfo(
                     host: _host.Address,
-                    username: _host.Password,
+                    username: _host.UserName,
                     authenticationMethods: authMethods.ToArray());
             }
 

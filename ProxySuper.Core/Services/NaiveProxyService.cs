@@ -179,8 +179,11 @@ namespace ProxySuper.Core.Services
                     }
 
                     Progress.Desc = "上传Caddy配置文件";
-                    UploadCaddySettings();
+                    UploadCaddySettings(useCustomWeb: true);
+                    Progress.Percentage = 90;
 
+                    Progress.Desc = "重启caddy服务";
+                    RunCmd("systemctl restart caddy");
                     Progress.Percentage = 100;
                     Progress.Desc = "上传静态网站成功";
                 }
