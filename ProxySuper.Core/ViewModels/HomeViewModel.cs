@@ -56,7 +56,41 @@ namespace ProxySuper.Core.ViewModels
             File.WriteAllText("Data/Record.json", json);
         }
 
+        public void SortDone(string id)
+        {
+            var item = Records.Where(x => x.Id == id).FirstOrDefault();
+            if (item == null) return;
+
+            var index = Records.IndexOf(item);
+            if (index >= Records.Count - 1) return;
+
+            Records.Remove(item);
+            Records.Insert(index + 1, item);
+
+            RaisePropertyChanged("Records");
+            SaveToJson();
+        }
+
+        public void SortUp(string id)
+        {
+            var item = Records.Where(x => x.Id == id).FirstOrDefault();
+            if (item == null) return;
+
+            var index = Records.IndexOf(item);
+            if (index <= 0) return;
+
+            Records.Remove(item);
+            Records.Insert(index - 1, item);
+
+            RaisePropertyChanged("Records");
+            SaveToJson();
+        }
+
         public MvxObservableCollection<Record> Records { get; set; }
+
+        public IMvxCommand SortUpCommand => new MvxCommand<string>(SortUp);
+
+        public IMvxCommand SortDoneCommand => new MvxCommand<string>(SortDone);
 
         public IMvxCommand AddV2rayCommand => new MvxAsyncCommand(AddV2rayRecord);
 

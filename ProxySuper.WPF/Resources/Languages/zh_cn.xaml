@@ -38,6 +38,8 @@
     <sys:String x:Key="MainDataGridColumnActionEdit">编辑</sys:String>
     <sys:String x:Key="MainDataGridColumnActionViewConfig">查看配置</sys:String>
     <sys:String x:Key="MainDataGridColumnActionDelete">删除</sys:String>
+    <sys:String x:Key="MainDataGridColumnActionSortUp">上移</sys:String>
+    <sys:String x:Key="MainDataGridColumnActionSortDone">下移</sys:String>
 
 
 

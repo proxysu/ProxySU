@@ -91,26 +91,38 @@
                                     <Button Command="{Binding DataContext.InstallCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"
                                             CommandParameter="{Binding Id}"
                                             Margin="5,0"
-                                            Padding="12,3"
+                                            Padding="5,2"
                                             Content="{DynamicResource MainDataGridColumnActionInstall}" />
 
                                     <Button Command="{Binding DataContext.EditCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"
                                             CommandParameter="{Binding Id}"
                                             Margin="5,0"
-                                            Padding="12,3"
+                                            Padding="5,2"
                                             Content="{DynamicResource MainDataGridColumnActionEdit}" />
 
                                     <Button Command="{Binding DataContext.ViewConfigCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"
                                             CommandParameter="{Binding Id}"
                                             Margin="5,0"
-                                            Padding="12,3"
+                                            Padding="5,2"
                                             Content="{DynamicResource MainDataGridColumnActionViewConfig}" />
 
                                     <Button Command="{Binding DataContext.RemoveCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" 
                                             CommandParameter="{Binding Id}"
                                             Margin="5,0"
-                                            Padding="12,3"
+                                            Padding="5,2"
                                             Content="{DynamicResource MainDataGridColumnActionDelete}" />
+
+                                    <Button Command="{Binding DataContext.SortUpCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding Id}"
+                                            Margin="5,0"
+                                            Padding="5,2"
+                                            Content="{DynamicResource MainDataGridColumnActionSortUp}" />
+
+                                    <Button Command="{Binding DataContext.SortDoneCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding Id}"
+                                            Margin="5,0"
+                                            Padding="5,2"
+                                            Content="{DynamicResource MainDataGridColumnActionSortDone}" />
                                 </StackPanel>
                             </ItemContainerTemplate>
                         </DataGridTemplateColumn.CellTemplate>

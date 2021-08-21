@@ -38,6 +38,8 @@
     <sys:String x:Key="MainDataGridColumnActionEdit">Edit</sys:String>
     <sys:String x:Key="MainDataGridColumnActionViewConfig">ViewConfig</sys:String>
     <sys:String x:Key="MainDataGridColumnActionDelete">Delete</sys:String>
+    <sys:String x:Key="MainDataGridColumnActionSortUp">Up</sys:String>
+    <sys:String x:Key="MainDataGridColumnActionSortDone">Done</sys:String>
 
 
     <!--Editor Window-->
