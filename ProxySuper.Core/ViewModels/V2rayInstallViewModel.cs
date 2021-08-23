@@ -81,7 +81,7 @@ namespace ProxySuper.Core.ViewModels
                 Directory.CreateDirectory("Logs");
             }
 
-            var fileName = Path.Combine("Logs", DateTime.Now.ToString("yyyy-MM-dd hh-mm") + ".xary.txt");
+            var fileName = Path.Combine("Logs", DateTime.Now.ToString("yyyy-MM-dd hh-mm") + ".v2ray.txt");
             File.WriteAllText(fileName, Logs);
         }
     }

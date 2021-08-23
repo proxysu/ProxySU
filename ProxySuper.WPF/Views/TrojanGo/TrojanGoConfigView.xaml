@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Icon="/Resources/ProxySU.ico"
         WindowStartupLocation="CenterScreen"
-        Title="TrojanGoConfigView" Height="450" Width="800">
+        Title="Trojan-Go节点配置" Height="450" Width="800">
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="140" />

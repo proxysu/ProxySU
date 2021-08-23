@@ -8,7 +8,7 @@
         xmlns:views="clr-namespace:MvvmCross.Platforms.Wpf.Views;assembly=MvvmCross.Platforms.Wpf"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="V2ray安装" Height="600" Width="1000">
+        Title="Trojan-Go安装" Height="600" Width="1000">
     <StackPanel>
         <ctrl:ProgressControl />
 

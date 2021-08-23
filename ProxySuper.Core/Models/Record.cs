@@ -47,6 +47,9 @@ namespace ProxySuper.Core.Models
         [JsonProperty("brook")]
         public BrookSettings BrookSettings { get; set; }
 
+        [JsonProperty("mtProxyGoSettings")]
+        public MTProxyGoSettings MTProxyGoSettings { get; set; }
+
 
         [JsonIgnore]
         public ProjectType Type

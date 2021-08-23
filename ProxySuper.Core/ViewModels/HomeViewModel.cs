@@ -100,6 +100,8 @@ namespace ProxySuper.Core.ViewModels
 
         public IMvxCommand AddNaiveProxyCommand => new MvxAsyncCommand(AddNaiveProxyRecord);
 
+        public IMvxCommand AddMTProxyGoCommand => new MvxAsyncCommand(AddMTProxyGoRecord);
+
         public IMvxCommand AddBrookCommand => new MvxAsyncCommand(AddBrookRecord);
 
         public IMvxCommand RemoveCommand => new MvxAsyncCommand<string>(DeleteRecord);
@@ -146,6 +148,21 @@ namespace ProxySuper.Core.ViewModels
             record.TrojanGoSettings = new TrojanGoSettings();
 
             var result = await _navigationService.Navigate<TrojanGoEditorViewModel, Record, Record>(record);
+            if (result == null) return;
+
+            Records.Add(result);
+
+            SaveToJson();
+        }
+
+        public async Task AddMTProxyGoRecord()
+        {
+            Record record = new Record();
+            record.Id = Utils.GetTickID();
+            record.Host = new Host();
+            record.MTProxyGoSettings = new MTProxyGoSettings();
+
+            var result = await _navigationService.Navigate<MTProxyGoEditorViewModel, Record, Record>(record);
             if (result == null) return;
 
             Records.Add(result);

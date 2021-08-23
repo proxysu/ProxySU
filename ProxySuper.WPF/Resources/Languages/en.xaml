@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    
+
     <!--common-->
     <sys:String x:Key="Random">Random</sys:String>
     <sys:String x:Key="Save">Save</sys:String>
@@ -65,7 +65,7 @@
     <sys:String x:Key="ProxyTypeHttp">Http</sys:String>
     <sys:String x:Key="ProxyTypeSocks5">Socks5</sys:String>
 
-    
+
     <!--Xray-->
     <sys:String x:Key="VlessXtlsDesc" xml:space="preserve">VLESS over TCP With XTLS&#x0a;Preferred</sys:String>
     <sys:String x:Key="VlessTcpDesc" xml:space="preserve">VLESS over TCP with TLS&#x0a;XTLS is Preferred</sys:String>
@@ -100,7 +100,7 @@
     <sys:String x:Key="TrojanPort">Trojan Port</sys:String>
     <sys:String x:Key="XrayPort">xray Port</sys:String>
     <sys:String x:Key="XrayPortDefault">default port is 443</sys:String>
-    
+
     <!--xray installer-->
     <sys:String x:Key="XrayInstallerInstall">Install</sys:String>
     <sys:String x:Key="XrayInstallerUpdateSettings">UpdateSettings</sys:String>
@@ -119,11 +119,17 @@
     <sys:String x:Key="TrojanGoMaskDomain">GuiseHost</sys:String>
     <sys:String x:Key="TrojanGoWebSocketPath">WS Path</sys:String>
     <sys:String x:Key="TrojanGoWebSocketDomain">WS Domain</sys:String>
-    
+
     <!--Naive Proxy-->
     <sys:String x:Key="NaiveProxyDomain">Address</sys:String>
     <sys:String x:Key="NaiveProxyPort">Port</sys:String>
     <sys:String x:Key="NaiveProxyUserName">UserName</sys:String>
     <sys:String x:Key="NaiveProxyPassword">Password</sys:String>
     <sys:String x:Key="NaiveProxyMaskDomain">GuiseHost</sys:String>
+
+    <!--MTProxy Go-->
+    <sys:String x:Key="MTProxyDomain">Address</sys:String>
+    <sys:String x:Key="MTProxyPort">Port</sys:String>
+    <sys:String x:Key="MTProxyCleartext">Cleantext</sys:String>
+    <sys:String x:Key="MTProxySecretText">Secret</sys:String>
 </ResourceDictionary>
