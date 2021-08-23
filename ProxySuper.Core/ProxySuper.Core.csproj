@@ -105,6 +105,7 @@
     <Compile Include="ViewModels\BrookInstallViewModel.cs" />
     <Compile Include="ViewModels\EnableRootViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
+    <Compile Include="ViewModels\MTProxyGoConfigViewModel.cs" />
     <Compile Include="ViewModels\MTProxyGoEditorViewModel.cs" />
     <Compile Include="ViewModels\MTProxyGoInstallViewModel.cs" />
     <Compile Include="ViewModels\NaiveProxyConfigViewModel.cs" />

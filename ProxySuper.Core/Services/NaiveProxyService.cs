@@ -66,6 +66,9 @@ namespace ProxySuper.Core.Services
                     Progress.Percentage = 100;
                     Progress.Step = "NaiveProxy安装成功";
                     Progress.Desc = string.Empty;
+
+                    AppendCommand("分享连接：");
+                    AppendCommand(ShareLink.BuildNaiveProxy(Settings));
                 }
                 catch (Exception ex)
                 {

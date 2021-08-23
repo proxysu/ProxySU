@@ -561,6 +561,15 @@ namespace ProxySuper.Core.Services
             RunCmd("mv /etc/resolv.conf.proxysu /etc/resolv.conf");
         }
 
+        protected void AppendCommand(string command)
+        {
+            if (!command.EndsWith("\n"))
+            {
+                command += "\n";
+            }
+            Progress.Logs += command;
+        }
+
         private List<string> FilterFastestIP()
         {
             string[] gateNat64 = {
@@ -739,14 +748,6 @@ namespace ProxySuper.Core.Services
             }
         }
 
-        private void AppendCommand(string command)
-        {
-            if (!command.EndsWith("\n"))
-            {
-                command += "\n";
-            }
-            Progress.Logs += command;
-        }
 
         private ConnectionInfo CreateConnectionInfo()
         {

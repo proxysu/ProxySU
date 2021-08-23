@@ -69,6 +69,9 @@ namespace ProxySuper.Core.Services
                     Progress.Percentage = 100;
                     Progress.Step = "安装Brook成功";
                     Progress.Desc = "安装Brook成功";
+
+                    AppendCommand("分享连接：");
+                    AppendCommand(ShareLink.BuildBrook(Settings));
                 }
                 catch (Exception ex)
                 {

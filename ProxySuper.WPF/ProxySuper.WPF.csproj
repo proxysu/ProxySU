@@ -135,11 +135,14 @@
     <Compile Include="Views\HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MTProxyGo\MTProxyGoConfigView.xaml.cs">
+      <DependentUpon>MTProxyGoConfigView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MTProxyGo\MTProxyGoEditorView.xaml.cs">
       <DependentUpon>MTProxyGoEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MTProxyGo\MTProxyInstallView.xaml.cs">
-      <DependentUpon>MTProxyInstallView.xaml</DependentUpon>
+    <Compile Include="Views\MTProxyGo\MTProxyGoInstallView.xaml.cs">
+      <DependentUpon>MTProxyGoInstallView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NaiveProxy\NaiveProxyConfigView.xaml.cs">
       <DependentUpon>NaiveProxyConfigView.xaml</DependentUpon>
@@ -284,11 +287,15 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
+    <Page Include="Views\MTProxyGo\MTProxyGoConfigView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MTProxyGo\MTProxyGoEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MTProxyGo\MTProxyInstallView.xaml">
+    <Page Include="Views\MTProxyGo\MTProxyGoInstallView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

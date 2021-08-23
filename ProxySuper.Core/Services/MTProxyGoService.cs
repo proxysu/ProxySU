@@ -41,7 +41,7 @@ namespace ProxySuper.Core.Services
                     Progress.Percentage = 50;
 
                     Progress.Step = "5. 生成密钥";
-                    Settings.SecretText = RunCmd($"docker run nineseconds/mtg generate-secret {Settings.Cleartext}");
+                    Settings.SecretText = RunCmd($"docker run nineseconds/mtg generate-secret {Settings.Cleartext}").TrimEnd('\n');
                     Progress.Percentage = 65;
 
                     Progress.Step = "6. 生成配置文件";
@@ -49,8 +49,8 @@ namespace ProxySuper.Core.Services
                     RunCmd("touch /etc/mtg.toml");
 
                     Progress.Desc = "写入配置内容";
-                    RunCmd($"echo secret=\"{Settings.SecretText}\" > /etc/mtg.toml");
-                    RunCmd($"echo bind-to=\"0.0.0.0:{Settings.Port}\" >> /etc/mtg.toml");
+                    RunCmd($"echo \"secret=\\\"{Settings.SecretText}\\\"\" > /etc/mtg.toml");
+                    RunCmd($"echo \"bind-to=\\\"0.0.0.0:{Settings.Port}\\\"\" >> /etc/mtg.toml");
                     Progress.Percentage = 80;
 
                     Progress.Step = "7. 启动MTProxy服务";
@@ -59,6 +59,10 @@ namespace ProxySuper.Core.Services
 
                     Progress.Step = "安装完成";
                     Progress.Percentage = 100;
+
+                    AppendCommand("Host: " + Settings.Domain);
+                    AppendCommand("Port: " + Settings.Port);
+                    AppendCommand("Secret: " + Settings.SecretText);
 
                 }
                 catch (Exception ex)
@@ -102,17 +106,20 @@ namespace ProxySuper.Core.Services
                 try
                 {
                     Progress.Percentage = 0;
-                    Progress.Step = "卸载MTProxy";
+                    Progress.Step = "更新MTProxy配置";
 
-
-                    Progress.Desc = "停止MTProxy服务";
+                    Progress.Desc = "暂停MTProxy服务";
                     var cid = RunCmd("docker ps -q --filter name=mtg");
                     RunCmd($"docker stop {cid}");
                     Progress.Percentage = 50;
 
+                    Progress.Desc = "生成密钥";
+                    Settings.SecretText = RunCmd($"docker run nineseconds/mtg generate-secret {Settings.Cleartext}").TrimEnd('\n');
+                    Progress.Percentage = 65;
+
                     Progress.Desc = "修改配置文件";
-                    RunCmd($"echo secret=\"{Settings.SecretText}\" > /etc/mtg.toml");
-                    RunCmd($"echo bind-to=\"0.0.0.0:{Settings.Port}\" >> /etc/mtg.toml");
+                    RunCmd($"echo \"secret=\\\"{Settings.SecretText}\\\"\" > /etc/mtg.toml");
+                    RunCmd($"echo \"bind-to=\\\"0.0.0.0:{Settings.Port}\\\"\" >> /etc/mtg.toml");
                     Progress.Percentage = 80;
 
                     Progress.Desc = "重启MTProxy服务";
@@ -120,6 +127,10 @@ namespace ProxySuper.Core.Services
 
                     Progress.Percentage = 100;
                     Progress.Desc = "更新配置成功";
+
+                    AppendCommand("Host: " + Settings.Domain);
+                    AppendCommand("Port: " + Settings.Port);
+                    AppendCommand("Secret: " + Settings.SecretText);
                 }
                 catch (Exception ex)
                 {

@@ -247,6 +247,14 @@ namespace ProxySuper.Core.ViewModels
                 record.Host = result.Host;
                 record.BrookSettings = result.BrookSettings;
             }
+            if (record.Type == ProjectType.MTProxyGo)
+            {
+                result = await _navigationService.Navigate<MTProxyGoEditorViewModel, Record, Record>(record);
+                if (result == null) return;
+
+                record.Host = result.Host;
+                record.MTProxyGoSettings = result.MTProxyGoSettings;
+            }
 
             SaveToJson();
         }
@@ -291,12 +299,17 @@ namespace ProxySuper.Core.ViewModels
             {
                 await _navigationService.Navigate<BrookConfigViewModel, BrookSettings>(record.BrookSettings);
             }
+            if (record.Type == ProjectType.MTProxyGo)
+            {
+                await _navigationService.Navigate<MTProxyGoConfigViewModel, MTProxyGoSettings>(record.MTProxyGoSettings);
+            }
         }
 
         public async Task GoToInstall(string id)
         {
             var record = Records.FirstOrDefault(x => x.Id == id);
             if (record == null) return;
+            record.OnSave = SaveToJson;
 
             if (record.Type == ProjectType.V2ray)
             {
@@ -318,6 +331,13 @@ namespace ProxySuper.Core.ViewModels
             {
                 await _navigationService.Navigate<BrookInstallViewModel, Record>(record);
             }
+            if (record.Type == ProjectType.MTProxyGo)
+            {
+                await _navigationService.Navigate<MTProxyGoInstallViewModel, Record>(record);
+            }
+
+            SaveToJson();
         }
+
     }
 }

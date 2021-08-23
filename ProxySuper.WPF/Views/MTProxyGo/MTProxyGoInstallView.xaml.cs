@@ -18,9 +18,9 @@ namespace ProxySuper.WPF.Views.MTProxyGo
     /// <summary>
     /// MTProxyInstallView.xaml 的交互逻辑
     /// </summary>
-    public partial class MTProxyInstallView : MvxWindow
+    public partial class MTProxyGoInstallView : MvxWindow
     {
-        public MTProxyInstallView()
+        public MTProxyGoInstallView()
         {
             InitializeComponent();
         }

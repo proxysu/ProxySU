@@ -82,6 +82,8 @@ namespace ProxySuper.Core.Services
                     RunCmd("systemctl enable trojan-go");
                     RunCmd("systemctl restart trojan-go");
 
+                    AppendCommand("分享连接：");
+                    AppendCommand(ShareLink.BuildTrojanGo(Settings));
 
                     Progress.Percentage = 100;
                     Progress.Step = "安装成功";

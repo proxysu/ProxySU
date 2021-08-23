@@ -21,10 +21,13 @@ namespace ProxySuper.Core.ViewModels
 
         MTProxyGoService _mtproxyService;
 
+        Action _onSave;
+
         public override void Prepare(Record parameter)
         {
             _host = parameter.Host;
             _settings = parameter.MTProxyGoSettings;
+            _onSave = parameter.OnSave;
         }
 
         public override Task Initialize()
@@ -56,9 +59,21 @@ namespace ProxySuper.Core.ViewModels
 
         #region Command
 
-        public IMvxCommand InstallCommand => new MvxCommand(_mtproxyService.Install);
+        public IMvxCommand InstallCommand => new MvxCommand(() =>
+        {
+            _mtproxyService.Install();
 
-        public IMvxCommand UpdateSettingsCommand => new MvxCommand(_mtproxyService.UpdateSettings);
+            // 安装时生成的Secret需要保存
+            _onSave();
+        });
+
+        public IMvxCommand UpdateSettingsCommand => new MvxCommand(() =>
+        {
+            _mtproxyService.UpdateSettings();
+
+            // 安装时生成的Secret需要保存
+            _onSave();
+        });
 
         public IMvxCommand UninstallCommand => new MvxCommand(_mtproxyService.Uninstall);
 
