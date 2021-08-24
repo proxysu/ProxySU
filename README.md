@@ -1,6 +1,6 @@
 # ProxySU
-V2ray, Xray,Trojan, NaiveProxy, Trojan-Go, Brook,BBR install tools for windows。  
-V2ray，Xray,Trojan，NaiveProxy, Trojan-Go, Brook 及相关插件。支持纯ipv6主机一键安装代理。  
+V2ray, Xray, Trojan, NaiveProxy, Trojan-Go, MTProto Go, Brook,BBR install tools for windows。  
+V2ray，Xray, Trojan，NaiveProxy, Trojan-Go, MTProto Go, Brook 及相关插件。支持纯ipv6主机一键安装代理。  
 BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）,支持语言:English、简体中文、正体（繁体）中文。
 
 编译环境Visual Studio 2017  使用WPF界面。可一键安装 V2ray/Xray, Shadowsocks, Trojan, Trojan-Go, NaiveProxy, Brook 后续还会再添加其他。  
@@ -110,13 +110,3 @@ Microsoft [.NET Framework 4.7.2](https://dotnet.microsoft.com/download/dotnet-fr
 * 在线提问  https://github.com/proxysu/windows/issues  
 
 在使用遇到问题时，请先看一下[常见问题集锦](https://github.com/proxysu/windows/wiki/CommonError)，如果还不能解决，可以到以上平台询问，个人精力有限，尽力解答。
-## v1.0.0发布小记  
-  足足用了近两个月的业余时间，终于做成一个功能还算完善的版本。虽是一个简单的小工具，没想到对于我这个初学C#的人，还是有点小吃力，如果不是因为新冠肺炎疫情，被禁足在家，还真没时间。学习C#，为啥编写这样一个小工具软件来练手？现在一键安装脚本多的是，这样的工具还有必要吗？咋说呢？我也不知道有多少人会喜欢这个小工具，只是觉得自己用着方便，也想方便一下别人吧，喜欢用就用，不喜欢，也随意。  
-  生意又忙起来了，对于我这个业余的编程爱好者，可能没有多少业余时间继续折腾了，尽力吧。  
-  （记于2020.4.18）
-## V2.0.0发布小记  
-   哎呀吗！增加一个多语言切换，真是麻烦啊，最初就没有想支持多语言（PS:其实是不会`^_^`) 。中途再添加，真的是累啊！整了一个星期才完事。主要代码简单，就是把所有的中文显示信息替换，那真是一个晕！！英文水平太菜，用谷歌翻译做的，凑合着用吧。
-## V3.0.0发布小记
-    旧版本功能大而全，如果配置需要修改，或操作多个主机，就没办法做了。也总结了开发WPF经验后，尝试着改变一下，结果衍生了一个尝试的版本。
-## V4.0.1发布小记
-   在V3.x.x版本中，属于尝试性的改进和开发，应大家要求，在v4版本中保留了TrojanGo、NaiveProxy...。
