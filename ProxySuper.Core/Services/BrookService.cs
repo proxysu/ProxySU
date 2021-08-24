@@ -1,5 +1,6 @@
 ﻿using ProxySuper.Core.Models.Hosts;
 using ProxySuper.Core.Models.Projects;
+using ProxySuper.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,6 +73,8 @@ namespace ProxySuper.Core.Services
 
                     AppendCommand("分享连接：");
                     AppendCommand(ShareLink.BuildBrook(Settings));
+
+                    NavigationService.Navigate<BrookConfigViewModel, BrookSettings>(Settings);
                 }
                 catch (Exception ex)
                 {

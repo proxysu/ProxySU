@@ -42,14 +42,14 @@ namespace ProxySuper.Core.Models
         [JsonProperty("trojanGoSettings")]
         public TrojanGoSettings TrojanGoSettings { get; set; }
 
-        [JsonProperty("naiveProxySettings")]
+        [JsonProperty("naiveProtoSettings")]
         public NaiveProxySettings NaiveProxySettings { get; set; }
 
         [JsonProperty("brook")]
         public BrookSettings BrookSettings { get; set; }
 
-        [JsonProperty("mtProxyGoSettings")]
-        public MTProxyGoSettings MTProxyGoSettings { get; set; }
+        [JsonProperty("mtProtoGoSettings")]
+        public MTProtoGoSettings MTProtoGoSettings { get; set; }
 
 
         [JsonIgnore]
@@ -65,7 +65,7 @@ namespace ProxySuper.Core.Models
 
                 if (NaiveProxySettings != null) return ProjectType.NaiveProxy;
 
-                if (MTProxyGoSettings != null) return ProjectType.MTProxyGo;
+                if (MTProtoGoSettings != null) return ProjectType.MTProtoGo;
 
                 return ProjectType.Brook;
             }

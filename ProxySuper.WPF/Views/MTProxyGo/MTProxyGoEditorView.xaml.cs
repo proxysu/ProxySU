@@ -13,14 +13,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace ProxySuper.WPF.Views.MTProxyGo
+namespace ProxySuper.WPF.Views.MTProtoGo
 {
     /// <summary>
-    /// MTProxyGoEditorView.xaml 的交互逻辑
+    /// MTProtoGoEditorView.xaml 的交互逻辑
     /// </summary>
-    public partial class MTProxyGoEditorView : MvxWindow
+    public partial class MTProtoGoEditorView : MvxWindow
     {
-        public MTProxyGoEditorView()
+        public MTProtoGoEditorView()
         {
             InitializeComponent();
         }

@@ -127,9 +127,9 @@
     <sys:String x:Key="NaiveProxyPassword">Password</sys:String>
     <sys:String x:Key="NaiveProxyMaskDomain">GuiseHost</sys:String>
 
-    <!--MTProxy Go-->
-    <sys:String x:Key="MTProxyDomain">Address</sys:String>
-    <sys:String x:Key="MTProxyPort">Port</sys:String>
-    <sys:String x:Key="MTProxyCleartext">Cleantext</sys:String>
-    <sys:String x:Key="MTProxySecretText">Secret</sys:String>
+    <!--MTProto Go-->
+    <sys:String x:Key="MTProtoDomain">Address</sys:String>
+    <sys:String x:Key="MTProtoPort">Port</sys:String>
+    <sys:String x:Key="MTProtoCleartext">Cleantext</sys:String>
+    <sys:String x:Key="MTProtoSecretText">Secret</sys:String>
 </ResourceDictionary>

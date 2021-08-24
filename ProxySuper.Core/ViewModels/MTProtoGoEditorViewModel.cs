@@ -13,9 +13,9 @@ using System.Threading.Tasks;
 
 namespace ProxySuper.Core.ViewModels
 {
-    public class MTProxyGoEditorViewModel : MvxViewModel<Record, Record>
+    public class MTProtoGoEditorViewModel : MvxViewModel<Record, Record>
     {
-        public MTProxyGoEditorViewModel(IMvxNavigationService navigationService)
+        public MTProtoGoEditorViewModel(IMvxNavigationService navigationService)
         {
             NavigationService = navigationService;
         }
@@ -30,7 +30,7 @@ namespace ProxySuper.Core.ViewModels
 
         public Host Host { get; set; }
 
-        public MTProxyGoSettings Settings { get; set; }
+        public MTProtoGoSettings Settings { get; set; }
 
         public override void Prepare(Record parameter)
         {
@@ -38,7 +38,7 @@ namespace ProxySuper.Core.ViewModels
 
             Id = record.Id;
             Host = record.Host;
-            Settings = record.MTProxyGoSettings;
+            Settings = record.MTProtoGoSettings;
         }
 
         private void Save()
@@ -47,7 +47,7 @@ namespace ProxySuper.Core.ViewModels
             {
                 Id = this.Id,
                 Host = this.Host,
-                MTProxyGoSettings = Settings,
+                MTProtoGoSettings = Settings,
             });
         }
 
@@ -57,10 +57,10 @@ namespace ProxySuper.Core.ViewModels
             {
                 Id = this.Id,
                 Host = this.Host,
-                MTProxyGoSettings = Settings,
+                MTProtoGoSettings = Settings,
             };
             NavigationService.Close(this, record);
-            NavigationService.Navigate<MTProxyGoInstallViewModel, Record>(record);
+            NavigationService.Navigate<MTProtoGoInstallViewModel, Record>(record);
         }
     }
 }

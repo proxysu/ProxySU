@@ -128,9 +128,9 @@
     <sys:String x:Key="NaiveProxyPassword">密码</sys:String>
     <sys:String x:Key="NaiveProxyMaskDomain">伪装网站</sys:String>
 
-    <!--MTProxy Go-->
-    <sys:String x:Key="MTProxyDomain">域名/IP</sys:String>
-    <sys:String x:Key="MTProxyPort">端口</sys:String>
-    <sys:String x:Key="MTProxyCleartext">加密前字符</sys:String>
-    <sys:String x:Key="MTProxySecretText">密钥</sys:String> 
+    <!--MTProto Go-->
+    <sys:String x:Key="MTProtoDomain">域名/IP</sys:String>
+    <sys:String x:Key="MTProtoPort">端口</sys:String>
+    <sys:String x:Key="MTProtoCleartext">加密前字符</sys:String>
+    <sys:String x:Key="MTProtoSecretText">密钥</sys:String> 
 </ResourceDictionary>

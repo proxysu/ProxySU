@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace ProxySuper.Core.ViewModels
 {
-    public class MTProxyGoConfigViewModel : MvxViewModel<MTProxyGoSettings>
+    public class MTProtoGoConfigViewModel : MvxViewModel<MTProtoGoSettings>
     {
-        public MTProxyGoSettings Settings { get; set; }
+        public MTProtoGoSettings Settings { get; set; }
 
-        public override void Prepare(MTProxyGoSettings parameter)
+        public override void Prepare(MTProtoGoSettings parameter)
         {
             Settings = parameter;
         }

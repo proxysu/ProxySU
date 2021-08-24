@@ -3,6 +3,7 @@ using MvvmCross.ViewModels;
 using ProxySuper.Core.Models;
 using ProxySuper.Core.Models.Hosts;
 using ProxySuper.Core.Models.Projects;
+using ProxySuper.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -69,6 +70,8 @@ namespace ProxySuper.Core.Services
 
                     AppendCommand("分享连接：");
                     AppendCommand(ShareLink.BuildNaiveProxy(Settings));
+
+                    NavigationService.Navigate<NaiveProxyConfigViewModel, NaiveProxySettings>(Settings);
                 }
                 catch (Exception ex)
                 {

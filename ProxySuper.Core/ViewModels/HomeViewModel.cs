@@ -100,7 +100,7 @@ namespace ProxySuper.Core.ViewModels
 
         public IMvxCommand AddNaiveProxyCommand => new MvxAsyncCommand(AddNaiveProxyRecord);
 
-        public IMvxCommand AddMTProxyGoCommand => new MvxAsyncCommand(AddMTProxyGoRecord);
+        public IMvxCommand AddMTProtoGoCommand => new MvxAsyncCommand(AddMTProtoGoRecord);
 
         public IMvxCommand AddBrookCommand => new MvxAsyncCommand(AddBrookRecord);
 
@@ -155,14 +155,14 @@ namespace ProxySuper.Core.ViewModels
             SaveToJson();
         }
 
-        public async Task AddMTProxyGoRecord()
+        public async Task AddMTProtoGoRecord()
         {
             Record record = new Record();
             record.Id = Utils.GetTickID();
             record.Host = new Host();
-            record.MTProxyGoSettings = new MTProxyGoSettings();
+            record.MTProtoGoSettings = new MTProtoGoSettings();
 
-            var result = await _navigationService.Navigate<MTProxyGoEditorViewModel, Record, Record>(record);
+            var result = await _navigationService.Navigate<MTProtoGoEditorViewModel, Record, Record>(record);
             if (result == null) return;
 
             Records.Add(result);
@@ -247,13 +247,13 @@ namespace ProxySuper.Core.ViewModels
                 record.Host = result.Host;
                 record.BrookSettings = result.BrookSettings;
             }
-            if (record.Type == ProjectType.MTProxyGo)
+            if (record.Type == ProjectType.MTProtoGo)
             {
-                result = await _navigationService.Navigate<MTProxyGoEditorViewModel, Record, Record>(record);
+                result = await _navigationService.Navigate<MTProtoGoEditorViewModel, Record, Record>(record);
                 if (result == null) return;
 
                 record.Host = result.Host;
-                record.MTProxyGoSettings = result.MTProxyGoSettings;
+                record.MTProtoGoSettings = result.MTProtoGoSettings;
             }
 
             SaveToJson();
@@ -299,9 +299,9 @@ namespace ProxySuper.Core.ViewModels
             {
                 await _navigationService.Navigate<BrookConfigViewModel, BrookSettings>(record.BrookSettings);
             }
-            if (record.Type == ProjectType.MTProxyGo)
+            if (record.Type == ProjectType.MTProtoGo)
             {
-                await _navigationService.Navigate<MTProxyGoConfigViewModel, MTProxyGoSettings>(record.MTProxyGoSettings);
+                await _navigationService.Navigate<MTProtoGoConfigViewModel, MTProtoGoSettings>(record.MTProtoGoSettings);
             }
         }
 
@@ -331,9 +331,9 @@ namespace ProxySuper.Core.ViewModels
             {
                 await _navigationService.Navigate<BrookInstallViewModel, Record>(record);
             }
-            if (record.Type == ProjectType.MTProxyGo)
+            if (record.Type == ProjectType.MTProtoGo)
             {
-                await _navigationService.Navigate<MTProxyGoInstallViewModel, Record>(record);
+                await _navigationService.Navigate<MTProtoGoInstallViewModel, Record>(record);
             }
 
             SaveToJson();

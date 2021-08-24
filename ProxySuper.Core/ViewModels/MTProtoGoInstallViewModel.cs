@@ -13,26 +13,26 @@ using System.Threading.Tasks;
 
 namespace ProxySuper.Core.ViewModels
 {
-    public class MTProxyGoInstallViewModel : MvxViewModel<Record>
+    public class MTProtoGoInstallViewModel : MvxViewModel<Record>
     {
         Host _host;
 
-        MTProxyGoSettings _settings;
+        MTProtoGoSettings _settings;
 
-        MTProxyGoService _mtproxyService;
+        MTProtoGoService _mtproxyService;
 
         Action _onSave;
 
         public override void Prepare(Record parameter)
         {
             _host = parameter.Host;
-            _settings = parameter.MTProxyGoSettings;
+            _settings = parameter.MTProtoGoSettings;
             _onSave = parameter.OnSave;
         }
 
         public override Task Initialize()
         {
-            _mtproxyService = new MTProxyGoService(_host, _settings);
+            _mtproxyService = new MTProtoGoService(_host, _settings);
             _mtproxyService.Progress.StepUpdate = () => RaisePropertyChanged("Progress");
             _mtproxyService.Progress.LogsUpdate = () => RaisePropertyChanged("Logs");
             _mtproxyService.Connect();

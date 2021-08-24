@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ProxySuper.Core.Models.Projects
 {
-    public class MTProxyGoSettings : IProjectSettings
+    public class MTProtoGoSettings : IProjectSettings
     {
-        public MTProxyGoSettings()
+        public MTProtoGoSettings()
         {
             Port = 443;
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using ProxySuper.Core.Models.Hosts;
 using ProxySuper.Core.Models.Projects;
+using ProxySuper.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -92,6 +93,10 @@ namespace ProxySuper.Core.Services
                     if (!Settings.WithTLS)
                     {
                         Progress.Step = "安装成功，请上传您的 TLS 证书。";
+                    }
+                    else
+                    {
+                        NavigationService.Navigate<TrojanGoConfigViewModel, TrojanGoSettings>(Settings);
                     }
                 }
                 catch (Exception ex)
@@ -202,12 +207,12 @@ namespace ProxySuper.Core.Services
             {
                 try
                 {
-                    EnsureRootUser();
 
                     Progress.Step = "续签证书";
                     Progress.Percentage = 0;
 
                     Progress.Desc = "检测系统环境";
+                    EnsureRootUser();
                     EnsureSystemEnv();
                     Progress.Percentage = 20;
 

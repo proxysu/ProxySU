@@ -1,5 +1,6 @@
 ﻿using ProxySuper.Core.Models.Hosts;
 using ProxySuper.Core.Models.Projects;
+using ProxySuper.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,9 @@ using System.Windows;
 
 namespace ProxySuper.Core.Services
 {
-    public class MTProxyGoService : ServiceBase<MTProxyGoSettings>
+    public class MTProtoGoService : ServiceBase<MTProtoGoSettings>
     {
-        public MTProxyGoService(Host host, MTProxyGoSettings settings) : base(host, settings)
+        public MTProtoGoService(Host host, MTProtoGoSettings settings) : base(host, settings)
         {
         }
 
@@ -53,9 +54,9 @@ namespace ProxySuper.Core.Services
                     RunCmd($"echo \"bind-to=\\\"0.0.0.0:{Settings.Port}\\\"\" >> /etc/mtg.toml");
                     Progress.Percentage = 80;
 
-                    Progress.Step = "7. 启动MTProxy服务";
+                    Progress.Step = "7. 启动MTProto服务";
                     RunCmd($"docker run -d -v /etc/mtg.toml:/config.toml  --name=mtg --restart=always -p {Settings.Port + ":" + Settings.Port} nineseconds/mtg");
-                    Progress.Desc = "设置自启动MTProxy服务";
+                    Progress.Desc = "设置自启动MTProto服务";
 
                     Progress.Step = "安装完成";
                     Progress.Percentage = 100;
@@ -64,6 +65,7 @@ namespace ProxySuper.Core.Services
                     AppendCommand("Port: " + Settings.Port);
                     AppendCommand("Secret: " + Settings.SecretText);
 
+                    NavigationService.Navigate<MTProtoGoConfigViewModel, MTProtoGoSettings>(Settings);
                 }
                 catch (Exception ex)
                 {
@@ -79,7 +81,7 @@ namespace ProxySuper.Core.Services
                 try
                 {
                     Progress.Percentage = 0;
-                    Progress.Step = "卸载MTProxy";
+                    Progress.Step = "卸载MTProto";
 
                     Progress.Desc = "检测系统环境";
                     EnsureRootUser();
@@ -106,9 +108,9 @@ namespace ProxySuper.Core.Services
                 try
                 {
                     Progress.Percentage = 0;
-                    Progress.Step = "更新MTProxy配置";
+                    Progress.Step = "更新MTProto配置";
 
-                    Progress.Desc = "暂停MTProxy服务";
+                    Progress.Desc = "暂停MTProto服务";
                     var cid = RunCmd("docker ps -q --filter name=mtg");
                     RunCmd($"docker stop {cid}");
                     Progress.Percentage = 50;
@@ -122,7 +124,7 @@ namespace ProxySuper.Core.Services
                     RunCmd($"echo \"bind-to=\\\"0.0.0.0:{Settings.Port}\\\"\" >> /etc/mtg.toml");
                     Progress.Percentage = 80;
 
-                    Progress.Desc = "重启MTProxy服务";
+                    Progress.Desc = "重启MTProto服务";
                     RunCmd($"docker restart {cid}");
 
                     Progress.Percentage = 100;

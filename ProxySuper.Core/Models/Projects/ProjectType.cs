@@ -7,6 +7,6 @@
         NaiveProxy = 2,
         Brook = 3,
         V2ray = 4,
-        MTProxyGo = 5,
+        MTProtoGo = 5,
     }
 }
