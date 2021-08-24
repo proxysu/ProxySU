@@ -92,9 +92,9 @@ Let's Encrypt证书申请频率的限制
 * 正式版（正式发布的版本，新功能完善后发布）  
 [下载](https://github.com/proxysu/windows/releases)
 
-## Windows系统需要安装net4.7.2或以上
+## Windows系统需要安装net4.8或以上
 
-Microsoft [.NET Framework 4.7.2](https://dotnet.microsoft.com/download/dotnet-framework/thank-you/net472-offline-installer) or higher
+Microsoft [.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/thank-you/net472-offline-installer) or higher
 
 ## 使用的C# 库  
 [SSH.NET --------------- https://github.com/sshnet/SSH.NET](https://github.com/sshnet/SSH.NET)  
