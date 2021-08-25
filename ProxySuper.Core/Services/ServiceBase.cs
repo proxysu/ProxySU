@@ -289,7 +289,7 @@ namespace ProxySuper.Core.Services
             #endregion
 
             // 安装证书
-            Progress.Desc = ("安装Xray证书");
+            Progress.Desc = ("安装TLS证书");
             RunCmd($"mkdir -p {dirPath}");
             RunCmd($"/root/.acme.sh/acme.sh  --installcert  -d {Settings.Domain}  --certpath {certPath} --keypath {keyPath}  --capath {certPath}");
 
@@ -676,6 +676,8 @@ namespace ProxySuper.Core.Services
                     RunCmd("systemctl restart firewalld");
                 }
 
+                // 保持 ssh 端口开放
+                RunCmd($"firewall-cmd --add-port={_host.Port}/tcp --permanent");
                 foreach (var port in portList)
                 {
                     RunCmd($"firewall-cmd --add-port={port}/tcp --permanent");
@@ -693,6 +695,8 @@ namespace ProxySuper.Core.Services
                     RunCmd("echo y | ufw enable");
                 }
 
+                // 保持 ssh 端口开放
+                RunCmd($"ufw allow {_host.Port}/tcp");
                 foreach (var port in portList)
                 {
                     RunCmd($"ufw allow {port}/tcp");
