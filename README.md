@@ -94,7 +94,7 @@ Let's Encrypt证书申请频率的限制
 
 ## Windows系统需要安装net4.8或以上
 
-Microsoft [.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/thank-you/net472-offline-installer) or higher
+Microsoft [.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/thank-you/net48-offline-installer) or higher
 
 ## 使用的C# 库  
 [SSH.NET --------------- https://github.com/sshnet/SSH.NET](https://github.com/sshnet/SSH.NET)  
