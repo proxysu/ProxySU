@@ -78,6 +78,7 @@ namespace ProxySuper.Core.Services
                     EnableBBR();
 
                     Progress.Desc = "重启V2ray服务";
+
                     RunCmd("systemctl restart caddy");
                     RunCmd("systemctl restart v2ray");
 
@@ -389,6 +390,7 @@ namespace ProxySuper.Core.Services
             RunCmd($"sed -i 's/CapabilityBoundingSet=/#CapabilityBoundingSet=/g' /etc/systemd/system/v2ray.service");
             RunCmd($"sed -i 's/AmbientCapabilities=/#AmbientCapabilities=/g' /etc/systemd/system/v2ray.service");
             RunCmd($"systemctl daemon-reload");
+            RunCmd("systemctl enable v2ray");
 
             if (FileExists("/usr/local/etc/v2ray/config.json"))
             {
