@@ -76,8 +76,8 @@ namespace ProxySuper.Core.ViewModels
 
                 result = RunCmd(@"cat /dev/urandom | tr -dc '_A-Z#\-+=a-z(0-9%^>)]{<|' | head -c 20 ; echo ''");
                 string setPassword = result.TrimEnd('\r', '\n') + '\n';
-                RunCmd(cmdPre + $"echo -e \"{setPassword}{setPassword}\" | sudo passwd root");
-                RunCmd("sudo systemctl restart sshd ");
+                RunCmd(cmdPre + $"echo \"{setPassword}{setPassword}\" | sudo passwd root");
+                RunCmd("sudo systemctl restart sshd");
 
                 RootUserName = "root";
                 RootPassword = setPassword.Trim('\n');
@@ -145,7 +145,7 @@ namespace ProxySuper.Core.ViewModels
                 auth = new PrivateKeyAuthenticationMethod(host.UserName, new PrivateKeyFile(host.PrivateKeyPath));
             }
 
-            if (host.Proxy.Type == LocalProxyType.None)
+            if (host.Proxy.Type == ProxyTypes.None)
             {
                 return new ConnectionInfo(host.Address, host.Port, host.UserName, auth);
             }
@@ -155,7 +155,7 @@ namespace ProxySuper.Core.ViewModels
                     host: host.Address,
                     port: host.Port,
                     username: host.UserName,
-                    proxyType: (ProxyTypes)(int)host.Proxy.Type,
+                    proxyType: host.Proxy.Type,
                     proxyHost: host.Proxy.Address,
                     proxyPort: host.Proxy.Port,
                     proxyUsername: host.Proxy.UserName,

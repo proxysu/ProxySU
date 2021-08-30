@@ -56,13 +56,51 @@ namespace ProxySuper.Core.ViewModels
             File.WriteAllText("Data/Record.json", json);
         }
 
+        public void SortDone(string id)
+        {
+            var item = Records.Where(x => x.Id == id).FirstOrDefault();
+            if (item == null) return;
+
+            var index = Records.IndexOf(item);
+            if (index >= Records.Count - 1) return;
+
+            Records.Remove(item);
+            Records.Insert(index + 1, item);
+
+            RaisePropertyChanged("Records");
+            SaveToJson();
+        }
+
+        public void SortUp(string id)
+        {
+            var item = Records.Where(x => x.Id == id).FirstOrDefault();
+            if (item == null) return;
+
+            var index = Records.IndexOf(item);
+            if (index <= 0) return;
+
+            Records.Remove(item);
+            Records.Insert(index - 1, item);
+
+            RaisePropertyChanged("Records");
+            SaveToJson();
+        }
+
         public MvxObservableCollection<Record> Records { get; set; }
+
+        public IMvxCommand SortUpCommand => new MvxCommand<string>(SortUp);
+
+        public IMvxCommand SortDoneCommand => new MvxCommand<string>(SortDone);
+
+        public IMvxCommand AddV2rayCommand => new MvxAsyncCommand(AddV2rayRecord);
 
         public IMvxCommand AddXrayCommand => new MvxAsyncCommand(AddXrayRecord);
 
         public IMvxCommand AddTrojanGoCommand => new MvxAsyncCommand(AddTrojanGoRecord);
 
         public IMvxCommand AddNaiveProxyCommand => new MvxAsyncCommand(AddNaiveProxyRecord);
+
+        public IMvxCommand AddMTProtoGoCommand => new MvxAsyncCommand(AddMTProtoGoRecord);
 
         public IMvxCommand AddBrookCommand => new MvxAsyncCommand(AddBrookRecord);
 
@@ -73,6 +111,20 @@ namespace ProxySuper.Core.ViewModels
         public IMvxCommand ViewConfigCommand => new MvxAsyncCommand<string>(ViewConfig);
 
         public IMvxCommand InstallCommand => new MvxAsyncCommand<string>(GoToInstall);
+
+        public async Task AddV2rayRecord()
+        {
+            Record record = new Record();
+            record.Id = Utils.GetTickID();
+            record.Host = new Host();
+            record.V2raySettings = new V2raySettings();
+
+            var result = await _navigationService.Navigate<V2rayEditorViewModel, Record, Record>(record);
+            if (result == null) return;
+
+            Records.Add(result);
+            SaveToJson();
+        }
 
         public async Task AddXrayRecord()
         {
@@ -96,6 +148,21 @@ namespace ProxySuper.Core.ViewModels
             record.TrojanGoSettings = new TrojanGoSettings();
 
             var result = await _navigationService.Navigate<TrojanGoEditorViewModel, Record, Record>(record);
+            if (result == null) return;
+
+            Records.Add(result);
+
+            SaveToJson();
+        }
+
+        public async Task AddMTProtoGoRecord()
+        {
+            Record record = new Record();
+            record.Id = Utils.GetTickID();
+            record.Host = new Host();
+            record.MTProtoGoSettings = new MTProtoGoSettings();
+
+            var result = await _navigationService.Navigate<MTProtoGoEditorViewModel, Record, Record>(record);
             if (result == null) return;
 
             Records.Add(result);
@@ -140,6 +207,14 @@ namespace ProxySuper.Core.ViewModels
             if (record == null) return;
 
             Record result = null;
+            if (record.Type == ProjectType.V2ray)
+            {
+                result = await _navigationService.Navigate<V2rayEditorViewModel, Record, Record>(record);
+                if (result == null) return;
+
+                record.Host = result.Host;
+                record.V2raySettings = result.V2raySettings;
+            }
             if (record.Type == ProjectType.Xray)
             {
                 result = await _navigationService.Navigate<XrayEditorViewModel, Record, Record>(record);
@@ -172,6 +247,14 @@ namespace ProxySuper.Core.ViewModels
                 record.Host = result.Host;
                 record.BrookSettings = result.BrookSettings;
             }
+            if (record.Type == ProjectType.MTProtoGo)
+            {
+                result = await _navigationService.Navigate<MTProtoGoEditorViewModel, Record, Record>(record);
+                if (result == null) return;
+
+                record.Host = result.Host;
+                record.MTProtoGoSettings = result.MTProtoGoSettings;
+            }
 
             SaveToJson();
         }
@@ -196,6 +279,10 @@ namespace ProxySuper.Core.ViewModels
             var record = Records.FirstOrDefault(x => x.Id == id);
             if (record == null) return;
 
+            if (record.Type == ProjectType.V2ray)
+            {
+                await _navigationService.Navigate<V2rayConfigViewModel, V2raySettings>(record.V2raySettings);
+            }
             if (record.Type == ProjectType.Xray)
             {
                 await _navigationService.Navigate<XrayConfigViewModel, XraySettings>(record.XraySettings);
@@ -212,29 +299,45 @@ namespace ProxySuper.Core.ViewModels
             {
                 await _navigationService.Navigate<BrookConfigViewModel, BrookSettings>(record.BrookSettings);
             }
+            if (record.Type == ProjectType.MTProtoGo)
+            {
+                await _navigationService.Navigate<MTProtoGoConfigViewModel, MTProtoGoSettings>(record.MTProtoGoSettings);
+            }
         }
 
         public async Task GoToInstall(string id)
         {
             var record = Records.FirstOrDefault(x => x.Id == id);
             if (record == null) return;
+            record.OnSave = SaveToJson;
 
+            if (record.Type == ProjectType.V2ray)
+            {
+                await _navigationService.Navigate<V2rayInstallViewModel, Record>(record);
+            }
             if (record.Type == ProjectType.Xray)
             {
-                await _navigationService.Navigate<XrayInstallerViewModel, Record>(record);
+                await _navigationService.Navigate<XrayInstallViewModel, Record>(record);
             }
             if (record.Type == ProjectType.TrojanGo)
             {
-                await _navigationService.Navigate<TrojanGoInstallerViewModel, Record>(record);
+                await _navigationService.Navigate<TrojanGoInstallViewModel, Record>(record);
             }
             if (record.Type == ProjectType.NaiveProxy)
             {
-                await _navigationService.Navigate<NaiveProxyInstallerViewModel, Record>(record);
+                await _navigationService.Navigate<NaiveProxyInstallViewModel, Record>(record);
             }
             if (record.Type == ProjectType.Brook)
             {
-                await _navigationService.Navigate<BrookInstallerViewModel, Record>(record);
+                await _navigationService.Navigate<BrookInstallViewModel, Record>(record);
             }
+            if (record.Type == ProjectType.MTProtoGo)
+            {
+                await _navigationService.Navigate<MTProtoGoInstallViewModel, Record>(record);
+            }
+
+            SaveToJson();
         }
+
     }
 }

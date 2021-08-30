@@ -8,8 +8,8 @@
     ""
   ],
   "ssl": {
-    "cert": "/usr/local/etc/trojan-go/trojan-go.crt",
-    "key": "/usr/local/etc/trojan-go/trojan-go.key",
+    "cert": "/usr/local/etc/trojan-go/ssl/trojan-go.crt",
+    "key": "/usr/local/etc/trojan-go/ssl/trojan-go.key",
     "sni": "example.com"
   },
   "websocket": {

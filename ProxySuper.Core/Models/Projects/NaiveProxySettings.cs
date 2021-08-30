@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ProxySuper.Core.Models.Projects
 {
@@ -10,7 +11,13 @@ namespace ProxySuper.Core.Models.Projects
             Port = 443;
         }
 
-        public List<int> FreePorts => new List<int>();
+        public List<int> FreePorts
+        {
+            get
+            {
+                return new List<int> { 80, 443, Port }.Distinct().ToList();
+            }
+        }
 
         public ProjectType Type { get; set; } = ProjectType.NaiveProxy;
 

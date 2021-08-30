@@ -1,0 +1,51 @@
+﻿<views:MvxWindow x:Class="ProxySuper.WPF.Views.NaiveProxy.NaiveProtoInstallView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProxySuper.WPF.Views.NaiveProxy"
+        xmlns:ctrl="clr-namespace:ProxySuper.WPF.Controls"
+        xmlns:views="clr-namespace:MvvmCross.Platforms.Wpf.Views;assembly=MvvmCross.Platforms.Wpf"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="TrojanGoInstallView" Height="600" Width="1000">
+    <StackPanel>
+        <ctrl:ProgressControl />
+
+        <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
+            <Label Content="{DynamicResource Install}" FontWeight="Bold" FontSize="14" />
+
+            <Button Content="{DynamicResource XrayInstallerInstall}" 
+                    Command="{Binding Path=InstallCommand}" 
+                    Padding="10,3" 
+                    Margin="10,0,0,0" />
+
+            <Button Content="{DynamicResource XrayInstallerUpdateSettings}"
+                    Command="{Binding Path=UpdateSettingsCommand}"
+                    Padding="10,3" 
+                    Margin="10,0,0,0" />
+
+            <Button Content="{DynamicResource XrayInstallerUninstall}" 
+                    Command="{Binding Path=UninstallCommand}"
+                    Padding="10,3" 
+                    Margin="10,0,0,0" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="20,15,0,0">
+            <Label Content="{DynamicResource Settings}" FontWeight="Bold" FontSize="14" />
+
+            <Button Content="{DynamicResource XrayInstallerUploadWeb}" 
+                    Command="{Binding Path=UploadWebCommand}"
+                    Padding="10,3" 
+                    Margin="10,0,0,0" />
+        </StackPanel>
+
+        <StackPanel Margin="20,10,0,0" Orientation="Horizontal">
+            <Label Content="说明" FontWeight="Bold" FontSize="14" VerticalAlignment="Top" />
+            <StackPanel Margin="10,0,0,0">
+                <Label Content="1.【更新配置】 修改NaiveProxy参数后，只需使用此功能即可，不需要重新安装。" FontSize="14" />
+                <Label Content="2.【上传伪装网站】 将根目录包含 (index.html) 的文件夹，打包为.zip文件。" FontSize="14" />
+            </StackPanel>
+        </StackPanel>
+    </StackPanel>
+</views:MvxWindow>

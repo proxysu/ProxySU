@@ -10,6 +10,13 @@
         WindowStartupLocation="CenterScreen"
         Title="ShareLinkView" Height="450" Width="800">
     <Grid>
-        <TextBox IsReadOnly="True" Margin="10" Text="{Binding ShareLinks,Mode=OneTime}" TextWrapping="WrapWithOverflow" Height="400" />
+        <TextBox IsReadOnly="True" 
+                 Margin="20" 
+                 Text="{Binding ShareLinks,Mode=OneTime}" 
+                 TextWrapping="NoWrap" 
+                 FontFamily="微软雅黑"
+                 Height="360"
+                 FontSize="14"
+                 VerticalContentAlignment="Top" />
     </Grid>
 </views:MvxWindow>

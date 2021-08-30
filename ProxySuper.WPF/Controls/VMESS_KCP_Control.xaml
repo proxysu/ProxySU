@@ -37,7 +37,7 @@
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-            <Label Content="伪装域名(host)" Width="140" />
+            <Label Content="域名(host)" Width="140" />
             <TextBox Text="{Binding Settings.Domain}" IsReadOnly="True" Width="300" />
         </StackPanel>
 

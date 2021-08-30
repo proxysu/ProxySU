@@ -1,0 +1,29 @@
+{
+  "port": 443,
+  "protocol": "vless",
+  "settings": {
+    "clients": [
+      {
+        "id": "",
+        "level": 0
+      }
+    ],
+    "decryption": "none",
+    "fallbacks": []
+  },
+  "streamSettings": {
+    "network": "tcp",
+    "security": "tls",
+    "tlsSettings": {
+      "alpn": [
+        "http/1.1"
+      ],
+      "certificates": [
+        {
+          "certificateFile": "/usr/local/etc/v2ray/ssl/v2ray_ssl.crt",
+          "keyFile": "/usr/local/etc/v2ray/ssl/v2ray_ssl.key"
+        }
+      ]
+    }
+  }
+}

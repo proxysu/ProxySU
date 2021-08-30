@@ -19,6 +19,8 @@ namespace ProxySuper.Core.ViewModels
 
         public IMvxCommand SaveCommand => new MvxCommand(Save);
 
+        public IMvxCommand SaveAndInstallCommand => new MvxCommand(SaveAndInstall);
+
         public string Id { get; set; }
 
         public Host Host { get; set; }
@@ -42,6 +44,18 @@ namespace ProxySuper.Core.ViewModels
                 Host = this.Host,
                 TrojanGoSettings = Settings,
             });
+        }
+
+        private void SaveAndInstall()
+        {
+            var record = new Record
+            {
+                Id = this.Id,
+                Host = this.Host,
+                TrojanGoSettings = Settings,
+            };
+            NavigationService.Close(this, record);
+            NavigationService.Navigate<TrojanGoInstallViewModel, Record>(record);
         }
     }
 

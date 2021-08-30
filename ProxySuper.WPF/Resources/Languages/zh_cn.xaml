@@ -5,11 +5,12 @@
     <!--common-->
     <sys:String x:Key="Random">随机</sys:String>
     <sys:String x:Key="Save">保存</sys:String>
+    <sys:String x:Key="SaveAndInstall">保存并安装</sys:String>
     <sys:String x:Key="SaveAs">另存为</sys:String>
     <sys:String x:Key="Install">安装</sys:String>
     <sys:String x:Key="Settings">配置</sys:String>
     <sys:String x:Key="ReadmeWebsiteDemo">如下是网友提供的静态网页连接，请自行检查是否有index.html文件</sys:String>
-    
+
     <!--Main Menu-->
     <sys:String x:Key="MainMenuAddHost">添加主机</sys:String>
     <sys:String x:Key="MainMenuActions">操作</sys:String>
@@ -37,6 +38,8 @@
     <sys:String x:Key="MainDataGridColumnActionEdit">编辑</sys:String>
     <sys:String x:Key="MainDataGridColumnActionViewConfig">查看配置</sys:String>
     <sys:String x:Key="MainDataGridColumnActionDelete">删除</sys:String>
+    <sys:String x:Key="MainDataGridColumnActionSortUp">上移</sys:String>
+    <sys:String x:Key="MainDataGridColumnActionSortDone">下移</sys:String>
 
 
 
@@ -66,15 +69,17 @@
     <sys:String x:Key="VlessXtlsDesc" xml:space="preserve">VLESS Over TCP With XTLS&#x0a;性能数倍，首选方式。</sys:String>
     <sys:String x:Key="VlessTcpDesc" xml:space="preserve">VLESS over TCP with TLS&#x0a;仍推荐XTLS。</sys:String>
     <sys:String x:Key="VlessWsDesc" xml:space="preserve">VLESS over WS with TLS&#x0a;推荐，支持CDN。</sys:String>
-    <sys:String x:Key="VlessKcpDesc" xml:space="preserve">VLESS mKCP&#x0a;游戏推荐，延迟低。</sys:String>
+    <sys:String x:Key="VlessKcpDesc" xml:space="preserve">VLESS mKCP&#x0a;游戏推荐，延迟低，免域名。</sys:String>
     <sys:String x:Key="VmessWsDesc" xml:space="preserve">VMESS over WS with TLS&#x0a;推荐，支持CDN。</sys:String>
-    <sys:String x:Key="VmessKcpDesc" xml:space="preserve">VMESS mKCP&#x0a;游戏推荐，延迟低。</sys:String>
-    <sys:String x:Key="SSDesc" xml:space="preserve">ShadowSocks&#x0a;SS，支持udp。</sys:String>
+    <sys:String x:Key="VmessKcpDesc" xml:space="preserve">VMESS mKCP&#x0a;游戏推荐，延迟低，免域名。</sys:String>
+    <sys:String x:Key="SSDesc" xml:space="preserve">ShadowSocks&#x0a;SS，支持udp，免域名。</sys:String>
     <sys:String x:Key="TrojanDesc" xml:space="preserve">Trojan over TCP with TLS&#x0a;Trojan。</sys:String>
 
 
-    <sys:String x:Key="XrayDomain">域名</sys:String>
-    <sys:String x:Key="XrayMarkDomain">伪装域名</sys:String>
+    <sys:String x:Key="XrayDomain">域名/IP</sys:String>
+    <sys:String x:Key="XrayMarkDomain">伪装网址</sys:String>
+    <sys:String x:Key="XrayWithTLS">自动申请证书</sys:String>
+    <sys:String x:Key="XrayWithTLSDesc">如上传自有证书，则取消对勾。</sys:String>
     <sys:String x:Key="XrayUUID">UUID</sys:String>
     <sys:String x:Key="MultiUser">多用户</sys:String>
     <sys:String x:Key="MultiUserHelp">多个UUID用“,”分隔</sys:String>
@@ -107,6 +112,8 @@
 
 
     <!--Trojan-GO-->
+    <sys:String x:Key="TrojanGoWithTLS">自动申请证书</sys:String>
+    <sys:String x:Key="TrojanGoWithTLSDesc">如上传自有证书，则取消对勾。</sys:String>
     <sys:String x:Key="TrojanGoDomain">域名</sys:String>
     <sys:String x:Key="TrojanGoPort">端口</sys:String>
     <sys:String x:Key="TrojanGoPassword">密码</sys:String>
@@ -120,4 +127,10 @@
     <sys:String x:Key="NaiveProxyUserName">用户名</sys:String>
     <sys:String x:Key="NaiveProxyPassword">密码</sys:String>
     <sys:String x:Key="NaiveProxyMaskDomain">伪装网站</sys:String>
+
+    <!--MTProto Go-->
+    <sys:String x:Key="MTProtoDomain">域名/IP</sys:String>
+    <sys:String x:Key="MTProtoPort">端口</sys:String>
+    <sys:String x:Key="MTProtoCleartext">加密前字符</sys:String>
+    <sys:String x:Key="MTProtoSecretText">密钥</sys:String> 
 </ResourceDictionary>

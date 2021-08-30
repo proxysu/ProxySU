@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:ProxySuper.WPF.Controls"
              xmlns:convert="clr-namespace:ProxySuper.Core.Converters;assembly=ProxySuper.Core"
              xmlns:host="clr-namespace:ProxySuper.Core.Models.Hosts;assembly=ProxySuper.Core"
+             xmlns:ssh="clr-namespace:Renci.SshNet;assembly=Renci.SshNet"
              mc:Ignorable="d">
 
 
@@ -129,21 +130,21 @@
                                  IsChecked="{
                                     Binding Host.Proxy.Type,
                                     Converter={StaticResource ProxyTypeConverter},
-                                    ConverterParameter={x:Static host:LocalProxyType.None}
+                                    ConverterParameter={x:Static ssh:ProxyTypes.None}
                                  }"/>
                     <RadioButton Content="{DynamicResource ProxyTypeHttp}"
                                  Margin="5,0"
                                  IsChecked="{
                                     Binding Host.Proxy.Type,
                                     Converter={StaticResource ProxyTypeConverter},
-                                    ConverterParameter={x:Static host:LocalProxyType.Http}
+                                    ConverterParameter={x:Static ssh:ProxyTypes.Http}
                                  }"/>
                     <RadioButton Content="{DynamicResource ProxyTypeSocks5}"
                                  Margin="5,0"
                                  IsChecked="{
                                     Binding Host.Proxy.Type,
                                     Converter={StaticResource ProxyTypeConverter},
-                                    ConverterParameter={x:Static host:LocalProxyType.Socks5}
+                                    ConverterParameter={x:Static ssh:ProxyTypes.Socks5}
                                  }"/>
                 </StackPanel>
 
