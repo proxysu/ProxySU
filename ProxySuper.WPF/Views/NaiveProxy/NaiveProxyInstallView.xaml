@@ -1,4 +1,4 @@
-﻿<views:MvxWindow x:Class="ProxySuper.WPF.Views.NaiveProxy.NaiveProtoInstallView"
+﻿<views:MvxWindow x:Class="ProxySuper.WPF.Views.NaiveProxy.NaiveProxyInstallView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,7 +8,7 @@
         xmlns:views="clr-namespace:MvvmCross.Platforms.Wpf.Views;assembly=MvvmCross.Platforms.Wpf"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="TrojanGoInstallView" Height="600" Width="1000">
+        Title="TrojanGo安装" Height="600" Width="1000">
     <StackPanel>
         <ctrl:ProgressControl />
 

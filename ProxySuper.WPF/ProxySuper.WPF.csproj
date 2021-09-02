@@ -144,14 +144,14 @@
     <Compile Include="Views\MTProxyGo\MTProxyGoInstallView.xaml.cs">
       <DependentUpon>MTProxyGoInstallView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NaiveProto\NaiveProtoConfigView.xaml.cs">
-      <DependentUpon>NaiveProtoConfigView.xaml</DependentUpon>
+    <Compile Include="Views\NaiveProxy\NaiveProxyConfigView.xaml.cs">
+      <DependentUpon>NaiveProxyConfigView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NaiveProto\NaiveProtoEditorView.xaml.cs">
-      <DependentUpon>NaiveProtoEditorView.xaml</DependentUpon>
+    <Compile Include="Views\NaiveProxy\NaiveProxyEditorView.xaml.cs">
+      <DependentUpon>NaiveProxyEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NaiveProto\NaiveProtoInstallView.xaml.cs">
-      <DependentUpon>NaiveProtoInstallView.xaml</DependentUpon>
+    <Compile Include="Views\NaiveProxy\NaiveProxyInstallView.xaml.cs">
+      <DependentUpon>NaiveProxyInstallView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ShareLinkView.xaml.cs">
       <DependentUpon>ShareLinkView.xaml</DependentUpon>
@@ -299,15 +299,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\NaiveProto\NaiveProtoConfigView.xaml">
+    <Page Include="Views\NaiveProxy\NaiveProxyConfigView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\NaiveProto\NaiveProtoEditorView.xaml">
+    <Page Include="Views\NaiveProxy\NaiveProxyEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\NaiveProto\NaiveProtoInstallView.xaml">
+    <Page Include="Views\NaiveProxy\NaiveProxyInstallView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

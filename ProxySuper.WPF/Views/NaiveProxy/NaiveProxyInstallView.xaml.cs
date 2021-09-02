@@ -18,9 +18,9 @@ namespace ProxySuper.WPF.Views.NaiveProxy
     /// <summary>
     /// NaiveProxyInstallViewModel.xaml 的交互逻辑
     /// </summary>
-    public partial class NaiveProtoInstallView : MvxWindow
+    public partial class NaiveProxyInstallView : MvxWindow
     {
-        public NaiveProtoInstallView()
+        public NaiveProxyInstallView()
         {
             InitializeComponent();
         }
