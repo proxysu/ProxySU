@@ -799,6 +799,7 @@ namespace ProxySuper.Core.Services
                     return new ConnectionInfo(
                         host: _host.Address,
                         username: _host.UserName,
+                        port: _host.Port,
                         authenticationMethods: authMethods.ToArray());
                 }
 
