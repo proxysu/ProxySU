@@ -114,8 +114,7 @@ Microsoft [.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-fram
 
 
 ## 云主机
-CN2 GIA $3.08/月
-AS9929 $2.50/月
-https://cloudpowerall.com/aff.php?aff=3225
+超便宜的CN2 GIA和AS9929，不到 $3/月，已正常使用半年。
+地址：https://cloudpowerall.com/aff.php?aff=3225
 
 
