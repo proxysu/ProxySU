@@ -124,7 +124,7 @@ AS9929($29.99/年)
 地址：https://cloudpowerall.com/aff.php?aff=3225  
   
 * 搬瓦工  
-洛杉矶 CN2 ￥49.99/年 | 1核1G 1000GB/月
+洛杉矶 CN2 ￥49.99/年 | 1核1G 1000GB/月  
 https://bandwagonhost.com/aff.php?aff=66053&pid=57
 
 
