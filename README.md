@@ -120,7 +120,7 @@ Microsoft [.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-fram
 * CloudPowerall
 超便宜的CN2 GIA($36.99/年)  
 AS9929($29.99/年)  
-已正常使用半年  
+作者已正常使用半年  
 地址：https://cloudpowerall.com/aff.php?aff=3225  
   
 * 搬瓦工  
