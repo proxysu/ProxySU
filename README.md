@@ -128,7 +128,7 @@ AS9929($29.99/年)
 https://bandwagonhost.com/aff.php?aff=66053&pid=57
 
 * HostDare 
-$49.99/年 | 1核765M 600GB/月  | 带宽：50mbps | 线路：CN2 GIA,CU,CM
+$49.99/年 | 1核765M 600GB/月  | 带宽：50mbps | 线路：CN2 GIA,CU,CM  
 https://manage.hostdare.com/aff.php?aff=3036&pid=74
 
 
