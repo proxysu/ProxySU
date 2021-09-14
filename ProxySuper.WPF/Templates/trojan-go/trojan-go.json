@@ -1,4 +1,5 @@
 {
+  "log_level": 5,
   "run_type": "server",
   "local_addr": "0.0.0.0",
   "local_port": 443,
