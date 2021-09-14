@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using MvvmCross.Commands;
+using Newtonsoft.Json;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;

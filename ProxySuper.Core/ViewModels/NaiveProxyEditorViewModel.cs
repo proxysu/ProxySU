@@ -35,6 +35,8 @@ namespace ProxySuper.Core.ViewModels
 
         public IMvxCommand SaveCommand => new MvxCommand(Save);
 
+        public IMvxCommand SaveAndInstallCommand => new MvxCommand(SaveAndInstall);
+
         private void Save()
         {
             NavigationService.Close(this, new Record
@@ -43,6 +45,19 @@ namespace ProxySuper.Core.ViewModels
                 Host = Host,
                 NaiveProxySettings = Settings
             });
+        }
+
+
+        private void SaveAndInstall()
+        {
+            var record = new Record
+            {
+                Id = this.Id,
+                Host = this.Host,
+                NaiveProxySettings = Settings,
+            };
+            NavigationService.Close(this, record);
+            NavigationService.Navigate<NaiveProxyInstallViewModel, Record>(record);
         }
     }
 }

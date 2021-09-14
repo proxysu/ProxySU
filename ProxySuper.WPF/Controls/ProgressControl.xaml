@@ -19,7 +19,7 @@
                  VerticalScrollBarVisibility="Auto"
                  Text="{Binding Path=Logs,Mode=OneWay}"
                  VerticalContentAlignment="Top"
-                 Padding="10"
+                 Padding="10,0"
                  FontSize="13"
                  IsReadOnly="True"
                  FontFamily="微软雅黑"

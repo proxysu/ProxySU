@@ -1,10 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    
+
     <!--common-->
     <sys:String x:Key="Random">Random</sys:String>
     <sys:String x:Key="Save">Save</sys:String>
+    <sys:String x:Key="SaveAndInstall">Save And Install</sys:String>
     <sys:String x:Key="SaveAs">SaveAs</sys:String>
     <sys:String x:Key="Install">Install</sys:String>
     <sys:String x:Key="Settings">Settings</sys:String>
@@ -37,6 +38,8 @@
     <sys:String x:Key="MainDataGridColumnActionEdit">Edit</sys:String>
     <sys:String x:Key="MainDataGridColumnActionViewConfig">ViewConfig</sys:String>
     <sys:String x:Key="MainDataGridColumnActionDelete">Delete</sys:String>
+    <sys:String x:Key="MainDataGridColumnActionSortUp">Up</sys:String>
+    <sys:String x:Key="MainDataGridColumnActionSortDone">Done</sys:String>
 
 
     <!--Editor Window-->
@@ -62,7 +65,7 @@
     <sys:String x:Key="ProxyTypeHttp">Http</sys:String>
     <sys:String x:Key="ProxyTypeSocks5">Socks5</sys:String>
 
-    
+
     <!--Xray-->
     <sys:String x:Key="VlessXtlsDesc" xml:space="preserve">VLESS over TCP With XTLS&#x0a;Preferred</sys:String>
     <sys:String x:Key="VlessTcpDesc" xml:space="preserve">VLESS over TCP with TLS&#x0a;XTLS is Preferred</sys:String>
@@ -74,7 +77,9 @@
     <sys:String x:Key="TrojanDesc" xml:space="preserve">Trojan over TCP with TLS&#x0a;Trojan</sys:String>
 
     <sys:String x:Key="XrayDomain">Domain/IP</sys:String>
-    <sys:String x:Key="XrayMarkDomain">GuiseHost</sys:String>
+    <sys:String x:Key="XrayMarkDomain">Redir Url</sys:String>
+    <sys:String x:Key="XrayWithTLS">With TLS</sys:String>
+    <sys:String x:Key="XrayWithTLSDesc">Unchecked means upload your own TLS.</sys:String>
     <sys:String x:Key="XrayUUID">UUID</sys:String>
     <sys:String x:Key="MultiUser">Multi User</sys:String>
     <sys:String x:Key="MultiUserHelp">Multi Id split with ","</sys:String>
@@ -95,7 +100,7 @@
     <sys:String x:Key="TrojanPort">Trojan Port</sys:String>
     <sys:String x:Key="XrayPort">xray Port</sys:String>
     <sys:String x:Key="XrayPortDefault">default port is 443</sys:String>
-    
+
     <!--xray installer-->
     <sys:String x:Key="XrayInstallerInstall">Install</sys:String>
     <sys:String x:Key="XrayInstallerUpdateSettings">UpdateSettings</sys:String>
@@ -104,19 +109,27 @@
     <sys:String x:Key="XrayInstallerInstallCert">InstallCert</sys:String>
     <sys:String x:Key="XrayInstallerUploadWeb">UploadWeb</sys:String>
     <sys:String x:Key="XrayInstallerUploadCert">UploadCert</sys:String>
-    
+
     <!--Trojan-GO-->
+    <sys:String x:Key="TrojanGoWithTLS">With TLS</sys:String>
+    <sys:String x:Key="TrojanGoWithTLSDesc">Unchecked means upload your own TLS.</sys:String>
     <sys:String x:Key="TrojanGoDomain">Address</sys:String>
     <sys:String x:Key="TrojanGoPort">Port</sys:String>
     <sys:String x:Key="TrojanGoPassword">Password</sys:String>
     <sys:String x:Key="TrojanGoMaskDomain">GuiseHost</sys:String>
     <sys:String x:Key="TrojanGoWebSocketPath">WS Path</sys:String>
     <sys:String x:Key="TrojanGoWebSocketDomain">WS Domain</sys:String>
-    
+
     <!--Naive Proxy-->
     <sys:String x:Key="NaiveProxyDomain">Address</sys:String>
     <sys:String x:Key="NaiveProxyPort">Port</sys:String>
     <sys:String x:Key="NaiveProxyUserName">UserName</sys:String>
     <sys:String x:Key="NaiveProxyPassword">Password</sys:String>
     <sys:String x:Key="NaiveProxyMaskDomain">GuiseHost</sys:String>
+
+    <!--MTProto Go-->
+    <sys:String x:Key="MTProtoDomain">Address</sys:String>
+    <sys:String x:Key="MTProtoPort">Port</sys:String>
+    <sys:String x:Key="MTProtoCleartext">Cleantext</sys:String>
+    <sys:String x:Key="MTProtoSecretText">Secret</sys:String>
 </ResourceDictionary>

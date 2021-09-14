@@ -6,6 +6,7 @@ using ProxySuper.Core.Models.Projects;
 using ProxySuper.Core.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,11 +21,10 @@ namespace ProxySuper.Core.ViewModels
 
         XrayService _xrayService;
 
-        MvxInteraction _refreshLogInteraction = new MvxInteraction();
-
         public override void ViewDestroy(bool viewFinishing = true)
         {
             _xrayService.Disconnect();
+            this.SaveInstallLog();
             base.ViewDestroy(viewFinishing);
         }
 
@@ -38,11 +38,7 @@ namespace ProxySuper.Core.ViewModels
         {
             _xrayService = new XrayService(_host, _settings);
             _xrayService.Progress.StepUpdate = () => RaisePropertyChanged("Progress");
-            _xrayService.Progress.LogsUpdate = () =>
-            {
-                RaisePropertyChanged("Logs");
-                _refreshLogInteraction.Raise();
-            };
+            _xrayService.Progress.LogsUpdate = () => RaisePropertyChanged("Logs");
             _xrayService.Connect();
 
             return base.Initialize();
@@ -58,11 +54,35 @@ namespace ProxySuper.Core.ViewModels
             get => _xrayService.Progress.Logs;
         }
 
-        public IMvxInteraction LogsInteraction
-        {
-            get => _refreshLogInteraction;
-        }
+
+
+        #region Command
 
         public IMvxCommand InstallCommand => new MvxCommand(_xrayService.Install);
+
+        public IMvxCommand UpdateSettingsCommand => new MvxCommand(_xrayService.UpdateSettings);
+
+        public IMvxCommand UpdateXrayCoreCommand => new MvxCommand(_xrayService.UpdateXrayCore);
+
+        public IMvxCommand UninstallCommand => new MvxCommand(_xrayService.Uninstall);
+
+        public IMvxCommand UploadCertCommand => new MvxCommand(_xrayService.UploadCert);
+
+        public IMvxCommand UploadWebCommand => new MvxCommand(_xrayService.UploadWeb);
+
+        public IMvxCommand ApplyForCertCommand => new MvxCommand(_xrayService.ApplyForCert);
+
+        #endregion
+
+        private void SaveInstallLog()
+        {
+            if (!Directory.Exists("Logs"))
+            {
+                Directory.CreateDirectory("Logs");
+            }
+
+            var fileName = Path.Combine("Logs", DateTime.Now.ToString("yyyy-MM-dd hh-mm") + ".xary.txt");
+            File.WriteAllText(fileName, Logs);
+        }
     }
 }

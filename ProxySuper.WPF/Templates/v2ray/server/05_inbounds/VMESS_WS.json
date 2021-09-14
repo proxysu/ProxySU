@@ -1,0 +1,20 @@
+{
+  "port": 3456,
+  "listen": "127.0.0.1",
+  "protocol": "vmess",
+  "settings": {
+    "clients": [
+      {
+        "id": ""
+      }
+    ]
+  },
+  "streamSettings": {
+    "network": "ws",
+    "security": "none",
+    "wsSettings": {
+      "acceptProxyProtocol": true,
+      "path": "/vmessws"
+    }
+  }
+}

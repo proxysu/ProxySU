@@ -106,6 +106,15 @@
                 <TextBox Text="{Binding Path=MaskDomain}" Width="200"  />
             </StackPanel>
 
+            <StackPanel Margin="30,15,0,0"
+                        Orientation="Horizontal">
+                <Label Content="{DynamicResource XrayWithTLS}" Width="120" />
+                <CheckBox IsChecked="{Binding Path=WithTLS}" 
+                          Content="{DynamicResource XrayWithTLSDesc}"
+                          VerticalContentAlignment="Center"
+                          VerticalAlignment="Center" />
+            </StackPanel>
+
             <!--UUID-->
             <StackPanel Margin="30,10,0,0"
                         Orientation="Horizontal">

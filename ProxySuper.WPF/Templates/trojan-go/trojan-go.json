@@ -1,4 +1,5 @@
 {
+  "log_level": 5,
   "run_type": "server",
   "local_addr": "0.0.0.0",
   "local_port": 443,
@@ -8,8 +9,8 @@
     ""
   ],
   "ssl": {
-    "cert": "/usr/local/etc/trojan-go/trojan-go.crt",
-    "key": "/usr/local/etc/trojan-go/trojan-go.key",
+    "cert": "/usr/local/etc/trojan-go/ssl/trojan-go.crt",
+    "key": "/usr/local/etc/trojan-go/ssl/trojan-go.key",
     "sni": "example.com"
   },
   "websocket": {

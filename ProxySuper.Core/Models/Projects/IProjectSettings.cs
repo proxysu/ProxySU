@@ -22,7 +22,7 @@ namespace ProxySuper.Core.Models.Projects
         /// <summary>
         /// 类型
         /// </summary>
-        ProjectType Type { get; set; }
+        //ProjectType Type { get; set; }
 
         /// <summary>
         /// 邮箱

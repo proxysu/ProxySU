@@ -1,4 +1,6 @@
-﻿using ProxySuper.Core.Helpers;
+﻿using MvvmCross;
+using MvvmCross.Navigation;
+using ProxySuper.Core.Helpers;
 using ProxySuper.Core.Models;
 using ProxySuper.Core.Models.Hosts;
 using ProxySuper.Core.Models.Projects;
@@ -9,13 +11,28 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Navigation;
 
 namespace ProxySuper.Core.Services
 {
+    public enum ArchType
+    {
+        x86,
+        arm
+    }
+
+    public enum CmdType
+    {
+        None,
+        Yum,
+        Apt,
+        Dnf
+    }
+
     public abstract class ServiceBase<TSettings> where TSettings : IProjectSettings
     {
         private Host _host;
-
 
         private SshClient _sshClient;
 
@@ -27,7 +44,11 @@ namespace ProxySuper.Core.Services
 
             Settings = settings;
 
-            _sshClient = new SshClient(CreateConnectionInfo());
+            var connection = CreateConnectionInfo();
+            if (connection != null)
+            {
+                _sshClient = new SshClient(connection);
+            }
 
             _progress = new ProjectProgress();
 
@@ -40,6 +61,8 @@ namespace ProxySuper.Core.Services
             IPv6 = string.Empty;
 
             IsOnlyIPv6 = false;
+
+            NavigationService = Mvx.IoCProvider.Resolve<IMvxNavigationService>();
         }
 
         public string RunCmd(string command)
@@ -75,12 +98,20 @@ namespace ProxySuper.Core.Services
 
         public bool IsOnlyIPv6 { get; set; }
 
+        public IMvxNavigationService NavigationService { get; set; }
+
 
         #region 公用方法
         public void Connect()
         {
             Task.Run(() =>
             {
+                if (_sshClient == null)
+                {
+                    MessageBox.Show("无法建立连接，连接参数有误！");
+                    return;
+                }
+
                 if (_sshClient.IsConnected == false)
                 {
                     Progress.Desc = ("正在与服务器建立连接");
@@ -101,7 +132,7 @@ namespace ProxySuper.Core.Services
         {
             Task.Run(() =>
             {
-                _sshClient.Disconnect();
+                _sshClient?.Disconnect();
             });
         }
 
@@ -258,7 +289,7 @@ namespace ProxySuper.Core.Services
             #endregion
 
             // 安装证书
-            Progress.Desc = ("安装Xray证书");
+            Progress.Desc = ("安装TLS证书");
             RunCmd($"mkdir -p {dirPath}");
             RunCmd($"/root/.acme.sh/acme.sh  --installcert  -d {Settings.Domain}  --certpath {certPath} --keypath {keyPath}  --capath {certPath}");
 
@@ -277,15 +308,40 @@ namespace ProxySuper.Core.Services
             RunCmd($"chmod 755 {dirPath}");
         }
 
+        protected void UploadFile(Stream stream, string path)
+        {
+            using (var sftp = new SftpClient(_sshClient.ConnectionInfo))
+            {
+                sftp.Connect();
+                sftp.UploadFile(stream, path, true);
+                sftp.Disconnect();
+            }
+        }
 
-        public bool IsRootUser()
+        public void EnsureRootUser()
         {
             // 禁止一些可能产生的干扰信息
             RunCmd(@"sed -i 's/echo/#echo/g' ~/.bashrc");
             RunCmd(@"sed -i 's/echo/#echo/g' ~/.profile");
 
             var result = RunCmd("id -u");
-            return result.Equals("0\n");
+            if (!result.Equals("0\n"))
+            {
+                throw new Exception("ProxySU需要使用Root用户进行安装！");
+            }
+        }
+
+        public void UninstallCaddy()
+        {
+            Progress.Desc = "关闭Caddy服务";
+            RunCmd("systemctl stop caddy");
+            RunCmd("systemctl disable caddy");
+
+            Progress.Desc = "彻底删除Caddy文件";
+            RunCmd("rm -rf /etc/systemd/system/caddy.service");
+            RunCmd("rm -rf /usr/bin/caddy");
+            RunCmd("rm -rf /usr/share/caddy");
+            RunCmd("rm -rf /etc/caddy");
         }
 
         public void EnsureSystemEnv()
@@ -341,6 +397,11 @@ namespace ProxySuper.Core.Services
 
             Progress.Desc = ("开放需要的端口");
             OpenPort(Settings.FreePorts.ToArray());
+        }
+
+        public void ResetFirewalld()
+        {
+            ClosePort(Settings.FreePorts.ToArray());
         }
 
         public void EnsureNetwork()
@@ -516,6 +577,15 @@ namespace ProxySuper.Core.Services
             RunCmd("mv /etc/resolv.conf.proxysu /etc/resolv.conf");
         }
 
+        protected void AppendCommand(string command)
+        {
+            if (!command.EndsWith("\n"))
+            {
+                command += "\n";
+            }
+            Progress.Logs += command;
+        }
+
         private List<string> FilterFastestIP()
         {
             string[] gateNat64 = {
@@ -606,6 +676,8 @@ namespace ProxySuper.Core.Services
                     RunCmd("systemctl restart firewalld");
                 }
 
+                // 保持 ssh 端口开放
+                RunCmd($"firewall-cmd --add-port={_host.Port}/tcp --permanent");
                 foreach (var port in portList)
                 {
                     RunCmd($"firewall-cmd --add-port={port}/tcp --permanent");
@@ -623,6 +695,8 @@ namespace ProxySuper.Core.Services
                     RunCmd("echo y | ufw enable");
                 }
 
+                // 保持 ssh 端口开放
+                RunCmd($"ufw allow {_host.Port}/tcp");
                 foreach (var port in portList)
                 {
                     RunCmd($"ufw allow {port}/tcp");
@@ -694,46 +768,56 @@ namespace ProxySuper.Core.Services
             }
         }
 
-        private void AppendCommand(string command)
-        {
-            if (!command.EndsWith("\n"))
-            {
-                command += "\n";
-            }
-            Progress.Logs += command;
-        }
 
         private ConnectionInfo CreateConnectionInfo()
         {
-            var authMethods = new List<AuthenticationMethod>();
-
-            if (!string.IsNullOrEmpty(_host.Password))
+            try
             {
-                authMethods.Add(new PasswordAuthenticationMethod(_host.UserName, _host.Password));
-            }
+                var authMethods = new List<AuthenticationMethod>();
 
-            if (_host.SecretType == LoginSecretType.PrivateKey)
-            {
-                authMethods.Add(new PrivateKeyAuthenticationMethod(_host.UserName, new PrivateKeyFile(_host.PrivateKeyPath)));
-            }
+                if (_host.SecretType == LoginSecretType.Password)
+                {
+                    authMethods.Add(new PasswordAuthenticationMethod(_host.UserName, _host.Password));
+                }
 
-            if (_host.Proxy.Type == ProxyTypes.None)
-            {
+                if (_host.SecretType == LoginSecretType.PrivateKey)
+                {
+                    PrivateKeyFile keyFile;
+                    if (string.IsNullOrEmpty(_host.Password))
+                    {
+                        keyFile = new PrivateKeyFile(_host.PrivateKeyPath);
+                    }
+                    else
+                    {
+                        keyFile = new PrivateKeyFile(_host.PrivateKeyPath, _host.Password);
+                    }
+                    authMethods.Add(new PrivateKeyAuthenticationMethod(_host.UserName, keyFile));
+                }
+
+                if (_host.Proxy.Type == ProxyTypes.None)
+                {
+                    return new ConnectionInfo(
+                        host: _host.Address,
+                        username: _host.UserName,
+                        port: _host.Port,
+                        authenticationMethods: authMethods.ToArray());
+                }
+
                 return new ConnectionInfo(
                     host: _host.Address,
-                    username: _host.Password,
+                    port: _host.Port,
+                    username: _host.UserName,
+                    proxyType: _host.Proxy.Type,
+                    proxyHost: _host.Proxy.Address,
+                    proxyPort: _host.Proxy.Port,
+                    proxyUsername: _host.Proxy.UserName, proxyPassword: _host.Proxy.Password,
                     authenticationMethods: authMethods.ToArray());
             }
-
-            return new ConnectionInfo(
-                host: _host.Address,
-                port: _host.Port,
-                username: _host.UserName,
-                proxyType: _host.Proxy.Type,
-                proxyHost: _host.Proxy.Address,
-                proxyPort: _host.Proxy.Port,
-                proxyUsername: _host.Proxy.UserName, proxyPassword: _host.Proxy.Password,
-                authenticationMethods: authMethods.ToArray());
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return null;
+            }
         }
         #endregion
     }

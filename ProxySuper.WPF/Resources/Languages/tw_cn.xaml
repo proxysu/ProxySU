@@ -5,6 +5,7 @@
     <!--common-->
     <sys:String x:Key="Random">隨機</sys:String>
     <sys:String x:Key="Save">保存</sys:String>
+    <sys:String x:Key="SaveAndInstall">保存并安裝</sys:String>
     <sys:String x:Key="SaveAs">另存為</sys:String>
     <sys:String x:Key="Install">安裝</sys:String>
     <sys:String x:Key="Settings">配置</sys:String>
@@ -37,6 +38,8 @@
     <sys:String x:Key="MainDataGridColumnActionEdit">編輯</sys:String>
     <sys:String x:Key="MainDataGridColumnActionViewConfig">查看配置</sys:String>
     <sys:String x:Key="MainDataGridColumnActionDelete">刪除</sys:String>
+    <sys:String x:Key="MainDataGridColumnActionSortUp">上移</sys:String>
+    <sys:String x:Key="MainDataGridColumnActionSortDone">下移</sys:String>
 
 
     <!--Editor Window-->
@@ -73,7 +76,9 @@
 
 
     <sys:String x:Key="XrayDomain">域名/IP</sys:String>
-    <sys:String x:Key="XrayMarkDomain">偽裝域名</sys:String>
+    <sys:String x:Key="XrayMarkDomain">偽裝網址</sys:String>
+    <sys:String x:Key="XrayWithTLS">自動申請證書</sys:String>
+    <sys:String x:Key="XrayWithTLSDesc">如上傳自有證書，則取消對勾。</sys:String>
     <sys:String x:Key="XrayUUID">UUID</sys:String>
     <sys:String x:Key="MultiUser">多用戶</sys:String>
     <sys:String x:Key="MultiUserHelp">多個UUID用“,”分隔</sys:String>
@@ -106,6 +111,8 @@
 
 
     <!--Trojan-GO-->
+    <sys:String x:Key="TrojanGoWithTLS">自動申請證書</sys:String>
+    <sys:String x:Key="TrojanGoWithTLSDesc">如上傳自有證書，則取消對勾。</sys:String>
     <sys:String x:Key="TrojanGoDomain">域名</sys:String>
     <sys:String x:Key="TrojanGoPort">端口</sys:String>
     <sys:String x:Key="TrojanGoPassword">密碼</sys:String>
@@ -119,4 +126,10 @@
     <sys:String x:Key="NaiveProxyUserName">用戶名</sys:String>
     <sys:String x:Key="NaiveProxyPassword">密碼</sys:String>
     <sys:String x:Key="NaiveProxyMaskDomain">偽裝網站</sys:String>
+
+    <!--MTProto Go-->
+    <sys:String x:Key="MTProtoDomain">域名/IP</sys:String>
+    <sys:String x:Key="MTProtoPort">端口</sys:String>
+    <sys:String x:Key="MTProtoCleartext">加密前字符</sys:String>
+    <sys:String x:Key="MTProtoSecretText">密鑰</sys:String>
 </ResourceDictionary>

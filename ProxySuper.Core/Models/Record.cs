@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using ProxySuper.Core.Models.Hosts;
 using ProxySuper.Core.Models.Projects;
 using ProxySuper.Core.Services;
+using System;
 using System.Text;
 
 namespace ProxySuper.Core.Models
@@ -32,6 +33,9 @@ namespace ProxySuper.Core.Models
             }
         }
 
+        [JsonProperty("v2raySettings")]
+        public V2raySettings V2raySettings { get; set; }
+
         [JsonProperty("settings")]
         public XraySettings XraySettings { get; set; }
 
@@ -44,6 +48,9 @@ namespace ProxySuper.Core.Models
         [JsonProperty("brook")]
         public BrookSettings BrookSettings { get; set; }
 
+        [JsonProperty("mtProtoGoSettings")]
+        public MTProtoGoSettings MTProtoGoSettings { get; set; }
+
 
         [JsonIgnore]
         public ProjectType Type
@@ -52,9 +59,13 @@ namespace ProxySuper.Core.Models
             {
                 if (XraySettings != null) return ProjectType.Xray;
 
+                if (V2raySettings != null) return ProjectType.V2ray;
+
                 if (TrojanGoSettings != null) return ProjectType.TrojanGo;
 
                 if (NaiveProxySettings != null) return ProjectType.NaiveProxy;
+
+                if (MTProtoGoSettings != null) return ProjectType.MTProtoGo;
 
                 return ProjectType.Brook;
             }
@@ -74,8 +85,22 @@ namespace ProxySuper.Core.Models
             }
         }
 
+        [JsonIgnore]
+        public Action OnSave { get; set; } = () => { };
+
         public string GetShareLink()
         {
+            if (Type == ProjectType.V2ray)
+            {
+                StringBuilder strBuilder = new StringBuilder();
+                V2raySettings.Types.ForEach(type =>
+                {
+                    var link = ShareLink.Build(type, V2raySettings);
+                    strBuilder.AppendLine(link);
+                });
+                return strBuilder.ToString();
+            }
+
             if (Type == ProjectType.Xray)
             {
                 StringBuilder strBuilder = new StringBuilder();

@@ -1,0 +1,23 @@
+{
+  "inbounds": [
+    {
+      "protocol": "http",
+      "port": 1081
+    },
+    {
+      "port": 1080,
+      "protocol": "socks",
+      "sniffing": {
+        "enabled": true,
+        "destOverride": [
+          "http",
+          "tls"
+        ]
+      },
+      "settings": {
+        "udp": true,
+        "auth": "noauth"
+      }
+    }
+  ]
+}

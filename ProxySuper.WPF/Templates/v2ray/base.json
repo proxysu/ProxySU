@@ -1,0 +1,12 @@
+{
+    "log": {},
+    "api": {},
+    "dns": {},
+    "routing": {},
+    "policy": {},
+    "inbounds": [],
+    "outbounds": [],
+    "transport": {},
+    "stats": {},
+    "reverse": {}
+}
