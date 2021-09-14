@@ -110,3 +110,30 @@ Microsoft [.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-fram
 * 在线提问  https://github.com/proxysu/windows/issues  
 
 在使用遇到问题时，请先看一下[常见问题集锦](https://github.com/proxysu/windows/wiki/CommonError)，如果还不能解决，可以到以上平台询问，个人精力有限，尽力解答。
+
+
+
+## 云主机  
+
+下面连接购买，作者可获得推广佣金，谢谢支持！
+
+* CloudPowerall
+超便宜的CN2 GIA($36.99/年)  
+AS9929($29.99/年)  
+作者已正常使用半年  
+地址：https://cloudpowerall.com/aff.php?aff=3225  
+
+* 搬瓦工  
+洛杉矶 CN2 $49.99/年 | 1核1G 1000GB/月  
+https://bandwagonhost.com/aff.php?aff=66053&pid=57
+
+* HostDare  
+$49.99/年 | 1核765M 600GB/月  | 带宽：50mbps | 线路：CN2 GIA,CU,CM  
+https://manage.hostdare.com/aff.php?aff=3036&pid=74
+
+
+
+  
+
+
+
