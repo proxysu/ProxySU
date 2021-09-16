@@ -113,8 +113,10 @@ Microsoft [.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-fram
 
 
 ## 云主机  
-下面连接购买，作者可获得推广佣金，谢谢支持！
+下面连接购买，作者可获得推广佣金，谢谢支持！  
+以下是国内优化线路、比较实惠的vps。  
 CloudPower的cn2 gia比较便宜，作者已稳定用过半年。
+
 | 商家       | 线路          | 配置      | 流量   | 价格      | 连接                                                           |
 | ---------- | ------------- | --------- | ------ | --------- | -------------------------------------------------------------- |
 | cloudcone  | CN2 GIA       | 1 核 512M | 500GB  | $40/年    | [链接](https://app.cloudcone.com/compute/1024/create?ref=7021) |
