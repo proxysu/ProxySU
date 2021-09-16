@@ -126,10 +126,8 @@ AS9929($29.99/年)
 * Cloudcone  
 洛杉矶 CN2 GIA(CHINA OPTIMIZED) $40/年 | 1核512M | 500G流量  
 https://app.cloudcone.com/compute/1024/create?ref=7021  
-  
 洛杉矶 CN2 GIA(CHINA OPTIMIZED) $45/年 | 1核1G | 700G流量  
 https://app.cloudcone.com/compute/1025/create?ref=7021  
-  
 洛杉矶 CN2 GIA(CHINA OPTIMIZED) $49.55/年 | 1核2G | 1000G流量  
 https://app.cloudcone.com/compute/1026/create?ref=7021  
   
