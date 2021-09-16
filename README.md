@@ -131,14 +131,14 @@ https://app.cloudcone.com/compute/1025/create?ref=7021
 洛杉矶 CN2 GIA(CHINA OPTIMIZED) $49.55/年 | 1核2G | 1000G流量  
 https://app.cloudcone.com/compute/1026/create?ref=7021  
   
+* HostDare  
+线路：CN2 GIA,CU,CM   $49.99/年 | 1核765M 600GB/月  | 带宽：50mbps  
+https://manage.hostdare.com/aff.php?aff=3036&pid=74
   
 * 搬瓦工  
 洛杉矶 CN2 $49.99/年 | 1核1G 1000GB/月  
 https://bandwagonhost.com/aff.php?aff=66053&pid=57
 
-* HostDare  
-$49.99/年 | 1核765M 600GB/月  | 带宽：50mbps | 线路：CN2 GIA,CU,CM  
-https://manage.hostdare.com/aff.php?aff=3036&pid=74
 
 
 
