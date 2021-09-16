@@ -117,29 +117,14 @@ Microsoft [.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-fram
 
 下面连接购买，作者可获得推广佣金，谢谢支持！
 
-* CloudPowerall
-超便宜的CN2 GIA($36.99/年)  
-AS9929($29.99/年)  
-作者已正常使用半年  
-地址：https://cloudpowerall.com/aff.php?aff=3225  
-
-* Cloudcone  
-洛杉矶 CN2 GIA(CHINA OPTIMIZED) $40/年 | 1核512M | 500G流量  
-https://app.cloudcone.com/compute/1024/create?ref=7021  
-洛杉矶 CN2 GIA(CHINA OPTIMIZED) $45/年 | 1核1G | 700G流量  
-https://app.cloudcone.com/compute/1025/create?ref=7021  
-洛杉矶 CN2 GIA(CHINA OPTIMIZED) $49.55/年 | 1核2G | 1000G流量  
-https://app.cloudcone.com/compute/1026/create?ref=7021  
-  
-* HostDare  
-线路：CN2 GIA,CU,CM   $49.99/年 | 1核765M 600GB/月  | 带宽：50mbps  
-https://manage.hostdare.com/aff.php?aff=3036&pid=74
-  
-* 搬瓦工  
-洛杉矶 CN2 $49.99/年 | 1核1G 1000GB/月  
-https://bandwagonhost.com/aff.php?aff=66053&pid=57
-
-
+| 商家       | 线路          | 配置      | 流量   | 价格      | 连接                                                           |
+| ---------- | ------------- | --------- | ------ | --------- | -------------------------------------------------------------- |
+| CLoudPower | CN2 GIA       | 1 核 1G   | 500GB  | 36.99/年  | [链接](https://cloudpowerall.com/aff.php?aff=3225&pid=150)     |
+| CLoudPower | CN2 GIA       | 1 核 1G   | 1000GB | 5.99/月   | [链接](https:/                                                 |
+| CLoudPower | AS9929        | 1 核 1G   | 500GB  | 29.99/年  | [CloudPower](https://cloudpowerall.com/aff.php?aff=3225)       |
+| CLoudPower | AS9929        | 1 核 1G   | 1000GB | 4.99/月   | [CloudPower](https://cloudpowerall.com/aff.php?aff=3225)       |
+| ---------- | -------       | -------   | ------ | --------  | ------------                                                   |
+| Cloudcone  | CN2 GIA       | 1 核 512M | 500GB  | $40/年    | [链接](https://app.cloudcone.com/compute/1024/create?ref=7021) |
 
 
   
