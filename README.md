@@ -123,6 +123,17 @@ AS9929($29.99/年)
 作者已正常使用半年  
 地址：https://cloudpowerall.com/aff.php?aff=3225  
 
+* Cloudcone  
+洛杉矶 CN2 GIA(CHINA OPTIMIZED) $40/年 | 1核512M | 500G流量  
+https://app.cloudcone.com/compute/1024/create?ref=7021  
+  
+洛杉矶 CN2 GIA(CHINA OPTIMIZED) $45/年 | 1核1G | 700G流量  
+https://app.cloudcone.com/compute/1025/create?ref=7021  
+  
+洛杉矶 CN2 GIA(CHINA OPTIMIZED) $49.55/年 | 1核2G | 1000G流量  
+https://app.cloudcone.com/compute/1026/create?ref=7021  
+  
+  
 * 搬瓦工  
 洛杉矶 CN2 $49.99/年 | 1核1G 1000GB/月  
 https://bandwagonhost.com/aff.php?aff=66053&pid=57
