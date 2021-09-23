@@ -119,11 +119,9 @@ CloudPower的cn2 gia比较便宜，作者已稳定用过半年。
 
 | 商家       | 线路          | 配置      | 流量   | 价格      | 连接                                                           |
 | ---------- | ------------- | --------- | ------ | --------- | -------------------------------------------------------------- |
-| cloudcone  | CN2 GIA       | 1 核 512M | 500GB  | $40/年    | [链接](https://app.cloudcone.com/compute/1024/create?ref=7021) |
 | CloudPower | CN2 GIA       | 1 核 1G   | 500GB  | 36.99/年  | [链接](https://cloudpowerall.com/aff.php?aff=3225&pid=150)     |
-| CloudPower | CN2 GIA       | 1 核 1G   | 1000GB | 5.99/月   | [链接](https://cloudpowerall.com/aff.php?aff=3225&pid=144)     |
-| CloudPower | AS9929        | 1 核 1G   | 500GB  | 29.99/年  | [CloudPower](https://cloudpowerall.com/aff.php?aff=3225)       |
-| CloudPower | AS9929        | 1 核 1G   | 1000GB | 4.99/月   | [CloudPower](https://cloudpowerall.com/aff.php?aff=3225)       |
+| CloudPower | AS9929        | 1 核 1G   | 500GB  | 29.99/年  | [链接](https://cloudpowerall.com/aff.php?aff=3225&pid=149)       |
+| cloudcone  | CN2 GIA       | 1 核 512M | 500GB  | $40/年    | [链接](https://app.cloudcone.com/compute/1024/create?ref=7021) |
 | 搬瓦工     | CN2 GT        | 1 核 1G   | 1000GB | $49.99/年 | [链接](https://bandwagonhost.com/aff.php?aff=66053&pid=57)     |
 
 
