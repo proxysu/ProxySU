@@ -112,28 +112,17 @@ Microsoft [.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-fram
 在使用遇到问题时，请先看一下[常见问题集锦](https://github.com/proxysu/windows/wiki/CommonError)，如果还不能解决，可以到以上平台询问，个人精力有限，尽力解答。
 
 
-
 ## 云主机  
+下面连接购买，作者可获得推广佣金，谢谢支持！  
+以下是国内优化线路、比较实惠的vps。  
+CloudPower的cn2 gia比较便宜，每天数量有限，作者已稳定用过半年。
 
-下面连接购买，作者可获得推广佣金，谢谢支持！
-
-* CloudPowerall
-超便宜的CN2 GIA($36.99/年)  
-AS9929($29.99/年)  
-作者已正常使用半年  
-地址：https://cloudpowerall.com/aff.php?aff=3225  
-
-* 搬瓦工  
-洛杉矶 CN2 $49.99/年 | 1核1G 1000GB/月  
-https://bandwagonhost.com/aff.php?aff=66053&pid=57
-
-* HostDare  
-$49.99/年 | 1核765M 600GB/月  | 带宽：50mbps | 线路：CN2 GIA,CU,CM  
-https://manage.hostdare.com/aff.php?aff=3036&pid=74
-
-
-
-  
+| 商家       | 线路          | 配置      | 流量   | 价格      | 连接                                                           |
+| ---------- | ------------- | --------- | ------ | --------- | -------------------------------------------------------------- |
+| CloudPower | CN2 GIA       | 1 核 1G   | 500GB  | 36.99/年  | [链接](https://cloudpowerall.com/aff.php?aff=3225&pid=150)     |
+| CloudPower | AS9929        | 1 核 1G   | 500GB  | 29.99/年  | [链接](https://cloudpowerall.com/aff.php?aff=3225&pid=149)       |
+| cloudcone  | CN2 GIA       | 1 核 512M | 500GB  | $40/年    | [链接](https://app.cloudcone.com/compute/1024/create?ref=7021) |
+| 搬瓦工     | CN2 GT        | 1 核 1G   | 1000GB | $49.99/年 | [链接](https://bandwagonhost.com/aff.php?aff=66053&pid=57)     |
 
 
 
