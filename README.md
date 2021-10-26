@@ -124,7 +124,7 @@ CloudPower的cn2 gia比较便宜，每天数量有限，作者已稳定用过半
 | CloudPower | AS9929        | 1 核 1G   | 500GB  | 29.99/年  | [链接](https://cloudpowerall.com/aff.php?aff=3225&pid=149)       |
 | cloudcone  | CN2 GIA       | 1 核 512M | 500GB  | $40/年    | [链接](https://app.cloudcone.com/compute/1024/create?ref=7021) |
 | 搬瓦工     | CN2 GT        | 1 核 1G   | 1000GB | $49.99/年 | [链接](https://bandwagonhost.com/aff.php?aff=66053&pid=57)     |
-| 水墨云     | 香港CMI 移动电信直连 | 1 核 1G | 2000GB | 111RMB/季 | [链接](https://www.inkisp.com/aff.php?aff=468?pid=838) |
+| 水墨云     | 香港CMI 移动电信直连 | 1 核 1G | 2000GB | 111RMB/季 | [链接](https://www.inkisp.com/aff.php?aff=468&pid=838) |
 
 水墨云最近优惠
 
