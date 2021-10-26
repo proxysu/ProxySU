@@ -117,13 +117,18 @@ Microsoft [.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-fram
 下面连接购买，作者可获得推广佣金，谢谢支持！  
 以下是国内优化线路、比较实惠的vps。  
 
+作者用过的：
+CloudPower 的gia线路，比较稳定已使用快1年.
+水墨云 的活动时期买过香港GIA非常合算，延迟非常低，我这里ping 65ms.
+**水墨云支付宝支付是国内企业注册，需要注意安全.**
+
 | 商家       | 线路          | 配置      | 流量   | 价格      | 连接                                                           |
 | ---------- | ------------- | --------- | ------ | --------- | -------------------------------------------------------------- |
 | CloudPower | CN2 GIA       | 1 核 1G   | 500GB  | 36.99/年  | [链接](https://cloudpowerall.com/aff.php?aff=3225&pid=150)     |
 | CloudPower | AS9929        | 1 核 1G   | 500GB  | 29.99/年  | [链接](https://cloudpowerall.com/aff.php?aff=3225&pid=149)       |
 | cloudcone  | CN2 GIA       | 1 核 512M | 500GB  | $40/年    | [链接](https://app.cloudcone.com/compute/1024/create?ref=7021) |
 | 搬瓦工     | CN2 GT        | 1 核 1G   | 1000GB | $49.99/年 | [链接](https://bandwagonhost.com/aff.php?aff=66053&pid=57)     |
-| 水墨云     | 香港 移动电信直连 | 1 核 1G | 2000GB | 111 RMB/季 | [链接](https://www.inkisp.com/aff.php?aff=468&pid=838) |
+| 水墨云双11活动     | 香港 移动电信直连 | 1 核 1G | 2000GB | 111 RMB/季 | [链接](https://www.inkisp.com/aff.php?aff=468&pid=838) |
 
 
 
