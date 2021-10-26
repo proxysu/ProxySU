@@ -118,7 +118,7 @@ Microsoft [.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-fram
 以下是国内优化线路、比较实惠的vps。  
 
 作者用过的：
-CloudPower 的gia线路，比较稳定已使用半年多.
+CloudPower 的gia线路，比较稳定已使用半年多.  
 水墨云 的活动时期买过香港GIA三网直连，延迟非常低，已使用半年多，我这里ping 65ms.
 **水墨云支付宝支付是国内企业注册，需要注意安全.**
 
