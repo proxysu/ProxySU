@@ -117,7 +117,7 @@ Microsoft [.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-fram
 下面连接购买，作者可获得推广佣金，谢谢支持！  
 以下是国内优化线路、比较实惠的vps。  
 
-延迟参考：中国华北地区，联通。
+延迟参考：中国华北地区，联通。  
 CloudPower：gia线路，ping 稳定在170 ms，已使用半年多。  
 水墨云：买过香港GIA三网直连，ping 稳定在 65ms，已使用半年多。  
 **水墨云支付宝支付是国内企业注册，需要注意安全.**
