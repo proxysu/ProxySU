@@ -126,7 +126,6 @@ CloudPower的cn2 gia比较便宜，每天数量有限，作者已稳定用过半
 | 搬瓦工     | CN2 GT        | 1 核 1G   | 1000GB | $49.99/年 | [链接](https://bandwagonhost.com/aff.php?aff=66053&pid=57)     |
 | 水墨云     | 香港 移动电信直连 | 1 核 1G | 2000GB | 111 RMB/季 | [链接](https://www.inkisp.com/aff.php?aff=468&pid=838) |
 
-水墨云最近双十一优惠，有香港主机。
 
 
 
