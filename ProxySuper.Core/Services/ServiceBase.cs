@@ -327,7 +327,7 @@ namespace ProxySuper.Core.Services
             var result = RunCmd("id -u");
             if (!result.Equals("0\n"))
             {
-                throw new Exception("ProxySU需要使用Root用户进行安装！");
+                throw new Exception("请使用Root权限账户登录！");
             }
         }
 
@@ -365,6 +365,9 @@ namespace ProxySuper.Core.Services
 
         public void InstallSystemTools()
         {
+            Progress.Desc = ("更新安装包");
+            RunUpdateCmd();
+
             Progress.Desc = ("安装sudo工具");
             InstallSoftware("sudo");
 
@@ -765,6 +768,22 @@ namespace ProxySuper.Core.Services
             else
             {
                 return $"dnf install -y {soft}";
+            }
+        }
+
+        private void RunUpdateCmd()
+        {
+            if (CmdType == CmdType.Apt)
+            {
+                RunCmd($"apt update -y");
+            }
+            else if (CmdType == CmdType.Yum)
+            {
+                RunCmd($"yum update -y");
+            }
+            else
+            {
+                RunCmd($"dnf update -y");
             }
         }
 
