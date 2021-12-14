@@ -31,6 +31,22 @@ namespace ProxySuper.WPF.Views.V2ray
             InitializeComponent();
         }
 
+        protected override void OnRender(DrawingContext drawingContext)
+        {
+            base.OnRender(drawingContext);
+
+            for (int i = 0; i < TabCtrl.Items.Count; i++)
+            {
+                var tabItem = TabCtrl.Items[i] as TabItem;
+
+                if (Settings.Types.Contains((RayType)tabItem.Tag))
+                {
+                    TabCtrl.SelectedIndex = i;
+                    break;
+                }
+            }
+        }
+
         public V2raySettings Settings
         {
             get

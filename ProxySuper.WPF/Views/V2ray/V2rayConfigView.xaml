@@ -22,6 +22,7 @@
                     BorderThickness="1,0,1,0" 
                     BorderBrush="#DDD" 
                     TabStripPlacement="Left"
+                    x:Name="TabCtrl"
                     SelectionChanged="BuildQrCode">
             <TabItem Width="200" Height="40"
                      Tag="{x:Static models:RayType.VLESS_TCP}"
