@@ -42,7 +42,7 @@ namespace ProxySuper.Core.Models
         [JsonProperty("trojanGoSettings")]
         public TrojanGoSettings TrojanGoSettings { get; set; }
 
-        [JsonProperty("naiveProtoSettings")]
+        [JsonProperty("naiveProxySettings")]
         public NaiveProxySettings NaiveProxySettings { get; set; }
 
         [JsonProperty("brook")]

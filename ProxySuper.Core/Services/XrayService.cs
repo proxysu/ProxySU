@@ -268,7 +268,7 @@ namespace ProxySuper.Core.Services
         }
 
 
-        #region 似有方法
+        #region 私有方法
 
         private void DoUploadCert(object sender, CancelEventArgs e)
         {
@@ -423,7 +423,6 @@ namespace ProxySuper.Core.Services
             }
             WriteToFile(configJson, "/etc/caddy/Caddyfile");
         }
-
 
         private void UninstallXray()
         {

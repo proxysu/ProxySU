@@ -5,9 +5,9 @@ namespace ProxySuper.WPF.Views
     /// <summary>
     /// NaiveProxyConfigView.xaml 的交互逻辑
     /// </summary>
-    public partial class NaiveProtoConfigView : MvxWindow
+    public partial class NaiveProxyConfigView : MvxWindow
     {
-        public NaiveProtoConfigView()
+        public NaiveProxyConfigView()
         {
             InitializeComponent();
         }

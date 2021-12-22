@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace ProxySuper.WPF.Views
@@ -21,6 +22,22 @@ namespace ProxySuper.WPF.Views
             InitializeComponent();
         }
 
+        protected override void OnRender(DrawingContext drawingContext)
+        {
+            base.OnRender(drawingContext);
+
+            for (int i = 0; i < TabCtrl.Items.Count; i++)
+            {
+                var tabItem = TabCtrl.Items[i] as TabItem;
+
+                if (Settings.Types.Contains((RayType)tabItem.Tag))
+                {
+                    TabCtrl.SelectedIndex = i;
+                    break;
+                }
+            }
+        }
+
         public XraySettings Settings
         {
             get
@@ -28,8 +45,6 @@ namespace ProxySuper.WPF.Views
                 return ((XrayConfigViewModel)ViewModel).Settings;
             }
         }
-
-
 
         private void BuildQrCode(object sender, SelectionChangedEventArgs e)
         {

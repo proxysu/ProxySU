@@ -21,6 +21,7 @@
                     Padding="10"
                     BorderThickness="1,0,1,0" 
                     BorderBrush="#DDD" 
+                    x:Name="TabCtrl"
                     TabStripPlacement="Left"
                     SelectionChanged="BuildQrCode">
             <TabItem Width="200" Height="40"
