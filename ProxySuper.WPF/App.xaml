@@ -8,10 +8,10 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!--Languages-->
+                <!--Language-->
                 <ResourceDictionary Source="/Resources/Languages/zh_cn.xaml" />
 
-                <!--styles-->
+                <!--style-->
                 <ResourceDictionary>
                     <Style TargetType="{x:Type TextBox}">
                         <Setter Property="Padding" Value="5,2" />
@@ -24,7 +24,7 @@
                     </Style>
                 </ResourceDictionary>
 
-                <!--components styles-->
+                <!--component style-->
                 <ResourceDictionary Source="/Resources/Styles/DataGridStyle.xaml" />
 
             </ResourceDictionary.MergedDictionaries>
