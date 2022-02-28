@@ -134,7 +134,8 @@ namespace ProxySuper.Core.ViewModels
             set
             {
                 var input = value.Replace('，', ',');
-                var arr = input.Split(',').ToList();
+                var arr = input.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                arr.RemoveAll(x => x == this.UUID);
                 Settings.MulitUUID = arr;
                 RaisePropertyChanged("MultiUUID");
             }

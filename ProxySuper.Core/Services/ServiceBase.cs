@@ -198,7 +198,7 @@ namespace ProxySuper.Core.Services
                 Progress.Desc = ($"本机IP({IPv6})");
                 if (IPv6 != domainIP)
                 {
-                    throw new Exception("域名解析地址与服务器IP不匹配！");
+                    //throw new Exception("域名解析地址与服务器IP不匹配！");
                 }
             }
             else
@@ -207,7 +207,7 @@ namespace ProxySuper.Core.Services
                 Progress.Desc = ($"域名IP({domainIP})");
                 if (IPv4 != domainIP)
                 {
-                    throw new Exception("域名解析地址与服务器IP不匹配！");
+                    //throw new Exception("域名解析地址与服务器IP不匹配！");
                 }
             }
         }

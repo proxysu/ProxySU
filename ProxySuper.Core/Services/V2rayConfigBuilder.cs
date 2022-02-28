@@ -110,8 +110,9 @@ namespace ProxySuper.Core.Services
 
         public static string BuildV2rayConfig(V2raySettings parameters)
         {
-            var uuidList = parameters.MulitUUID;
-            uuidList.Insert(0, parameters.UUID);
+            var uuidList = new List<string>();
+            uuidList.Add(parameters.UUID);
+            uuidList.AddRange(parameters.MulitUUID);
 
             var xrayConfig = LoadV2rayConfig();
 
