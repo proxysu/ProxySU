@@ -113,8 +113,9 @@ namespace ProxySuper.Core.Services
 
         public static string BuildXrayConfig(XraySettings parameters)
         {
-            var uuidList = parameters.MulitUUID;
-            uuidList.Insert(0, parameters.UUID);
+            var uuidList = new List<string>();
+            uuidList.Add(parameters.UUID);
+            uuidList.AddRange(parameters.MulitUUID);
 
             var xrayConfig = LoadXrayConfig();
 
