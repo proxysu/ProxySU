@@ -15,7 +15,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.IO;
-using Renci.SshNet;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
@@ -29,6 +28,7 @@ using System.Runtime;
 using System.Globalization;
 using Microsoft.Win32;
 using System.Security;
+using Renci.SshNet;
 
 namespace ProxySU
 {
@@ -9114,11 +9114,11 @@ namespace ProxySU
             ipv6 = String.Empty;
 
             //sshShellCommand = @"curl -4 ip.sb";
-            sshShellCommand = @"curl -s https://api.ip.sb/ip --ipv4 --max-time 8";
+            sshShellCommand = @"curl -4 ip.sb";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
             ipv4 = currentShellCommandResult.TrimEnd('\r', '\n');
 
-            sshShellCommand = @"curl -s https://api.ip.sb/ip --ipv6 --max-time 8";
+            sshShellCommand = @"curl -6 ip.sb";
             currentShellCommandResult = MainWindowsShowCmd(client, sshShellCommand);
             ipv6 = currentShellCommandResult.TrimEnd('\r', '\n');
 
