@@ -53,6 +53,10 @@ namespace ProxySuper.Core.ViewModels
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             });
+            if (!Directory.Exists("Data"))
+            {
+                Directory.CreateDirectory("Data");
+            }
             File.WriteAllText("Data/Record.json", json);
         }
 
