@@ -412,7 +412,7 @@ namespace ProxySuper.Core.Services
             string cmd;
 
             Progress.Desc = ("检测IPv4");
-            cmd = RunCmd(@"curl -s https://api.ip.sb/ip --ipv4 --max-time 8");
+            cmd = RunCmd(@"curl -4 ip.sb");
             IPv4 = cmd.TrimEnd('\r', '\n');
 
             Progress.Desc = ($"IPv4地址为{IPv4}");
@@ -423,7 +423,7 @@ namespace ProxySuper.Core.Services
             else
             {
                 Progress.Desc = ("检测IPv6");
-                cmd = RunCmd(@"curl -s https://api.ip.sb/ip --ipv6 --max-time 8");
+                cmd = RunCmd(@"curl -6 ip.sb");
                 IPv6 = cmd.TrimEnd('\r', '\n');
                 Progress.Desc = ($"IPv6地址为{IPv6}");
 
