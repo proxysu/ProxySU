@@ -125,6 +125,7 @@ namespace ProxySuper.Core.Services
             {
                 dest = FullbackPort
             }));
+            baseBound.streamSettings.xtlsSettings.fingerprint = parameters.UTLSOption;
             xrayConfig.inbounds.Add(baseBound);
             SetClients(baseBound, uuidList, withXtls: true);
 

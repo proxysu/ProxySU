@@ -12,6 +12,7 @@ namespace ProxySuper.Core.Models.Projects
         public V2raySettings()
         {
             WithTLS = true;
+            UTLSOption = string.Empty;
 
             var guid = Guid.NewGuid().ToString();
             Port = 443;
@@ -113,6 +114,11 @@ namespace ProxySuper.Core.Models.Projects
         /// 伪装域名
         /// </summary>
         public string MaskDomain { get; set; }
+
+        /// <summary>
+        /// uTLS选项.
+        /// </summary>
+        public string UTLSOption { get; set; }
 
         [JsonIgnore]
         public string Email

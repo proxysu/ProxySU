@@ -81,6 +81,7 @@
     <sys:String x:Key="XrayWithTLS">自动申请证书</sys:String>
     <sys:String x:Key="XrayWithTLSDesc">如上传自有证书，则取消对勾。</sys:String>
     <sys:String x:Key="XrayUUID">UUID</sys:String>
+    <sys:String x:Key="XrayUTLS">uTLS</sys:String>
     <sys:String x:Key="MultiUser">多用户</sys:String>
     <sys:String x:Key="MultiUserHelp">多个UUID用“,”分隔</sys:String>
     <sys:String x:Key="VlessWsPath">VLESS WS路径</sys:String>

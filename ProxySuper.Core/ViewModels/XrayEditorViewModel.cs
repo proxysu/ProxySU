@@ -160,6 +160,30 @@ namespace ProxySuper.Core.ViewModels
                 RaisePropertyChanged("MaskDomain");
             }
         }
+        public string UTLSOption
+        {
+            get => Settings.UTLSOption;
+            set
+            {
+                var namespaceStr = typeof(ComboBoxItem).FullName + ":";
+                var trimValue = value.Replace(namespaceStr, "");
+                trimValue = trimValue.Trim();
+                Settings.UTLSOption = trimValue;
+                RaisePropertyChanged("UTLSOption");
+            }
+        }
+        private List<string> _uTlsOptions = new List<string> { string.Empty, "chrome", "firefox", "safari", "randomized" };
+        public List<string> UTLSOptions => _uTlsOptions;
+        public bool CheckedUTLSOptions
+        {
+
+            get => Settings.Types.Contains(RayType.VLESS_TCP_XTLS);
+            set
+            {
+                CheckBoxChanged(value, RayType.VLESS_TCP_XTLS);
+                RaisePropertyChanged("CheckedUTLSOptions");
+            }
+        }
 
         public string TrojanPassword
         {

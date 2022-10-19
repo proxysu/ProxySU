@@ -16,6 +16,7 @@
     "security": "xtls",
     "xtlsSettings": {
       "allowInsecure": false,
+      "fingerprint": "",
       "minVersion": "1.2",
       "alpn": [
         "http/1.1"

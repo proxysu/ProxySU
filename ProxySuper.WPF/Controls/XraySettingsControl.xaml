@@ -129,6 +129,16 @@
                         Content="{DynamicResource Random}" />
             </StackPanel>
 
+            <!--uTLS Options-->
+            <StackPanel Margin="30,15,0,0"
+                        Orientation="Horizontal">
+                <Label Content="{DynamicResource XrayUTLS}" Width="120"  />
+                <ComboBox Width="200" 
+                          ItemsSource="{Binding Path=UTLSOptions}"
+                          SelectedValue="{Binding UTLSOption}">
+                </ComboBox>
+            </StackPanel>
+
             <!--WebSocket Path-->
             <StackPanel Margin="30,15,0,0"
                     Orientation="Horizontal"

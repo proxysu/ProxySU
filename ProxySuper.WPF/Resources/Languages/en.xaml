@@ -81,6 +81,7 @@
     <sys:String x:Key="XrayWithTLS">With TLS</sys:String>
     <sys:String x:Key="XrayWithTLSDesc">Unchecked means upload your own TLS.</sys:String>
     <sys:String x:Key="XrayUUID">UUID</sys:String>
+    <sys:String x:Key="XrayUTLS">uTLS</sys:String>
     <sys:String x:Key="MultiUser">Multi User</sys:String>
     <sys:String x:Key="MultiUserHelp">Multi Id split with ","</sys:String>
     <sys:String x:Key="VlessWsPath">VLESS WS Path</sys:String>

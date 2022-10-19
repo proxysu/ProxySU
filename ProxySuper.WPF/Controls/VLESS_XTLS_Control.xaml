@@ -57,6 +57,11 @@
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+            <Label Content="uTLS" Width="140" />
+            <TextBox Text="{Binding Settings.UTLSOption}" IsReadOnly="True" Width="300" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
             <Label Content="分享链接(ShareLink)" Width="140" />
             <TextBox Text="{Binding Settings.VLESS_TCP_XTLS_ShareLink,Mode=OneTime}" Width="300" IsReadOnly="True" />
         </StackPanel>
