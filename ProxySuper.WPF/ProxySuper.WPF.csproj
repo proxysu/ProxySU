@@ -32,19 +32,25 @@
     <StartupObject>ProxySuper.WPF.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MvvmCross, Version=7.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MvvmCross.7.1.2\lib\net461\MvvmCross.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=7.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.7.0.0\lib\net462\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="MvvmCross.Platforms.Wpf, Version=7.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MvvmCross.Platforms.Wpf.7.1.2\lib\net461\MvvmCross.Platforms.Wpf.dll</HintPath>
+    <Reference Include="MvvmCross, Version=8.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmCross.8.0.2\lib\net461\MvvmCross.dll</HintPath>
     </Reference>
-    <Reference Include="QRCoder, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\QRCoder.1.4.1\lib\net40\QRCoder.dll</HintPath>
+    <Reference Include="MvvmCross.Platforms.Wpf, Version=8.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmCross.Platforms.Wpf.8.0.2\lib\net461\MvvmCross.Platforms.Wpf.dll</HintPath>
     </Reference>
-    <Reference Include="Renci.SshNet, Version=2020.0.1.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
-      <HintPath>..\packages\SSH.NET.2020.0.1\lib\net40\Renci.SshNet.dll</HintPath>
+    <Reference Include="QRCoder, Version=1.4.3.0, Culture=neutral, PublicKeyToken=c4ed5b9ae8358a28, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.4.3\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
+    <Reference Include="Renci.SshNet, Version=2020.0.2.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
+      <HintPath>..\packages\SSH.NET.2020.0.2\lib\net40\Renci.SshNet.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Console, Version=4.0.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -52,6 +58,16 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
     </Reference>
