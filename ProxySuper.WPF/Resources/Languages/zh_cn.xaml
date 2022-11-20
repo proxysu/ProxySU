@@ -66,9 +66,10 @@
     <sys:String x:Key="ProxyTypeSocks5">Socks5</sys:String>
 
     <!--Xray-->
-    <sys:String x:Key="VlessXtlsDesc" xml:space="preserve">VLESS Over TCP With XTLS&#x0a;性能数倍，首选方式。</sys:String>
-    <sys:String x:Key="VlessTcpDesc" xml:space="preserve">VLESS over TCP with TLS&#x0a;仍推荐XTLS。</sys:String>
+    <sys:String x:Key="VlessXtlsDesc" xml:space="preserve">VLESS Over TCP With XTLS&#x0a;安全隐患，谨慎。</sys:String>
+    <sys:String x:Key="VlessTcpDesc" xml:space="preserve">VLESS over TCP with TLS&#x0a;推荐，主流。</sys:String>
     <sys:String x:Key="VlessWsDesc" xml:space="preserve">VLESS over WS with TLS&#x0a;推荐，支持CDN。</sys:String>
+    <sys:String x:Key="VlessRpcDesc" xml:space="preserve">VLESS gRPC&#x0a;基于http2，多路复用。</sys:String>
     <sys:String x:Key="VlessKcpDesc" xml:space="preserve">VLESS mKCP&#x0a;游戏推荐，延迟低，免域名。</sys:String>
     <sys:String x:Key="VmessWsDesc" xml:space="preserve">VMESS over WS with TLS&#x0a;推荐，支持CDN。</sys:String>
     <sys:String x:Key="VmessKcpDesc" xml:space="preserve">VMESS mKCP&#x0a;游戏推荐，延迟低，免域名。</sys:String>

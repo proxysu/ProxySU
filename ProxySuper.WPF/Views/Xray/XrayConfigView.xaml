@@ -59,13 +59,6 @@
                 <ctrl:VLESS_gRPC_Control />
             </TabItem>
 
-            <!--<TabItem Width="200" Height="40"     
-                     Tag="{x:Static models:XrayType.VMESS_TCP}"                 
-                     IsEnabled="{Binding Checked_VMESS_TCP}"
-                     Header="VMESS-TCP-TLS">
-                <ctrl:VMESS_TCP_TLS_Control />
-            </TabItem>-->
-
             <TabItem Width="200" Height="40"     
                      Tag="{x:Static models:RayType.VMESS_WS}"
                      IsEnabled="{Binding Checked_VMESS_WS}"

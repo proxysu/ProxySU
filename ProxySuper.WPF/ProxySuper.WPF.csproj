@@ -136,6 +136,7 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Setup.cs" />
     <Compile Include="Views\Brook\BrookConfigView.xaml.cs">
       <DependentUpon>BrookConfigView.xaml</DependentUpon>
     </Compile>
