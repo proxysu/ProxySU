@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using MvvmCross.Platforms.Wpf.Presenters.Attributes;
 using MvvmCross.Platforms.Wpf.Views;
 using ProxySuper.Core.Models.Projects;
 using ProxySuper.Core.ViewModels;
@@ -15,6 +16,7 @@ namespace ProxySuper.WPF.Views
     /// <summary>
     /// XrayInfoView.xaml 的交互逻辑
     /// </summary>
+    [MvxWindowPresentation()]
     public partial class XrayConfigView : MvxWindow
     {
         public XrayConfigView()
@@ -116,16 +118,16 @@ namespace ProxySuper.WPF.Views
             }
 
 
-            QRCodeGenerator qrGenerator = new QRCodeGenerator();
-            QRCodeData qrCodeData = qrGenerator.CreateQrCode(shareLink, QRCodeGenerator.ECCLevel.Q);
-            QRCode qrCode = new QRCode(qrCodeData);
+            var qrGenerator = new QRCodeGenerator();
+            var qrCodeData = qrGenerator.CreateQrCode(shareLink, QRCodeGenerator.ECCLevel.Q);
+            var qrCode = new QRCode(qrCodeData);
 
-            Bitmap qrCodeImage = qrCode.GetGraphic(20);
-            MemoryStream ms = new MemoryStream();
+            var qrCodeImage = qrCode.GetGraphic(20);
+            var ms = new MemoryStream();
             qrCodeImage.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
             byte[] bytes = ms.GetBuffer();
             ms.Close();
-            BitmapImage image = new BitmapImage();
+            var image = new BitmapImage();
             image.BeginInit();
             image.StreamSource = new MemoryStream(bytes);
             image.EndInit();

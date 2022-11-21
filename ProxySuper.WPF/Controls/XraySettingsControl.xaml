@@ -94,14 +94,13 @@
         <GroupBox Padding="10" Margin="0,10,0,0" Header="{DynamicResource EditorProxyParams}">
             <StackPanel>
                 <!--Domain-->
-                <StackPanel Margin="0,15,0,0"
-                    Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal">
                     <Label Content="{DynamicResource XrayDomain}" Width="120" />
                     <TextBox Text="{Binding Path=Domain}" Width="260"  />
                 </StackPanel>
 
                 <!--UUID-->
-                <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                <StackPanel Margin="0,15,0,0" Orientation="Horizontal">
                     <Label Content="{DynamicResource XrayUUID}" Width="120" />
 
                     <TextBox Text="{Binding Path=UUID}"
