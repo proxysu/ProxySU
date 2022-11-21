@@ -65,16 +65,20 @@
     <sys:String x:Key="ProxyTypeHttp">Http</sys:String>
     <sys:String x:Key="ProxyTypeSocks5">Socks5</sys:String>
 
+    <!--editor-->
+    <sys:String x:Key="EditorProxyType" xml:space="preserve">节点类型</sys:String>
+    <sys:String x:Key="EditorProxyParams" xml:space="preserve">节点参数</sys:String>
+
     <!--Xray-->
-    <sys:String x:Key="VlessXtlsDesc" xml:space="preserve">VLESS Over TCP With XTLS&#x0a;安全隐患，谨慎。</sys:String>
-    <sys:String x:Key="VlessTcpDesc" xml:space="preserve">VLESS over TCP with TLS&#x0a;推荐，主流。</sys:String>
-    <sys:String x:Key="VlessWsDesc" xml:space="preserve">VLESS over WS with TLS&#x0a;推荐，支持CDN。</sys:String>
-    <sys:String x:Key="VlessRpcDesc" xml:space="preserve">VLESS gRPC&#x0a;基于http2，多路复用。</sys:String>
-    <sys:String x:Key="VlessKcpDesc" xml:space="preserve">VLESS mKCP&#x0a;游戏推荐，延迟低，免域名。</sys:String>
-    <sys:String x:Key="VmessWsDesc" xml:space="preserve">VMESS over WS with TLS&#x0a;推荐，支持CDN。</sys:String>
-    <sys:String x:Key="VmessKcpDesc" xml:space="preserve">VMESS mKCP&#x0a;游戏推荐，延迟低，免域名。</sys:String>
-    <sys:String x:Key="SSDesc" xml:space="preserve">ShadowSocks&#x0a;SS，支持udp，免域名。</sys:String>
-    <sys:String x:Key="TrojanDesc" xml:space="preserve">Trojan over TCP with TLS&#x0a;Trojan。</sys:String>
+    <sys:String x:Key="VlessXtlsDesc" xml:space="preserve">VLESS TCP XTLS</sys:String>
+    <sys:String x:Key="VlessTcpDesc" xml:space="preserve">VLESS TCP</sys:String>
+    <sys:String x:Key="VlessWsDesc" xml:space="preserve">VLESS WS</sys:String>
+    <sys:String x:Key="VlessRpcDesc" xml:space="preserve">VLESS gRPC</sys:String>
+    <sys:String x:Key="VlessKcpDesc" xml:space="preserve">VLESS mKCP</sys:String>
+    <sys:String x:Key="VmessWsDesc" xml:space="preserve">VMESS WS</sys:String>
+    <sys:String x:Key="VmessKcpDesc" xml:space="preserve">VMESS mKCP</sys:String>
+    <sys:String x:Key="SSDesc" xml:space="preserve">ShadowSocks</sys:String>
+    <sys:String x:Key="TrojanDesc" xml:space="preserve">Trojan</sys:String>
 
 
     <sys:String x:Key="XrayDomain">域名/IP</sys:String>
@@ -133,5 +137,5 @@
     <sys:String x:Key="MTProtoDomain">域名/IP</sys:String>
     <sys:String x:Key="MTProtoPort">端口</sys:String>
     <sys:String x:Key="MTProtoCleartext">加密前字符</sys:String>
-    <sys:String x:Key="MTProtoSecretText">密钥</sys:String> 
+    <sys:String x:Key="MTProtoSecretText">密钥</sys:String>
 </ResourceDictionary>

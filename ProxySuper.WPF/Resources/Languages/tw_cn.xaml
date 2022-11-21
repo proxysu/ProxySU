@@ -64,16 +64,20 @@
     <sys:String x:Key="ProxyTypeHttp">Http</sys:String>
     <sys:String x:Key="ProxyTypeSocks5">Socks5</sys:String>
 
+    <!--editor-->
+    <sys:String x:Key="EditorProxyType" xml:space="preserve">節點類型</sys:String>
+    <sys:String x:Key="EditorProxyParams" xml:space="preserve">節點參數</sys:String>
+
     <!--Xray-->
-    <sys:String x:Key="VlessXtlsDesc" xml:space="preserve">VLESS Over TCP With XTLS&#x0a;安全隱患，謹慎。</sys:String>
-    <sys:String x:Key="VlessTcpDesc" xml:space="preserve">VLESS over TCP with TLS&#x0a;</sys:String>
-    <sys:String x:Key="VlessWsDesc" xml:space="preserve">VLESS over WS with TLS&#x0a;推薦，支持CDN。</sys:String>
-    <sys:String x:Key="VlessRpcDesc" xml:space="preserve">VLESS gRPC&#x0a;基於http2，多路複用。</sys:String>
-    <sys:String x:Key="VlessKcpDesc" xml:space="preserve">VLESS mKCP&#x0a;遊戲推薦，延遲低，免域名。</sys:String>
-    <sys:String x:Key="VmessWsDesc" xml:space="preserve">VMESS over WS with TLS&#x0a;推薦，支持CDN。</sys:String>
-    <sys:String x:Key="VmessKcpDesc" xml:space="preserve">VMESS mKCP&#x0a;遊戲推薦，延遲低，免域名。</sys:String>
-    <sys:String x:Key="SSDesc" xml:space="preserve">ShadowSocks&#x0a;SS，支持udp，免域名。</sys:String>
-    <sys:String x:Key="TrojanDesc" xml:space="preserve">Trojan over TCP with TLS&#x0a;Trojan。</sys:String>
+    <sys:String x:Key="VlessXtlsDesc" xml:space="preserve">VLESS TCP XTLS</sys:String>
+    <sys:String x:Key="VlessTcpDesc" xml:space="preserve">VLESS TCP</sys:String>
+    <sys:String x:Key="VlessWsDesc" xml:space="preserve">VLESS WS</sys:String>
+    <sys:String x:Key="VlessRpcDesc" xml:space="preserve">VLESS gRPC</sys:String>
+    <sys:String x:Key="VlessKcpDesc" xml:space="preserve">VLESS mKCP</sys:String>
+    <sys:String x:Key="VmessWsDesc" xml:space="preserve">VMESS WS</sys:String>
+    <sys:String x:Key="VmessKcpDesc" xml:space="preserve">VMESS mKCP</sys:String>
+    <sys:String x:Key="SSDesc" xml:space="preserve">ShadowSocks</sys:String>
+    <sys:String x:Key="TrojanDesc" xml:space="preserve">Trojan</sys:String>
 
 
     <sys:String x:Key="XrayDomain">域名/IP</sys:String>
