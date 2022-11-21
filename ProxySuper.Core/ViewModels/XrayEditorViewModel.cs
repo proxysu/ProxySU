@@ -87,6 +87,19 @@ namespace ProxySuper.Core.ViewModels
             }
         }
 
+
+        public List<string> UTLSList { get => XraySettings.UTLSList; }
+
+        public string UTLS
+        {
+            get => Settings.UTLS;
+            set
+            {
+                Settings.UTLS = value;
+                RaisePropertyChanged(nameof(UTLS));
+            }
+        }
+
         public int VLESS_KCP_Port
         {
             get => Settings.VLESS_KCP_Port;

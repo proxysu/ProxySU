@@ -9,6 +9,10 @@ namespace ProxySuper.Core.Models.Projects
 {
     public class XraySettings : V2raySettings
     {
+        public static List<string> UTLSList = new List<string> { "", "chrome", "firefox", "safari", "randomized" };
+
+        public string UTLS { get; set; } = UTLSList[1];
+
         /// <summary>
         /// vless xtls shareLink
         /// </summary>
