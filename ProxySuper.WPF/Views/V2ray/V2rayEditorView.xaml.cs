@@ -16,9 +16,6 @@ using System.Windows.Shapes;
 
 namespace ProxySuper.WPF.Views.V2ray
 {
-    /// <summary>
-    /// V2rayEditorView.xaml 的交互逻辑
-    /// </summary>
     [MvxWindowPresentation]
     public partial class V2rayEditorView : MvxWindow
     {

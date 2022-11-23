@@ -1,10 +1,9 @@
-﻿using MvvmCross.Platforms.Wpf.Views;
+﻿using MvvmCross.Platforms.Wpf.Presenters.Attributes;
+using MvvmCross.Platforms.Wpf.Views;
 
 namespace ProxySuper.WPF.Views
 {
-    /// <summary>
-    /// ShareLinkView.xaml 的交互逻辑
-    /// </summary>
+    [MvxWindowPresentation]
     public partial class ShareLinkView : MvxWindow
     {
         public ShareLinkView()

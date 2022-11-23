@@ -13,10 +13,7 @@ using System.Windows.Media.Imaging;
 
 namespace ProxySuper.WPF.Views
 {
-    /// <summary>
-    /// XrayInfoView.xaml 的交互逻辑
-    /// </summary>
-    [MvxWindowPresentation()]
+    [MvxWindowPresentation]
     public partial class XrayConfigView : MvxWindow
     {
         public XrayConfigView()

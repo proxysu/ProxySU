@@ -222,9 +222,10 @@ namespace ProxySuper.Core.Services
                 }
 
                 // 4.4 TLS 相关段
-                if (xrayType == RayType.VLESS_TCP_XTLS)
+                if (settings is XraySettings)
                 {
-                    parametersURL += "&flow=xtls-rprx-direct";
+                    var xraySettings = settings as XraySettings;
+                    parametersURL += $"&flow={xraySettings.Flow}";
                 }
 
 

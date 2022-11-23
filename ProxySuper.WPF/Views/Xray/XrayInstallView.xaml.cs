@@ -18,10 +18,7 @@ using System.Windows.Shapes;
 
 namespace ProxySuper.WPF.Views
 {
-    /// <summary>
-    /// XrayInstallView.xaml 的交互逻辑
-    /// </summary>
-    [MvxWindowPresentation()]
+    [MvxWindowPresentation]
     public partial class XrayInstallView : MvxWindow
     {
         public XrayInstallView()

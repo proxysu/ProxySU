@@ -10,6 +10,7 @@
         VLESS_WS = 102,
         VLESS_H2 = 103,
         VLESS_KCP = 104,
+        VLESS_QUIC = 105,
         VLESS_gRPC = 110,
 
         // VMESS 201开头
@@ -17,6 +18,7 @@
         VMESS_WS = 202,
         VMESS_H2 = 203,
         VMESS_KCP = 204,
+        VMESS_QUIC = 205,
 
         // Trojan 301开头
         Trojan_TCP = 301,
@@ -26,5 +28,5 @@
         ShadowsocksAEAD = 401
     }
 
-    
+
 }

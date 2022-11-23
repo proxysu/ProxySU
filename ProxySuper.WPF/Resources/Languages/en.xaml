@@ -75,8 +75,10 @@
     <sys:String x:Key="VlessWsDesc" xml:space="preserve">VLESS WS</sys:String>
     <sys:String x:Key="VlessRpcDesc" xml:space="preserve">VLESS gRPC</sys:String>
     <sys:String x:Key="VlessKcpDesc" xml:space="preserve">VLESS mKCP</sys:String>
+    <sys:String x:Key="VlessQuicDesc" xml:space="preserve">VLESS QUIC</sys:String>
     <sys:String x:Key="VmessWsDesc" xml:space="preserve">VMESS WS</sys:String>
     <sys:String x:Key="VmessKcpDesc" xml:space="preserve">VMESS mKCP</sys:String>
+    <sys:String x:Key="VmessQuicDesc" xml:space="preserve">VMESS QUIC</sys:String>
     <sys:String x:Key="SSDesc" xml:space="preserve">ShadowSocks</sys:String>
     <sys:String x:Key="TrojanDesc" xml:space="preserve">Trojan</sys:String>
 
@@ -85,23 +87,34 @@
     <sys:String x:Key="XrayWithTLS">With TLS</sys:String>
     <sys:String x:Key="XrayWithTLSDesc">Unchecked means upload your own TLS.</sys:String>
     <sys:String x:Key="XrayUUID">UUID</sys:String>
+    <sys:String x:Key="Flow">Flow</sys:String>
+    <sys:String x:Key="UTLS">uTLS</sys:String>
     <sys:String x:Key="MultiUser">Multi User</sys:String>
     <sys:String x:Key="MultiUserHelp">Multi Id split with ","</sys:String>
     <sys:String x:Key="VlessWsPath">VLESS WS Path</sys:String>
     <sys:String x:Key="VlessKcpSeed">VLESS KCP Seed</sys:String>
     <sys:String x:Key="VlessKcpType">VLESS KCP Type</sys:String>
     <sys:String x:Key="VlessKcpPort">VLESS KCP Port</sys:String>
+    <sys:String x:Key="VlessQuicPort">VLESS QUIC Port</sys:String>
+    <sys:String x:Key="VlessQuicKey">VLESS QUIC Key</sys:String>
+    <sys:String x:Key="VlessQuicSecurity">VLESS QUIC Security</sys:String>
+    <sys:String x:Key="VlessQuicType">VLESS QUIC Type</sys:String>
     <sys:String x:Key="VlessRPCName">gRPC Service Name</sys:String>
     <sys:String x:Key="VlessRPCPort">gRPC Port</sys:String>
     <sys:String x:Key="VmessWsPath">VMESS WS Path</sys:String>
     <sys:String x:Key="VmessKcpSeed">VMESS KCP Seed</sys:String>
     <sys:String x:Key="VmessKcpType">VMESS KCP Type</sys:String>
     <sys:String x:Key="VmessKcpPort">VMESS KCP Port</sys:String>
+    <sys:String x:Key="VmessQuicKey">VMESS QUIC Key</sys:String>
+    <sys:String x:Key="VmessQuicPort">VMESS QUIC Port</sys:String>
+    <sys:String x:Key="VmessQuicSecurity">VMESS QUIC Security</sys:String>
+    <sys:String x:Key="VmessQuicType">VMESS QUIC Type</sys:String>    
     <sys:String x:Key="SSPassword">SS Pwd</sys:String>
     <sys:String x:Key="SSMethods">SS Method</sys:String>
     <sys:String x:Key="SSPort">SS Port</sys:String>
     <sys:String x:Key="TrojanPassword">Trojan Pwd</sys:String>
     <sys:String x:Key="TrojanPort">Trojan Port</sys:String>
+    <sys:String x:Key="V2rayPort">v2ray Port</sys:String>
     <sys:String x:Key="XrayPort">xray Port</sys:String>
     <sys:String x:Key="XrayPortDefault">default port is 443</sys:String>
 

@@ -91,7 +91,7 @@ namespace ProxySuper.Core.Services
             return caddyStr;
         }
 
-        private static void SetClients(dynamic bound, List<string> uuidList, bool withXtls = false)
+        private static void SetClients(dynamic bound, List<string> uuidList, bool withXtls = false, string flow = "")
         {
             bound.settings.clients.Clear();
             uuidList.ForEach(id =>
@@ -103,7 +103,7 @@ namespace ProxySuper.Core.Services
                 }
                 else
                 {
-                    obj = new { id = id, flow = "xtls-rprx-direct" };
+                    obj = new { id = id, flow = flow };
                 }
 
                 bound.settings.clients.Add(JToken.FromObject(obj));
@@ -126,7 +126,7 @@ namespace ProxySuper.Core.Services
                 dest = FullbackPort
             }));
             xrayConfig.inbounds.Add(baseBound);
-            SetClients(baseBound, uuidList, withXtls: true);
+            SetClients(baseBound, uuidList, withXtls: true, flow: parameters.Flow);
 
             #region Fullbacks
 

@@ -70,7 +70,6 @@
                     BorderBrush="#eee"
                     BorderThickness="0,1,0,0">
                 <StackPanel Orientation="Horizontal" 
-                            Height="50"
                             HorizontalAlignment="Right">
                     <Button Content="{DynamicResource Save}" 
                             Command="{Binding SaveCommand}"

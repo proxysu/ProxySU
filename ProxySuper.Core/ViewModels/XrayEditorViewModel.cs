@@ -65,6 +65,30 @@ namespace ProxySuper.Core.ViewModels
 
     public partial class XrayEditorViewModel
     {
+        public List<string> UTLSList { get => XraySettings.UTLSList; }
+
+        public List<string> KcpTypes => V2raySettings.DisguiseTypes;
+
+        public List<string> QuicTypes => V2raySettings.DisguiseTypes;
+
+        public List<string> QuicSecurities => new List<string>
+        {
+            "none",
+            "aes-128-gcm",
+            "chacha20-poly1305"
+        };
+
+        public List<string> ShadowSocksMethods => new List<string>
+        {
+            "2022-blake3-aes-128-gcm",
+            "2022-blake3-aes-256-gcm",
+            "2022-blake3-chacha20-poly1305",
+            "aes-256-gcm",
+            "aes-128-gcm",
+            "chacha20-poly1305",
+            "none"
+        };
+
         public IMvxCommand RandomUuid => new MvxCommand(() => GetUuid());
 
         public bool WithTLS
@@ -87,8 +111,6 @@ namespace ProxySuper.Core.ViewModels
             }
         }
 
-
-        public List<string> UTLSList { get => XraySettings.UTLSList; }
 
         public string UTLS
         {
@@ -119,17 +141,6 @@ namespace ProxySuper.Core.ViewModels
                 RaisePropertyChanged("VMESS_KCP_Port");
             }
         }
-
-        public int ShadowSocksPort
-        {
-            get => Settings.ShadowSocksPort;
-            set
-            {
-                Settings.ShadowSocksPort = value;
-                RaisePropertyChanged("ShadowSocksPort");
-            }
-        }
-
 
         public string UUID
         {
@@ -174,6 +185,7 @@ namespace ProxySuper.Core.ViewModels
             }
         }
 
+        #region Trojan
         public string TrojanPassword
         {
             get => Settings.TrojanPassword;
@@ -204,9 +216,18 @@ namespace ProxySuper.Core.ViewModels
         {
             get => ShareLink.Build(RayType.Trojan_TCP, Settings);
         }
+        #endregion
 
-        private List<string> _ssMethods = new List<string> { "aes-256-gcm", "aes-128-gcm", "chacha20-poly1305", "chacha20-ietf-poly1305" };
-        public List<string> ShadowSocksMethods => _ssMethods;
+        #region ShadowSocks
+        public int ShadowSocksPort
+        {
+            get => Settings.ShadowSocksPort;
+            set
+            {
+                Settings.ShadowSocksPort = value;
+                RaisePropertyChanged("ShadowSocksPort");
+            }
+        }
         public bool CheckedShadowSocks
         {
 
@@ -238,7 +259,7 @@ namespace ProxySuper.Core.ViewModels
         {
             get => ShareLink.Build(RayType.ShadowsocksAEAD, Settings);
         }
-
+        #endregion
 
         private void CheckBoxChanged(bool value, RayType type)
         {
@@ -255,8 +276,6 @@ namespace ProxySuper.Core.ViewModels
             }
         }
 
-
-
         private void GetUuid()
         {
             UUID = Guid.NewGuid().ToString();
@@ -270,7 +289,7 @@ namespace ProxySuper.Core.ViewModels
     /// </summary>
     public partial class XrayEditorViewModel
     {
-        // vmess tcp
+        #region VMESS TCP
         public bool Checked_VMESS_TCP
         {
             get => Settings.Types.Contains(RayType.VMESS_TCP);
@@ -289,8 +308,9 @@ namespace ProxySuper.Core.ViewModels
         {
             get => ShareLink.Build(RayType.VMESS_TCP, Settings);
         }
+        #endregion
 
-        // vmess ws
+        #region VMESS WS
         public bool Checked_VMESS_WS
         {
             get => Settings.Types.Contains(RayType.VMESS_WS);
@@ -309,8 +329,9 @@ namespace ProxySuper.Core.ViewModels
         {
             get => ShareLink.Build(RayType.VMESS_WS, Settings);
         }
+        #endregion
 
-        // vmess kcp
+        #region VMESS KCP
         public string VMESS_KCP_Seed
         {
             get => Settings.VMESS_KCP_Seed;
@@ -341,10 +362,60 @@ namespace ProxySuper.Core.ViewModels
         {
             get => ShareLink.Build(RayType.VMESS_KCP, Settings);
         }
+        #endregion
 
+        #region VMESS QUIC
+        public bool Checked_VMESS_QUIC
+        {
+            get => Settings.Types.Contains(RayType.VMESS_QUIC);
+            set
+            {
+                CheckBoxChanged(value, RayType.VMESS_QUIC);
+                RaisePropertyChanged(nameof(Checked_VMESS_QUIC));
+            }
+        }
+        public string VMESS_QUIC_Key
+        {
+            get => Settings.VMESS_QUIC_Key;
+            set
+            {
+                Settings.VMESS_QUIC_Key = value;
+                RaisePropertyChanged(nameof(VMESS_QUIC_Key));
+            }
+        }
+        public string VMESS_QUIC_Security
+        {
+            get => Settings.VMESS_QUIC_Security;
+            set
+            {
+                Settings.VMESS_QUIC_Security = value;
+                RaisePropertyChanged(nameof(VMESS_QUIC_Security));
+            }
+        }
+        public string VMESS_QUIC_Type
+        {
+            get => Settings.VMESS_QUIC_Type;
+            set
+            {
+                Settings.VMESS_QUIC_Type = value;
+                RaisePropertyChanged(nameof(VMESS_QUIC_Type));
+            }
+        }
+        public int VMESS_QUIC_Port
+        {
+            get => Settings.VMESS_QUIC_Port;
+            set
+            {
+                Settings.VMESS_QUIC_Port = value;
+                RaisePropertyChanged(nameof(VMESS_QUIC_Port));
+            }
+        }
+        public string VMESS_QUIC_ShareLink
+        {
+            get => ShareLink.Build(RayType.VMESS_QUIC, Settings);
+        }
+        #endregion
 
-        private List<string> _kcpTypes = new List<string> { "none", "srtp", "utp", "wechat-video", "dtls", "wireguard", };
-        public List<string> KcpTypes => _kcpTypes;
     }
 
     /// <summary>
@@ -352,8 +423,19 @@ namespace ProxySuper.Core.ViewModels
     /// </summary>
     public partial class XrayEditorViewModel
     {
+        #region VLESS XTLS
 
-        // vless xtls
+        public List<string> FlowList { get => XraySettings.FlowList; }
+
+        public string Flow
+        {
+            get => Settings.Flow;
+            set
+            {
+                Settings.Flow = value;
+                RaisePropertyChanged(nameof(Flow));
+            }
+        }
         public bool Checked_VLESS_TCP_XTLS
         {
             get => Settings.Types.Contains(RayType.VLESS_TCP_XTLS);
@@ -367,8 +449,9 @@ namespace ProxySuper.Core.ViewModels
         {
             get => ShareLink.Build(RayType.VLESS_TCP_XTLS, Settings);
         }
+        #endregion
 
-        // vless tcp
+        #region VLESS TCP
         public bool Checked_VLESS_TCP
         {
             get => Settings.Types.Contains(RayType.VLESS_TCP);
@@ -382,9 +465,9 @@ namespace ProxySuper.Core.ViewModels
         {
             get => ShareLink.Build(RayType.VLESS_TCP, Settings);
         }
+        #endregion
 
-
-        // vless ws
+        #region VLESS WS
         public string VLESS_WS_Path
         {
             get => Settings.VLESS_WS_Path;
@@ -406,12 +489,68 @@ namespace ProxySuper.Core.ViewModels
         {
             get => ShareLink.Build(RayType.VLESS_WS, Settings);
         }
+        #endregion
 
-        // vless kcp
+        #region VLESS QUIC
+        public string VLESS_QUIC_Key
+        {
+            get => Settings.VLESS_QUIC_Key; set
+            {
+                Settings.VLESS_QUIC_Key = value;
+                RaisePropertyChanged(nameof(VLESS_QUIC_Key));
+            }
+        }
+        public bool Checked_VLESS_QUIC
+        {
+            get => Settings.Types.Contains(RayType.VLESS_QUIC);
+            set
+            {
+                CheckBoxChanged(value, RayType.VLESS_QUIC);
+                RaisePropertyChanged(nameof(Checked_VLESS_QUIC));
+            }
+        }
+        public string VLESS_QUIC_Security
+        {
+            get => Settings.VLESS_QUIC_Security;
+            set
+            {
+                Settings.VLESS_QUIC_Security = value;
+                RaisePropertyChanged(nameof(VLESS_QUIC_Security));
+            }
+        }
+        public string VLESS_QUIC_Type
+        {
+            get => Settings.VLESS_QUIC_Type;
+            set
+            {
+                Settings.VLESS_QUIC_Type = value;
+                RaisePropertyChanged(nameof(VLESS_QUIC_Type));
+            }
+        }
+        public int VLESS_QUIC_Port
+        {
+            get => Settings.VLESS_QUIC_Port;
+            set
+            {
+                Settings.VLESS_QUIC_Port = value;
+                RaisePropertyChanged(nameof(VLESS_QUIC_Port));
+            }
+        }
+        public string VLESS_QUIC_ShareLink
+        {
+            get => ShareLink.Build(RayType.VLESS_QUIC, Settings);
+        }
+        #endregion
+
+        #region VLESS KCP
         public string VLESS_KCP_Seed
         {
             get => Settings.VLESS_KCP_Seed;
-            set => Settings.VLESS_KCP_Seed = value;
+            set
+            {
+                Settings.VLESS_KCP_Seed = value;
+                RaisePropertyChanged(nameof(VLESS_KCP_Seed));
+            }
         }
         public string VLESS_KCP_Type
         {
@@ -438,8 +577,9 @@ namespace ProxySuper.Core.ViewModels
         {
             get => ShareLink.Build(RayType.VLESS_KCP, Settings);
         }
+        #endregion
 
-        // vless grpc
+        #region VLESS gRPC
         public string VLESS_gRPC_ServiceName
         {
             get => Settings.VLESS_gRPC_ServiceName;
@@ -463,6 +603,7 @@ namespace ProxySuper.Core.ViewModels
         {
             get => ShareLink.Build(RayType.VLESS_gRPC, Settings);
         }
+        #endregion
     }
 
 }

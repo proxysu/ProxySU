@@ -13,6 +13,16 @@ namespace ProxySuper.Core.ViewModels
             Settings = parameter;
         }
 
+        public string Flow
+        {
+            get { return Settings.Flow; }
+        }
+
+        public string UTLS
+        {
+            get { return Settings.UTLS; }
+        }
+
         public bool Checked_VLESS_TCP_XTLS
         {
             get

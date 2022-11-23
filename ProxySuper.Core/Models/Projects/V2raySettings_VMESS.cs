@@ -61,5 +61,36 @@ namespace ProxySuper.Core.Models.Projects
                 return ShareLink.Build(RayType.VMESS_KCP, this);
             }
         }
+
+        /// <summary>
+        /// vmess quic security
+        /// </summary>
+        public string VMESS_QUIC_Security { get; set; }
+
+        /// <summary>
+        /// vmess quic type
+        /// </summary>
+        public string VMESS_QUIC_Type { get; set; }
+
+        /// <summary>
+        /// vmess quic port
+        /// </summary>
+        public int VMESS_QUIC_Port { get; set; }
+
+        /// <summary>
+        /// vmess quic key
+        /// </summary>
+        public string VMESS_QUIC_Key { get; set; }
+
+        /// <summary>
+        /// vmess quic ShareLink
+        /// </summary>
+        public string VMESS_QUIC_ShareLink
+        {
+            get
+            {
+                return ShareLink.Build(RayType.VMESS_QUIC, this);
+            }
+        }
     }
 }

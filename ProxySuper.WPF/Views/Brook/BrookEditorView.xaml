@@ -24,61 +24,60 @@
         </StackPanel>
         <StackPanel Grid.Column="1" Background="#EEE"></StackPanel>
 
-        <StackPanel Grid.Column="2">
-            <Grid Margin="10">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="36" />
-                    <RowDefinition Height="36" />
-                    <RowDefinition Height="36" />
-                    <RowDefinition Height="36" />
-                    <RowDefinition Height="36" />
-                    <RowDefinition Height="36" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="120" />
-                    <ColumnDefinition Width="200" />
-                </Grid.ColumnDefinitions>
+        <Grid Grid.Column="2" Margin="10,10,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-                <Label Content="类型" Grid.Row="0" Grid.Column="0" />
-                <ComboBox Width="200" 
-                          Height="24"
-                          Grid.Row="0"
-                          Grid.Column="1"
-                          ItemsSource="{Binding Path=BrookTypes}"
-                          SelectedValue="{Binding CheckedBrookType,Mode=TwoWay}">
-                </ComboBox>
+            <Label Content="类型" Grid.Row="0" Grid.Column="0" />
+            <ComboBox Width="200" 
+                        Height="24"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        ItemsSource="{Binding Path=BrookTypes}"
+                        SelectedValue="{Binding CheckedBrookType,Mode=TwoWay}">
+            </ComboBox>
 
-                <Label Content="端口" Grid.Row="1" Grid.Column="0" IsEnabled="{Binding EnablePort}" />
-                <TextBox IsEnabled="{Binding EnablePort}" Text="{Binding Settings.Port}" Grid.Row="1" Grid.Column="1" />
+            <Label Content="端口" Grid.Row="1" Grid.Column="0" IsEnabled="{Binding EnablePort}" />
+            <TextBox IsEnabled="{Binding EnablePort}" Text="{Binding Settings.Port}" Grid.Row="1" Grid.Column="1" />
 
-                <Label Content="密码" Grid.Row="2" Grid.Column="0" />
-                <TextBox Text="{Binding Settings.Password}" Grid.Row="2" Grid.Column="1" />
+            <Label Content="密码" Grid.Row="2" Grid.Column="0" />
+            <TextBox Text="{Binding Settings.Password}" Grid.Row="2" Grid.Column="1" />
 
-                <Label Content="IP" Grid.Row="3" Grid.Column="0" IsEnabled="{Binding EnableIP}" />
-                <TextBox IsEnabled="{Binding EnableIP}" Text="{Binding Settings.IP}" Grid.Row="3" Grid.Column="1" />
+            <Label Content="IP" Grid.Row="3" Grid.Column="0" IsEnabled="{Binding EnableIP}" />
+            <TextBox IsEnabled="{Binding EnableIP}" Text="{Binding Settings.IP}" Grid.Row="3" Grid.Column="1" />
 
-                <Label Content="域名" Grid.Row="4" Grid.Column="0" IsEnabled="{Binding EnableDomain}" />
-                <TextBox IsEnabled="{Binding EnableDomain}" Text="{Binding Settings.Domain}" Grid.Row="4" Grid.Column="1" />
-            </Grid>
+            <Label Content="域名" Grid.Row="4" Grid.Column="0" IsEnabled="{Binding EnableDomain}" />
+            <TextBox IsEnabled="{Binding EnableDomain}" Text="{Binding Settings.Domain}" Grid.Row="4" Grid.Column="1" />
 
-            <Border BorderBrush="#eee" BorderThickness="0,1,0,0">
+            <Border Grid.Row="6" Grid.ColumnSpan="3" BorderBrush="#eee" BorderThickness="0,1,0,0">
                 <StackPanel Orientation="Horizontal" 
-                            HorizontalAlignment="Right"
-                            Margin="0,20,0,0">
+                            HorizontalAlignment="Right">
                     <Button Content="{DynamicResource Save}" 
-                            Command="{Binding SaveCommand}"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center"
-                            Padding="10,5" />
+                        Command="{Binding SaveCommand}"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Padding="10,5" />
 
                     <Button Content="{DynamicResource SaveAndInstall}"
-                            Command="{Binding SaveAndInstallCommand}"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center"
-                            Padding="10,5"
-                            Margin="20,0,40,0" />
+                        Command="{Binding SaveAndInstallCommand}"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Padding="10,5"
+                        Margin="20,0,40,0" />
                 </StackPanel>
             </Border>
-        </StackPanel>
+        </Grid>
     </Grid>
 </views:MvxWindow>

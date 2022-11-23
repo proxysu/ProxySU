@@ -43,7 +43,7 @@
             <Border Grid.Row="1"
                     BorderBrush="#eee"
                     BorderThickness="0,1,0,0">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Height="50">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button Content="{DynamicResource Save}" 
                             Command="{Binding SaveCommand}"
                             HorizontalAlignment="Right"
