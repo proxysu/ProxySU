@@ -42,6 +42,14 @@ namespace ProxySuper.Core.ViewModels
             }
         }
 
+        public bool Checked_VLESS_QUIC
+        {
+            get
+            {
+                return Settings.Types.Contains(RayType.VLESS_QUIC);
+            }
+        }
+
         public bool Checked_VLESS_gRPC
         {
             get
@@ -71,6 +79,14 @@ namespace ProxySuper.Core.ViewModels
             get
             {
                 return Settings.Types.Contains(RayType.VMESS_KCP);
+            }
+        }
+
+        public bool Checked_VMESS_QUIC
+        {
+            get
+            {
+                return Settings.Types.Contains(RayType.VMESS_QUIC);
             }
         }
 

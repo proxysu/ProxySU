@@ -38,14 +38,16 @@ namespace ProxySuper.Core.Models.Projects
             VLESS_WS_Path = "/" + Utils.RandomString(6);
             VLESS_KCP_Type = "none";
             VLESS_KCP_Seed = guid;
+            VLESS_QUIC_Key = "";
             VLESS_QUIC_Type = "none";
             VLESS_QUIC_Security = "none";
             VLESS_QUIC_Type = "none";
-            VLESS_gRPC_ServiceName = "/" + Utils.RandomString(7);
+            VLESS_gRPC_ServiceName = Utils.RandomString(7);
 
             VMESS_WS_Path = "/" + Utils.RandomString(8);
             VMESS_TCP_Path = "/" + Utils.RandomString(9);
             VMESS_KCP_Seed = guid;
+            VMESS_QUIC_Key = "";
             VMESS_KCP_Type = "none";
             VMESS_QUIC_Security = "none";
             VMESS_QUIC_Type = "none";
@@ -97,8 +99,6 @@ namespace ProxySuper.Core.Models.Projects
                 return list.Distinct().ToList();
             }
         }
-
-        //public ProjectType Type { get; set; } = ProjectType.Xray;
 
         /// <summary>
         /// 是否安装证书，

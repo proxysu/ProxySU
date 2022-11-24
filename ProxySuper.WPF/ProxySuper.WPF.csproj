@@ -112,6 +112,9 @@
     <Compile Include="Controls\VLESS_KCP_Control.xaml.cs">
       <DependentUpon>VLESS_KCP_Control.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\VLESS_QUIC_Control.xaml.cs">
+      <DependentUpon>VLESS_QUIC_Control.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\VLESS_TCP_TLS_Control.xaml.cs">
       <DependentUpon>VLESS_TCP_TLS_Control.xaml</DependentUpon>
     </Compile>
@@ -123,6 +126,9 @@
     </Compile>
     <Compile Include="Controls\VMESS_KCP_Control.xaml.cs">
       <DependentUpon>VMESS_KCP_Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\VMESS_QUIC_Control.xaml.cs">
+      <DependentUpon>VMESS_QUIC_Control.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\VMESS_TCP_TLS_Control.xaml.cs">
       <DependentUpon>VMESS_TCP_TLS_Control.xaml</DependentUpon>
@@ -228,6 +234,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Controls\VLESS_QUIC_Control.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\VLESS_TCP_TLS_Control.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -241,6 +251,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\VMESS_KCP_Control.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\VMESS_QUIC_Control.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -479,6 +493,9 @@
     <None Include="Templates\v2ray\server\05_inbounds\VLESS_KCP.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Templates\v2ray\server\05_inbounds\VLESS_QUIC.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Templates\v2ray\server\05_inbounds\VLESS_TCP_TLS.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -489,6 +506,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Templates\v2ray\server\05_inbounds\VMESS_KCP.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\v2ray\server\05_inbounds\VMESS_QUIC.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Templates\v2ray\server\05_inbounds\VMESS_TCP.json">
@@ -587,6 +607,9 @@
     <None Include="Templates\xray\server\05_inbounds\VLESS_KCP.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Templates\xray\server\05_inbounds\VLESS_QUIC.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Templates\xray\server\05_inbounds\VLESS_TCP_XTLS.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -597,6 +620,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Templates\xray\server\05_inbounds\VMESS_KCP.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\xray\server\05_inbounds\VMESS_QUIC.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Templates\xray\server\05_inbounds\VMESS_TCP.json">

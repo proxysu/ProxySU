@@ -88,6 +88,9 @@ namespace ProxySuper.WPF.Views
                 case RayType.VLESS_KCP:
                     shareLink = Settings.VLESS_KCP_ShareLink;
                     break;
+                case RayType.VLESS_QUIC:
+                    shareLink = Settings.VLESS_QUIC_ShareLink;
+                    break;
                 case RayType.VLESS_gRPC:
                     shareLink = Settings.VLESS_gRPC_ShareLink;
                     break;
@@ -101,6 +104,9 @@ namespace ProxySuper.WPF.Views
                     break;
                 case RayType.VMESS_KCP:
                     shareLink = Settings.VMESS_KCP_ShareLink;
+                    break;
+                case RayType.VMESS_QUIC:
+                    shareLink = Settings.VMESS_QUIC_ShareLink;
                     break;
                 case RayType.Trojan_TCP:
                     shareLink = Settings.Trojan_TCP_ShareLink;
