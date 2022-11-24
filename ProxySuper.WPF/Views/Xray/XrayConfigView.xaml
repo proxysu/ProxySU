@@ -55,7 +55,7 @@
             <TabItem Width="200" Height="40"
                      Tag="{x:Static models:RayType.VLESS_QUIC}"
                      IsEnabled="{Binding Checked_VLESS_QUIC}"
-                     Header="VLESS-Quic">
+                     Header="VLESS-QUIC">
                 <ctrl:VLESS_QUIC_Control />
             </TabItem>
 
@@ -83,7 +83,7 @@
             <TabItem Width="200" Height="40"
                      Tag="{x:Static models:RayType.VMESS_QUIC}"
                      IsEnabled="{Binding Checked_VLESS_QUIC}"
-                     Header="VMESS-Quic">
+                     Header="VMESS-QUIC">
                 <ctrl:VMESS_QUIC_Control />
             </TabItem>
 

@@ -46,6 +46,13 @@
             </TabItem>
 
             <TabItem Width="200" Height="40"
+                     Tag="{x:Static models:RayType.VLESS_QUIC}"
+                     IsEnabled="{Binding Checked_VLESS_QUIC}"
+                     Header="VLESS-QUIC">
+                <ctrl:VLESS_QUIC_Control />
+            </TabItem>
+
+            <TabItem Width="200" Height="40"
                      Tag="{x:Static models:RayType.VLESS_gRPC}"
                      IsEnabled="{Binding Checked_VLESS_gRPC}"                     
                      Header="VLESS-gRPC">
@@ -71,6 +78,13 @@
                      IsEnabled="{Binding Checked_VMESS_KCP}"
                      Header="VMESS-mKCP">
                 <ctrl:VMESS_KCP_Control />
+            </TabItem>
+
+            <TabItem Width="200" Height="40"
+                     Tag="{x:Static models:RayType.VMESS_QUIC}"
+                     IsEnabled="{Binding Checked_VLESS_QUIC}"
+                     Header="VMESS-QUIC">
+                <ctrl:VMESS_QUIC_Control />
             </TabItem>
 
             <TabItem Width="200" Height="40"     
