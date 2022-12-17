@@ -51,6 +51,9 @@ namespace ProxySuper.Core.Models
         [JsonProperty("mtProtoGoSettings")]
         public MTProtoGoSettings MTProtoGoSettings { get; set; }
 
+        [JsonProperty]
+        public HysteriaSettings HysteriaSettings { get; set; }
+
 
         [JsonIgnore]
         public ProjectType Type
@@ -66,6 +69,8 @@ namespace ProxySuper.Core.Models
                 if (NaiveProxySettings != null) return ProjectType.NaiveProxy;
 
                 if (MTProtoGoSettings != null) return ProjectType.MTProtoGo;
+
+                if (HysteriaSettings != null) return ProjectType.Hysteria;
 
                 return ProjectType.Brook;
             }

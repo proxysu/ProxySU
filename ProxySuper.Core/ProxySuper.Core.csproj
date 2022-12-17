@@ -90,6 +90,7 @@
     <Compile Include="Models\ProjectProgress.cs" />
     <Compile Include="Models\Projects\BrookSettings.cs" />
     <Compile Include="Models\Projects\BrookType.cs" />
+    <Compile Include="Models\Projects\HysteriaSettings.cs" />
     <Compile Include="Models\Projects\IProjectSettings.cs" />
     <Compile Include="Models\Hosts\LocalProxy.cs" />
     <Compile Include="Models\Projects\MTProtoGoSettings.cs" />
@@ -122,6 +123,8 @@
     <Compile Include="ViewModels\BrookInstallViewModel.cs" />
     <Compile Include="ViewModels\EnableRootViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
+    <Compile Include="ViewModels\HysteriaEditorViewModel.cs" />
+    <Compile Include="ViewModels\HysteriaInstallViewModel.cs" />
     <Compile Include="ViewModels\MTProtoGoConfigViewModel.cs" />
     <Compile Include="ViewModels\MTProtoGoEditorViewModel.cs" />
     <Compile Include="ViewModels\MTProtoGoInstallViewModel.cs" />
