@@ -1,4 +1,5 @@
-﻿using MvvmCross.Navigation;
+﻿using MvvmCross.Commands;
+using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 using ProxySuper.Core.Models;
 using ProxySuper.Core.Models.Hosts;
@@ -22,6 +23,10 @@ namespace ProxySuper.Core.ViewModels
         public HysteriaSettings Settings { get; set; }
 
         public IMvxNavigationService NavigationService { get; }
+
+        public IMvxCommand SaveCommand => new MvxCommand(() => Save());
+
+        public IMvxCommand SaveAndInstallCommand => new MvxCommand(SaveAndInstall);
 
         public HysteriaEditorViewModel(IMvxNavigationService mvxNavigationService)
         {

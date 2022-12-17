@@ -14,6 +14,8 @@ namespace ProxySuper.Core.Models.Projects
 
         public string Email { get; set; } = "";
 
+        public string Protocol { get; set; } = "udp";
+
         public int Port { get; set; } = 36712;
 
         public int UpMbps { get; set; } = 300;

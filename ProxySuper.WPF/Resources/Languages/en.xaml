@@ -149,4 +149,12 @@
     <sys:String x:Key="MTProtoPort">Port</sys:String>
     <sys:String x:Key="MTProtoCleartext">Cleantext</sys:String>
     <sys:String x:Key="MTProtoSecretText">Secret</sys:String>
+    
+    <!--Hysteria-->
+    <sys:String x:Key="HysteriaDomain">Address</sys:String>
+    <sys:String x:Key="HysteriaPort">Port</sys:String>
+    <sys:String x:Key="HysteriaObfs">OBFS</sys:String>
+    <sys:String x:Key="HysteriaEmail">Email</sys:String>
+    <sys:String x:Key="HysteriaUpMbps">UpMbps</sys:String>
+    <sys:String x:Key="HysteriaDownMbps">DownMbps</sys:String>
 </ResourceDictionary>

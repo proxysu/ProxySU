@@ -150,4 +150,12 @@
     <sys:String x:Key="MTProtoPort">端口</sys:String>
     <sys:String x:Key="MTProtoCleartext">加密前字符</sys:String>
     <sys:String x:Key="MTProtoSecretText">密鑰</sys:String>
+    
+    <!--Hysteria-->
+    <sys:String x:Key="HysteriaDomain">域名</sys:String>
+    <sys:String x:Key="HysteriaPort">端口</sys:String>
+    <sys:String x:Key="HysteriaObfs">加密字符</sys:String>
+    <sys:String x:Key="HysteriaEmail">郵箱</sys:String>
+    <sys:String x:Key="HysteriaUpMbps">上傳限速</sys:String>
+    <sys:String x:Key="HysteriaDownMbps">下載限速</sys:String>
 </ResourceDictionary>
