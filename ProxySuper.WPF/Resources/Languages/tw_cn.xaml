@@ -156,6 +156,7 @@
     <sys:String x:Key="HysteriaPort">端口</sys:String>
     <sys:String x:Key="HysteriaObfs">加密字符</sys:String>
     <sys:String x:Key="HysteriaEmail">郵箱</sys:String>
+    <sys:String x:Key="HysteriaProtocol">協議</sys:String>
     <sys:String x:Key="HysteriaUpMbps">上傳限速</sys:String>
     <sys:String x:Key="HysteriaDownMbps">下載限速</sys:String>
 </ResourceDictionary>

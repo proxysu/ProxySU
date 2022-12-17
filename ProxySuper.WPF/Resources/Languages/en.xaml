@@ -154,6 +154,7 @@
     <sys:String x:Key="HysteriaDomain">Address</sys:String>
     <sys:String x:Key="HysteriaPort">Port</sys:String>
     <sys:String x:Key="HysteriaObfs">OBFS</sys:String>
+    <sys:String x:Key="HysteriaProtocol">Protocol</sys:String>
     <sys:String x:Key="HysteriaEmail">Email</sys:String>
     <sys:String x:Key="HysteriaUpMbps">UpMbps</sys:String>
     <sys:String x:Key="HysteriaDownMbps">DownMbps</sys:String>
