@@ -413,6 +413,9 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Templates\Hysteria\config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Templates\NaiveProxy\naive_server.caddyfile">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

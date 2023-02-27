@@ -1,0 +1,10 @@
+{
+  "listen": ":36712",
+  "acme": {
+    "domains": [
+      "your.domain.com"
+    ],
+    "email": "your@email.com"
+  },
+  "obfs": "8ZuA2Zpqhuk8yakXvMjDqEXBwY"
+}

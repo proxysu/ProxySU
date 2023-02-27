@@ -108,6 +108,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\Utils.cs" />
     <Compile Include="Services\BrookService.cs" />
+    <Compile Include="Services\HysteriaService.cs" />
     <Compile Include="Services\MTProtoGoService.cs" />
     <Compile Include="Services\NaiveProxyService.cs" />
     <Compile Include="Services\ServiceBase.cs" />

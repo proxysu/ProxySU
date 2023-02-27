@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MvvmCross.Platforms.Wpf.Presenters.Attributes;
+using MvvmCross.Platforms.Wpf.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,10 +16,8 @@ using System.Windows.Shapes;
 
 namespace ProxySuper.WPF.Views.Hysteria
 {
-    /// <summary>
-    /// HysteriaEditorView.xaml 的交互逻辑
-    /// </summary>
-    public partial class HysteriaEditorView : Window
+    [MvxWindowPresentation]
+    public partial class HysteriaEditorView : MvxWindow
     {
         public HysteriaEditorView()
         {

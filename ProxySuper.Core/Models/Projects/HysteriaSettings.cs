@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProxySuper.Core.Models.Projects
 {
-    public class HysteriaSettings
+    public class HysteriaSettings : IProjectSettings
     {
         public string Domain { get; set; } = "";
 
@@ -21,5 +21,13 @@ namespace ProxySuper.Core.Models.Projects
         public int UpMbps { get; set; } = 300;
 
         public int DownMbps { get; set; } = 300;
+
+        public List<int> FreePorts
+        {
+            get
+            {
+                return new List<int> { Port };
+            }
+        }
     }
 }

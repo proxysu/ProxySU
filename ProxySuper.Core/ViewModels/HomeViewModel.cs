@@ -108,6 +108,8 @@ namespace ProxySuper.Core.ViewModels
 
         public IMvxCommand AddBrookCommand => new MvxAsyncCommand(AddBrookRecord);
 
+        public IMvxCommand AddHysteriaCommand => new MvxAsyncCommand(AddHysteriaRecord);
+
         public IMvxCommand RemoveCommand => new MvxAsyncCommand<string>(DeleteRecord);
 
         public IMvxCommand EditCommand => new MvxAsyncCommand<string>(EditRecord);
@@ -197,6 +199,21 @@ namespace ProxySuper.Core.ViewModels
             record.BrookSettings = new BrookSettings();
 
             var result = await _navigationService.Navigate<BrookEditorViewModel, Record, Record>(record);
+            if (result == null) return;
+
+            Records.Add(result);
+
+            SaveToJson();
+        }
+
+        public async Task AddHysteriaRecord()
+        {
+            Record record = new Record();
+            record.Id = Utils.GetTickID();
+            record.Host = new Host();
+            record.HysteriaSettings = new HysteriaSettings();
+
+            var result = await _navigationService.Navigate<HysteriaEditorViewModel, Record, Record>(record);
             if (result == null) return;
 
             Records.Add(result);
