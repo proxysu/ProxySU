@@ -1,4 +1,5 @@
-﻿using MvvmCross.Platforms.Wpf.Views;
+﻿using MvvmCross.Platforms.Wpf.Presenters.Attributes;
+using MvvmCross.Platforms.Wpf.Views;
 using MvvmCross.ViewModels;
 using ProxySuper.Core.ViewModels;
 using System;
@@ -17,9 +18,7 @@ using System.Windows.Shapes;
 
 namespace ProxySuper.WPF.Views
 {
-    /// <summary>
-    /// XrayInstallView.xaml 的交互逻辑
-    /// </summary>
+    [MvxWindowPresentation]
     public partial class XrayInstallView : MvxWindow
     {
         public XrayInstallView()

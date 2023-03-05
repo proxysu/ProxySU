@@ -1,4 +1,7 @@
 ﻿using ProxySuper.Core.Services;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Documents;
 
 namespace ProxySuper.Core.Models.Projects
 {
@@ -54,6 +57,37 @@ namespace ProxySuper.Core.Models.Projects
             get
             {
                 return ShareLink.Build(RayType.VLESS_KCP, this);
+            }
+        }
+
+        /// <summary>
+        /// vless quic security
+        /// </summary>
+        public string VLESS_QUIC_Security { get; set; }
+
+        /// <summary>
+        /// vless quic type
+        /// </summary>
+        public string VLESS_QUIC_Type { get; set; }
+
+        /// <summary>
+        /// vless quic port
+        /// </summary>
+        public int VLESS_QUIC_Port { get; set; }
+
+        /// <summary>
+        /// vless quic key
+        /// </summary>
+        public string VLESS_QUIC_Key { get; set; }
+
+        /// <summary>
+        /// vless quic ShareLink
+        /// </summary>
+        public string VLESS_QUIC_ShareLink
+        {
+            get
+            {
+                return ShareLink.Build(RayType.VLESS_QUIC, this);
             }
         }
 

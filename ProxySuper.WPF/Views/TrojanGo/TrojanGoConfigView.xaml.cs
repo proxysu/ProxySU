@@ -1,11 +1,10 @@
-﻿using MvvmCross.Platforms.Wpf.Views;
+﻿using MvvmCross.Platforms.Wpf.Presenters.Attributes;
+using MvvmCross.Platforms.Wpf.Views;
 using ProxySuper.Core.ViewModels;
 
 namespace ProxySuper.WPF.Views
 {
-    /// <summary>
-    /// TrojanGoConfigView.xaml 的交互逻辑
-    /// </summary>
+    [MvxWindowPresentation]
     public partial class TrojanGoConfigView : MvxWindow
     {
         public TrojanGoConfigView()

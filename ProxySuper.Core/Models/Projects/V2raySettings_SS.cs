@@ -19,6 +19,9 @@ namespace ProxySuper.Core.Models.Projects
         /// </summary>
         public int ShadowSocksPort { get; set; }
 
+        /// <summary>
+        /// share link
+        /// </summary>
         public string ShadowSocksShareLink
         {
             get

@@ -1,0 +1,88 @@
+﻿<views:MvxWindow x:Class="ProxySuper.WPF.Views.Hysteria.HysteriaEditorView"
+        xmlns:views="clr-namespace:MvvmCross.Platforms.Wpf.Views;assembly=MvvmCross.Platforms.Wpf"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProxySuper.WPF.Views.Hysteria" 
+        xmlns:ctrl="clr-namespace:ProxySuper.WPF.Controls"
+        mc:Ignorable="d"
+        BorderThickness="0,1,0,0"
+        BorderBrush="#eee"
+        Icon="/Resources/ProxySU.ico"
+        WindowStartupLocation="CenterScreen"
+        Title="Hysteria编辑配置" Height="600" Width="1000">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="310" />
+            <ColumnDefinition Width="1" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" Margin="10">
+            <ctrl:HostControl />
+        </StackPanel>
+        <StackPanel Grid.Column="1" Background="#EEE"></StackPanel>
+
+        <Grid Grid.Column="2" Margin="10,10,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Label Content="{DynamicResource HysteriaDomain}" Grid.Row="0" Grid.Column="0" />
+            <TextBox Text="{Binding Settings.Domain}" Grid.Row="0" Grid.Column="1" />
+
+            <Label Content="{DynamicResource HysteriaPort}" Grid.Row="1" Grid.Column="0" />
+            <TextBox Text="{Binding Settings.Port}" Grid.Row="1" Grid.Column="1" />
+
+            <Label Content="{DynamicResource HysteriaObfs}" Grid.Row="2" Grid.Column="0" />
+            <TextBox Text="{Binding Settings.Obfs}" Grid.Row="2" Grid.Column="1" />
+
+            <Label Content="{DynamicResource HysteriaEmail}" Grid.Row="3" Grid.Column="0" />
+            <TextBox Text="{Binding Settings.Email}" Grid.Row="3" Grid.Column="1" />
+
+            <!--<Label Content="{DynamicResource HysteriaProtocol}" Grid.Row="4" Grid.Column="0" />
+            <TextBox Text="{Binding Settings.Protocol}" Grid.Row="4" Grid.Column="1" />-->
+
+            <!--<Label Content="{DynamicResource HysteriaUpMbps}" Grid.Row="5" Grid.Column="0" />
+            <TextBox Text="{Binding Settings.UpMbps}" Grid.Row="5" Grid.Column="1" />
+
+            <Label Content="{DynamicResource HysteriaDownMbps}" Grid.Row="6" Grid.Column="0" />
+            <TextBox Text="{Binding Settings.DownMbps}" Grid.Row="6" Grid.Column="1" />-->
+            
+            <Border Grid.Row="8"
+                    Grid.ColumnSpan="3"
+                    BorderBrush="#eee"
+                    BorderThickness="0,1,0,0">
+                <StackPanel Orientation="Horizontal" 
+                            HorizontalAlignment="Right">
+                    <Button Content="{DynamicResource Save}" 
+                            Command="{Binding SaveCommand}"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Padding="10,5" />
+
+                    <Button Content="{DynamicResource SaveAndInstall}"
+                            Command="{Binding SaveAndInstallCommand}"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Padding="10,5"
+                            Margin="20,0,40,0" />
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</views:MvxWindow>

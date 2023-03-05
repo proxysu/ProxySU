@@ -1,6 +1,8 @@
 ﻿using MvvmCross;
 using MvvmCross.Navigation;
+using MvvmCross.Platforms.Wpf.Presenters.Attributes;
 using MvvmCross.Platforms.Wpf.Views;
+using MvvmCross.ViewModels;
 using ProxySuper.Core.Models;
 using ProxySuper.Core.ViewModels;
 using System;
@@ -10,9 +12,8 @@ using System.Windows;
 
 namespace ProxySuper.WPF.Views
 {
-    /// <summary>
-    /// HomeView.xaml 的交互逻辑
-    /// </summary>
+    [MvxContentPresentation]
+    [MvxViewFor(typeof(HomeViewModel))]
     public partial class HomeView : MvxWpfView
     {
 

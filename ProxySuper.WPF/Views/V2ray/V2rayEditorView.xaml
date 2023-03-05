@@ -11,7 +11,7 @@
         Icon="/Resources/ProxySU.ico"
         BorderThickness="0,1,0,0"
         BorderBrush="#EEE"
-        Title="V2ray编辑配置" Height="610" Width="1015">
+        Title="V2ray编辑配置" Height="640" Width="1015">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="310" />
@@ -25,41 +25,39 @@
 
         <StackPanel Grid.Column="1" Background="#EEE"></StackPanel>
 
-        <StackPanel Grid.Column="2">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="500" />
-                    <RowDefinition Height="80" />
-                </Grid.RowDefinitions>
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
 
-                <ScrollViewer Name="scroll" 
-                              Padding="10" 
-                              Height="500"
-                              Grid.Row="0"
-                              HorizontalScrollBarVisibility="Auto" 
-                              VerticalScrollBarVisibility="Auto" >
-                    <ctrl:V2raySettingsControl />
-                </ScrollViewer>
+            <ScrollViewer Name="scroll" 
+                            Padding="10" 
+                            Height="auto"
+                            Grid.Row="0"
+                            HorizontalScrollBarVisibility="Auto" 
+                            VerticalScrollBarVisibility="Auto" >
+                <ctrl:V2raySettingsControl />
+            </ScrollViewer>
 
-                <Border Grid.Row="1"
-                        BorderBrush="#eee"
-                        BorderThickness="0,1,0,0">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button Content="{DynamicResource Save}" 
-                                Command="{Binding SaveCommand}"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                Padding="10,5" />
+            <Border Grid.Row="1"
+                    BorderBrush="#eee"
+                    BorderThickness="0,1,0,0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="{DynamicResource Save}" 
+                            Command="{Binding SaveCommand}"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Padding="10,5" />
 
-                        <Button Content="{DynamicResource SaveAndInstall}"
-                                Command="{Binding SaveAndInstallCommand}"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                Padding="10,5"
-                                Margin="20,0,40,0" />
-                    </StackPanel>
-                </Border>
-            </Grid>
-        </StackPanel>
+                    <Button Content="{DynamicResource SaveAndInstall}"
+                            Command="{Binding SaveAndInstallCommand}"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Padding="10,5"
+                            Margin="20,0,40,0" />
+                </StackPanel>
+            </Border>
+        </Grid> 
     </Grid>
 </views:MvxWindow>

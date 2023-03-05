@@ -1,0 +1,31 @@
+{
+  "port": 3000,
+  "protocol": "vmess",
+  "settings": {
+    "clients": [
+      {
+        "id": ""
+      }
+    ],
+    "decryption": "none"
+  },
+  "streamSettings": {
+    "network": "quic",
+    "quicSettings": {
+      "security": "none",
+      "key": "",
+      "header": {
+        "type": "none"
+      }
+    },
+    "security": "tls",
+    "tlsSettings": {
+      "certificates": [
+        {
+          "certificateFile": "/usr/local/etc/xray/ssl/xray_ssl.crt",
+          "keyFile": "/usr/local/etc/xray/ssl/xray_ssl.key"
+        }
+      ]
+    }
+  }
+}

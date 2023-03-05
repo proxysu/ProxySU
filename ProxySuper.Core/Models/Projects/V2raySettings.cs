@@ -9,6 +9,15 @@ namespace ProxySuper.Core.Models.Projects
 {
     public partial class V2raySettings : IProjectSettings
     {
+        public static List<string> DisguiseTypes = new List<string> {
+            "none",
+            "srtp",
+            "utp",
+            "wechat-video",
+            "dtls",
+            "wireguard",
+        };
+
         public V2raySettings()
         {
             WithTLS = true;
@@ -16,8 +25,11 @@ namespace ProxySuper.Core.Models.Projects
             var guid = Guid.NewGuid().ToString();
             Port = 443;
             VLESS_KCP_Port = 2001;
-            VLESS_gRPC_Port = 2002;
+            VLESS_QUIC_Port = 2002;
+            VLESS_gRPC_Port = 2003;
+
             VMESS_KCP_Port = 3001;
+            VMESS_QUIC_Port = 3002;
             ShadowSocksPort = 4001;
 
             UUID = guid;
@@ -26,12 +38,19 @@ namespace ProxySuper.Core.Models.Projects
             VLESS_WS_Path = "/" + Utils.RandomString(6);
             VLESS_KCP_Type = "none";
             VLESS_KCP_Seed = guid;
-            VLESS_gRPC_ServiceName = "/" + Utils.RandomString(7);
+            VLESS_QUIC_Key = "";
+            VLESS_QUIC_Type = "none";
+            VLESS_QUIC_Security = "none";
+            VLESS_QUIC_Type = "none";
+            VLESS_gRPC_ServiceName = Utils.RandomString(7);
 
             VMESS_WS_Path = "/" + Utils.RandomString(8);
             VMESS_TCP_Path = "/" + Utils.RandomString(9);
             VMESS_KCP_Seed = guid;
+            VMESS_QUIC_Key = "";
             VMESS_KCP_Type = "none";
+            VMESS_QUIC_Security = "none";
+            VMESS_QUIC_Type = "none";
 
             TrojanPassword = guid;
 
@@ -80,8 +99,6 @@ namespace ProxySuper.Core.Models.Projects
                 return list.Distinct().ToList();
             }
         }
-
-        //public ProjectType Type { get; set; } = ProjectType.Xray;
 
         /// <summary>
         /// 是否安装证书，

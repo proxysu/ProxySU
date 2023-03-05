@@ -13,6 +13,16 @@ namespace ProxySuper.Core.ViewModels
             Settings = parameter;
         }
 
+        public string Flow
+        {
+            get { return Settings.Flow; }
+        }
+
+        public string UTLS
+        {
+            get { return Settings.UTLS; }
+        }
+
         public bool Checked_VLESS_TCP_XTLS
         {
             get
@@ -45,6 +55,14 @@ namespace ProxySuper.Core.ViewModels
             }
         }
 
+        public bool Checked_VLESS_QUIC
+        {
+            get
+            {
+                return Settings.Types.Contains(RayType.VLESS_QUIC);
+            }
+        }
+
         public bool Checked_VLESS_gRPC
         {
             get
@@ -74,6 +92,14 @@ namespace ProxySuper.Core.ViewModels
             get
             {
                 return Settings.Types.Contains(RayType.VMESS_KCP);
+            }
+        }
+
+        public bool Checked_VMESS_QUIC
+        {
+            get
+            {
+                return Settings.Types.Contains(RayType.VMESS_QUIC);
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using MvvmCross.Platforms.Wpf.Views;
+﻿using MvvmCross.Platforms.Wpf.Presenters.Attributes;
+using MvvmCross.Platforms.Wpf.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,7 @@ using System.Windows.Shapes;
 
 namespace ProxySuper.WPF.Views.Brook
 {
-    /// <summary>
-    /// BrookInstallView.xaml 的交互逻辑
-    /// </summary>
+    [MvxWindowPresentation]
     public partial class BrookInstallView : MvxWindow
     {
         public BrookInstallView()

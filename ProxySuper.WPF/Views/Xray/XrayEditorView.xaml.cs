@@ -4,10 +4,7 @@ using System;
 
 namespace ProxySuper.WPF.Views
 {
-    /// <summary>
-    /// XrayEditorView.xaml 的交互逻辑
-    /// </summary>
-    [MvxWindowPresentation(Identifier = nameof(XrayEditorView), Modal = false)]
+    [MvxWindowPresentation]
     public partial class XrayEditorView : MvxWindow
     {
         public XrayEditorView()

@@ -1,10 +1,9 @@
-﻿using MvvmCross.Platforms.Wpf.Views;
+﻿using MvvmCross.Platforms.Wpf.Presenters.Attributes;
+using MvvmCross.Platforms.Wpf.Views;
 
 namespace ProxySuper.WPF.Views
 {
-    /// <summary>
-    /// BrookConfigView.xaml 的交互逻辑
-    /// </summary>
+    [MvxWindowPresentation]
     public partial class BrookConfigView : MvxWindow
     {
         public BrookConfigView()

@@ -1,4 +1,5 @@
-﻿using MvvmCross.Platforms.Wpf.Views;
+﻿using MvvmCross.Platforms.Wpf.Presenters.Attributes;
+using MvvmCross.Platforms.Wpf.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,7 @@ using System.Windows.Shapes;
 
 namespace ProxySuper.WPF.Views.V2ray
 {
-    /// <summary>
-    /// V2rayEditorView.xaml 的交互逻辑
-    /// </summary>
+    [MvxWindowPresentation]
     public partial class V2rayEditorView : MvxWindow
     {
         public V2rayEditorView()

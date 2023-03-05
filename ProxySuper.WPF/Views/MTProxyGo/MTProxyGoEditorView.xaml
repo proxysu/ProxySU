@@ -24,49 +24,50 @@
         </StackPanel>
         <StackPanel Grid.Column="1" Background="#EEE"></StackPanel>
 
-        <StackPanel Grid.Column="2">
-            <Grid Margin="10">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="36" />
-                    <RowDefinition Height="36" />
-                    <RowDefinition Height="36" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="120" />
-                    <ColumnDefinition Width="200" />
-                </Grid.ColumnDefinitions>
+        <Grid Grid.Column="2" Margin="10,10,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-                <Label Content="{DynamicResource MTProtoDomain}" Grid.Row="0" Grid.Column="0" />
-                <TextBox Text="{Binding Settings.Domain}" Grid.Row="0" Grid.Column="1" />
+            <Label Content="{DynamicResource MTProtoDomain}" Grid.Row="0" Grid.Column="0" />
+            <TextBox Text="{Binding Settings.Domain}" Grid.Row="0" Grid.Column="1" />
 
-                <Label Content="{DynamicResource MTProtoPort}" Grid.Row="1" Grid.Column="0" />
-                <TextBox Text="{Binding Settings.Port}" Grid.Row="1" Grid.Column="1" />
+            <Label Content="{DynamicResource MTProtoPort}" Grid.Row="1" Grid.Column="0" />
+            <TextBox Text="{Binding Settings.Port}" Grid.Row="1" Grid.Column="1" />
 
-                <Label Content="{DynamicResource MTProtoCleartext}" Grid.Row="2" Grid.Column="0" />
-                <TextBox Text="{Binding Settings.Cleartext}" Grid.Row="2" Grid.Column="1" />
-            </Grid>
+            <Label Content="{DynamicResource MTProtoCleartext}" Grid.Row="2" Grid.Column="0" />
+            <TextBox Text="{Binding Settings.Cleartext}" Grid.Row="2" Grid.Column="1" />
 
 
-            <Border Grid.Row="1"
+            <Border Grid.Row="4"
+                    Grid.ColumnSpan="3"
                     BorderBrush="#eee"
                     BorderThickness="0,1,0,0">
                 <StackPanel Orientation="Horizontal" 
-                            Margin="0,20,0,0"
                             HorizontalAlignment="Right">
                     <Button Content="{DynamicResource Save}" 
-                            Command="{Binding SaveCommand}"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center"
-                            Padding="10,5" />
+                                Command="{Binding SaveCommand}"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Padding="10,5" />
 
                     <Button Content="{DynamicResource SaveAndInstall}"
-                            Command="{Binding SaveAndInstallCommand}"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center"
-                            Padding="10,5"
-                            Margin="20,0,40,0" />
+                                Command="{Binding SaveAndInstallCommand}"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Padding="10,5"
+                                Margin="20,0,40,0" />
                 </StackPanel>
             </Border>
-        </StackPanel>
+        </Grid>
     </Grid>
 </views:MvxWindow>

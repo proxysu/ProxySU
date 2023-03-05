@@ -64,15 +64,22 @@
     <sys:String x:Key="ProxyTypeHttp">Http</sys:String>
     <sys:String x:Key="ProxyTypeSocks5">Socks5</sys:String>
 
+    <!--editor-->
+    <sys:String x:Key="EditorProxyType" xml:space="preserve">節點類型</sys:String>
+    <sys:String x:Key="EditorProxyParams" xml:space="preserve">節點參數</sys:String>
+
     <!--Xray-->
-    <sys:String x:Key="VlessXtlsDesc" xml:space="preserve">VLESS Over TCP With XTLS&#x0a;性能數倍，首選方式。</sys:String>
-    <sys:String x:Key="VlessTcpDesc" xml:space="preserve">VLESS over TCP with TLS&#x0a;仍推薦XTLS。</sys:String>
-    <sys:String x:Key="VlessWsDesc" xml:space="preserve">VLESS over WS with TLS&#x0a;推薦，支持CDN。</sys:String>
-    <sys:String x:Key="VlessKcpDesc" xml:space="preserve">VLESS mKCP&#x0a;遊戲推薦，延遲低，免域名。</sys:String>
-    <sys:String x:Key="VmessWsDesc" xml:space="preserve">VMESS over WS with TLS&#x0a;推薦，支持CDN。</sys:String>
-    <sys:String x:Key="VmessKcpDesc" xml:space="preserve">VMESS mKCP&#x0a;遊戲推薦，延遲低，免域名。</sys:String>
-    <sys:String x:Key="SSDesc" xml:space="preserve">ShadowSocks&#x0a;SS，支持udp，免域名。</sys:String>
-    <sys:String x:Key="TrojanDesc" xml:space="preserve">Trojan over TCP with TLS&#x0a;Trojan。</sys:String>
+    <sys:String x:Key="VlessXtlsDesc" xml:space="preserve">VLESS TCP XTLS</sys:String>
+    <sys:String x:Key="VlessTcpDesc" xml:space="preserve">VLESS TCP</sys:String>
+    <sys:String x:Key="VlessWsDesc" xml:space="preserve">VLESS WS</sys:String>
+    <sys:String x:Key="VlessRpcDesc" xml:space="preserve">VLESS gRPC</sys:String>
+    <sys:String x:Key="VlessKcpDesc" xml:space="preserve">VLESS mKCP</sys:String>
+    <sys:String x:Key="VlessQuicDesc" xml:space="preserve">VLESS QUIC</sys:String>
+    <sys:String x:Key="VmessWsDesc" xml:space="preserve">VMESS WS</sys:String>
+    <sys:String x:Key="VmessKcpDesc" xml:space="preserve">VMESS mKCP</sys:String>
+    <sys:String x:Key="VmessQuicDesc" xml:space="preserve">VMESS QUIC</sys:String>
+    <sys:String x:Key="SSDesc" xml:space="preserve">ShadowSocks</sys:String>
+    <sys:String x:Key="TrojanDesc" xml:space="preserve">Trojan</sys:String>
 
 
     <sys:String x:Key="XrayDomain">域名/IP</sys:String>
@@ -80,24 +87,35 @@
     <sys:String x:Key="XrayWithTLS">自動申請證書</sys:String>
     <sys:String x:Key="XrayWithTLSDesc">如上傳自有證書，則取消對勾。</sys:String>
     <sys:String x:Key="XrayUUID">UUID</sys:String>
+    <sys:String x:Key="Flow">流控</sys:String>
+    <sys:String x:Key="UTLS">uTLS</sys:String>
     <sys:String x:Key="MultiUser">多用戶</sys:String>
     <sys:String x:Key="MultiUserHelp">多個UUID用“,”分隔</sys:String>
     <sys:String x:Key="VlessWsPath">VLESS WS路徑</sys:String>
     <sys:String x:Key="VlessKcpSeed">VLESS KCP Seed</sys:String>
     <sys:String x:Key="VlessKcpType">VLESS KCP偽裝</sys:String>
     <sys:String x:Key="VlessKcpPort">VLESS KCP端口</sys:String>
+    <sys:String x:Key="VlessQuicKey">VLESS QUIC Key</sys:String>
+    <sys:String x:Key="VlessQuicPort">VLESS QUIC端口</sys:String>
+    <sys:String x:Key="VlessQuicSecurity">VLESS QUIC加密</sys:String>
+    <sys:String x:Key="VlessQuicType">VLESS QUIC僞裝</sys:String>
     <sys:String x:Key="VlessRPCName">gRPC路徑</sys:String>
     <sys:String x:Key="VlessRPCPort">gRPC端口</sys:String>
     <sys:String x:Key="VmessWsPath">VMESS WS路徑</sys:String>
     <sys:String x:Key="VmessKcpSeed">VMESS KCP Seed</sys:String>
     <sys:String x:Key="VmessKcpType">VMESS KCP偽裝</sys:String>
     <sys:String x:Key="VmessKcpPort">VMESS KCP端口</sys:String>
+    <sys:String x:Key="VmessQuicKey">VMESS QUIC Key</sys:String>
+    <sys:String x:Key="VmessQuicPort">VMESS QUIC端口</sys:String>
+    <sys:String x:Key="VmessQuicSecurity">VMESS QUIC加密</sys:String>
+    <sys:String x:Key="VmessQuicType">VMESS QUIC僞裝</sys:String>
     <sys:String x:Key="SSPassword">SS密碼</sys:String>
     <sys:String x:Key="SSMethods">SS加密方式</sys:String>
     <sys:String x:Key="SSPort">SS端口</sys:String>
     <sys:String x:Key="TrojanPassword">Trojan密碼</sys:String>
     <sys:String x:Key="TrojanPort">Trojan端口</sys:String>
-    <sys:String x:Key="XrayPort">xray端口</sys:String>
+    <sys:String x:Key="V2rayPort">V2ray端口</sys:String>
+    <sys:String x:Key="XrayPort">XRAY端口</sys:String>
     <sys:String x:Key="XrayPortDefault">默認端口443，不建議修改</sys:String>
 
     <!--xray installer-->
@@ -132,4 +150,13 @@
     <sys:String x:Key="MTProtoPort">端口</sys:String>
     <sys:String x:Key="MTProtoCleartext">加密前字符</sys:String>
     <sys:String x:Key="MTProtoSecretText">密鑰</sys:String>
+    
+    <!--Hysteria-->
+    <sys:String x:Key="HysteriaDomain">域名</sys:String>
+    <sys:String x:Key="HysteriaPort">端口</sys:String>
+    <sys:String x:Key="HysteriaObfs">加密字符</sys:String>
+    <sys:String x:Key="HysteriaEmail">郵箱</sys:String>
+    <sys:String x:Key="HysteriaProtocol">協議</sys:String>
+    <sys:String x:Key="HysteriaUpMbps">上傳限速</sys:String>
+    <sys:String x:Key="HysteriaDownMbps">下載限速</sys:String>
 </ResourceDictionary>

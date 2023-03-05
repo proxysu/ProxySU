@@ -187,6 +187,7 @@ namespace ProxySuper.Core.Services
             }
             #endregion
 
+            #region VLESS GRPC
             if (parameters.Types.Contains(RayType.VLESS_gRPC))
             {
                 var gRPCInBound = GetBound("VLESS_gRPC.json");
@@ -196,7 +197,9 @@ namespace ProxySuper.Core.Services
                 gRPCInBound.streamSettings.tlsSettings.serverName = parameters.Domain;
                 xrayConfig.inbounds.Add(JToken.FromObject(gRPCInBound));
             }
+            #endregion
 
+            #region VLESS KCP
             if (parameters.Types.Contains(RayType.VLESS_KCP))
             {
                 var kcpBound = GetBound("VLESS_KCP.json");
@@ -206,7 +209,22 @@ namespace ProxySuper.Core.Services
                 kcpBound.streamSettings.kcpSettings.seed = parameters.VLESS_KCP_Seed;
                 xrayConfig.inbounds.Add(JToken.FromObject(kcpBound));
             }
+            #endregion
 
+            #region VLESS QUIC
+            if (parameters.Types.Contains(RayType.VLESS_QUIC))
+            {
+                var quicBound = GetBound("VLESS_QUIC.json");
+                quicBound.port = parameters.VLESS_QUIC_Port;
+                SetClients(quicBound, uuidList);
+                quicBound.streamSettings.quicSettings.security = parameters.VLESS_QUIC_Security;
+                quicBound.streamSettings.quicSettings.key = parameters.VLESS_QUIC_Key;
+                quicBound.streamSettings.quicSettings.header.type = parameters.VLESS_QUIC_Type;
+                xrayConfig.inbounds.Add(JToken.FromObject(quicBound));
+            }
+            #endregion
+
+            #region VMESS KCP
             if (parameters.Types.Contains(RayType.VMESS_KCP))
             {
                 var kcpBound = GetBound("VMESS_KCP.json");
@@ -216,7 +234,22 @@ namespace ProxySuper.Core.Services
                 kcpBound.streamSettings.kcpSettings.seed = parameters.VMESS_KCP_Seed;
                 xrayConfig.inbounds.Add(JToken.FromObject(kcpBound));
             }
+            #endregion
 
+            #region VMESS QUIC
+            if (parameters.Types.Contains(RayType.VMESS_QUIC))
+            {
+                var quicBound = GetBound("VMESS_QUIC.json");
+                quicBound.port = parameters.VMESS_QUIC_Port;
+                SetClients(quicBound, uuidList);
+                quicBound.streamSettings.quicSettings.security = parameters.VMESS_QUIC_Security;
+                quicBound.streamSettings.quicSettings.key = parameters.VMESS_QUIC_Key;
+                quicBound.streamSettings.quicSettings.header.type = parameters.VMESS_QUIC_Type;
+                xrayConfig.inbounds.Add(JToken.FromObject(quicBound));
+            }
+            #endregion
+
+            #region Shadowsocks
             if (parameters.Types.Contains(RayType.ShadowsocksAEAD))
             {
                 var ssBound = GetBound("Shadowsocks-AEAD.json");
@@ -225,6 +258,7 @@ namespace ProxySuper.Core.Services
                 ssBound.settings.method = parameters.ShadowSocksMethod;
                 xrayConfig.inbounds.Add(JToken.FromObject(ssBound));
             }
+            #endregion
 
             return JsonConvert.SerializeObject(
                 xrayConfig,

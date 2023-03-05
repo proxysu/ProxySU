@@ -78,12 +78,14 @@ namespace ProxySuper.Core.Services
                 case RayType.VLESS_TCP_XTLS:
                 case RayType.VLESS_WS:
                 case RayType.VLESS_KCP:
+                case RayType.VLESS_QUIC:
                 case RayType.VLESS_gRPC:
                 case RayType.Trojan_TCP:
                     return BuildVlessShareLink(xrayType, settings);
                 case RayType.VMESS_TCP:
                 case RayType.VMESS_WS:
                 case RayType.VMESS_KCP:
+                case RayType.VMESS_QUIC:
                     return BuildVmessShareLink(xrayType, settings);
                 case RayType.ShadowsocksAEAD:
                     return BuildShadowSocksShareLink(settings);
@@ -142,6 +144,15 @@ namespace ProxySuper.Core.Services
                     vmess.path = settings.VMESS_KCP_Seed;
                     vmess.tls = "";
                     break;
+                case RayType.VMESS_QUIC:
+                    vmess.ps = "vmess-quic";
+                    vmess.port = settings.VMESS_QUIC_Port.ToString();
+                    vmess.net = "quic";
+                    vmess.type = settings.VMESS_QUIC_Type;
+                    vmess.path = settings.VMESS_QUIC_Key;
+                    vmess.host = settings.VMESS_QUIC_Security;
+                    vmess.tls = "tls";
+                    break;
                 default:
                     return string.Empty;
             }
@@ -162,8 +173,6 @@ namespace ProxySuper.Core.Services
             var _path = "/";
             var _host = settings.Domain;
             var _descriptiveText = string.Empty;
-            var _headerType = "none";
-            var _seed = string.Empty;
 
             switch (xrayType)
             {
@@ -187,11 +196,16 @@ namespace ProxySuper.Core.Services
                 case RayType.VLESS_KCP:
                     _protocol = "vless";
                     _type = "kcp";
-                    _headerType = settings.VLESS_KCP_Type;
-                    _seed = settings.VLESS_KCP_Seed;
                     _port = settings.VLESS_KCP_Port;
                     _security = "none";
                     _descriptiveText = "vless-mKCP";
+                    break;
+                case RayType.VLESS_QUIC:
+                    _protocol = "vless";
+                    _port = settings.VLESS_QUIC_Port;
+                    _type = "quic";
+                    _security = "tls";
+                    _descriptiveText = "vless-quic";
                     break;
                 case RayType.VLESS_gRPC:
                     _protocol = "vless";
@@ -213,18 +227,32 @@ namespace ProxySuper.Core.Services
             if (xrayType != RayType.Trojan_TCP)
             {
                 // 4.3 传输层相关段
-                parametersURL = $"?type={_type}&encryption={_encryption}&security={_security}&path={HttpUtility.UrlEncode(_path)}&headerType={_headerType}";
+                parametersURL = $"?type={_type}&encryption={_encryption}&security={_security}&path={HttpUtility.UrlEncode(_path)}";
 
                 // kcp
                 if (xrayType == RayType.VLESS_KCP)
                 {
-                    parametersURL += $"&seed={_seed}";
+                    parametersURL += $"&seed={settings.VLESS_KCP_Seed}&headerType={settings.VLESS_KCP_Type}";
+                }
+
+                if (xrayType == RayType.VLESS_QUIC)
+                {
+                    parametersURL += $"&quicSecurity={settings.VLESS_QUIC_Security}";
+                    if (settings.VLESS_QUIC_Security != "none")
+                    {
+                        parametersURL += $"&key={HttpUtility.UrlEncode(settings.VLESS_QUIC_Key)}";
+                    }
+                    parametersURL += $"&headerType={settings.VLESS_QUIC_Type}";
                 }
 
                 // 4.4 TLS 相关段
-                if (xrayType == RayType.VLESS_TCP_XTLS)
+                if (settings is XraySettings)
                 {
-                    parametersURL += "&flow=xtls-rprx-direct";
+                    if (xrayType == RayType.VLESS_TCP_XTLS)
+                    {
+                        var xraySettings = settings as XraySettings;
+                        parametersURL += $"&flow={xraySettings.Flow}";
+                    }
                 }
 
 
