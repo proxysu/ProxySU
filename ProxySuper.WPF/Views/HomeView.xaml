@@ -33,6 +33,7 @@
                 <MenuItem Padding="0,5" Header="{DynamicResource MainMenuLanguageEn}" Click="SetEnglish"></MenuItem>
                 <MenuItem Padding="0,5" Header="{DynamicResource MainMenuLanguageTw}" Click="SetTwCN"></MenuItem>
                 <MenuItem Padding="0,5" Header="{DynamicResource MainMenuLanguageCn}" Click="SetSimpleChinese"></MenuItem>
+                <MenuItem Padding="0,5" Header="{DynamicResource MainMenuLanguageFr}" Click="SetIrFA"></MenuItem>
             </MenuItem>
 
             <MenuItem Header="{DynamicResource MainMenuHelper}" Padding="10,3">
