@@ -124,6 +124,7 @@
     <Compile Include="ViewModels\BrookInstallViewModel.cs" />
     <Compile Include="ViewModels\EnableRootViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
+    <Compile Include="ViewModels\HysteriaConfigViewModel.cs" />
     <Compile Include="ViewModels\HysteriaEditorViewModel.cs" />
     <Compile Include="ViewModels\HysteriaInstallViewModel.cs" />
     <Compile Include="ViewModels\MTProtoGoConfigViewModel.cs" />

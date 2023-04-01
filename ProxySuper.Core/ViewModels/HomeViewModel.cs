@@ -276,6 +276,14 @@ namespace ProxySuper.Core.ViewModels
                 record.Host = result.Host;
                 record.MTProtoGoSettings = result.MTProtoGoSettings;
             }
+            if (record.Type == ProjectType.Hysteria)
+            {
+                result = await _navigationService.Navigate<HysteriaEditorViewModel, Record, Record>(record);
+                if (result == null) return;
+
+                record.Host = result.Host;
+                record.HysteriaSettings = result.HysteriaSettings;
+            }
 
             SaveToJson();
         }
@@ -324,6 +332,10 @@ namespace ProxySuper.Core.ViewModels
             {
                 await _navigationService.Navigate<MTProtoGoConfigViewModel, MTProtoGoSettings>(record.MTProtoGoSettings);
             }
+            if (record.Type == ProjectType.Hysteria)
+            {
+                await _navigationService.Navigate<HysteriaConfigViewModel, HysteriaSettings>(record.HysteriaSettings);
+            }
         }
 
         public async Task GoToInstall(string id)
@@ -355,6 +367,10 @@ namespace ProxySuper.Core.ViewModels
             if (record.Type == ProjectType.MTProtoGo)
             {
                 await _navigationService.Navigate<MTProtoGoInstallViewModel, Record>(record);
+            }
+            if (record.Type == ProjectType.Hysteria)
+            {
+                await _navigationService.Navigate<HysteriaInstallViewModel, Record>(record);
             }
 
             SaveToJson();
