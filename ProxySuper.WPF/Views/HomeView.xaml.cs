@@ -69,7 +69,11 @@ namespace ProxySuper.WPF.Views
             resource.Source = new Uri(@"Resources\Languages\zh_cn.xaml", UriKind.Relative);
             Application.Current.Resources.MergedDictionaries[0] = resource;
         }
-
+        private void SetIrFA(object sender, RoutedEventArgs e)
+        {
+            resource.Source = new Uri(@"Resources\Languages\fa_IR.xaml", UriKind.Relative);
+            Application.Current.Resources.MergedDictionaries[0] = resource;
+        }
         private void SetEnglish(object sender, RoutedEventArgs e)
         {
             resource.Source = new Uri(@"Resources\Languages\en.xaml", UriKind.Relative);
