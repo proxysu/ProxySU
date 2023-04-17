@@ -4,11 +4,11 @@
 
     <!--common-->
     <sys:String x:Key="Random">Random</sys:String>
-    <sys:String x:Key="Save">Save</sys:String>
-    <sys:String x:Key="SaveAndInstall">Save And Install</sys:String>
-    <sys:String x:Key="SaveAs">SaveAs</sys:String>
-    <sys:String x:Key="Install">Install</sys:String>
-    <sys:String x:Key="Settings">Settings</sys:String>
+    <sys:String x:Key="Save">ذخیره</sys:String>
+    <sys:String x:Key="SaveAndInstall">ذخیره و نصب</sys:String>
+    <sys:String x:Key="SaveAs">ذخیره به عنوان</sys:String>
+    <sys:String x:Key="Install">نصب</sys:String>
+    <sys:String x:Key="Settings">تنظیمات</sys:String>
     <sys:String x:Key="ReadmeWebsiteDemo">The following is a static web page connection provided by netizens, please check whether there is an index.html file by yourself</sys:String>
 
     <!--Main Menu-->
@@ -18,7 +18,7 @@
     <sys:String x:Key="MainMenuActionsExportSubscribe">Export Subscribe</sys:String>
     <sys:String x:Key="MainMenuActionsGetRoot">Get Root</sys:String>
 
-    <sys:String x:Key="MainMenuLanguage">Language</sys:String>
+    <sys:String x:Key="MainMenuLanguage">زبان</sys:String>
     <sys:String x:Key="MainMenuLanguageEn">English</sys:String>
     <sys:String x:Key="MainMenuLanguageCn">中文</sys:String>
     <sys:String x:Key="MainMenuLanguageTw">正體</sys:String>
@@ -31,12 +31,12 @@
     <sys:String x:Key="MainMenuHelperPrivateKey">PrivateKey</sys:String>
 
     <!--Main DataGrid-->
-    <sys:String x:Key="MainDataGridColumnTag">Tag</sys:String>
-    <sys:String x:Key="MainDataGridColumnAddress">Address</sys:String>
-    <sys:String x:Key="MainDataGridColumnType">Type</sys:String>
+    <sys:String x:Key="MainDataGridColumnTag">برچسب</sys:String>
+    <sys:String x:Key="MainDataGridColumnAddress">آدرس</sys:String>
+    <sys:String x:Key="MainDataGridColumnType">نوع</sys:String>
     <sys:String x:Key="MainDataGridColumnAction">Action</sys:String>
-    <sys:String x:Key="MainDataGridColumnActionInstall">Install</sys:String>
-    <sys:String x:Key="MainDataGridColumnActionEdit">Edit</sys:String>
+    <sys:String x:Key="MainDataGridColumnActionInstall">نصب</sys:String>
+    <sys:String x:Key="MainDataGridColumnActionEdit">ویرایش</sys:String>
     <sys:String x:Key="MainDataGridColumnActionViewConfig">ViewConfig</sys:String>
     <sys:String x:Key="MainDataGridColumnActionDelete">Delete</sys:String>
     <sys:String x:Key="MainDataGridColumnActionSortUp">Up</sys:String>
@@ -44,30 +44,30 @@
 
 
     <!--Editor Window-->
-    <sys:String x:Key="HostGroupName">Host</sys:String>
-    <sys:String x:Key="HostTag">Tag</sys:String>
-    <sys:String x:Key="HostAddress">Address</sys:String>
-    <sys:String x:Key="HostUserName">UserName</sys:String>
-    <sys:String x:Key="HostPassword">Password</sys:String>
-    <sys:String x:Key="HostPort">Port</sys:String>
+    <sys:String x:Key="HostGroupName">هاست</sys:String>
+    <sys:String x:Key="HostTag">برچسب</sys:String>
+    <sys:String x:Key="HostAddress">آدرس</sys:String>
+    <sys:String x:Key="HostUserName">نام کاربری</sys:String>
+    <sys:String x:Key="HostPassword">رمز عبور</sys:String>
+    <sys:String x:Key="HostPort">پورت</sys:String>
     <sys:String x:Key="HostSecretType">SecretType</sys:String>
     <sys:String x:Key="HostUploadSecretKey">UploadKey</sys:String>
-    <sys:String  x:Key="HostSertTypePassword">Password</sys:String>
+    <sys:String  x:Key="HostSertTypePassword">رمز عبور</sys:String>
     <sys:String  x:Key="HostSertTypePrivateKey">PrivateKey</sys:String>
 
 
-    <sys:String x:Key="ProxyGroupName">Proxy</sys:String>
-    <sys:String x:Key="ProxyAddress">Address</sys:String>
-    <sys:String x:Key="ProxyPort">Port</sys:String>
-    <sys:String x:Key="ProxyUserName">UserName</sys:String>
-    <sys:String x:Key="ProxyPassword">Password</sys:String>
-    <sys:String x:Key="ProxyType">Type</sys:String>
+    <sys:String x:Key="ProxyGroupName">پروکسی</sys:String>
+    <sys:String x:Key="ProxyAddress">آدرس</sys:String>
+    <sys:String x:Key="ProxyPort">پورت</sys:String>
+    <sys:String x:Key="ProxyUserName">نام کاربری</sys:String>
+    <sys:String x:Key="ProxyPassword">رمز عبور</sys:String>
+    <sys:String x:Key="ProxyType">نوع</sys:String>
     <sys:String x:Key="ProxyTypeNone">None</sys:String>
     <sys:String x:Key="ProxyTypeHttp">Http</sys:String>
-    <sys:String x:Key="ProxyTypeSocks5">Socks5</sys:String>
+    <sys:String x:Key="ProxyTypeSocks5">ساکس5</sys:String>
     
     <!--editor-->
-    <sys:String x:Key="EditorProxyType" xml:space="preserve">Proxy Type</sys:String>
+    <sys:String x:Key="EditorProxyType" xml:space="preserve">نوع پروکسی</sys:String>
     <sys:String x:Key="EditorProxyParams" xml:space="preserve">Params</sys:String>
 
     <!--Xray-->
@@ -114,15 +114,15 @@
     <sys:String x:Key="SSMethods">SS Method</sys:String>
     <sys:String x:Key="SSPort">SS Port</sys:String>
     <sys:String x:Key="TrojanPassword">Trojan Pwd</sys:String>
-    <sys:String x:Key="TrojanPort">Trojan Port</sys:String>
+    <sys:String x:Key="TrojanPort">پورت تروجان</sys:String>
     <sys:String x:Key="V2rayPort">v2ray Port</sys:String>
     <sys:String x:Key="XrayPort">xray Port</sys:String>
     <sys:String x:Key="XrayPortDefault">default port is 443</sys:String>
 
     <!--xray installer-->
-    <sys:String x:Key="XrayInstallerInstall">Install</sys:String>
-    <sys:String x:Key="XrayInstallerUpdateSettings">UpdateSettings</sys:String>
-    <sys:String x:Key="XrayInstallerUpdateCore">UpdateCore</sys:String>
+    <sys:String x:Key="XrayInstallerInstall">نصب</sys:String>
+    <sys:String x:Key="XrayInstallerUpdateSettings">بروزرسانی تنظیمات</sys:String>
+    <sys:String x:Key="XrayInstallerUpdateCore">بروزرسانی هسته</sys:String>
     <sys:String x:Key="XrayInstallerUninstall">Uninstall</sys:String>
     <sys:String x:Key="XrayInstallerInstallCert">InstallCert</sys:String>
     <sys:String x:Key="XrayInstallerUploadWeb">UploadWeb</sys:String>
@@ -131,32 +131,32 @@
     <!--Trojan-GO-->
     <sys:String x:Key="TrojanGoWithTLS">With TLS</sys:String>
     <sys:String x:Key="TrojanGoWithTLSDesc">Unchecked means upload your own TLS.</sys:String>
-    <sys:String x:Key="TrojanGoDomain">Address</sys:String>
-    <sys:String x:Key="TrojanGoPort">Port</sys:String>
-    <sys:String x:Key="TrojanGoPassword">Password</sys:String>
+    <sys:String x:Key="TrojanGoDomain">آدرس</sys:String>
+    <sys:String x:Key="TrojanGoPort">پورت</sys:String>
+    <sys:String x:Key="TrojanGoPassword">رمزعبور</sys:String>
     <sys:String x:Key="TrojanGoMaskDomain">GuiseHost</sys:String>
     <sys:String x:Key="TrojanGoWebSocketPath">WS Path</sys:String>
     <sys:String x:Key="TrojanGoWebSocketDomain">WS Domain</sys:String>
 
     <!--Naive Proxy-->
-    <sys:String x:Key="NaiveProxyDomain">Address</sys:String>
-    <sys:String x:Key="NaiveProxyPort">Port</sys:String>
-    <sys:String x:Key="NaiveProxyUserName">UserName</sys:String>
-    <sys:String x:Key="NaiveProxyPassword">Password</sys:String>
+    <sys:String x:Key="NaiveProxyDomain">آدرس</sys:String>
+    <sys:String x:Key="NaiveProxyPort">پورت</sys:String>
+    <sys:String x:Key="NaiveProxyUserName">نام کاربری</sys:String>
+    <sys:String x:Key="NaiveProxyPassword">رمز عبور</sys:String>
     <sys:String x:Key="NaiveProxyMaskDomain">GuiseHost</sys:String>
 
     <!--MTProto Go-->
-    <sys:String x:Key="MTProtoDomain">Address</sys:String>
-    <sys:String x:Key="MTProtoPort">Port</sys:String>
+    <sys:String x:Key="MTProtoDomain">آدرس</sys:String>
+    <sys:String x:Key="MTProtoPort">پورت</sys:String>
     <sys:String x:Key="MTProtoCleartext">Cleantext</sys:String>
-    <sys:String x:Key="MTProtoSecretText">Secret</sys:String>
+    <sys:String x:Key="MTProtoSecretText">رمز</sys:String>
     
     <!--Hysteria-->
-    <sys:String x:Key="HysteriaDomain">Address</sys:String>
-    <sys:String x:Key="HysteriaPort">Port</sys:String>
+    <sys:String x:Key="HysteriaDomain">آدرس</sys:String>
+    <sys:String x:Key="HysteriaPort">پورت</sys:String>
     <sys:String x:Key="HysteriaObfs">OBFS</sys:String>
     <sys:String x:Key="HysteriaProtocol">Protocol</sys:String>
-    <sys:String x:Key="HysteriaEmail">Email</sys:String>
+    <sys:String x:Key="HysteriaEmail">ایمیل</sys:String>
     <sys:String x:Key="HysteriaUpMbps">UpMbps</sys:String>
     <sys:String x:Key="HysteriaDownMbps">DownMbps</sys:String>
 </ResourceDictionary>

@@ -158,8 +158,14 @@
     <Compile Include="Views\HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Hysteria\HysteriaConfigView.xaml.cs">
+      <DependentUpon>HysteriaConfigView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Hysteria\HysteriaEditorView.xaml.cs">
       <DependentUpon>HysteriaEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Hysteria\HysteriaInstallView.xaml.cs">
+      <DependentUpon>HysteriaInstallView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MTProxyGo\MTProxyGoConfigView.xaml.cs">
       <DependentUpon>MTProxyGoConfigView.xaml</DependentUpon>
@@ -311,6 +317,11 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
+    <Page Include="Resources\Languages\fa_IR.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="Resources\Languages\zh_cn.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -321,7 +332,15 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
+    <Page Include="Views\Hysteria\HysteriaConfigView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Hysteria\HysteriaEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Hysteria\HysteriaInstallView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

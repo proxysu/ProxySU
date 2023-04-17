@@ -81,9 +81,19 @@ namespace ProxySuper.Core.Models.Projects
                     list.Add(VLESS_KCP_Port);
                 }
 
+                if (Types.Contains(RayType.VLESS_QUIC))
+                {
+                    list.Add(VLESS_QUIC_Port);
+                }
+
                 if (Types.Contains(RayType.VMESS_KCP))
                 {
                     list.Add(VMESS_KCP_Port);
+                }
+
+                if (Types.Contains(RayType.VMESS_QUIC))
+                {
+                    list.Add(VMESS_QUIC_Port);
                 }
 
                 if (Types.Contains(RayType.ShadowsocksAEAD))

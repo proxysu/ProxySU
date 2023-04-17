@@ -26,7 +26,7 @@ namespace ProxySuper.Core.Models.Projects
         {
             get
             {
-                return new List<int> { Port };
+                return new List<int> { Port, 80 };
             }
         }
     }

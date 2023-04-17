@@ -16,14 +16,15 @@ using System.Windows.Shapes;
 
 namespace ProxySuper.WPF.Views.Hysteria
 {
+    /// <summary>
+    /// HysteriaConfigView.xaml 的交互逻辑
+    /// </summary>
     [MvxWindowPresentation]
-    public partial class HysteriaEditorView : MvxWindow
+    public partial class HysteriaConfigView : MvxWindow
     {
-        public HysteriaEditorView()
+        public HysteriaConfigView()
         {
             InitializeComponent();
         }
-
-
     }
 }

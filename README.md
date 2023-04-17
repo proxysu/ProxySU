@@ -87,8 +87,6 @@ Let's Encrypt证书申请频率的限制
 [(GPL-V3)](https://raw.githubusercontent.com/proxysu/windows/master/LICENSE)
 
 ## 运行文件下载
-* Beta版(随代码更新，新添加功能可能有bug或不完善)  
-[下载](https://github.com/proxysu/windows/raw/master/ProxySU/bin/Beta/Beta.zip)
 * 正式版（正式发布的版本，新功能完善后发布）  
 [下载](https://github.com/proxysu/windows/releases)
 
@@ -106,7 +104,6 @@ Microsoft [.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-fram
 
 ## 程序使用问题反馈  
 * Telegram群组 https://t.me/proxysuissues   
-* Telegram频道 https://t.me/proxysu_channel 
 * 在线提问  https://github.com/proxysu/windows/issues  
 
 在使用遇到问题时，请先看一下[常见问题集锦](https://github.com/proxysu/windows/wiki/CommonError)，如果还不能解决，可以到以上平台询问，个人精力有限，尽力解答。
