@@ -18,7 +18,7 @@
     <sys:String x:Key="MainMenuActionsExportSubscribe">Export Subscribe</sys:String>
     <sys:String x:Key="MainMenuActionsGetRoot">Get Root</sys:String>
 
-    <sys:String x:Key="MainMenuLanguage">زبان</sys:String>
+    <sys:String x:Key="MainMenuLanguage">زبان(Language)</sys:String>
     <sys:String x:Key="MainMenuLanguageEn">English</sys:String>
     <sys:String x:Key="MainMenuLanguageCn">中文</sys:String>
     <sys:String x:Key="MainMenuLanguageTw">正體</sys:String>
