@@ -56,6 +56,7 @@
     <sys:String x:Key="HostUploadSecretKey">上传Key</sys:String>
     <sys:String x:Key="HostSertTypePassword">密码</sys:String>
     <sys:String x:Key="HostSertTypePrivateKey">私钥</sys:String>
+    <sys:String x:Key="HostSertTypePrivateKeyPassPhrase">私钥密码</sys:String>
 
     <sys:String x:Key="ProxyGroupName">代理</sys:String>
     <sys:String x:Key="ProxyAddress">IP/地址</sys:String>

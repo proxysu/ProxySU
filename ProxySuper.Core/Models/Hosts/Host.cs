@@ -28,6 +28,8 @@ namespace ProxySuper.Core.Models.Hosts
 
         public string PrivateKeyPath { get; set; }
 
+        public string PrivateKeyPassPhrase { get; set; }
+
         public LocalProxy Proxy { get; set; }
 
         public LoginSecretType SecretType { get; set; }
