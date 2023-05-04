@@ -42,7 +42,10 @@ namespace ProxySuper.Core.Services
                     Progress.Percentage = 50;
 
                     Progress.Step = "5. 生成密钥";
-                    Settings.SecretText = RunCmd($"docker run nineseconds/mtg generate-secret {Settings.Cleartext}").TrimEnd('\n');
+                    //RunCmd("docker pull nineseconds/mtg:2");   //拉取v2版本命令，但是似乎不用也可以。
+                    //下面的命令是v1版本的命令格式。可以保留。将来如启用v1，可用。
+                    //Settings.SecretText = RunCmd($"docker run nineseconds/mtg:1 generate-secret -c {Settings.Cleartext} tls").TrimEnd('\n');
+                    Settings.SecretText = RunCmd($"docker run nineseconds/mtg:2 generate-secret {Settings.Cleartext}").TrimEnd('\n');
                     Progress.Percentage = 65;
 
                     Progress.Step = "6. 生成配置文件";
@@ -55,7 +58,7 @@ namespace ProxySuper.Core.Services
                     Progress.Percentage = 80;
 
                     Progress.Step = "7. 启动MTProto服务";
-                    RunCmd($"docker run -d -v /etc/mtg.toml:/config.toml  --name=mtg --restart=always -p {Settings.Port + ":" + Settings.Port} nineseconds/mtg");
+                    RunCmd($"docker run -d -v /etc/mtg.toml:/config.toml  --name=mtg --restart=always -p {Settings.Port + ":" + Settings.Port} nineseconds/mtg:2");
                     Progress.Desc = "设置自启动MTProto服务";
 
                     Progress.Step = "安装完成";
@@ -116,7 +119,8 @@ namespace ProxySuper.Core.Services
                     Progress.Percentage = 50;
 
                     Progress.Desc = "生成密钥";
-                    Settings.SecretText = RunCmd($"docker run nineseconds/mtg generate-secret {Settings.Cleartext}").TrimEnd('\n');
+                    //Settings.SecretText = RunCmd($"docker run nineseconds/mtg:1 generate-secret -c {Settings.Cleartext} tls").TrimEnd('\n'); //v1版本
+                    Settings.SecretText = RunCmd($"docker run nineseconds/mtg:2 generate-secret {Settings.Cleartext}").TrimEnd('\n');
                     Progress.Percentage = 65;
 
                     Progress.Desc = "修改配置文件";
