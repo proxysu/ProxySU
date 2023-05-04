@@ -91,8 +91,8 @@
     <sys:String x:Key="XrayUUID">UUID</sys:String>
     <sys:String x:Key="Flow">Flow</sys:String>
     <sys:String x:Key="UTLS">uTLS</sys:String>
-    <sys:String x:Key="MultiUser">Multi User</sys:String>
-    <sys:String x:Key="MultiUserHelp">Multi Id split with ","</sys:String>
+    <sys:String x:Key="MultiUser">چند کاربره</sys:String>
+    <sys:String x:Key="MultiUserHelp">چند شناسه تقسیم با ","</sys:String>
     <sys:String x:Key="VlessWsPath">VLESS WS Path</sys:String>
     <sys:String x:Key="VlessKcpSeed">VLESS KCP Seed</sys:String>
     <sys:String x:Key="VlessKcpType">VLESS KCP Type</sys:String>
@@ -116,9 +116,10 @@
     <sys:String x:Key="SSPort">SS Port</sys:String>
     <sys:String x:Key="TrojanPassword">Trojan Pwd</sys:String>
     <sys:String x:Key="TrojanPort">پورت تروجان</sys:String>
-    <sys:String x:Key="V2rayPort">v2ray Port</sys:String>
-    <sys:String x:Key="XrayPort">xray Port</sys:String>
-    <sys:String x:Key="XrayPortDefault">default port is 443</sys:String>
+    <sys:String x:Key="V2rayPort">v2ray بندر</sys:String>
+    <sys:String x:Key="XrayPort">xray بندر</sys:String>
+    <sys:String x:Key="XrayPortDefault">پورت پیش فرض 443 است</sys:String>
+    <sys:String x:Key="MoreParameters">پارامترهای بیشتر</sys:String>
 
     <!--xray installer-->
     <sys:String x:Key="XrayInstallerInstall">نصب</sys:String>

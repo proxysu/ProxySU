@@ -120,6 +120,7 @@
     <sys:String x:Key="V2rayPort">V2ray端口</sys:String>
     <sys:String x:Key="XrayPort">XRAY端口</sys:String>
     <sys:String x:Key="XrayPortDefault">默認端口443，不建議修改</sys:String>
+    <sys:String x:Key="MoreParameters">更多參數</sys:String>
 
     <!--xray installer-->
     <sys:String x:Key="XrayInstallerInstall">一鍵安裝</sys:String>

@@ -119,6 +119,7 @@
     <sys:String x:Key="V2rayPort">v2ray Port</sys:String>
     <sys:String x:Key="XrayPort">xray Port</sys:String>
     <sys:String x:Key="XrayPortDefault">default port is 443</sys:String>
+    <sys:String x:Key="MoreParameters">More Parameters</sys:String>
 
     <!--xray installer-->
     <sys:String x:Key="XrayInstallerInstall">Install</sys:String>

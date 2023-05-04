@@ -116,29 +116,28 @@
                     <TextBox Text="{Binding Path=Domain}" Width="200"  />
                 </StackPanel>
 
-                <!--Mask Domain-->
-                <StackPanel Margin="0,15,0,0" Orientation="Horizontal">
-                    <Label Content="{DynamicResource XrayMarkDomain}" Width="120"  />
-                    <TextBox Text="{Binding Path=MaskDomain}" Width="200"  />
-                </StackPanel>
-
                 <!--UUID-->
                 <StackPanel Margin="0,15,0,0" Orientation="Horizontal">
                     <Label Content="{DynamicResource XrayUUID}" Width="120" />
-
                     <TextBox Text="{Binding Path=UUID}" Width="200" />
-
                     <Button Margin="5,0,0,0"
                             Padding="12,3"
                             Command="{Binding Path=RandomUuid}"
                             Content="{DynamicResource Random}" />
+                </StackPanel>
+
+                <!--v2ray prot-->
+                <StackPanel Margin="0,15,0,0" Orientation="Horizontal">
+                    <Label Content="{DynamicResource V2rayPort}"  Width="120"  />
+                    <TextBox Text="{Binding Path=Port}" Width="120"  />
+                    <Label Content="{DynamicResource XrayPortDefault}"  Foreground="Red" />
                 </StackPanel>
                 <!--#endregion-->
 
                 <!--more params-->
                 <Expander ExpandDirection="Down" Margin="0,10,0,0">
                     <Expander.Header>
-                        <TextBlock Text="更多参数" FontWeight="Bold" />
+                        <TextBlock Text="{DynamicResource MoreParameters}" FontWeight="Bold" />
                     </Expander.Header>
 
                     <Expander.Content>
@@ -153,6 +152,12 @@
                               VerticalAlignment="Center" />
                             </StackPanel>
                             <!--#endregion-->
+                            
+                            <!--Mask Domain-->
+                            <StackPanel Margin="0,15,0,0" Orientation="Horizontal">
+                                <Label Content="{DynamicResource XrayMarkDomain}" Width="120"  />
+                                <TextBox Text="{Binding Path=MaskDomain}" Width="200"  />
+                            </StackPanel>
 
                             <!--#region VLESS WebSocket Settings -->
                             <!--WebSocket Path-->
@@ -436,13 +441,6 @@
                                 }">
                                 <Label Content="{DynamicResource TrojanPassword}" Foreground="CadetBlue" Width="120" />
                                 <TextBox Text="{Binding Path=TrojanPassword}" Width="200" />
-                            </StackPanel>
-
-                            <!--v2ray prot-->
-                            <StackPanel Margin="0,15,0,0" Orientation="Horizontal">
-                                <Label Content="{DynamicResource V2rayPort}" Foreground="Gray" Width="120"  />
-                                <TextBox Text="{Binding Path=Port}" Width="120"  />
-                                <Label Content="{DynamicResource XrayPortDefault}"  Foreground="Red" />
                             </StackPanel>
                             <!--#endregion-->
 
