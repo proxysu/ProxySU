@@ -58,7 +58,14 @@ ProxySU调用[SSH.NET](https://github.com/sshnet/SSH.NET)库登录远程主机�
 * RSA in OpenSSL PEM and ssh.com format  
 * DSA in OpenSSL PEM and ssh.com format  
 * ECDSA 256/384/521 in OpenSSL PEM format  
-* ED25519 in OpenSSH key format  
+* ECDSA 256/384/521, ED25519 and RSA in OpenSSH key format  
+可以使用以下密码方法之一对私钥进行加密：  
+* DES-EDE3-CBC  
+* DES-EDE3-CFB  
+* DES-CBC  
+* AES-128-CBC  
+* AES-192-CBC  
+* AES-256-CBC  
 见官方说明：  
 https://github.com/sshnet/SSH.NET#public-key-authentication  
 如果当前拥有的密钥格式不是以上几种，可以下载[puttygen](https://www.puttygen.com/)工具，将其转换成上面的格式。  
@@ -108,7 +115,7 @@ Microsoft [.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-fram
 
 在使用遇到问题时，请先看一下[常见问题集锦](https://github.com/proxysu/windows/wiki/CommonError)，如果还不能解决，可以到以上平台询问，个人精力有限，尽力解答。
 
-下版本添加 【Hysteria】
+
 
 
 

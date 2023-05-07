@@ -22,7 +22,7 @@
     <sys:String x:Key="MainMenuLanguageEn">English</sys:String>
     <sys:String x:Key="MainMenuLanguageCn">中文</sys:String>
     <sys:String x:Key="MainMenuLanguageTw">正體</sys:String>
-    <sys:String x:Key="MainMenuLanguageFr">Fr</sys:String>
+    <sys:String x:Key="MainMenuLanguageFr">فارسی</sys:String>
 
     <sys:String x:Key="MainMenuHelper">Helper</sys:String>
     <sys:String x:Key="MainMenuHelperGithub">Github</sys:String>
@@ -40,7 +40,7 @@
     <sys:String x:Key="MainDataGridColumnActionViewConfig">ViewConfig</sys:String>
     <sys:String x:Key="MainDataGridColumnActionDelete">Delete</sys:String>
     <sys:String x:Key="MainDataGridColumnActionSortUp">Up</sys:String>
-    <sys:String x:Key="MainDataGridColumnActionSortDone">Done</sys:String>
+    <sys:String x:Key="MainDataGridColumnActionSortDone">Down</sys:String>
 
 
     <!--Editor Window-->
@@ -54,6 +54,7 @@
     <sys:String x:Key="HostUploadSecretKey">UploadKey</sys:String>
     <sys:String  x:Key="HostSertTypePassword">Password</sys:String>
     <sys:String  x:Key="HostSertTypePrivateKey">PrivateKey</sys:String>
+    <sys:String x:Key="HostSertTypePrivateKeyPassPhrase">PKPassword</sys:String>
 
 
     <sys:String x:Key="ProxyGroupName">Proxy</sys:String>
@@ -118,6 +119,7 @@
     <sys:String x:Key="V2rayPort">v2ray Port</sys:String>
     <sys:String x:Key="XrayPort">xray Port</sys:String>
     <sys:String x:Key="XrayPortDefault">default port is 443</sys:String>
+    <sys:String x:Key="MoreParameters">More Parameters</sys:String>
 
     <!--xray installer-->
     <sys:String x:Key="XrayInstallerInstall">Install</sys:String>

@@ -145,7 +145,7 @@
                 <!--more params-->
                 <Expander ExpandDirection="Down" Margin="0,10,0,0">
                     <Expander.Header>
-                        <TextBlock Text="更多参数" FontWeight="Bold" />
+                        <TextBlock Text="{DynamicResource MoreParameters}" FontWeight="Bold" />
                     </Expander.Header>
 
                     <Expander.Content>

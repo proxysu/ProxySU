@@ -17,7 +17,7 @@
     
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="300" />
+            <RowDefinition Height="330" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         
@@ -29,6 +29,7 @@
                     </Style>
                 </Grid.Resources>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="36" />
                     <RowDefinition Height="36" />
                     <RowDefinition Height="36" />
                     <RowDefinition Height="36" />
@@ -105,7 +106,18 @@
                             Converter={StaticResource SecretTypeConverter},
                             ConverterParameter={x:Static host:LoginSecretType.PrivateKey}
                         }"
-                        Content="{DynamicResource HostUploadSecretKey}" /> 
+                        Content="{DynamicResource HostUploadSecretKey}" />
+
+                <Label Content="{DynamicResource HostSertTypePrivateKeyPassPhrase}" Grid.Row="7" Grid.Column="0" />
+                <TextBox Grid.Row="7" Grid.Column="1"
+                         Width="170"
+                         Text="{Binding Host.PrivateKeyPassPhrase}"
+                         IsEnabled="{
+                            Binding Host.SecretType,
+                            Converter={StaticResource SecretTypeConverter},
+                            ConverterParameter={x:Static host:LoginSecretType.PrivateKey}
+                        }"
+                         VerticalContentAlignment="Center" />
             </Grid>
         </GroupBox>
 

@@ -11,7 +11,7 @@
         BorderBrush="#eee"
         Icon="/Resources/ProxySU.ico"
         WindowStartupLocation="CenterScreen"
-        Title="Trojan-Go编辑配置" Height="600" Width="1000">
+        Title="Trojan-Go编辑配置" Height="640" Width="1000">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="310" />

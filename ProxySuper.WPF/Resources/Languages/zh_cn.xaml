@@ -22,7 +22,7 @@
     <sys:String x:Key="MainMenuLanguageEn">English</sys:String>
     <sys:String x:Key="MainMenuLanguageCn">中文</sys:String>
     <sys:String x:Key="MainMenuLanguageTw">正體</sys:String>
-    <sys:String x:Key="MainMenuLanguageFr">法语</sys:String>
+    <sys:String x:Key="MainMenuLanguageFr">فارسی</sys:String>
     
     <sys:String x:Key="MainMenuHelper">帮助</sys:String>
     <sys:String x:Key="MainMenuHelperGithub">Github</sys:String>
@@ -56,6 +56,7 @@
     <sys:String x:Key="HostUploadSecretKey">上传Key</sys:String>
     <sys:String x:Key="HostSertTypePassword">密码</sys:String>
     <sys:String x:Key="HostSertTypePrivateKey">私钥</sys:String>
+    <sys:String x:Key="HostSertTypePrivateKeyPassPhrase">私钥密码</sys:String>
 
     <sys:String x:Key="ProxyGroupName">代理</sys:String>
     <sys:String x:Key="ProxyAddress">IP/地址</sys:String>
@@ -120,6 +121,7 @@
     <sys:String x:Key="V2rayPort">V2ray端口</sys:String>
     <sys:String x:Key="XrayPort">XRAY端口</sys:String>
     <sys:String x:Key="XrayPortDefault">默认端口443，不建议修改</sys:String>
+    <sys:String x:Key="MoreParameters">更多参数</sys:String>
 
     <!--xray installer-->
     <sys:String x:Key="XrayInstallerInstall">一键安装</sys:String>

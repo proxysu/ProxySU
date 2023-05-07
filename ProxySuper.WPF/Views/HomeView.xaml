@@ -87,7 +87,10 @@
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
 
-                    <DataGridTemplateColumn Header="{DynamicResource MainDataGridColumnAction}" Width="400">
+                    <DataGridTemplateColumn  Width="400">
+                        <DataGridTemplateColumn.Header>
+                            <TextBlock Text="{DynamicResource MainDataGridColumnAction}" />
+                        </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <ItemContainerTemplate>
                                 <StackPanel Orientation="Horizontal">

@@ -802,13 +802,13 @@ namespace ProxySuper.Core.Services
                 if (_host.SecretType == LoginSecretType.PrivateKey)
                 {
                     PrivateKeyFile keyFile;
-                    if (string.IsNullOrEmpty(_host.Password))
+                    if (string.IsNullOrEmpty(_host.PrivateKeyPassPhrase))
                     {
                         keyFile = new PrivateKeyFile(_host.PrivateKeyPath);
                     }
                     else
                     {
-                        keyFile = new PrivateKeyFile(_host.PrivateKeyPath, _host.Password);
+                        keyFile = new PrivateKeyFile(_host.PrivateKeyPath, _host.PrivateKeyPassPhrase);
                     }
                     authMethods.Add(new PrivateKeyAuthenticationMethod(_host.UserName, keyFile));
                 }

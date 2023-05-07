@@ -3,44 +3,44 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <!--common-->
-    <sys:String x:Key="Random">Random</sys:String>
+    <sys:String x:Key="Random">تصادفی</sys:String>
     <sys:String x:Key="Save">ذخیره</sys:String>
     <sys:String x:Key="SaveAndInstall">ذخیره و نصب</sys:String>
     <sys:String x:Key="SaveAs">ذخیره به عنوان</sys:String>
     <sys:String x:Key="Install">نصب</sys:String>
     <sys:String x:Key="Settings">تنظیمات</sys:String>
-    <sys:String x:Key="ReadmeWebsiteDemo">The following is a static web page connection provided by netizens, please check whether there is an index.html file by yourself</sys:String>
+    <sys:String x:Key="ReadmeWebsiteDemo">موارد زیر یک اتصال صفحه وب ثابت است که توسط کاربران اینترنتی ارائه شده است، لطفاً بررسی کنید که آیا فایل index.html توسط خودتان وجود دارد یا خیر.</sys:String>
 
     <!--Main Menu-->
-    <sys:String x:Key="MainMenuAddHost">Add Host</sys:String>
-    <sys:String x:Key="MainMenuActions">Actions</sys:String>
-    <sys:String x:Key="MainMenuActionsExportSettings">Export Settings</sys:String>
-    <sys:String x:Key="MainMenuActionsExportSubscribe">Export Subscribe</sys:String>
-    <sys:String x:Key="MainMenuActionsGetRoot">Get Root</sys:String>
+    <sys:String x:Key="MainMenuAddHost">میزبان اضافه کنید</sys:String>
+    <sys:String x:Key="MainMenuActions">عمل کنند</sys:String>
+    <sys:String x:Key="MainMenuActionsExportSettings">پیکربندی صادرات</sys:String>
+    <sys:String x:Key="MainMenuActionsExportSubscribe">اشتراک صادرات</sys:String>
+    <sys:String x:Key="MainMenuActionsGetRoot">اکانت روت را فعال کنید</sys:String>
 
-    <sys:String x:Key="MainMenuLanguage">زبان</sys:String>
+    <sys:String x:Key="MainMenuLanguage">زبان(Language)</sys:String>
     <sys:String x:Key="MainMenuLanguageEn">English</sys:String>
     <sys:String x:Key="MainMenuLanguageCn">中文</sys:String>
     <sys:String x:Key="MainMenuLanguageTw">正體</sys:String>
-    <sys:String x:Key="MainMenuLanguageFr">Fr</sys:String>
+    <sys:String x:Key="MainMenuLanguageFr">فارسی</sys:String>
 
-    <sys:String x:Key="MainMenuHelper">Helper</sys:String>
+    <sys:String x:Key="MainMenuHelper">یاور</sys:String>
     <sys:String x:Key="MainMenuHelperGithub">Github</sys:String>
-    <sys:String x:Key="MainMenuHelperUseRoot">UseRoot</sys:String>
-    <sys:String x:Key="MainMenuHelperCertQuestion">CertQuestion</sys:String>
-    <sys:String x:Key="MainMenuHelperPrivateKey">PrivateKey</sys:String>
+    <sys:String x:Key="MainMenuHelperUseRoot">اکانت روت را فعال کنید</sys:String>
+    <sys:String x:Key="MainMenuHelperCertQuestion">در مورد گواهینامه</sys:String>
+    <sys:String x:Key="MainMenuHelperPrivateKey">در مورد سوال</sys:String>
 
     <!--Main DataGrid-->
     <sys:String x:Key="MainDataGridColumnTag">برچسب</sys:String>
     <sys:String x:Key="MainDataGridColumnAddress">آدرس</sys:String>
     <sys:String x:Key="MainDataGridColumnType">نوع</sys:String>
-    <sys:String x:Key="MainDataGridColumnAction">Action</sys:String>
+    <sys:String x:Key="MainDataGridColumnAction">عمل کنند</sys:String>
     <sys:String x:Key="MainDataGridColumnActionInstall">نصب</sys:String>
     <sys:String x:Key="MainDataGridColumnActionEdit">ویرایش</sys:String>
-    <sys:String x:Key="MainDataGridColumnActionViewConfig">ViewConfig</sys:String>
-    <sys:String x:Key="MainDataGridColumnActionDelete">Delete</sys:String>
-    <sys:String x:Key="MainDataGridColumnActionSortUp">Up</sys:String>
-    <sys:String x:Key="MainDataGridColumnActionSortDone">Done</sys:String>
+    <sys:String x:Key="MainDataGridColumnActionViewConfig">مشاهده پیکربندی</sys:String>
+    <sys:String x:Key="MainDataGridColumnActionDelete">حذف</sys:String>
+    <sys:String x:Key="MainDataGridColumnActionSortUp">بالاا</sys:String>
+    <sys:String x:Key="MainDataGridColumnActionSortDone">پایین</sys:String>
 
 
     <!--Editor Window-->
@@ -50,10 +50,11 @@
     <sys:String x:Key="HostUserName">نام کاربری</sys:String>
     <sys:String x:Key="HostPassword">رمز عبور</sys:String>
     <sys:String x:Key="HostPort">پورت</sys:String>
-    <sys:String x:Key="HostSecretType">SecretType</sys:String>
-    <sys:String x:Key="HostUploadSecretKey">UploadKey</sys:String>
+    <sys:String x:Key="HostSecretType">نوع تأیید ورود</sys:String>
+    <sys:String x:Key="HostUploadSecretKey">کلید آپلود</sys:String>
     <sys:String  x:Key="HostSertTypePassword">رمز عبور</sys:String>
-    <sys:String  x:Key="HostSertTypePrivateKey">PrivateKey</sys:String>
+    <sys:String  x:Key="HostSertTypePrivateKey">کلید خصوصی</sys:String>
+    <sys:String x:Key="HostSertTypePrivateKeyPassPhrase">رمز عبور PK</sys:String>
 
 
     <sys:String x:Key="ProxyGroupName">پروکسی</sys:String>
@@ -90,8 +91,8 @@
     <sys:String x:Key="XrayUUID">UUID</sys:String>
     <sys:String x:Key="Flow">Flow</sys:String>
     <sys:String x:Key="UTLS">uTLS</sys:String>
-    <sys:String x:Key="MultiUser">Multi User</sys:String>
-    <sys:String x:Key="MultiUserHelp">Multi Id split with ","</sys:String>
+    <sys:String x:Key="MultiUser">چند کاربره</sys:String>
+    <sys:String x:Key="MultiUserHelp">چند شناسه تقسیم با ","</sys:String>
     <sys:String x:Key="VlessWsPath">VLESS WS Path</sys:String>
     <sys:String x:Key="VlessKcpSeed">VLESS KCP Seed</sys:String>
     <sys:String x:Key="VlessKcpType">VLESS KCP Type</sys:String>
@@ -115,9 +116,10 @@
     <sys:String x:Key="SSPort">SS Port</sys:String>
     <sys:String x:Key="TrojanPassword">Trojan Pwd</sys:String>
     <sys:String x:Key="TrojanPort">پورت تروجان</sys:String>
-    <sys:String x:Key="V2rayPort">v2ray Port</sys:String>
-    <sys:String x:Key="XrayPort">xray Port</sys:String>
-    <sys:String x:Key="XrayPortDefault">default port is 443</sys:String>
+    <sys:String x:Key="V2rayPort">v2ray بندر</sys:String>
+    <sys:String x:Key="XrayPort">xray بندر</sys:String>
+    <sys:String x:Key="XrayPortDefault">پورت پیش فرض 443 است</sys:String>
+    <sys:String x:Key="MoreParameters">پارامترهای بیشتر</sys:String>
 
     <!--xray installer-->
     <sys:String x:Key="XrayInstallerInstall">نصب</sys:String>
