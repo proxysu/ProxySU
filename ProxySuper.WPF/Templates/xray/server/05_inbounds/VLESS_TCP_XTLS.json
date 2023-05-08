@@ -5,7 +5,7 @@
     "clients": [
       {
         "id": "",
-        "flow": "xtls-rprx-direct"
+        "flow": "xtls-rprx-vision,none"
       }
     ],
     "decryption": "none",
@@ -13,15 +13,13 @@
   },
   "streamSettings": {
     "network": "tcp",
-    "security": "xtls",
-    "xtlsSettings": {
-      "allowInsecure": false,
+    "security": "tls",
+    "tlsSettings": {
+      "rejectUnknownSni": true,
       "minVersion": "1.2",
-      "alpn": [
-        "http/1.1"
-      ],
       "certificates": [
         {
+          "ocspStapling": 3600,
           "certificateFile": "/usr/local/etc/xray/ssl/xray_ssl.crt",
           "keyFile": "/usr/local/etc/xray/ssl/xray_ssl.key"
         }

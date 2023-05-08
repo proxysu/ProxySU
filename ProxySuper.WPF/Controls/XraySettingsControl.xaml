@@ -167,7 +167,7 @@
                                             Binding Path=Checked_VLESS_TCP_XTLS,
                                             Converter={StaticResource VisibleConverter}
                                         }">
-                                <Label Content="{Binding Path=Flow}" Width="120" VerticalAlignment="Bottom"/>
+                                <Label Content="{DynamicResource Flow}" Width="120" VerticalAlignment="Bottom"/>
                                 <ComboBox Width="260" 
                                           VerticalAlignment="Bottom"
                                           ItemsSource="{Binding Path=FlowList}"
