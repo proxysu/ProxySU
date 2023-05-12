@@ -103,6 +103,7 @@ namespace ProxySuper.Core.Services
                 }
                 else
                 {
+                    flow = "xtls-rprx-vision,none";//兼容普通tls与xtls
                     obj = new { id = id, flow = flow };
                 }
 

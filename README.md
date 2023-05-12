@@ -5,6 +5,9 @@ BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）,支持语�
 
 编译环境Visual Studio 2019  使用WPF界面。可一键安装 V2ray/Xray, Shadowsocks, Trojan, Trojan-Go, NaiveProxy, MTProto Go, Brook 后续还会再添加其他。  
 
+零基础用户，强烈建议看一下[Xray官网](https://xtls.github.io)的[小小白白话文-自建教程](https://xtls.github.io/document/level-0)。  
+更多相关资源与工具请看本项目Wiki[资源和工具](https://github.com/proxysu/ProxySU/wiki/%E8%B5%84%E6%BA%90%E5%92%8C%E5%B7%A5%E5%85%B7)。  
+
 ![photo_2021-05-31_17-23-29](https://user-images.githubusercontent.com/73510229/120171754-f46ffd00-c234-11eb-8105-4e6a941a65bb.jpg)
 ![photo_2021-05-31_17-24-29](https://user-images.githubusercontent.com/73510229/120171966-297c4f80-c235-11eb-921a-2ddebad5dc58.jpg)
 

@@ -184,7 +184,7 @@ namespace ProxySuper.Core.Services
                 case RayType.VLESS_TCP_XTLS:
                     _protocol = "vless";
                     _type = "tcp";
-                    _security = "xtls";
+                    _security = "tls";
                     _descriptiveText = "vless-tcp-xtls";
                     break;
                 case RayType.VLESS_WS:
