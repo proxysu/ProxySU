@@ -79,7 +79,8 @@ namespace ProxySuper.Core.Services
                 }
                 var domain = parameters.MaskDomain
                     .TrimStart("http://".ToCharArray())
-                    .TrimStart("https://".ToCharArray());
+                    .TrimStart("https://".ToCharArray())
+                    .TrimEnd('/');
 
                 caddyStr = caddyStr.Replace("##reverse_proxy##", $"reverse_proxy {prefix}{domain} {{ \n        header_up Host {domain} \n    }}");
             }
@@ -103,7 +104,7 @@ namespace ProxySuper.Core.Services
                 }
                 else
                 {
-                    flow = "xtls-rprx-vision,none";//兼容普通tls与xtls
+                    flow = "xtls-rprx-vision";//兼容普通tls与xtls
                     obj = new { id = id, flow = flow };
                 }
 
