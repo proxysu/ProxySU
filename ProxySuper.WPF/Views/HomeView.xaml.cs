@@ -62,6 +62,10 @@ namespace ProxySuper.WPF.Views
             System.Diagnostics.Process.Start("explorer.exe", "https://github.com/proxysu/ProxySU/wiki/PrivateKey%E8%BD%AC%E6%8D%A2");
         }
 
+        private void LaunchResourcesAndTutorials(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("explorer.exe", "https://github.com/proxysu/ProxySU/wiki/%E7%9B%B8%E5%85%B3%E8%B5%84%E6%BA%90%E4%B8%8E%E6%95%99%E7%A8%8B");
+        }
 
         ResourceDictionary resource = new ResourceDictionary();
         private void SetSimpleChinese(object sender, RoutedEventArgs e)

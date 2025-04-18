@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Icon="/Resources/ProxySU.ico"
-        Title="ProxySU   v4.1.10" Height="600" Width="1000">
+        Title="ProxySU   v25.3.21" Height="600" Width="1000">
     <Grid>
         
     </Grid>

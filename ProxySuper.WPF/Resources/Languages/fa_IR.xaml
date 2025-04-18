@@ -29,6 +29,7 @@
     <sys:String x:Key="MainMenuHelperUseRoot">اکانت روت را فعال کنید</sys:String>
     <sys:String x:Key="MainMenuHelperCertQuestion">در مورد گواهینامه</sys:String>
     <sys:String x:Key="MainMenuHelperPrivateKey">در مورد سوال</sys:String>
+    <sys:String x:Key="MainMenuHelperResourcesAndTutorials">منابع و آموزش های مرتبط</sys:String>
 
     <!--Main DataGrid-->
     <sys:String x:Key="MainDataGridColumnTag">برچسب</sys:String>
@@ -51,11 +52,12 @@
     <sys:String x:Key="HostPassword">رمز عبور</sys:String>
     <sys:String x:Key="HostPort">پورت</sys:String>
     <sys:String x:Key="HostSecretType">نوع تأیید ورود</sys:String>
-    <sys:String x:Key="HostUploadSecretKey">کلید آپلود</sys:String>
+    <sys:String x:Key="HostUploadSecretKey">بارگیری کلید خصوصی</sys:String>
     <sys:String  x:Key="HostSertTypePassword">رمز عبور</sys:String>
     <sys:String  x:Key="HostSertTypePrivateKey">کلید خصوصی</sys:String>
     <sys:String x:Key="HostSertTypePrivateKeyPassPhrase">رمز عبور PK</sys:String>
 
+    <sys:String x:Key="TextBoxContentTipsNoneBlank">اگر هیچ کدام، آن را خالی بگذارید</sys:String>
 
     <sys:String x:Key="ProxyGroupName">پروکسی</sys:String>
     <sys:String x:Key="ProxyAddress">آدرس</sys:String>
@@ -65,13 +67,14 @@
     <sys:String x:Key="ProxyType">نوع</sys:String>
     <sys:String x:Key="ProxyTypeNone">None</sys:String>
     <sys:String x:Key="ProxyTypeHttp">Http</sys:String>
-    <sys:String x:Key="ProxyTypeSocks5">ساکس5</sys:String>
+    <sys:String x:Key="ProxyTypeSocks5">Socks5</sys:String>
     
     <!--editor-->
     <sys:String x:Key="EditorProxyType" xml:space="preserve">نوع پروکسی</sys:String>
     <sys:String x:Key="EditorProxyParams" xml:space="preserve">Params</sys:String>
 
     <!--Xray-->
+    <sys:String x:Key="VlessXtlsRealityDesc" xml:space="preserve">VLESS TCP XTLS REALITY</sys:String>
     <sys:String x:Key="VlessXtlsDesc" xml:space="preserve">VLESS XTLS</sys:String>
     <sys:String x:Key="VlessTcpDesc" xml:space="preserve">VLESS TCP</sys:String>
     <sys:String x:Key="VlessWsDesc" xml:space="preserve">VLESS WS</sys:String>

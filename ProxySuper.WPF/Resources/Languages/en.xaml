@@ -29,6 +29,7 @@
     <sys:String x:Key="MainMenuHelperUseRoot">UseRoot</sys:String>
     <sys:String x:Key="MainMenuHelperCertQuestion">CertQuestion</sys:String>
     <sys:String x:Key="MainMenuHelperPrivateKey">PrivateKey</sys:String>
+    <sys:String x:Key="MainMenuHelperResourcesAndTutorials">Related Resources and Tutorials</sys:String>
 
     <!--Main DataGrid-->
     <sys:String x:Key="MainDataGridColumnTag">Tag</sys:String>
@@ -51,11 +52,12 @@
     <sys:String x:Key="HostPassword">Password</sys:String>
     <sys:String x:Key="HostPort">Port</sys:String>
     <sys:String x:Key="HostSecretType">SecretType</sys:String>
-    <sys:String x:Key="HostUploadSecretKey">UploadKey</sys:String>
+    <sys:String x:Key="HostUploadSecretKey">LoadingKey</sys:String>
     <sys:String  x:Key="HostSertTypePassword">Password</sys:String>
     <sys:String  x:Key="HostSertTypePrivateKey">PrivateKey</sys:String>
     <sys:String x:Key="HostSertTypePrivateKeyPassPhrase">PKPassword</sys:String>
 
+    <sys:String x:Key="TextBoxContentTipsNoneBlank">None,Blank</sys:String>
 
     <sys:String x:Key="ProxyGroupName">Proxy</sys:String>
     <sys:String x:Key="ProxyAddress">Address</sys:String>
@@ -72,6 +74,7 @@
     <sys:String x:Key="EditorProxyParams" xml:space="preserve">Params</sys:String>
 
     <!--Xray-->
+    <sys:String x:Key="VlessXtlsRealityDesc" xml:space="preserve">VLESS XTLS REALITY</sys:String>
     <sys:String x:Key="VlessXtlsDesc" xml:space="preserve">VLESS XTLS</sys:String>
     <sys:String x:Key="VlessTcpDesc" xml:space="preserve">VLESS TCP</sys:String>
     <sys:String x:Key="VlessWsDesc" xml:space="preserve">VLESS WS</sys:String>

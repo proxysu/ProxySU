@@ -13,6 +13,10 @@
     <UserControl.Resources>
         <convert:LoginSecretTypeConverter x:Key="SecretTypeConverter" />
         <convert:ProxyTypeConverter x:Key="ProxyTypeConverter" />
+        <convert:BooleanOrConverter x:Key="BooleanOrConverter" />
+        <convert:BooleanOrToVisibilityConverter x:Key="BooleanOrToVisibilityConverter" />
+        <convert:VisibleConverter x:Key="VisibleConverter" />
+        
     </UserControl.Resources>
     
     <Grid>
@@ -95,7 +99,13 @@
                                  }" />
                 </StackPanel>
 
-                <Label Content="{DynamicResource HostUploadSecretKey}" Grid.Row="6" Grid.Column="0" /> 
+                <Label Content="{DynamicResource HostUploadSecretKey}" 
+                       Grid.Row="6" Grid.Column="0" 
+                       Visibility="{
+                            Binding Host.SecretType,
+                            Converter={StaticResource VisibleConverter},
+                            ConverterParameter={x:Static host:LoginSecretType.PrivateKey}
+                        }"/> 
                 <Button Height="24"
                         Width="100"
                         HorizontalAlignment="Left"
@@ -106,9 +116,20 @@
                             Converter={StaticResource SecretTypeConverter},
                             ConverterParameter={x:Static host:LoginSecretType.PrivateKey}
                         }"
+                        Visibility="{
+                            Binding Host.SecretType,
+                            Converter={StaticResource VisibleConverter},
+                            ConverterParameter={x:Static host:LoginSecretType.PrivateKey}
+                        }"
                         Content="{DynamicResource HostUploadSecretKey}" />
 
-                <Label Content="{DynamicResource HostSertTypePrivateKeyPassPhrase}" Grid.Row="7" Grid.Column="0" />
+                <Label Content="{DynamicResource HostSertTypePrivateKeyPassPhrase}" 
+                       Grid.Row="7" Grid.Column="0" 
+                       Visibility="{
+                            Binding Host.SecretType,
+                            Converter={StaticResource VisibleConverter},
+                            ConverterParameter={x:Static host:LoginSecretType.PrivateKey}
+                        }"/>
                 <TextBox Grid.Row="7" Grid.Column="1"
                          Width="170"
                          Text="{Binding Host.PrivateKeyPassPhrase}"
@@ -117,7 +138,32 @@
                             Converter={StaticResource SecretTypeConverter},
                             ConverterParameter={x:Static host:LoginSecretType.PrivateKey}
                         }"
-                         VerticalContentAlignment="Center" />
+                        Visibility="{
+                            Binding Host.SecretType,
+                            Converter={StaticResource VisibleConverter},
+                            ConverterParameter={x:Static host:LoginSecretType.PrivateKey}
+                        }"
+                         VerticalContentAlignment="Center" Height="26" >
+                    <TextBox.Resources>
+                        <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left">
+                            <VisualBrush.Visual>
+                                <TextBlock FontStyle="Italic" Text="{DynamicResource TextBoxContentTipsNoneBlank}"/>
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </TextBox.Resources>
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="{x:Null}">
+                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                </Trigger>
+                                <Trigger Property="Text" Value="">
+                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
             </Grid>
         </GroupBox>
 
@@ -144,13 +190,6 @@
                                     Converter={StaticResource ProxyTypeConverter},
                                     ConverterParameter={x:Static ssh:ProxyTypes.None}
                                  }"/>
-                    <RadioButton Content="{DynamicResource ProxyTypeHttp}"
-                                 Margin="5,0"
-                                 IsChecked="{
-                                    Binding Host.Proxy.Type,
-                                    Converter={StaticResource ProxyTypeConverter},
-                                    ConverterParameter={x:Static ssh:ProxyTypes.Http}
-                                 }"/>
                     <RadioButton Content="{DynamicResource ProxyTypeSocks5}"
                                  Margin="5,0"
                                  IsChecked="{
@@ -158,19 +197,175 @@
                                     Converter={StaticResource ProxyTypeConverter},
                                     ConverterParameter={x:Static ssh:ProxyTypes.Socks5}
                                  }"/>
+                    <RadioButton Content="{DynamicResource ProxyTypeHttp}"
+                                 Margin="5,0"
+                                 IsChecked="{
+                                    Binding Host.Proxy.Type,
+                                    Converter={StaticResource ProxyTypeConverter},
+                                    ConverterParameter={x:Static ssh:ProxyTypes.Http}
+                                 }"/>
                 </StackPanel>
 
-                <Label Content="{DynamicResource ProxyAddress}" Grid.Row="1" Grid.Column="0" />
-                <TextBox Text="{Binding Host.Proxy.Address}" Grid.Row="1" Grid.Column="1" />
+                <Label Content="{DynamicResource ProxyAddress}" Grid.Row="1" Grid.Column="0" >
+                    <Label.Visibility>
+                        <MultiBinding Converter="{StaticResource BooleanOrToVisibilityConverter}">
+                            <Binding Path="Host.Proxy.Type" 
+                                Converter="{StaticResource ProxyTypeConverter}" 
+                                ConverterParameter="{x:Static ssh:ProxyTypes.Socks5}" />
+                            <Binding Path="Host.Proxy.Type" 
+                                Converter="{StaticResource ProxyTypeConverter}" 
+                                ConverterParameter="{x:Static ssh:ProxyTypes.Http}" />
+                        </MultiBinding>
+                    </Label.Visibility>
+                </Label>
+                <TextBox Text="{Binding Host.Proxy.Address}" 
+                         Grid.Row="1" 
+                         Grid.Column="1" >
+                    <!-- IsEnabled="{
+                                    Binding Host.Proxy.Type,
+                                    Converter={StaticResource ProxyTypeConverter},
+                                    ConverterParameter={x:Static ssh:ProxyTypes.Socks5}
+                         }" -->
+                         <TextBox.IsEnabled>
+                            <MultiBinding Converter="{StaticResource BooleanOrConverter}">
+                                <Binding Path="Host.Proxy.Type" Converter="{StaticResource ProxyTypeConverter}" 
+                                         ConverterParameter="{x:Static ssh:ProxyTypes.Socks5}" />
+                                <Binding Path="Host.Proxy.Type" Converter="{StaticResource ProxyTypeConverter}" 
+                                         ConverterParameter="{x:Static ssh:ProxyTypes.Http}" />
+                            </MultiBinding>
+                        </TextBox.IsEnabled>
+                    <TextBox.Visibility>
+                        <MultiBinding Converter="{StaticResource BooleanOrToVisibilityConverter}">
+                            <Binding Path="Host.Proxy.Type" 
+                                Converter="{StaticResource ProxyTypeConverter}" 
+                                ConverterParameter="{x:Static ssh:ProxyTypes.Socks5}" />
+                            <Binding Path="Host.Proxy.Type" 
+                                Converter="{StaticResource ProxyTypeConverter}" 
+                                ConverterParameter="{x:Static ssh:ProxyTypes.Http}" />
+                        </MultiBinding>
+                    </TextBox.Visibility>
+                </TextBox>
 
-                <Label Content="{DynamicResource ProxyUserName}" Grid.Row="2" Grid.Column="0" />
-                <TextBox Text="{Binding Host.Proxy.UserName}" Grid.Row="2" Grid.Column="1" />
+                <Label Content="{DynamicResource HostPort}" Grid.Row="2" Grid.Column="0" >
+                    <Label.Visibility>
+                        <MultiBinding Converter="{StaticResource BooleanOrToVisibilityConverter}">
+                            <Binding Path="Host.Proxy.Type" 
+                               Converter="{StaticResource ProxyTypeConverter}" 
+                               ConverterParameter="{x:Static ssh:ProxyTypes.Socks5}" />
+                            <Binding Path="Host.Proxy.Type" 
+                               Converter="{StaticResource ProxyTypeConverter}" 
+                               ConverterParameter="{x:Static ssh:ProxyTypes.Http}" />
+                        </MultiBinding>
+                    </Label.Visibility>
+                </Label>
+                <TextBox Text="{Binding Host.Proxy.Port}" Grid.Row="2" Grid.Column="1" >
+                    <TextBox.IsEnabled>
+                        <MultiBinding Converter="{StaticResource BooleanOrConverter}">
+                            <Binding Path="Host.Proxy.Type" Converter="{StaticResource ProxyTypeConverter}" 
+                                         ConverterParameter="{x:Static ssh:ProxyTypes.Socks5}" />
+                            <Binding Path="Host.Proxy.Type" Converter="{StaticResource ProxyTypeConverter}" 
+                                         ConverterParameter="{x:Static ssh:ProxyTypes.Http}" />
+                        </MultiBinding>
+                    </TextBox.IsEnabled>
+                    <TextBox.Visibility>
+                        <MultiBinding Converter="{StaticResource BooleanOrToVisibilityConverter}">
+                            <Binding Path="Host.Proxy.Type" 
+                                Converter="{StaticResource ProxyTypeConverter}" 
+                                ConverterParameter="{x:Static ssh:ProxyTypes.Socks5}" />
+                            <Binding Path="Host.Proxy.Type" 
+                                Converter="{StaticResource ProxyTypeConverter}" 
+                                ConverterParameter="{x:Static ssh:ProxyTypes.Http}" />
+                        </MultiBinding>
+                    </TextBox.Visibility>
+                </TextBox>
 
-                <Label Content="{DynamicResource HostPort}" Grid.Row="3" Grid.Column="0" />
-                <TextBox Text="{Binding Host.Proxy.Port}" Grid.Row="3" Grid.Column="1" />
+                <Label Content="{DynamicResource ProxyUserName}" Grid.Row="3" Grid.Column="0" >
+                    <Label.Visibility>
+                        <MultiBinding Converter="{StaticResource BooleanOrToVisibilityConverter}">
+                            <Binding Path="Host.Proxy.Type" 
+                               Converter="{StaticResource ProxyTypeConverter}" 
+                               ConverterParameter="{x:Static ssh:ProxyTypes.Socks5}" />
+                        </MultiBinding>
+                    </Label.Visibility>
+                </Label>
+                <TextBox Text="{Binding Host.Proxy.UserName}" Grid.Row="3" Grid.Column="1" Height="26" >
+                    <TextBox.IsEnabled>
+                        <MultiBinding Converter="{StaticResource BooleanOrConverter}">
+                            <Binding Path="Host.Proxy.Type" Converter="{StaticResource ProxyTypeConverter}" 
+                                         ConverterParameter="{x:Static ssh:ProxyTypes.Socks5}" />
+                        </MultiBinding>
+                    </TextBox.IsEnabled>
+                    <TextBox.Visibility>
+                        <MultiBinding Converter="{StaticResource BooleanOrToVisibilityConverter}">
+                            <Binding Path="Host.Proxy.Type" 
+                                Converter="{StaticResource ProxyTypeConverter}" 
+                                ConverterParameter="{x:Static ssh:ProxyTypes.Socks5}" />
+                        </MultiBinding>
+                    </TextBox.Visibility>
+                    <TextBox.Resources>
+                        <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left">
+                            <VisualBrush.Visual>
+                                <TextBlock FontStyle="Italic" Text="{DynamicResource TextBoxContentTipsNoneBlank}"/>
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </TextBox.Resources>
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="{x:Null}">
+                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                </Trigger>
+                                <Trigger Property="Text" Value="">
+                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
 
-                <Label Content="{DynamicResource ProxyPassword}" Grid.Row="4" Grid.Column="0" />
-                <TextBox Text="{Binding Host.Proxy.Password}" Grid.Row="4" Grid.Column="1" />
+                <Label Content="{DynamicResource ProxyPassword}" Grid.Row="4" Grid.Column="0" >
+                    <Label.Visibility>
+                        <MultiBinding Converter="{StaticResource BooleanOrToVisibilityConverter}">
+                            <Binding Path="Host.Proxy.Type" 
+                               Converter="{StaticResource ProxyTypeConverter}" 
+                               ConverterParameter="{x:Static ssh:ProxyTypes.Socks5}" />
+                        </MultiBinding>
+                    </Label.Visibility>
+                </Label>
+                <TextBox Text="{Binding Host.Proxy.Password}" Grid.Row="4" Grid.Column="1" Height="26" >
+                    <TextBox.IsEnabled>
+                        <MultiBinding Converter="{StaticResource BooleanOrConverter}">
+                            <Binding Path="Host.Proxy.Type" Converter="{StaticResource ProxyTypeConverter}" 
+                                         ConverterParameter="{x:Static ssh:ProxyTypes.Socks5}" />
+                        </MultiBinding>
+                    </TextBox.IsEnabled>
+                    <TextBox.Visibility>
+                        <MultiBinding Converter="{StaticResource BooleanOrToVisibilityConverter}">
+                            <Binding Path="Host.Proxy.Type" 
+                                Converter="{StaticResource ProxyTypeConverter}" 
+                                ConverterParameter="{x:Static ssh:ProxyTypes.Socks5}" />
+                        </MultiBinding>
+                    </TextBox.Visibility>
+                    <TextBox.Resources>
+                        <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left">
+                            <VisualBrush.Visual>
+                                <TextBlock Height="auto" FontStyle="Italic" Text="{DynamicResource TextBoxContentTipsNoneBlank}"/>
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </TextBox.Resources>
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="{x:Null}">
+                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                </Trigger>
+                                <Trigger Property="Text" Value="">
+                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
 
             </Grid>
         </GroupBox>

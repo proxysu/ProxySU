@@ -17,6 +17,13 @@
             <StackPanel Orientation="Horizontal">
                 <!--#region VLESS -->
                 <WrapPanel Orientation="Vertical">
+                    <!--XTLS+Reality-->
+                    <CheckBox Width="150"
+                              VerticalContentAlignment="Center"
+                              IsChecked="{Binding Path=Checked_VLESS_TCP_XTLS}">
+                        <Label Content="{DynamicResource VlessXtlsRealityDesc}"  FontSize="12" Foreground="LimeGreen" />
+                    </CheckBox>
+
                     <!--XTLS-->
                     <CheckBox Width="150"
                               VerticalContentAlignment="Center"

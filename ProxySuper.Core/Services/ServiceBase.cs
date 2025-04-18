@@ -829,7 +829,8 @@ namespace ProxySuper.Core.Services
                     proxyType: _host.Proxy.Type,
                     proxyHost: _host.Proxy.Address,
                     proxyPort: _host.Proxy.Port,
-                    proxyUsername: _host.Proxy.UserName, proxyPassword: _host.Proxy.Password,
+                    proxyUsername: _host.Proxy.UserName,
+                    proxyPassword: _host.Proxy.Password,
                     authenticationMethods: authMethods.ToArray());
             }
             catch (Exception ex)

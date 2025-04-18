@@ -41,6 +41,7 @@
                 <MenuItem Padding="0,5" Header="{DynamicResource MainMenuHelperUseRoot}" Click="LaunchUseRootSite"></MenuItem>
                 <MenuItem Padding="0,5" Header="{DynamicResource MainMenuHelperCertQuestion}" Click="LaunchCertQuestion"></MenuItem>
                 <MenuItem Padding="0,5" Header="{DynamicResource MainMenuHelperPrivateKey}" Click="LaunchPrivateKeyQuestion"></MenuItem>
+                <MenuItem Padding="0,5" Header="{DynamicResource MainMenuHelperResourcesAndTutorials}" Click="LaunchResourcesAndTutorials"></MenuItem>
             </MenuItem>
         </Menu>
 

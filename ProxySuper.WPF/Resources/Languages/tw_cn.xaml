@@ -29,7 +29,7 @@
     <sys:String x:Key="MainMenuHelperUseRoot">啓用Root賬戶</sys:String>
     <sys:String x:Key="MainMenuHelperCertQuestion">證書問題</sys:String>
     <sys:String x:Key="MainMenuHelperPrivateKey">私鑰問題</sys:String>
-
+    <sys:String x:Key="MainMenuHelperResourcesAndTutorials">相關資源與教程</sys:String>
 
     <!--Main DataGrid-->
     <sys:String x:Key="MainDataGridColumnTag">名稱</sys:String>
@@ -52,10 +52,12 @@
     <sys:String x:Key="HostPassword">密碼</sys:String>
     <sys:String x:Key="HostPort">端口</sys:String>
     <sys:String x:Key="HostSecretType">登録驗證</sys:String>
-    <sys:String x:Key="HostUploadSecretKey">上傳Key</sys:String>
+    <sys:String x:Key="HostUploadSecretKey">載入私鑰</sys:String>
     <sys:String x:Key="HostSertTypePassword">密碼</sys:String>
     <sys:String x:Key="HostSertTypePrivateKey">私鑰</sys:String>
     <sys:String x:Key="HostSertTypePrivateKeyPassPhrase">私鑰密碼</sys:String>
+
+    <sys:String x:Key="TextBoxContentTipsNoneBlank">若無,則留空</sys:String>
 
     <sys:String x:Key="ProxyGroupName">代理</sys:String>
     <sys:String x:Key="ProxyAddress">IP/地址</sys:String>
@@ -72,7 +74,8 @@
     <sys:String x:Key="EditorProxyParams" xml:space="preserve">節點參數</sys:String>
 
     <!--Xray-->
-    <sys:String x:Key="VlessXtlsDesc" xml:space="preserve">VLESS TCP XTLS</sys:String>
+    <sys:String x:Key="VlessXtlsRealityDesc" xml:space="preserve">VLESS XTLS REALITY</sys:String>
+    <sys:String x:Key="VlessXtlsDesc" xml:space="preserve">VLESS XTLS</sys:String>
     <sys:String x:Key="VlessTcpDesc" xml:space="preserve">VLESS TCP</sys:String>
     <sys:String x:Key="VlessWsDesc" xml:space="preserve">VLESS WS</sys:String>
     <sys:String x:Key="VlessRpcDesc" xml:space="preserve">VLESS gRPC</sys:String>
