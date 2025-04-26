@@ -621,7 +621,9 @@ namespace ProxySuper.Core.Services
                 }
             }
 
-            return dns64List.Keys.ToList();
+            //return dns64List.Keys.ToList();
+            return dns64List.OrderBy(kv => kv.Value).Select(kv => kv.Key).ToList();
+
         }
 
         private bool CheckKernelVersionBBR(string kernelVer)

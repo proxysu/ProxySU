@@ -111,7 +111,7 @@ namespace ProxySuper.Core.Models
                 StringBuilder strBuilder = new StringBuilder();
                 XraySettings.Types.ForEach(type =>
                 {
-                    var link = ShareLink.Build(type, XraySettings);
+                    var link = ShareLink.XrayBuild(type, XraySettings);
                     strBuilder.AppendLine(link);
                 });
                 return strBuilder.ToString();

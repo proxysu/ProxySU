@@ -214,7 +214,7 @@ namespace ProxySuper.Core.ViewModels
         }
         public string Trojan_TCP_ShareLink
         {
-            get => ShareLink.Build(RayType.Trojan_TCP, Settings);
+            get => ShareLink.XrayBuild(RayType.Trojan_TCP, Settings);
         }
         #endregion
 
@@ -257,7 +257,7 @@ namespace ProxySuper.Core.ViewModels
         }
         public string ShadowSocksShareLink
         {
-            get => ShareLink.Build(RayType.ShadowsocksAEAD, Settings);
+            get => ShareLink.XrayBuild(RayType.ShadowsocksAEAD, Settings);
         }
         #endregion
 
@@ -306,7 +306,7 @@ namespace ProxySuper.Core.ViewModels
         }
         public string VMESS_TCP_ShareLink
         {
-            get => ShareLink.Build(RayType.VMESS_TCP, Settings);
+            get => ShareLink.XrayBuild(RayType.VMESS_TCP, Settings);
         }
         #endregion
 
@@ -327,7 +327,7 @@ namespace ProxySuper.Core.ViewModels
         }
         public string VMESS_WS_ShareLink
         {
-            get => ShareLink.Build(RayType.VMESS_WS, Settings);
+            get => ShareLink.XrayBuild(RayType.VMESS_WS, Settings);
         }
         #endregion
 
@@ -360,7 +360,7 @@ namespace ProxySuper.Core.ViewModels
         }
         public string VMESS_KCP_ShareLink
         {
-            get => ShareLink.Build(RayType.VMESS_KCP, Settings);
+            get => ShareLink.XrayBuild(RayType.VMESS_KCP, Settings);
         }
         #endregion
 
@@ -412,7 +412,7 @@ namespace ProxySuper.Core.ViewModels
         }
         public string VMESS_QUIC_ShareLink
         {
-            get => ShareLink.Build(RayType.VMESS_QUIC, Settings);
+            get => ShareLink.XrayBuild(RayType.VMESS_QUIC, Settings);
         }
         #endregion
 
@@ -447,7 +447,7 @@ namespace ProxySuper.Core.ViewModels
         }
         public string VLESS_TCP_XTLS_ShareLink
         {
-            get => ShareLink.Build(RayType.VLESS_TCP_XTLS, Settings);
+            get => ShareLink.XrayBuild(RayType.VLESS_TCP_XTLS, Settings);
         }
         #endregion
 
@@ -463,7 +463,7 @@ namespace ProxySuper.Core.ViewModels
         }
         public string VLESS_TCP_ShareLink
         {
-            get => ShareLink.Build(RayType.VLESS_TCP, Settings);
+            get => ShareLink.XrayBuild(RayType.VLESS_TCP, Settings);
         }
         #endregion
 
@@ -487,7 +487,7 @@ namespace ProxySuper.Core.ViewModels
         }
         public string VLESS_WS_ShareLink
         {
-            get => ShareLink.Build(RayType.VLESS_WS, Settings);
+            get => ShareLink.XrayBuild(RayType.VLESS_WS, Settings);
         }
         #endregion
 
@@ -538,7 +538,7 @@ namespace ProxySuper.Core.ViewModels
         }
         public string VLESS_QUIC_ShareLink
         {
-            get => ShareLink.Build(RayType.VLESS_QUIC, Settings);
+            get => ShareLink.XrayBuild(RayType.VLESS_QUIC, Settings);
         }
         #endregion
 
@@ -575,7 +575,7 @@ namespace ProxySuper.Core.ViewModels
         }
         public string VLESS_KCP_ShareLink
         {
-            get => ShareLink.Build(RayType.VLESS_KCP, Settings);
+            get => ShareLink.XrayBuild(RayType.VLESS_KCP, Settings);
         }
         #endregion
 
@@ -601,7 +601,7 @@ namespace ProxySuper.Core.ViewModels
         }
         public string VLESS_gRPC_ShareLink
         {
-            get => ShareLink.Build(RayType.VLESS_gRPC, Settings);
+            get => ShareLink.XrayBuild(RayType.VLESS_gRPC, Settings);
         }
         #endregion
     }
