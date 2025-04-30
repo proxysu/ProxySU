@@ -31,7 +31,7 @@
                         <Label Content="{DynamicResource VlessXtlsDesc}"  FontSize="12" Foreground="LimeGreen" />
                     </CheckBox>
 
-                    <!--TCP-->
+                    <!--RAW(TCP)-->
                     <CheckBox Width="150"
                               VerticalContentAlignment="Center"
                               IsChecked="{Binding Path=Checked_VLESS_TCP}">
@@ -46,20 +46,20 @@
                     </CheckBox>
 
                     <!--mKCP-->
-                    <CheckBox Width="150"
+                    <!--<CheckBox Width="150"
                               VerticalContentAlignment="Center"
                               Foreground="LimeGreen"
                       IsChecked="{Binding Path=Checked_VLESS_KCP}">
                         <Label Content="{DynamicResource VlessKcpDesc}"  FontSize="12" Foreground="LimeGreen" />
-                    </CheckBox>
+                    </CheckBox>-->
 
                     <!--quic-->
-                    <CheckBox Width="150"
+                    <!--<CheckBox Width="150"
                               VerticalContentAlignment="Center"
                               Foreground="LimeGreen"
                               IsChecked="{Binding Path=Checked_VLESS_QUIC}">
                         <Label Content="{DynamicResource VlessQuicDesc}"  FontSize="12" Foreground="LimeGreen" />
-                    </CheckBox>
+                    </CheckBox>-->
 
                     <!--gRPC-->
                     <CheckBox Width="150"
@@ -88,12 +88,12 @@
                     </CheckBox>
 
                     <!--quic-->
-                    <CheckBox Width="150"
+                    <!--<CheckBox Width="150"
                               VerticalContentAlignment="Center"
                               Foreground="Blue"
                               IsChecked="{Binding Path=Checked_VMESS_QUIC}">
                         <Label Content="{DynamicResource VmessQuicDesc}" FontSize="12" Foreground="Blue" />
-                    </CheckBox>
+                    </CheckBox>-->
                 </WrapPanel>
                 <!--#endregion-->
 

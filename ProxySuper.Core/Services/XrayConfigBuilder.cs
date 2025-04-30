@@ -10,15 +10,15 @@ namespace ProxySuper.Core.Services
     public class XrayConfigBuilder
     {
         private const string ServerLogDir = @"Templates\xray\server\00_log";
-        private const string ServerApiDir = @"Templates\xray\server\01_api";
+        //private const string ServerApiDir = @"Templates\xray\server\01_api";
         private const string ServerDnsDir = @"Templates\xray\server\02_dns";
         private const string ServerRoutingDir = @"Templates\xray\server\03_routing";
-        private const string ServerPolicyDir = @"Templates\xray\server\04_policy";
+        //private const string ServerPolicyDir = @"Templates\xray\server\04_policy";
         private const string ServerInboundsDir = @"Templates\xray\server\05_inbounds";
         private const string ServerOutboundsDir = @"Templates\xray\server\06_outbounds";
-        private const string ServerTransportDir = @"Templates\xray\server\07_transport";
-        private const string ServerStatsDir = @"Templates\xray\server\08_stats";
-        private const string ServerReverseDir = @"Templates\xray\server\09_reverse";
+        //private const string ServerTransportDir = @"Templates\xray\server\07_transport";
+        //private const string ServerStatsDir = @"Templates\xray\server\08_stats";
+        //private const string ServerReverseDir = @"Templates\xray\server\09_reverse";
         private const string CaddyFileDir = @"Templates\xray\caddy";
 
         public static int VLESS_TCP_Port = 1110;
@@ -39,15 +39,15 @@ namespace ProxySuper.Core.Services
         public static dynamic LoadXrayConfig()
         {
             dynamic logObj = LoadJsonObj(Path.Combine(ServerLogDir, "00_log.json"));
-            dynamic apiObj = LoadJsonObj(Path.Combine(ServerApiDir, "01_api.json"));
+            //dynamic apiObj = LoadJsonObj(Path.Combine(ServerApiDir, "01_api.json"));
             dynamic dnsObj = LoadJsonObj(Path.Combine(ServerDnsDir, "02_dns.json"));
             dynamic routingObj = LoadJsonObj(Path.Combine(ServerRoutingDir, "03_routing.json"));
-            dynamic policyObj = LoadJsonObj(Path.Combine(ServerPolicyDir, "04_policy.json"));
+            //dynamic policyObj = LoadJsonObj(Path.Combine(ServerPolicyDir, "04_policy.json"));
             dynamic inboundsObj = LoadJsonObj(Path.Combine(ServerInboundsDir, "05_inbounds.json"));
             dynamic outboundsObj = LoadJsonObj(Path.Combine(ServerOutboundsDir, "06_outbounds.json"));
-            dynamic transportObj = LoadJsonObj(Path.Combine(ServerTransportDir, "07_transport.json"));
-            dynamic statsObj = LoadJsonObj(Path.Combine(ServerStatsDir, "08_stats.json"));
-            dynamic reverseObj = LoadJsonObj(Path.Combine(ServerReverseDir, "09_reverse.json"));
+            //dynamic transportObj = LoadJsonObj(Path.Combine(ServerTransportDir, "07_transport.json"));
+            //dynamic statsObj = LoadJsonObj(Path.Combine(ServerStatsDir, "08_stats.json"));
+            //dynamic reverseObj = LoadJsonObj(Path.Combine(ServerReverseDir, "09_reverse.json"));
 
             return new
             {
@@ -55,12 +55,12 @@ namespace ProxySuper.Core.Services
                 //api = apiObj["api"],  api不能为空
                 dns = dnsObj["dns"],
                 routing = routingObj["routing"],
-                policy = policyObj["policy"],
+                //policy = policyObj["policy"],
                 inbounds = inboundsObj["inbounds"],
                 outbounds = outboundsObj["outbounds"],
-                transport = transportObj["transport"],
-                stats = statsObj["stats"],
-                reverse = reverseObj["reverse"]
+                //transport = transportObj["transport"],
+                //stats = statsObj["stats"],
+                //reverse = reverseObj["reverse"]
             };
         }
 
@@ -283,7 +283,8 @@ namespace ProxySuper.Core.Services
             if (File.Exists(path))
             {
                 var jsonStr = File.ReadAllText(path, Encoding.UTF8);
-                return JToken.FromObject(JsonConvert.DeserializeObject(jsonStr));
+                //return JToken.FromObject(JsonConvert.DeserializeObject(jsonStr));
+                return JToken.Parse(jsonStr);
             }
             return null;
         }
