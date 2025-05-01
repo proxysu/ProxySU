@@ -14,7 +14,7 @@ namespace ProxySuper.Core.Models.Projects
         {
             get
             {
-                return ShareLink.Build(RayType.VLESS_TCP, this);
+                return ShareLink.Build(V2RayType.VLESS_TCP, this);
             }
         }
 
@@ -30,7 +30,7 @@ namespace ProxySuper.Core.Models.Projects
         {
             get
             {
-                return ShareLink.Build(RayType.VLESS_WS, this);
+                return ShareLink.Build(V2RayType.VLESS_WS, this);
             }
         }
 
@@ -56,7 +56,7 @@ namespace ProxySuper.Core.Models.Projects
         {
             get
             {
-                return ShareLink.Build(RayType.VLESS_KCP, this);
+                return ShareLink.Build(V2RayType.VLESS_KCP, this);
             }
         }
 
@@ -87,7 +87,7 @@ namespace ProxySuper.Core.Models.Projects
         {
             get
             {
-                return ShareLink.Build(RayType.VLESS_QUIC, this);
+                return ShareLink.Build(V2RayType.VLESS_QUIC, this);
             }
         }
 
@@ -108,7 +108,7 @@ namespace ProxySuper.Core.Models.Projects
         {
             get
             {
-                return ShareLink.Build(RayType.VLESS_gRPC, this);
+                return ShareLink.Build(V2RayType.VLESS_gRPC, this);
             }
         }
     }

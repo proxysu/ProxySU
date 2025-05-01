@@ -26,7 +26,7 @@ namespace ProxySuper.Core.Models.Projects
         {
             get
             {
-                return ShareLink.XrayBuild(RayType.VLESS_RAW_XTLS, this);
+                return ShareLink.XrayBuild(XrayType.VLESS_RAW_XTLS, this);
             }
         }
 
@@ -56,7 +56,7 @@ namespace ProxySuper.Core.Models.Projects
             ShadowSocksPort = 4001;
 
             UUID = guid;
-            Types = new List<RayType>();
+            Types = new List<XrayType>();
 
             VLESS_WS_Path = "/" + Utils.RandomString(6);
             VLESS_KCP_Type = "none";
@@ -100,32 +100,32 @@ namespace ProxySuper.Core.Models.Projects
                 list.Add(80);
                 list.Add(Port);
 
-                if (Types.Contains(RayType.VLESS_KCP))
+                if (Types.Contains(XrayType.VLESS_KCP))
                 {
                     list.Add(VLESS_KCP_Port);
                 }
 
-                if (Types.Contains(RayType.VLESS_QUIC))
+                if (Types.Contains(XrayType.VLESS_QUIC))
                 {
                     list.Add(VLESS_QUIC_Port);
                 }
 
-                if (Types.Contains(RayType.VMESS_KCP))
+                if (Types.Contains(XrayType.VMESS_KCP))
                 {
                     list.Add(VMESS_KCP_Port);
                 }
 
-                if (Types.Contains(RayType.VMESS_QUIC))
+                if (Types.Contains(XrayType.VMESS_QUIC))
                 {
                     list.Add(VMESS_QUIC_Port);
                 }
 
-                if (Types.Contains(RayType.ShadowsocksAEAD))
+                if (Types.Contains(XrayType.ShadowsocksAEAD))
                 {
                     list.Add(ShadowSocksPort);
                 }
 
-                if (Types.Contains(RayType.VLESS_gRPC))
+                if (Types.Contains(XrayType.VLESS_gRPC))
                 {
                     list.Add(VLESS_gRPC_Port);
                 }
@@ -186,22 +186,22 @@ namespace ProxySuper.Core.Models.Projects
         /// <summary>
         /// 安装类型
         /// </summary>
-        public List<RayType> Types { get; set; } = new List<RayType>();
+        public List<XrayType> Types { get; set; } = new List<XrayType>();
 
         /// <summary>
         /// 根据xray类型获取路径
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public string GetPath(RayType type)
+        public string GetPath(XrayType type)
         {
             switch (type)
             {
-                case RayType.VLESS_WS:
+                case XrayType.VLESS_WS:
                     return VLESS_WS_Path;
-                case RayType.VMESS_TCP:
+                case XrayType.VMESS_TCP:
                     return VMESS_TCP_Path;
-                case RayType.VMESS_WS:
+                case XrayType.VMESS_WS:
                     return VMESS_WS_Path;
                 default:
                     return string.Empty;

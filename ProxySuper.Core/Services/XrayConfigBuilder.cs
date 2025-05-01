@@ -131,7 +131,7 @@ namespace ProxySuper.Core.Services
 
             #region Fullbacks
 
-            if (parameters.Types.Contains(RayType.VLESS_WS))
+            if (parameters.Types.Contains(XrayType.VLESS_WS))
             {
                 var wsInbound = GetBound("VLESS_WS.json");
                 wsInbound.port = VLESS_WS_Port;
@@ -146,7 +146,7 @@ namespace ProxySuper.Core.Services
                 xrayConfig.inbounds.Add(JToken.FromObject(wsInbound));
             }
 
-            if (parameters.Types.Contains(RayType.VMESS_TCP))
+            if (parameters.Types.Contains(XrayType.VMESS_TCP))
             {
                 var mtcpBound = GetBound("VMESS_TCP.json");
                 mtcpBound.port = VMESS_TCP_Port;
@@ -161,7 +161,7 @@ namespace ProxySuper.Core.Services
                 xrayConfig.inbounds.Add(JToken.FromObject(mtcpBound));
             }
 
-            if (parameters.Types.Contains(RayType.VMESS_WS))
+            if (parameters.Types.Contains(XrayType.VMESS_WS))
             {
                 var mwsBound = GetBound("VMESS_WS.json");
                 mwsBound.port = VMESS_WS_Port;
@@ -176,7 +176,7 @@ namespace ProxySuper.Core.Services
                 xrayConfig.inbounds.Add(JToken.FromObject(mwsBound));
             }
 
-            if (parameters.Types.Contains(RayType.Trojan_TCP))
+            if (parameters.Types.Contains(XrayType.Trojan_TCP))
             {
                 var trojanTcpBound = GetBound("Trojan_TCP.json");
                 trojanTcpBound.port = Trojan_TCP_Port;
@@ -192,7 +192,7 @@ namespace ProxySuper.Core.Services
             #endregion
 
             #region VLESS GRPC
-            if (parameters.Types.Contains(RayType.VLESS_gRPC))
+            if (parameters.Types.Contains(XrayType.VLESS_gRPC))
             {
                 var gRPCInBound = GetBound("VLESS_gRPC.json");
                 gRPCInBound.port = parameters.VLESS_gRPC_Port;
@@ -204,7 +204,7 @@ namespace ProxySuper.Core.Services
             #endregion
 
             #region VLESS KCP
-            if (parameters.Types.Contains(RayType.VLESS_KCP))
+            if (parameters.Types.Contains(XrayType.VLESS_KCP))
             {
                 var kcpBound = GetBound("VLESS_KCP.json");
                 kcpBound.port = parameters.VLESS_KCP_Port;
@@ -216,7 +216,7 @@ namespace ProxySuper.Core.Services
             #endregion
 
             #region VLESS QUIC
-            if (parameters.Types.Contains(RayType.VLESS_QUIC))
+            if (parameters.Types.Contains(XrayType.VLESS_QUIC))
             {
                 var quicBound = GetBound("VLESS_QUIC.json");
                 quicBound.port = parameters.VLESS_QUIC_Port;
@@ -229,7 +229,7 @@ namespace ProxySuper.Core.Services
             #endregion
 
             #region VMESS KCP
-            if (parameters.Types.Contains(RayType.VMESS_KCP))
+            if (parameters.Types.Contains(XrayType.VMESS_KCP))
             {
                 var kcpBound = GetBound("VMESS_KCP.json");
                 kcpBound.port = parameters.VMESS_KCP_Port;
@@ -241,7 +241,7 @@ namespace ProxySuper.Core.Services
             #endregion
 
             #region VMESS QUIC
-            if (parameters.Types.Contains(RayType.VMESS_QUIC))
+            if (parameters.Types.Contains(XrayType.VMESS_QUIC))
             {
                 var quicBound = GetBound("VMESS_QUIC.json");
                 quicBound.port = parameters.VMESS_QUIC_Port;
@@ -254,7 +254,7 @@ namespace ProxySuper.Core.Services
             #endregion
 
             #region Shadowsocks
-            if (parameters.Types.Contains(RayType.ShadowsocksAEAD))
+            if (parameters.Types.Contains(XrayType.ShadowsocksAEAD))
             {
                 var ssBound = GetBound("Shadowsocks-AEAD.json");
                 ssBound.port = parameters.ShadowSocksPort;

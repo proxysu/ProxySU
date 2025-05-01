@@ -69,25 +69,25 @@ namespace ProxySuper.Core.Services
             return strBuilder.ToString();
         }
 
-        public static string Build(RayType xrayType, V2raySettings settings)
+        public static string Build(V2RayType xrayType, V2raySettings settings)
         {
 
             switch (xrayType)
             {
-                case RayType.VLESS_TCP:
+                case V2RayType.VLESS_TCP:
                 //case RayType.VLESS_RAW_XTLS:
-                case RayType.VLESS_WS:
-                case RayType.VLESS_KCP:
-                case RayType.VLESS_QUIC:
-                case RayType.VLESS_gRPC:
-                case RayType.Trojan_TCP:
+                case V2RayType.VLESS_WS:
+                case V2RayType.VLESS_KCP:
+                case V2RayType.VLESS_QUIC:
+                case V2RayType.VLESS_gRPC:
+                case V2RayType.Trojan_TCP:
                     return BuildVlessShareLink(xrayType, settings);
-                case RayType.VMESS_TCP:
-                case RayType.VMESS_WS:
-                case RayType.VMESS_KCP:
-                case RayType.VMESS_QUIC:
+                case V2RayType.VMESS_TCP:
+                case V2RayType.VMESS_WS:
+                case V2RayType.VMESS_KCP:
+                case V2RayType.VMESS_QUIC:
                     return BuildVmessShareLink(xrayType, settings);
-                case RayType.ShadowsocksAEAD:
+                case V2RayType.ShadowsocksAEAD:
                     return BuildShadowSocksShareLink(settings);
                 default:
                     return string.Empty;
@@ -105,7 +105,7 @@ namespace ProxySuper.Core.Services
             return "ss://" + base64URL + "#ShadowSocks";
         }
 
-        private static string BuildVmessShareLink(RayType xrayType, V2raySettings settings)
+        private static string BuildVmessShareLink(V2RayType xrayType, V2raySettings settings)
         {
             var vmess = new Vmess
             {
@@ -124,19 +124,19 @@ namespace ProxySuper.Core.Services
 
             switch (xrayType)
             {
-                case RayType.VMESS_TCP:
+                case V2RayType.VMESS_TCP:
                     vmess.ps = "vmess-tcp-tls";
                     vmess.net = "tcp";
                     vmess.type = "http";
                     vmess.path = settings.VMESS_TCP_Path;
                     break;
-                case RayType.VMESS_WS:
+                case V2RayType.VMESS_WS:
                     vmess.ps = "vmess-ws-tls";
                     vmess.net = "ws";
                     vmess.type = "none";
                     vmess.path = settings.VMESS_WS_Path;
                     break;
-                case RayType.VMESS_KCP:
+                case V2RayType.VMESS_KCP:
                     vmess.ps = "vmess-mKCP";
                     vmess.port = settings.VMESS_KCP_Port.ToString();
                     vmess.net = "kcp";
@@ -144,7 +144,7 @@ namespace ProxySuper.Core.Services
                     vmess.path = settings.VMESS_KCP_Seed;
                     vmess.tls = "";
                     break;
-                case RayType.VMESS_QUIC:
+                case V2RayType.VMESS_QUIC:
                     vmess.ps = "vmess-quic";
                     vmess.port = settings.VMESS_QUIC_Port.ToString();
                     vmess.net = "quic";
@@ -161,7 +161,7 @@ namespace ProxySuper.Core.Services
             return $"vmess://" + base64Url;
         }
 
-        private static string BuildVlessShareLink(RayType xrayType, V2raySettings settings)
+        private static string BuildVlessShareLink(V2RayType xrayType, V2raySettings settings)
         {
             var _protocol = string.Empty;
             var _uuid = settings.UUID;
@@ -176,7 +176,7 @@ namespace ProxySuper.Core.Services
 
             switch (xrayType)
             {
-                case RayType.VLESS_TCP:
+                case V2RayType.VLESS_TCP:
                     _protocol = "vless";
                     _type = "tcp";
                     _descriptiveText = "vless-tcp-tls";
@@ -187,33 +187,33 @@ namespace ProxySuper.Core.Services
                 //    _security = "tls";
                 //    _descriptiveText = "vless-tcp-xtls";
                 //    break;
-                case RayType.VLESS_WS:
+                case V2RayType.VLESS_WS:
                     _protocol = "vless";
                     _type = "ws";
                     _path = settings.VLESS_WS_Path;
                     _descriptiveText = "vless-ws-tls";
                     break;
-                case RayType.VLESS_KCP:
+                case V2RayType.VLESS_KCP:
                     _protocol = "vless";
                     _type = "kcp";
                     _port = settings.VLESS_KCP_Port;
                     _security = "none";
                     _descriptiveText = "vless-mKCP";
                     break;
-                case RayType.VLESS_QUIC:
+                case V2RayType.VLESS_QUIC:
                     _protocol = "vless";
                     _port = settings.VLESS_QUIC_Port;
                     _type = "quic";
                     _security = "tls";
                     _descriptiveText = "vless-quic";
                     break;
-                case RayType.VLESS_gRPC:
+                case V2RayType.VLESS_gRPC:
                     _protocol = "vless";
                     _type = "grpc";
                     _port = settings.VLESS_gRPC_Port;
                     _descriptiveText = "vless-gRPC";
                     break;
-                case RayType.Trojan_TCP:
+                case V2RayType.Trojan_TCP:
                     _protocol = "trojan";
                     _uuid = settings.TrojanPassword;
                     _descriptiveText = "trojan-tcp";
@@ -224,18 +224,18 @@ namespace ProxySuper.Core.Services
 
 
             string parametersURL = string.Empty;
-            if (xrayType != RayType.Trojan_TCP)
+            if (xrayType != V2RayType.Trojan_TCP)
             {
                 // 4.3 传输层相关段
                 parametersURL = $"?type={_type}&encryption={_encryption}&security={_security}&path={HttpUtility.UrlEncode(_path)}";
 
                 // kcp
-                if (xrayType == RayType.VLESS_KCP)
+                if (xrayType == V2RayType.VLESS_KCP)
                 {
                     parametersURL += $"&seed={settings.VLESS_KCP_Seed}&headerType={settings.VLESS_KCP_Type}";
                 }
 
-                if (xrayType == RayType.VLESS_QUIC)
+                if (xrayType == V2RayType.VLESS_QUIC)
                 {
                     parametersURL += $"&quicSecurity={settings.VLESS_QUIC_Security}";
                     if (settings.VLESS_QUIC_Security != "none")
@@ -256,7 +256,7 @@ namespace ProxySuper.Core.Services
                 }
                 */
 
-                if (xrayType == RayType.VLESS_gRPC)
+                if (xrayType == V2RayType.VLESS_gRPC)
                 {
                     parametersURL += $"&serviceName={settings.VLESS_gRPC_ServiceName}&mode=gun";
                 }
@@ -266,25 +266,25 @@ namespace ProxySuper.Core.Services
             return $"{_protocol}://{HttpUtility.UrlEncode(_uuid)}@{_domain}:{_port}{parametersURL}#{HttpUtility.UrlEncode(_descriptiveText)}";
         }
 
-        public static string XrayBuild(RayType xrayType, XraySettings settings)
+        public static string XrayBuild(XrayType xrayType, XraySettings settings)
         {
 
             switch (xrayType)
             {
-                case RayType.VLESS_RAW:
-                case RayType.VLESS_RAW_XTLS:
-                case RayType.VLESS_WS:
-                case RayType.VLESS_KCP:
-                case RayType.VLESS_QUIC:
-                case RayType.VLESS_gRPC:
-                case RayType.Trojan_TCP:
+                case XrayType.VLESS_RAW:
+                case XrayType.VLESS_RAW_XTLS:
+                case XrayType.VLESS_WS:
+                case XrayType.VLESS_KCP:
+                case XrayType.VLESS_QUIC:
+                case XrayType.VLESS_gRPC:
+                case XrayType.Trojan_TCP:
                     return XrayBuildVlessShareLink(xrayType, settings);
-                case RayType.VMESS_TCP:
-                case RayType.VMESS_WS:
-                case RayType.VMESS_KCP:
-                case RayType.VMESS_QUIC:
+                case XrayType.VMESS_TCP:
+                case XrayType.VMESS_WS:
+                case XrayType.VMESS_KCP:
+                case XrayType.VMESS_QUIC:
                     return XrayBuildVmessShareLink(xrayType, settings);
-                case RayType.ShadowsocksAEAD:
+                case XrayType.ShadowsocksAEAD:
                     return XrayBuildShadowSocksShareLink(settings);
                 default:
                     return string.Empty;
@@ -302,7 +302,7 @@ namespace ProxySuper.Core.Services
             return "ss://" + base64URL + "#ShadowSocks";
         }
 
-        private static string XrayBuildVmessShareLink(RayType xrayType, XraySettings settings)
+        private static string XrayBuildVmessShareLink(XrayType xrayType, XraySettings settings)
         {
             var vmess = new Vmess
             {
@@ -321,19 +321,19 @@ namespace ProxySuper.Core.Services
 
             switch (xrayType)
             {
-                case RayType.VMESS_TCP:
+                case XrayType.VMESS_TCP:
                     vmess.ps = "vmess-tcp-tls";
                     vmess.net = "tcp";
                     vmess.type = "http";
                     vmess.path = settings.VMESS_TCP_Path;
                     break;
-                case RayType.VMESS_WS:
+                case XrayType.VMESS_WS:
                     vmess.ps = "vmess-ws-tls";
                     vmess.net = "ws";
                     vmess.type = "none";
                     vmess.path = settings.VMESS_WS_Path;
                     break;
-                case RayType.VMESS_KCP:
+                case XrayType.VMESS_KCP:
                     vmess.ps = "vmess-mKCP";
                     vmess.port = settings.VMESS_KCP_Port.ToString();
                     vmess.net = "kcp";
@@ -341,7 +341,7 @@ namespace ProxySuper.Core.Services
                     vmess.path = settings.VMESS_KCP_Seed;
                     vmess.tls = "";
                     break;
-                case RayType.VMESS_QUIC:
+                case XrayType.VMESS_QUIC:
                     vmess.ps = "vmess-quic";
                     vmess.port = settings.VMESS_QUIC_Port.ToString();
                     vmess.net = "quic";
@@ -358,7 +358,7 @@ namespace ProxySuper.Core.Services
             return $"vmess://" + base64Url;
         }
 
-        private static string XrayBuildVlessShareLink(RayType xrayType, XraySettings settings)
+        private static string XrayBuildVlessShareLink(XrayType xrayType, XraySettings settings)
         {
             var _protocol = string.Empty;
             var _uuid = settings.UUID;
@@ -373,44 +373,44 @@ namespace ProxySuper.Core.Services
 
             switch (xrayType)
             {
-                case RayType.VLESS_RAW:
+                case XrayType.VLESS_RAW:
                     _protocol = "vless";
                     _type = "tcp";
                     _descriptiveText = "vless-tcp-tls";
                     break;
-                case RayType.VLESS_RAW_XTLS:
+                case XrayType.VLESS_RAW_XTLS:
                     _protocol = "vless";
                     _type = "tcp";
                     _security = "tls";
                     _descriptiveText = "vless-tcp-xtls";
                     break;
-                case RayType.VLESS_WS:
+                case XrayType.VLESS_WS:
                     _protocol = "vless";
                     _type = "ws";
                     _path = settings.VLESS_WS_Path;
                     _descriptiveText = "vless-ws-tls";
                     break;
-                case RayType.VLESS_KCP:
+                case XrayType.VLESS_KCP:
                     _protocol = "vless";
                     _type = "kcp";
                     _port = settings.VLESS_KCP_Port;
                     _security = "none";
                     _descriptiveText = "vless-mKCP";
                     break;
-                case RayType.VLESS_QUIC:
+                case XrayType.VLESS_QUIC:
                     _protocol = "vless";
                     _port = settings.VLESS_QUIC_Port;
                     _type = "quic";
                     _security = "tls";
                     _descriptiveText = "vless-quic";
                     break;
-                case RayType.VLESS_gRPC:
+                case XrayType.VLESS_gRPC:
                     _protocol = "vless";
                     _type = "grpc";
                     _port = settings.VLESS_gRPC_Port;
                     _descriptiveText = "vless-gRPC";
                     break;
-                case RayType.Trojan_TCP:
+                case XrayType.Trojan_TCP:
                     _protocol = "trojan";
                     _uuid = settings.TrojanPassword;
                     _descriptiveText = "trojan-tcp";
@@ -421,18 +421,18 @@ namespace ProxySuper.Core.Services
 
 
             string parametersURL = string.Empty;
-            if (xrayType != RayType.Trojan_TCP)
+            if (xrayType != XrayType.Trojan_TCP)
             {
                 // 4.3 传输层相关段
                 parametersURL = $"?type={_type}&encryption={_encryption}&security={_security}&path={HttpUtility.UrlEncode(_path)}";
 
                 // kcp
-                if (xrayType == RayType.VLESS_KCP)
+                if (xrayType == XrayType.VLESS_KCP)
                 {
                     parametersURL += $"&seed={settings.VLESS_KCP_Seed}&headerType={settings.VLESS_KCP_Type}";
                 }
 
-                if (xrayType == RayType.VLESS_QUIC)
+                if (xrayType == XrayType.VLESS_QUIC)
                 {
                     parametersURL += $"&quicSecurity={settings.VLESS_QUIC_Security}";
                     if (settings.VLESS_QUIC_Security != "none")
@@ -445,7 +445,7 @@ namespace ProxySuper.Core.Services
                 // 4.4 TLS 相关段
                 //if (settings is XraySettings)
                 //{
-                    if (xrayType == RayType.VLESS_RAW_XTLS)
+                    if (xrayType == XrayType.VLESS_RAW_XTLS)
                     {
                     //var xraySettings = settings as XraySettings;
                     //parametersURL += $"&flow={xraySettings.Flow}";
@@ -454,7 +454,7 @@ namespace ProxySuper.Core.Services
                 //}
 
 
-                if (xrayType == RayType.VLESS_gRPC)
+                if (xrayType == XrayType.VLESS_gRPC)
                 {
                     parametersURL += $"&serviceName={settings.VLESS_gRPC_ServiceName}&mode=gun";
                 }

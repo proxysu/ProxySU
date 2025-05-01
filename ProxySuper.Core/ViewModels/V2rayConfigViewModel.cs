@@ -22,7 +22,7 @@ namespace ProxySuper.Core.ViewModels
         {
             get
             {
-                return Settings.Types.Contains(RayType.VLESS_TCP);
+                return Settings.Types.Contains(V2RayType.VLESS_TCP);
             }
         }
 
@@ -30,7 +30,7 @@ namespace ProxySuper.Core.ViewModels
         {
             get
             {
-                return Settings.Types.Contains(RayType.VLESS_WS);
+                return Settings.Types.Contains(V2RayType.VLESS_WS);
             }
         }
 
@@ -38,7 +38,7 @@ namespace ProxySuper.Core.ViewModels
         {
             get
             {
-                return Settings.Types.Contains(RayType.VLESS_KCP);
+                return Settings.Types.Contains(V2RayType.VLESS_KCP);
             }
         }
 
@@ -46,7 +46,7 @@ namespace ProxySuper.Core.ViewModels
         {
             get
             {
-                return Settings.Types.Contains(RayType.VLESS_QUIC);
+                return Settings.Types.Contains(V2RayType.VLESS_QUIC);
             }
         }
 
@@ -54,7 +54,7 @@ namespace ProxySuper.Core.ViewModels
         {
             get
             {
-                return Settings.Types.Contains(RayType.VLESS_gRPC);
+                return Settings.Types.Contains(V2RayType.VLESS_gRPC);
             }
         }
 
@@ -62,7 +62,7 @@ namespace ProxySuper.Core.ViewModels
         {
             get
             {
-                return Settings.Types.Contains(RayType.VMESS_TCP);
+                return Settings.Types.Contains(V2RayType.VMESS_TCP);
             }
         }
 
@@ -70,7 +70,7 @@ namespace ProxySuper.Core.ViewModels
         {
             get
             {
-                return Settings.Types.Contains(RayType.VMESS_WS);
+                return Settings.Types.Contains(V2RayType.VMESS_WS);
             }
         }
 
@@ -78,7 +78,7 @@ namespace ProxySuper.Core.ViewModels
         {
             get
             {
-                return Settings.Types.Contains(RayType.VMESS_KCP);
+                return Settings.Types.Contains(V2RayType.VMESS_KCP);
             }
         }
 
@@ -86,7 +86,7 @@ namespace ProxySuper.Core.ViewModels
         {
             get
             {
-                return Settings.Types.Contains(RayType.VMESS_QUIC);
+                return Settings.Types.Contains(V2RayType.VMESS_QUIC);
             }
         }
 
@@ -94,7 +94,7 @@ namespace ProxySuper.Core.ViewModels
         {
             get
             {
-                return Settings.Types.Contains(RayType.Trojan_TCP);
+                return Settings.Types.Contains(V2RayType.Trojan_TCP);
             }
         }
 
@@ -102,7 +102,7 @@ namespace ProxySuper.Core.ViewModels
         {
             get
             {
-                return Settings.Types.Contains(RayType.ShadowsocksAEAD);
+                return Settings.Types.Contains(V2RayType.ShadowsocksAEAD);
             }
         }
     }

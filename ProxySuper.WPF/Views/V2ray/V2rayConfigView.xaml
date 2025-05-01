@@ -25,35 +25,35 @@
                     x:Name="TabCtrl"
                     SelectionChanged="BuildQrCode">
             <TabItem Width="200" Height="40"
-                     Tag="{x:Static models:RayType.VLESS_TCP}"
+                     Tag="{x:Static models:V2RayType.VLESS_TCP}"
                      IsEnabled="{Binding Checked_VLESS_TCP}"
                      Header="VLESS-TCP-TLS">
                 <ctrl:VLESS_TCP_TLS_Control />
             </TabItem>
 
             <TabItem Width="200" Height="40"
-                     Tag="{x:Static models:RayType.VLESS_WS}"
+                     Tag="{x:Static models:V2RayType.VLESS_WS}"
                      IsEnabled="{Binding Checked_VLESS_WS}"
                      Header="VLESS-WebSocket-TLS">
                 <ctrl:VLESS_WS_TLS_Control />
             </TabItem>
 
             <TabItem Width="200" Height="40"
-                     Tag="{x:Static models:RayType.VLESS_KCP}"
+                     Tag="{x:Static models:V2RayType.VLESS_KCP}"
                      IsEnabled="{Binding Checked_VLESS_KCP}"
                      Header="VLESS-mKCP">
                 <ctrl:VLESS_KCP_Control />
             </TabItem>
 
             <TabItem Width="200" Height="40"
-                     Tag="{x:Static models:RayType.VLESS_QUIC}"
+                     Tag="{x:Static models:V2RayType.VLESS_QUIC}"
                      IsEnabled="{Binding Checked_VLESS_QUIC}"
                      Header="VLESS-QUIC">
                 <ctrl:VLESS_QUIC_Control />
             </TabItem>
 
             <TabItem Width="200" Height="40"
-                     Tag="{x:Static models:RayType.VLESS_gRPC}"
+                     Tag="{x:Static models:V2RayType.VLESS_gRPC}"
                      IsEnabled="{Binding Checked_VLESS_gRPC}"                     
                      Header="VLESS-gRPC">
                 <ctrl:VLESS_gRPC_Control />
@@ -67,35 +67,35 @@
             </TabItem>-->
 
             <TabItem Width="200" Height="40"     
-                     Tag="{x:Static models:RayType.VMESS_WS}"
+                     Tag="{x:Static models:V2RayType.VMESS_WS}"
                      IsEnabled="{Binding Checked_VMESS_WS}"
                      Header="VMESS-WebSocket-TLS">
                 <ctrl:VMESS_WS_TLS_Control />
             </TabItem>
 
             <TabItem Width="200" Height="40"     
-                     Tag="{x:Static models:RayType.VMESS_KCP}"
+                     Tag="{x:Static models:V2RayType.VMESS_KCP}"
                      IsEnabled="{Binding Checked_VMESS_KCP}"
                      Header="VMESS-mKCP">
                 <ctrl:VMESS_KCP_Control />
             </TabItem>
 
             <TabItem Width="200" Height="40"
-                     Tag="{x:Static models:RayType.VMESS_QUIC}"
+                     Tag="{x:Static models:V2RayType.VMESS_QUIC}"
                      IsEnabled="{Binding Checked_VLESS_QUIC}"
                      Header="VMESS-QUIC">
                 <ctrl:VMESS_QUIC_Control />
             </TabItem>
 
             <TabItem Width="200" Height="40"     
-                     Tag="{x:Static models:RayType.Trojan_TCP}"
+                     Tag="{x:Static models:V2RayType.Trojan_TCP}"
                      IsEnabled="{Binding Checked_Trojan_TCP}"
                      Header="Trojan-TCP">
                 <ctrl:Trojan_TCP_Control />
             </TabItem>
 
             <TabItem Width="200" Height="40"     
-                     Tag="{x:Static models:RayType.ShadowsocksAEAD}"
+                     Tag="{x:Static models:V2RayType.ShadowsocksAEAD}"
                      IsEnabled="{Binding CheckedShadowSocks}"
                      Header="ShadowSocks">
                 <ctrl:ShadowSocksControl />
