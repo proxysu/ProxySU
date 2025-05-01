@@ -17,7 +17,7 @@
             <MenuItem Header="{DynamicResource MainMenuAddHost}" Padding="10,3">
                 <MenuItem Padding="0,5" Header="Xray" Command="{Binding AddXrayCommand}"></MenuItem>
                 <MenuItem Padding="0,5" Header="V2ray" Command="{Binding AddV2rayCommand}"></MenuItem>
-                <MenuItem Padding="0,5" Header="MTProto-Go" Command="{Binding AddMTProtoGoCommand}"></MenuItem>
+                <!--<MenuItem Padding="0,5" Header="MTProto-Go" Command="{Binding AddMTProtoGoCommand}"></MenuItem>-->
                 <MenuItem Padding="0,5" Header="Trojan-Go" Command="{Binding AddTrojanGoCommand}"></MenuItem>
                 <MenuItem Padding="0,5" Header="NaiveProxy" Command="{Binding AddNaiveProxyCommand}"></MenuItem>
                 <MenuItem Padding="0,5" Header="Brook" Command="{Binding AddBrookCommand}"></MenuItem>
