@@ -23,19 +23,19 @@ namespace ProxySuper.Core.ViewModels
             get { return Settings.UTLS; }
         }
 
-        public bool Checked_VLESS_TCP_XTLS
+        public bool Checked_VLESS_RAW_XTLS
         {
             get
             {
-                return Settings.Types.Contains(RayType.VLESS_TCP_XTLS);
+                return Settings.Types.Contains(RayType.VLESS_RAW_XTLS);
             }
         }
 
-        public bool Checked_VLESS_TCP
+        public bool Checked_VLESS_RAW
         {
             get
             {
-                return Settings.Types.Contains(RayType.VLESS_TCP);
+                return Settings.Types.Contains(RayType.VLESS_RAW);
             }
         }
 

@@ -16,30 +16,30 @@
         <GroupBox Padding="10" Header="{DynamicResource EditorProxyType}">
             <StackPanel Orientation="Horizontal">
                 <!--#region VLESS -->
-                <WrapPanel Orientation="Vertical">
+                <WrapPanel Orientation="Vertical" Width="200">
                     <!--XTLS+Reality-->
-                    <CheckBox Width="150"
+                    <CheckBox 
                               VerticalContentAlignment="Center"
-                              IsChecked="{Binding Path=Checked_VLESS_TCP_XTLS}">
+                              IsChecked="{Binding Path=Checked_VLESS_RAW_XTLS}">
                         <Label Content="{DynamicResource VlessXtlsRealityDesc}"  FontSize="12" Foreground="LimeGreen" />
                     </CheckBox>
 
                     <!--XTLS-->
-                    <CheckBox Width="150"
+                    <CheckBox 
                               VerticalContentAlignment="Center"
-                              IsChecked="{Binding Path=Checked_VLESS_TCP_XTLS}">
+                              IsChecked="{Binding Path=Checked_VLESS_RAW_XTLS}">
                         <Label Content="{DynamicResource VlessXtlsDesc}"  FontSize="12" Foreground="LimeGreen" />
                     </CheckBox>
 
                     <!--RAW(TCP)-->
-                    <CheckBox Width="150"
+                    <CheckBox 
                               VerticalContentAlignment="Center"
-                              IsChecked="{Binding Path=Checked_VLESS_TCP}">
+                              IsChecked="{Binding Path=Checked_VLESS_RAW}">
                         <Label Content="{DynamicResource VlessTcpDesc}"  FontSize="12" Foreground="LimeGreen" />
                     </CheckBox>
 
                     <!--WebSocket-->
-                    <CheckBox Width="150"
+                    <CheckBox 
                               VerticalContentAlignment="Center"
                               IsChecked="{Binding Path=Checked_VLESS_WS}">
                         <Label Content="{DynamicResource VlessWsDesc}"  FontSize="12"  Foreground="LimeGreen" />
@@ -62,7 +62,7 @@
                     </CheckBox>-->
 
                     <!--gRPC-->
-                    <CheckBox Width="150"
+                    <CheckBox 
                               VerticalContentAlignment="Center"
                               Foreground="LimeGreen"
                               IsChecked="{Binding Path=Checked_VLESS_gRPC}">
@@ -72,20 +72,15 @@
                 <!--#endregion-->
 
                 <!--#region VMESS -->
-                <WrapPanel Orientation="Vertical">
+                <!--<WrapPanel Orientation="Vertical">-->
                     <!--WebSocket-->
-                    <CheckBox Width="150"
+                    <!--<CheckBox Width="150"
                               VerticalContentAlignment="Center"
                               IsChecked="{Binding Path=Checked_VMESS_WS}">
                         <Label Content="{DynamicResource VmessWsDesc}" FontSize="12" Foreground="Blue" />
-                    </CheckBox>
+                    </CheckBox>-->
 
-                    <!--mKCP-->
-                    <CheckBox Width="150"
-                              VerticalContentAlignment="Center"
-                              IsChecked="{Binding Path=Checked_VMESS_KCP}">
-                        <Label Foreground="Blue" FontSize="12" Content="{DynamicResource VmessKcpDesc}" />
-                    </CheckBox>
+                 
 
                     <!--quic-->
                     <!--<CheckBox Width="150"
@@ -94,20 +89,26 @@
                               IsChecked="{Binding Path=Checked_VMESS_QUIC}">
                         <Label Content="{DynamicResource VmessQuicDesc}" FontSize="12" Foreground="Blue" />
                     </CheckBox>-->
-                </WrapPanel>
+                <!--</WrapPanel>-->
                 <!--#endregion-->
 
                 <!--#region SS And Trojan -->
                 <WrapPanel Orientation="Vertical">
+                    <!--mKCP-->
+                    <CheckBox 
+                              VerticalContentAlignment="Center"
+                              IsChecked="{Binding Path=Checked_VMESS_KCP}">
+                        <Label Foreground="Blue" FontSize="12" Content="{DynamicResource VmessKcpDesc}" />
+                    </CheckBox>
                     <!--ss-->
-                    <CheckBox Width="150"
+                    <CheckBox 
                       VerticalContentAlignment="Center"
                       IsChecked="{Binding Path=CheckedShadowSocks}">
                         <Label Content="{DynamicResource SSDesc}" FontSize="12"  Foreground="Fuchsia" />
                     </CheckBox>
 
                     <!--Trojan-->
-                    <CheckBox Width="150"
+                    <CheckBox 
                       Foreground="CadetBlue"
                       VerticalContentAlignment="Center"
                       IsChecked="{Binding Path=Checked_Trojan_TCP}">
@@ -171,7 +172,7 @@
                             <StackPanel Margin="0,15,0,0" 
                                         Orientation="Horizontal" 
                                         Visibility="{
-                                            Binding Path=Checked_VLESS_TCP_XTLS,
+                                            Binding Path=Checked_VLESS_RAW_XTLS,
                                             Converter={StaticResource VisibleConverter}
                                         }">
                                 <Label Content="{DynamicResource Flow}" Width="120" VerticalAlignment="Bottom"/>

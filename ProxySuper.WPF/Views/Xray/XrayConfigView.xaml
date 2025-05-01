@@ -25,15 +25,15 @@
                     TabStripPlacement="Left"
                     SelectionChanged="BuildQrCode">
             <TabItem Width="200" Height="40"
-                     Tag="{x:Static models:RayType.VLESS_TCP_XTLS}"
-                     IsEnabled="{Binding Checked_VLESS_TCP_XTLS}"
+                     Tag="{x:Static models:RayType.VLESS_RAW_XTLS}"
+                     IsEnabled="{Binding Checked_VLESS_RAW_XTLS}"
                      Header="VLESS-TCP-XTLS">
                 <ctrl:VLESS_XTLS_Control />
             </TabItem>
 
             <TabItem Width="200" Height="40"
-                     Tag="{x:Static models:RayType.VLESS_TCP}"
-                     IsEnabled="{Binding Checked_VLESS_TCP}"
+                     Tag="{x:Static models:RayType.VLESS_RAW}"
+                     IsEnabled="{Binding Checked_VLESS_RAW}"
                      Header="VLESS-TCP-TLS">
                 <ctrl:VLESS_TCP_TLS_Control />
             </TabItem>

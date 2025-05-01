@@ -436,34 +436,34 @@ namespace ProxySuper.Core.ViewModels
                 RaisePropertyChanged(nameof(Flow));
             }
         }
-        public bool Checked_VLESS_TCP_XTLS
+        public bool Checked_VLESS_RAW_XTLS
         {
-            get => Settings.Types.Contains(RayType.VLESS_TCP_XTLS);
+            get => Settings.Types.Contains(RayType.VLESS_RAW_XTLS);
             set
             {
-                CheckBoxChanged(value, RayType.VLESS_TCP_XTLS);
-                RaisePropertyChanged("Checked_VLESS_TCP_XTLS");
+                CheckBoxChanged(value, RayType.VLESS_RAW_XTLS);
+                RaisePropertyChanged("Checked_VLESS_RAW_XTLS");
             }
         }
-        public string VLESS_TCP_XTLS_ShareLink
+        public string VLESS_RAW_XTLS_ShareLink
         {
-            get => ShareLink.XrayBuild(RayType.VLESS_TCP_XTLS, Settings);
+            get => ShareLink.XrayBuild(RayType.VLESS_RAW_XTLS, Settings);
         }
         #endregion
 
         #region VLESS TCP
-        public bool Checked_VLESS_TCP
+        public bool Checked_VLESS_RAW
         {
-            get => Settings.Types.Contains(RayType.VLESS_TCP);
+            get => Settings.Types.Contains(RayType.VLESS_RAW);
             set
             {
-                CheckBoxChanged(value, RayType.VLESS_TCP);
-                RaisePropertyChanged("Checked_VLESS_TCP");
+                CheckBoxChanged(value, RayType.VLESS_RAW);
+                RaisePropertyChanged("Checked_VLESS_RAW");
             }
         }
-        public string VLESS_TCP_ShareLink
+        public string VLESS_RAW_ShareLink
         {
-            get => ShareLink.XrayBuild(RayType.VLESS_TCP, Settings);
+            get => ShareLink.XrayBuild(RayType.VLESS_RAW, Settings);
         }
         #endregion
 

@@ -10,11 +10,11 @@ namespace ProxySuper.Core.Models.Projects
         /// <summary>
         /// vless tcp shareLink
         /// </summary>
-        public string VLESS_TCP_ShareLink
+        public string VLESS_RAW_ShareLink
         {
             get
             {
-                return ShareLink.XrayBuild(RayType.VLESS_TCP, this);
+                return ShareLink.XrayBuild(RayType.VLESS_RAW, this);
             }
         }
 

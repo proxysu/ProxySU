@@ -3,7 +3,7 @@
     public enum RayType
     {
         // 入口
-        VLESS_TCP_XTLS = 100,
+        VLESS_RAW_XTLS = 100,
 
         // VLESS 101开头
         VLESS_TCP = 101,
@@ -11,6 +11,7 @@
         VLESS_H2 = 103,
         VLESS_KCP = 104,
         VLESS_QUIC = 105,
+        VLESS_RAW = 106,
         VLESS_gRPC = 110,
 
         // VMESS 201开头

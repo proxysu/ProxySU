@@ -74,9 +74,9 @@
     <sys:String x:Key="EditorProxyParams" xml:space="preserve">Params</sys:String>
 
     <!--Xray-->
-    <sys:String x:Key="VlessXtlsRealityDesc" xml:space="preserve">VLESS TCP XTLS REALITY</sys:String>
-    <sys:String x:Key="VlessXtlsDesc" xml:space="preserve">VLESS XTLS</sys:String>
-    <sys:String x:Key="VlessTcpDesc" xml:space="preserve">VLESS RAW(TCP)</sys:String>
+    <sys:String x:Key="VlessXtlsRealityDesc" xml:space="preserve">VLESS XTLS(RAW) REALITY</sys:String>
+    <sys:String x:Key="VlessXtlsDesc" xml:space="preserve">VLESS XTLS(RAW)</sys:String>
+    <sys:String x:Key="VlessTcpDesc" xml:space="preserve">VLESS RAW(TLS)</sys:String>
     <sys:String x:Key="VlessWsDesc" xml:space="preserve">VLESS WS</sys:String>
     <sys:String x:Key="VlessRpcDesc" xml:space="preserve">VLESS gRPC</sys:String>
     <sys:String x:Key="VlessKcpDesc" xml:space="preserve">VLESS mKCP</sys:String>

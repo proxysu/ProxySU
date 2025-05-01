@@ -74,11 +74,11 @@ namespace ProxySuper.WPF.Views
             string shareLink = string.Empty;
             switch (type)
             {
-                case RayType.VLESS_TCP_XTLS:
-                    shareLink = Settings.VLESS_TCP_XTLS_ShareLink;
+                case RayType.VLESS_RAW_XTLS:
+                    shareLink = Settings.VLESS_RAW_XTLS_ShareLink;
                     break;
-                case RayType.VLESS_TCP:
-                    shareLink = Settings.VLESS_TCP_ShareLink;
+                case RayType.VLESS_RAW:
+                    shareLink = Settings.VLESS_RAW_ShareLink;
                     break;
                 case RayType.VLESS_WS:
                     shareLink = Settings.VLESS_WS_ShareLink;

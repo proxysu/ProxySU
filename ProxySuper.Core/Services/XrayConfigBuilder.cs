@@ -21,7 +21,7 @@ namespace ProxySuper.Core.Services
         //private const string ServerReverseDir = @"Templates\xray\server\09_reverse";
         private const string CaddyFileDir = @"Templates\xray\caddy";
 
-        public static int VLESS_TCP_Port = 1110;
+        public static int VLESS_RAW_Port = 1110;
         public static int VLESS_WS_Port = 1111;
         public static int VLESS_H2_Port = 1112;
 
@@ -120,7 +120,7 @@ namespace ProxySuper.Core.Services
 
             var xrayConfig = LoadXrayConfig();
 
-            var baseBound = GetBound("VLESS_TCP_XTLS.json");
+            var baseBound = GetBound("VLESS_RAW_XTLS.json");
             baseBound.port = parameters.Port;
             baseBound.settings.fallbacks.Add(JToken.FromObject(new
             {

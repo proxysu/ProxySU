@@ -75,7 +75,7 @@ namespace ProxySuper.Core.Services
             switch (xrayType)
             {
                 case RayType.VLESS_TCP:
-                case RayType.VLESS_TCP_XTLS:
+                //case RayType.VLESS_RAW_XTLS:
                 case RayType.VLESS_WS:
                 case RayType.VLESS_KCP:
                 case RayType.VLESS_QUIC:
@@ -181,12 +181,12 @@ namespace ProxySuper.Core.Services
                     _type = "tcp";
                     _descriptiveText = "vless-tcp-tls";
                     break;
-                case RayType.VLESS_TCP_XTLS:
-                    _protocol = "vless";
-                    _type = "tcp";
-                    _security = "tls";
-                    _descriptiveText = "vless-tcp-xtls";
-                    break;
+                //case RayType.VLESS_RAW_XTLS:
+                //    _protocol = "vless";
+                //    _type = "tcp";
+                //    _security = "tls";
+                //    _descriptiveText = "vless-tcp-xtls";
+                //    break;
                 case RayType.VLESS_WS:
                     _protocol = "vless";
                     _type = "ws";
@@ -248,7 +248,7 @@ namespace ProxySuper.Core.Services
                 // 4.4 TLS 相关段
                 if (settings is XraySettings)
                 {
-                    if (xrayType == RayType.VLESS_TCP_XTLS)
+                    if (xrayType == RayType.VLESS_RAW_XTLS)
                     {
                         var xraySettings = settings as XraySettings;
                         parametersURL += $"&flow={xraySettings.Flow}";
@@ -271,8 +271,8 @@ namespace ProxySuper.Core.Services
 
             switch (xrayType)
             {
-                case RayType.VLESS_TCP:
-                case RayType.VLESS_TCP_XTLS:
+                case RayType.VLESS_RAW:
+                case RayType.VLESS_RAW_XTLS:
                 case RayType.VLESS_WS:
                 case RayType.VLESS_KCP:
                 case RayType.VLESS_QUIC:
@@ -373,12 +373,12 @@ namespace ProxySuper.Core.Services
 
             switch (xrayType)
             {
-                case RayType.VLESS_TCP:
+                case RayType.VLESS_RAW:
                     _protocol = "vless";
                     _type = "tcp";
                     _descriptiveText = "vless-tcp-tls";
                     break;
-                case RayType.VLESS_TCP_XTLS:
+                case RayType.VLESS_RAW_XTLS:
                     _protocol = "vless";
                     _type = "tcp";
                     _security = "tls";
@@ -445,7 +445,7 @@ namespace ProxySuper.Core.Services
                 // 4.4 TLS 相关段
                 //if (settings is XraySettings)
                 //{
-                    if (xrayType == RayType.VLESS_TCP_XTLS)
+                    if (xrayType == RayType.VLESS_RAW_XTLS)
                     {
                     //var xraySettings = settings as XraySettings;
                     //parametersURL += $"&flow={xraySettings.Flow}";
