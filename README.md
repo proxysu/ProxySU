@@ -24,7 +24,7 @@ BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）,支持语�
 
 ##### 支持的VPS系统为：  
 * CentOS 7/8   
-* Debian 9/10 (推荐 10)  
+* Debian 9/10/11/12 (推荐 10+)  
 * Ubuntu 18及以上
 
 (注意：如果系统启用了SELinux且工作在Enforcing模式下时，需要将Enforcing更改为Permissive模式，否则使用WebSocket+TLS+Web时，Caddy的service无法开机启动，这种情形一般出现在Centos7/8中，程序在安装过程中将自动处理。)  
