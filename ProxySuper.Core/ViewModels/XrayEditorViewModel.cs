@@ -423,66 +423,6 @@ namespace ProxySuper.Core.ViewModels
     /// </summary>
     public partial class XrayEditorViewModel
     {
-        #region VLESS XTLS(RAW) REALITY
-              
-
-        public string VLESS_XTLS_Raw_Reality
-        {
-            get => Settings.VLESS_XTLS_Raw_Reality;
-            set
-            {
-                Settings.VLESS_XTLS_Raw_Reality = value;
-                RaisePropertyChanged(nameof(VLESS_XTLS_Raw_Reality));
-            }
-        }
-        public string VLESS_XTLS_Raw_Reality_ShareLink
-        {
-            get => ShareLink.XrayBuild(XrayType.VLESS_XTLS_Raw_Reality, Settings);
-        }
-        public string VLESS_XTLS_Raw_;
-        public string VLESS_XTLS_Raw
-        {
-            get => Settings.VLESS_XTLS_Raw;
-            set
-            {
-                Settings.VLESS_XTLS_Raw = value;
-                RaisePropertyChanged(nameof(VLESS_XTLS_Raw));
-            }
-        }
-        public string VLESS_XTLS_Raw_ShareLink
-        {
-            get => ShareLink.XrayBuild(XrayType.VLESS_XTLS_Raw, Settings);
-        }
-        public string VLESS_XTLS_Raw_Reality_ShareLink
-        {
-            get => ShareLink.XrayBuild(XrayType.VLESS_XTLS_Raw_Reality, Settings);
-        }
-        public string VLESS_XTLS_Raw_Reality
-        {
-            get => Settings.VLESS_XTLS_Raw_Reality;
-            set
-            {
-                Settings.VLESS_XTLS_Raw_Reality = value;
-                RaisePropertyChanged(nameof(VLESS_XTLS_Raw_Reality));
-            }
-        }
-        public string VLESS_XTLS_Raw_Reality_ShareLink
-        {
-            get => ShareLink.XrayBuild(XrayType.VLESS_XTLS_Raw_Reality, Settings);
-        }
-        public string VLESS_XTLS_Raw_Reality
-        {
-            get => Settings.VLESS_XTLS_Raw_Reality;
-            set
-            {
-                Settings.VLESS_XTLS_Raw_Reality = value;
-                RaisePropertyChanged(nameof(VLESS_XTLS_Raw_Reality));
-            }
-        }
-
-        #endregion
-
-        #region VLESS XTLS(RAW)
 
         public List<string> FlowList { get => XraySettings.FlowList; }
 
@@ -495,6 +435,30 @@ namespace ProxySuper.Core.ViewModels
                 RaisePropertyChanged(nameof(Flow));
             }
         }
+
+        #region VLESS XTLS(RAW) REALITY
+
+        public bool Checked_VLESS_XTLS_RAW_REALITY
+        {
+            get => Settings.Types.Contains(XrayType.VLESS_XTLS_RAW_REALITY);
+            set
+            {
+                CheckBoxChanged(value, XrayType.VLESS_XTLS_RAW_REALITY);
+                RaisePropertyChanged("Checked_VLESS_XTLS_RAW_REALITY");
+            }
+        }
+        public string VLESS_XTLS_RAW_REALITY_ShareLink
+        {
+            get => ShareLink.XrayBuild(XrayType.VLESS_XTLS_RAW_REALITY, Settings);
+        }
+
+ 
+
+        #endregion
+
+        #region VLESS XTLS(RAW)
+
+ 
         public bool Checked_VLESS_RAW_XTLS
         {
             get => Settings.Types.Contains(XrayType.VLESS_RAW_XTLS);

@@ -15,7 +15,7 @@
         <convert:ProxyTypeConverter x:Key="ProxyTypeConverter" />
         <convert:BooleanOrConverter x:Key="BooleanOrConverter" />
         <convert:BooleanOrToVisibilityConverter x:Key="BooleanOrToVisibilityConverter" />
-        <convert:VisibleConverter x:Key="VisibleConverter" />
+        <convert:VisibleConverter2 x:Key="VisibleConverter2" />
         
     </UserControl.Resources>
     
@@ -103,7 +103,7 @@
                        Grid.Row="6" Grid.Column="0" 
                        Visibility="{
                             Binding Host.SecretType,
-                            Converter={StaticResource VisibleConverter},
+                            Converter={StaticResource VisibleConverter2},
                             ConverterParameter={x:Static host:LoginSecretType.PrivateKey}
                         }"/> 
                 <Button Height="24"
@@ -118,7 +118,7 @@
                         }"
                         Visibility="{
                             Binding Host.SecretType,
-                            Converter={StaticResource VisibleConverter},
+                            Converter={StaticResource VisibleConverter2},
                             ConverterParameter={x:Static host:LoginSecretType.PrivateKey}
                         }"
                         Content="{DynamicResource HostUploadSecretKey}" />
@@ -127,7 +127,7 @@
                        Grid.Row="7" Grid.Column="0" 
                        Visibility="{
                             Binding Host.SecretType,
-                            Converter={StaticResource VisibleConverter},
+                            Converter={StaticResource VisibleConverter2},
                             ConverterParameter={x:Static host:LoginSecretType.PrivateKey}
                         }"/>
                 <TextBox Grid.Row="7" Grid.Column="1"
@@ -140,7 +140,7 @@
                         }"
                         Visibility="{
                             Binding Host.SecretType,
-                            Converter={StaticResource VisibleConverter},
+                            Converter={StaticResource VisibleConverter2},
                             ConverterParameter={x:Static host:LoginSecretType.PrivateKey}
                         }"
                          VerticalContentAlignment="Center" Height="26" >

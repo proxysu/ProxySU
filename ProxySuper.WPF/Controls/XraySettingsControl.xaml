@@ -9,6 +9,7 @@
 
     <UserControl.Resources>
         <convert:VisibleConverter x:Key="VisibleConverter" />
+        <convert:BooleanOrToVisibilityConverter x:Key="BooleanOrToVisibilityConverter" />
     </UserControl.Resources>
 
     <StackPanel Orientation="Vertical" Margin="10,0,20,20">
@@ -20,7 +21,7 @@
                     <!--XTLS+Reality-->
                     <CheckBox 
                               VerticalContentAlignment="Center"
-                              IsChecked="{Binding Path=Checked_VLESS_RAW_XTLS}">
+                              IsChecked="{Binding Path=Checked_VLESS_XTLS_RAW_REALITY}">
                         <Label Content="{DynamicResource VlessXtlsRealityDesc}"  FontSize="12" Foreground="LimeGreen" />
                     </CheckBox>
 
@@ -170,11 +171,13 @@
 
                             <!--Flow-->
                             <StackPanel Margin="0,15,0,0" 
-                                        Orientation="Horizontal" 
-                                        Visibility="{
-                                            Binding Path=Checked_VLESS_RAW_XTLS,
-                                            Converter={StaticResource VisibleConverter}
-                                        }">
+                                        Orientation="Horizontal" >
+                                <StackPanel.Visibility>
+                                    <MultiBinding Converter="{StaticResource BooleanOrToVisibilityConverter}">
+                                        <Binding Path="Checked_VLESS_RAW_XTLS"/>
+                                        <Binding Path="Checked_VLESS_XTLS_RAW_REALITY"/>
+                                    </MultiBinding>
+                                </StackPanel.Visibility>
                                 <Label Content="{DynamicResource Flow}" Width="120" VerticalAlignment="Bottom"/>
                                 <ComboBox Width="260" 
                                           VerticalAlignment="Bottom"

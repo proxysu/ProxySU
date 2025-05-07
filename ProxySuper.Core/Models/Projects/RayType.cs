@@ -31,6 +31,8 @@
 
     public enum XrayType
     {
+        //
+        VLESS_XTLS_RAW_REALITY = 91,
         // 入口
         VLESS_RAW_XTLS = 100,
 

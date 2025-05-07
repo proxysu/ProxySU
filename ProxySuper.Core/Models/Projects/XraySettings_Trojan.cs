@@ -10,7 +10,7 @@ namespace ProxySuper.Core.Models.Projects
         {
             get
             {
-                return ShareLink.XrayBuild(RayType.Trojan_TCP, this);
+                return ShareLink.XrayBuild(XrayType.Trojan_TCP, this);
             }
         }
     }

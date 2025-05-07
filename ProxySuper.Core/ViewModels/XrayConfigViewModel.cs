@@ -27,7 +27,7 @@ namespace ProxySuper.Core.ViewModels
         {
             get
             {
-                return Settings.Types.Contains(RayType.VLESS_RAW_XTLS);
+                return Settings.Types.Contains(XrayType.VLESS_RAW_XTLS);
             }
         }
 
@@ -35,7 +35,7 @@ namespace ProxySuper.Core.ViewModels
         {
             get
             {
-                return Settings.Types.Contains(RayType.VLESS_RAW);
+                return Settings.Types.Contains(XrayType.VLESS_RAW);
             }
         }
 
@@ -43,7 +43,7 @@ namespace ProxySuper.Core.ViewModels
         {
             get
             {
-                return Settings.Types.Contains(RayType.VLESS_WS);
+                return Settings.Types.Contains(XrayType.VLESS_WS);
             }
         }
 
@@ -51,7 +51,7 @@ namespace ProxySuper.Core.ViewModels
         {
             get
             {
-                return Settings.Types.Contains(RayType.VLESS_KCP);
+                return Settings.Types.Contains(XrayType.VLESS_KCP);
             }
         }
 
@@ -59,7 +59,7 @@ namespace ProxySuper.Core.ViewModels
         {
             get
             {
-                return Settings.Types.Contains(RayType.VLESS_QUIC);
+                return Settings.Types.Contains(XrayType.VLESS_QUIC);
             }
         }
 
@@ -67,7 +67,7 @@ namespace ProxySuper.Core.ViewModels
         {
             get
             {
-                return Settings.Types.Contains(RayType.VLESS_gRPC);
+                return Settings.Types.Contains(XrayType.VLESS_gRPC);
             }
         }
 
@@ -75,7 +75,7 @@ namespace ProxySuper.Core.ViewModels
         {
             get
             {
-                return Settings.Types.Contains(RayType.VMESS_TCP);
+                return Settings.Types.Contains(XrayType.VMESS_TCP);
             }
         }
 
@@ -83,7 +83,7 @@ namespace ProxySuper.Core.ViewModels
         {
             get
             {
-                return Settings.Types.Contains(RayType.VMESS_WS);
+                return Settings.Types.Contains(XrayType.VMESS_WS);
             }
         }
 
@@ -91,7 +91,7 @@ namespace ProxySuper.Core.ViewModels
         {
             get
             {
-                return Settings.Types.Contains(RayType.VMESS_KCP);
+                return Settings.Types.Contains(XrayType.VMESS_KCP);
             }
         }
 
@@ -99,7 +99,7 @@ namespace ProxySuper.Core.ViewModels
         {
             get
             {
-                return Settings.Types.Contains(RayType.VMESS_QUIC);
+                return Settings.Types.Contains(XrayType.VMESS_QUIC);
             }
         }
 
@@ -107,7 +107,7 @@ namespace ProxySuper.Core.ViewModels
         {
             get
             {
-                return Settings.Types.Contains(RayType.Trojan_TCP);
+                return Settings.Types.Contains(XrayType.Trojan_TCP);
             }
         }
 
@@ -115,7 +115,7 @@ namespace ProxySuper.Core.ViewModels
         {
             get
             {
-                return Settings.Types.Contains(RayType.ShadowsocksAEAD);
+                return Settings.Types.Contains(XrayType.ShadowsocksAEAD);
             }
         }
     }

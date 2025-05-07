@@ -14,7 +14,7 @@ namespace ProxySuper.Core.Models.Projects
         {
             get
             {
-                return ShareLink.XrayBuild(RayType.VLESS_RAW, this);
+                return ShareLink.XrayBuild(XrayType.VLESS_RAW, this);
             }
         }
 
@@ -30,7 +30,7 @@ namespace ProxySuper.Core.Models.Projects
         {
             get
             {
-                return ShareLink.XrayBuild(RayType.VLESS_WS, this);
+                return ShareLink.XrayBuild(XrayType.VLESS_WS, this);
             }
         }
 
@@ -56,7 +56,7 @@ namespace ProxySuper.Core.Models.Projects
         {
             get
             {
-                return ShareLink.XrayBuild(RayType.VLESS_KCP, this);
+                return ShareLink.XrayBuild(XrayType.VLESS_KCP, this);
             }
         }
 
@@ -87,7 +87,7 @@ namespace ProxySuper.Core.Models.Projects
         {
             get
             {
-                return ShareLink.XrayBuild(RayType.VLESS_QUIC, this);
+                return ShareLink.XrayBuild(XrayType.VLESS_QUIC, this);
             }
         }
 
@@ -108,7 +108,7 @@ namespace ProxySuper.Core.Models.Projects
         {
             get
             {
-                return ShareLink.XrayBuild(RayType.VLESS_gRPC, this);
+                return ShareLink.XrayBuild(XrayType.VLESS_gRPC, this);
             }
         }
     }

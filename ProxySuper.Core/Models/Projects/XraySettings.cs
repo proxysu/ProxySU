@@ -19,6 +19,7 @@ namespace ProxySuper.Core.Models.Projects
 
         public string Flow { get; set; } = FlowList[0];
 
+        
         /// <summary>
         /// vless xtls shareLink
         /// </summary>
@@ -29,7 +30,7 @@ namespace ProxySuper.Core.Models.Projects
                 return ShareLink.XrayBuild(XrayType.VLESS_RAW_XTLS, this);
             }
         }
-
+        
 
         public static List<string> DisguiseTypes = new List<string> {
             "none",

@@ -9,11 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxySuper.WPF", "ProxySupe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxySuper.Core", "ProxySuper.Core\ProxySuper.Core.csproj", "{15779EE6-D8CA-44BF-BFE2-941E155EEF3F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "解决方案项", "解决方案项", "{327FE75A-7D23-4F0E-80E2-7D10C7603969}"
-	ProjectSection(SolutionItems) = preProject
-		FodyWeavers.xml = FodyWeavers.xml
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

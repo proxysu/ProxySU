@@ -26,7 +26,7 @@ namespace ProxySuper.Core.Models.Projects
         {
             get
             {
-                return ShareLink.XrayBuild(RayType.ShadowsocksAEAD, this);
+                return ShareLink.XrayBuild(XrayType.ShadowsocksAEAD, this);
             }
         }
     }
