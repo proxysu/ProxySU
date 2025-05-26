@@ -104,7 +104,7 @@ namespace ProxySuper.Core.Services
                 }
                 else
                 {
-                    flow = "xtls-rprx-vision";//兼容普通tls与xtls
+                    flow = "xtls-rprx-vision";//Xray不再同时兼容普通tls与xtls。服务端与客户端必须一致。
                     obj = new { id = id, flow = flow };
                 }
 
@@ -129,7 +129,27 @@ namespace ProxySuper.Core.Services
             xrayConfig.inbounds.Add(baseBound);
             SetClients(baseBound, uuidList, withXtls: true, flow: parameters.Flow);
 
+            #region VLESS_XTLS(RAW)_REALITY
+
+            if (parameters.Types.Contains(XrayType.VLESS_XTLS_RAW_REALITY))
+            {
+                var xtlsRealityBound = GetBound("VLESS_XTLS_RAW_REALITY.json");
+                xtlsRealityBound.port = parameters.Port;
+                xtlsRealityBound.settings.fallbacks.Add(JToken.FromObject(new
+                {
+                    dest = FullbackPort
+                }));
+                xrayConfig.inbounds.Add(xtlsRealityBound);
+                SetClients(xtlsRealityBound, uuidList, withXtls: true, flow: parameters.Flow);
+            }
+
+            #endregion
+
             #region Fullbacks
+
+            #endregion
+
+            #region VLESS_WS
 
             if (parameters.Types.Contains(XrayType.VLESS_WS))
             {
@@ -146,6 +166,10 @@ namespace ProxySuper.Core.Services
                 xrayConfig.inbounds.Add(JToken.FromObject(wsInbound));
             }
 
+            #endregion
+
+            #region VMESS_TCP
+
             if (parameters.Types.Contains(XrayType.VMESS_TCP))
             {
                 var mtcpBound = GetBound("VMESS_TCP.json");
@@ -161,6 +185,10 @@ namespace ProxySuper.Core.Services
                 xrayConfig.inbounds.Add(JToken.FromObject(mtcpBound));
             }
 
+            #endregion
+
+            #region VMESS_WS
+
             if (parameters.Types.Contains(XrayType.VMESS_WS))
             {
                 var mwsBound = GetBound("VMESS_WS.json");
@@ -175,6 +203,9 @@ namespace ProxySuper.Core.Services
                 }));
                 xrayConfig.inbounds.Add(JToken.FromObject(mwsBound));
             }
+            #endregion
+
+            #region Trojan_TCP
 
             if (parameters.Types.Contains(XrayType.Trojan_TCP))
             {

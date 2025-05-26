@@ -457,7 +457,6 @@ namespace ProxySuper.Core.ViewModels
         #endregion
 
         #region VLESS XTLS(RAW)
-
  
         public bool Checked_VLESS_RAW_XTLS
         {

@@ -1,0 +1,34 @@
+{
+  "outbounds": [
+    {
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "127.0.0.1",
+            "port": 443,
+            "users": [
+              {
+                "id": "",
+                "flow": "xtls-rprx-vision",
+                "encryption": "none"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "raw",
+        "security": "reality",
+        "realitySettings": {
+          "fingerprint": "chrome",
+          "serverName": "speed.cloudflare.com",
+          "publicKey": "",
+          "spiderX": "",
+          "shortId": ""
+        }
+      },
+      "tag": "proxy"
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 ﻿using ProxySuper.Core.Services;
+using System.Collections.Generic;
 
 namespace ProxySuper.Core.Models.Projects
 {
@@ -37,7 +38,20 @@ namespace ProxySuper.Core.Models.Projects
         }
 
         /// <summary>
-        /// vmess kcp seed
+        /// vmess kcp 数据包头部伪装类型
+        /// </summary>
+        public static List<string> DisguiseTypes = new List<string> {
+            "none",
+            "srtp",
+            "utp",
+            "wechat-video",
+            "dtls",
+            "wireguard",
+            "dns",
+        };
+
+        /// <summary>
+        /// vmess kcp seed 混淆密码
         /// </summary>
         public string VMESS_KCP_Seed { get; set; }
 

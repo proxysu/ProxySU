@@ -9,7 +9,7 @@ namespace ProxySuper.Core.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value.Equals(true) ? Visibility.Visible : Visibility.Hidden;//Collapsed;
+            return value.Equals(true) ? Visibility.Visible : Visibility.Collapsed;//Hidden;//Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -34,7 +34,7 @@ namespace ProxySuper.Core.Converters
         {
             bool isMatch = (value != null && value.Equals(parameter));
             // 如果匹配则显示，否则隐藏（Collapsed）
-            return isMatch ? Visibility.Visible : Visibility.Hidden;//Collapsed;
+            return isMatch ? Visibility.Visible : Visibility.Collapsed;//Hidden;//Collapsed;
 
         }
 
@@ -55,7 +55,7 @@ namespace ProxySuper.Core.Converters
                     return Visibility.Visible;
                 }
             }
-            return Visibility.Hidden;//Collapsed
+            return Visibility.Collapsed;//Hidden;//Collapsed
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

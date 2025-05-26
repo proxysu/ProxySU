@@ -171,7 +171,8 @@
 
                             <!--Flow-->
                             <StackPanel Margin="0,15,0,0" 
-                                        Orientation="Horizontal" >
+                                        Orientation="Horizontal" 
+                                        d:Visibility="Visible">
                                 <StackPanel.Visibility>
                                     <MultiBinding Converter="{StaticResource BooleanOrToVisibilityConverter}">
                                         <Binding Path="Checked_VLESS_RAW_XTLS"/>
@@ -205,6 +206,7 @@
                             <!--WebSocket Path-->
                             <StackPanel Margin="0,15,0,0"
                                         Orientation="Horizontal"
+                                        d:Visibility="Visible"
                                         Visibility="{
                                             Binding Path=Checked_VLESS_WS,
                                             Converter={StaticResource VisibleConverter}
@@ -218,6 +220,7 @@
                             <!--seed-->
                             <StackPanel Margin="0,15,0,0"
                                         Orientation="Horizontal"
+                                        d:Visibility="Visible"
                                         Visibility="{
                                             Binding Path=Checked_VLESS_KCP,
                                             Converter={StaticResource VisibleConverter}
@@ -228,6 +231,7 @@
 
                             <!--kcp type-->
                             <StackPanel Margin="0,15,0,0"
+                                        d:Visibility="Visible"
                                         Visibility="{
                                             Binding Path=Checked_VLESS_KCP,
                                             Converter={StaticResource VisibleConverter}
@@ -242,6 +246,7 @@
 
                             <!--kcp port-->
                             <StackPanel Margin="0,15,0,0"
+                                        d:Visibility="Visible"
                                         Visibility="{
                                             Binding Path=Checked_VLESS_KCP,
                                             Converter={StaticResource VisibleConverter}
@@ -256,6 +261,7 @@
                             <!--quic port-->
                             <StackPanel Margin="0,15,0,0"
                                         Orientation="Horizontal"
+                                        d:Visibility="Visible"
                                         Visibility="{
                                             Binding Path=Checked_VLESS_QUIC,
                                             Converter={StaticResource VisibleConverter}
@@ -267,6 +273,7 @@
                             <!--quic key-->
                             <StackPanel Margin="0,15,0,0"
                                         Orientation="Horizontal"
+                                        d:Visibility="Visible"
                                         Visibility="{
                                             Binding Path=Checked_VLESS_QUIC,
                                             Converter={StaticResource VisibleConverter}
@@ -278,6 +285,7 @@
                             <!--quic security-->
                             <StackPanel Margin="0,15,0,0" 
                                         Orientation="Horizontal" 
+                                        d:Visibility="Visible"
                                         Visibility="{
                                             Binding Path=Checked_VLESS_QUIC,
                                             Converter={StaticResource VisibleConverter}
@@ -292,6 +300,7 @@
                             <!--quic type-->
                             <StackPanel Margin="0,15,0,0"
                                         Orientation="Horizontal"
+                                        d:Visibility="Visible"
                                         Visibility="{
                                             Binding Path=Checked_VLESS_QUIC,
                                             Converter={StaticResource VisibleConverter}
@@ -309,6 +318,7 @@
                             <!--gRPC Port-->
                             <StackPanel Margin="0,15,0,0"
                                         Orientation="Horizontal"
+                                        d:Visibility="Visible"
                                         Visibility="{
                                             Binding Path=Checked_VLESS_gRPC,
                                             Converter={StaticResource VisibleConverter}
@@ -319,6 +329,7 @@
 
                             <StackPanel Margin="0,15,0,0" 
                                         Orientation="Horizontal" 
+                                        d:Visibility="Visible"
                                         Visibility="{
                                             Binding Path=Checked_VLESS_gRPC,
                                             Converter={StaticResource VisibleConverter}
@@ -332,6 +343,7 @@
                             <!--WebSocket Path-->
                             <StackPanel Margin="0,15,0,0" 
                                         Orientation="Horizontal"
+                                        d:Visibility="Visible"
                                         Visibility="{
                                             Binding Path=Checked_VMESS_WS,
                                             Converter={StaticResource VisibleConverter}
@@ -347,6 +359,7 @@
                             <!--seed-->
                             <StackPanel Margin="0,15,0,0"
                                         Orientation="Horizontal"
+                                        d:Visibility="Visible"
                                         Visibility="{
                                             Binding Path=Checked_VMESS_KCP,
                                             Converter={StaticResource VisibleConverter}
@@ -358,6 +371,7 @@
                             <!--kcp type-->
                             <StackPanel Margin="0,15,0,0"
                                         Orientation="Horizontal"
+                                        d:Visibility="Visible"
                                         Visibility="{
                                             Binding Path=Checked_VMESS_KCP,
                                             Converter={StaticResource VisibleConverter}
@@ -373,6 +387,7 @@
                             <!--kcp port-->
                             <StackPanel Margin="0,15,0,0"
                                         Orientation="Horizontal"
+                                        d:Visibility="Visible"
                                         Visibility="{
                                             Binding Path=Checked_VMESS_KCP,
                                             Converter={StaticResource VisibleConverter}
@@ -386,6 +401,7 @@
                             <!--quic port-->
                             <StackPanel Margin="0,15,0,0"
                                         Orientation="Horizontal"
+                                        d:Visibility="Visible"
                                         Visibility="{
                                             Binding Path=Checked_VMESS_QUIC,
                                             Converter={StaticResource VisibleConverter}
@@ -397,6 +413,7 @@
                             <!--quic key-->
                             <StackPanel Margin="0,15,0,0"
                                         Orientation="Horizontal"
+                                        d:Visibility="Visible"
                                         Visibility="{
                                             Binding Path=Checked_VMESS_QUIC,
                                             Converter={StaticResource VisibleConverter}
@@ -408,6 +425,7 @@
                             <!--quic security-->
                             <StackPanel Margin="0,15,0,0" 
                                         Orientation="Horizontal" 
+                                        d:Visibility="Visible"
                                         Visibility="{
                                             Binding Path=Checked_VMESS_QUIC,
                                             Converter={StaticResource VisibleConverter}
@@ -422,6 +440,7 @@
                             <!--quic type-->
                             <StackPanel Margin="0,15,0,0"
                                         Orientation="Horizontal"
+                                        d:Visibility="Visible"
                                         Visibility="{
                                             Binding Path=Checked_VMESS_QUIC,
                                             Converter={StaticResource VisibleConverter}
@@ -439,6 +458,7 @@
                             <!--ss密码-->
                             <StackPanel Margin="0,15,0,0" 
                                         Orientation="Horizontal" 
+                                        d:Visibility="Visible"
                                         Visibility="{
                                             Binding Path=CheckedShadowSocks,
                                             Converter={StaticResource VisibleConverter}
@@ -450,6 +470,7 @@
                             <!--ss加密方式-->
                             <StackPanel Margin="0,15,0,0" 
                                         Orientation="Horizontal" 
+                                        d:Visibility="Visible"
                                         Visibility="{
                                             Binding Path=CheckedShadowSocks,
                                             Converter={StaticResource VisibleConverter}
@@ -464,6 +485,7 @@
                             <!--ss端口-->
                             <StackPanel Margin="0,15,0,0" 
                                         Orientation="Horizontal" 
+                                        d:Visibility="Visible"
                                         Visibility="{
                                             Binding Path=CheckedShadowSocks,
                                             Converter={StaticResource VisibleConverter}
@@ -477,6 +499,7 @@
                             <!--Trojan密码-->
                             <StackPanel Margin="0,15,0,0" 
                                         Orientation="Horizontal" 
+                                        d:Visibility="Visible"
                                         Visibility="{
                                             Binding Path=Checked_Trojan_TCP,
                                             Converter={StaticResource VisibleConverter}
