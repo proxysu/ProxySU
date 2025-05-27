@@ -67,9 +67,9 @@ namespace ProxySuper.Core.ViewModels
     {
         public List<string> UTLSList { get => XraySettings.UTLSList; }
 
-        public List<string> KcpTypes => V2raySettings.DisguiseTypes;
+        public List<string> KcpTypes => XraySettings.DisguiseTypes;
 
-        public List<string> QuicTypes => V2raySettings.DisguiseTypes;
+        public List<string> QuicTypes => XraySettings.DisguiseTypes;
 
         public List<string> QuicSecurities => new List<string>
         {
