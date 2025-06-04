@@ -74,11 +74,17 @@ namespace ProxySuper.WPF.Views
             string shareLink = string.Empty;
             switch (type)
             {
+                case XrayType.VLESS_XTLS_RAW_REALITY:
+                    shareLink = Settings.VLESS_RAW_XTLS_REALITY_ShareLink;
+                    break;
                 case XrayType.VLESS_RAW_XTLS:
                     shareLink = Settings.VLESS_RAW_XTLS_ShareLink;
                     break;
                 case XrayType.VLESS_RAW:
                     shareLink = Settings.VLESS_RAW_ShareLink;
+                    break;
+                case XrayType.VLESS_XHTTP:
+                    shareLink = Settings.VLESS_XHTTP_ShareLink;
                     break;
                 case XrayType.VLESS_WS:
                     shareLink = Settings.VLESS_WS_ShareLink;

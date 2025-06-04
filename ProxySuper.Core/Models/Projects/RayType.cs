@@ -42,7 +42,7 @@
         VLESS_H2 = 103,
         VLESS_KCP = 104,
         VLESS_QUIC = 105,
-        //VLESS_RAW = 106,
+        VLESS_XHTTP = 106,
         VLESS_gRPC = 110,
 
         // VMESS 201开头

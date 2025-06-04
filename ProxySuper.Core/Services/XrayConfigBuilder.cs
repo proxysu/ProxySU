@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ProxySuper.Core.Models.Projects;
+using ProxySuper.Core.Templates;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -24,6 +25,7 @@ namespace ProxySuper.Core.Services
         public static int VLESS_RAW_Port = 1110;
         public static int VLESS_WS_Port = 1111;
         public static int VLESS_H2_Port = 1112;
+        public static int VLESS_XHTTP_Port = 1113;
 
         public static int VMESS_TCP_Port = 1210;
         public static int VMESS_WS_Port = 1211;
@@ -133,19 +135,44 @@ namespace ProxySuper.Core.Services
 
             if (parameters.Types.Contains(XrayType.VLESS_XTLS_RAW_REALITY))
             {
-                var xtlsRealityBound = GetBound("VLESS_XTLS_RAW_REALITY.json");
-                xtlsRealityBound.port = parameters.Port;
-                xtlsRealityBound.settings.fallbacks.Add(JToken.FromObject(new
-                {
-                    dest = FullbackPort
-                }));
-                xrayConfig.inbounds.Add(xtlsRealityBound);
-                SetClients(xtlsRealityBound, uuidList, withXtls: true, flow: parameters.Flow);
+                //var xtlsRealityBound = GetBound("VLESS_XTLS_RAW_REALITY.json");
+                var xtlsRealityBound = JToken.Parse(XrayConfigTemplates.VLESS_XTLS_RAW_REALITY_ServerConfig) as JObject;
+                xtlsRealityBound["inbounds"][0]["port"] = parameters.Port;
+                xtlsRealityBound["inbounds"][0]["settings"]["port"] = 4431;//parameters.Port;
+                xtlsRealityBound["inbounds"][1]["port"] = 4431;//parameters.Port;
+                xtlsRealityBound["inbounds"][1]["settings"]["clients"][0]["id"] = parameters.UUID;
+                xtlsRealityBound["inbounds"][1]["streamSettings"]["realitySettings"]["target"] = parameters.MaskDomain + ":443";
+                xtlsRealityBound["inbounds"][1]["streamSettings"]["realitySettings"]["serverNames"][0] = parameters.MaskDomain;
+                xtlsRealityBound["inbounds"][1]["streamSettings"]["realitySettings"]["privateKey"] = parameters.REALITY_privateKey;
+                xtlsRealityBound["routing"]["rules"][0]["domain"][0] = parameters.MaskDomain;
+                xtlsRealityBound.Merge(JToken.Parse(XrayConfigTemplates.ServerGeneralConfig_log)); // 添加日志配置
+                xtlsRealityBound.Merge(JToken.Parse(XrayConfigTemplates.ServerGeneralConfig_outbounds)); // 添加outbounds配置
+                xrayConfig = xtlsRealityBound;
+                //SetClients(xtlsRealityBound, uuidList, withXtls: true, flow: parameters.Flow);
             }
 
             #endregion
 
             #region Fullbacks
+
+            #endregion
+
+            #region VLESS_XHTTP
+
+            if (parameters.Types.Contains(XrayType.VLESS_XHTTP))
+            {
+                dynamic wsInbound = JToken.Parse(XrayConfigTemplates.VLESS_XHTTP_ServerConfig);
+                wsInbound.port = VLESS_XHTTP_Port;
+                SetClients(wsInbound, uuidList);
+                wsInbound.streamSettings.xhttpSettings.path = parameters.VLESS_XHTTP_Path;
+                baseBound.settings.fallbacks.Add(JToken.FromObject(new
+                {
+                    dest = VLESS_XHTTP_Port,
+                    path = parameters.VLESS_XHTTP_Path,
+                    xver = 1,
+                }));
+                xrayConfig.inbounds.Add(JToken.FromObject(wsInbound));
+            }
 
             #endregion
 

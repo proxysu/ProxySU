@@ -98,6 +98,9 @@
     <sys:String x:Key="UTLS">uTLS (客户端)</sys:String>
     <sys:String x:Key="MultiUser">多用户</sys:String>
     <sys:String x:Key="MultiUserHelp">多个UUID用“,”分隔</sys:String>
+    <sys:String x:Key="VLESS_XTLS_RAW_REALITY_spiderX_Path">REALITY spiderX</sys:String>
+    <sys:String x:Key="REALITY spiderX_Help">爬虫初始路径与参数</sys:String>
+    <sys:String x:Key="VlessXhttpPath">VLESS XHTTP路径</sys:String>
     <sys:String x:Key="VlessWsPath">VLESS WS路径</sys:String>
     <sys:String x:Key="VlessKcpSeed">VLESS KCP Seed</sys:String>
     <sys:String x:Key="VlessKcpType">VLESS KCP伪装</sys:String>

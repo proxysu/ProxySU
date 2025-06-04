@@ -1,6 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿
+using Newtonsoft.Json;
 using ProxySuper.Core.Models.Projects;
 using System;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Web;
 
@@ -277,6 +279,8 @@ namespace ProxySuper.Core.Services
             {
                 case XrayType.VLESS_RAW:
                 case XrayType.VLESS_RAW_XTLS:
+                case XrayType.VLESS_XTLS_RAW_REALITY:
+                case XrayType.VLESS_XHTTP:
                 case XrayType.VLESS_WS:
                 case XrayType.VLESS_KCP:
                 case XrayType.VLESS_QUIC:
@@ -375,8 +379,31 @@ namespace ProxySuper.Core.Services
             var _host = settings.Domain;
             var _descriptiveText = string.Empty;
 
+            var _flow = settings.Flow;
+            var _sni = settings.MaskDomain;
+            var _fingerprint = settings.UTLS;
+            var _publicKey = settings.REALITY_publicKey;
+            var _spiderX = settings.REALITY_spiderX;
+            var _headerType = "none";
+
+            var _alpn = string.Empty;
+            var _mode = string.Empty;
+
             switch (xrayType)
             {
+                case XrayType.VLESS_XTLS_RAW_REALITY:
+                    _protocol = "vless";
+                    _type = "tcp";
+                    _security = "reality";
+                    _flow = settings.Flow;
+                    _sni = settings.MaskDomain;
+                    _fingerprint = settings.UTLS;
+                    _publicKey = settings.REALITY_publicKey;
+                    _spiderX = settings.REALITY_spiderX;
+                    _headerType = "none";
+                    _host = settings.MaskDomain;
+                    _descriptiveText = "vless-xtls-reality";
+                    break;
                 case XrayType.VLESS_RAW:
                     _protocol = "vless";
                     _type = "tcp";
@@ -387,6 +414,14 @@ namespace ProxySuper.Core.Services
                     _type = "tcp";
                     _security = "tls";
                     _descriptiveText = "vless-tcp-xtls";
+                    break;
+                case XrayType.VLESS_XHTTP:
+                    _protocol = "vless";
+                    _type = "xhttp";
+                    _path = settings.VLESS_XHTTP_Path;
+                    _alpn = "h3,h2,http/1.1";
+                    _mode = "packet-up";
+                    _descriptiveText = "vless-xhttp";
                     break;
                 case XrayType.VLESS_WS:
                     _protocol = "vless";
@@ -425,10 +460,16 @@ namespace ProxySuper.Core.Services
 
 
             string parametersURL = string.Empty;
-            if (xrayType != XrayType.Trojan_TCP)
+            if (xrayType != XrayType.Trojan_TCP && xrayType != XrayType.VLESS_XTLS_RAW_REALITY)
             {
                 // 4.3 传输层相关段
                 parametersURL = $"?type={_type}&encryption={_encryption}&security={_security}&path={HttpUtility.UrlEncode(_path)}";
+
+                // xhttp
+                if (xrayType == XrayType.VLESS_XHTTP)
+                {
+                    parametersURL += $"&alpn={HttpUtility.UrlEncode(_alpn)}&mode={_mode}";
+                }
 
                 // kcp
                 if (xrayType == XrayType.VLESS_KCP)
@@ -447,16 +488,12 @@ namespace ProxySuper.Core.Services
                 }
 
                 // 4.4 TLS 相关段
-                //if (settings is XraySettings)
-                //{
-                    if (xrayType == XrayType.VLESS_RAW_XTLS)
-                    {
-                    //var xraySettings = settings as XraySettings;
-                    //parametersURL += $"&flow={xraySettings.Flow}";
-                        parametersURL += $"&flow={settings.Flow}";
-                    }
-                //}
 
+                if (xrayType == XrayType.VLESS_RAW_XTLS)
+                {
+
+                    parametersURL += $"&flow={settings.Flow}";
+                }
 
                 if (xrayType == XrayType.VLESS_gRPC)
                 {
@@ -464,6 +501,11 @@ namespace ProxySuper.Core.Services
                 }
             }
 
+            if (xrayType == XrayType.VLESS_XTLS_RAW_REALITY)
+            {
+                parametersURL = $"?type={_type}&encryption={_encryption}&security={_security}&flow={_flow}&sni={_sni}&fp={_fingerprint}&pbk={_publicKey}&spx={HttpUtility.UrlEncode(_spiderX)}&headerType={_headerType}&host={_host}";
+
+            }
 
             return $"{_protocol}://{HttpUtility.UrlEncode(_uuid)}@{_domain}:{_port}{parametersURL}#{HttpUtility.UrlEncode(_descriptiveText)}";
         }

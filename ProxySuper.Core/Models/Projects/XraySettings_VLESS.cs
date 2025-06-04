@@ -8,8 +8,6 @@ namespace ProxySuper.Core.Models.Projects
     public partial class XraySettings
     {
 
-
-
         /// <summary>
         /// vless xtls 流控参数可选列表
         /// </summary>
@@ -25,9 +23,20 @@ namespace ProxySuper.Core.Models.Projects
         /// </summary>
         public string Flow { get; set; } = FlowList[0];
 
+        /// <summary>
+        /// vless xtls reality  shareLink
+        /// </summary>
+        public string VLESS_RAW_XTLS_REALITY_ShareLink
+        {
+            get
+            {
+                return ShareLink.XrayBuild(XrayType.VLESS_XTLS_RAW_REALITY, this);
+            }
+        }
+
 
         /// <summary>
-        /// vless xtls(raw)  shareLink
+        /// vless xtls  shareLink
         /// </summary>
         public string VLESS_RAW_XTLS_ShareLink
         {
@@ -37,8 +46,6 @@ namespace ProxySuper.Core.Models.Projects
             }
         }
 
-
-
         /// <summary>
         /// vless raw shareLink
         /// </summary>
@@ -47,6 +54,22 @@ namespace ProxySuper.Core.Models.Projects
             get
             {
                 return ShareLink.XrayBuild(XrayType.VLESS_RAW, this);
+            }
+        }
+
+        /// <summary>
+        /// vless xhttp path
+        /// </summary>
+        public string VLESS_XHTTP_Path { get; set; }
+
+        /// <summary>
+        /// VLESS XHTTP ShareLink
+        /// </summary>
+        public string VLESS_XHTTP_ShareLink
+        {
+            get
+            {
+                return ShareLink.XrayBuild(XrayType.VLESS_XHTTP, this);
             }
         }
 

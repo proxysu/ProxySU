@@ -97,7 +97,7 @@ namespace ProxySuper.Core.ViewModels
             set
             {
                 Settings.WithTLS = value;
-                RaisePropertyChanged("Port");
+                RaisePropertyChanged("WithTLS");
             }
         }
 
@@ -356,6 +356,18 @@ namespace ProxySuper.Core.ViewModels
             {
                 CheckBoxChanged(value, XrayType.VMESS_KCP);
                 RaisePropertyChanged("Checked_VMESS_KCP");
+                if(value && !Checked_VLESS_RAW_XTLS 
+                        　&& !Checked_VLESS_RAW 
+                        　&& !Checked_VLESS_WS
+                        　&& !Checked_VLESS_gRPC
+                        　&& !Checked_Trojan_TCP)
+                {
+                    WithTLS = false;
+                }
+                else
+                {
+                    WithTLS = true;
+                }
             }
         }
         public string VMESS_KCP_ShareLink
@@ -436,6 +448,13 @@ namespace ProxySuper.Core.ViewModels
             }
         }
 
+        public string REALITY_spiderX
+        {
+            get => Settings.REALITY_spiderX;
+            set => Settings.REALITY_spiderX = value;
+        }
+
+
         #region VLESS XTLS(RAW) REALITY
 
         public bool Checked_VLESS_XTLS_RAW_REALITY
@@ -445,14 +464,20 @@ namespace ProxySuper.Core.ViewModels
             {
                 CheckBoxChanged(value, XrayType.VLESS_XTLS_RAW_REALITY);
                 RaisePropertyChanged("Checked_VLESS_XTLS_RAW_REALITY");
+                if (value)
+                {
+                    WithTLS = false;
+                }
+                else
+                {
+                    WithTLS = true;
+                }
             }
         }
         public string VLESS_XTLS_RAW_REALITY_ShareLink
         {
             get => ShareLink.XrayBuild(XrayType.VLESS_XTLS_RAW_REALITY, Settings);
         }
-
- 
 
         #endregion
 
@@ -465,6 +490,10 @@ namespace ProxySuper.Core.ViewModels
             {
                 CheckBoxChanged(value, XrayType.VLESS_RAW_XTLS);
                 RaisePropertyChanged("Checked_VLESS_RAW_XTLS");
+                if (value)
+                {
+                    WithTLS = true;
+                }
             }
         }
         public string VLESS_RAW_XTLS_ShareLink
@@ -481,11 +510,43 @@ namespace ProxySuper.Core.ViewModels
             {
                 CheckBoxChanged(value, XrayType.VLESS_RAW);
                 RaisePropertyChanged("Checked_VLESS_RAW");
+                if (value)
+                {
+                    WithTLS = true;
+                }
             }
         }
         public string VLESS_RAW_ShareLink
         {
             get => ShareLink.XrayBuild(XrayType.VLESS_RAW, Settings);
+        }
+        #endregion
+
+        #region VLESS XHTTP
+        public string VLESS_XHTTP_Path
+        {
+            get => Settings.VLESS_XHTTP_Path;
+            set => Settings.VLESS_XHTTP_Path = value;
+        }
+        public bool Checked_VLESS_XHTTP
+        {
+            get
+            {
+                return Settings.Types.Contains(XrayType.VLESS_XHTTP);
+            }
+            set
+            {
+                CheckBoxChanged(value, XrayType.VLESS_XHTTP);
+                RaisePropertyChanged("Checked_VLESS_XHTTP");
+                if (value)
+                {
+                    WithTLS = true;
+                }
+            }
+        }
+        public string VLESS_XHTTP_ShareLink
+        {
+            get => ShareLink.XrayBuild(XrayType.VLESS_XHTTP, Settings);
         }
         #endregion
 
@@ -505,6 +566,10 @@ namespace ProxySuper.Core.ViewModels
             {
                 CheckBoxChanged(value, XrayType.VLESS_WS);
                 RaisePropertyChanged("Checked_VLESS_WS");
+                if (value)
+                {
+                    WithTLS = true;
+                }
             }
         }
         public string VLESS_WS_ShareLink
@@ -619,6 +684,10 @@ namespace ProxySuper.Core.ViewModels
             {
                 CheckBoxChanged(value, XrayType.VLESS_gRPC);
                 RaisePropertyChanged("Checked_VLESS_gRPC");
+                if (value)
+                {
+                    WithTLS = true;
+                }
             }
         }
         public string VLESS_gRPC_ShareLink

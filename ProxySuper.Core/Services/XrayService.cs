@@ -87,7 +87,13 @@ namespace ProxySuper.Core.Services
                     Progress.Step = "安装成功";
                     Progress.Desc = string.Empty;
 
-                    if (!Settings.WithTLS)
+                    if (!Settings.WithTLS && (Settings.Types.Contains(XrayType.VLESS_RAW_XTLS) 
+                                              || Settings.Types.Contains(XrayType.VLESS_RAW) 
+                                              || Settings.Types.Contains(XrayType.VLESS_WS) 
+                                              || Settings.Types.Contains(XrayType.VLESS_gRPC) 
+                                              || Settings.Types.Contains(XrayType.Trojan_TCP)
+                                              )
+                         )
                     {
                         Progress.Step = "安装成功，请上传您的 TLS 证书。";
                     }

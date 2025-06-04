@@ -9,7 +9,7 @@
         xmlns:models="clr-namespace:ProxySuper.Core.Models.Projects;assembly=ProxySuper.Core"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Xray节点配置" Height="600" Width="1000">
+        Title="Xray节点配置" Height="650" Width="1000">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -25,39 +25,53 @@
                     TabStripPlacement="Left"
                     SelectionChanged="BuildQrCode">
             <TabItem Width="200" Height="40"
+                     Tag="{x:Static models:XrayType.VLESS_XTLS_RAW_REALITY}"
+                     IsEnabled="{Binding Checked_VLESS_XTLS_RAW_REALITY}"
+                     Header="VLESS-XTLS-REALITY">
+                <ctrl:VLESS_XTLS_RAW_REALITY_Control />
+            </TabItem>
+
+            <TabItem Width="200" Height="40"
                      Tag="{x:Static models:XrayType.VLESS_RAW_XTLS}"
                      IsEnabled="{Binding Checked_VLESS_RAW_XTLS}"
-                     Header="VLESS-TCP-XTLS">
+                     Header="VLESS-XTLS">
                 <ctrl:VLESS_XTLS_Control />
             </TabItem>
 
             <TabItem Width="200" Height="40"
                      Tag="{x:Static models:XrayType.VLESS_RAW}"
                      IsEnabled="{Binding Checked_VLESS_RAW}"
-                     Header="VLESS-TCP-TLS">
-                <ctrl:VLESS_TCP_TLS_Control />
+                     Header="VLESS-RAW">
+                <ctrl:VLESS_RAW_Control />
+            </TabItem>
+
+            <TabItem Width="200" Height="40"
+                     Tag="{x:Static models:XrayType.VLESS_XHTTP}"
+                     IsEnabled="{Binding Checked_VLESS_XHTTP}"
+                     Header="VLESS-XHTTP">
+                <ctrl:VLESS_XHTTP_Control />
             </TabItem>
 
             <TabItem Width="200" Height="40"
                      Tag="{x:Static models:XrayType.VLESS_WS}"
                      IsEnabled="{Binding Checked_VLESS_WS}"
-                     Header="VLESS-WebSocket-TLS">
+                     Header="VLESS-WS">
                 <ctrl:VLESS_WS_TLS_Control />
             </TabItem>
 
-            <TabItem Width="200" Height="40"
+            <!--<TabItem Width="200" Height="40"
                      Tag="{x:Static models:XrayType.VLESS_KCP}"
                      IsEnabled="{Binding Checked_VLESS_KCP}"
                      Header="VLESS-mKCP">
                 <ctrl:VLESS_KCP_Control />
-            </TabItem>
+            </TabItem>-->
 
-            <TabItem Width="200" Height="40"
+            <!--<TabItem Width="200" Height="40"
                      Tag="{x:Static models:XrayType.VLESS_QUIC}"
                      IsEnabled="{Binding Checked_VLESS_QUIC}"
                      Header="VLESS-QUIC">
                 <ctrl:VLESS_QUIC_Control />
-            </TabItem>
+            </TabItem>-->
 
             <TabItem Width="200" Height="40"
                      Tag="{x:Static models:XrayType.VLESS_gRPC}"
@@ -66,12 +80,12 @@
                 <ctrl:VLESS_gRPC_Control />
             </TabItem>
 
-            <TabItem Width="200" Height="40"     
+            <!--<TabItem Width="200" Height="40"     
                      Tag="{x:Static models:XrayType.VMESS_WS}"
                      IsEnabled="{Binding Checked_VMESS_WS}"
                      Header="VMESS-WebSocket-TLS">
                 <ctrl:VMESS_WS_TLS_Control />
-            </TabItem>
+            </TabItem>-->
 
             <TabItem Width="200" Height="40"     
                      Tag="{x:Static models:XrayType.VMESS_KCP}"
@@ -80,17 +94,17 @@
                 <ctrl:VMESS_KCP_Control />
             </TabItem>
 
-            <TabItem Width="200" Height="40"
+            <!--<TabItem Width="200" Height="40"
                      Tag="{x:Static models:XrayType.VMESS_QUIC}"
                      IsEnabled="{Binding Checked_VLESS_QUIC}"
                      Header="VMESS-QUIC">
                 <ctrl:VMESS_QUIC_Control />
-            </TabItem>
+            </TabItem>-->
 
             <TabItem Width="200" Height="40"     
                      Tag="{x:Static models:XrayType.Trojan_TCP}"
                      IsEnabled="{Binding Checked_Trojan_TCP}"
-                     Header="Trojan-TCP">
+                     Header="Trojan">
                 <ctrl:Trojan_TCP_Control />
             </TabItem>
 

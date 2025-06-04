@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using ProxySuper.Core.Services;
+using ProxySuper.Core.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace ProxySuper.Core.Models.Projects
             UUID = guid;
             Types = new List<XrayType>();
 
+            VLESS_XHTTP_Path = "/" + Utils.RandomString(6);
             VLESS_WS_Path = "/" + Utils.RandomString(6);
             VLESS_KCP_Type = "none";
             VLESS_KCP_Seed = guid;
@@ -48,6 +50,10 @@ namespace ProxySuper.Core.Models.Projects
 
             ShadowSocksPassword = guid;
             ShadowSocksMethod = "aes-128-gcm";
+
+            var x25519Key = new X25519KeyPair();
+            REALITY_privateKey = x25519Key.PrivateKey;
+            REALITY_publicKey = x25519Key.PublicKey;
         }
 
         /// <summary>
@@ -112,6 +118,15 @@ namespace ProxySuper.Core.Models.Projects
                 return list.Distinct().ToList();
             }
         }
+
+        /// <summary>
+        /// 使用REALITY模式时，客户端爬虫初始路径与参数
+        /// </summary>
+        public string REALITY_spiderX { get; set; } = "/"; 
+
+        public string REALITY_privateKey { get; set; } = string.Empty; 
+
+        public string REALITY_publicKey {  get; set; } = string.Empty;
 
         /// <summary>
         /// 是否安装证书，

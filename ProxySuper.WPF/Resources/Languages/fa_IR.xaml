@@ -96,6 +96,9 @@
     <sys:String x:Key="UTLS">uTLS (Client)</sys:String>
     <sys:String x:Key="MultiUser">چند کاربره</sys:String>
     <sys:String x:Key="MultiUserHelp">چند شناسه تقسیم با ","</sys:String>
+    <sys:String x:Key="VLESS_XTLS_RAW_REALITY_spiderX_Path">REALITY spiderX</sys:String>
+    <sys:String x:Key="REALITY spiderX_Help">مسیر اولیه و پارامترهای خزنده</sys:String>
+    <sys:String x:Key="VlessXhttpPath">VLESS XHTTP Path</sys:String>
     <sys:String x:Key="VlessWsPath">VLESS WS Path</sys:String>
     <sys:String x:Key="VlessKcpSeed">VLESS KCP Seed</sys:String>
     <sys:String x:Key="VlessKcpType">VLESS KCP Type</sys:String>

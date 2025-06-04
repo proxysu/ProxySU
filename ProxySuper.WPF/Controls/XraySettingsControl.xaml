@@ -17,34 +17,77 @@
         <GroupBox Padding="10" Header="{DynamicResource EditorProxyType}">
             <StackPanel Orientation="Horizontal">
                 <!--#region VLESS -->
-                <WrapPanel Orientation="Vertical" Width="200">
+                <WrapPanel Orientation="Vertical" >
                     <!--XTLS+Reality-->
-                    <CheckBox 
+                    <CheckBox x:Name="VLESS_XTLS_RAW_REALITY"
                               VerticalContentAlignment="Center"
                               IsChecked="{Binding Path=Checked_VLESS_XTLS_RAW_REALITY}">
-                        <Label Content="{DynamicResource VlessXtlsRealityDesc}"  FontSize="12" Foreground="LimeGreen" />
+                        <CheckBox.Style>
+                            <Style TargetType="CheckBox">
+                                <Setter Property="IsEnabled" Value="True" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_RAW_XTLS}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_RAW}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_XHTTP}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_WS}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_gRPC}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=ShadowSocks}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=Trojan_TCP}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </CheckBox.Style>
+                        <Label Content="VLESS XTLS REALITY"  FontSize="12" Foreground="LimeGreen" />
                     </CheckBox>
 
                     <!--XTLS-->
-                    <CheckBox 
+                    <CheckBox x:Name="VLESS_RAW_XTLS"
                               VerticalContentAlignment="Center"
                               IsChecked="{Binding Path=Checked_VLESS_RAW_XTLS}">
-                        <Label Content="{DynamicResource VlessXtlsDesc}"  FontSize="12" Foreground="LimeGreen" />
+                        <CheckBox.Style>
+                            <Style TargetType="CheckBox">
+                                <Setter Property="IsEnabled" Value="True" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_XTLS_RAW_REALITY}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </CheckBox.Style>
+                        <Label Content="VLESS XTLS"  FontSize="12" Foreground="LimeGreen" />
                     </CheckBox>
 
                     <!--RAW(TCP)-->
-                    <CheckBox 
+                    <CheckBox x:Name="VLESS_RAW"
                               VerticalContentAlignment="Center"
                               IsChecked="{Binding Path=Checked_VLESS_RAW}">
-                        <Label Content="{DynamicResource VlessTcpDesc}"  FontSize="12" Foreground="LimeGreen" />
+                        <CheckBox.Style>
+                            <Style TargetType="CheckBox">
+                                <Setter Property="IsEnabled" Value="True" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_XTLS_RAW_REALITY}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </CheckBox.Style>
+                        <Label Content="VLESS RAW"  FontSize="12" Foreground="LimeGreen" />
                     </CheckBox>
 
-                    <!--WebSocket-->
-                    <CheckBox 
-                              VerticalContentAlignment="Center"
-                              IsChecked="{Binding Path=Checked_VLESS_WS}">
-                        <Label Content="{DynamicResource VlessWsDesc}"  FontSize="12"  Foreground="LimeGreen" />
-                    </CheckBox>
+
 
                     <!--mKCP-->
                     <!--<CheckBox Width="150"
@@ -62,26 +105,69 @@
                         <Label Content="{DynamicResource VlessQuicDesc}"  FontSize="12" Foreground="LimeGreen" />
                     </CheckBox>-->
 
-                    <!--gRPC-->
-                    <CheckBox 
-                              VerticalContentAlignment="Center"
-                              Foreground="LimeGreen"
-                              IsChecked="{Binding Path=Checked_VLESS_gRPC}">
-                        <Label Content="{DynamicResource VlessRpcDesc}" FontSize="12" Foreground="LimeGreen" />
-                    </CheckBox>
+
                 </WrapPanel>
                 <!--#endregion-->
 
-                <!--#region VMESS -->
-                <!--<WrapPanel Orientation="Vertical">-->
+                <!--#region VLESS -->
+                <WrapPanel Orientation="Vertical">
+                        <CheckBox x:Name="VLESS_XHTTP"
+                                    VerticalContentAlignment="Center"
+                                    IsChecked="{Binding Path=Checked_VLESS_XHTTP}">
+                            <CheckBox.Style>
+                                <Style TargetType="CheckBox">
+                                    <Setter Property="IsEnabled" Value="True" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_XTLS_RAW_REALITY}" Value="True">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </CheckBox.Style>
+                            <Label Content="VLESS XHTTP"  FontSize="12"  Foreground="LimeGreen" />
+                        </CheckBox>
+                    
+                    <!--WebSocket-->
+                    <CheckBox x:Name="VLESS_WS"
+                              VerticalContentAlignment="Center"
+                              IsChecked="{Binding Path=Checked_VLESS_WS}">
+                        <CheckBox.Style>
+                            <Style TargetType="CheckBox">
+                                <Setter Property="IsEnabled" Value="True" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_XTLS_RAW_REALITY}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </CheckBox.Style>
+                        <Label Content="VLESS WS"  FontSize="12"  Foreground="LimeGreen" />
+                    </CheckBox>
+
+                    <!--gRPC-->
+                    <CheckBox x:Name="VLESS_gRPC"
+                              VerticalContentAlignment="Center"
+                              Foreground="LimeGreen"
+                              IsChecked="{Binding Path=Checked_VLESS_gRPC}">
+                        <CheckBox.Style>
+                            <Style TargetType="CheckBox">
+                                <Setter Property="IsEnabled" Value="True" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_XTLS_RAW_REALITY}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </CheckBox.Style>
+                        <Label Content="VLESS gRPC" FontSize="12" Foreground="LimeGreen" />
+                    </CheckBox>
+
                     <!--WebSocket-->
                     <!--<CheckBox Width="150"
                               VerticalContentAlignment="Center"
                               IsChecked="{Binding Path=Checked_VMESS_WS}">
                         <Label Content="{DynamicResource VmessWsDesc}" FontSize="12" Foreground="Blue" />
                     </CheckBox>-->
-
-                 
 
                     <!--quic-->
                     <!--<CheckBox Width="150"
@@ -90,30 +176,50 @@
                               IsChecked="{Binding Path=Checked_VMESS_QUIC}">
                         <Label Content="{DynamicResource VmessQuicDesc}" FontSize="12" Foreground="Blue" />
                     </CheckBox>-->
-                <!--</WrapPanel>-->
+                </WrapPanel>
                 <!--#endregion-->
 
                 <!--#region SS And Trojan -->
                 <WrapPanel Orientation="Vertical">
                     <!--mKCP-->
-                    <CheckBox 
+                    <CheckBox x:Name="VMESS_KCP"
                               VerticalContentAlignment="Center"
                               IsChecked="{Binding Path=Checked_VMESS_KCP}">
-                        <Label Foreground="Blue" FontSize="12" Content="{DynamicResource VmessKcpDesc}" />
+                        <Label Foreground="Blue" FontSize="12" Content="VMESS mKCP" />
                     </CheckBox>
                     <!--ss-->
-                    <CheckBox 
+                    <CheckBox x:Name="ShadowSocks"
                       VerticalContentAlignment="Center"
                       IsChecked="{Binding Path=CheckedShadowSocks}">
-                        <Label Content="{DynamicResource SSDesc}" FontSize="12"  Foreground="Fuchsia" />
+                        <CheckBox.Style>
+                            <Style TargetType="CheckBox">
+                                <Setter Property="IsEnabled" Value="True" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_XTLS_RAW_REALITY}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </CheckBox.Style>
+                        <Label Content="ShadowSocks" FontSize="12"  Foreground="Fuchsia" />
                     </CheckBox>
 
                     <!--Trojan-->
-                    <CheckBox 
+                    <CheckBox x:Name="Trojan_TCP"
                       Foreground="CadetBlue"
                       VerticalContentAlignment="Center"
                       IsChecked="{Binding Path=Checked_Trojan_TCP}">
-                        <Label Content="{DynamicResource TrojanDesc}"  FontSize="12" Foreground="CadetBlue" />
+                        <CheckBox.Style>
+                            <Style TargetType="CheckBox">
+                                <Setter Property="IsEnabled" Value="True" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_XTLS_RAW_REALITY}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </CheckBox.Style>
+                        <Label Content="Trojan"  FontSize="12" Foreground="CadetBlue" />
                     </CheckBox>
                 </WrapPanel>
                 <!--#endregion-->
@@ -160,6 +266,13 @@
                     <Expander.Content>
                         <StackPanel>
                             <!--#region Common Settings -->
+
+                            <!--Mask Domain-->
+                            <StackPanel Margin="0,15,0,0" Orientation="Horizontal">
+                                <Label Content="{DynamicResource XrayMarkDomain}" Width="120"  />
+                                <TextBox Text="{Binding Path=MaskDomain}" Width="260"  />
+                            </StackPanel>
+
                             <!--xray utls-->
                             <StackPanel Margin="0,15,0,0" Orientation="Horizontal">
                                 <Label Content="{DynamicResource UTLS}" Width="120" VerticalAlignment="Bottom"/>
@@ -167,6 +280,44 @@
                                           VerticalAlignment="Bottom"
                                           ItemsSource="{Binding Path=UTLSList}"
                                           SelectedValue="{Binding UTLS,Mode=TwoWay}" />
+                            </StackPanel>
+                            
+                            <!--Cert-->
+                            <StackPanel Margin="0,15,0,0" 
+                                        Orientation="Horizontal">
+                                <StackPanel.Style>
+                                    <Style TargetType="StackPanel">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_XTLS_RAW_REALITY}" Value="True">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=VMESS_KCP}" Value="True">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_gRPC}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_WS}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Trojan_TCP}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_RAW}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_RAW_XTLS}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Style>
+                                <Label Content="{DynamicResource XrayWithTLS}" Width="120" />
+                                <CheckBox x:Name="WithTLS" IsChecked="{Binding Path=WithTLS}" 
+                                          Content="{DynamicResource XrayWithTLSDesc}"
+                                          VerticalContentAlignment="Center"
+                                          VerticalAlignment="Center" >
+                                </CheckBox>
                             </StackPanel>
 
                             <!--Flow-->
@@ -185,23 +336,34 @@
                                           ItemsSource="{Binding Path=FlowList}"
                                           SelectedValue="{Binding Flow,Mode=TwoWay}" />
                             </StackPanel>
-
-                            <!--Cert-->
-                            <StackPanel Margin="0,15,0,0" Orientation="Horizontal">
-                                <Label Content="{DynamicResource XrayWithTLS}" Width="120" />
-                                <CheckBox IsChecked="{Binding Path=WithTLS}" 
-                                          Content="{DynamicResource XrayWithTLSDesc}"
-                                          VerticalContentAlignment="Center"
-                                          VerticalAlignment="Center" />
-                            </StackPanel>
-
-                            <!--Mask Domain-->
-                            <StackPanel Margin="0,15,0,0" Orientation="Horizontal">
-                                <Label Content="{DynamicResource XrayMarkDomain}" Width="120"  />
-                                <TextBox Text="{Binding Path=MaskDomain}" Width="260"  />
-                            </StackPanel>
                             <!--#endregion-->
 
+                            <!--#region VLESS_XTLS_RAW_REALITY  Settings -->
+                            <!--spiderX Path-->
+                            <StackPanel Margin="0,15,0,0"
+                                        Orientation="Horizontal"
+                                        d:Visibility="Visible"
+                                        Visibility="{
+                                            Binding Path=Checked_VLESS_XTLS_RAW_REALITY,
+                                            Converter={StaticResource VisibleConverter}
+                                        }">
+                                <Label Content="{DynamicResource VLESS_XTLS_RAW_REALITY_spiderX_Path}" Foreground="LimeGreen" Width="120" />
+                                <TextBox Text="{Binding Path=REALITY_spiderX}" Width="260" />
+                                <TextBlock Margin="5,6,0,0" Text="{DynamicResource REALITY spiderX_Help}" />
+                            </StackPanel>
+
+                            <!--#endregion-->
+                            <!--XHTTP Path-->
+                            <StackPanel Margin="0,15,0,0"
+                                        Orientation="Horizontal"
+                                        d:Visibility="Visible"
+                                        Visibility="{
+                                            Binding Path=Checked_VLESS_XHTTP,
+                                            Converter={StaticResource VisibleConverter}
+                                        }">
+                                <Label Content="{DynamicResource VlessXhttpPath}" Foreground="LimeGreen" Width="120" />
+                                <TextBox Text="{Binding Path=VLESS_XHTTP_Path}" Width="260" />
+                            </StackPanel>
                             <!--#region VLESS WS Settings -->
                             <!--WebSocket Path-->
                             <StackPanel Margin="0,15,0,0"

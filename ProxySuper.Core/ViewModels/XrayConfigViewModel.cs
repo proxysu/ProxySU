@@ -23,6 +23,15 @@ namespace ProxySuper.Core.ViewModels
             get { return Settings.UTLS; }
         }
 
+        public bool Checked_VLESS_XTLS_RAW_REALITY
+        {
+            get
+            {
+                return Settings.Types.Contains(XrayType.VLESS_XTLS_RAW_REALITY);
+            }
+        }
+
+
         public bool Checked_VLESS_RAW_XTLS
         {
             get
@@ -36,6 +45,14 @@ namespace ProxySuper.Core.ViewModels
             get
             {
                 return Settings.Types.Contains(XrayType.VLESS_RAW);
+            }
+        }
+
+        public bool Checked_VLESS_XHTTP
+        {
+            get
+            {
+                return Settings.Types.Contains(XrayType.VLESS_XHTTP);
             }
         }
 
