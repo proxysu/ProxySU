@@ -38,12 +38,12 @@
                 <ctrl:VLESS_XTLS_Control />
             </TabItem>
 
-            <TabItem Width="200" Height="40"
+            <!--<TabItem Width="200" Height="40"
                      Tag="{x:Static models:XrayType.VLESS_RAW}"
                      IsEnabled="{Binding Checked_VLESS_RAW}"
                      Header="VLESS-RAW">
                 <ctrl:VLESS_RAW_Control />
-            </TabItem>
+            </TabItem>-->
 
             <TabItem Width="200" Height="40"
                      Tag="{x:Static models:XrayType.VLESS_XHTTP}"

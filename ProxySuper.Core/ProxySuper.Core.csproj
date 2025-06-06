@@ -131,6 +131,7 @@
     <Compile Include="Services\V2rayService.cs" />
     <Compile Include="Services\XrayConfigBuilder.cs" />
     <Compile Include="Services\XrayService.cs" />
+    <Compile Include="Templates\CaddyFiles.cs" />
     <Compile Include="Templates\XrayConfigTemplates.cs" />
     <Compile Include="ViewModels\BrookConfigViewModel.cs" />
     <Compile Include="ViewModels\BrookEditorViewModel.cs" />

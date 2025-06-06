@@ -26,22 +26,13 @@
                             <Style TargetType="CheckBox">
                                 <Setter Property="IsEnabled" Value="True" />
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_RAW_XTLS}" Value="True">
-                                        <Setter Property="IsEnabled" Value="False" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_RAW}" Value="True">
-                                        <Setter Property="IsEnabled" Value="False" />
-                                    </DataTrigger>
                                     <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_XHTTP}" Value="True">
                                         <Setter Property="IsEnabled" Value="False" />
                                     </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_RAW_XTLS}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
                                     <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_WS}" Value="True">
-                                        <Setter Property="IsEnabled" Value="False" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_gRPC}" Value="True">
-                                        <Setter Property="IsEnabled" Value="False" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsChecked, ElementName=ShadowSocks}" Value="True">
                                         <Setter Property="IsEnabled" Value="False" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding IsChecked, ElementName=Trojan_TCP}" Value="True">
@@ -64,6 +55,9 @@
                                     <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_XTLS_RAW_REALITY}" Value="True">
                                         <Setter Property="IsEnabled" Value="False" />
                                     </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_XHTTP}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </CheckBox.Style>
@@ -71,7 +65,7 @@
                     </CheckBox>
 
                     <!--RAW(TCP)-->
-                    <CheckBox x:Name="VLESS_RAW"
+                    <!--<CheckBox x:Name="VLESS_RAW"
                               VerticalContentAlignment="Center"
                               IsChecked="{Binding Path=Checked_VLESS_RAW}">
                         <CheckBox.Style>
@@ -85,7 +79,7 @@
                             </Style>
                         </CheckBox.Style>
                         <Label Content="VLESS RAW"  FontSize="12" Foreground="LimeGreen" />
-                    </CheckBox>
+                    </CheckBox>-->
 
 
 
@@ -111,22 +105,31 @@
 
                 <!--#region VLESS -->
                 <WrapPanel Orientation="Vertical">
-                        <CheckBox x:Name="VLESS_XHTTP"
+                    <CheckBox x:Name="VLESS_XHTTP"
                                     VerticalContentAlignment="Center"
                                     IsChecked="{Binding Path=Checked_VLESS_XHTTP}">
-                            <CheckBox.Style>
-                                <Style TargetType="CheckBox">
-                                    <Setter Property="IsEnabled" Value="True" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_XTLS_RAW_REALITY}" Value="True">
-                                            <Setter Property="IsEnabled" Value="False" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </CheckBox.Style>
-                            <Label Content="VLESS XHTTP"  FontSize="12"  Foreground="LimeGreen" />
-                        </CheckBox>
-                    
+                        <CheckBox.Style>
+                            <Style TargetType="CheckBox">
+                                <Setter Property="IsEnabled" Value="True" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_XTLS_RAW_REALITY}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_RAW_XTLS}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_WS}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=Trojan_TCP}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </CheckBox.Style>
+                        <Label Content="VLESS XHTTP"  FontSize="12"  Foreground="LimeGreen" />
+                    </CheckBox>
+
                     <!--WebSocket-->
                     <CheckBox x:Name="VLESS_WS"
                               VerticalContentAlignment="Center"
@@ -136,6 +139,9 @@
                                 <Setter Property="IsEnabled" Value="True" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_XTLS_RAW_REALITY}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_XHTTP}" Value="True">
                                         <Setter Property="IsEnabled" Value="False" />
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -149,16 +155,6 @@
                               VerticalContentAlignment="Center"
                               Foreground="LimeGreen"
                               IsChecked="{Binding Path=Checked_VLESS_gRPC}">
-                        <CheckBox.Style>
-                            <Style TargetType="CheckBox">
-                                <Setter Property="IsEnabled" Value="True" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_XTLS_RAW_REALITY}" Value="True">
-                                        <Setter Property="IsEnabled" Value="False" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </CheckBox.Style>
                         <Label Content="VLESS gRPC" FontSize="12" Foreground="LimeGreen" />
                     </CheckBox>
 
@@ -191,16 +187,6 @@
                     <CheckBox x:Name="ShadowSocks"
                       VerticalContentAlignment="Center"
                       IsChecked="{Binding Path=CheckedShadowSocks}">
-                        <CheckBox.Style>
-                            <Style TargetType="CheckBox">
-                                <Setter Property="IsEnabled" Value="True" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_XTLS_RAW_REALITY}" Value="True">
-                                        <Setter Property="IsEnabled" Value="False" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </CheckBox.Style>
                         <Label Content="ShadowSocks" FontSize="12"  Foreground="Fuchsia" />
                     </CheckBox>
 
@@ -214,6 +200,9 @@
                                 <Setter Property="IsEnabled" Value="True" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_XTLS_RAW_REALITY}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_XHTTP}" Value="True">
                                         <Setter Property="IsEnabled" Value="False" />
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -281,7 +270,7 @@
                                           ItemsSource="{Binding Path=UTLSList}"
                                           SelectedValue="{Binding UTLS,Mode=TwoWay}" />
                             </StackPanel>
-                            
+
                             <!--Cert-->
                             <StackPanel Margin="0,15,0,0" 
                                         Orientation="Horizontal">

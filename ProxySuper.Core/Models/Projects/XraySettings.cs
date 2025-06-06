@@ -19,7 +19,7 @@ namespace ProxySuper.Core.Models.Projects
             Port = 443;
             VLESS_KCP_Port = 2001;
             VLESS_QUIC_Port = 2002;
-            VLESS_gRPC_Port = 2003;
+            VLESS_gRPC_Port = 8443;
 
             VMESS_KCP_Port = 3001;
             VMESS_QUIC_Port = 3002;
