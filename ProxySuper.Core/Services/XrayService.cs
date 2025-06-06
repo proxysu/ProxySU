@@ -88,7 +88,6 @@ namespace ProxySuper.Core.Services
                     Progress.Desc = string.Empty;
 
                     if (!Settings.WithTLS && (Settings.Types.Contains(XrayType.VLESS_RAW_XTLS) 
-                                              || Settings.Types.Contains(XrayType.VLESS_RAW) 
                                               || Settings.Types.Contains(XrayType.VLESS_WS) 
                                               || Settings.Types.Contains(XrayType.VLESS_gRPC) 
                                               || Settings.Types.Contains(XrayType.Trojan_TCP)

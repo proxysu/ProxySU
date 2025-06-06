@@ -122,15 +122,6 @@ namespace ProxySuper.Core.ViewModels
             }
         }
 
-        public int VLESS_KCP_Port
-        {
-            get => Settings.VLESS_KCP_Port;
-            set
-            {
-                Settings.VLESS_KCP_Port = value;
-                RaisePropertyChanged("VLESS_KCP_Port");
-            }
-        }
 
         public int VMESS_KCP_Port
         {
@@ -289,47 +280,6 @@ namespace ProxySuper.Core.ViewModels
     /// </summary>
     public partial class XrayEditorViewModel
     {
-        #region VMESS TCP
-        public bool Checked_VMESS_TCP
-        {
-            get => Settings.Types.Contains(XrayType.VMESS_TCP);
-            set
-            {
-                CheckBoxChanged(value, XrayType.VMESS_TCP);
-                RaisePropertyChanged("Checked_VMESS_TCP");
-            }
-        }
-        public string VMESS_TCP_Path
-        {
-            get => Settings.VMESS_TCP_Path;
-            set => Settings.VMESS_TCP_Path = value;
-        }
-        public string VMESS_TCP_ShareLink
-        {
-            get => ShareLink.XrayBuild(XrayType.VMESS_TCP, Settings);
-        }
-        #endregion
-
-        #region VMESS WS
-        public bool Checked_VMESS_WS
-        {
-            get => Settings.Types.Contains(XrayType.VMESS_WS);
-            set
-            {
-                CheckBoxChanged(value, XrayType.VMESS_WS);
-                RaisePropertyChanged("Checked_VMESS_WS");
-            }
-        }
-        public string VMESS_WS_Path
-        {
-            get => Settings.VMESS_WS_Path;
-            set => Settings.VMESS_WS_Path = value;
-        }
-        public string VMESS_WS_ShareLink
-        {
-            get => ShareLink.XrayBuild(XrayType.VMESS_WS, Settings);
-        }
-        #endregion
 
         #region VMESS KCP
         public string VMESS_KCP_Seed
@@ -357,7 +307,6 @@ namespace ProxySuper.Core.ViewModels
                 CheckBoxChanged(value, XrayType.VMESS_KCP);
                 RaisePropertyChanged("Checked_VMESS_KCP");
                 if(value && !Checked_VLESS_RAW_XTLS 
-                        　&& !Checked_VLESS_RAW 
                         　&& !Checked_VLESS_WS
                         　&& !Checked_VLESS_gRPC
                         　&& !Checked_Trojan_TCP)
@@ -373,58 +322,6 @@ namespace ProxySuper.Core.ViewModels
         public string VMESS_KCP_ShareLink
         {
             get => ShareLink.XrayBuild(XrayType.VMESS_KCP, Settings);
-        }
-        #endregion
-
-        #region VMESS QUIC
-        public bool Checked_VMESS_QUIC
-        {
-            get => Settings.Types.Contains(XrayType.VMESS_QUIC);
-            set
-            {
-                CheckBoxChanged(value, XrayType.VMESS_QUIC);
-                RaisePropertyChanged(nameof(Checked_VMESS_QUIC));
-            }
-        }
-        public string VMESS_QUIC_Key
-        {
-            get => Settings.VMESS_QUIC_Key;
-            set
-            {
-                Settings.VMESS_QUIC_Key = value;
-                RaisePropertyChanged(nameof(VMESS_QUIC_Key));
-            }
-        }
-        public string VMESS_QUIC_Security
-        {
-            get => Settings.VMESS_QUIC_Security;
-            set
-            {
-                Settings.VMESS_QUIC_Security = value;
-                RaisePropertyChanged(nameof(VMESS_QUIC_Security));
-            }
-        }
-        public string VMESS_QUIC_Type
-        {
-            get => Settings.VMESS_QUIC_Type;
-            set
-            {
-                Settings.VMESS_QUIC_Type = value;
-                RaisePropertyChanged(nameof(VMESS_QUIC_Type));
-            }
-        }
-        public int VMESS_QUIC_Port
-        {
-            get => Settings.VMESS_QUIC_Port;
-            set
-            {
-                Settings.VMESS_QUIC_Port = value;
-                RaisePropertyChanged(nameof(VMESS_QUIC_Port));
-            }
-        }
-        public string VMESS_QUIC_ShareLink
-        {
-            get => ShareLink.XrayBuild(XrayType.VMESS_QUIC, Settings);
         }
         #endregion
 
@@ -502,26 +399,6 @@ namespace ProxySuper.Core.ViewModels
         }
         #endregion
 
-        #region VLESS RAW
-        public bool Checked_VLESS_RAW
-        {
-            get => Settings.Types.Contains(XrayType.VLESS_RAW);
-            set
-            {
-                CheckBoxChanged(value, XrayType.VLESS_RAW);
-                RaisePropertyChanged("Checked_VLESS_RAW");
-                if (value)
-                {
-                    WithTLS = true;
-                }
-            }
-        }
-        public string VLESS_RAW_ShareLink
-        {
-            get => ShareLink.XrayBuild(XrayType.VLESS_RAW, Settings);
-        }
-        #endregion
-
         #region VLESS XHTTP
         public string VLESS_XHTTP_Path
         {
@@ -575,94 +452,6 @@ namespace ProxySuper.Core.ViewModels
         public string VLESS_WS_ShareLink
         {
             get => ShareLink.XrayBuild(XrayType.VLESS_WS, Settings);
-        }
-        #endregion
-
-        #region VLESS QUIC
-        public string VLESS_QUIC_Key
-        {
-            get => Settings.VLESS_QUIC_Key; set
-            {
-                Settings.VLESS_QUIC_Key = value;
-                RaisePropertyChanged(nameof(VLESS_QUIC_Key));
-            }
-        }
-        public bool Checked_VLESS_QUIC
-        {
-            get => Settings.Types.Contains(XrayType.VLESS_QUIC);
-            set
-            {
-                CheckBoxChanged(value, XrayType.VLESS_QUIC);
-                RaisePropertyChanged(nameof(Checked_VLESS_QUIC));
-            }
-        }
-        public string VLESS_QUIC_Security
-        {
-            get => Settings.VLESS_QUIC_Security;
-            set
-            {
-                Settings.VLESS_QUIC_Security = value;
-                RaisePropertyChanged(nameof(VLESS_QUIC_Security));
-            }
-        }
-        public string VLESS_QUIC_Type
-        {
-            get => Settings.VLESS_QUIC_Type;
-            set
-            {
-                Settings.VLESS_QUIC_Type = value;
-                RaisePropertyChanged(nameof(VLESS_QUIC_Type));
-            }
-        }
-        public int VLESS_QUIC_Port
-        {
-            get => Settings.VLESS_QUIC_Port;
-            set
-            {
-                Settings.VLESS_QUIC_Port = value;
-                RaisePropertyChanged(nameof(VLESS_QUIC_Port));
-            }
-        }
-        public string VLESS_QUIC_ShareLink
-        {
-            get => ShareLink.XrayBuild(XrayType.VLESS_QUIC, Settings);
-        }
-        #endregion
-
-        #region VLESS KCP
-        public string VLESS_KCP_Seed
-        {
-            get => Settings.VLESS_KCP_Seed;
-            set
-            {
-                Settings.VLESS_KCP_Seed = value;
-                RaisePropertyChanged(nameof(VLESS_KCP_Seed));
-            }
-        }
-        public string VLESS_KCP_Type
-        {
-            get => Settings.VLESS_KCP_Type;
-            set
-            {
-                var namespaceStr = typeof(ComboBoxItem).FullName + ":";
-                var trimValue = value.Replace(namespaceStr, "");
-                trimValue = trimValue.Trim();
-                Settings.VLESS_KCP_Type = trimValue;
-                RaisePropertyChanged("VLESS_KCP_Type");
-            }
-        }
-        public bool Checked_VLESS_KCP
-        {
-            get => Settings.Types.Contains(XrayType.VLESS_KCP);
-            set
-            {
-                CheckBoxChanged(value, XrayType.VLESS_KCP);
-                RaisePropertyChanged("Checked_VLESS_KCP");
-            }
-        }
-        public string VLESS_KCP_ShareLink
-        {
-            get => ShareLink.XrayBuild(XrayType.VLESS_KCP, Settings);
         }
         #endregion
 

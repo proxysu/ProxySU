@@ -46,16 +46,6 @@ namespace ProxySuper.Core.Models.Projects
             }
         }
 
-        /// <summary>
-        /// vless raw shareLink
-        /// </summary>
-        public string VLESS_RAW_ShareLink
-        {
-            get
-            {
-                return ShareLink.XrayBuild(XrayType.VLESS_RAW, this);
-            }
-        }
 
         /// <summary>
         /// vless xhttp path
@@ -86,63 +76,6 @@ namespace ProxySuper.Core.Models.Projects
             get
             {
                 return ShareLink.XrayBuild(XrayType.VLESS_WS, this);
-            }
-        }
-
-        /// <summary>
-        /// kcp seed
-        /// </summary>
-        public string VLESS_KCP_Seed { get; set; }
-
-        /// <summary>
-        /// kcp type
-        /// </summary>
-        public string VLESS_KCP_Type { get; set; }
-
-        /// <summary>
-        /// kcp port
-        /// </summary>
-        public int VLESS_KCP_Port { get; set; }
-
-        /// <summary>
-        /// VLESS KCP ShareLink
-        /// </summary>
-        public string VLESS_KCP_ShareLink
-        {
-            get
-            {
-                return ShareLink.XrayBuild(XrayType.VLESS_KCP, this);
-            }
-        }
-
-        /// <summary>
-        /// vless quic security
-        /// </summary>
-        public string VLESS_QUIC_Security { get; set; }
-
-        /// <summary>
-        /// vless quic type
-        /// </summary>
-        public string VLESS_QUIC_Type { get; set; }
-
-        /// <summary>
-        /// vless quic port
-        /// </summary>
-        public int VLESS_QUIC_Port { get; set; }
-
-        /// <summary>
-        /// vless quic key
-        /// </summary>
-        public string VLESS_QUIC_Key { get; set; }
-
-        /// <summary>
-        /// vless quic ShareLink
-        /// </summary>
-        public string VLESS_QUIC_ShareLink
-        {
-            get
-            {
-                return ShareLink.XrayBuild(XrayType.VLESS_QUIC, this);
             }
         }
 

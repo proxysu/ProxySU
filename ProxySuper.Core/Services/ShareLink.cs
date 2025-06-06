@@ -277,20 +277,15 @@ namespace ProxySuper.Core.Services
 
             switch (xrayType)
             {
-                case XrayType.VLESS_RAW:
                 case XrayType.VLESS_RAW_XTLS:
                 case XrayType.VLESS_XTLS_RAW_REALITY:
                 case XrayType.VLESS_XHTTP:
                 case XrayType.VLESS_WS:
-                case XrayType.VLESS_KCP:
-                case XrayType.VLESS_QUIC:
                 case XrayType.VLESS_gRPC:
                 case XrayType.Trojan_TCP:
                     return XrayBuildVlessShareLink(xrayType, settings);
-                case XrayType.VMESS_TCP:
-                case XrayType.VMESS_WS:
+
                 case XrayType.VMESS_KCP:
-                case XrayType.VMESS_QUIC:
                     return XrayBuildVmessShareLink(xrayType, settings);
                 case XrayType.ShadowsocksAEAD:
                     return XrayBuildShadowSocksShareLink(settings);
@@ -329,18 +324,6 @@ namespace ProxySuper.Core.Services
 
             switch (xrayType)
             {
-                case XrayType.VMESS_TCP:
-                    vmess.ps = "vmess-tcp-tls";
-                    vmess.net = "tcp";
-                    vmess.type = "http";
-                    vmess.path = settings.VMESS_TCP_Path;
-                    break;
-                case XrayType.VMESS_WS:
-                    vmess.ps = "vmess-ws-tls";
-                    vmess.net = "ws";
-                    vmess.type = "none";
-                    vmess.path = settings.VMESS_WS_Path;
-                    break;
                 case XrayType.VMESS_KCP:
                     vmess.ps = "vmess-mKCP";
                     vmess.port = settings.VMESS_KCP_Port.ToString();
@@ -349,15 +332,7 @@ namespace ProxySuper.Core.Services
                     vmess.path = settings.VMESS_KCP_Seed;
                     vmess.tls = "";
                     break;
-                case XrayType.VMESS_QUIC:
-                    vmess.ps = "vmess-quic";
-                    vmess.port = settings.VMESS_QUIC_Port.ToString();
-                    vmess.net = "quic";
-                    vmess.type = settings.VMESS_QUIC_Type;
-                    vmess.path = settings.VMESS_QUIC_Key;
-                    vmess.host = settings.VMESS_QUIC_Security;
-                    vmess.tls = "tls";
-                    break;
+                
                 default:
                     return string.Empty;
             }
@@ -404,11 +379,6 @@ namespace ProxySuper.Core.Services
                     _host = settings.MaskDomain;
                     _descriptiveText = "vless-xtls-reality";
                     break;
-                case XrayType.VLESS_RAW:
-                    _protocol = "vless";
-                    _type = "tcp";
-                    _descriptiveText = "vless-tcp-tls";
-                    break;
                 case XrayType.VLESS_RAW_XTLS:
                     _protocol = "vless";
                     _type = "tcp";
@@ -428,20 +398,6 @@ namespace ProxySuper.Core.Services
                     _type = "ws";
                     _path = settings.VLESS_WS_Path;
                     _descriptiveText = "vless-ws-tls";
-                    break;
-                case XrayType.VLESS_KCP:
-                    _protocol = "vless";
-                    _type = "kcp";
-                    _port = settings.VLESS_KCP_Port;
-                    _security = "none";
-                    _descriptiveText = "vless-mKCP";
-                    break;
-                case XrayType.VLESS_QUIC:
-                    _protocol = "vless";
-                    _port = settings.VLESS_QUIC_Port;
-                    _type = "quic";
-                    _security = "tls";
-                    _descriptiveText = "vless-quic";
                     break;
                 case XrayType.VLESS_gRPC:
                     _protocol = "vless";
@@ -471,22 +427,7 @@ namespace ProxySuper.Core.Services
                     parametersURL += $"&alpn={HttpUtility.UrlEncode(_alpn)}&mode={_mode}";
                 }
 
-                // kcp
-                if (xrayType == XrayType.VLESS_KCP)
-                {
-                    parametersURL += $"&seed={settings.VLESS_KCP_Seed}&headerType={settings.VLESS_KCP_Type}";
-                }
-
-                if (xrayType == XrayType.VLESS_QUIC)
-                {
-                    parametersURL += $"&quicSecurity={settings.VLESS_QUIC_Security}";
-                    if (settings.VLESS_QUIC_Security != "none")
-                    {
-                        parametersURL += $"&key={HttpUtility.UrlEncode(settings.VLESS_QUIC_Key)}";
-                    }
-                    parametersURL += $"&headerType={settings.VLESS_QUIC_Type}";
-                }
-
+     
                 // 4.4 TLS 相关段
 
                 if (xrayType == XrayType.VLESS_RAW_XTLS)

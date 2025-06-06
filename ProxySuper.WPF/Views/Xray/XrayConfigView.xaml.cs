@@ -80,44 +80,20 @@ namespace ProxySuper.WPF.Views
                 case XrayType.VLESS_RAW_XTLS:
                     shareLink = Settings.VLESS_RAW_XTLS_ShareLink;
                     break;
-                case XrayType.VLESS_RAW:
-                    shareLink = Settings.VLESS_RAW_ShareLink;
-                    break;
                 case XrayType.VLESS_XHTTP:
                     shareLink = Settings.VLESS_XHTTP_ShareLink;
                     break;
                 case XrayType.VLESS_WS:
                     shareLink = Settings.VLESS_WS_ShareLink;
                     break;
-                case XrayType.VLESS_H2:
-                    break;
-                case XrayType.VLESS_KCP:
-                    shareLink = Settings.VLESS_KCP_ShareLink;
-                    break;
-                case XrayType.VLESS_QUIC:
-                    shareLink = Settings.VLESS_QUIC_ShareLink;
-                    break;
                 case XrayType.VLESS_gRPC:
                     shareLink = Settings.VLESS_gRPC_ShareLink;
-                    break;
-                case XrayType.VMESS_TCP:
-                    shareLink = Settings.VMESS_TCP_ShareLink;
-                    break;
-                case XrayType.VMESS_WS:
-                    shareLink = Settings.VMESS_WS_ShareLink;
-                    break;
-                case XrayType.VMESS_H2:
                     break;
                 case XrayType.VMESS_KCP:
                     shareLink = Settings.VMESS_KCP_ShareLink;
                     break;
-                case XrayType.VMESS_QUIC:
-                    shareLink = Settings.VMESS_QUIC_ShareLink;
-                    break;
                 case XrayType.Trojan_TCP:
                     shareLink = Settings.Trojan_TCP_ShareLink;
-                    break;
-                case XrayType.Trojan_WS:
                     break;
                 case XrayType.ShadowsocksAEAD:
                     shareLink = Settings.ShadowSocksShareLink;

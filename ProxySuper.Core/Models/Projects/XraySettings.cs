@@ -17,12 +17,9 @@ namespace ProxySuper.Core.Models.Projects
 
             var guid = Guid.NewGuid().ToString();
             Port = 443;
-            VLESS_KCP_Port = 2001;
-            VLESS_QUIC_Port = 2002;
             VLESS_gRPC_Port = 8443;
 
             VMESS_KCP_Port = 3001;
-            VMESS_QUIC_Port = 3002;
             ShadowSocksPort = 4001;
 
             UUID = guid;
@@ -30,21 +27,10 @@ namespace ProxySuper.Core.Models.Projects
 
             VLESS_XHTTP_Path = "/" + Utils.RandomString(6);
             VLESS_WS_Path = "/" + Utils.RandomString(6);
-            VLESS_KCP_Type = "none";
-            VLESS_KCP_Seed = guid;
-            VLESS_QUIC_Key = "";
-            VLESS_QUIC_Type = "none";
-            VLESS_QUIC_Security = "none";
-            VLESS_QUIC_Type = "none";
             VLESS_gRPC_ServiceName = Utils.RandomString(7);
 
-            VMESS_WS_Path = "/" + Utils.RandomString(8);
-            VMESS_TCP_Path = "/" + Utils.RandomString(9);
             VMESS_KCP_Seed = guid;
-            VMESS_QUIC_Key = "";
             VMESS_KCP_Type = "none";
-            VMESS_QUIC_Security = "none";
-            VMESS_QUIC_Type = "none";
 
             TrojanPassword = guid;
 
@@ -85,25 +71,12 @@ namespace ProxySuper.Core.Models.Projects
                 list.Add(80);
                 list.Add(Port);
 
-                if (Types.Contains(XrayType.VLESS_KCP))
-                {
-                    list.Add(VLESS_KCP_Port);
-                }
-
-                if (Types.Contains(XrayType.VLESS_QUIC))
-                {
-                    list.Add(VLESS_QUIC_Port);
-                }
 
                 if (Types.Contains(XrayType.VMESS_KCP))
                 {
                     list.Add(VMESS_KCP_Port);
                 }
 
-                if (Types.Contains(XrayType.VMESS_QUIC))
-                {
-                    list.Add(VMESS_QUIC_Port);
-                }
 
                 if (Types.Contains(XrayType.ShadowsocksAEAD))
                 {
@@ -193,10 +166,6 @@ namespace ProxySuper.Core.Models.Projects
             {
                 case XrayType.VLESS_WS:
                     return VLESS_WS_Path;
-                case XrayType.VMESS_TCP:
-                    return VMESS_TCP_Path;
-                case XrayType.VMESS_WS:
-                    return VMESS_WS_Path;
                 default:
                     return string.Empty;
             }

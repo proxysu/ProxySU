@@ -40,13 +40,6 @@ namespace ProxySuper.Core.ViewModels
             }
         }
 
-        public bool Checked_VLESS_RAW
-        {
-            get
-            {
-                return Settings.Types.Contains(XrayType.VLESS_RAW);
-            }
-        }
 
         public bool Checked_VLESS_XHTTP
         {
@@ -64,22 +57,6 @@ namespace ProxySuper.Core.ViewModels
             }
         }
 
-        public bool Checked_VLESS_KCP
-        {
-            get
-            {
-                return Settings.Types.Contains(XrayType.VLESS_KCP);
-            }
-        }
-
-        public bool Checked_VLESS_QUIC
-        {
-            get
-            {
-                return Settings.Types.Contains(XrayType.VLESS_QUIC);
-            }
-        }
-
         public bool Checked_VLESS_gRPC
         {
             get
@@ -88,35 +65,11 @@ namespace ProxySuper.Core.ViewModels
             }
         }
 
-        public bool Checked_VMESS_TCP
-        {
-            get
-            {
-                return Settings.Types.Contains(XrayType.VMESS_TCP);
-            }
-        }
-
-        public bool Checked_VMESS_WS
-        {
-            get
-            {
-                return Settings.Types.Contains(XrayType.VMESS_WS);
-            }
-        }
-
         public bool Checked_VMESS_KCP
         {
             get
             {
                 return Settings.Types.Contains(XrayType.VMESS_KCP);
-            }
-        }
-
-        public bool Checked_VMESS_QUIC
-        {
-            get
-            {
-                return Settings.Types.Contains(XrayType.VMESS_QUIC);
             }
         }
 

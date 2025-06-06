@@ -38,13 +38,6 @@
                 <ctrl:VLESS_XTLS_Control />
             </TabItem>
 
-            <!--<TabItem Width="200" Height="40"
-                     Tag="{x:Static models:XrayType.VLESS_RAW}"
-                     IsEnabled="{Binding Checked_VLESS_RAW}"
-                     Header="VLESS-RAW">
-                <ctrl:VLESS_RAW_Control />
-            </TabItem>-->
-
             <TabItem Width="200" Height="40"
                      Tag="{x:Static models:XrayType.VLESS_XHTTP}"
                      IsEnabled="{Binding Checked_VLESS_XHTTP}"
@@ -59,20 +52,6 @@
                 <ctrl:VLESS_WS_TLS_Control />
             </TabItem>
 
-            <!--<TabItem Width="200" Height="40"
-                     Tag="{x:Static models:XrayType.VLESS_KCP}"
-                     IsEnabled="{Binding Checked_VLESS_KCP}"
-                     Header="VLESS-mKCP">
-                <ctrl:VLESS_KCP_Control />
-            </TabItem>-->
-
-            <!--<TabItem Width="200" Height="40"
-                     Tag="{x:Static models:XrayType.VLESS_QUIC}"
-                     IsEnabled="{Binding Checked_VLESS_QUIC}"
-                     Header="VLESS-QUIC">
-                <ctrl:VLESS_QUIC_Control />
-            </TabItem>-->
-
             <TabItem Width="200" Height="40"
                      Tag="{x:Static models:XrayType.VLESS_gRPC}"
                      IsEnabled="{Binding Checked_VLESS_gRPC}"                     
@@ -80,26 +59,12 @@
                 <ctrl:VLESS_gRPC_Control />
             </TabItem>
 
-            <!--<TabItem Width="200" Height="40"     
-                     Tag="{x:Static models:XrayType.VMESS_WS}"
-                     IsEnabled="{Binding Checked_VMESS_WS}"
-                     Header="VMESS-WebSocket-TLS">
-                <ctrl:VMESS_WS_TLS_Control />
-            </TabItem>-->
-
             <TabItem Width="200" Height="40"     
                      Tag="{x:Static models:XrayType.VMESS_KCP}"
                      IsEnabled="{Binding Checked_VMESS_KCP}"
                      Header="VMESS-mKCP">
                 <ctrl:VMESS_KCP_Control />
             </TabItem>
-
-            <!--<TabItem Width="200" Height="40"
-                     Tag="{x:Static models:XrayType.VMESS_QUIC}"
-                     IsEnabled="{Binding Checked_VLESS_QUIC}"
-                     Header="VMESS-QUIC">
-                <ctrl:VMESS_QUIC_Control />
-            </TabItem>-->
 
             <TabItem Width="200" Height="40"     
                      Tag="{x:Static models:XrayType.Trojan_TCP}"
