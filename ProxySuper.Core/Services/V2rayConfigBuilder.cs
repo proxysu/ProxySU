@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ProxySuper.Core.Models.Projects;
+using ProxySuper.Core.Templates;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,17 +13,12 @@ namespace ProxySuper.Core.Services
 {
     public class V2rayConfigBuilder
     {
-        private const string ServerLogDir = @"Templates\v2ray\server\00_log";
-        private const string ServerApiDir = @"Templates\v2ray\server\01_api";
-        private const string ServerDnsDir = @"Templates\v2ray\server\02_dns";
-        private const string ServerRoutingDir = @"Templates\v2ray\server\03_routing";
-        private const string ServerPolicyDir = @"Templates\v2ray\server\04_policy";
-        private const string ServerInboundsDir = @"Templates\v2ray\server\05_inbounds";
-        private const string ServerOutboundsDir = @"Templates\v2ray\server\06_outbounds";
-        private const string ServerTransportDir = @"Templates\v2ray\server\07_transport";
-        private const string ServerStatsDir = @"Templates\v2ray\server\08_stats";
-        private const string ServerReverseDir = @"Templates\v2ray\server\09_reverse";
-        private const string CaddyFileDir = @"Templates\v2ray\caddy";
+        private static string ServerLog = V2rayConfigTemplates.ServerGeneralConfig_log;
+        private static string ServerDns = V2rayConfigTemplates.ServerGeneralConfig_dns;
+        private static string ServerRouting = V2rayConfigTemplates.ServerGeneralConfig_routing_BlockPrivateIP;
+        private static string ServerInbounds = V2rayConfigTemplates.ServerGeneralConfig_inbounds;
+        private static string ServerOutbounds = V2rayConfigTemplates.ServerGeneralConfig_outbounds;
+        private static string CaddyFile = CaddyFiles.BaseCaddyFile;
 
         public static int VLESS_TCP_Port = 1110;
         public static int VLESS_WS_Port = 1111;
@@ -41,35 +37,26 @@ namespace ProxySuper.Core.Services
 
         public static dynamic LoadV2rayConfig()
         {
-            dynamic logObj = LoadJsonObj(Path.Combine(ServerLogDir, "00_log.json"));
-            dynamic apiObj = LoadJsonObj(Path.Combine(ServerApiDir, "01_api.json"));
-            dynamic dnsObj = LoadJsonObj(Path.Combine(ServerDnsDir, "02_dns.json"));
-            dynamic routingObj = LoadJsonObj(Path.Combine(ServerRoutingDir, "03_routing.json"));
-            dynamic policyObj = LoadJsonObj(Path.Combine(ServerPolicyDir, "04_policy.json"));
-            dynamic inboundsObj = LoadJsonObj(Path.Combine(ServerInboundsDir, "05_inbounds.json"));
-            dynamic outboundsObj = LoadJsonObj(Path.Combine(ServerOutboundsDir, "06_outbounds.json"));
-            dynamic transportObj = LoadJsonObj(Path.Combine(ServerTransportDir, "07_transport.json"));
-            dynamic statsObj = LoadJsonObj(Path.Combine(ServerStatsDir, "08_stats.json"));
-            dynamic reverseObj = LoadJsonObj(Path.Combine(ServerReverseDir, "09_reverse.json"));
+         
+            dynamic logObj = LoadJsonObj(ServerLog);
+            dynamic dnsObj = LoadJsonObj(ServerDns);
+            dynamic routingObj = LoadJsonObj(ServerRouting);
+            dynamic inboundsObj = LoadJsonObj(ServerInbounds);
+            dynamic outboundsObj = LoadJsonObj(ServerOutbounds);
 
             return new
             {
                 log = logObj["log"],
-                //api = apiObj["api"],  api不能为空
                 dns = dnsObj["dns"],
                 routing = routingObj["routing"],
-                policy = policyObj["policy"],
                 inbounds = inboundsObj["inbounds"],
-                outbounds = outboundsObj["outbounds"],
-                transport = transportObj["transport"],
-                stats = statsObj["stats"],
-                reverse = reverseObj["reverse"]
+                outbounds = outboundsObj["outbounds"]
             };
         }
 
         public static string BuildCaddyConfig(V2raySettings parameters, bool useCustomWeb = false)
         {
-            var caddyStr = File.ReadAllText(Path.Combine(CaddyFileDir, "base.caddyfile"));
+            var caddyStr = CaddyFile;// File.ReadAllText(Path.Combine(CaddyFileDir, "base.caddyfile"));
             caddyStr = caddyStr.Replace("##domain##", parameters.IsIPAddress ? "" : parameters.Domain);
             caddyStr = caddyStr.Replace("##port##", FullbackPort.ToString());
 
@@ -116,7 +103,7 @@ namespace ProxySuper.Core.Services
 
             var xrayConfig = LoadV2rayConfig();
 
-            var baseBound = GetBound("VLESS_TCP_TLS.json");
+            var baseBound = LoadJsonObj(V2rayConfigTemplates.VLESS_TCP_TLS_ServerConfig);//GetBound("VLESS_TCP_TLS.json");
             baseBound.port = parameters.Port;
             baseBound.settings.fallbacks.Add(JToken.FromObject(new
             {
@@ -129,7 +116,7 @@ namespace ProxySuper.Core.Services
 
             if (parameters.Types.Contains(V2RayType.VLESS_WS))
             {
-                var wsInbound = GetBound("VLESS_WS.json");
+                var wsInbound = LoadJsonObj(V2rayConfigTemplates.VLESS_WS_ServerConfig); //GetBound("VLESS_WS.json");
                 wsInbound.port = VLESS_WS_Port;
                 SetClients(wsInbound, uuidList);
                 wsInbound.streamSettings.wsSettings.path = parameters.VLESS_WS_Path;
@@ -144,7 +131,7 @@ namespace ProxySuper.Core.Services
 
             if (parameters.Types.Contains(V2RayType.VMESS_TCP))
             {
-                var mtcpBound = GetBound("VMESS_TCP.json");
+                var mtcpBound = LoadJsonObj(V2rayConfigTemplates.VMESS_TCP_ServerConfig); //GetBound("VMESS_TCP.json");
                 mtcpBound.port = VMESS_TCP_Port;
                 SetClients(mtcpBound, uuidList);
                 mtcpBound.streamSettings.tcpSettings.header.request.path = parameters.VMESS_TCP_Path;
@@ -159,7 +146,7 @@ namespace ProxySuper.Core.Services
 
             if (parameters.Types.Contains(V2RayType.VMESS_WS))
             {
-                var mwsBound = GetBound("VMESS_WS.json");
+                var mwsBound = LoadJsonObj(V2rayConfigTemplates.VMESS_WS_ServerConfig); //GetBound("VMESS_WS.json");
                 mwsBound.port = VMESS_WS_Port;
                 SetClients(mwsBound, uuidList);
                 mwsBound.streamSettings.wsSettings.path = parameters.VMESS_WS_Path;
@@ -174,7 +161,7 @@ namespace ProxySuper.Core.Services
 
             if (parameters.Types.Contains(V2RayType.Trojan_TCP))
             {
-                var trojanTcpBound = GetBound("Trojan_TCP.json");
+                var trojanTcpBound = LoadJsonObj(V2rayConfigTemplates.Trojan_ServerConfig); //GetBound("Trojan_TCP.json");
                 trojanTcpBound.port = Trojan_TCP_Port;
                 trojanTcpBound.settings.clients[0].password = parameters.TrojanPassword;
                 trojanTcpBound.settings.fallbacks[0].dest = FullbackPort;
@@ -190,7 +177,7 @@ namespace ProxySuper.Core.Services
             #region VLESS GRPC
             if (parameters.Types.Contains(V2RayType.VLESS_gRPC))
             {
-                var gRPCInBound = GetBound("VLESS_gRPC.json");
+                var gRPCInBound = LoadJsonObj(V2rayConfigTemplates.VLESS_gRPC_ServerConfig); //GetBound("VLESS_gRPC.json");
                 gRPCInBound.port = parameters.VLESS_gRPC_Port;
                 SetClients(gRPCInBound, uuidList);
                 gRPCInBound.streamSettings.grpcSettings.serviceName = parameters.VLESS_gRPC_ServiceName;
@@ -202,7 +189,7 @@ namespace ProxySuper.Core.Services
             #region VLESS KCP
             if (parameters.Types.Contains(V2RayType.VLESS_KCP))
             {
-                var kcpBound = GetBound("VLESS_KCP.json");
+                var kcpBound = LoadJsonObj(V2rayConfigTemplates.VLESS_KCP_ServerConfig); //GetBound("VLESS_KCP.json");
                 kcpBound.port = parameters.VLESS_KCP_Port;
                 SetClients(kcpBound, uuidList);
                 kcpBound.streamSettings.kcpSettings.header.type = parameters.VLESS_KCP_Type;
@@ -214,7 +201,7 @@ namespace ProxySuper.Core.Services
             #region VLESS QUIC
             if (parameters.Types.Contains(V2RayType.VLESS_QUIC))
             {
-                var quicBound = GetBound("VLESS_QUIC.json");
+                var quicBound = LoadJsonObj(V2rayConfigTemplates.VLESS_QUIC_ServerConfig); //GetBound("VLESS_QUIC.json");
                 quicBound.port = parameters.VLESS_QUIC_Port;
                 SetClients(quicBound, uuidList);
                 quicBound.streamSettings.quicSettings.security = parameters.VLESS_QUIC_Security;
@@ -227,7 +214,7 @@ namespace ProxySuper.Core.Services
             #region VMESS KCP
             if (parameters.Types.Contains(V2RayType.VMESS_KCP))
             {
-                var kcpBound = GetBound("VMESS_KCP.json");
+                var kcpBound = LoadJsonObj(V2rayConfigTemplates.VMESS_KCP_ServerConfig); //GetBound("VMESS_KCP.json");
                 kcpBound.port = parameters.VMESS_KCP_Port;
                 SetClients(kcpBound, uuidList);
                 kcpBound.streamSettings.kcpSettings.header.type = parameters.VMESS_KCP_Type;
@@ -239,7 +226,7 @@ namespace ProxySuper.Core.Services
             #region VMESS QUIC
             if (parameters.Types.Contains(V2RayType.VMESS_QUIC))
             {
-                var quicBound = GetBound("VMESS_QUIC.json");
+                var quicBound = LoadJsonObj(V2rayConfigTemplates.VMESS_QUIC_ServerConfig); //GetBound("VMESS_QUIC.json");
                 quicBound.port = parameters.VMESS_QUIC_Port;
                 SetClients(quicBound, uuidList);
                 quicBound.streamSettings.quicSettings.security = parameters.VMESS_QUIC_Security;
@@ -252,7 +239,7 @@ namespace ProxySuper.Core.Services
             #region Shadowsocks
             if (parameters.Types.Contains(V2RayType.ShadowsocksAEAD))
             {
-                var ssBound = GetBound("Shadowsocks-AEAD.json");
+                var ssBound = LoadJsonObj(V2rayConfigTemplates.Shadowsocks_ServerConfig); //GetBound("Shadowsocks-AEAD.json");
                 ssBound.port = parameters.ShadowSocksPort;
                 ssBound.settings.password = parameters.ShadowSocksPassword;
                 ssBound.settings.method = parameters.ShadowSocksMethod;
@@ -269,19 +256,9 @@ namespace ProxySuper.Core.Services
                 });
         }
 
-        private static dynamic GetBound(string name)
+        private static dynamic LoadJsonObj(string jsonStr)
         {
-            return LoadJsonObj(Path.Combine(ServerInboundsDir, name));
-        }
-
-        private static dynamic LoadJsonObj(string path)
-        {
-            if (File.Exists(path))
-            {
-                var jsonStr = File.ReadAllText(path, Encoding.UTF8);
-                return JToken.FromObject(JsonConvert.DeserializeObject(jsonStr));
-            }
-            return null;
+            return JToken.Parse(jsonStr);
         }
     }
 }

@@ -84,14 +84,19 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
+    <Reference Include="YamlDotNet, Version=16.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e, processorArchitecture=MSIL">
+      <HintPath>..\packages\YamlDotNet.16.3.0\lib\net47\YamlDotNet.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="Converters\LoginSecretTypeConverter.cs" />
     <Compile Include="Converters\ProxyTypeConverter.cs" />
     <Compile Include="Converters\VisibleConverter.cs" />
+    <Compile Include="Converters\YamlJsonConverter.cs" />
     <Compile Include="Helpers\DateTimeUtils.cs" />
     <Compile Include="Helpers\X25519KeyPair.cs" />
+    <Compile Include="Helpers\YamlConfigMerger.cs" />
     <Compile Include="Models\Caddy.cs" />
     <Compile Include="Models\Hosts\Host.cs" />
     <Compile Include="Models\Hosts\LoginSecretType.cs" />
@@ -132,6 +137,10 @@
     <Compile Include="Services\XrayConfigBuilder.cs" />
     <Compile Include="Services\XrayService.cs" />
     <Compile Include="Templates\CaddyFiles.cs" />
+    <Compile Include="Templates\HysteriaConfigTemplates.cs" />
+    <Compile Include="Templates\NaiveServerCaddyfile.cs" />
+    <Compile Include="Templates\TrojanGoTemplates.cs" />
+    <Compile Include="Templates\V2rayConfigTemplates.cs" />
     <Compile Include="Templates\XrayConfigTemplates.cs" />
     <Compile Include="ViewModels\BrookConfigViewModel.cs" />
     <Compile Include="ViewModels\BrookEditorViewModel.cs" />

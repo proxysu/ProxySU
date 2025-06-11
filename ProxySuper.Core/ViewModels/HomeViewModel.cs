@@ -108,7 +108,7 @@ namespace ProxySuper.Core.ViewModels
 
         public IMvxCommand AddBrookCommand => new MvxAsyncCommand(AddBrookRecord);
 
-        public IMvxCommand AddHysteriaCommand => new MvxAsyncCommand(AddHysteriaRecord);
+        public IMvxCommand AddHysteria2Command => new MvxAsyncCommand(AddHysteria2Record);
 
         public IMvxCommand RemoveCommand => new MvxAsyncCommand<string>(DeleteRecord);
 
@@ -206,7 +206,7 @@ namespace ProxySuper.Core.ViewModels
             SaveToJson();
         }
 
-        public async Task AddHysteriaRecord()
+        public async Task AddHysteria2Record()
         {
             Record record = new Record();
             record.Id = Utils.GetTickID();
@@ -276,7 +276,7 @@ namespace ProxySuper.Core.ViewModels
                 record.Host = result.Host;
                 record.MTProtoGoSettings = result.MTProtoGoSettings;
             }
-            if (record.Type == ProjectType.Hysteria)
+            if (record.Type == ProjectType.Hysteria2)
             {
                 result = await _navigationService.Navigate<HysteriaEditorViewModel, Record, Record>(record);
                 if (result == null) return;
@@ -332,7 +332,7 @@ namespace ProxySuper.Core.ViewModels
             {
                 await _navigationService.Navigate<MTProtoGoConfigViewModel, MTProtoGoSettings>(record.MTProtoGoSettings);
             }
-            if (record.Type == ProjectType.Hysteria)
+            if (record.Type == ProjectType.Hysteria2)
             {
                 await _navigationService.Navigate<HysteriaConfigViewModel, HysteriaSettings>(record.HysteriaSettings);
             }
@@ -368,7 +368,7 @@ namespace ProxySuper.Core.ViewModels
             {
                 await _navigationService.Navigate<MTProtoGoInstallViewModel, Record>(record);
             }
-            if (record.Type == ProjectType.Hysteria)
+            if (record.Type == ProjectType.Hysteria2)
             {
                 await _navigationService.Navigate<HysteriaInstallViewModel, Record>(record);
             }

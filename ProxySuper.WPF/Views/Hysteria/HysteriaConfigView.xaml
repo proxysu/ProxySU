@@ -8,7 +8,61 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="Hysteria配置" Height="450" Width="800">
-    <StackPanel Margin="20">
-        <TextBox Height="360" Text="{Binding ClientJson, Mode=OneWay}" IsReadOnly="True" />
-    </StackPanel>
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Orientation="Vertical"  Grid.Row="0" Grid.Column="1">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="地址(address)" Width="180" />
+                <TextBox Text="{Binding Settings.Domain}" IsReadOnly="True" Width="300" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Label Content="端口(port)" Width="180" />
+                <TextBox Text="{Binding Settings.Port}" IsReadOnly="True" Width="300" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Label Content="密码(password)" Width="180" />
+                <TextBox Text="{Binding Settings.Password}" IsReadOnly="True" Width="300" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Label Content="混淆密码(obfs password)" Width="180" />
+                <TextBox Text="{Binding ObfsPassword}" IsReadOnly="True" Width="300" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Label Content="跳跃端口范围" Width="180" />
+                <TextBox Text="" IsReadOnly="True" Width="300" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Label Content="传输安全(tls)" Width="180" />
+                <TextBox Text="tls" IsReadOnly="True" Width="300" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Label Content="分享链接(ShareLink)" Width="180" />
+                <TextBox Text="{Binding Settings.HysteriaShareLink,Mode=OneTime}" Width="300" IsReadOnly="True" />
+            </StackPanel>
+
+            <StackPanel  >
+                <Image Width="140" Height="140" x:Name="QrImage" Margin="0,10,0,10"/>
+                <Button Click="SaveImage" Width="100" Content="{DynamicResource SaveAs}" />
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Margin="20" Grid.Row="0" Grid.Column="0">
+            <TextBox Height="360" Text="{Binding ClientYamlConfig, Mode=OneWay}" IsReadOnly="True" />
+        </StackPanel>
+
+        
+    </Grid>
 </views:MvxWindow>

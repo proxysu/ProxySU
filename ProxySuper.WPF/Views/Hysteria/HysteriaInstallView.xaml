@@ -8,7 +8,7 @@
         xmlns:views="clr-namespace:MvvmCross.Platforms.Wpf.Views;assembly=MvvmCross.Platforms.Wpf"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Hysteria安装" Height="450" Width="800">
+        Title="Hysteria安装" Height="600" Width="800">
     <StackPanel>
         <ctrl:ProgressControl />
 
@@ -30,5 +30,28 @@
                     Padding="10,3" 
                     Margin="10,0,0,0" />
         </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="20,15,0,0">
+            <Label Content="{DynamicResource Settings}" FontWeight="Bold" FontSize="14" />
+
+            <Button Content="{DynamicResource XrayInstallerUploadCert}" 
+               Command="{Binding Path=UploadCertCommand}"
+               Padding="10,3" 
+               Margin="10,0,0,0" />
+
+            <Button Content="{DynamicResource XrayInstallerUploadWeb}" 
+               Command="{Binding Path=UploadWebCommand}"
+               Padding="10,3" 
+               Margin="10,0,0,0" />
+        </StackPanel>
+
+        <StackPanel Margin="20,10,0,0" Orientation="Horizontal">
+            <Label Content="说明" FontWeight="Bold" FontSize="14" VerticalAlignment="Top" />
+            <StackPanel Margin="10,0,0,0">
+                <Label Content="1.【上传自有证书】 将 (.crt和.key) 文件打包成.zip，文件名称随意，后缀名不能变。" FontSize="14" />
+                <Label Content="2.【上传伪装网站】 将根目录包含 (index.html) 的文件夹，打包为.zip文件。" FontSize="14" />
+            </StackPanel>
+        </StackPanel>
+
     </StackPanel>
 </views:MvxWindow>

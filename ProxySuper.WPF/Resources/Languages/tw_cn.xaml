@@ -164,9 +164,17 @@
     <!--Hysteria-->
     <sys:String x:Key="HysteriaDomain">域名</sys:String>
     <sys:String x:Key="HysteriaPort">端口</sys:String>
-    <sys:String x:Key="HysteriaObfs">加密字符</sys:String>
+    <sys:String x:Key="HysteriaPassword">密碼</sys:String>
+    <sys:String x:Key="HysteriaAutoCert">自動申請證書，如上傳自有證書，則取消對勾。</sys:String>
     <sys:String x:Key="HysteriaEmail">郵箱</sys:String>
-    <sys:String x:Key="HysteriaProtocol">協議</sys:String>
+    <sys:String x:Key="HysteriaEmailDirections">自動申請證書用，隨機生成，可更換為自己的信箱</sys:String>
+    <sys:String x:Key="HysteriaObfsEnable">使用混淆，混淆後是沒有特徵的UDP包,否則預設流量偽裝成HTTP3</sys:String>
+    <sys:String x:Key="HysteriaObfsPassword">混淆密碼</sys:String>
+    <sys:String x:Key="HysteriaBrutal">Brutal 壅塞控制演算法 (預設)</sys:String>
     <sys:String x:Key="HysteriaUpMbps">上傳限速</sys:String>
     <sys:String x:Key="HysteriaDownMbps">下載限速</sys:String>
+    <sys:String x:Key="HysteriaUpAndDownMbpsDirections">0 - 無限制(下同),此為服務端配置</sys:String>
+    <sys:String x:Key="HysteriaBBR">BBR 擁塞控制演算法</sys:String>
+    <sys:String x:Key="HysteriaDisguisedWebUrl">偽裝網站</sys:String>
+    <sys:String x:Key="HysteriaUpDisguisedWebsite">手動上傳靜態偽裝網站</sys:String>
 </ResourceDictionary>

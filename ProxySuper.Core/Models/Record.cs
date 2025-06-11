@@ -36,7 +36,7 @@ namespace ProxySuper.Core.Models
         [JsonProperty("v2raySettings")]
         public V2raySettings V2raySettings { get; set; }
 
-        [JsonProperty("settings")]
+        [JsonProperty("xraySettings")]
         public XraySettings XraySettings { get; set; }
 
         [JsonProperty("trojanGoSettings")]
@@ -70,7 +70,7 @@ namespace ProxySuper.Core.Models
 
                 if (MTProtoGoSettings != null) return ProjectType.MTProtoGo;
 
-                if (HysteriaSettings != null) return ProjectType.Hysteria;
+                if (HysteriaSettings != null) return ProjectType.Hysteria2;
 
                 return ProjectType.Brook;
             }

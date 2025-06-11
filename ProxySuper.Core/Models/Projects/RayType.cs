@@ -31,8 +31,7 @@
 
     public enum XrayType
     {
-        //
-
+        // VLESS 协议
         VLESS_RAW_XTLS = 100,
         VLESS_XTLS_RAW_REALITY = 101,
         VLESS_WS = 102,

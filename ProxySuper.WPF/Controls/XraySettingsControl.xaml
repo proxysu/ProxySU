@@ -63,43 +63,6 @@
                         </CheckBox.Style>
                         <Label Content="VLESS XTLS"  FontSize="12" Foreground="LimeGreen" />
                     </CheckBox>
-
-                    <!--RAW(TCP)-->
-                    <!--<CheckBox x:Name="VLESS_RAW"
-                              VerticalContentAlignment="Center"
-                              IsChecked="{Binding Path=Checked_VLESS_RAW}">
-                        <CheckBox.Style>
-                            <Style TargetType="CheckBox">
-                                <Setter Property="IsEnabled" Value="True" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsChecked, ElementName=VLESS_XTLS_RAW_REALITY}" Value="True">
-                                        <Setter Property="IsEnabled" Value="False" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </CheckBox.Style>
-                        <Label Content="VLESS RAW"  FontSize="12" Foreground="LimeGreen" />
-                    </CheckBox>-->
-
-
-
-                    <!--mKCP-->
-                    <!--<CheckBox Width="150"
-                              VerticalContentAlignment="Center"
-                              Foreground="LimeGreen"
-                      IsChecked="{Binding Path=Checked_VLESS_KCP}">
-                        <Label Content="{DynamicResource VlessKcpDesc}"  FontSize="12" Foreground="LimeGreen" />
-                    </CheckBox>-->
-
-                    <!--quic-->
-                    <!--<CheckBox Width="150"
-                              VerticalContentAlignment="Center"
-                              Foreground="LimeGreen"
-                              IsChecked="{Binding Path=Checked_VLESS_QUIC}">
-                        <Label Content="{DynamicResource VlessQuicDesc}"  FontSize="12" Foreground="LimeGreen" />
-                    </CheckBox>-->
-
-
                 </WrapPanel>
                 <!--#endregion-->
 
@@ -157,21 +120,6 @@
                               IsChecked="{Binding Path=Checked_VLESS_gRPC}">
                         <Label Content="VLESS gRPC" FontSize="12" Foreground="LimeGreen" />
                     </CheckBox>
-
-                    <!--WebSocket-->
-                    <!--<CheckBox Width="150"
-                              VerticalContentAlignment="Center"
-                              IsChecked="{Binding Path=Checked_VMESS_WS}">
-                        <Label Content="{DynamicResource VmessWsDesc}" FontSize="12" Foreground="Blue" />
-                    </CheckBox>-->
-
-                    <!--quic-->
-                    <!--<CheckBox Width="150"
-                              VerticalContentAlignment="Center"
-                              Foreground="Blue"
-                              IsChecked="{Binding Path=Checked_VMESS_QUIC}">
-                        <Label Content="{DynamicResource VmessQuicDesc}" FontSize="12" Foreground="Blue" />
-                    </CheckBox>-->
                 </WrapPanel>
                 <!--#endregion-->
 
@@ -340,8 +288,9 @@
                                 <TextBox Text="{Binding Path=REALITY_spiderX}" Width="260" />
                                 <TextBlock Margin="5,6,0,0" Text="{DynamicResource REALITY spiderX_Help}" />
                             </StackPanel>
-
                             <!--#endregion-->
+                            
+                            <!--#region VLESS XHTTP Settings -->
                             <!--XHTTP Path-->
                             <StackPanel Margin="0,15,0,0"
                                         Orientation="Horizontal"
@@ -353,6 +302,8 @@
                                 <Label Content="{DynamicResource VlessXhttpPath}" Foreground="LimeGreen" Width="120" />
                                 <TextBox Text="{Binding Path=VLESS_XHTTP_Path}" Width="260" />
                             </StackPanel>
+                            <!--#endregion-->
+                            
                             <!--#region VLESS WS Settings -->
                             <!--WebSocket Path-->
                             <StackPanel Margin="0,15,0,0"
@@ -378,6 +329,7 @@
                                         }">
                                 <Label Content="{DynamicResource VlessRPCPort}" Width="120"  Foreground="LimeGreen" />
                                 <TextBox Text="{Binding Path=VLESS_gRPC_Port}" Width="260"  />
+                                <Label Content="仅安装gRPC，推荐设置443" Width="160"  Foreground="LimeGreen" />
                             </StackPanel>
 
                             <StackPanel Margin="0,15,0,0" 

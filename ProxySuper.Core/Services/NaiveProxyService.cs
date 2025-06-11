@@ -4,6 +4,7 @@ using ProxySuper.Core.Models;
 using ProxySuper.Core.Models.Hosts;
 using ProxySuper.Core.Models.Projects;
 using ProxySuper.Core.ViewModels;
+using ProxySuper.Core.Templates;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -251,7 +252,7 @@ namespace ProxySuper.Core.Services
 
         private string BuildConfig(bool useCustomWeb = false)
         {
-            var jsonStr = File.ReadAllText("Templates/NaiveProxy/naive_server.caddyfile");
+            var jsonStr = NaiveServerCaddyfile.BaseCaddyFile;//File.ReadAllText("Templates/NaiveProxy/naive_server.caddyfile");
             jsonStr = jsonStr.Replace("##port##", Settings.Port.ToString());
             jsonStr = jsonStr.Replace("##domain##", Settings.Domain);
             jsonStr = jsonStr.Replace("##basicauth##", $"basic_auth {Settings.UserName} {Settings.Password}");

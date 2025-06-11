@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using ProxySuper.Core.Models.Projects;
 using System;
+using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Web;
@@ -10,6 +11,20 @@ namespace ProxySuper.Core.Services
 {
     public class ShareLink
     {
+        public static string BuildHysteria(HysteriaSettings settings)
+        {
+            //hysteria2://[auth@]hostname[:port]/?[key=value]&[key=value]...
+            //hysteria2://letmein@example.com:123,5000-6000/?insecure=1&obfs=salamander&obfs-password=gawrgura&pinSHA256=deadbeef&sni=real.example.com
+            var auth = HttpUtility.UrlEncode(settings.Password);
+
+            if (settings.EnableObfs == true)
+            { 
+                //var _obfsPassword = settings.ObfsPassword;
+                return $"hysteria2://{auth}@{settings.Domain}:{settings.Port}/?obfs=salamander&obfs-password={settings.ObfsPassword}";
+            }
+            return $"hysteria2://{auth}@{settings.Domain}:{settings.Port}";
+
+        }
         public static string BuildBrook(BrookSettings settings)
         {
             var password = HttpUtility.UrlEncode(settings.Password);

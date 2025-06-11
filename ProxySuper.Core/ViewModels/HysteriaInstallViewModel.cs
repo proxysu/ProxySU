@@ -51,6 +51,9 @@ namespace ProxySuper.Core.ViewModels
 
         public IMvxCommand UninstallCommand => new MvxCommand(_service.Uninstall);
 
+        public IMvxCommand UploadCertCommand => new MvxCommand(_service.UploadCert);
+
+        public IMvxCommand UploadWebCommand => new MvxCommand(_service.UploadWeb);
 
         private void SaveInstallLog()
         {

@@ -18,7 +18,6 @@ namespace ProxySuper.Core.Models.Projects
             var guid = Guid.NewGuid().ToString();
             Port = 443;
             VLESS_gRPC_Port = 8443;
-
             VMESS_KCP_Port = 3001;
             ShadowSocksPort = 4001;
 
@@ -95,10 +94,16 @@ namespace ProxySuper.Core.Models.Projects
         /// <summary>
         /// 使用REALITY模式时，客户端爬虫初始路径与参数
         /// </summary>
-        public string REALITY_spiderX { get; set; } = "/"; 
+        public string REALITY_spiderX { get; set; } = "/";
 
-        public string REALITY_privateKey { get; set; } = string.Empty; 
+        /// <summary>
+        /// 使用REALITY模式时，私钥
+        /// </summary>
+        public string REALITY_privateKey { get; set; } = string.Empty;
 
+        /// <summary>
+        /// 使用REALITY模式时，公钥
+        /// </summary>
         public string REALITY_publicKey {  get; set; } = string.Empty;
 
         /// <summary>

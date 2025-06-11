@@ -4,6 +4,7 @@ using ProxySuper.Core.Models.Projects;
 using ProxySuper.Core.Templates;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace ProxySuper.Core.Services
@@ -17,14 +18,8 @@ namespace ProxySuper.Core.Services
         private static string ServerOutbounds = XrayConfigTemplates.ServerGeneralConfig_outbounds;
         private static string CaddyFile = CaddyFiles.BaseCaddyFile;
 
-        public static int VLESS_RAW_Port = 1110;
         public static int VLESS_WS_Port = 1111;
-        public static int VLESS_H2_Port = 1112;
         public static int VLESS_XHTTP_Port = 1113;
-
-        public static int VMESS_TCP_Port = 1210;
-        public static int VMESS_WS_Port = 1211;
-        public static int VMESS_H2_Port = 1212;
 
         public static int Trojan_TCP_Port = 1310;
         public static int Trojan_WS_Port = 1311;
@@ -242,7 +237,7 @@ namespace ProxySuper.Core.Services
 
         private static dynamic LoadJsonObj(string jsonStr)
         {
-                return JToken.Parse(jsonStr);
+            return JToken.Parse(jsonStr);
         }
 
     }

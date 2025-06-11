@@ -119,5 +119,6 @@ namespace ProxySuper.WPF.Views
             QrImage.Source = image;
             QrImage.Tag = type.ToString();
         }
+    
     }
 }

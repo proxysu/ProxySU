@@ -98,7 +98,7 @@
     <sys:String x:Key="MultiUserHelp">چند شناسه تقسیم با ","</sys:String>
     <sys:String x:Key="VLESS_XTLS_RAW_REALITY_spiderX_Path">REALITY spiderX</sys:String>
     <sys:String x:Key="REALITY spiderX_Help">مسیر اولیه و پارامترهای خزنده</sys:String>
-    <sys:String x:Key="VlessXhttpPath">VLESS XHTTP Path</sys:String>
+    <sys:String x:Key="VlessXhttpPath">VLESS XHTTP PaT</sys:String>
     <sys:String x:Key="VlessWsPath">VLESS WS Path</sys:String>
     <sys:String x:Key="VlessKcpSeed">VLESS KCP Seed</sys:String>
     <sys:String x:Key="VlessKcpType">VLESS KCP Type</sys:String>
@@ -162,9 +162,17 @@
     <!--Hysteria-->
     <sys:String x:Key="HysteriaDomain">آدرس</sys:String>
     <sys:String x:Key="HysteriaPort">پورت</sys:String>
-    <sys:String x:Key="HysteriaObfs">OBFS</sys:String>
-    <sys:String x:Key="HysteriaProtocol">Protocol</sys:String>
+    <sys:String x:Key="HysteriaPassword">رمز عبور</sys:String>
+    <sys:String x:Key="HysteriaAutoCert">درخواست خودکار برای گواهی. اگر می‌خواهید گواهی خودتان را آپلود کنید، تیک آن را بردارید.</sys:String>
     <sys:String x:Key="HysteriaEmail">ایمیل</sys:String>
+    <sys:String x:Key="HysteriaEmailDirections">درخواست خودکار برای گواهینامه‌ها، قابل جایگزینی با صندوق پستی خودتان</sys:String>
+    <sys:String x:Key="HysteriaObfsEnable">از مبهم‌سازی استفاده کنید، پس از مبهم‌سازی، هیچ بسته UDP مشخصی وجود ندارد، در غیر این صورت ترافیک پیش‌فرض به عنوان HTTP3 پنهان می‌شود.</sys:String>
+    <sys:String x:Key="HysteriaObfsPassword">OBFS</sys:String>
+    <sys:String x:Key="HysteriaBrutal">الگوریتم کنترل ازدحام وحشیانه (پیش‌فرض)</sys:String>
     <sys:String x:Key="HysteriaUpMbps">UpMbps</sys:String>
     <sys:String x:Key="HysteriaDownMbps">DownMbps</sys:String>
+    <sys:String x:Key="HysteriaUpAndDownMbpsDirections">0 - نامحدود (همان زیر)، این پیکربندی سرور است</sys:String>
+    <sys:String x:Key="HysteriaBBR">الگوریتم کنترل ازدحام BBR</sys:String>
+    <sys:String x:Key="HysteriaDisguisedWebUrl">وب‌سایت مبدل</sys:String>
+    <sys:String x:Key="HysteriaUpDisguisedWebsite">یک وب‌سایت استاتیک با قابلیت پنهان‌سازی را به صورت دستی آپلود کنید</sys:String>
 </ResourceDictionary>

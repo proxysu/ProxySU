@@ -17,15 +17,33 @@ namespace ProxySuper.Core.ViewModels
         {
             Settings = parameter;
         }
-
-        public string ClientJson { 
+        public string ObfsPassword
+        {
+            get
+            {
+                if(Settings.EnableObfs == true)
+                {
+                    return Settings.ObfsPassword;
+                }
+                return "";
+            }//=> Settings.ObfsPassword;
+            set
+            {
+                Settings.ObfsPassword = value;
+                RaisePropertyChanged("ObfsPassword");
+            }
+        }
+        
+        
+        public string ClientYamlConfig { 
         
             get
             {
+                /*
                 var jsonData = new  
                 {
                     server = $"{Settings.Domain}:{Settings.Port}",
-                    obfs = Settings.Obfs,
+                    obfs = Settings.ObfsPassword,
                     up_mbps = 10,
                     down_mbps = 50,
                     socks5 = new
@@ -37,8 +55,8 @@ namespace ProxySuper.Core.ViewModels
                         listen = "127.0.0.1:1081"
                     }
                 };
-
-                return JsonConvert.SerializeObject(jsonData, Formatting.Indented);
+                */
+                return Settings.ClientHysteria2Config;//JsonConvert.SerializeObject(jsonData, Formatting.Indented);
             }
         }
     }

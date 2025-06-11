@@ -33,6 +33,12 @@
                 <RowDefinition Height="36" />
                 <RowDefinition Height="36" />
                 <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
@@ -48,22 +54,85 @@
             <Label Content="{DynamicResource HysteriaPort}" Grid.Row="1" Grid.Column="0" />
             <TextBox Text="{Binding Settings.Port}" Grid.Row="1" Grid.Column="1" />
 
-            <Label Content="{DynamicResource HysteriaObfs}" Grid.Row="2" Grid.Column="0" />
-            <TextBox Text="{Binding Settings.Obfs}" Grid.Row="2" Grid.Column="1" />
+            <Label Content="{DynamicResource HysteriaPassword}" Grid.Row="2" Grid.Column="0" />
+            <TextBox Text="{Binding Settings.Password}" Grid.Row="2" Grid.Column="1" />
 
-            <Label Content="{DynamicResource HysteriaEmail}" Grid.Row="3" Grid.Column="0" />
-            <TextBox Text="{Binding Settings.Email}" Grid.Row="3" Grid.Column="1" />
+            <CheckBox x:Name="CheckBox_AutoACME" IsChecked="{Binding Settings.AutoACME}" 
+                    Content="{DynamicResource HysteriaAutoACME}"
+                    VerticalContentAlignment="Center"
+                    VerticalAlignment="Center" Grid.ColumnSpan="3" Grid.Row="3" Grid.Column="0">
+            </CheckBox>
 
-            <!--<Label Content="{DynamicResource HysteriaProtocol}" Grid.Row="4" Grid.Column="0" />
-            <TextBox Text="{Binding Settings.Protocol}" Grid.Row="4" Grid.Column="1" />-->
+            <Label Content="{DynamicResource HysteriaEmail}" Grid.Row="4" Grid.Column="0" />
+            <TextBox x:Name="TextBox_HysteriaEmail" Text="{Binding Settings.Email}" Grid.Row="4" Grid.Column="1" IsEnabled="{Binding ElementName=CheckBox_AutoACME, Path=IsChecked}"/>
+            <Label Content="{DynamicResource HysteriaEmailDirections}" Grid.Row="4" Grid.Column="2" />
 
-            <!--<Label Content="{DynamicResource HysteriaUpMbps}" Grid.Row="5" Grid.Column="0" />
-            <TextBox Text="{Binding Settings.UpMbps}" Grid.Row="5" Grid.Column="1" />
+            <CheckBox x:Name="CheckBox_EnableObfs" IsChecked="{Binding Settings.EnableObfs}" 
+                    Content="{DynamicResource HysteriaObfsEnable}"
+                    VerticalContentAlignment="Center"
+                    VerticalAlignment="Center" Grid.ColumnSpan="3" Grid.Row="5" Grid.Column="0">
+            </CheckBox>
 
-            <Label Content="{DynamicResource HysteriaDownMbps}" Grid.Row="6" Grid.Column="0" />
-            <TextBox Text="{Binding Settings.DownMbps}" Grid.Row="6" Grid.Column="1" />-->
-            
-            <Border Grid.Row="8"
+            <Label Content="{DynamicResource HysteriaObfsPassword}" Grid.Row="6" Grid.Column="0" />
+            <TextBox Text="{Binding Settings.ObfsPassword}" Grid.Row="6" Grid.Column="1" IsEnabled="{Binding ElementName=CheckBox_EnableObfs, Path=IsChecked}"/>
+
+            <Label Content="{DynamicResource HysteriaDisguisedWebUrl}" Grid.Row="7" Grid.Column="0" />
+            <TextBox Text="{Binding Settings.MaskDomain}" TextAlignment="Left" Padding="5,0,0,0" VerticalContentAlignment="Center" Margin="0,5,0,5" Grid.Row="7" Grid.Column="1" >
+                <TextBox.Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="IsEnabled" Value="True" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=CheckBox_EnableUpDisguisedWeb, Path=IsChecked}" Value="True">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+
+            <CheckBox x:Name="CheckBox_EnableUpDisguisedWeb" IsChecked="{Binding Settings.EnableUpDisguisedWeb}" 
+                        Content="{DynamicResource HysteriaUpDisguisedWebsite}"
+                        VerticalContentAlignment="Center"
+                        VerticalAlignment="Center" Grid.ColumnSpan="3" Grid.Row="8" Grid.Column="0">
+            </CheckBox>
+
+            <!--<Label Content="{DynamicResource HysteriaBrutal}" Grid.Row="9" Grid.ColumnSpan="2" Grid.Column="0" />
+            <Label Content="{DynamicResource HysteriaUpMbps}" Grid.Row="10" Grid.Column="0" HorizontalContentAlignment="Right"/>
+            <TextBox Text="{Binding Settings.UpMbps}" TextAlignment="Left" Padding="5,0,0,0" VerticalContentAlignment="Center" Margin="0,5,0,5" Grid.Row="10" Grid.Column="1" >
+                <TextBox.Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="IsEnabled" Value="True" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=CheckBox_BBRenable, Path=IsChecked}" Value="True">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+            <Label Content="{DynamicResource HysteriaUpAndDownMbpsDirections}" Grid.Row="10" Grid.Column="2" />
+
+            <Label Content="{DynamicResource HysteriaDownMbps}" Grid.Row="11" Grid.Column="0" HorizontalContentAlignment="Right"/>
+            <TextBox Text="{Binding Settings.DownMbps}" TextAlignment="Left" Padding="5,0,0,0" VerticalContentAlignment="Center" Margin="0,5,0,5" Grid.Row="11" Grid.Column="1" >
+                <TextBox.Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="IsEnabled" Value="True" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=CheckBox_BBRenable, Path=IsChecked}" Value="True">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+
+            <CheckBox x:Name="CheckBox_BBRenable" IsChecked="{Binding Settings.BBRenable}" 
+                    Content="{DynamicResource HysteriaBBR}"
+                    VerticalContentAlignment="Center"
+                    VerticalAlignment="Center" Grid.ColumnSpan="3" Grid.Row="12" Grid.Column="0">
+            </CheckBox>-->
+
+            <Border Grid.Row="14"
                     Grid.ColumnSpan="3"
                     BorderBrush="#eee"
                     BorderThickness="0,1,0,0">

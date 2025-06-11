@@ -8,6 +8,6 @@
         Brook = 3,
         V2ray = 4,
         MTProtoGo = 5,
-        Hysteria = 6,
+        Hysteria2 = 6,
     }
 }

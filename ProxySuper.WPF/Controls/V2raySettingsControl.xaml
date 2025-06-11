@@ -25,27 +25,27 @@
                     </CheckBox>
 
                     <!--WebSocket-->
-                    <CheckBox Width="150"
+                    <!--<CheckBox Width="150"
                               VerticalContentAlignment="Center"
                               IsChecked="{Binding Path=Checked_VLESS_WS}">
                         <Label  Content="{DynamicResource VlessWsDesc}"  FontSize="13"  Foreground="LimeGreen" />
-                    </CheckBox>
+                    </CheckBox>-->
 
                     <!--mKCP-->
-                    <CheckBox Width="150"
+                    <!--<CheckBox Width="150"
                               VerticalContentAlignment="Center"
                               Foreground="LimeGreen"
                               IsChecked="{Binding Path=Checked_VLESS_KCP}">
                         <Label Content="{DynamicResource VlessKcpDesc}"  FontSize="13" Foreground="LimeGreen" />
-                    </CheckBox>
+                    </CheckBox>-->
 
                     <!--quic-->
-                    <CheckBox Width="150"
+                    <!--<CheckBox Width="150"
                               VerticalContentAlignment="Center"
                               Foreground="LimeGreen"
                               IsChecked="{Binding Path=Checked_VLESS_QUIC}">
                         <Label Content="{DynamicResource VlessQuicDesc}"  FontSize="12" Foreground="LimeGreen" />
-                    </CheckBox>
+                    </CheckBox>-->
 
                     <!--gRPC-->
                     <CheckBox Width="150"

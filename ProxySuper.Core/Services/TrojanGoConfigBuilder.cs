@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ProxySuper.Core.Models.Projects;
+using ProxySuper.Core.Templates;
 using System.IO;
 
 namespace ProxySuper.Core.Services
@@ -9,9 +10,9 @@ namespace ProxySuper.Core.Services
     {
         public static readonly int WebPort = 8088;
 
-        public static readonly string TrojanGoSettingPath = @"Templates\trojan-go\trojan-go.json";
+        public static readonly string TrojanGoSettingPath = TrojanGoTemplates.TrojanGoJson; 
 
-        public static readonly string CaddyFilePath = @"Templates\trojan-go\base.caddyfile";
+        public static readonly string CaddyFilePath = TrojanGoTemplates.BaseCaddyfile; 
 
         public static string BuildTrojanGoConfig(TrojanGoSettings parameters)
         {

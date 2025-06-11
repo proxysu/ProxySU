@@ -162,9 +162,17 @@
     <!--Hysteria-->
     <sys:String x:Key="HysteriaDomain">Address</sys:String>
     <sys:String x:Key="HysteriaPort">Port</sys:String>
-    <sys:String x:Key="HysteriaObfs">OBFS</sys:String>
-    <sys:String x:Key="HysteriaProtocol">Protocol</sys:String>
+    <sys:String x:Key="HysteriaPassword">Password</sys:String>
+    <sys:String x:Key="HysteriaAutoCert">Automatically apply for a certificate. If you want to upload your own certificate, uncheck it.</sys:String>
     <sys:String x:Key="HysteriaEmail">Email</sys:String>
+    <sys:String x:Key="HysteriaEmailDirections">Automatically apply for certificates, randomly generated, can be replaced with your own email address</sys:String>
+    <sys:String x:Key="HysteriaObfsEnable">Use obfuscation, after obfuscation, there is no characteristic UDP packet, otherwise the default traffic is disguised as HTTP3</sys:String>
+    <sys:String x:Key="HysteriaObfsPassword">OBFS</sys:String>
+    <sys:String x:Key="HysteriaBrutal">Brutal congestion control algorithm (default)</sys:String>
     <sys:String x:Key="HysteriaUpMbps">UpMbps</sys:String>
     <sys:String x:Key="HysteriaDownMbps">DownMbps</sys:String>
+    <sys:String x:Key="HysteriaUpAndDownMbpsDirections">0 - Unlimited (same below), this is the server configuration</sys:String>
+    <sys:String x:Key="HysteriaBBR">BBR congestion control algorithm</sys:String>
+    <sys:String x:Key="HysteriaDisguisedWebUrl">Disguised website URL</sys:String>
+    <sys:String x:Key="HysteriaUpDisguisedWebsite">Manually upload a static cloaking website</sys:String>
 </ResourceDictionary>

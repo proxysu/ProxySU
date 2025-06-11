@@ -1,6 +1,7 @@
 ﻿using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
+using Newtonsoft.Json.Linq;
 using ProxySuper.Core.Models;
 using ProxySuper.Core.Models.Hosts;
 using ProxySuper.Core.Models.Projects;
@@ -8,6 +9,7 @@ using ProxySuper.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace ProxySuper.Core.ViewModels
@@ -42,24 +44,40 @@ namespace ProxySuper.Core.ViewModels
 
         public void Save()
         {
-            NavigationService.Close(this, new Record()
+            if (Settings.Types.Count > 0)
             {
-                Id = Id,
-                Host = Host,
-                XraySettings = Settings,
-            });
+                NavigationService.Close(this, new Record()
+                {
+                    Id = Id,
+                    Host = Host,
+                    XraySettings = Settings,
+                });
+            }
+            else
+            {
+                MessageBox.Show("Error:No configuration was selected!", "Tips");
+            }
+           
         }
 
         public void SaveAndInstall()
         {
-            var record = new Record()
+            if (Settings.Types.Count > 0)
             {
-                Id = Id,
-                Host = Host,
-                XraySettings = Settings,
-            };
-            NavigationService.Close(this, record);
-            NavigationService.Navigate<XrayInstallViewModel, Record>(record);
+                var record = new Record()
+                {
+                    Id = Id,
+                    Host = Host,
+                    XraySettings = Settings,
+                };
+                NavigationService.Close(this, record);
+                NavigationService.Navigate<XrayInstallViewModel, Record>(record);
+            }
+            else
+            {
+                MessageBox.Show("Error:No configuration was selected!", "Tips");
+            }
+
         }
     }
 
@@ -67,8 +85,7 @@ namespace ProxySuper.Core.ViewModels
     {
         public List<string> UTLSList { get => XraySettings.UTLSList; }
 
-        public List<string> KcpTypes => XraySettings.DisguiseTypes;
-
+        /*
         public List<string> QuicTypes => XraySettings.DisguiseTypes;
 
         public List<string> QuicSecurities => new List<string>
@@ -77,17 +94,7 @@ namespace ProxySuper.Core.ViewModels
             "aes-128-gcm",
             "chacha20-poly1305"
         };
-
-        public List<string> ShadowSocksMethods => new List<string>
-        {
-            "2022-blake3-aes-128-gcm",
-            "2022-blake3-aes-256-gcm",
-            "2022-blake3-chacha20-poly1305",
-            "aes-256-gcm",
-            "aes-128-gcm",
-            "chacha20-poly1305",
-            "none"
-        };
+        */
 
         public IMvxCommand RandomUuid => new MvxCommand(() => GetUuid());
 
@@ -234,6 +241,16 @@ namespace ProxySuper.Core.ViewModels
             get => Settings.ShadowSocksPassword;
             set => Settings.ShadowSocksPassword = value;
         }
+        public List<string> ShadowSocksMethods => new List<string>
+        {
+            "2022-blake3-aes-128-gcm",
+            "2022-blake3-aes-256-gcm",
+            "2022-blake3-chacha20-poly1305",
+            "aes-256-gcm",
+            "aes-128-gcm",
+            "chacha20-poly1305",
+            "none"
+        };
         public string ShadowSocksMethod
         {
             get => Settings.ShadowSocksMethod;
@@ -282,6 +299,7 @@ namespace ProxySuper.Core.ViewModels
     {
 
         #region VMESS KCP
+        public List<string> KcpTypes => XraySettings.DisguiseTypes;
         public string VMESS_KCP_Seed
         {
             get => Settings.VMESS_KCP_Seed;
