@@ -33,7 +33,7 @@ namespace ProxySuper.WPF.Views.Hysteria
             InitializeComponent();
             BuildQrCode();
         }
-
+        /*
         public HysteriaSettings Settings
         {
             get
@@ -41,7 +41,7 @@ namespace ProxySuper.WPF.Views.Hysteria
                 return ((HysteriaConfigViewModel)ViewModel).Settings;
             }
         }
-
+        */
    
         private void SaveImage(object sender, RoutedEventArgs e)
         {
@@ -60,7 +60,7 @@ namespace ProxySuper.WPF.Views.Hysteria
 
         private void BuildQrCode()
         {
-            string shareLink = Settings.HysteriaShareLink;
+            string shareLink = HysteriaShareLink.Text;
 
             var qrGenerator = new QRCodeGenerator();
             var qrCodeData = qrGenerator.CreateQrCode(shareLink, QRCodeGenerator.ECCLevel.Q);

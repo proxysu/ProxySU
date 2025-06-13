@@ -17,6 +17,37 @@ namespace ProxySuper.Core.ViewModels
         {
             Settings = parameter;
         }
+
+        public string Domain
+        {
+            get => Settings.Domain;
+            set
+            {
+                Settings.Domain = value;
+                RaisePropertyChanged("Domain");
+            }
+        }
+       
+        public int Port
+        {
+            get => Settings.Port;
+            set
+            {
+                Settings.Port = value;
+                RaisePropertyChanged("Port");
+            }
+        }
+
+        public string Password
+        {
+            get => Settings.Password;
+            set
+            {
+                Settings.Password = value;
+                RaisePropertyChanged("Password");
+            }
+        }
+
         public string ObfsPassword
         {
             get
@@ -34,7 +65,13 @@ namespace ProxySuper.Core.ViewModels
             }
         }
         
-        
+        public string HysteriaShareLink
+        {
+            get => Settings.HysteriaShareLink;
+            
+        }
+
+
         public string ClientYamlConfig { 
         
             get

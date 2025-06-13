@@ -262,7 +262,7 @@ namespace ProxySuper.Core.Services
                         var oldFileName = $"ssl_{DateTime.Now.Ticks}";
                         RunCmd($"mv /usr/local/etc/trojan-go/ssl /usr/local/etc/trojan-go/{oldFileName}");
 
-                        RunCmd("mkdir /usr/local/etc/trojan-go/ssl");
+                        RunCmd("mkdir -p /usr/local/etc/trojan-go/ssl");
                         UploadFile(stream, "/usr/local/etc/trojan-go/ssl/ssl.zip");
                         RunCmd("unzip /usr/local/etc/trojan-go/ssl/ssl.zip -d /usr/local/etc/trojan-go/ssl");
                     }
@@ -312,7 +312,7 @@ namespace ProxySuper.Core.Services
                     Progress.Desc = "创建网站目录";
                     if (!FileExists("/usr/share/caddy"))
                     {
-                        RunCmd("mkdir /usr/share/caddy");
+                        RunCmd("mkdir -p /usr/share/caddy");
                     }
                     RunCmd("rm -rf /usr/share/caddy/*");
                     Progress.Percentage = 40;

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using ProxySuper.Core.Converters;
 using ProxySuper.Core.Helpers;
 using ProxySuper.Core.Models.Hosts;
 using ProxySuper.Core.Models.Projects;
@@ -9,6 +10,7 @@ using Renci.SshNet.Messages;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -69,6 +71,18 @@ namespace ProxySuper.Core.Services
                     Progress.Percentage = 100;
                     Progress.Step = "安装Hysteria成功";
                     Progress.Desc = "安装Hysteria成功";
+
+                    if (Settings.AutoACME == false)
+                    {
+                        Progress.Step = "请手动上传SSL证书";
+                        Progress.Desc = "请手动上传SSL证书";
+                    }
+
+                    if (Settings.EnableUpDisguisedWeb == true)
+                    {
+                        Progress.Step = "请手动上传伪装网站内容";
+                        Progress.Desc = "请手动上传伪装网站内容";
+                    }
                 });
             }
             catch (Exception ex)
@@ -87,8 +101,8 @@ namespace ProxySuper.Core.Services
                     Progress.Percentage = 0;
 
                     Progress.Desc = "停止Hysteria服务";
-                    RunCmd("systemctl stop Hysteria");
-                    RunCmd("systemctl disable Hysteria");
+                    RunCmd("systemctl stop hysteria-server.service");
+                    RunCmd("systemctl disable hysteria-server.service");
                     Progress.Percentage = 30;
 
                     Progress.Desc = "删除Hysteria相关文件";
@@ -127,7 +141,7 @@ namespace ProxySuper.Core.Services
         private void InstallHysteria()
         {
             Progress.Desc = "执行Hysteria安装文件,及设置Hysteria服务";
-            RunCmd($"bash < (curl - fsSL https://get.hy2.sh/)");
+            RunCmd($"bash <(curl -fsSL https://get.hy2.sh/)");
 
             /*
             string url = "https://github.com/apernet/hysteria/releases/download/v1.3.4/hysteria-linux-386";
@@ -156,8 +170,8 @@ namespace ProxySuper.Core.Services
 
 
             Progress.Desc = "启动Hysteria服务";
-            RunCmd("systemctl enable hysteria");
-            RunCmd("systemctl restart hysteria");
+            RunCmd("systemctl enable hysteria-server.service");
+            RunCmd("systemctl restart hysteria-server.service");
         }
 
         private static string ConfigFile_base = HysteriaConfigTemplates.ServerHysteria2Config_base;
@@ -170,82 +184,8 @@ namespace ProxySuper.Core.Services
         private static string ConfigFile_bandwidth = HysteriaConfigTemplates.ServerAndClientHysteria2Config_bandwidth;
 
         private static string ClientConfigFile_base = HysteriaConfigTemplates.ClientHysteria2Config_base;
-        private string BuildYamlConfig()
-        {
-            dynamic yamlConfigBase = LoadYamlConfig(ConfigFile_base);
-            yamlConfigBase.listen = ":" + Settings.Port;
-            yamlConfigBase.auth.password = Settings.Password;
-            string yamlConfig = ObjectToYaml(yamlConfigBase);
-
-            dynamic yamlClientConfigBase = LoadYamlConfig(ClientConfigFile_base);
-            yamlClientConfigBase.server = $"{Settings.Domain}:{Settings.Port}";
-            yamlClientConfigBase.auth = Settings.Password;
-            string yamlClientConfig = ObjectToYaml(yamlClientConfigBase);
-
-            if (Settings.AutoACME == true)
-            {
-                dynamic yamlConfigAcme = LoadYamlConfig(ConfigFile_acme);
-                yamlConfigAcme.acme.domains[0] = Settings.Domain;
-                yamlConfigAcme.acme.email = Settings.Email;
-                string _yamlConfigAcme = ObjectToYaml(yamlConfigAcme);
-                yamlConfig = YamlConfigMerger.MergeYamlStrings(yamlConfig, _yamlConfigAcme, CamelCaseNamingConvention.Instance);
-            }
-            else
-            {
-                yamlConfig = YamlConfigMerger.MergeYamlStrings(yamlConfig, ConfigFile_tls, CamelCaseNamingConvention.Instance);
-            }
-
-            if(Settings.EnableObfs == true)
-            {
-                dynamic yamlConfigObfs = LoadYamlConfig(ConfigFile_obfs);
-                yamlConfigObfs.obfs.salamander.password = Settings.ObfsPassword;
-                string _yamlConfigObfs = ObjectToYaml(yamlConfigObfs);
-                yamlConfig = YamlConfigMerger.MergeYamlStrings(yamlConfig, _yamlConfigObfs, CamelCaseNamingConvention.Instance);
-
-                dynamic yamlClientConfigObfs = LoadYamlConfig(ConfigFile_obfs);
-                yamlClientConfigObfs.obfs.salamander.password = Settings.ObfsPassword;
-                string _yamlClientConfigObfs = ObjectToYaml(yamlClientConfigObfs);
-                yamlClientConfig = YamlConfigMerger.MergeYamlStrings(yamlClientConfig, _yamlClientConfigObfs, CamelCaseNamingConvention.Instance);
-
-            }
-
-
-
-            if (Settings.EnableUpDisguisedWeb == true)
-            {
-                yamlConfig = YamlConfigMerger.MergeYamlStrings(yamlConfig, ConfigFile_masquerade_file, CamelCaseNamingConvention.Instance);
-            }
-            else if (string.IsNullOrEmpty(Settings.MaskDomain) == false)
-            {
-                dynamic yamlConfigMasquerade_proxy = LoadYamlConfig(ConfigFile_masquerade_proxy);
-                yamlConfigMasquerade_proxy.masquerade.proxy.url = Settings.MaskDomain;
-                string _yamlConfigMasquerade_proxy = ObjectToYaml(yamlConfigMasquerade_proxy);
-                yamlConfig = YamlConfigMerger.MergeYamlStrings(yamlConfig, _yamlConfigMasquerade_proxy, CamelCaseNamingConvention.Instance);
-            }
-
-            Settings.ClientHysteria2Config = yamlClientConfig;
-            return yamlConfig;
-        }
-        private void UploadConfigFile(string yamlConfig)
-        {
-            RunCmd("mkdir /etc/hysteria");
-            WriteToFile(yamlConfig, "/etc/hysteria/config.yaml");
-        }
-
-        dynamic LoadYamlConfig(string yamlConfigString)
-        {
-            var deserializer = new DeserializerBuilder()
-                        .WithNamingConvention(CamelCaseNamingConvention.Instance) // 仍然推荐使用命名约定
-                        .Build();
-            return deserializer.Deserialize<dynamic>(yamlConfigString);
-        }
-
-        private string ObjectToYaml(dynamic yamlObj) 
-        {
-            var serializer = new SerializerBuilder().Build();
-            return serializer.Serialize(yamlObj);
-        }
-
+        
+     
         public void UploadCert()
         {
             var fileDialog = new OpenFileDialog();
@@ -262,8 +202,92 @@ namespace ProxySuper.Core.Services
             fileDialog.ShowDialog();
         }
 
- 
+
         #region 私有方法
+
+        private string BuildYamlConfig()
+        {
+            dynamic yamlConfigBase = LoadYamlConfigToJsonObject(ConfigFile_base);
+            yamlConfigBase.listen = ":" + Settings.Port;
+            yamlConfigBase.auth.password = Settings.Password;
+            string yamlConfig = JsonObjectToYamlConfig(yamlConfigBase);
+
+            dynamic yamlClientConfigBase = LoadYamlConfigToJsonObject(ClientConfigFile_base);
+            yamlClientConfigBase.server = $"{Settings.Domain}:{Settings.Port}";
+            yamlClientConfigBase.auth = Settings.Password;
+            string yamlClientConfig = JsonObjectToYamlConfig(yamlClientConfigBase);
+
+            if (Settings.AutoACME == true)
+            {
+                dynamic yamlConfigAcme = LoadYamlConfigToJsonObject(ConfigFile_acme);
+                yamlConfigAcme.acme.domains[0] = Settings.Domain;
+                yamlConfigAcme.acme.email = Settings.Email;
+                string _yamlConfigAcme = JsonObjectToYamlConfig(yamlConfigAcme);
+                yamlConfig = YamlConfigMerger.MergeYamlStrings(yamlConfig, _yamlConfigAcme, CamelCaseNamingConvention.Instance);
+            }
+            else
+            {
+                yamlConfig = YamlConfigMerger.MergeYamlStrings(yamlConfig, ConfigFile_tls, CamelCaseNamingConvention.Instance);
+            }
+
+            if (Settings.EnableObfs == true)
+            {
+                dynamic yamlConfigObfs = LoadYamlConfigToJsonObject(ConfigFile_obfs);
+                yamlConfigObfs.obfs.salamander.password = Settings.ObfsPassword;
+                string _yamlConfigObfs = JsonObjectToYamlConfig(yamlConfigObfs);
+                yamlConfig = YamlConfigMerger.MergeYamlStrings(yamlConfig, _yamlConfigObfs, CamelCaseNamingConvention.Instance);
+
+                dynamic yamlClientConfigObfs = LoadYamlConfigToJsonObject(ConfigFile_obfs);
+                yamlClientConfigObfs.obfs.salamander.password = Settings.ObfsPassword;
+                string _yamlClientConfigObfs = JsonObjectToYamlConfig(yamlClientConfigObfs);
+                yamlClientConfig = YamlConfigMerger.MergeYamlStrings(yamlClientConfig, _yamlClientConfigObfs, CamelCaseNamingConvention.Instance);
+
+            }
+
+            if (Settings.EnableUpDisguisedWeb == true)
+            {
+                yamlConfig = YamlConfigMerger.MergeYamlStrings(yamlConfig, ConfigFile_masquerade_file, CamelCaseNamingConvention.Instance);
+            }
+            else if (string.IsNullOrEmpty(Settings.MaskDomain) == false)
+            {
+                dynamic yamlConfigMasquerade_proxy = LoadYamlConfigToJsonObject(ConfigFile_masquerade_proxy);
+
+                var prefix = "https://";
+                if (Settings.MaskDomain.StartsWith("http://"))
+                {
+                    prefix = "http://";
+                }
+                var domain = Settings.MaskDomain
+                    .TrimStart("http://".ToCharArray())
+                    .TrimStart("https://".ToCharArray());
+
+                yamlConfigMasquerade_proxy.masquerade.proxy.url = $"{prefix}{domain}";// Settings.MaskDomain;
+                string _yamlConfigMasquerade_proxy = JsonObjectToYamlConfig(yamlConfigMasquerade_proxy);
+                yamlConfig = YamlConfigMerger.MergeYamlStrings(yamlConfig, _yamlConfigMasquerade_proxy, CamelCaseNamingConvention.Instance);
+            }
+
+            Settings.ClientHysteria2Config = yamlClientConfig;
+            return yamlConfig;
+        }
+        
+        private void UploadConfigFile(string yamlConfig)
+        {
+            RunCmd("mkdir -p /etc/hysteria");
+            WriteToFile(yamlConfig, "/etc/hysteria/config.yaml");
+        }
+
+        private dynamic LoadYamlConfigToJsonObject(string yamlConfigString)
+        {
+            var JsonStr = JsonYamlConverters.YamlToJson(yamlConfigString);
+
+            return JToken.Parse(JsonStr);
+        }
+
+        private string JsonObjectToYamlConfig(dynamic jsonObj)
+        {
+            var jsonStr = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
+            return JsonYamlConverters.JsonToYaml(jsonStr);
+        }
 
         private void DoUploadCert(object sender, CancelEventArgs e)
         {
@@ -287,8 +311,8 @@ namespace ProxySuper.Core.Services
                         var oldFileName = $"ssl_{DateTime.Now.Ticks}";
                         RunCmd($"mv /etc/hysteria/ssl /etc/hysteria/{oldFileName}");
 
-                        RunCmd("mkdir  /etc/hysteria/ssl");
-                        UploadFile(stream, " /etc/hysteria/ssl/ssl.zip");
+                        RunCmd("mkdir -p  /etc/hysteria/ssl");
+                        UploadFile(stream, "/etc/hysteria/ssl/ssl.zip");
                         RunCmd("unzip  /etc/hysteria/ssl/ssl.zip -d  /etc/hysteria/ssl");
                     }
 
@@ -338,7 +362,7 @@ namespace ProxySuper.Core.Services
                     Progress.Desc = "创建网站目录";
                     if (!FileExists("/var/www/hymasq"))
                     {
-                        RunCmd("mkdir /var/www/hymasq");
+                        RunCmd("mkdir -p /var/www/hymasq");
                     }
                     RunCmd("rm -rf /var/www/hymasq/*");
                     Progress.Percentage = 40;

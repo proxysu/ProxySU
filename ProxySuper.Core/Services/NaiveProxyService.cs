@@ -170,7 +170,7 @@ namespace ProxySuper.Core.Services
                     Progress.Desc = "创建网站目录";
                     if (!FileExists("/usr/share/caddy"))
                     {
-                        RunCmd("mkdir /usr/share/caddy");
+                        RunCmd("mkdir -p /usr/share/caddy");
                     }
                     RunCmd("rm -rf /usr/share/caddy/*");
                     Progress.Percentage = 40;

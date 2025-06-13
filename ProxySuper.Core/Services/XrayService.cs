@@ -297,7 +297,7 @@ namespace ProxySuper.Core.Services
                         var oldFileName = $"ssl_{DateTime.Now.Ticks}";
                         RunCmd($"mv /usr/local/etc/xray/ssl /usr/local/etc/xray/{oldFileName}");
 
-                        RunCmd("mkdir /usr/local/etc/xray/ssl");
+                        RunCmd("mkdir -p /usr/local/etc/xray/ssl");
                         UploadFile(stream, "/usr/local/etc/xray/ssl/ssl.zip");
                         RunCmd("unzip /usr/local/etc/xray/ssl/ssl.zip -d /usr/local/etc/xray/ssl");
                     }
@@ -348,7 +348,7 @@ namespace ProxySuper.Core.Services
                     Progress.Desc = "创建网站目录";
                     if (!FileExists("/usr/share/caddy"))
                     {
-                        RunCmd("mkdir /usr/share/caddy");
+                        RunCmd("mkdir -p /usr/share/caddy");
                     }
                     RunCmd("rm -rf /usr/share/caddy/*");
                     Progress.Percentage = 40;

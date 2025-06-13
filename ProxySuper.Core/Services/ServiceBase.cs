@@ -450,7 +450,7 @@ namespace ProxySuper.Core.Services
             }
 
             RunCmd($"wget -O caddy.tar.gz {url}");
-            RunCmd("mkdir /etc/caddy");
+            RunCmd("mkdir -p /etc/caddy");
             RunCmd("tar -zxvf caddy.tar.gz -C /etc/caddy");
             RunCmd("cp -rf /etc/caddy/caddy /usr/bin");
             WriteToFile(Caddy.DefaultCaddyFile, "/etc/caddy/Caddyfile");
@@ -458,7 +458,7 @@ namespace ProxySuper.Core.Services
             RunCmd("systemctl daemon-reload");
             RunCmd("systemctl enable caddy");
 
-            RunCmd("mkdir /usr/share/caddy");
+            RunCmd("mkdir -p /usr/share/caddy");
             RunCmd("chmod 775 /usr/share/caddy");
 
             if (!FileExists("/usr/bin/caddy"))

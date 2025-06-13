@@ -19,7 +19,7 @@ namespace ProxySuper.Core.Services
         private static string CaddyFile = CaddyFiles.BaseCaddyFile;
 
         public static int VLESS_WS_Port = 1111;
-        public static int VLESS_XHTTP_Port = 1113;
+        //public static int VLESS_XHTTP_Port ;
 
         public static int Trojan_TCP_Port = 1310;
         public static int Trojan_WS_Port = 1311;
@@ -128,7 +128,7 @@ namespace ProxySuper.Core.Services
             if (parameters.Types.Contains(XrayType.VLESS_XHTTP))
             {
                 var xhttpInbound = LoadJsonObj(XrayConfigTemplates.VLESS_XHTTP_ServerConfig);
-                xhttpInbound.port = VLESS_XHTTP_Port;
+                xhttpInbound.port = parameters.Port;
                 xhttpInbound.settings.fallbacks.Add(JToken.FromObject(new
                 {
                     dest = FullbackPort
