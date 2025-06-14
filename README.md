@@ -98,7 +98,7 @@ Let's Encrypt证书申请频率的限制
 
 ## License
 
-[(GPL-V3)](https://raw.githubusercontent.com/proxysu/windows/master/LICENSE)
+[(MIT)](https://raw.githubusercontent.com/proxysu/windows/master/LICENSE)
 
 ## 运行文件下载
 * 正式版（正式发布的版本，新功能完善后发布）  
