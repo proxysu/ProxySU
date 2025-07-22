@@ -3,7 +3,7 @@ V2ray, Xray, Trojan, NaiveProxy, Trojan-Go, MTProto Go, Brook,BBR install tools 
 V2ray，Xray, Trojan，NaiveProxy, Trojan-Go, MTProto Go, Brook 及相关插件。支持纯ipv6主机一键安装代理。  
 BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）,支持语言:English、简体中文、正体（繁体）中文，波斯语。  
 
-编译环境Visual Studio 2019  使用WPF界面。可一键安装 V2ray/Xray, Shadowsocks, Trojan, Trojan-Go, NaiveProxy, MTProto Go, Brook 后续还会再添加其他。  
+编译环境Visual Studio 2022  使用WPF界面。可一键安装 V2ray/Xray, Shadowsocks, Trojan-Go, NaiveProxy,  Brook 后续还会再添加其他。  
 
 零基础用户，强烈建议看一下[Xray官网](https://xtls.github.io)的[小小白白话文-自建教程](https://xtls.github.io/document/level-0)。  
 更多相关资源与工具请看本项目Wiki[资源和工具](https://github.com/proxysu/ProxySU/wiki/%E8%B5%84%E6%BA%90%E5%92%8C%E5%B7%A5%E5%85%B7)。  
@@ -23,11 +23,9 @@ BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）,支持语�
 多数情况下，ProxySU安装代理工具的Latest版。  
 
 ##### 支持的VPS系统为：  
-* CentOS 7/8   
 * Debian 9/10/11/12 (推荐 10+)  
 * Ubuntu 18及以上
-
-(注意：如果系统启用了SELinux且工作在Enforcing模式下时，需要将Enforcing更改为Permissive模式，否则使用WebSocket+TLS+Web时，Caddy的service无法开机启动，这种情形一般出现在Centos7/8中，程序在安装过程中将自动处理。)  
+ 
 
 ##### ProxySU使用教程  
 [一键搭建科学上网工具ProxySU](https://github.com/Alvin9999/new-pac/wiki/%E4%B8%80%E9%94%AE%E6%90%AD%E5%BB%BA%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E5%B7%A5%E5%85%B7ProxySU)------------网友 [Alvin9999](https://github.com/Alvin9999) 制作。    
@@ -50,7 +48,7 @@ Nat类型的vps主机，因为无法独占80，443端口，使用tls模式的代
 ProxySU在开发过程中，一般都是在vultr的vps中测试，测试系统版本为：Debian 10。由于同一个版本的Linux系统，不同的VPS商,云服务商也不完全相同。实在没有精力去逐一测试。如果安装失败，可以先尝试以下方法解决：  
 
 1.如果以前装过翻墙软件，请重装一下vps系统后，再试。  
-2.更换为其他版本的linux发行版，推荐使用 Debian 9与Debian 10系统，再试。  
+2.更换为其他版本的linux发行版，推荐使用 Debian 10+ 系统，再试。  
 
 以上两种方法不能解决，请各位网友及时发[issues](https://github.com/proxysu/windows/issues)，或者到[TG群组](https://t.me/proxysuissues)，反馈。  
 
@@ -102,7 +100,7 @@ Let's Encrypt证书申请频率的限制
 
 ## 运行文件下载
 * 正式版（正式发布的版本，新功能完善后发布）  
-[下载](https://github.com/proxysu/windows/releases)
+[下载](https://github.com/proxysu/ProxySU/releases)
 
 ## Windows系统需要安装net4.8或以上
 
