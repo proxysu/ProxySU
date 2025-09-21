@@ -3,12 +3,19 @@ using MvvmCross.Navigation;
 using MvvmCross.Platforms.Wpf.Presenters.Attributes;
 using MvvmCross.Platforms.Wpf.Views;
 using MvvmCross.ViewModels;
+using Newtonsoft.Json.Linq;
 using ProxySuper.Core.Models;
 using ProxySuper.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Reflection;
+using System.Threading.Tasks;
+using System.Web.UI;
 using System.Windows;
+using System.Windows.Input;
+
 
 namespace ProxySuper.WPF.Views
 {
@@ -20,6 +27,9 @@ namespace ProxySuper.WPF.Views
         public HomeView()
         {
             InitializeComponent();
+            CheckGitHubUpdateAsync();
+            UpdateLabel.MouseLeftButtonUp += UpdateLabel_MouseLeftButtonUp;
+            UpdateLabel.Cursor = Cursors.Hand;
         }
 
         private IMvxNavigationService _navigationService;
@@ -67,6 +77,11 @@ namespace ProxySuper.WPF.Views
             System.Diagnostics.Process.Start("explorer.exe", "https://github.com/proxysu/ProxySU/wiki/%E7%9B%B8%E5%85%B3%E8%B5%84%E6%BA%90%E4%B8%8E%E6%95%99%E7%A8%8B");
         }
 
+        private void LaunchFreeAndPaid(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("explorer.exe", "https://github.com/proxysu/ProxySU/wiki/%E5%85%8D%E8%B4%B9and%E4%BB%98%E8%B4%B9%E7%BF%BB%E5%A2%99%E8%B5%84%E6%BA%90");
+        }
+
         ResourceDictionary resource = new ResourceDictionary();
         private void SetSimpleChinese(object sender, RoutedEventArgs e)
         {
@@ -107,6 +122,52 @@ namespace ProxySuper.WPF.Views
         private void GetRoot(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate<EnableRootViewModel>();
+        }
+
+        private async Task CheckGitHubUpdateAsync()
+        {
+            try
+            {
+                string currentVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+                using (HttpClient client = new HttpClient())
+                {
+                    // GitHub API 需要 User-Agent
+                    client.DefaultRequestHeaders.Add("User-Agent", "CSharpApp");
+
+                    string url = "https://api.github.com/repos/proxysu/ProxySU/releases/latest";
+
+                    string json = await client.GetStringAsync(url);
+                    JObject release = JObject.Parse(json);
+                    string latestVersion = release["tag_name"]?.ToString().TrimStart('v'); // 去掉 v 前缀
+
+                    if (!string.IsNullOrEmpty(latestVersion))
+                    {
+                        // 尝试把版本字符串转为 Version 类型
+                        if (Version.TryParse(latestVersion, out Version latestVer) &&
+                            Version.TryParse(currentVersion, out Version currentVer))
+                        {
+                            // 只有最新版本号 > 当前版本号，才提示更新
+                            if (latestVer > currentVer)
+                            {
+                                UpdateLabel.Content = $"检测到新版本 {latestVersion} 发布！点击下载";
+                                UpdateLabel.Visibility = Visibility.Visible;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("检查更新失败：" + ex.Message);
+            }
+        }
+
+        private void UpdateLabel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+           
+                System.Diagnostics.Process.Start(@"https://github.com/proxysu/ProxySU/releases");
+            
         }
 
     }

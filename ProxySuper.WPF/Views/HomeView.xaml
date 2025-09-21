@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ProxySuper.WPF.Views"
+      xmlns:localAd="clr-namespace:ProxySuper.WPF.Controls"
       xmlns:views="clr-namespace:MvvmCross.Platforms.Wpf.Views;assembly=MvvmCross.Platforms.Wpf"
       mc:Ignorable="d">
 
@@ -11,6 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
         <Menu Background="White" Grid.Row="0" BorderThickness="0,0,0,2" BorderBrush="#eee">
@@ -42,7 +44,16 @@
                 <MenuItem Padding="0,5" Header="{DynamicResource MainMenuHelperCertQuestion}" Click="LaunchCertQuestion"></MenuItem>
                 <MenuItem Padding="0,5" Header="{DynamicResource MainMenuHelperPrivateKey}" Click="LaunchPrivateKeyQuestion"></MenuItem>
                 <MenuItem Padding="0,5" Header="{DynamicResource MainMenuHelperResourcesAndTutorials}" Click="LaunchResourcesAndTutorials"></MenuItem>
+                <MenuItem Padding="0,5" Header="{DynamicResource MainMenuHelperFreeAndPaid}" Click="LaunchFreeAndPaid"></MenuItem>
             </MenuItem>
+            <Label x:Name="UpdateLabel"
+               Content=""
+               Foreground="Red"
+               FontWeight="Bold"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Top"
+               Padding="10,3"
+               Visibility="Collapsed"/>
         </Menu>
 
         <StackPanel Grid.Row="1" Margin="0,10">
@@ -137,5 +148,7 @@
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
+
+        <localAd:AdCarouselControl Grid.Row="2"/>
     </Grid>
 </views:MvxWpfView>

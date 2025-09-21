@@ -1,5 +1,6 @@
 ﻿using MvvmCross.Platforms.Wpf.Views;
 
+
 namespace ProxySuper.WPF
 {
     /// <summary>
@@ -10,6 +11,9 @@ namespace ProxySuper.WPF
         public MainWindow()
         {
             InitializeComponent();
+
         }
+
+       
     }
 }

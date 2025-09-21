@@ -30,6 +30,7 @@
     <sys:String x:Key="MainMenuHelperCertQuestion">در مورد گواهینامه</sys:String>
     <sys:String x:Key="MainMenuHelperPrivateKey">در مورد سوال</sys:String>
     <sys:String x:Key="MainMenuHelperResourcesAndTutorials">منابع و آموزش های مرتبط</sys:String>
+    <sys:String x:Key="MainMenuHelperFreeAndPaid">منابع VPN رایگان و پولی</sys:String>
 
     <!--Main DataGrid-->
     <sys:String x:Key="MainDataGridColumnTag">برچسب</sys:String>

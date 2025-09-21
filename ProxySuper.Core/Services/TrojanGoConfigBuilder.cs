@@ -16,7 +16,7 @@ namespace ProxySuper.Core.Services
 
         public static string BuildTrojanGoConfig(TrojanGoSettings parameters)
         {
-            var jsonStr = File.ReadAllText(TrojanGoSettingPath);
+            var jsonStr = TrojanGoSettingPath;
             var settings = JToken.FromObject(JsonConvert.DeserializeObject(jsonStr));
 
             settings["remote_port"] = WebPort;
@@ -38,7 +38,7 @@ namespace ProxySuper.Core.Services
 
         public static string BuildCaddyConfig(TrojanGoSettings parameters, bool useCustomWeb = false)
         {
-            var caddyStr = File.ReadAllText(CaddyFilePath);
+            var caddyStr = CaddyFilePath;
             caddyStr = caddyStr.Replace("##domain##", parameters.Domain);
             caddyStr = caddyStr.Replace("##port##", WebPort.ToString());
 

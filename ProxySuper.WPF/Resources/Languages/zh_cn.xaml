@@ -30,6 +30,7 @@
     <sys:String x:Key="MainMenuHelperCertQuestion">证书问题</sys:String>
     <sys:String x:Key="MainMenuHelperPrivateKey">私钥问题</sys:String>
     <sys:String x:Key="MainMenuHelperResourcesAndTutorials">相关资源与教程</sys:String>
+    <sys:String x:Key="MainMenuHelperFreeAndPaid">免费and付费翻墙资源</sys:String>
 
     <!--Main DataGrid-->
     <sys:String x:Key="MainDataGridColumnTag">名称</sys:String>

@@ -30,6 +30,7 @@
     <sys:String x:Key="MainMenuHelperCertQuestion">CertQuestion</sys:String>
     <sys:String x:Key="MainMenuHelperPrivateKey">PrivateKey</sys:String>
     <sys:String x:Key="MainMenuHelperResourcesAndTutorials">Related Resources and Tutorials</sys:String>
+    <sys:String x:Key="MainMenuHelperFreeAndPaid">Free and paid VPN resources</sys:String>
 
     <!--Main DataGrid-->
     <sys:String x:Key="MainDataGridColumnTag">Tag</sys:String>
