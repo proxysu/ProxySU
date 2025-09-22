@@ -1,6 +1,6 @@
 # ProxySU
-V2ray, Xray, Trojan, NaiveProxy, Trojan-Go, MTProto Go, Brook,BBR install tools for windows。  
-V2ray，Xray, Trojan，NaiveProxy, Trojan-Go, MTProto Go, Brook 及相关插件。支持纯ipv6主机一键安装代理。  
+V2ray, Xray, Trojan, NaiveProxy, Trojan-Go,  Brook,BBR install tools for windows。  
+V2ray，Xray, Trojan，NaiveProxy, Trojan-Go,  Brook 及相关插件。支持纯ipv6主机一键安装代理。  
 BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）,支持语言:English、简体中文、正体（繁体）中文，波斯语。  
 
 编译环境Visual Studio 2022  使用WPF界面。可一键安装 V2ray/Xray, Shadowsocks, Trojan-Go, NaiveProxy,  Brook 后续还会再添加其他。  
@@ -115,7 +115,6 @@ Microsoft [.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-fram
 为了布署方便，程序使用root账户登录主机，出于慎重，请不要在运行重要程序及用于生产的主机上使用。程序所有源码开源，所使用的库都是github开源项目，可以保障最大的使用安全，程序不夹带任何私货、恶意代码及后门，也不会收集任何个人资料，不是在本项目地址下载的，不做任何保障，请尽可能从本项目地址下载。
 
 ## 程序使用问题反馈  
-* Telegram群组 https://t.me/proxysuissues   
 * 在线提问  https://github.com/proxysu/windows/issues  
 
 在使用遇到问题时，请先看一下[常见问题集锦](https://github.com/proxysu/windows/wiki/CommonError)，如果还不能解决，可以到以上平台询问，个人精力有限，尽力解答。
