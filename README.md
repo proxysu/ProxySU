@@ -121,7 +121,7 @@ Microsoft [.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-fram
 
 [![Powered by DartNode](https://dartnode.com/branding/DN-Open-Source-sm.png)](https://dartnode.com "Powered by DartNode - Free VPS for Open Source")
 
-[![Powered by DartNode](https://dartnode.com/branding/black_color_full.png)](https://dartnode.com "Powered by DartNode - Free VPS for Open Source")
+[![Powered by DartNode](black_color_full.png)](https://dartnode.com "Powered by DartNode - Free VPS for Open Source")
 
 [![DartNode Open Source](https://img.shields.io/badge/Open%20Source-DartNode-orange?style=flat-square)](https://dartnode.com)
 
