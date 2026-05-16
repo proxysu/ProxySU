@@ -1,4 +1,4 @@
-﻿namespace ProxySuper.Core.Models.Projects
+namespace ProxySuper.Core.Models.Projects
 {
     public enum RayType
     {
@@ -23,8 +23,16 @@
         Trojan_WS = 302,
 
         // SS
-        ShadowsocksAEAD = 401
-    }
+        ShadowsocksAEAD = 401,
 
-    
+        // NEW: VLESS XHTTP (XTLS Vision) 500开头
+        VLESS_XHTTP_VISION = 500,
+        VLESS_XHTTP_REALITY = 501,
+
+        // NEW: WireGuard
+        WireGuard = 502,
+
+        // NEW: Hysteria
+        Hysteria = 503
+    }
 }
