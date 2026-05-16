@@ -229,6 +229,120 @@ namespace ProxySuper.Core.Services
                 xrayConfig.inbounds.Add(JToken.FromObject(ssBound));
             }
 
+            #region VLESS XHTTP REALITY
+
+            if (parameters.Types.Contains(RayType.VLESS_XHTTP_VISION))
+            {
+                var xhttpVisionBound = GetBound("VLESS_TCP_XTLS.json");
+                xhttpVisionBound.port = parameters.VLESS_XHTTP_Port;
+                xhttpVisionBound.settings.clients.Clear();
+                xhttpVisionBound.settings.clients.Add(JToken.FromObject(new
+                {
+                    id = parameters.UUID,
+                    flow = "xtls-rprx-vision"
+                }));
+                xhttpVisionBound.streamSettings.network = "tcp";
+                xhttpVisionBound.streamSettings.security = "xtls";
+                xhttpVisionBound.streamSettings.xtlsSettings.alpn = new string[] { "h2", "http/1.1" };
+                // Remove fallbacks for XHTTP
+                xhttpVisionBound.settings.fallbacks = new JArray();
+                xrayConfig.inbounds.Add(xhttpVisionBound);
+            }
+
+            if (parameters.Types.Contains(RayType.VLESS_XHTTP_REALITY))
+            {
+                var xhttpRealityBound = GetBound("VLESS_TCP_XTLS.json");
+                xhttpRealityBound.port = parameters.VLESS_XHTTP_REALITY_Port;
+                xhttpRealityBound.settings.clients.Clear();
+                xhttpRealityBound.settings.clients.Add(JToken.FromObject(new
+                {
+                    id = parameters.UUID,
+                    flow = "xtls-rprx-vision"
+                }));
+                xhttpRealityBound.streamSettings.network = "tcp";
+                xhttpRealityBound.streamSettings.security = "reality";
+                xhttpRealityBound.streamSettings.Remove("xtlsSettings");
+                
+                // Add realitySettings
+                xhttpRealityBound.streamSettings.realitySettings = JToken.FromObject(new
+                {
+                    show = false,
+                    dest = parameters.XHTTP_Reality_Dest,
+                    serverNames = parameters.XHTTP_Reality_ServerNames.Split(','),
+                    privateKey = parameters.XHTTP_Reality_PrivateKey,
+                    minClient = "",
+                    maxClient = "",
+                    maxTimediff = 0,
+                    shortId = parameters.XHTTP_Reality_ShortId,
+                    shortIds = string.IsNullOrEmpty(parameters.XHTTP_Reality_ShortId) 
+                        ? new string[] { } 
+                        : new string[] { parameters.XHTTP_Reality_ShortId }
+                });
+                
+                // Remove fallbacks for REALITY
+                xhttpRealityBound.settings.fallbacks = new JArray();
+                xrayConfig.inbounds.Add(xhttpRealityBound);
+            }
+
+            #endregion
+
+            #region WireGuard
+
+            if (parameters.Types.Contains(RayType.WireGuard))
+            {
+                var wireguardBound = JToken.FromObject(new
+                {
+                    port = parameters.WireGuard_Port,
+                    protocol = "wireguard",
+                    settings = new
+                    {
+                        mtu = parameters.WireGuard_MTU,
+                        secretKey = parameters.WireGuard_PrivateKey,
+                        peers = new object[] {
+                            new {
+                                publicKey = parameters.WireGuard_Peer_PublicKey,
+                                endpoint = parameters.WireGuard_Peer_Endpoint,
+                                allowedIPs = parameters.WireGuard_Peer_IP
+                            }
+                        },
+                        kernelMode = false
+                    }
+                });
+                xrayConfig.inbounds.Add(wireguardBound);
+            }
+
+            #endregion
+
+            #region Hysteria
+
+            if (parameters.Types.Contains(RayType.Hysteria))
+            {
+                var hysteriaBound = JToken.FromObject(new
+                {
+                    port = parameters.Hysteria_Port,
+                    protocol = "hysteria",
+                    settings = new
+                    {
+                        up = parameters.Hysteria_Up + " Mbps",
+                        down = parameters.Hysteria_Down + " Mbps",
+                        auth = new {
+                            type = "password",
+                            password = parameters.Hysteria_Auth
+                        },
+                        obfs = string.IsNullOrEmpty(parameters.Hysteria_Obfs) 
+                            ? null 
+                            : JToken.FromObject(new { type = "salamander", password = parameters.Hysteria_Obfs }),
+                        recvWindowConn = 0,
+                        recvWindow = 0,
+                        mtu = 1280
+                    }
+                });
+                xrayConfig.inbounds.Add(hysteriaBound);
+            }
+
+            #endregion
+
+
             return JsonConvert.SerializeObject(
                 xrayConfig,
                 Formatting.Indented,
