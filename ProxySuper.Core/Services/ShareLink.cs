@@ -173,6 +173,95 @@ namespace ProxySuper.Core.Services
             var _auth = settings.Hysteria_Auth;
             return $"hysteria://{_auth}@{_server}:{_port}#Hysteria";
         }
+        #region SingBox Share Links
+
+        public static string BuildSingBoxShareLink(SingBoxType type, SingboxSettings settings)
+        {
+            switch (type)
+            {
+                case SingBoxType.SingBox_VLESS_TCP:
+                    return $"vless://{settings.UUID}@{settings.Domain}:{settings.Port}?encryption=none&type=tcp#SingBox-VLESS-TCP";
+                case SingBoxType.SingBox_VLESS_WS:
+                    return $"vless://{settings.UUID}@{settings.Domain}:{settings.VLESS_WS_Port}?encryption=none&type=ws&path={HttpUtility.UrlEncode(settings.VLESS_WS_Path)}#SingBox-VLESS-WS";
+                case SingBoxType.SingBox_VLESS_gRPC:
+                    return $"vless://{settings.UUID}@{settings.Domain}:{settings.VLESS_gRPC_Port}?encryption=none&type=grpc&serviceName={HttpUtility.UrlEncode(settings.VLESS_gRPC_ServiceName)}#SingBox-VLESS-gRPC";
+                case SingBoxType.SingBox_VMESS_TCP:
+                    return BuildSingBoxVmessTcp(settings);
+                case SingBoxType.SingBox_VMESS_WS:
+                    return BuildSingBoxVmessWs(settings);
+                case SingBoxType.SingBox_Trojan:
+                    return $"trojan://{settings.Trojan_Password}@{settings.Domain}:{settings.Trojan_Port}#SingBox-Trojan";
+                case SingBoxType.SingBox_Shadowsocks:
+                    return BuildSingBoxShadowsocks(settings);
+                case SingBoxType.SingBox_Shadowsocks_2022:
+                    return BuildSingBoxShadowsocks2022(settings);
+                case SingBoxType.SingBox_Hysteria:
+                    return $"hysteria://{settings.Hysteria_Auth}@{settings.Domain}:{settings.Hysteria_Port}#SingBox-Hysteria";
+                case SingBoxType.SingBox_Hysteria2:
+                    return $"hysteria://{settings.Hysteria2_Auth}@{settings.Domain}:{settings.Hysteria2_Port}#SingBox-Hysteria2";
+                case SingBoxType.SingBox_TUIC:
+                    return $"tuic://{settings.TUIC_UUID}:{settings.TUIC_Password}@{settings.Domain}:{settings.TUIC_Port}#SingBox-TUIC";
+                case SingBoxType.SingBox_NaiveProxy:
+                    return $"naive+https://{settings.NaiveProxy_User}:{settings.NaiveProxy_Password}@{settings.Domain}:{settings.NaiveProxy_Port}#SingBox-NaiveProxy";
+                default:
+                    return string.Empty;
+            }
+        }
+
+        private static string BuildSingBoxVmessTcp(SingboxSettings settings)
+        {
+            var vmess = new
+            {
+                v = "2",
+                add = settings.Domain,
+                port = settings.Port,
+                id = settings.UUID,
+                aid = "0",
+                net = "tcp",
+                type = "none",
+                tls = "tls"
+            };
+            var json = JsonConvert.SerializeObject(vmess);
+            return "vmess://" + Utils.Base64Encode(json);
+        }
+
+        private static string BuildSingBoxVmessWs(SingboxSettings settings)
+        {
+            var vmess = new
+            {
+                v = "2",
+                add = settings.Domain,
+                port = settings.VMESS_WS_Port,
+                id = settings.UUID,
+                aid = "0",
+                net = "ws",
+                type = "none",
+                path = settings.VMESS_WS_Path,
+                tls = "tls"
+            };
+            var json = JsonConvert.SerializeObject(vmess);
+            return "vmess://" + Utils.Base64Encode(json);
+        }
+
+        private static string BuildSingBoxShadowsocks(SingboxSettings settings)
+        {
+            var method = settings.Shadowsocks_Method;
+            var password = settings.Shadowsocks_Password;
+            var base64URL = Utils.Base64Encode($"{method}:{password}@{settings.Domain}:{settings.Shadowsocks_Port}");
+            return "ss://" + base64URL + "#SingBox-Shadowsocks";
+        }
+
+        private static string BuildSingBoxShadowsocks2022(SingboxSettings settings)
+        {
+            var method = settings.Shadowsocks_2022_Method;
+            var password = settings.Shadowsocks_2022_Password;
+            var base64URL = Utils.Base64Encode($"{method}:{password}@{settings.Domain}:{settings.Shadowsocks_2022_Port}");
+            return "ss://" + base64URL + "#SingBox-Shadowsocks-2022";
+        }
+
+        #endregion
+
+
 
         private static string BuildVlessShareLink(RayType xrayType, V2raySettings settings)
         {
