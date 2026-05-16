@@ -1,0 +1,58 @@
+name: Build ProxySU
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore NuGet packages
+      run: dotnet restore ProxySU.sln
+
+    - name: Build Release
+      run: dotnet build ProxySU.sln -c Release -p:PublishProfile=Release --no-restore
+
+    - name: Publish WPF Project
+      run: |
+        dotnet publish ProxySuper.WPF/ProxySuper.WPF.csproj           -c Release           -r win-x64           --self-contained false           -p:PublishSingleFile=true           -o ./publish
+
+    - name: Find .exe files
+      shell: pwsh
+      run: |
+        Get-ChildItem -Path "./publish" -Filter "*.exe" -Recurse | ForEach-Object {
+          Write-Host "Found: $($_.FullName)"
+        }
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: ProxySU-Build
+        path: publish/*.exe
+        retention-days: 30
+
+    - name: Create ZIP for distribution
+      shell: pwsh
+      run: |
+        Compress-Archive -Path "./publish/*" -DestinationPath "./ProxySU.zip" -Force
+        Get-Item "./ProxySU.zip" | Select-Object Name, Length
+
+    - name: Upload ZIP artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ProxySU-ZIP
+        path: ProxySU.zip
+        retention-days: 30
