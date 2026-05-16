@@ -24,41 +24,80 @@ jobs:
       with:
         nuget-version: '6.x'
 
+    - name: Find MSBuild using vswhere
+      id: msbuild
+      shell: pwsh
+      run: |
+        $vswhere = "${env:ProgramFiles}\Microsoft Visual Studio\Installer\vswhere.exe"
+        if (Test-Path $vswhere) {
+            $path = & $vswhere -latest -products * -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe | Select-Object -First 1
+            if ($path) {
+                Write-Host "Found MSBuild: $path"
+                echo "msbuild_path=$path" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+            } else {
+                Write-Host "MSBuild not found via vswhere"
+            }
+        } else {
+            Write-Host "vswhere not found"
+        }
+
     - name: Restore NuGet packages
       run: |
         nuget restore $env:SOLUTION -PackagesDirectory packages
 
     - name: Build with MSBuild
+      id: build
       run: |
-        & "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe" $env:SOLUTION /p:Configuration=$env:CONFIGURATION /p:Platform="AnyCPU" /p:OutputPath=bin\Release\ /p:BaseIntermediateOutputPath=obj\ /v:m
+        $msbuild = "${{ steps.msbuild.outputs.msbuild_path }}"
+        if (-not $msbuild) {
+            $msbuild = "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe"
+        }
+        Write-Host "Using MSBuild: $msbuild"
+        & "$msbuild" "$env:SOLUTION" /p:Configuration=$env:CONFIGURATION /p:Platform="AnyCPU" /p:OutputPath=bin\Release\ /p:BaseIntermediateOutputPath=obj\ /v:m /nologo
       shell: cmd
 
     - name: Find built files
       shell: pwsh
       run: |
-        Get-ChildItem -Path "ProxySuper.WPF\bin" -Recurse -Filter "*.exe" | ForEach-Object {
-            Write-Host "Found: $($_.FullName)"
+        Get-ChildItem -Path "." -Directory -Recurse -Filter "Release" | ForEach-Object {
+            Get-ChildItem -Path $_.FullName -Filter "*.exe" -Recurse | ForEach-Object {
+                Write-Host "Found: $($_.FullName) - Size: $([math]::Round($_.Length/1KB,2)) KB"
+            }
         }
 
     - name: Copy to publish folder
       shell: pwsh
       run: |
         New-Item -ItemType Directory -Force -Path publish | Out-Null
-        Copy-Item -Path "ProxySuper.WPF\bin\Release\ProxySuper.WPF\*" -Destination "publish\" -Recurse -Force -ErrorAction SilentlyContinue
-        Copy-Item -Path "ProxySuper.WPF\bin\Release\*" -Destination "publish\" -Recurse -Force -ErrorAction SilentlyContinue
-        Get-ChildItem -Path "publish" -Recurse -Filter "*.exe" | ForEach-Object {
-            Write-Host "Published: $($_.Name)"
+        Get-ChildItem -Path "." -Directory -Recurse -Filter "Release" | ForEach-Object {
+            $releasePath = $_.FullName
+            Get-ChildItem -Path $releasePath -Filter "*.exe" -Recurse | ForEach-Object {
+                Copy-Item -Path $_.FullName -Destination "publish\" -Force
+            }
+            Get-ChildItem -Path $releasePath -Filter "*.dll" -Recurse | ForEach-Object {
+                Copy-Item -Path $_.FullName -Destination "publish\" -Force
+            }
+        }
+        # Copy templates
+        Copy-Item -Path "ProxySuper.WPF\Templates" -Destination "publish\" -Recurse -Force -ErrorAction SilentlyContinue
+        # Copy resources
+        Copy-Item -Path "ProxySuper.WPF\Resources" -Destination "publish\" -Recurse -Force -ErrorAction SilentlyContinue
+
+    - name: List publish folder
+      shell: pwsh
+      run: |
+        if (Test-Path "publish") {
+            Get-ChildItem -Path "publish" -Recurse | Measure-Object -Property Length -Sum | ForEach-Object {
+                Write-Host "Total files: $($_.Count), Total size: $([math]::Round($_.Sum/1MB,2)) MB"
+            }
         }
 
     - name: Create ZIP
       shell: pwsh
       run: |
-        if (Test-Path "publish\*") {
+        if ((Get-ChildItem "publish" -Recurse | Measure-Object).Count -gt 0) {
             Compress-Archive -Path "publish\*" -DestinationPath "ProxySU.zip" -Force
             Get-Item "ProxySU.zip" | Select-Object Name, @{N="Size(MB)";E={[math]::Round($_.Length/1MB,2)}}
-        } else {
-            Write-Host "No files in publish folder!"
-            Get-ChildItem -Path "." -Recurse -Filter "*.exe" | Select-Object FullName
         }
 
     - name: Upload artifacts
