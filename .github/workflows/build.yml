@@ -25,64 +25,63 @@ jobs:
         nuget-version: '6.x'
 
     - name: View NuGet config
-      run: |
-        nuget locals all -list
-        nuget list
-
-    - name: Restore NuGet packages (solution level)
-      run: |
-        nuget restore "$env:SOLUTION" -PackagesDirectory ./packages
-
-    - name: Verify packages restored
       shell: pwsh
       run: |
-        Write-Host "Checking packages directory..."
-        if (Test-Path "./packages") {
-            Get-ChildItem -Path "./packages" -Recurse -Depth 1 | Select-Object FullName
-        } else {
-            Write-Host "packages directory not found!"
-        }
+        nuget locals all -list
+
+    - name: Restore NuGet packages
+      shell: pwsh
+      run: |
+        nuget restore $env:SOLUTION -PackagesDirectory ./packages
 
     - name: Find MSBuild
+      id: msbuild
       shell: pwsh
       run: |
         $vswhere = "${env:ProgramFiles}\Microsoft Visual Studio\Installer\vswhere.exe"
         $msbuild = $null
         if (Test-Path $vswhere) {
-            $path = & $vswhere -latest -products * -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe | Select-Object -First 1
+            $path = & $vswhere -latest -products * -requires Microsoft.Component.MSBuild -find MSBuild\\**\\Bin\\MSBuild.exe | Select-Object -First 1
             if ($path -and (Test-Path $path)) {
                 $msbuild = $path
             }
         }
         if (-not $msbuild) {
-            $msbuild = "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe"
+            $paths = @(
+                "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe",
+                "C:\Program Files\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\MSBuild.exe",
+                "C:\Program Files\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin\MSBuild.exe",
+                "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin\MSBuild.exe"
+            )
+            foreach ($p in $paths) {
+                if (Test-Path $p) { $msbuild = $p; break }
+            }
         }
-        if (-not (Test-Path $msbuild)) {
-            $msbuild = "C:\Program Files\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin\MSBuild.exe"
+        if (-not $msbuild) {
+            Write-Error "MSBuild not found!"
+            exit 1
         }
-        if (-not (Test-Path $msbuild)) {
-            $msbuild = "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin\MSBuild.exe"
-        }
-        Write-Host "Using MSBuild: $msbuild"
-        if (Test-Path $msbuild) {
-            Write-Host "MSBuild exists"
-        } else {
-            Write-Host "MSBuild NOT found!"
-        }
+        Write-Host "##vso[task.setvariable variable=msbuild;]$msbuild"
+        Write-Host "Found MSBuild: $msbuild"
 
     - name: Build with MSBuild
-      id: build
+      shell: pwsh
       run: |
-        $msbuild = "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe"
-        if (-not (Test-Path $msbuild)) {
-            $msbuild = "C:\Program Files\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin\MSBuild.exe"
+        $msbuild = "${{ fromJson('needs.msbuild.outputs.msbuild') }}"
+        if (-not $msbuild -or $msbuild -eq "") {
+            $msbuild = "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe"
+            if (-not (Test-Path $msbuild)) {
+                $msbuild = "C:\Program Files\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\MSBuild.exe"
+            }
+            if (-not (Test-Path $msbuild)) {
+                $msbuild = "C:\Program Files\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin\MSBuild.exe"
+            }
+            if (-not (Test-Path $msbuild)) {
+                $msbuild = "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin\MSBuild.exe"
+            }
         }
-        if (-not (Test-Path $msbuild)) {
-            $msbuild = "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin\MSBuild.exe"
-        }
-        Write-Host "Final MSBuild path: $msbuild"
-        & "$msbuild" "$env:SOLUTION" /p:Configuration=$env:CONFIGURATION /p:Platform="AnyCPU" /p:OutputPath=bin\Release\ /p:BaseIntermediateOutputPath=obj\ /v:m /nologo
-      shell: cmd
+        Write-Host "Using MSBuild: $msbuild"
+        & "$msbuild" $env:SOLUTION /p:Configuration=$env:CONFIGURATION /p:Platform="AnyCPU" /p:OutputPath=bin\Release\ /p:BaseIntermediateOutputPath=obj\ /v:m /nologo
 
     - name: Find built files
       shell: pwsh
@@ -102,12 +101,13 @@ jobs:
             Get-ChildItem -Path $releasePath -Filter "*.exe" -Recurse | ForEach-Object {
                 Copy-Item -Path $_.FullName -Destination "publish\" -Force
             }
-            Get-ChildItem -Path $releasePath -Filter "*.dll" -Recurse | ForEach-Object {
-                Copy-Item -Path $_.FullName -Destination "publish\" -Force
-            }
         }
-        Copy-Item -Path "ProxySuper.WPF\Templates" -Destination "publish\" -Recurse -Force -ErrorAction SilentlyContinue
-        Copy-Item -Path "ProxySuper.WPF\Resources" -Destination "publish\" -Recurse -Force -ErrorAction SilentlyContinue
+        Get-ChildItem -Path "." -Directory -Recurse -Filter "Templates" | ForEach-Object {
+            Copy-Item -Path $_.FullName -Destination "publish\" -Recurse -Force -ErrorAction SilentlyContinue
+        }
+        Get-ChildItem -Path "." -Directory -Recurse -Filter "Resources" | ForEach-Object {
+            Copy-Item -Path $_.FullName -Destination "publish\" -Recurse -Force -ErrorAction SilentlyContinue
+        }
 
     - name: Create ZIP
       shell: pwsh
