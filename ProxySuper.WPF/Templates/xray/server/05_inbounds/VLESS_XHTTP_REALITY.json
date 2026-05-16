@@ -1,0 +1,28 @@
+{
+  "port": 8443,
+  "protocol": "vless",
+  "settings": {
+    "clients": [
+      {
+        "id": "",
+        "flow": "xtls-rprx-vision"
+      }
+    ],
+    "decryption": "none",
+    "fallbacks": []
+  },
+  "streamSettings": {
+    "network": "tcp",
+    "security": "reality",
+    "realitySettings": {
+      "show": false,
+      "dest": "www.microsoft.com",
+      "serverNames": ["www.microsoft.com"],
+      "privateKey": "",
+      "minClient": "",
+      "maxClient": "",
+      "maxTimediff": 0,
+      "shortId": ""
+    }
+  }
+}
