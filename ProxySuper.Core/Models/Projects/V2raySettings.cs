@@ -77,6 +77,26 @@ namespace ProxySuper.Core.Models.Projects
                     list.Add(VLESS_gRPC_Port);
                 }
 
+                if (Types.Contains(RayType.VLESS_XHTTP_VISION))
+                {
+                    list.Add(((XraySettings)this).VLESS_XHTTP_Port);
+                }
+
+                if (Types.Contains(RayType.VLESS_XHTTP_REALITY))
+                {
+                    list.Add(((XraySettings)this).VLESS_XHTTP_REALITY_Port);
+                }
+
+                if (Types.Contains(RayType.WireGuard))
+                {
+                    list.Add(((XraySettings)this).WireGuard_Port);
+                }
+
+                if (Types.Contains(RayType.Hysteria))
+                {
+                    list.Add(((XraySettings)this).Hysteria_Port);
+                }
+
                 return list.Distinct().ToList();
             }
         }
