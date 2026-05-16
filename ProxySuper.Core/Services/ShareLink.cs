@@ -223,6 +223,20 @@ namespace ProxySuper.Core.Services
                     _port = settings.VLESS_gRPC_Port;
                     _descriptiveText = "vless-gRPC";
                     break;
+                case RayType.VLESS_XHTTP_VISION:
+                    _protocol = "vless";
+                    _type = "xhttp";
+                    _security = "tls";
+                    _port = ((XraySettings)settings).VLESS_XHTTP_Port;
+                    _descriptiveText = "vless-xhttp-vision";
+                    break;
+                case RayType.VLESS_XHTTP_REALITY:
+                    _protocol = "vless";
+                    _type = "xhttp";
+                    _security = "reality";
+                    _port = ((XraySettings)settings).VLESS_XHTTP_REALITY_Port;
+                    _descriptiveText = "vless-xhttp-reality";
+                    break;
                 case RayType.Trojan_TCP:
                     _protocol = "trojan";
                     _uuid = settings.TrojanPassword;
