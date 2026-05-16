@@ -79,6 +79,8 @@ namespace ProxySuper.Core.Services
                 case RayType.VLESS_WS:
                 case RayType.VLESS_KCP:
                 case RayType.VLESS_gRPC:
+                case RayType.VLESS_XHTTP_VISION:
+                case RayType.VLESS_XHTTP_REALITY:
                 case RayType.Trojan_TCP:
                     return BuildVlessShareLink(xrayType, settings);
                 case RayType.VMESS_TCP:
@@ -87,6 +89,10 @@ namespace ProxySuper.Core.Services
                     return BuildVmessShareLink(xrayType, settings);
                 case RayType.ShadowsocksAEAD:
                     return BuildShadowSocksShareLink(settings);
+                case RayType.WireGuard:
+                    return BuildWireGuardShareLink(settings);
+                case RayType.Hysteria:
+                    return BuildHysteriaShareLink(settings);
                 default:
                     return string.Empty;
             }
@@ -148,6 +154,24 @@ namespace ProxySuper.Core.Services
 
             var base64Url = Utils.Base64Encode(JsonConvert.SerializeObject(vmess));
             return $"vmess://" + base64Url;
+        }
+
+        private static string BuildWireGuardShareLink(V2raySettings settings)
+        {
+            // WireGuard share links are not standard, so we return a manual format
+            var _server = settings.Domain;
+            var _port = settings.WireGuard_Port;
+            var _uuid = settings.UUID;
+            return $"wireguard://{_uuid}@{_server}:{_port}#WireGuard";
+        }
+
+        private static string BuildHysteriaShareLink(V2raySettings settings)
+        {
+            // hysteria share links use hysteria:// or hysteria2:// format
+            var _server = settings.Domain;
+            var _port = settings.Hysteria_Port;
+            var _auth = settings.Hysteria_Auth;
+            return $"hysteria://{_auth}@{_server}:{_port}#Hysteria";
         }
 
         private static string BuildVlessShareLink(RayType xrayType, V2raySettings settings)
