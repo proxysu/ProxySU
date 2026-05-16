@@ -1,0 +1,16 @@
+{
+  "port": 51820,
+  "protocol": "wireguard",
+  "settings": {
+    "mtu": 1280,
+    "secretKey": "",
+    "peers": [
+      {
+        "publicKey": "",
+        "endpoint": "",
+        "allowedIPs": "10.0.0.2/32"
+      }
+    ],
+    "kernelMode": false
+  }
+}
