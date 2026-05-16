@@ -1,0 +1,15 @@
+{
+  "port": 9120,
+  "protocol": "hysteria",
+  "settings": {
+    "up": "100 Mbps",
+    "down": "500 Mbps",
+    "auth": {
+      "type": "password",
+      "password": ""
+    },
+    "recvWindowConn": 0,
+    "recvWindow": 0,
+    "mtu": 1280
+  }
+}
