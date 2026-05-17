@@ -63,7 +63,7 @@ jobs:
         }
         
         Write-Host "Using MSBuild: $msbuild"
-        & "$msbuild" $env:SOLUTION /p:Configuration=$env:CONFIGURATION /p:Platform="AnyCPU" /p:OutputPath=bin\Release\ /p:BaseIntermediateOutputPath=obj\ /v:m /nologo
+        & "$msbuild" $env:SOLUTION /p:Configuration=$env:CONFIGURATION /p:Platform="Any CPU" /p:OutputPath=bin\Release\ /p:BaseIntermediateOutputPath=obj\ /v:m /nologo
 
     - name: Find built files
       if: success()
