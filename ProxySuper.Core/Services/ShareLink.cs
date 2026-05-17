@@ -198,7 +198,7 @@ namespace ProxySuper.Core.Services
                 case SingBoxType.SingBox_Hysteria:
                     return $"hysteria://{settings.Hysteria_Auth}@{settings.Domain}:{settings.Hysteria_Port}#SingBox-Hysteria";
                 case SingBoxType.SingBox_Hysteria2:
-                    return $"hysteria://{settings.Hysteria2_Auth}@{settings.Domain}:{settings.Hysteria2_Port}#SingBox-Hysteria2";
+                    return $"hysteria2://{settings.Hysteria2_Auth}@{settings.Domain}:{settings.Hysteria2_Port}#SingBox-Hysteria2";
                 case SingBoxType.SingBox_TUIC:
                     return $"tuic://{settings.TUIC_UUID}:{settings.TUIC_Password}@{settings.Domain}:{settings.TUIC_Port}#SingBox-TUIC";
                 case SingBoxType.SingBox_NaiveProxy:

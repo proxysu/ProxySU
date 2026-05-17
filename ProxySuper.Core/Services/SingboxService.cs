@@ -46,7 +46,7 @@ namespace ProxySuper.Core.Services
 
                     Progress.Step = $"{index++}. 检测网络环境";
                     EnsureNetwork();
-                    if (Settings.IsIPAddress)
+                    if (!Settings.IsIPAddress)
                     {
                         Progress.Desc = "检查域名是否解析正确";
                         ValidateDomain();
@@ -102,7 +102,7 @@ namespace ProxySuper.Core.Services
             }
 
             // Download sing-box from official releases
-            var version = "1.9.4"; // Latest stable version as of 2024
+            var version = "1.11.2"; // Latest stable version as of 2026
             var downloadUrl = $"https://github.com/SagerNet/sing-box/releases/download/v{version}/sing-box-{version}-linux-{arch}.tar.gz";
 
             Progress.Desc = "正在下载 Sing-Box...";
@@ -130,6 +130,22 @@ namespace ProxySuper.Core.Services
         {
             Progress.Desc = "正在启动 Sing-Box...";
 
+            // Open firewall ports before starting the service
+            foreach (var port in Settings.FreePorts)
+            {
+                RunCmd($"firewall-cmd --permanent --add-port={port}/tcp");
+                RunCmd($"firewall-cmd --permanent --add-port={port}/udp");
+            }
+            RunCmd("firewall-cmd --reload");
+
+            // Generate self-signed TLS certificate if TLS is enabled
+            if (Settings.WithTLS)
+            {
+                Progress.Desc = "正在生成自签名 TLS 证书...";
+                RunCmd("mkdir -p /etc/sing-box");
+                RunCmd($"openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/sing-box/key.pem -out /etc/sing-box/cert.pem -subj \"/CN={Settings.Domain}\"");
+            }
+
             // Create systemd service
             var serviceContent = @" [Unit]
 Description=sing-box service
@@ -150,13 +166,6 @@ WantedBy=multi-user.target";
             RunCmd("systemctl daemon-reload");
             RunCmd("systemctl enable sing-box");
             RunCmd("systemctl restart sing-box");
-
-            // Open firewall ports
-            foreach (var port in Settings.FreePorts)
-            {
-                RunCmd($"firewall-cmd --permanent --add-port={port}/tcp");
-            }
-            RunCmd("firewall-cmd --reload");
         }
 
         public void Uninstall()
