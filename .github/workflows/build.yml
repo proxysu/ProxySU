@@ -82,7 +82,7 @@ jobs:
         New-Item -ItemType Directory -Force -Path publish | Out-Null
         Get-ChildItem -Path "." -Directory -Recurse -Filter "Release" | ForEach-Object {
             $releasePath = $_.FullName
-            Get-ChildItem -Path $releasePath -Filter "*.exe" -Recurse | ForEach-Object {
+            Get-ChildItem -Path $releasePath -Recurse | ForEach-Object {
                 Copy-Item -Path $_.FullName -Destination "publish\" -Force
             }
         }
