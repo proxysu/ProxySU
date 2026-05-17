@@ -121,6 +121,10 @@
     <Compile Include="ViewModels\XrayConfigViewModel.cs" />
     <Compile Include="ViewModels\XrayEditorViewModel.cs" />
     <Compile Include="ViewModels\XrayInstallViewModel.cs" />
+    <Compile Include="Models\Projects\SingboxSettings.cs" />
+    <Compile Include="Models\Projects\SingBoxType.cs" />
+    <Compile Include="Services\SingboxConfigBuilder.cs" />
+    <Compile Include="Services\SingboxService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
