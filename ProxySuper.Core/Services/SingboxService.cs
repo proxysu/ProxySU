@@ -1,4 +1,5 @@
 using ProxySuper.Core.Helpers;
+using ProxySuper.Core.Models.Hosts;
 using ProxySuper.Core.Models.Projects;
 using System;
 using System.Threading.Tasks;
