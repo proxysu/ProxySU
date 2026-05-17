@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace ProxySuper.Core.ViewModels
 {
-    public class SingboxEditorViewModel : MvxViewModel<Record, Record>
+    public partial class SingboxEditorViewModel : MvxViewModel<Record, Record>
     {
         public SingboxEditorViewModel(IMvxNavigationService navigationService)
         {
