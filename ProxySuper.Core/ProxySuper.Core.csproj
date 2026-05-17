@@ -126,6 +126,9 @@
     <Compile Include="Models\Projects\SingBoxType.cs" />
     <Compile Include="Services\SingboxConfigBuilder.cs" />
     <Compile Include="Services\SingboxService.cs" />
+    <Compile Include="ViewModels\SingboxConfigViewModel.cs" />
+    <Compile Include="ViewModels\SingboxEditorViewModel.cs" />
+    <Compile Include="ViewModels\SingboxInstallViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

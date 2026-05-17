@@ -87,6 +87,9 @@
     <Compile Include="Controls\Trojan_TCP_Control.xaml.cs">
       <DependentUpon>Trojan_TCP_Control.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SingboxSettingsControl.xaml.cs">
+      <DependentUpon>SingboxSettingsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\V2raySettingsControl.xaml.cs">
       <DependentUpon>V2raySettingsControl.xaml</DependentUpon>
     </Compile>
@@ -183,6 +186,15 @@
     <Compile Include="Views\Xray\XrayInstallView.xaml.cs">
       <DependentUpon>XrayInstallView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Singbox\SingboxConfigView.xaml.cs">
+      <DependentUpon>SingboxConfigView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Singbox\SingboxEditorView.xaml.cs">
+      <DependentUpon>SingboxEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Singbox\SingboxInstallView.xaml.cs">
+      <DependentUpon>SingboxInstallView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Controls\HostControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -200,6 +212,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\V2raySettingsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SingboxSettingsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -348,6 +364,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Xray\XrayInstallView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Singbox\SingboxConfigView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Singbox\SingboxEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Singbox\SingboxInstallView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

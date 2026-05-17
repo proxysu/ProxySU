@@ -51,6 +51,9 @@ namespace ProxySuper.Core.Models
         [JsonProperty("mtProtoGoSettings")]
         public MTProtoGoSettings MTProtoGoSettings { get; set; }
 
+        [JsonProperty("singboxSettings")]
+        public SingboxSettings SingboxSettings { get; set; }
+
 
         [JsonIgnore]
         public ProjectType Type
@@ -64,6 +67,8 @@ namespace ProxySuper.Core.Models
                 if (TrojanGoSettings != null) return ProjectType.TrojanGo;
 
                 if (NaiveProxySettings != null) return ProjectType.NaiveProxy;
+
+                if (SingboxSettings != null) return ProjectType.SingBox;
 
                 if (MTProtoGoSettings != null) return ProjectType.MTProtoGo;
 
@@ -120,6 +125,17 @@ namespace ProxySuper.Core.Models
             if (Type == ProjectType.NaiveProxy)
             {
                 return ShareLink.BuildNaiveProxy(NaiveProxySettings);
+            }
+
+            if (Type == ProjectType.SingBox)
+            {
+                StringBuilder strBuilder = new StringBuilder();
+                SingboxSettings.Types.ForEach(type =>
+                {
+                    var link = ShareLink.BuildSingBoxShareLink(type, SingboxSettings);
+                    strBuilder.AppendLine(link);
+                });
+                return strBuilder.ToString();
             }
 
             return string.Empty;

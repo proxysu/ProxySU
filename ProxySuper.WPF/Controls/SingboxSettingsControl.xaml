@@ -1,0 +1,496 @@
+<UserControl x:Class="ProxySuper.WPF.Controls.SingboxSettingsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProxySuper.WPF.Controls"
+             xmlns:convert="clr-namespace:ProxySuper.Core.Converters;assembly=ProxySuper.Core"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800">
+    <UserControl.Resources>
+        <convert:VisibleConverter x:Key="VisibleConverter" />
+    </UserControl.Resources>
+
+    <StackPanel Orientation="Horizontal">
+
+        <!-- =========================协议列表框========================= -->
+        <StackPanel Width="220">
+            <!-- VLESS 组（绿色） -->
+            <CheckBox Margin="0,10,0,0"
+                      VerticalContentAlignment="Center"
+                      IsChecked="{Binding Path=Checked_VLESS_TCP}">
+                <Label Content="VLESS TCP" FontSize="13" Foreground="LimeGreen" />
+            </CheckBox>
+            <CheckBox Margin="0,10,0,0"
+                      VerticalContentAlignment="Center"
+                      IsChecked="{Binding Path=Checked_VLESS_WS}">
+                <Label Content="VLESS WS" FontSize="13" Foreground="LimeGreen" />
+            </CheckBox>
+            <CheckBox Margin="0,10,0,0"
+                      VerticalContentAlignment="Center"
+                      IsChecked="{Binding Path=Checked_VLESS_gRPC}">
+                <Label Content="VLESS gRPC" FontSize="13" Foreground="LimeGreen" />
+            </CheckBox>
+
+            <!-- VMESS 组（蓝色） -->
+            <CheckBox Margin="0,10,0,0"
+                      VerticalContentAlignment="Center"
+                      IsChecked="{Binding Path=Checked_VMESS_TCP}">
+                <Label Content="VMESS TCP" FontSize="13" Foreground="Blue" />
+            </CheckBox>
+            <CheckBox Margin="0,10,0,0"
+                      VerticalContentAlignment="Center"
+                      IsChecked="{Binding Path=Checked_VMESS_WS}">
+                <Label Content="VMESS WS" FontSize="13" Foreground="Blue" />
+            </CheckBox>
+            <CheckBox Margin="0,10,0,0"
+                      VerticalContentAlignment="Center"
+                      IsChecked="{Binding Path=Checked_VMESS_HTTP}">
+                <Label Content="VMESS HTTP" FontSize="13" Foreground="Blue" />
+            </CheckBox>
+
+            <!-- Trojan（青绿） -->
+            <CheckBox Margin="0,10,0,0"
+                      VerticalContentAlignment="Center"
+                      IsChecked="{Binding Path=Checked_Trojan}">
+                <Label Content="Trojan" FontSize="13" Foreground="CadetBlue" />
+            </CheckBox>
+
+            <!-- Shadowsocks（紫色） -->
+            <CheckBox Margin="0,10,0,0"
+                      VerticalContentAlignment="Center"
+                      IsChecked="{Binding Path=Checked_Shadowsocks}">
+                <Label Content="Shadowsocks" FontSize="13" Foreground="Fuchsia" />
+            </CheckBox>
+            <CheckBox Margin="0,10,0,0"
+                      VerticalContentAlignment="Center"
+                      IsChecked="{Binding Path=Checked_Shadowsocks_2022}">
+                <Label Content="Shadowsocks 2022" FontSize="13" Foreground="Fuchsia" />
+            </CheckBox>
+
+            <!-- WireGuard（橙色） -->
+            <CheckBox Margin="0,10,0,0"
+                      VerticalContentAlignment="Center"
+                      IsChecked="{Binding Path=Checked_WireGuard}">
+                <Label Content="WireGuard" FontSize="13" Foreground="Orange" />
+            </CheckBox>
+
+            <!-- Hysteria（红色） -->
+            <CheckBox Margin="0,10,0,0"
+                      VerticalContentAlignment="Center"
+                      IsChecked="{Binding Path=Checked_Hysteria}">
+                <Label Content="Hysteria" FontSize="13" Foreground="Red" />
+            </CheckBox>
+            <CheckBox Margin="0,10,0,0"
+                      VerticalContentAlignment="Center"
+                      IsChecked="{Binding Path=Checked_Hysteria2}">
+                <Label Content="Hysteria2" FontSize="13" Foreground="Red" />
+            </CheckBox>
+
+            <!-- TUIC（粉色） -->
+            <CheckBox Margin="0,10,0,0"
+                      VerticalContentAlignment="Center"
+                      IsChecked="{Binding Path=Checked_TUIC}">
+                <Label Content="TUIC" FontSize="13" Foreground="Pink" />
+            </CheckBox>
+
+            <!-- NaiveProxy（深蓝） -->
+            <CheckBox Margin="0,10,0,0"
+                      VerticalContentAlignment="Center"
+                      IsChecked="{Binding Path=Checked_NaiveProxy}">
+                <Label Content="NaiveProxy" FontSize="13" Foreground="DarkBlue" />
+            </CheckBox>
+
+            <!-- ShadowTLS（灰色） -->
+            <CheckBox Margin="0,10,0,0"
+                      VerticalContentAlignment="Center"
+                      IsChecked="{Binding Path=Checked_ShadowTLS}">
+                <Label Content="ShadowTLS" FontSize="13" Foreground="Gray" />
+            </CheckBox>
+
+            <!-- SOCKS / HTTP（褐色） -->
+            <CheckBox Margin="0,10,0,0"
+                      VerticalContentAlignment="Center"
+                      IsChecked="{Binding Path=Checked_SOCKS}">
+                <Label Content="SOCKS" FontSize="13" Foreground="SaddleBrown" />
+            </CheckBox>
+            <CheckBox Margin="0,10,0,0"
+                      VerticalContentAlignment="Center"
+                      IsChecked="{Binding Path=Checked_HTTP}">
+                <Label Content="HTTP" FontSize="13" Foreground="SaddleBrown" />
+            </CheckBox>
+        </StackPanel>
+
+        <!-- =========================参数面板========================= -->
+        <StackPanel>
+
+            <!-- 域名 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal">
+                <Label Content="域名" Width="120" />
+                <TextBox Text="{Binding Path=Settings.Domain}" Width="200" />
+            </StackPanel>
+
+            <!-- 端口 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal">
+                <Label Content="端口" Width="120" />
+                <TextBox Text="{Binding Path=Settings.Port}" Width="120" />
+                <Label Content="(默认 443)" Foreground="Gray" Margin="5,0,0,0" />
+            </StackPanel>
+
+            <!-- 启用 TLS -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal">
+                <Label Content="启用 TLS" Width="120" />
+                <CheckBox IsChecked="{Binding Path=Settings.WithTLS}" 
+                          VerticalContentAlignment="Center"
+                          VerticalAlignment="Center" />
+            </StackPanel>
+
+            <!-- UUID -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal">
+                <Label Content="UUID" Width="120" />
+                <TextBox Text="{Binding Path=Settings.UUID}" Width="200" />
+            </StackPanel>
+
+            <!-- VLESS WS 端口 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_VLESS_WS, Converter={StaticResource VisibleConverter}}">
+                <Label Content="VLESS WS 端口" Width="120" Foreground="LimeGreen" />
+                <TextBox Text="{Binding Path=Settings.VLESS_WS_Port}" Width="120" />
+            </StackPanel>
+
+            <!-- VLESS WS 路径 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_VLESS_WS, Converter={StaticResource VisibleConverter}}">
+                <Label Content="VLESS WS 路径" Width="120" Foreground="LimeGreen" />
+                <TextBox Text="{Binding Path=Settings.VLESS_WS_Path}" Width="200" />
+            </StackPanel>
+
+            <!-- VLESS gRPC 端口 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_VLESS_gRPC, Converter={StaticResource VisibleConverter}}">
+                <Label Content="VLESS gRPC 端口" Width="120" Foreground="LimeGreen" />
+                <TextBox Text="{Binding Path=Settings.VLESS_gRPC_Port}" Width="120" />
+            </StackPanel>
+
+            <!-- VLESS gRPC 服务名 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_VLESS_gRPC, Converter={StaticResource VisibleConverter}}">
+                <Label Content="gRPC 服务名" Width="120" Foreground="LimeGreen" />
+                <TextBox Text="{Binding Path=Settings.VLESS_gRPC_ServiceName}" Width="200" />
+            </StackPanel>
+
+            <!-- VMESS WS 端口 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_VMESS_WS, Converter={StaticResource VisibleConverter}}">
+                <Label Content="VMESS WS 端口" Width="120" Foreground="Blue" />
+                <TextBox Text="{Binding Path=Settings.VMESS_WS_Port}" Width="120" />
+            </StackPanel>
+
+            <!-- VMESS WS 路径 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_VMESS_WS, Converter={StaticResource VisibleConverter}}">
+                <Label Content="VMESS WS 路径" Width="120" Foreground="Blue" />
+                <TextBox Text="{Binding Path=Settings.VMESS_WS_Path}" Width="200" />
+            </StackPanel>
+
+            <!-- VMESS HTTP 端口 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_VMESS_HTTP, Converter={StaticResource VisibleConverter}}">
+                <Label Content="VMESS HTTP 端口" Width="120" Foreground="Blue" />
+                <TextBox Text="{Binding Path=Settings.VMESS_HTTP_Port}" Width="120" />
+            </StackPanel>
+
+            <!-- Trojan 密码 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_Trojan, Converter={StaticResource VisibleConverter}}">
+                <Label Content="Trojan 密码" Width="120" Foreground="CadetBlue" />
+                <TextBox Text="{Binding Path=Settings.Trojan_Password}" Width="200" />
+            </StackPanel>
+
+            <!-- Trojan 端口 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_Trojan, Converter={StaticResource VisibleConverter}}">
+                <Label Content="Trojan 端口" Width="120" Foreground="CadetBlue" />
+                <TextBox Text="{Binding Path=Settings.Trojan_Port}" Width="120" />
+            </StackPanel>
+
+            <!-- Shadowsocks 密码 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_Shadowsocks, Converter={StaticResource VisibleConverter}}">
+                <Label Content="SS 密码" Width="120" Foreground="Fuchsia" />
+                <TextBox Text="{Binding Path=Settings.Shadowsocks_Password}" Width="200" />
+            </StackPanel>
+
+            <!-- Shadowsocks 方法 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_Shadowsocks, Converter={StaticResource VisibleConverter}}">
+                <Label Content="SS 加密方式" Width="120" Foreground="Fuchsia" />
+                <TextBox Text="{Binding Path=Settings.Shadowsocks_Method}" Width="200" />
+            </StackPanel>
+
+            <!-- Shadowsocks 端口 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_Shadowsocks, Converter={StaticResource VisibleConverter}}">
+                <Label Content="SS 端口" Width="120" Foreground="Fuchsia" />
+                <TextBox Text="{Binding Path=Settings.Shadowsocks_Port}" Width="120" />
+            </StackPanel>
+
+            <!-- Shadowsocks 2022 密码 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_Shadowsocks_2022, Converter={StaticResource VisibleConverter}}">
+                <Label Content="SS2022 密码" Width="120" Foreground="Fuchsia" />
+                <TextBox Text="{Binding Path=Settings.Shadowsocks_2022_Password}" Width="200" />
+            </StackPanel>
+
+            <!-- Shadowsocks 2022 方法 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_Shadowsocks_2022, Converter={StaticResource VisibleConverter}}">
+                <Label Content="SS2022 加密方式" Width="120" Foreground="Fuchsia" />
+                <TextBox Text="{Binding Path=Settings.Shadowsocks_2022_Method}" Width="200" />
+            </StackPanel>
+
+            <!-- Shadowsocks 2022 端口 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_Shadowsocks_2022, Converter={StaticResource VisibleConverter}}">
+                <Label Content="SS2022 端口" Width="120" Foreground="Fuchsia" />
+                <TextBox Text="{Binding Path=Settings.Shadowsocks_2022_Port}" Width="120" />
+            </StackPanel>
+
+            <!-- WireGuard 端口 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_WireGuard, Converter={StaticResource VisibleConverter}}">
+                <Label Content="WireGuard 端口" Width="120" Foreground="Orange" />
+                <TextBox Text="{Binding Path=Settings.WireGuard_Port}" Width="120" />
+            </StackPanel>
+
+            <!-- WireGuard 私钥 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_WireGuard, Converter={StaticResource VisibleConverter}}">
+                <Label Content="WireGuard 私钥" Width="120" Foreground="Orange" />
+                <TextBox Text="{Binding Path=Settings.WireGuard_PrivateKey}" Width="200" />
+            </StackPanel>
+
+            <!-- WireGuard 公钥 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_WireGuard, Converter={StaticResource VisibleConverter}}">
+                <Label Content="WireGuard 公钥" Width="120" Foreground="Orange" />
+                <TextBox Text="{Binding Path=Settings.WireGuard_PublicKey}" Width="200" />
+            </StackPanel>
+
+            <!-- WireGuard Peer 公钥 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_WireGuard, Converter={StaticResource VisibleConverter}}">
+                <Label Content="Peer 公钥" Width="120" Foreground="Orange" />
+                <TextBox Text="{Binding Path=Settings.WireGuard_Peer_PublicKey}" Width="200" />
+            </StackPanel>
+
+            <!-- WireGuard Peer IP -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_WireGuard, Converter={StaticResource VisibleConverter}}">
+                <Label Content="Peer IP" Width="120" Foreground="Orange" />
+                <TextBox Text="{Binding Path=Settings.WireGuard_Peer_IP}" Width="200" />
+            </StackPanel>
+
+            <!-- WireGuard MTU -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_WireGuard, Converter={StaticResource VisibleConverter}}">
+                <Label Content="MTU" Width="120" Foreground="Orange" />
+                <TextBox Text="{Binding Path=Settings.WireGuard_MTU}" Width="120" />
+            </StackPanel>
+
+            <!-- Hysteria 端口 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_Hysteria, Converter={StaticResource VisibleConverter}}">
+                <Label Content="Hysteria 端口" Width="120" Foreground="Red" />
+                <TextBox Text="{Binding Path=Settings.Hysteria_Port}" Width="120" />
+            </StackPanel>
+
+            <!-- Hysteria 认证 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_Hysteria, Converter={StaticResource VisibleConverter}}">
+                <Label Content="Hysteria 认证" Width="120" Foreground="Red" />
+                <TextBox Text="{Binding Path=Settings.Hysteria_Auth}" Width="200" />
+            </StackPanel>
+
+            <!-- Hysteria 上行 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_Hysteria, Converter={StaticResource VisibleConverter}}">
+                <Label Content="Hysteria 上行" Width="120" Foreground="Red" />
+                <TextBox Text="{Binding Path=Settings.Hysteria_Up}" Width="120" />
+            </StackPanel>
+
+            <!-- Hysteria 下行 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_Hysteria, Converter={StaticResource VisibleConverter}}">
+                <Label Content="Hysteria 下行" Width="120" Foreground="Red" />
+                <TextBox Text="{Binding Path=Settings.Hysteria_Down}" Width="120" />
+            </StackPanel>
+
+            <!-- Hysteria2 端口 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_Hysteria2, Converter={StaticResource VisibleConverter}}">
+                <Label Content="Hysteria2 端口" Width="120" Foreground="Red" />
+                <TextBox Text="{Binding Path=Settings.Hysteria2_Port}" Width="120" />
+            </StackPanel>
+
+            <!-- Hysteria2 认证 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_Hysteria2, Converter={StaticResource VisibleConverter}}">
+                <Label Content="Hysteria2 认证" Width="120" Foreground="Red" />
+                <TextBox Text="{Binding Path=Settings.Hysteria2_Auth}" Width="200" />
+            </StackPanel>
+
+            <!-- Hysteria2 上行 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_Hysteria2, Converter={StaticResource VisibleConverter}}">
+                <Label Content="Hysteria2 上行" Width="120" Foreground="Red" />
+                <TextBox Text="{Binding Path=Settings.Hysteria2_Up}" Width="120" />
+            </StackPanel>
+
+            <!-- Hysteria2 下行 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_Hysteria2, Converter={StaticResource VisibleConverter}}">
+                <Label Content="Hysteria2 下行" Width="120" Foreground="Red" />
+                <TextBox Text="{Binding Path=Settings.Hysteria2_Down}" Width="120" />
+            </StackPanel>
+
+            <!-- TUIC 端口 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_TUIC, Converter={StaticResource VisibleConverter}}">
+                <Label Content="TUIC 端口" Width="120" Foreground="Pink" />
+                <TextBox Text="{Binding Path=Settings.TUIC_Port}" Width="120" />
+            </StackPanel>
+
+            <!-- TUIC UUID -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_TUIC, Converter={StaticResource VisibleConverter}}">
+                <Label Content="TUIC UUID" Width="120" Foreground="Pink" />
+                <TextBox Text="{Binding Path=Settings.TUIC_UUID}" Width="200" />
+            </StackPanel>
+
+            <!-- TUIC 密码 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_TUIC, Converter={StaticResource VisibleConverter}}">
+                <Label Content="TUIC 密码" Width="120" Foreground="Pink" />
+                <TextBox Text="{Binding Path=Settings.TUIC_Password}" Width="200" />
+            </StackPanel>
+
+            <!-- NaiveProxy 端口 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_NaiveProxy, Converter={StaticResource VisibleConverter}}">
+                <Label Content="NaiveProxy 端口" Width="120" Foreground="DarkBlue" />
+                <TextBox Text="{Binding Path=Settings.NaiveProxy_Port}" Width="120" />
+            </StackPanel>
+
+            <!-- NaiveProxy 用户名 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_NaiveProxy, Converter={StaticResource VisibleConverter}}">
+                <Label Content="NaiveProxy 用户" Width="120" Foreground="DarkBlue" />
+                <TextBox Text="{Binding Path=Settings.NaiveProxy_User}" Width="200" />
+            </StackPanel>
+
+            <!-- NaiveProxy 密码 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_NaiveProxy, Converter={StaticResource VisibleConverter}}">
+                <Label Content="NaiveProxy 密码" Width="120" Foreground="DarkBlue" />
+                <TextBox Text="{Binding Path=Settings.NaiveProxy_Password}" Width="200" />
+            </StackPanel>
+
+            <!-- ShadowTLS 端口 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_ShadowTLS, Converter={StaticResource VisibleConverter}}">
+                <Label Content="ShadowTLS 端口" Width="120" Foreground="Gray" />
+                <TextBox Text="{Binding Path=Settings.ShadowTLS_Port}" Width="120" />
+            </StackPanel>
+
+            <!-- ShadowTLS 密码 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_ShadowTLS, Converter={StaticResource VisibleConverter}}">
+                <Label Content="ShadowTLS 密码" Width="120" Foreground="Gray" />
+                <TextBox Text="{Binding Path=Settings.ShadowTLS_Password}" Width="200" />
+            </StackPanel>
+
+            <!-- ShadowTLS 目标站点 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_ShadowTLS, Converter={StaticResource VisibleConverter}}">
+                <Label Content="ShadowTLS 目标" Width="120" Foreground="Gray" />
+                <TextBox Text="{Binding Path=Settings.ShadowTLS_Dest}" Width="200" />
+            </StackPanel>
+
+            <!-- SOCKS 端口 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_SOCKS, Converter={StaticResource VisibleConverter}}">
+                <Label Content="SOCKS 端口" Width="120" Foreground="SaddleBrown" />
+                <TextBox Text="{Binding Path=Settings.SOCKS_Port}" Width="120" />
+            </StackPanel>
+
+            <!-- SOCKS 用户名 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_SOCKS, Converter={StaticResource VisibleConverter}}">
+                <Label Content="SOCKS 用户" Width="120" Foreground="SaddleBrown" />
+                <TextBox Text="{Binding Path=Settings.SOCKS_User}" Width="200" />
+            </StackPanel>
+
+            <!-- SOCKS 密码 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_SOCKS, Converter={StaticResource VisibleConverter}}">
+                <Label Content="SOCKS 密码" Width="120" Foreground="SaddleBrown" />
+                <TextBox Text="{Binding Path=Settings.SOCKS_Password}" Width="200" />
+            </StackPanel>
+
+            <!-- HTTP 端口 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_HTTP, Converter={StaticResource VisibleConverter}}">
+                <Label Content="HTTP 端口" Width="120" Foreground="SaddleBrown" />
+                <TextBox Text="{Binding Path=Settings.HTTP_Port}" Width="120" />
+            </StackPanel>
+
+        </StackPanel>
+    </StackPanel>
+</UserControl>

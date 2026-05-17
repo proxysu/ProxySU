@@ -108,6 +108,8 @@ namespace ProxySuper.Core.ViewModels
 
         public IMvxCommand AddBrookCommand => new MvxAsyncCommand(AddBrookRecord);
 
+        public IMvxCommand AddSingBoxCommand => new MvxAsyncCommand(AddSingBoxRecord);
+
         public IMvxCommand RemoveCommand => new MvxAsyncCommand<string>(DeleteRecord);
 
         public IMvxCommand EditCommand => new MvxAsyncCommand<string>(EditRecord);
@@ -204,6 +206,21 @@ namespace ProxySuper.Core.ViewModels
             SaveToJson();
         }
 
+        public async Task AddSingBoxRecord()
+        {
+            Record record = new Record();
+            record.Id = Utils.GetTickID();
+            record.Host = new Host();
+            record.SingboxSettings = new SingboxSettings();
+
+            var result = await _navigationService.Navigate<SingboxEditorViewModel, Record, Record>(record);
+            if (result == null) return;
+
+            Records.Add(result);
+
+            SaveToJson();
+        }
+
 
         public async Task EditRecord(string id)
         {
@@ -259,6 +276,14 @@ namespace ProxySuper.Core.ViewModels
                 record.Host = result.Host;
                 record.MTProtoGoSettings = result.MTProtoGoSettings;
             }
+            if (record.Type == ProjectType.SingBox)
+            {
+                result = await _navigationService.Navigate<SingboxEditorViewModel, Record, Record>(record);
+                if (result == null) return;
+
+                record.Host = result.Host;
+                record.SingboxSettings = result.SingboxSettings;
+            }
 
             SaveToJson();
         }
@@ -307,6 +332,10 @@ namespace ProxySuper.Core.ViewModels
             {
                 await _navigationService.Navigate<MTProtoGoConfigViewModel, MTProtoGoSettings>(record.MTProtoGoSettings);
             }
+            if (record.Type == ProjectType.SingBox)
+            {
+                await _navigationService.Navigate<SingboxConfigViewModel, SingboxSettings>(record.SingboxSettings);
+            }
         }
 
         public async Task GoToInstall(string id)
@@ -338,6 +367,10 @@ namespace ProxySuper.Core.ViewModels
             if (record.Type == ProjectType.MTProtoGo)
             {
                 await _navigationService.Navigate<MTProtoGoInstallViewModel, Record>(record);
+            }
+            if (record.Type == ProjectType.SingBox)
+            {
+                await _navigationService.Navigate<SingboxInstallViewModel, Record>(record);
             }
 
             SaveToJson();
