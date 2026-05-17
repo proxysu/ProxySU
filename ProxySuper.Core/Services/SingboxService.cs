@@ -158,5 +158,38 @@ WantedBy=multi-user.target";
             }
             RunCmd("firewall-cmd --reload");
         }
+
+        public void Uninstall()
+        {
+            Task.Factory.StartNew(() =>
+            {
+                try
+                {
+                    Progress.Step = "卸载 Sing-Box";
+                    Progress.Percentage = 0;
+
+                    Progress.Desc = "停止 Sing-Box 服务";
+                    RunCmd("systemctl stop sing-box");
+                    RunCmd("systemctl disable sing-box");
+                    Progress.Percentage = 30;
+
+                    Progress.Desc = "删除 Sing-Box 相关文件";
+                    RunCmd("rm -rf /etc/systemd/system/sing-box.service");
+                    RunCmd("rm -rf /usr/local/bin/sing-box");
+                    RunCmd("rm -rf /etc/sing-box");
+                    Progress.Percentage = 80;
+
+                    Progress.Desc = "重置防火墙设置";
+                    ResetFirewalld();
+
+                    Progress.Percentage = 100;
+                    Progress.Desc = "卸载完成";
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            });
+        }
     }
 }
