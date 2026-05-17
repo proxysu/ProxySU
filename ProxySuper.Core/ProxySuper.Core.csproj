@@ -85,6 +85,7 @@
     <Compile Include="Models\Projects\V2raySettings.cs" />
     <Compile Include="Models\Projects\V2raySettings_VMESS.cs" />
     <Compile Include="Models\Projects\XraySettings.cs" />
+    <Compile Include="Models\Projects\XraySettings_Extensions.cs" />
     <Compile Include="Models\Projects\RayType.cs" />
     <Compile Include="Models\Record.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

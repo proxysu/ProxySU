@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProxySuper.Core.Models.Projects
 {
-    public class XraySettings : V2raySettings
+    public partial class XraySettings : V2raySettings
     {
         /// <summary>
         /// vless xtls shareLink

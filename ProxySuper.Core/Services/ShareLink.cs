@@ -90,9 +90,9 @@ namespace ProxySuper.Core.Services
                 case RayType.ShadowsocksAEAD:
                     return BuildShadowSocksShareLink(settings);
                 case RayType.WireGuard:
-                    return BuildWireGuardShareLink(settings);
+                    return BuildWireGuardShareLink((XraySettings)settings);
                 case RayType.Hysteria:
-                    return BuildHysteriaShareLink(settings);
+                    return BuildHysteriaShareLink((XraySettings)settings);
                 default:
                     return string.Empty;
             }
@@ -156,7 +156,7 @@ namespace ProxySuper.Core.Services
             return $"vmess://" + base64Url;
         }
 
-        private static string BuildWireGuardShareLink(V2raySettings settings)
+        private static string BuildWireGuardShareLink(XraySettings settings)
         {
             // WireGuard share links are not standard, so we return a manual format
             var _server = settings.Domain;
@@ -165,7 +165,7 @@ namespace ProxySuper.Core.Services
             return $"wireguard://{_uuid}@{_server}:{_port}#WireGuard";
         }
 
-        private static string BuildHysteriaShareLink(V2raySettings settings)
+        private static string BuildHysteriaShareLink(XraySettings settings)
         {
             // hysteria share links use hysteria:// or hysteria2:// format
             var _server = settings.Domain;
