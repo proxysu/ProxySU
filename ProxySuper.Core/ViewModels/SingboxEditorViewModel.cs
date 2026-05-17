@@ -116,6 +116,16 @@ namespace ProxySuper.Core.ViewModels
             }
         }
 
+        public bool Checked_VLESS_XHTTP_REALITY
+        {
+            get => Settings.Types.Contains(SingBoxType.SingBox_VLESS_XHTTP_REALITY);
+            set
+            {
+                CheckBoxChanged(value, SingBoxType.SingBox_VLESS_XHTTP_REALITY);
+                RaisePropertyChanged("Checked_VLESS_XHTTP_REALITY");
+            }
+        }
+
         // ==================== VMESS（蓝色） ====================
 
         public bool Checked_VMESS_TCP

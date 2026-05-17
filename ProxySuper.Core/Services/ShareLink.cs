@@ -185,6 +185,8 @@ namespace ProxySuper.Core.Services
                     return $"vless://{settings.UUID}@{settings.Domain}:{settings.VLESS_WS_Port}?encryption=none&type=ws&path={HttpUtility.UrlEncode(settings.VLESS_WS_Path)}#SingBox-VLESS-WS";
                 case SingBoxType.SingBox_VLESS_gRPC:
                     return $"vless://{settings.UUID}@{settings.Domain}:{settings.VLESS_gRPC_Port}?encryption=none&type=grpc&serviceName={HttpUtility.UrlEncode(settings.VLESS_gRPC_ServiceName)}#SingBox-VLESS-gRPC";
+                case SingBoxType.SingBox_VLESS_XHTTP_REALITY:
+                    return $"vless://{settings.UUID}@{settings.Domain}:{settings.VLESS_XHTTP_REALITY_Port}?encryption=none&type=tcp&security=reality&flow=xtls-rprx-vision&pbk={HttpUtility.UrlEncode(settings.XHTTP_Reality_PublicKey ?? "")}&fp=chrome&sni={HttpUtility.UrlEncode(settings.XHTTP_Reality_ServerNames?.Split(',')[0] ?? settings.Domain)}&sid={HttpUtility.UrlEncode(settings.XHTTP_Reality_ShortId ?? "0")}#SingBox-VLESS-REALITY";
                 case SingBoxType.SingBox_VMESS_TCP:
                     return BuildSingBoxVmessTcp(settings);
                 case SingBoxType.SingBox_VMESS_WS:
@@ -358,6 +360,17 @@ namespace ProxySuper.Core.Services
                 if (xrayType == RayType.VLESS_gRPC)
                 {
                     parametersURL += $"&serviceName={settings.VLESS_gRPC_ServiceName}&mode=gun";
+                }
+
+                // VLESS XHTTP REALITY specific parameters
+                if (xrayType == RayType.VLESS_XHTTP_REALITY)
+                {
+                    var xraySettings = (XraySettings)settings;
+                    parametersURL += "&flow=xtls-rprx-vision";
+                    parametersURL += $"&pbk={HttpUtility.UrlEncode(xraySettings.XHTTP_Reality_PublicKey ?? "")}";
+                    parametersURL += "&fp=chrome";
+                    parametersURL += $"&sni={HttpUtility.UrlEncode(xraySettings.XHTTP_Reality_ServerNames?.Split(',')[0] ?? settings.Domain)}";
+                    parametersURL += $"&sid={HttpUtility.UrlEncode(xraySettings.XHTTP_Reality_ShortId ?? "0")}";
                 }
             }
 

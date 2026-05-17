@@ -10,6 +10,7 @@ namespace ProxySuper.Core.Models.Projects
         SingBox_VLESS_WS = 101,
         SingBox_VLESS_HTTP = 102,
         SingBox_VLESS_gRPC = 103,
+        SingBox_VLESS_XHTTP_REALITY = 104,
 
         // VMess
         SingBox_VMESS_TCP = 200,

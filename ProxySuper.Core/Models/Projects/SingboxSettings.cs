@@ -30,6 +30,7 @@ namespace ProxySuper.Core.Models.Projects
             TUIC_Port = 9180;
             NaiveProxy_Port = 9220;
             ShadowTLS_Port = 9330;
+            VLESS_XHTTP_REALITY_Port = 1150;
             SOCKS_Port = 1080;
             HTTP_Port = 1081;
 
@@ -86,6 +87,8 @@ namespace ProxySuper.Core.Models.Projects
                     list.Add(NaiveProxy_Port);
                 if (Types.Contains(SingBoxType.SingBox_ShadowTLS))
                     list.Add(ShadowTLS_Port);
+                if (Types.Contains(SingBoxType.SingBox_VLESS_XHTTP_REALITY))
+                    list.Add(VLESS_XHTTP_REALITY_Port);
                 if (Types.Contains(SingBoxType.SingBox_SOCKS))
                     list.Add(SOCKS_Port);
                 if (Types.Contains(SingBoxType.SingBox_HTTP))
@@ -128,6 +131,21 @@ namespace ProxySuper.Core.Models.Projects
         /// 是否启用 TLS
         /// </summary>
         public bool WithTLS { get; set; } = true;
+
+        /// <summary>
+        /// 是否使用 Docker 部署
+        /// </summary>
+        public bool UseDocker { get; set; } = false;
+
+        /// <summary>
+        /// 是否启用订阅服务
+        /// </summary>
+        public bool EnableSubscribe { get; set; } = false;
+
+        /// <summary>
+        /// 订阅服务端口
+        /// </summary>
+        public int SubscribePort { get; set; } = 8080;
 
         /// <summary>
         /// UUID
@@ -397,6 +415,50 @@ namespace ProxySuper.Core.Models.Projects
         /// HTTP 端口
         /// </summary>
         public int HTTP_Port { get; set; }
+
+        #endregion
+
+        #region REALITY Settings
+
+        /// <summary>
+        /// VLESS XHTTP REALITY 端口
+        /// </summary>
+        public int VLESS_XHTTP_REALITY_Port { get; set; }
+
+        /// <summary>
+        /// REALITY 私钥
+        /// </summary>
+        public string XHTTP_Reality_PrivateKey { get; set; }
+
+        /// <summary>
+        /// REALITY 公钥
+        /// </summary>
+        public string XHTTP_Reality_PublicKey { get; set; }
+
+        /// <summary>
+        /// REALITY 目标网站（回落）
+        /// </summary>
+        public string XHTTP_Reality_Dest { get; set; } = "www.microsoft.com";
+
+        /// <summary>
+        /// REALITY serverNames（逗号分隔）
+        /// </summary>
+        public string XHTTP_Reality_ServerNames { get; set; } = "www.microsoft.com";
+
+        /// <summary>
+        /// REALITY shortId
+        /// </summary>
+        public string XHTTP_Reality_ShortId { get; set; }
+
+        /// <summary>
+        /// REALITY 最大客户端
+        /// </summary>
+        public int XHTTP_Reality_MaxClient { get; set; }
+
+        /// <summary>
+        /// REALITY 最大时间差 (ms)
+        /// </summary>
+        public int XHTTP_Reality_MaxTimediff { get; set; } = 500;
 
         #endregion
     }

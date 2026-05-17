@@ -31,6 +31,11 @@
                       IsChecked="{Binding Path=Checked_VLESS_gRPC}">
                 <Label Content="VLESS gRPC" FontSize="13" Foreground="LimeGreen" />
             </CheckBox>
+            <CheckBox Margin="0,10,0,0"
+                      VerticalContentAlignment="Center"
+                      IsChecked="{Binding Path=Checked_VLESS_XHTTP_REALITY}">
+                <Label Content="VLESS XHTTP REALITY" FontSize="13" Foreground="LimeGreen" />
+            </CheckBox>
 
             <!-- VMESS 组（蓝色） -->
             <CheckBox Margin="0,10,0,0"
@@ -185,6 +190,54 @@
                         Visibility="{Binding Path=Checked_VLESS_gRPC, Converter={StaticResource VisibleConverter}}">
                 <Label Content="gRPC 服务名" Width="120" Foreground="LimeGreen" />
                 <TextBox Text="{Binding Path=Settings.VLESS_gRPC_ServiceName}" Width="200" />
+            </StackPanel>
+
+            <!-- VLESS XHTTP REALITY 端口 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_VLESS_XHTTP_REALITY, Converter={StaticResource VisibleConverter}}">
+                <Label Content="REALITY 端口" Width="120" Foreground="LimeGreen" />
+                <TextBox Text="{Binding Path=Settings.VLESS_XHTTP_REALITY_Port}" Width="120" />
+            </StackPanel>
+
+            <!-- REALITY 私钥 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_VLESS_XHTTP_REALITY, Converter={StaticResource VisibleConverter}}">
+                <Label Content="REALITY 私钥" Width="120" Foreground="LimeGreen" />
+                <TextBox Text="{Binding Path=Settings.XHTTP_Reality_PrivateKey}" Width="200" />
+            </StackPanel>
+
+            <!-- REALITY 公钥 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_VLESS_XHTTP_REALITY, Converter={StaticResource VisibleConverter}}">
+                <Label Content="REALITY 公钥" Width="120" Foreground="LimeGreen" />
+                <TextBox Text="{Binding Path=Settings.XHTTP_Reality_PublicKey}" Width="200" />
+            </StackPanel>
+
+            <!-- REALITY 回落目标 -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_VLESS_XHTTP_REALITY, Converter={StaticResource VisibleConverter}}">
+                <Label Content="REALITY 回落目标" Width="120" Foreground="LimeGreen" />
+                <TextBox Text="{Binding Path=Settings.XHTTP_Reality_Dest}" Width="200" />
+            </StackPanel>
+
+            <!-- REALITY serverNames -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_VLESS_XHTTP_REALITY, Converter={StaticResource VisibleConverter}}">
+                <Label Content="REALITY 域名" Width="120" Foreground="LimeGreen" />
+                <TextBox Text="{Binding Path=Settings.XHTTP_Reality_ServerNames}" Width="200" />
+            </StackPanel>
+
+            <!-- REALITY shortId -->
+            <StackPanel Margin="30,10,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding Path=Checked_VLESS_XHTTP_REALITY, Converter={StaticResource VisibleConverter}}">
+                <Label Content="REALITY shortId" Width="120" Foreground="LimeGreen" />
+                <TextBox Text="{Binding Path=Settings.XHTTP_Reality_ShortId}" Width="120" />
             </StackPanel>
 
             <!-- VMESS WS 端口 -->
